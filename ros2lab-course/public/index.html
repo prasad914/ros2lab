@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ROS2Lab | Learn ROS 2 from zero in three weeks</title>
+<meta name="description" content="A free three-week ROS 2 course for engineering students: Ubuntu terminal, Python and C++ from zero, ROS 2 Jazzy installation, then nodes, topics, services, actions, launch files and packages. Learn with animations, puzzles, mini-games and a practice terminal in your browser.">
+<meta name="theme-color" content="#14204A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Lexend:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body class="home">
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">&gt;_</span><span>ROS2Lab <small>ROS 2 for beginners</small></span></a>
+  <nav class="top-nav" aria-label="Site">
+    <a href="playground.html">Playground</a>
+    <a href="resources.html">Free resources</a>
+  </nav>
+  <div class="top-right" id="who"></div>
+</div></header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1>ROS 2 from zero, in three weeks.</h1>
+        <p class="lead">A free course for engineering students. Learn the Ubuntu terminal, Python and C++ from the basics, install ROS 2 Jazzy, then master nodes, topics, services, actions and launch files. Every idea comes with an animation you can poke, a puzzle, a practice terminal or a quick check.</p>
+        <div class="q-actions" id="signin-slot">
+          <a class="btn" href="register.html">Register for free</a>
+          <a class="btn btn-ghost" href="signin.html">Sign in</a>
+        </div>
+        <ul class="hero-facts">
+          <li><b>15</b> days</li>
+          <li><b>38</b> short lessons</li>
+          <li><b>13</b> live animations</li>
+          <li><b>6</b> mini-games</li>
+          <li>Works on a phone</li>
+        </ul>
+        <p class="small hero-note" data-mode="id-card">Open to students of any college with a valid college ID card.</p>
+        <p class="small hero-note" data-mode="manual auto">Open to engineering students of any college.</p>
+      </div>
+      <figure class="hero-graph">
+        <figcaption>This is how a robot's software looks in ROS 2: small programs called <b>nodes</b>, passing <b>messages</b> on named <b>topics</b>. Tap anything.</figcaption>
+        <div id="hero-graph" class="hg"><noscript>Turn on JavaScript to see the live ROS 2 graph.</noscript></div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="section-head">
+      <h2>Your 15-day route</h2>
+      <p class="muted">Three lines, fifteen stations. Each day takes about an hour. A test waits at the end of each week.</p>
+    </div>
+    <div class="metro">
+      <ol class="metro-line" data-mod="W1" aria-label="Week 1: talk to the robot's computer">
+        <li class="metro-name"><b>Week 1</b><span>Talk to the robot's computer</span></li>
+        <li class="stn"><b>Day 1</b><span>Meet the terminal and move around</span></li>
+        <li class="stn"><b>Day 2</b><span>Files, permissions, sudo and apt</span></li>
+        <li class="stn"><b>Day 3</b><span>Python from zero</span></li>
+        <li class="stn"><b>Day 4</b><span>Decisions and loops: should the robot stop?</span></li>
+        <li class="stn"><b>Day 5</b><span>Lists, dictionaries and functions</span></li>
+        <li class="stn test"><b>Test</b><span>Week 1 test</span></li>
+      </ol>
+      <ol class="metro-line" data-mod="W2" aria-label="Week 2: build the robot's brain">
+        <li class="metro-name"><b>Week 2</b><span>Build the robot's brain</span></li>
+        <li class="stn"><b>Day 6</b><span>Classes and objects</span></li>
+        <li class="stn"><b>Day 7</b><span>Callbacks and your first ROS 2 node</span></li>
+        <li class="stn"><b>Day 8</b><span>C++ basics</span></li>
+        <li class="stn"><b>Day 9</b><span>Reading a ROS 2 C++ node</span></li>
+        <li class="stn"><b>Day 10</b><span>Install ROS 2 Jazzy and set up the lab</span></li>
+        <li class="stn test"><b>Test</b><span>Week 2 test</span></li>
+      </ol>
+      <ol class="metro-line" data-mod="W3" aria-label="Week 3: speak ROS 2">
+        <li class="metro-name"><b>Week 3</b><span>Speak ROS 2</span></li>
+        <li class="stn"><b>Day 11</b><span>The ROS 2 graph: nodes</span></li>
+        <li class="stn"><b>Day 12</b><span>Topics and messages</span></li>
+        <li class="stn"><b>Day 13</b><span>Services and parameters</span></li>
+        <li class="stn"><b>Day 14</b><span>Actions and launch files</span></li>
+        <li class="stn"><b>Day 15</b><span>Packages, TF2, tools and a mini-project</span></li>
+        <li class="stn test"><b>Test</b><span>Week 3 test</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap section">
+      <div class="section-head">
+        <h2>Three ways ROS 2 nodes talk</h2>
+        <p class="muted">Most ROS 2 programs are built from just these three patterns. Here they are, slowed down.</p>
+      </div>
+      <div class="talk">
+        <div class="talk-row">
+          <svg class="talk-svg" viewBox="0 0 320 140" role="img" aria-label="A topic: one publisher sends messages to three subscribers">
+            <g class="tk-lines"><line x1="92" y1="70" x2="232" y2="24"/><line x1="92" y1="70" x2="232" y2="70"/><line x1="92" y1="70" x2="232" y2="116"/></g>
+            <g transform="translate(92 70) rotate(-18.2)"><circle class="tk-dot" r="6" style="--len:147px"/></g>
+            <g transform="translate(92 70)"><circle class="tk-dot" r="6" style="--len:140px"/></g>
+            <g transform="translate(92 70) rotate(18.2)"><circle class="tk-dot" r="6" style="--len:147px"/></g>
+            <g class="tk-box pub"><rect x="8" y="48" width="84" height="44" rx="9"/><text x="50" y="75">Lidar</text></g>
+            <g class="tk-box"><rect x="232" y="8" width="80" height="32" rx="8"/><text x="272" y="29">Detector</text></g>
+            <g class="tk-box"><rect x="232" y="54" width="80" height="32" rx="8"/><text x="272" y="75">Map</text></g>
+            <g class="tk-box"><rect x="232" y="100" width="80" height="32" rx="8"/><text x="272" y="121">Logger</text></g>
+          </svg>
+          <div>
+            <h3>Topic: a radio station</h3>
+            <p>A publisher broadcasts on a named channel such as <code>/scan</code>. Any node tuned to that exact name hears every message. The lidar doesn't know, or care, who is listening.</p>
+            <p class="small muted">Used for streams: sensor data, camera images, speed commands.</p>
+          </div>
+        </div>
+        <div class="talk-row">
+          <svg class="talk-svg" viewBox="0 0 320 140" role="img" aria-label="A service: the client sends one request and waits for one response">
+            <line class="tk-wire" x1="96" y1="58" x2="224" y2="58"/><line class="tk-wire" x1="96" y1="86" x2="224" y2="86"/>
+            <g transform="translate(96 58)"><circle class="sv-req" r="6" style="--len:128px"/></g>
+            <g transform="translate(224 86)"><circle class="sv-res" r="6" style="--len:-128px"/></g>
+            <g class="tk-box pub sv-client"><rect x="8" y="46" width="88" height="52" rx="9"/><text x="52" y="69">You</text><text class="tk-small" x="52" y="87">waiting…</text></g>
+            <g class="tk-box"><rect x="224" y="46" width="88" height="52" rx="9"/><text x="268" y="77">Counter</text></g>
+            <text class="tk-label" x="160" y="48">request</text><text class="tk-label" x="160" y="108">response</text>
+          </svg>
+          <div>
+            <h3>Service: ordering at a counter</h3>
+            <p>A client asks one question and waits for one answer, like "spawn a turtle at (2, 2)" or "what is the battery level?". Quick in, quick out.</p>
+            <p class="small muted">Used for short jobs that finish right away.</p>
+          </div>
+        </div>
+        <div class="talk-row">
+          <svg class="talk-svg" viewBox="0 0 320 140" role="img" aria-label="An action: a goal goes out, feedback comes back while it runs, then a result">
+            <line class="tk-wire" x1="96" y1="50" x2="224" y2="50"/><line class="tk-wire" x1="96" y1="94" x2="224" y2="94"/>
+            <g transform="translate(96 50)"><circle class="ac-goal" r="6" style="--len:128px"/></g>
+            <g transform="translate(224 94)"><circle class="ac-fb f1" r="5" style="--len:-128px"/><circle class="ac-fb f2" r="5" style="--len:-128px"/><circle class="ac-fb f3" r="5" style="--len:-128px"/><circle class="ac-res" r="7" style="--len:-128px"/></g>
+            <g class="tk-box pub"><rect x="8" y="46" width="88" height="52" rx="9"/><text x="52" y="77">You</text></g>
+            <g class="tk-box"><rect x="224" y="46" width="88" height="52" rx="9"/><text x="268" y="69">Pizza</text><text class="tk-small" x="268" y="87">shop</text></g>
+            <text class="tk-label" x="160" y="40">goal</text><text class="tk-label" x="160" y="116">feedback… then result</text>
+          </svg>
+          <div>
+            <h3>Action: a pizza you track on an app</h3>
+            <p>A client sends a goal, gets feedback while the job runs ("in the oven", "on the way"), and finally a result. It can cancel at any time.</p>
+            <p class="small muted">Used for long jobs: navigating to a room, moving a robot arm.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="section-head">
+      <h2>Concept lab: poke the ideas</h2>
+      <p class="muted">Short animations that explain one idea at a time and narrate every step. Press the buttons, break things on purpose, and read what happens. The same animations appear inside the lessons.</p>
+    </div>
+    <div class="lab">
+      <nav class="lab-tabs" id="lab-tabs" aria-label="Choose an animation"></nav>
+      <div id="lab-stage" class="lab-stage"><p class="muted">Loading the animation…</p></div>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="section-head">
+      <h2>Learn it by playing it</h2>
+      <p class="muted">Each lesson has a small game that turns an idea into something you can poke. Try this one now: no sign-in needed.</p>
+    </div>
+    <div class="play-grid">
+      <div id="demo-game" class="demo-game"><p class="muted">Loading the game…</p></div>
+      <aside class="game-list">
+        <h3>More games in the Playground</h3>
+        <ul id="game-links"></ul>
+        <a class="btn btn-white" href="playground.html">Open the Playground</a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap section">
+      <div class="section-head">
+        <h2>How every lesson works</h2>
+        <p class="muted">Short steps, always in the same order, so you always know what comes next.</p>
+      </div>
+      <ol class="flow">
+        <li><b>A story</b><span>Chiku the delivery robot has a problem you are about to solve.</span></li>
+        <li><b>One idea</b><span>Explained in plain English with a real-world comparison.</span></li>
+        <li><b>Watch it work</b><span>An animation or a step-by-step code tracer shows the idea moving.</span></li>
+        <li><b>Try it</b><span>In the practice terminal, the Python playground, a puzzle or a game.</span></li>
+        <li><b>Quick check</b><span>Questions with instant feedback and hints.</span></li>
+        <li><b>Recap</b><span>The few things to remember, plus flashcards.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="join">
+      <div>
+        <h2>How to join</h2>
+        <ol class="steps-list">
+          <li><strong>Register</strong> with your email address and a password, and verify your email.</li>
+          <li data-mode="id-card"><strong>Add your college details</strong> and upload a photo of your current college ID card.</li>
+          <li data-mode="manual auto"><strong>Add your college details</strong>: college, department, semester and USN.</li>
+          <li data-mode="id-card manual"><strong>Start learning</strong> as soon as your instructor approves your registration, usually within 1 to 2 working days.</li>
+          <li data-mode="auto"><strong>Start learning</strong> straight away.</li>
+        </ol>
+        <a class="btn" href="register.html">Register for free</a>
+      </div>
+      <div class="join-side">
+        <h3>What you need</h3>
+        <ul>
+          <li>Days 1 to 9: just a browser, on a laptop or a phone.</li>
+          <li>Day 10: Ubuntu 24.04 (WSL2, dual boot, a virtual machine or the college lab) to install ROS 2 Jazzy.</li>
+          <li>Days 11 to 15: everything works in the browser's practice terminal, and you can repeat each step on your own Ubuntu.</li>
+          <li>About an hour a day.</li>
+        </ul>
+        <p class="small muted">Want to read ahead? See the <a href="resources.html">best free ROS 2 resources</a> we recommend.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot"><div class="wrap">
+  <span>ROS2Lab: a free ROS 2 course for engineering students</span>
+  <a href="playground.html">Playground</a>
+  <a href="resources.html">Free resources</a>
+  <a href="privacy.html">Privacy notice</a>
+</div></footer>
+<script type="module" src="js/modes.js"></script>
+<script type="module" src="js/index.js"></script>
+</body>
+</html>

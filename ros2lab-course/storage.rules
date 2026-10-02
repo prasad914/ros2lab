@@ -1,0 +1,24 @@
+rules_version = '2';
+
+// ROS2Lab file storage: ONLY college ID card photos, one per student.
+// Students may upload their own photo while their registration is pending or
+// rejected. Only the instructor can view or delete it. Nothing else is allowed.
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /idcards/{uid}/{fileName} {
+      allow create, update: if request.auth != null
+        && request.auth.uid == uid
+        && request.auth.token.email_verified == true
+        && request.auth.token.get('status', '') in ['pending', 'rejected']
+        && fileName == 'idcard.jpg'
+        && request.resource.size < 2 * 1024 * 1024
+        && request.resource.contentType == 'image/jpeg';
+      allow read, delete: if request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.get('admin', false) == true;
+    }
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

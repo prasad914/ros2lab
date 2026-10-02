@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson preview (local only) | ROS2Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Lexend:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../public/css/app.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <span class="brand"><span class="brand-mark" aria-hidden="true">&gt;_</span><span>Lesson preview <small>local only, nothing is saved</small></span></span>
+  <div class="top-right"><select id="pick" style="max-width:52vw" aria-label="Choose a lesson" style="font:inherit;padding:6px 10px;border:2px solid #1D2B53;border-radius:8px"></select></div>
+</div></header>
+<main><div class="narrow" id="root"></div></main>
+<script type="module">
+  import { renderLesson } from "../public/js/lesson-render.js";
+  import { el } from "../public/js/dom.js";
+  const root = document.getElementById("root"), pick = document.getElementById("pick");
+  const data = await (await fetch("../content/course-content.json", { cache: "no-store" })).json();
+  const lessons = data.modules.flatMap((m) => m.lessons.map((l) => ({ ...l, moduleId: m.id, mod: m })));
+  for (const l of lessons) pick.append(el("option", { value: l.id, text: `${l.id}: ${l.title}` }));
+  function show(id) {
+    const l = lessons.find((x) => x.id === id) || lessons[0];
+    pick.value = l.id; history.replaceState(null, "", "?id=" + l.id);
+    const body = el("div", { class: "lesson-body" });
+    const count = el("p", { class: "notice" });
+    root.replaceChildren(el("div", { "data-mod": l.moduleId },
+      el("header", { class: "lesson-hero" }, el("div", { class: "kicker", text: l.mod.title }), el("h1", { text: l.title }), el("p", { class: "muted", text: l.summary })),
+      count, body));
+    const status = renderLesson(body, l, { onChange: (s) => { count.textContent = `Practice parts done: ${s.done} of ${s.total}`; } });
+    const s = status(); count.textContent = `Practice parts done: ${s.done} of ${s.total}`;
+  }
+  pick.addEventListener("change", () => show(pick.value));
+  show(new URLSearchParams(location.search).get("id"));
+</script>
+</body>
+</html>
