@@ -1,0 +1,984 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson 1: Meet the Nodes | ROS2Lab</title>
+<meta name="description" content="A fun ROS 2 lesson for kids. Learn what ROS 2 is and how robots split their work into nodes, play two games, and earn the Node Explorer badge.">
+<link rel="canonical" href="https://www.ros2lab.com/lesson-01.html">
+<meta property="og:title" content="Lesson 1: Meet the Nodes | ROS2Lab">
+<meta property="og:description" content="Learn how robots split their work into nodes. Build Chiku's robot team and send it on a delivery mission.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.ros2lab.com/lesson-01.html">
+<meta name="theme-color" content="#FFC83D">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+  /* ---------- Hero ---------- */
+  .lesson-hero { padding: 44px 0 20px; }
+  .lesson-hero .wrap { display: grid; grid-template-columns: 1.25fr .75fr; gap: 36px; align-items: center; }
+  .lesson-hero h1 { margin-top: 14px; }
+  .hero-chiku { display: grid; justify-items: center; gap: 18px; }
+  .hero-chiku svg { width: min(210px, 50vw); height: auto; aspect-ratio: 120 / 140; }
+  .hero-chiku .bubble { max-width: 300px; margin: 0; }
+  .hero-chiku .bubble::after {
+    content: ""; position: absolute; left: 50%; bottom: -12px; width: 20px; height: 20px;
+    background: var(--white); border-right: 3px solid var(--ink); border-bottom: 3px solid var(--ink);
+    transform: translateX(-50%) rotate(45deg);
+  }
+  .steps-nav { list-style: none; padding: 0; margin: 24px 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
+  .steps-nav a {
+    display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--ink);
+    font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; line-height: 1;
+    background: var(--white); border: 2.5px solid var(--ink); border-radius: 999px; padding: 5px 14px 5px 5px;
+  }
+  .steps-nav a:hover { background: var(--sun-tint); }
+  .steps-nav .n {
+    display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%;
+    background: var(--sun); border: 2.5px solid var(--ink); font-weight: 800;
+  }
+  .steps-nav a.done .n { background: var(--good); color: var(--white); }
+
+  /* ---------- Story ---------- */
+  .sec-head { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+  .sec-head h2 { margin: 0; }
+  .stack { display: grid; gap: 28px; }
+  .story-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 32px; align-items: start; }
+  .scorecard {
+    background: var(--white); border: var(--line); border-radius: var(--r-card); box-shadow: var(--shadow-sm);
+    padding: 14px 18px 6px; transform: rotate(1.2deg);
+  }
+  .scorecard h3 { margin-bottom: 4px; }
+  .scorecard ul { list-style: none; margin: 0; padding: 0; }
+  .scorecard li { display: grid; grid-template-columns: 34px auto 1fr; gap: 8px; align-items: baseline; padding: 9px 0 7px; border-top: 2px solid var(--grid); }
+  .scorecard li span { font-size: 1.35rem; }
+  .scorecard li b { font-family: var(--font-display); font-size: 1.15rem; }
+  .scorecard li em { font-style: normal; color: var(--ink-soft); }
+
+  .facts, .reasons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 8px; }
+  .fact, .reason { border: 2.5px solid var(--ink); border-radius: var(--r-card); padding: 16px; background: var(--paper); }
+  .fact span, .reason span { font-size: 1.8rem; display: block; line-height: 1.2; }
+  .fact b, .reason b { display: block; font-family: var(--font-display); font-size: 1.2rem; margin: 6px 0 2px; }
+  .fact p, .reason p { margin: 0; font-size: 1rem; }
+
+  .definition {
+    font-family: var(--font-display); font-weight: 700; font-size: clamp(1.4rem, 3.4vw, 2rem); line-height: 1.2;
+    background: var(--sun); border: var(--line); border-radius: var(--r-card); box-shadow: var(--shadow-sm);
+    padding: 18px 22px; margin: 6px 0 22px; max-width: 30ch; transform: rotate(-1deg);
+  }
+  .definition strong { text-decoration: underline wavy var(--ink); text-decoration-thickness: 2px; text-underline-offset: 6px; }
+  .node-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 8px 0 30px; }
+  .node-card {
+    background: var(--t); border: var(--line); border-radius: var(--r-card); box-shadow: var(--shadow-sm); padding: 16px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .node-card .icon {
+    display: grid; place-items: center; width: 56px; height: 56px; font-size: 1.8rem;
+    background: var(--c); border: 3px solid var(--ink); border-radius: 14px;
+  }
+  .node-card h3 { margin: 6px 0 0; }
+  .node-card p { margin: 0; font-size: 1rem; }
+  .node-card .like { margin-top: auto; padding-top: 6px; font-weight: 700; color: var(--c); font-size: .98rem; filter: brightness(.8); }
+  .node-card small { font-size: .9rem; color: var(--ink-soft); }
+
+  /* ---------- Game shell ---------- */
+  .game-head { display: flex; gap: 16px; align-items: flex-start; }
+  .game-head h2 { margin: 2px 0 6px; }
+  .game-head p { margin: 0; max-width: 62ch; }
+
+  /* ---------- Game 1: team sorter ---------- */
+  .tray {
+    display: flex; flex-wrap: wrap; gap: 10px; min-height: 80px; margin: 22px 0 18px; padding: 14px;
+    background: var(--sun-tint); border: 3px dashed var(--ink-soft); border-radius: var(--r-card);
+  }
+  .tray:empty { align-items: center; justify-content: center; }
+  .tray:empty::before { content: "All jobs are in the right place!"; font-family: var(--font-display); font-weight: 700; color: var(--good); }
+  .job {
+    font: inherit; font-weight: 700; font-size: 1.02rem; line-height: 1.25; color: var(--ink); text-align: left;
+    background: var(--sun); border: 2.5px solid var(--ink); border-radius: 12px; padding: 10px 14px;
+    box-shadow: var(--shadow-sm); cursor: grab; touch-action: manipulation;
+    transition: transform .12s ease, box-shadow .12s ease, background .12s;
+  }
+  .job:hover { transform: translateY(-2px); }
+  .job.selected { background: var(--white); outline: 4px solid var(--brain); outline-offset: 2px; transform: translateY(-4px) rotate(-1.5deg); box-shadow: 4px 6px 0 var(--ink); }
+  .bins { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .bin {
+    font: inherit; color: var(--ink); text-align: left; cursor: pointer;
+    display: flex; flex-direction: column; gap: 8px; min-height: 176px; padding: 12px;
+    background: var(--t); border: var(--line); border-top: 12px solid var(--c); border-radius: var(--r-card);
+    box-shadow: var(--shadow-sm); transition: box-shadow .2s ease;
+  }
+  .bin:hover { box-shadow: 5px 5px 0 var(--ink); }
+  .bin.drag-over { outline: 4px dashed var(--c); outline-offset: 4px; }
+  .bin.working { box-shadow: 0 0 0 6px var(--c), 6px 6px 0 6px var(--ink); }
+  .bin-top { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-weight: 800; font-size: 1.2rem; line-height: 1.1; }
+  .bin-icon { font-size: 1.5rem; }
+  .bin-count { font-size: .92rem; font-weight: 700; color: var(--ink-soft); }
+  .bin.full .bin-count { color: var(--good); }
+  .bin-jobs { display: flex; flex-direction: column; gap: 6px; }
+  .placed { display: block; background: var(--white); border: 2px solid var(--ink); border-radius: 10px; padding: 6px 10px; font-size: .95rem; font-weight: 700; line-height: 1.25; }
+  .placed::before { content: "✓ "; color: var(--good); font-weight: 800; }
+
+  .coach { display: flex; align-items: center; gap: 16px; margin: 22px 0 6px; }
+  .coach svg { flex: none; width: 58px; height: 68px; }
+  .coach .bubble { flex: 1; margin: 0; transition: background .2s; }
+  .coach .bubble::before {
+    content: ""; position: absolute; left: -13px; top: 50%; width: 20px; height: 20px; background: inherit;
+    border-left: 3px solid var(--ink); border-bottom: 3px solid var(--ink); transform: translateY(-50%) rotate(45deg);
+  }
+  .coach[data-mood="happy"] .bubble { background: var(--good-tint); }
+  .coach[data-mood="think"] .bubble { background: var(--sun-tint); }
+  .row-end { display: flex; justify-content: flex-end; }
+  .btn-small { font-size: 1rem; padding: .55em 1em; }
+
+  /* ---------- Delivery mission ---------- */
+  .mission { margin-top: 26px; padding-top: 24px; border-top: 3px dashed var(--ink); }
+  .mission-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+  .mission-top h3 { margin: 0; font-size: 1.7rem; }
+  .mission-top p { margin: 4px 0 0; max-width: 54ch; }
+  .lights { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .lights-label { font-weight: 700; font-size: .95rem; color: var(--ink-soft); width: 100%; }
+  .light {
+    display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-display); font-weight: 700; font-size: 1rem; line-height: 1;
+    padding: 7px 12px 6px; border: 2.5px solid var(--ink); border-radius: 999px; background: var(--white); transition: background .2s, color .2s;
+  }
+  .light.on { background: var(--c); color: var(--white); }
+  .mission-grid { display: grid; grid-template-columns: 1.55fr 1fr; gap: 18px; align-items: start; }
+  .board {
+    position: relative; display: grid; grid-template-columns: repeat(7, 1fr); grid-template-rows: repeat(5, 1fr);
+    aspect-ratio: 7 / 5; background: #FFF6DC; border: var(--line); border-radius: 18px; overflow: hidden;
+  }
+  .cell {
+    display: grid; place-items: center; font-size: clamp(1.15rem, 3.6vw, 2.1rem); line-height: 1;
+    border-right: 1.5px dashed rgba(29, 43, 83, .2); border-bottom: 1.5px dashed rgba(29, 43, 83, .2);
+  }
+  .cell.start { background: rgba(14, 159, 149, .16); }
+  .cell.goal { background: rgba(226, 69, 107, .16); }
+  .token {
+    position: absolute; left: 0; top: 0; width: calc(100% / 7); height: calc(100% / 5); z-index: 2;
+    display: grid; place-items: center;
+    transform: translate(calc(var(--x) * 100%), calc(var(--y) * 100%)); transition: transform .42s ease;
+  }
+  .token svg { width: 72%; height: 88%; }
+  .token .lunch { position: absolute; right: 2%; bottom: 4%; font-size: clamp(.8rem, 2.2vw, 1.25rem); }
+  .log { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; max-height: 360px; overflow-y: auto; }
+  .log li {
+    background: var(--t, var(--paper)); border: 2px solid var(--ink); border-left: 9px solid var(--c, var(--ink-soft));
+    border-radius: 10px; padding: 8px 12px; font-size: 1rem; line-height: 1.35;
+  }
+  .log li b { font-family: var(--font-display); }
+  .log li.empty { border-style: dashed; border-left-width: 2px; color: var(--ink-soft); }
+  .log li.done { background: var(--good-tint); border-left-color: var(--good); font-weight: 700; }
+  .mission-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 16px; }
+
+  /* ---------- Game 2: robot doctor ---------- */
+  .doc { margin-top: 22px; }
+  .doc-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; }
+  .round-label { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; }
+  .stars { display: flex; gap: 2px; }
+  .stars span { font-size: 1.9rem; line-height: 1; color: #CBD4E8; }
+  .stars span.on { color: var(--sun); -webkit-text-stroke: 1.5px var(--ink); }
+  .case {
+    display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: center; margin: 14px 0 18px; padding: 18px;
+    background: var(--sun-tint); border: var(--line); border-radius: var(--r-card);
+  }
+  .case-scene { font-size: clamp(2.2rem, 6vw, 3.2rem); line-height: 1; padding: 12px 16px; background: var(--white); border: var(--line); border-radius: 18px; }
+  .case-text { font-size: clamp(1.15rem, 2.4vw, 1.4rem); font-weight: 700; margin: 0; line-height: 1.4; }
+  .choices { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .choices.three { grid-template-columns: repeat(3, 1fr); }
+  .choice {
+    font: inherit; font-family: var(--font-display); font-weight: 700; font-size: 1.12rem; line-height: 1.2; color: var(--ink);
+    display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; cursor: pointer;
+    padding: 14px 10px; background: var(--t, var(--white)); border: var(--line); border-top: 9px solid var(--c, var(--ink));
+    border-radius: var(--r-card); box-shadow: var(--shadow-sm); transition: transform .08s ease, box-shadow .08s ease;
+  }
+  .choice:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--ink); }
+  .choice:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+  .choice .ci { font-size: 2rem; line-height: 1; }
+  .choice.right { background: var(--good-tint); outline: 4px solid var(--good); outline-offset: 2px; }
+  .choice.wrong { opacity: .45; text-decoration: line-through; cursor: not-allowed; box-shadow: none; }
+  .choice:disabled { cursor: default; }
+  .doc-feedback { margin-top: 18px; padding: 14px 18px; border: var(--line); border-radius: var(--r-card); }
+  .doc-feedback.ok { background: var(--good-tint); }
+  .doc-feedback.no { background: var(--sun-tint); }
+  .doc-feedback p { margin: 0; }
+  .doc-feedback b { font-family: var(--font-display); font-size: 1.25rem; }
+  .doc-next { margin-top: 16px; }
+  .doc-end { text-align: center; padding: 18px 0 4px; }
+  .doc-end .stars { justify-content: center; margin: 8px 0 12px; }
+  .doc-end .stars span { font-size: 2.6rem; }
+  .doc-end .btns { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+
+  /* ---------- Badge ---------- */
+  .badge-panel { position: relative; overflow: hidden; display: grid; grid-template-columns: auto 1fr; gap: 30px; align-items: center; }
+  .badge-art { width: 150px; height: 175px; transition: filter .3s, opacity .3s; }
+  .badge-art.locked { filter: grayscale(1); opacity: .4; }
+  .badge-art.earned { animation: pop .55s ease both; }
+  .badge-panel h3 { font-size: 1.9rem; margin-bottom: 6px; }
+
+  /* ---------- Extras ---------- */
+  .remember { background: var(--sun); }
+  .remember ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  .remember li { display: flex; gap: 10px; align-items: baseline; font-size: 1.2rem; font-weight: 700; }
+  .remember li::before { content: "✓"; flex: none; display: grid; place-items: center; width: 28px; height: 28px; background: var(--white); border: 2.5px solid var(--ink); border-radius: 8px; font-size: 1rem; }
+  .teacher { background: var(--white); border: var(--line); border-radius: var(--r-panel); box-shadow: var(--shadow); padding: 0; }
+  .teacher summary {
+    list-style: none; cursor: pointer; padding: 22px clamp(20px, 4vw, 40px);
+    font-family: var(--font-display); font-weight: 800; font-size: clamp(1.4rem, 3vw, 1.8rem); line-height: 1.15;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  }
+  .teacher summary::-webkit-details-marker { display: none; }
+  .teacher summary::after { content: "+"; flex: none; display: grid; place-items: center; width: 40px; height: 40px; border: var(--line); border-radius: 12px; background: var(--sun); font-size: 1.6rem; }
+  .teacher[open] summary::after { content: "−"; }
+  .teacher-body { padding: 0 clamp(20px, 4vw, 40px) 28px; }
+  .teacher-body h3 { margin-top: 18px; }
+  .teacher-body ul, .teacher-body ol { padding-left: 1.3em; margin: 0 0 1em; max-width: 64ch; }
+  .teacher-body li { margin-bottom: 6px; }
+  .next-card { display: grid; grid-template-columns: auto 1fr auto; gap: 22px; align-items: center; }
+  .next-emoji { font-size: 3rem; line-height: 1; width: 84px; height: 84px; display: grid; place-items: center; background: var(--paper); border: var(--line); border-radius: 20px; }
+  .next-card h2 { font-size: clamp(1.6rem, 3.4vw, 2.2rem); margin-bottom: 4px; }
+  .next-card p { margin: 0; }
+  .next-actions { display: flex; flex-direction: column; gap: 10px; align-items: stretch; }
+  .next-actions .chip { align-self: center; }
+
+  /* ---------- Small screens ---------- */
+  @media (max-width: 900px) {
+    .lesson-hero .wrap, .story-grid, .mission-grid { grid-template-columns: 1fr; }
+    .hero-chiku { grid-template-columns: auto 1fr; justify-items: start; align-items: center; }
+    .hero-chiku svg { width: 110px; order: -1; }
+    .hero-chiku .bubble::after { left: -12px; top: 50%; bottom: auto; transform: translateY(-50%) rotate(135deg); }
+    .node-grid, .bins { grid-template-columns: repeat(2, 1fr); }
+    .facts, .reasons { grid-template-columns: 1fr; }
+    .choices { grid-template-columns: repeat(2, 1fr); }
+    .choices.three { grid-template-columns: 1fr; }
+    .next-card { grid-template-columns: auto 1fr; }
+    .next-actions { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; align-items: center; }
+    .scorecard { transform: none; }
+  }
+  @media (max-width: 520px) {
+    .node-grid { grid-template-columns: 1fr; }
+    .bins { gap: 10px; }
+    .bin { min-height: 140px; padding: 10px; }
+    .bin-top { font-size: 1.05rem; }
+    .case { grid-template-columns: 1fr; justify-items: start; }
+    .badge-panel { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+    .sec-head .step-num, .game-head .step-num { width: 44px; height: 44px; font-size: 1.35rem; }
+    .game-head { flex-direction: column; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="index.html" aria-label="ROS2Lab home"><svg aria-hidden="true"><use href="#chiku"/></svg><span>ROS<b>2</b>Lab</span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="index.html#lessons">Lessons</a>
+      <a class="hide-sm" href="index.html#teachers">For teachers</a>
+      <button class="sound-toggle" type="button" data-sound-toggle>🔊</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- Hero -->
+  <section class="lesson-hero">
+    <div class="wrap">
+      <div>
+        <span class="chip">Lesson 1 of 12</span>
+        <h1>Meet the Nodes</h1>
+        <p class="lead">Every robot has many jobs: seeing, thinking, moving and talking. Today you'll find out how ROS 2 shares these jobs among small helpers called nodes.</p>
+        <ol class="steps-nav" aria-label="Lesson steps">
+          <li><a href="#story" data-step="story"><span class="n">1</span>Read the story</a></li>
+          <li><a href="#build" data-step="build"><span class="n">2</span>Build the team</a></li>
+          <li><a href="#doctor" data-step="doctor"><span class="n">3</span>Robot doctor</a></li>
+          <li><a href="#badge" data-step="badge"><span class="n">4</span>Earn your badge</a></li>
+        </ol>
+      </div>
+      <div class="hero-chiku">
+        <p class="bubble">Hi! I'm Chiku, a delivery robot. Help me get my team ready, and we'll deliver a lunchbox together!</p>
+        <svg role="img" aria-label="Chiku, a friendly yellow robot"><use href="#chiku"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 1: Story -->
+  <section class="section" id="story">
+    <div class="wrap">
+      <div class="sec-head"><span class="step-num" aria-hidden="true">1</span><h2>A robot is like a cricket team</h2></div>
+      <div class="stack">
+        <div class="panel story-grid">
+          <div class="prose">
+            <p>Think about a cricket team. The bowler bowls. The batter hits the ball. The wicketkeeper catches. The fielders run and stop the ball.</p>
+            <p>Each player has <strong>one main job</strong>. Nobody asks the bowler to bowl, bat and keep wickets all at the same time! The team wins because every player does their own job, and they all work together.</p>
+            <p>Robots that use ROS 2 work in the same way.</p>
+          </div>
+          <div class="scorecard">
+            <h3>Team sheet</h3>
+            <ul>
+              <li><span aria-hidden="true">🏏</span><b>Batter</b><em>hits the ball</em></li>
+              <li><span aria-hidden="true">🔴</span><b>Bowler</b><em>bowls the ball</em></li>
+              <li><span aria-hidden="true">🧤</span><b>Wicketkeeper</b><em>catches the ball</em></li>
+              <li><span aria-hidden="true">🏃</span><b>Fielder</b><em>stops the ball</em></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>So, what is ROS 2?</h2>
+          <div class="prose">
+            <p><strong>ROS 2</strong> stands for <strong>Robot Operating System 2</strong>. It has "Operating System" in its name, but it isn't like Windows or Android.</p>
+            <p>ROS 2 is a free <strong>toolbox of programs</strong>. It helps all the parts of a robot work together and talk to each other. Robots in factories, farms, warehouses, hospitals and science labs use it.</p>
+          </div>
+          <div class="facts">
+            <div class="fact"><span aria-hidden="true">🧰</span><b>A toolbox, not a robot</b><p>Engineers use ROS 2 to build robots, the way you use building blocks to build a house.</p></div>
+            <div class="fact"><span aria-hidden="true">🆓</span><b>Free for everyone</b><p>Anyone can download and use it, including schools and students.</p></div>
+            <div class="fact"><span aria-hidden="true">🌏</span><b>Made by many people</b><p>Engineers from around the world build it together and share it.</p></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>What is a node?</h2>
+          <p class="definition">A <strong>node</strong> is a small program that does <strong>one job</strong> for the robot.</p>
+          <p class="prose">A cricket team has players. A ROS 2 robot has nodes. Chiku the delivery robot has four of them:</p>
+          <div class="node-grid">
+            <article class="node-card" data-node="camera">
+              <span class="icon" aria-hidden="true">📷</span><h3>Camera node</h3>
+              <p>Takes pictures so Chiku can see what is in front.</p>
+              <span class="like">Like Chiku's eyes</span>
+            </article>
+            <article class="node-card" data-node="brain">
+              <span class="icon" aria-hidden="true">🧠</span><h3>Brain node</h3>
+              <p>Looks at the pictures and decides where to go. <small>Engineers often call this a planner.</small></p>
+              <span class="like">Like Chiku's brain</span>
+            </article>
+            <article class="node-card" data-node="motors">
+              <span class="icon" aria-hidden="true">⚙️</span><h3>Motor node</h3>
+              <p>Spins the wheels to move Chiku forward, back, left and right.</p>
+              <span class="like">Like Chiku's legs</span>
+            </article>
+            <article class="node-card" data-node="speaker">
+              <span class="icon" aria-hidden="true">🔊</span><h3>Speaker node</h3>
+              <p>Makes Chiku beep and talk to people.</p>
+              <span class="like">Like Chiku's mouth</span>
+            </article>
+          </div>
+          <h3>Why not make one giant program?</h3>
+          <div class="reasons">
+            <div class="reason"><span aria-hidden="true">🔧</span><b>Easy to fix</b><p>If one node has a problem, engineers fix only that node. The others don't need to change.</p></div>
+            <div class="reason"><span aria-hidden="true">🔁</span><b>Easy to reuse</b><p>A good camera node can be used again in many different robots.</p></div>
+            <div class="reason"><span aria-hidden="true">🤝</span><b>Great for teamwork</b><p>Different people can build different nodes at the same time.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 2: Build the team + delivery mission -->
+  <section class="section" id="build">
+    <div class="wrap">
+      <div class="panel">
+        <div class="game-head">
+          <span class="step-num" aria-hidden="true">2</span>
+          <div>
+            <h2>Mission: Build Chiku's team</h2>
+            <p>Each yellow card is a job. Tap a card, then tap the node that should do that job. On a computer, you can also drag a card into a node.</p>
+          </div>
+        </div>
+
+        <div class="tray" id="tray" aria-label="Job cards"></div>
+
+        <div class="bins" id="bins">
+          <button class="bin" type="button" data-node="camera" aria-label="Camera node">
+            <span class="bin-top"><span class="bin-icon" aria-hidden="true">📷</span>Camera node</span>
+            <span class="bin-count">0 of 2 jobs</span><span class="bin-jobs"></span>
+          </button>
+          <button class="bin" type="button" data-node="brain" aria-label="Brain node">
+            <span class="bin-top"><span class="bin-icon" aria-hidden="true">🧠</span>Brain node</span>
+            <span class="bin-count">0 of 2 jobs</span><span class="bin-jobs"></span>
+          </button>
+          <button class="bin" type="button" data-node="motors" aria-label="Motor node">
+            <span class="bin-top"><span class="bin-icon" aria-hidden="true">⚙️</span>Motor node</span>
+            <span class="bin-count">0 of 2 jobs</span><span class="bin-jobs"></span>
+          </button>
+          <button class="bin" type="button" data-node="speaker" aria-label="Speaker node">
+            <span class="bin-top"><span class="bin-icon" aria-hidden="true">🔊</span>Speaker node</span>
+            <span class="bin-count">0 of 2 jobs</span><span class="bin-jobs"></span>
+          </button>
+        </div>
+
+        <div class="coach" id="coach">
+          <svg aria-hidden="true"><use href="#chiku"/></svg>
+          <p class="bubble" id="hint" aria-live="polite">Pick a yellow job card to begin.</p>
+        </div>
+        <div class="row-end"><button class="btn btn-white btn-small" type="button" id="reset">Shuffle and start again</button></div>
+
+        <div class="mission" id="mission">
+          <div class="mission-top">
+            <div>
+              <h3>Delivery time!</h3>
+              <p>When every job has the right node, start the delivery and watch the team carry a lunchbox to Chiku's friend.</p>
+            </div>
+            <div class="lights" aria-hidden="true">
+              <span class="lights-label">Working now:</span>
+              <span class="light" data-node="camera">📷 Camera</span>
+              <span class="light" data-node="brain">🧠 Brain</span>
+              <span class="light" data-node="motors">⚙️ Motor</span>
+              <span class="light" data-node="speaker">🔊 Speaker</span>
+            </div>
+          </div>
+          <div class="mission-grid">
+            <div class="board" id="board" role="img" aria-label="Classroom map. Chiku starts at the bottom left. The friend waits at the top right. Desks and a bookshelf are in the way."></div>
+            <ol class="log" id="log" aria-live="polite">
+              <li class="empty">Messages from Chiku's nodes will show up here during the delivery.</li>
+            </ol>
+          </div>
+          <div class="mission-actions">
+            <button class="btn" type="button" id="go" disabled>Finish the team first</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 3: Robot doctor -->
+  <section class="section" id="doctor">
+    <div class="wrap">
+      <div class="panel">
+        <div class="game-head">
+          <span class="step-num" aria-hidden="true">3</span>
+          <div>
+            <h2>Mission: Robot doctor</h2>
+            <p>Something is wrong with Chiku! Read what is happening, then choose the node that needs fixing. Get it right on your first try to win a star.</p>
+          </div>
+        </div>
+
+        <div class="doc" id="doc">
+          <div class="doc-top">
+            <span class="round-label" id="round-label">Problem 1 of 5</span>
+            <span class="stars" id="stars" role="img" aria-label="0 stars"></span>
+          </div>
+          <div class="case">
+            <div class="case-scene" id="scene" aria-hidden="true"></div>
+            <p class="case-text" id="case-text"></p>
+          </div>
+          <div class="choices" id="choices"></div>
+          <div class="doc-feedback" id="doc-feedback" aria-live="polite" hidden></div>
+          <button class="btn doc-next" type="button" id="next" hidden>Next problem</button>
+        </div>
+
+        <div class="doc-end" id="doc-end" hidden>
+          <h3>All problems fixed!</h3>
+          <div class="stars" id="end-stars" role="img"></div>
+          <p id="end-msg"></p>
+          <div class="btns">
+            <a class="btn" href="#badge">See your badge</a>
+            <button class="btn btn-white" type="button" id="replay">Play again</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step 4: Badge -->
+  <section class="section" id="badge">
+    <div class="wrap">
+      <div class="sec-head"><span class="step-num" aria-hidden="true">4</span><h2>Earn your badge</h2></div>
+      <div class="panel badge-panel" id="badge-panel">
+        <svg class="badge-art locked" id="badge-art" role="img" aria-label="Node Explorer badge"><use href="#badge-nodes"/></svg>
+        <div>
+          <h3>Node Explorer</h3>
+          <p id="badge-msg">Finish the Robot doctor mission to unlock this badge.</p>
+          <a class="btn btn-white" href="index.html#badges" id="badge-link" hidden>See it on your badge shelf</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- For curious minds -->
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="panel">
+        <h2>For curious minds: what engineers type</h2>
+        <div class="prose">
+          <p>On a computer with ROS 2 installed, engineers can ask, "Which nodes are running right now?" They type this command in a window called the <strong>terminal</strong>:</p>
+        </div>
+        <pre class="terminal" aria-label="Terminal example"><span class="prompt">$</span> ros2 node list
+<span class="out">/camera
+/brain
+/motors
+/speaker</span></pre>
+        <div class="prose">
+          <p style="margin-top:14px">If Chiku were a real ROS 2 robot, this is what they would see: one line for each node. The slash ( / ) at the start is simply how ROS 2 writes node names.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Remember -->
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="panel remember">
+        <h2>Remember</h2>
+        <ul>
+          <li>ROS 2 is a free toolbox that helps the parts of a robot work together.</li>
+          <li>A node is a small program that does one job.</li>
+          <li>Many nodes working together make a robot smart.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Teacher's corner -->
+  <section class="section-tight">
+    <div class="wrap">
+      <details class="teacher">
+        <summary>Teacher's corner: goals and a classroom activity</summary>
+        <div class="teacher-body">
+          <h3>Learning goals</h3>
+          <p>By the end of this lesson, students can:</p>
+          <ul>
+            <li>say in one sentence what ROS 2 is,</li>
+            <li>explain that a node is a small program that does one job,</li>
+            <li>give one reason why a robot is split into many nodes.</li>
+          </ul>
+
+          <h3>Classroom activity: Be the nodes (15 minutes, no computer needed)</h3>
+          <p>You need four paper chits labelled Camera, Brain, Motors and Speaker, and a tiffin box or book to deliver.</p>
+          <ol>
+            <li>Choose four students and give each one a chit. Choose a "friend" in one corner of the room. The tiffin box starts in the opposite corner.</li>
+            <li>Explain the rules. Camera may only describe what is ahead ("A bench is two steps in front"). Brain stands with their back to the path and gives instructions using only what Camera says ("Turn left, walk two steps"). Motors carries the tiffin and moves only when Brain gives an instruction. Speaker announces the delivery ("Beep beep! Delivered!").</li>
+            <li>Run the delivery. Keep the path clear and ask Motors to walk slowly.</li>
+            <li>Run it again, but this time Camera stays silent. Watch what happens.</li>
+            <li>Discuss the questions below.</li>
+          </ol>
+
+          <h3>Discussion questions</h3>
+          <ul>
+            <li>What happened when Camera stayed silent? Which game problem was this like?</li>
+            <li>A cleaning robot needs a node that Chiku doesn't have. What could it be?</li>
+            <li>Why is it useful that each node has only one job?</li>
+          </ul>
+          <p class="muted">Looking ahead: Brain needed Camera's information to make decisions. In Lesson 2, students learn how real ROS 2 nodes send information to each other using topics.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Next lesson -->
+  <section class="section">
+    <div class="wrap">
+      <div class="panel next-card" id="next-card">
+        <span class="next-emoji" aria-hidden="true">📡</span>
+        <div>
+          <h2>Next lesson: Topics</h2>
+          <p>How nodes send messages to each other, like a radio channel for robots.</p>
+        </div>
+        <div class="next-actions" id="next-actions">
+          <span class="chip">Coming soon</span>
+          <a class="btn btn-white" href="index.html#lessons">Back to the lesson map</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <a class="logo" href="index.html"><svg aria-hidden="true"><use href="#chiku"/></svg><span>ROS<b>2</b>Lab</span></a>
+    <p>Free ROS 2 lessons for young robot builders. © <span data-year>2026</span> ROS2Lab.</p>
+    <p>ROS2Lab is an independent learning project and is not affiliated with or endorsed by Open Robotics.</p>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+<script>
+(function () {
+  "use strict";
+  var SLUG = "lesson-01";
+
+  var NODES = {
+    camera:  { name: "Camera node",  short: "Camera",  icon: "📷" },
+    brain:   { name: "Brain node",   short: "Brain",   icon: "🧠" },
+    motors:  { name: "Motor node",   short: "Motor",   icon: "⚙️" },
+    speaker: { name: "Speaker node", short: "Speaker", icon: "🔊" }
+  };
+
+  /* ================= Game 1: build the team ================= */
+  var JOBS = [
+    { id: "j1", text: "Take a picture of the path ahead", node: "camera" },
+    { id: "j2", text: "Share the picture with the team", node: "camera" },
+    { id: "j3", text: "Decide: go left or go right?", node: "brain" },
+    { id: "j4", text: "Plan the way to the classroom", node: "brain" },
+    { id: "j5", text: "Spin the wheels forward", node: "motors" },
+    { id: "j6", text: "Turn the wheels to go left", node: "motors" },
+    { id: "j7", text: "Say \u201cHello, friend!\u201d", node: "speaker" },
+    { id: "j8", text: "Beep when the lunchbox arrives", node: "speaker" }
+  ];
+  var HINTS = {
+    camera: "This job is about seeing. Which node is Chiku's eyes?",
+    brain: "This job is about deciding. Which node does the thinking?",
+    motors: "This job is about moving. Which node turns the wheels?",
+    speaker: "This job is about making sounds. Which node can talk?"
+  };
+  var CHEERS = ["Yes!", "Correct!", "Great job!", "Well done!"];
+
+  var tray = document.getElementById("tray");
+  var bins = Array.prototype.slice.call(document.querySelectorAll(".bin"));
+  var coach = document.getElementById("coach");
+  var hint = document.getElementById("hint");
+  var goBtn = document.getElementById("go");
+  var selected = null;
+  var placedCount = 0;
+  var teamDone = false;
+  var running = false;
+
+  function setHint(text, mood) { hint.textContent = text; coach.dataset.mood = mood || ""; }
+  function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function jobById(id) { for (var i = 0; i < JOBS.length; i++) if (JOBS[i].id === id) return JOBS[i]; return null; }
+
+  function clearSelection() {
+    tray.querySelectorAll(".job").forEach(function (b) { b.classList.remove("selected"); b.setAttribute("aria-pressed", "false"); });
+    selected = null;
+  }
+  function select(btn) {
+    clearSelection();
+    selected = btn; btn.classList.add("selected"); btn.setAttribute("aria-pressed", "true");
+    setHint("Now tap the node that should do this job: \u201c" + btn.textContent + "\u201d.");
+  }
+
+  function renderTray() {
+    tray.innerHTML = "";
+    shuffle(JOBS.slice()).forEach(function (j) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "job"; b.textContent = j.text; b.dataset.id = j.id;
+      b.draggable = true; b.setAttribute("aria-pressed", "false");
+      b.addEventListener("click", function () {
+        if (selected === b) { clearSelection(); setHint("Pick a yellow job card."); } else { select(b); }
+      });
+      b.addEventListener("dragstart", function (e) {
+        try { e.dataTransfer.setData("text/plain", j.id); e.dataTransfer.effectAllowed = "move"; } catch (err) {}
+        select(b);
+      });
+      tray.appendChild(b);
+    });
+  }
+
+  function updateCount(bin) {
+    var node = bin.dataset.node;
+    var total = JOBS.filter(function (j) { return j.node === node; }).length;
+    var n = bin.querySelectorAll(".placed").length;
+    bin.querySelector(".bin-count").textContent = n + " of " + total + " jobs";
+    bin.classList.toggle("full", n === total);
+  }
+
+  function tryPlace(bin) {
+    if (running) return;
+    var node = bin.dataset.node;
+    if (!selected) {
+      setHint(teamDone ? "The team is ready. Start the delivery below!" : "First pick a yellow job card, then tap a node.", "think");
+      return;
+    }
+    var job = jobById(selected.dataset.id);
+    if (job.node === node) {
+      var s = document.createElement("span");
+      s.className = "placed pop"; s.textContent = job.text;
+      bin.querySelector(".bin-jobs").appendChild(s);
+      selected.remove(); selected = null; placedCount++;
+      updateCount(bin);
+      RL.play("good");
+      if (placedCount === JOBS.length) { teamReady(); }
+      else { setHint(CHEERS[placedCount % CHEERS.length] + " The " + NODES[node].name + " does that job. Pick the next card.", "happy"); }
+    } else {
+      bin.classList.remove("shake"); void bin.offsetWidth; bin.classList.add("shake");
+      RL.play("bad");
+      setHint("Not the " + NODES[node].name + ". " + HINTS[job.node], "think");
+    }
+  }
+
+  function teamReady() {
+    teamDone = true;
+    setHint("Team ready! Every job is with the right node. Now start the delivery!", "happy");
+    goBtn.disabled = false; goBtn.textContent = "Start the delivery";
+    markStep("build");
+    RL.play("win");
+    var m = document.getElementById("mission");
+    if (m.scrollIntoView) m.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  bins.forEach(function (bin) {
+    bin.addEventListener("click", function () { tryPlace(bin); });
+    bin.addEventListener("dragover", function (e) { e.preventDefault(); bin.classList.add("drag-over"); });
+    bin.addEventListener("dragleave", function () { bin.classList.remove("drag-over"); });
+    bin.addEventListener("drop", function (e) {
+      e.preventDefault(); bin.classList.remove("drag-over");
+      var id = ""; try { id = e.dataTransfer.getData("text/plain"); } catch (err) {}
+      var card = id ? tray.querySelector('[data-id="' + id + '"]') : null;
+      if (card) { select(card); tryPlace(bin); }
+    });
+    bin.addEventListener("animationend", function () { bin.classList.remove("shake"); });
+  });
+
+  function resetTeam() {
+    if (running) return;
+    bins.forEach(function (bin) { bin.querySelector(".bin-jobs").innerHTML = ""; updateCount(bin); });
+    placedCount = 0; teamDone = false; selected = null;
+    goBtn.disabled = true; goBtn.textContent = "Finish the team first";
+    renderTray(); resetBoard(); clearLog();
+    setHint("Pick a yellow job card to begin.");
+  }
+  document.getElementById("reset").addEventListener("click", resetTeam);
+
+  /* ================= Delivery mission ================= */
+  var COLS = 7, ROWS = 5;
+  var START = [0, 4], GOAL = [6, 0];
+  var OBSTACLES = { "2,4": "🪑", "2,3": "🪑", "5,2": "📚", "5,1": "📚", "0,0": "🪴", "3,0": "🎒", "6,4": "🪑" };
+  var SCRIPT = [
+    { node: "camera",  text: "The path ahead is clear." },
+    { node: "brain",   text: "Then let's go forward!" },
+    { node: "motors",  text: "Spinning the wheels forward\u2026", moves: [[1, 4]] },
+    { node: "camera",  text: "Stop! A desk is right in front of us." },
+    { node: "brain",   text: "Let's go up and around the desk." },
+    { node: "motors",  text: "Turning\u2026 moving up!", moves: [[1, 3], [1, 2]] },
+    { node: "camera",  text: "The way to the right is clear now." },
+    { node: "brain",   text: "Go right!" },
+    { node: "motors",  text: "Rolling to the right\u2026", moves: [[2, 2], [3, 2], [4, 2]] },
+    { node: "camera",  text: "A bookshelf is ahead. I can see our friend in the top corner!" },
+    { node: "brain",   text: "Go up two steps, then one step right." },
+    { node: "motors",  text: "Up, up, and right!", moves: [[4, 1], [4, 0], [5, 0]] },
+    { node: "speaker", text: "Beep beep! Here is your lunchbox!", speak: true }
+  ];
+
+  var board = document.getElementById("board");
+  var log = document.getElementById("log");
+  var token, friendCell;
+
+  function buildBoard() {
+    board.innerHTML = "";
+    for (var y = 0; y < ROWS; y++) {
+      for (var x = 0; x < COLS; x++) {
+        var c = document.createElement("div");
+        c.className = "cell";
+        var key = x + "," + y;
+        if (OBSTACLES[key]) c.textContent = OBSTACLES[key];
+        if (x === START[0] && y === START[1]) c.classList.add("start");
+        if (x === GOAL[0] && y === GOAL[1]) { c.classList.add("goal"); c.textContent = "🧒"; friendCell = c; }
+        board.appendChild(c);
+      }
+    }
+    token = document.createElement("div");
+    token.className = "token";
+    token.innerHTML = '<svg aria-hidden="true"><use href="#chiku"/></svg><span class="lunch" aria-hidden="true">🍱</span>';
+    board.appendChild(token);
+    moveTo(START[0], START[1]);
+  }
+  function moveTo(x, y) { token.style.setProperty("--x", x); token.style.setProperty("--y", y); }
+  function resetBoard() { buildBoard(); lightsOff(); }
+  function lightsOff() {
+    document.querySelectorAll(".light").forEach(function (l) { l.classList.remove("on"); });
+    bins.forEach(function (b) { b.classList.remove("working"); });
+  }
+  function lightOn(node) {
+    lightsOff();
+    var l = document.querySelector('.light[data-node="' + node + '"]'); if (l) l.classList.add("on");
+    var b = document.querySelector('.bin[data-node="' + node + '"]'); if (b) b.classList.add("working");
+  }
+  function clearLog() { log.innerHTML = '<li class="empty">Messages from Chiku\'s nodes will show up here during the delivery.</li>'; }
+  function addLog(node, text) {
+    var empty = log.querySelector(".empty"); if (empty) empty.remove();
+    var li = document.createElement("li");
+    if (node) { li.dataset.node = node; li.innerHTML = "<b>" + NODES[node].icon + " " + NODES[node].short + ":</b> "; li.appendChild(document.createTextNode(text)); }
+    else { li.className = "done"; li.textContent = text; }
+    log.appendChild(li);
+    log.scrollTop = log.scrollHeight;
+  }
+  function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+
+  async function runDelivery() {
+    if (!teamDone || running) return;
+    running = true;
+    goBtn.disabled = true; goBtn.textContent = "Delivering\u2026";
+    resetBoard(); clearLog();
+    await sleep(400);
+    for (var i = 0; i < SCRIPT.length; i++) {
+      var ev = SCRIPT[i];
+      lightOn(ev.node);
+      addLog(ev.node, ev.text);
+      RL.play("step");
+      if (ev.speak) RL.say(ev.text);
+      await sleep(650);
+      if (ev.moves) {
+        for (var k = 0; k < ev.moves.length; k++) { moveTo(ev.moves[k][0], ev.moves[k][1]); await sleep(450); }
+      }
+      await sleep(450);
+    }
+    token.querySelector(".lunch").textContent = "";
+    friendCell.textContent = "😋";
+    lightsOff();
+    addLog(null, "Delivered! Each node did one job, and together they did something big.");
+    RL.play("win");
+    RL.updateLesson(SLUG, { delivered: true });
+    running = false;
+    goBtn.disabled = false; goBtn.textContent = "Run the delivery again";
+  }
+  goBtn.addEventListener("click", runDelivery);
+
+  /* ================= Game 2: robot doctor ================= */
+  var CASES = [
+    { scene: "🪑💥", text: "Chiku keeps bumping into chairs, as if it can't see them.", answer: "camera",
+      why: "The camera node is Chiku's eyes. When it stops working, Chiku can't see what is in front of it." },
+    { scene: "📚❓", text: "Chiku says \u201cLet's go to the library!\u201d but its wheels don't move at all.", answer: "motors",
+      why: "Chiku can still think and talk, so the brain and speaker nodes are fine. The motor node is the one that turns the wheels." },
+    { scene: "🍱🤐", text: "Chiku reached the classroom with the lunchbox but stayed silent. Nobody knew it had arrived.", answer: "speaker",
+      why: "The delivery worked, so seeing, thinking and moving are fine. The speaker node makes Chiku beep and talk." },
+    { scene: "🔄😵", text: "Chiku can see the door clearly and its wheels work, but it keeps going round and round in circles.", answer: "brain",
+      why: "The brain node decides where to go. Seeing and moving are fine, so the deciding part needs fixing." },
+    { scene: "🐞⚙️", text: "Oh no! The motor node has a bug. What should the engineers do?", answer: "fix",
+      options: [
+        { id: "fix", icon: "🔧", label: "Fix only the motor node" },
+        { id: "trash", icon: "🗑️", label: "Throw Chiku away and build a new robot" },
+        { id: "all", icon: "📝", label: "Rewrite all four nodes from the start" }
+      ],
+      why: "That's the best thing about nodes! Each job lives in its own node, so engineers can fix one node and leave the others alone." }
+  ];
+
+  var round = 0, stars = 0, firstTry = true, answered = false;
+  var elRound = document.getElementById("round-label");
+  var elStars = document.getElementById("stars");
+  var elScene = document.getElementById("scene");
+  var elText = document.getElementById("case-text");
+  var elChoices = document.getElementById("choices");
+  var elFeedback = document.getElementById("doc-feedback");
+  var elNext = document.getElementById("next");
+  var elDoc = document.getElementById("doc");
+  var elEnd = document.getElementById("doc-end");
+
+  function paintStars(el, n, total) {
+    el.innerHTML = "";
+    for (var i = 0; i < total; i++) {
+      var s = document.createElement("span"); s.textContent = "\u2605";
+      if (i < n) s.className = "on";
+      el.appendChild(s);
+    }
+    el.setAttribute("aria-label", n + " of " + total + " stars");
+  }
+
+  function showRound() {
+    var c = CASES[round];
+    firstTry = true; answered = false;
+    elRound.textContent = "Problem " + (round + 1) + " of " + CASES.length;
+    elScene.textContent = c.scene;
+    elText.textContent = c.text;
+    elFeedback.hidden = true; elNext.hidden = true;
+    elChoices.innerHTML = "";
+    var opts = c.options || Object.keys(NODES).map(function (k) { return { id: k, icon: NODES[k].icon, label: NODES[k].name, node: k }; });
+    elChoices.className = "choices" + (opts.length === 3 ? " three" : "");
+    opts.forEach(function (o) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "choice";
+      if (o.node) b.dataset.node = o.node;
+      b.innerHTML = '<span class="ci" aria-hidden="true">' + o.icon + "</span>";
+      b.appendChild(document.createTextNode(o.label));
+      b.addEventListener("click", function () { choose(b, o.id); });
+      elChoices.appendChild(b);
+    });
+    paintStars(elStars, stars, CASES.length);
+  }
+
+  function choose(btn, id) {
+    if (answered || btn.classList.contains("wrong")) return;
+    var c = CASES[round];
+    elFeedback.hidden = false;
+    if (id === c.answer) {
+      answered = true;
+      btn.classList.add("right");
+      elChoices.querySelectorAll(".choice").forEach(function (b) { b.disabled = true; });
+      if (firstTry) { stars++; paintStars(elStars, stars, CASES.length); }
+      RL.play("good");
+      elFeedback.className = "doc-feedback ok";
+      elFeedback.innerHTML = "<p><b>" + (firstTry ? "Correct! +1 star" : "Correct!") + "</b></p>";
+      var p = document.createElement("p"); p.textContent = c.why; elFeedback.appendChild(p);
+      elNext.hidden = false;
+      elNext.textContent = round === CASES.length - 1 ? "Finish the mission" : "Next problem";
+      elNext.focus({ preventScroll: true });
+    } else {
+      firstTry = false;
+      btn.classList.add("wrong"); btn.setAttribute("aria-disabled", "true");
+      RL.play("bad");
+      elFeedback.className = "doc-feedback no";
+      elFeedback.innerHTML = "<p><b>Not this one.</b> Read the problem again. Which part of Chiku is not doing its job?</p>";
+    }
+  }
+
+  elNext.addEventListener("click", function () {
+    round++;
+    if (round < CASES.length) { showRound(); }
+    else { finishDoctor(); }
+  });
+
+  function finishDoctor() {
+    elDoc.hidden = true; elEnd.hidden = false;
+    paintStars(document.getElementById("end-stars"), stars, CASES.length);
+    var msg = stars === CASES.length ? "Perfect! You found every problem on the first try. You're a real robot doctor!"
+            : stars >= 3 ? "Great work! You fixed every problem. Play again to try for all five stars."
+            : "You fixed every problem! Play again to win more stars.";
+    document.getElementById("end-msg").textContent = msg;
+    var prev = RL.getLesson(SLUG);
+    RL.updateLesson(SLUG, { done: true, stars: Math.max(stars, prev.stars || 0) });
+    markStep("doctor");
+    unlockBadge(true);
+  }
+
+  document.getElementById("replay").addEventListener("click", function () {
+    round = 0; stars = 0; elEnd.hidden = true; elDoc.hidden = false; showRound();
+  });
+
+  /* ================= Badge and progress ================= */
+  function unlockBadge(celebrate) {
+    var art = document.getElementById("badge-art");
+    art.classList.remove("locked");
+    document.getElementById("badge-msg").textContent = celebrate
+      ? "You earned the Node Explorer badge! It is now on your badge shelf."
+      : "You earned this badge. Well done, Node Explorer!";
+    document.getElementById("badge-link").hidden = false;
+    markStep("badge");
+    if (celebrate) {
+      art.classList.remove("earned"); void art.getBoundingClientRect(); art.classList.add("earned");
+      RL.play("win");
+      RL.confetti(document.getElementById("badge-panel"));
+    }
+  }
+  function markStep(step) {
+    var a = document.querySelector('.steps-nav a[data-step="' + step + '"]');
+    if (a) { a.classList.add("done"); a.querySelector(".n").textContent = "\u2713"; }
+  }
+
+  /* Next lesson button appears automatically once Lesson 2 is published */
+  var next = RL.LESSONS[1];
+  if (next && next.ready) {
+    var actions = document.getElementById("next-actions");
+    actions.innerHTML = '<a class="btn" href="' + next.url + '">Start Lesson 2</a><a class="btn btn-white" href="index.html#lessons">Back to the lesson map</a>';
+  }
+
+  /* Mark the story as read once the student scrolls past it */
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { markStep("story"); io.disconnect(); } });
+    });
+    io.observe(document.getElementById("build"));
+  }
+
+  /* Start */
+  renderTray();
+  buildBoard();
+  showRound();
+  var saved = RL.getLesson(SLUG);
+  if (saved.done) { unlockBadge(false); markStep("doctor"); }
+})();
+</script>
+</body>
+</html>

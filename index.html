@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ROS2Lab | Fun ROS 2 lessons for kids</title>
+<meta name="description" content="Free, fun lessons on ROS 2, the software real robots use, for curious kids in Classes 5 to 7. Read a short story, play a game, earn a badge.">
+<link rel="canonical" href="https://www.ros2lab.com/">
+<meta property="og:title" content="ROS2Lab | Fun ROS 2 lessons for kids">
+<meta property="og:description" content="Learn how real robots think. Free ROS 2 lessons with games and badges for Classes 5 to 7.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.ros2lab.com/">
+<meta name="theme-color" content="#FFC83D">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<style>
+  /* ---------- Hero ---------- */
+  .hero { padding: 52px 0 36px; }
+  .hero .wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; }
+  .hero h1 { font-size: clamp(2.9rem, 8vw, 5.4rem); max-width: 10ch; }
+  .hero .lead { margin-bottom: 26px; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+  .hero-note { margin-top: 18px; font-size: 1rem; color: var(--ink-soft); }
+
+  .team-diagram { position: relative; width: 100%; max-width: 460px; aspect-ratio: 1 / 1; margin: 0 auto; }
+  .team-diagram .links { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .team-diagram .links line {
+    stroke: var(--ink); stroke-width: 3; stroke-dasharray: 7 7; stroke-linecap: round; vector-effect: non-scaling-stroke;
+    opacity: 0; animation: fadeIn .4s ease forwards; animation-delay: calc(.35s + var(--d) * .22s);
+  }
+  .team-diagram .center {
+    position: absolute; left: 50%; top: 50%; width: 46%; aspect-ratio: 1 / 1; transform: translate(-50%, -50%);
+    display: grid; place-items: center; background: var(--white); border: var(--line); border-radius: 50%; box-shadow: var(--shadow);
+  }
+  .team-diagram .center svg { width: 62%; height: 72%; }
+  .node-chip {
+    position: absolute; display: flex; align-items: center; gap: 8px;
+    font-family: var(--font-display); font-weight: 800; font-size: clamp(.95rem, 2.2vw, 1.15rem); line-height: 1;
+    padding: 10px 14px 9px 10px; background: var(--t); border: var(--line); border-radius: 999px; box-shadow: var(--shadow-sm);
+    opacity: 0; animation: pop .45s ease forwards; animation-delay: calc(.5s + var(--d) * .22s);
+  }
+  .node-chip .dot { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--c); border: 2.5px solid var(--ink); font-size: 1.05rem; }
+  .node-chip.tl { left: 0; top: 4%; }
+  .node-chip.tr { right: 0; top: 4%; }
+  .node-chip.bl { left: 0; bottom: 4%; }
+  .node-chip.br { right: 0; bottom: 4%; }
+  .diagram-caption { text-align: center; font-size: 1rem; color: var(--ink-soft); margin-top: 10px; }
+  @keyframes fadeIn { to { opacity: 1; } }
+
+  /* ---------- Lesson map ---------- */
+  .section-head { max-width: 62ch; margin-bottom: 26px; }
+  .section-head p { margin: 0; color: var(--ink-soft); }
+  .map { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; }
+  .ticket {
+    position: relative; height: 100%; display: flex; flex-direction: column; gap: 6px;
+    padding: 18px 18px 16px; color: var(--ink); text-decoration: none;
+    background: var(--white); border: var(--line); border-top: 12px solid var(--c); border-radius: var(--r-card);
+    box-shadow: var(--shadow-sm); transition: transform .1s ease, box-shadow .1s ease;
+  }
+  a.ticket:hover { color: var(--ink); transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+  .t-top { display: flex; align-items: center; justify-content: space-between; }
+  .t-num {
+    display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+    background: var(--t); border: 2.5px solid var(--ink); font-family: var(--font-display); font-weight: 800; font-size: 1.2rem;
+  }
+  .t-emoji { font-size: 1.9rem; line-height: 1; }
+  .t-title { font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; line-height: 1.15; margin-top: 6px; }
+  .t-idea { font-size: 1rem; color: var(--ink-soft); line-height: 1.4; }
+  .t-status {
+    align-self: flex-start; margin-top: auto; padding-top: 0; display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-display); font-weight: 700; font-size: 1rem; line-height: 1;
+  }
+  .t-status-pill { padding: 8px 14px 7px; border: 2.5px solid var(--ink); border-radius: 999px; background: var(--sun); margin-top: 10px; }
+  .ticket.is-done .t-status-pill { background: var(--good-tint); }
+  .t-stars { letter-spacing: 1px; font-size: 1.1rem; }
+  .t-stars .on { color: var(--sun); -webkit-text-stroke: 1px var(--ink); }
+  .t-stars .off { color: #C5CEE2; }
+  .ticket.is-locked { background: transparent; border-style: dashed; border-top-style: solid; box-shadow: none; }
+  .ticket.is-locked .t-emoji { filter: grayscale(1); opacity: .55; }
+  .ticket.is-locked .t-title, .ticket.is-locked .t-idea { opacity: .7; }
+  .ticket.is-locked .t-status-pill { background: transparent; border-style: dashed; color: var(--ink-soft); }
+
+  /* ---------- Badge shelf ---------- */
+  .shelf-panel { display: grid; gap: 18px; }
+  .shelf { display: flex; flex-wrap: wrap; gap: 14px; padding-bottom: 16px; border-bottom: 10px solid var(--ink); border-radius: 0 0 4px 4px; }
+  .slot { width: 104px; display: grid; justify-items: center; gap: 4px; text-align: center; }
+  .slot-art { width: 84px; height: 98px; display: grid; place-items: center; }
+  .slot-art svg { width: 84px; height: 98px; }
+  .slot.empty .slot-art { width: 72px; height: 72px; margin: 13px 0; border: 3px dashed #9AA8C8; border-radius: 50%; font-family: var(--font-display); font-weight: 800; font-size: 1.6rem; color: #9AA8C8; }
+  .slot-name { font-family: var(--font-display); font-weight: 700; font-size: .98rem; line-height: 1.15; }
+  .slot.empty .slot-name { color: var(--ink-soft); font-weight: 500; }
+  .shelf-msg { margin: 0; font-size: 1.1rem; }
+
+  /* ---------- How it works + ROS 2 ---------- */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+  .how { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+  .how li { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; }
+  .how b { display: block; font-family: var(--font-display); font-size: 1.3rem; line-height: 1.15; }
+  .how span.d { color: var(--ink-soft); font-size: 1.02rem; }
+
+  .teachers { background: var(--ink); color: #E6EEFF; box-shadow: 6px 6px 0 var(--sun); }
+  .teachers h2 { color: var(--white); }
+  .teachers ul { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; max-width: 62ch; }
+  .teachers .btn { margin-top: 22px; }
+
+  @media (max-width: 900px) {
+    .hero .wrap, .two-col { grid-template-columns: 1fr; }
+    .hero { padding-top: 34px; }
+    .team-diagram { max-width: 400px; }
+  }
+  @media (max-width: 520px) {
+    .slot { width: 84px; }
+    .slot-art, .slot-art svg { width: 70px; height: 82px; }
+    .slot.empty .slot-art { width: 60px; height: 60px; margin: 11px 0; }
+    .node-chip { padding: 7px 10px 6px 7px; gap: 6px; }
+    .node-chip .dot { width: 28px; height: 28px; font-size: .9rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="index.html" aria-label="ROS2Lab home"><svg aria-hidden="true"><use href="#chiku"/></svg><span>ROS<b>2</b>Lab</span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="#lessons">Lessons</a>
+      <a class="hide-sm" href="#teachers">For teachers</a>
+      <button class="sound-toggle" type="button" data-sound-toggle>🔊</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <h1>Learn how real robots think.</h1>
+        <p class="lead">Free, fun lessons on ROS 2, the software that real robots use. Made for curious kids in Classes 5 to 7. Read a short story, play a game and earn a badge.</p>
+        <div class="hero-actions">
+          <a class="btn" href="lesson-01.html">Start Lesson 1</a>
+          <a class="btn btn-white" href="#lessons">See all lessons</a>
+        </div>
+        <p class="hero-note">No sign-up needed. Works on phones, tablets and computers.</p>
+      </div>
+      <figure style="margin:0">
+        <div class="team-diagram" aria-hidden="true">
+          <svg class="links" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <line x1="50" y1="50" x2="22" y2="11" style="--d:0"/>
+            <line x1="50" y1="50" x2="78" y2="11" style="--d:1"/>
+            <line x1="50" y1="50" x2="22" y2="89" style="--d:2"/>
+            <line x1="50" y1="50" x2="78" y2="89" style="--d:3"/>
+          </svg>
+          <div class="center"><svg><use href="#chiku"/></svg></div>
+          <span class="node-chip tl" data-node="camera" style="--d:0"><span class="dot">📷</span>Camera</span>
+          <span class="node-chip tr" data-node="brain" style="--d:1"><span class="dot">🧠</span>Brain</span>
+          <span class="node-chip bl" data-node="motors" style="--d:2"><span class="dot">⚙️</span>Motor</span>
+          <span class="node-chip br" data-node="speaker" style="--d:3"><span class="dot">🔊</span>Speaker</span>
+        </div>
+        <figcaption class="diagram-caption">Meet Chiku. Its four nodes work as one team.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section" id="lessons">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Your lesson map</h2>
+        <p>Lessons go in order, and each one builds on the last. New lessons are added regularly.</p>
+      </div>
+      <ol class="map" id="map"></ol>
+      <noscript><p>Please turn on JavaScript to see the lessons and play the games.</p></noscript>
+    </div>
+  </section>
+
+  <section class="section-tight" id="badges">
+    <div class="wrap">
+      <div class="panel shelf-panel">
+        <div>
+          <h2>Your badge shelf</h2>
+          <p class="shelf-msg" id="shelf-msg">Finish a lesson to earn its badge. Badges are saved on this device.</p>
+        </div>
+        <div class="shelf" id="shelf"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap two-col">
+      <div class="panel">
+        <h2>What is ROS 2?</h2>
+        <p>ROS 2 stands for Robot Operating System 2. It's a free toolbox of programs that helps the parts of a robot work together and talk to each other.</p>
+        <p style="margin:0">Engineers around the world use it to build robots for factories, farms, hospitals and science labs. On ROS2Lab, you learn the same ideas they use, explained in a simple way.</p>
+      </div>
+      <div class="panel">
+        <h2>How each lesson works</h2>
+        <ol class="how">
+          <li><span class="step-num">1</span><span><b>Read a short story</b><span class="d">Meet a new robot idea with Chiku.</span></span></li>
+          <li><span class="step-num">2</span><span><b>Play the games</b><span class="d">Try the idea yourself with a mission.</span></span></li>
+          <li><span class="step-num">3</span><span><b>Earn a badge</b><span class="d">Finish the lesson to fill your shelf.</span></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight" id="teachers">
+    <div class="wrap">
+      <div class="panel teachers">
+        <h2>For teachers and parents</h2>
+        <p style="max-width:62ch">Each lesson takes about 20 to 30 minutes and teaches one real ROS 2 idea in simple English. Every lesson ends with a Teacher's corner that has learning goals and a classroom activity that needs no computer.</p>
+        <ul>
+          <li>No sign-up, no ads, and nothing to install.</li>
+          <li>Progress and badges are saved only in the student's own browser.</li>
+          <li>Sounds can be switched off with the speaker button at the top.</li>
+        </ul>
+        <a class="btn" href="lesson-01.html#story">Preview Lesson 1</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <a class="logo" href="index.html"><svg aria-hidden="true"><use href="#chiku"/></svg><span>ROS<b>2</b>Lab</span></a>
+    <p>Free ROS 2 lessons for young robot builders. © <span data-year>2026</span> ROS2Lab.</p>
+    <p>ROS2Lab is an independent learning project and is not affiliated with or endorsed by Open Robotics.</p>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+<script>
+(function () {
+  "use strict";
+  var TONES = ["camera", "brain", "motors", "speaker"];
+  var progress = RL.load();
+
+  /* Lesson map */
+  var map = document.getElementById("map");
+  RL.LESSONS.forEach(function (L, i) {
+    var p = progress[L.slug] || {};
+    var li = document.createElement("li");
+    var card = document.createElement(L.ready ? "a" : "div");
+    card.className = "ticket " + (p.done ? "is-done" : L.ready ? "is-ready" : "is-locked");
+    card.dataset.node = TONES[i % TONES.length];
+    if (L.ready) card.href = L.url;
+    else card.setAttribute("aria-label", "Lesson " + L.n + ": " + L.title + ". Coming soon.");
+
+    var status;
+    if (p.done) {
+      var s = ""; for (var k = 0; k < 5; k++) s += '<span class="' + (k < (p.stars || 0) ? "on" : "off") + '">\u2605</span>';
+      status = '<span class="t-status t-status-pill">Done <span class="t-stars" aria-label="' + (p.stars || 0) + ' of 5 stars">' + s + "</span></span>";
+    } else if (L.ready) {
+      status = '<span class="t-status t-status-pill">Start lesson</span>';
+    } else {
+      status = '<span class="t-status t-status-pill">Coming soon</span>';
+    }
+    card.innerHTML =
+      '<span class="t-top"><span class="t-num">' + L.n + '</span><span class="t-emoji" aria-hidden="true">' + L.emoji + "</span></span>" +
+      '<span class="t-title">' + L.title + "</span>" +
+      '<span class="t-idea">' + L.idea + "</span>" + status;
+    li.appendChild(card);
+    map.appendChild(li);
+  });
+
+  /* Badge shelf */
+  var shelf = document.getElementById("shelf");
+  var earned = 0;
+  RL.LESSONS.forEach(function (L) {
+    var p = progress[L.slug] || {};
+    var slot = document.createElement("div");
+    if (p.done && L.badge) {
+      earned++;
+      slot.className = "slot";
+      slot.innerHTML = '<span class="slot-art"><svg role="img" aria-label="' + L.badge.name + ' badge"><use href="#' + L.badge.icon + '"/></svg></span><span class="slot-name">' + L.badge.name + "</span>";
+    } else {
+      slot.className = "slot empty";
+      slot.innerHTML = '<span class="slot-art" aria-hidden="true">?</span><span class="slot-name">Lesson ' + L.n + "</span>";
+    }
+    shelf.appendChild(slot);
+  });
+  var msg = document.getElementById("shelf-msg");
+  if (earned === 0) msg.textContent = "Your shelf is empty for now. Finish Lesson 1 to earn your first badge!";
+  else msg.textContent = "You have earned " + earned + (earned === 1 ? " badge" : " badges") + " so far. Badges are saved on this device.";
+})();
+</script>
+</body>
+</html>
