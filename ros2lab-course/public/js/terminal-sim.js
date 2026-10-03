@@ -125,7 +125,7 @@ export class Shell {
     this.aptUpdated = false;
     this.sudoTold = false;
     // a pretend running ROS 2 system (nodes in "other terminals"), and packages built with colcon
-    this.graph = Array.isArray(s.running) || s.graph ? new RosGraph(this, s.running || []) : null;
+    this.graph = new RosGraph(this, s.running || []);   // every practice terminal has a live (pretend) ROS 2 graph
     this.installs = {};
     this.wsPkgs = new Map();
     this.history = [];
@@ -966,47 +966,119 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
   const sh = new Shell(spec);
   const tasks = spec.tasks || [];
   let step = 0, histPos = -1, finished = false;
+  const MAX_TABS = 4;
 
   const taskItems = tasks.map((t, i) => el("li", {}, el("span", { class: "box", text: String(i + 1) }), el("span", {}, rich(t.do))));
   const taskBox = tasks.length ? el("div", { class: "term-tasks" }, el("ol", {}, taskItems)) : null;
-  const screen = el("div", { class: "term-screen", role: "log", "aria-live": "polite" });
-  const input = el("input", { type: "text", autocomplete: "off", autocapitalize: "off", spellcheck: "false", "aria-label": "Type a command and press Enter" });
-  const promptSpan = el("span", { class: "pr" });
-  const inputRow = el("div", { class: "term-input-row" }, promptSpan, input);
   const doneBox = el("div", { class: "term-done", hidden: true, text: "All steps done. Well done!" });
-  const screenWrap = el("div", { style: { position: "relative" } }, screen);
-
+  const tabBar = el("div", { class: "term-tabs", role: "tablist", "aria-label": "Terminal tabs" });
+  const addTabBtn = el("button", { type: "button", class: "term-tab-add", title: "Open a new terminal tab (like Ctrl+Shift+T)", text: "+ New terminal" });
+  const screens = el("div", { class: "term-screens", style: { position: "relative" } });
+  const simPanel = el("div", { class: "tsim-panel", hidden: true });
   const tools = el("div", { class: "term-tools" },
-    el("button", { type: "button", text: "Tab", title: "Complete a name (same as the Tab key)", onclick: () => { doTab(); input.focus(); } }),
-    el("button", { type: "button", text: "↑ Last command", onclick: () => { histUp(); input.focus(); } }),
+    el("button", { type: "button", text: "Tab", title: "Complete a name (same as the Tab key)", onclick: () => { doTab(); focusInput(); } }),
+    el("button", { type: "button", text: "↑ Last command", onclick: () => { histUp(); focusInput(); } }),
     tasks.length ? el("button", { type: "button", text: "Show a hint", onclick: showHint }) : null,
-    spec.newTerminal ? el("button", { type: "button", text: "Open a new terminal", onclick: newTerm }) : null,
+    spec.newTerminal ? el("button", { type: "button", text: "Open a new terminal", onclick: () => newTab(true) }) : null,
     el("button", { type: "button", text: "Start again", onclick: resetAll }),
   );
   const root = el("div", { class: "term" },
     el("div", { class: "term-title" }, el("i"), el("i"), el("i"), el("span", { text: spec.title || "Practice terminal" })),
-    taskBox, screenWrap, tools, doneBox);
+    taskBox, el("div", { class: "term-tabrow" }, tabBar, addTabBtn), simPanel, screens, tools, doneBox);
   container.append(root);
 
-  function promptText() { return [el("span", { text: `${USER}@${HOST}:` }), el("b", { text: sh.prettyCwd() }), document.createTextNode("$ ")]; }
-  function paintPrompt() { promptSpan.replaceChildren(...promptText()); }
-  function addLine(l) {
-    if (l.segs) { screen.insertBefore(el("div", { class: "line" }, ...l.segs.flatMap((s, i) => [i ? "  " : "", el("span", { class: s.c || null, text: s.t })])), inputRow); return; }
-    screen.insertBefore(el("div", { class: "line" + (l.cls ? " " + l.cls : ""), text: l.text }), inputRow);
+  // ---------- tabs: each has its own folder, settings, history and screen; files and ROS graph are shared ----------
+  let tabs = [], active = null, tabSeq = 0;
+  const saveState = (t) => { t.state = { cwd: sh.cwd, env: { ...sh.env }, sourced: sh.sourced, history: sh.history.slice() }; };
+  const loadState = (t) => { Object.assign(sh, { cwd: t.state.cwd, env: { ...t.state.env }, sourced: t.state.sourced, history: t.state.history.slice() }); };
+  function makeTab(fresh) {
+    const t = { id: ++tabSeq, proc: null, keys: null };
+    t.screen = el("div", { class: "term-screen", role: "log", "aria-live": "polite", hidden: true });
+    t.input = el("input", { type: "text", autocomplete: "off", autocapitalize: "off", spellcheck: "false", "aria-label": `Terminal ${t.id}: type a command and press Enter` });
+    t.prompt = el("span", { class: "pr" });
+    t.inputRow = el("div", { class: "term-input-row" }, t.prompt, t.input);
+    t.procBar = el("div", { class: "term-proc", hidden: true });
+    t.screen.append(t.inputRow);
+    screens.append(t.screen);
+    t.input.addEventListener("keydown", (e) => onKey(e, t));
+    if (spec.allowPaste) t.input.addEventListener("paste", (e) => e.stopPropagation());   // page-wide paste blocking skips this terminal
+    t.screen.addEventListener("click", () => { if (!window.getSelection().toString()) focusInput(); });
+    t.tabBtn = el("button", { type: "button", role: "tab", class: "term-tab" }, el("span", { class: "tt-name" }), el("span", { class: "tt-x", title: "Close this terminal", text: "×" }));
+    t.tabBtn.addEventListener("click", (e) => { if (e.target.classList.contains("tt-x")) closeTab(t); else switchTo(t); });
+    tabBar.append(t.tabBtn);
+    if (fresh) {
+      if (active) saveState(active);
+      sh.newTerminal();
+      if (spec.sourced && !sh.sourced) sh.applySource();   // lessons that start "sourced" act as if ~/.bashrc loads ROS 2
+      saveState(t); if (active) loadState(active);
+    }
+    else saveState(t);
+    tabs.push(t);
+    return t;
   }
-  function echoCommand(cmd) { screen.insertBefore(el("div", { class: "line" }, el("span", { class: "pr" }, ...promptText()), cmd), inputRow); }
-  function scroll() { screen.scrollTop = screen.scrollHeight; }
+  function paintTabs() {
+    tabs.forEach((t, k) => {
+      t.tabBtn.querySelector(".tt-name").textContent = `${k + 1}: ${t.proc ? t.proc.label : "bash"}`;
+      t.tabBtn.classList.toggle("on", t === active); t.tabBtn.setAttribute("aria-selected", t === active ? "true" : "false");
+      t.tabBtn.querySelector(".tt-x").hidden = tabs.length < 2;
+      t.screen.hidden = t !== active;
+    });
+    addTabBtn.disabled = tabs.length >= MAX_TABS;
+  }
+  function switchTo(t) {
+    if (t === active) { focusInput(); return; }
+    if (active) saveState(active);
+    active = t; loadState(t); paintTabs(); paintPrompt(); scroll(); focusInput();
+  }
+  function newTab(fromButton) {
+    if (tabs.length >= MAX_TABS) { addLine({ text: `(At most ${MAX_TABS} terminals here. Close one with × first.)`, cls: "hint" }); return; }
+    const t = makeTab(true);
+    switchTo(t);
+    addLine({ text: fromButton === true ? "(A new terminal window opened. It started fresh and ran ~/.bashrc.)" : sh.sourced ? "(New terminal tab. ~/.bashrc already loaded ROS 2 here, so you can type ros2 commands straight away.)" : "(New terminal tab. It starts fresh, like a new window on Ubuntu: load ROS 2 first with  source /opt/ros/jazzy/setup.bash)", cls: "hint" });
+    afterCommand("");
+  }
+  function closeTab(t) {
+    if (tabs.length < 2) return;
+    if (t.proc) stopProc(t, true);
+    t.screen.remove(); t.tabBtn.remove();
+    tabs = tabs.filter((x) => x !== t);
+    if (active === t) { active = null; switchTo(tabs[tabs.length - 1]); }
+    paintTabs(); paintSim();
+  }
+  addTabBtn.addEventListener("click", () => newTab(false));
+
+  // ---------- screen helpers (always the active tab, unless a tab is given) ----------
+  const focusInput = () => { if (active && !active.proc && !active.input.disabled) active.input.focus({ preventScroll: true }); else if (active && active.proc) active.procBar.querySelector("button")?.focus({ preventScroll: true }); };
+  function promptText() { return [el("span", { text: `${USER}@${HOST}:` }), el("b", { text: sh.prettyCwd() }), document.createTextNode("$ ")]; }
+  function paintPrompt() { if (active) active.prompt.replaceChildren(...promptText()); }
+  function addLine(l, t = active) {
+    const before = t.proc ? t.procBar : t.inputRow;
+    let node;
+    if (l.segs) node = el("div", { class: "line" }, ...l.segs.flatMap((sg, i) => [i ? "  " : "", el("span", { class: sg.c || null, text: sg.t })]));
+    else node = el("div", { class: "line" + (l.cls ? " " + l.cls : ""), text: l.text });
+    t.screen.insertBefore(node, before);
+    const lines = t.screen.querySelectorAll(".line");
+    if (lines.length > 400) lines[0].remove();
+  }
+  function echoCommand(cmd) { active.screen.insertBefore(el("div", { class: "line" }, el("span", { class: "pr" }, ...promptText()), cmd), active.inputRow); }
+  function scroll(t = active) { t.screen.scrollTop = t.screen.scrollHeight; }
   function paintTasks() {
     taskItems.forEach((li, i) => { li.className = i < step ? "done" : i === step && !finished ? "now" : ""; li.querySelector(".box").textContent = i < step ? "✓" : String(i + 1); });
   }
 
+  // ---------- running commands ----------
   function run(cmd) {
     echoCommand(cmd);
+    sh.graph.lastStarted = null;
     const res = sh.run(cmd);
-    if (res.clear) { [...screen.querySelectorAll(".line")].forEach((n) => n.remove()); }
-    res.lines.forEach(addLine);
+    if (res.clear) { [...active.screen.querySelectorAll(".line")].forEach((n) => n.remove()); }
+    const started = sh.graph.lastStarted;
+    sh.graph.lastStarted = null;
+    res.lines.filter((l) => !(started && l.cls === "hint" && /^\(Practice terminal: .* (keeps running|They keep running)/.test(l.text || "") || started && /^\(Two turtlesim windows/.test(l.text || ""))).forEach((l) => addLine(l));
     if (res.nano) openNano(res.nano);
+    if (started && started.length) startProc(active, started, cmd);
     afterCommand(cmd);
+    paintSim();
   }
   function afterCommand(cmd) {
     while (!finished && step < tasks.length && sh.check(tasks[step].check, cmd)) {
@@ -1019,27 +1091,164 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
     if (finished || !tasks[step]) return;
     addLine({ text: "Hint: " + (tasks[step].hint || "Read step " + (step + 1) + " again carefully."), cls: "hint" }); scroll();
   }
-  function histUp() { if (!sh.history.length) return; histPos = histPos < 0 ? sh.history.length - 1 : Math.max(0, histPos - 1); input.value = sh.history[histPos]; }
+  function histUp() { if (!sh.history.length || !active || active.proc) return; histPos = histPos < 0 ? sh.history.length - 1 : Math.max(0, histPos - 1); active.input.value = sh.history[histPos]; }
   function doTab() {
-    const r = sh.complete(input.value);
-    if (r.line != null) input.value = r.line;
-    else if (r.options && r.options.length > 1) { echoCommand(input.value); addLine({ text: r.options.join("  ") }); scroll(); }
+    if (!active || active.proc) return;
+    const r = sh.complete(active.input.value);
+    if (r.line != null) active.input.value = r.line;
+    else if (r.options && r.options.length > 1) { echoCommand(active.input.value); addLine({ text: r.options.join("  ") }); scroll(); }
   }
-  function newTerm() {
-    sh.newTerminal();
-    [...screen.querySelectorAll(".line")].forEach((n) => n.remove());
-    addLine({ text: "(A new terminal window opened. It started fresh and ran ~/.bashrc.)", cls: "hint" });
+
+  // ---------- foreground processes: a node keeps its terminal busy until Ctrl+C ----------
+  function startProc(t, fulls, cmd) {
+    const kinds = fulls.map((f) => (sh.graph.node(f) || {}).kind);
+    const label = cmd.split(/\s+/)[2] === "launch" || cmd.split(/\s+/)[1] === "launch" ? "ros2 launch" : (cmd.split(/\s+/)[3] || fulls[0]).replace(/^.*\//, "");
+    t.proc = { fulls, kinds, label, count: 0 };
+    if (kinds.includes("talker")) chat = Math.max(chat, 3);   // the start-up lines already showed messages 1 to 3
+    t.inputRow.hidden = true;
+    const stopBtn = el("button", { type: "button", class: "btn btn-small", text: "Ctrl+C  (stop it)", onclick: () => { stopProc(t); focusInput(); } });
+    const kids = [el("span", { class: "tp-dot", "aria-hidden": "true" }),
+      el("span", { class: "tp-text" }, el("b", { text: fulls.join(", ") }), " is running in this terminal. ", el("span", { class: "muted", text: "Real ROS 2 works the same way: open a " }), el("b", { text: "+ New terminal" }), el("span", { class: "muted", text: " to type more commands." })), stopBtn];
+    t.procBar.replaceChildren(...kids);
+    if (kinds.includes("teleop")) {
+      const k = (dir, txt) => el("button", { type: "button", class: "tk-key", "aria-label": `Arrow ${dir}`, text: txt, onclick: () => { teleKey(t, dir); } });
+      t.keys = el("div", { class: "tele-keys" }, el("span", { class: "small", text: "Drive (or use your arrow keys while this terminal is selected):" }),
+        el("div", { class: "tk-grid" }, el("span"), k("up", "↑"), el("span"), k("left", "←"), k("down", "↓"), k("right", "→")));
+      t.procBar.append(t.keys);
+    }
+    t.procBar.hidden = false;
+    t.screen.insertBefore(t.procBar, t.inputRow);   // node output goes above the bar; the prompt comes back below it
+    paintTabs();
+  }
+  function stopProc(t, quiet) {
+    if (!t.proc) return;
+    if (!quiet) {
+      addLine({ text: "^C[INFO] [rclcpp]: signal_handler(signum=2)" }, t);
+      if (t.proc.fulls.length > 1) t.proc.fulls.forEach((f, i) => addLine({ text: `[INFO] [${f.split("/").pop()}-${i + 1}]: process has finished cleanly` }, t));
+    }
+    t.proc.fulls.forEach((f) => sh.graph.stop(f));
+    t.proc = null; t.keys = null;
+    t.procBar.hidden = true; t.procBar.remove(); t.inputRow.hidden = false;
+    paintTabs(); paintSim();
+    if (t === active) { paintPrompt(); scroll(); }
     afterCommand("");
   }
+  function teleKey(t, dir) {
+    const hit = sh.graph.teleopKey(t.proc.fulls.find((f) => (sh.graph.node(f) || {}).kind === "teleop"), dir);
+    if (!hit) addLine({ text: "[WARN] [teleop_turtle]: no turtle is listening on /turtle1/cmd_vel. Start turtlesim in another terminal.", cls: "hint" }, t);
+    paintSim(true); scroll(t);
+  }
+  // live output: talkers publish and listeners hear, once per second
+  let chat = 0;
+  const ticker = setInterval(() => {
+    if (!root.isConnected) { clearInterval(ticker); return; }
+    const talking = sh.graph.nodes.some((n) => n.kind === "talker");
+    if (!talking) return;
+    chat++;
+    for (const t of tabs) {
+      if (!t.proc) continue;
+      t.proc.fulls.forEach((f) => {
+        const n = sh.graph.node(f); if (!n) return;
+        if (n.kind === "talker") addLine({ text: `[INFO] [${n.name}]: Publishing: 'Hello World: ${chat}'` }, t);
+        if (n.kind === "listener") addLine({ text: `[INFO] [${n.name}]: I heard: [Hello World: ${chat}]` }, t);
+      });
+      if (t === active || t.screen.scrollHeight - t.screen.scrollTop < t.screen.clientHeight + 60) scroll(t);
+    }
+  }, 1000);
+
+  function flushNotices() {
+    const q = sh.graph.notices || []; sh.graph.notices = [];
+    for (const nt of q) { const t = tabs.find((x) => x.proc && x.proc.fulls.includes(nt.node)); if (t) { addLine({ text: nt.text, cls: "warn-line" }, t); scroll(t); } }
+  }
+
+  // ---------- the TurtleSim window(s) ----------
+  const W = 11.088889, SIZE = 250;
+  const sims = new Map();   // node full name -> { box, canvas, shown: {turtle: {x,y,theta}} }
+  function paintSim(animate) {
+    flushNotices();
+    const live = sh.graph.turtlesims();
+    for (const [full, s] of sims) if (!live.some((n) => n.full === full)) { s.box.remove(); sims.delete(full); }
+    for (const n of live) {
+      if (!sims.has(n.full)) {
+        const canvas = el("canvas", { width: SIZE * 2, height: SIZE * 2, "aria-label": `TurtleSim window for ${n.full}`, role: "img" });
+        canvas.style.width = canvas.style.height = SIZE + "px";
+        const box = el("figure", { class: "tsim-win" }, el("figcaption", {}, el("i"), el("i"), el("i"), el("span", { text: `TurtleSim  ${n.full}` })), canvas);
+        simPanel.append(box);
+        sims.set(n.full, { box, canvas, shown: {} });
+      }
+      drawSim(n, sims.get(n.full), animate);
+    }
+    simPanel.hidden = live.length === 0;
+  }
+  function drawSim(n, s, animate) {
+    const ctx = s.canvas.getContext("2d"), k = (SIZE * 2) / W;
+    const X = (x) => x * k, Y = (y) => (W - y) * k;
+    const frame = (blend) => {
+      const P = n.params;
+      ctx.fillStyle = `rgb(${P.background_r},${P.background_g},${P.background_b})`;
+      ctx.fillRect(0, 0, SIZE * 2, SIZE * 2);
+      for (const t of n.turtles) for (const seg of t.trail || []) {
+        ctx.strokeStyle = `rgb(${seg.r},${seg.g},${seg.b})`; ctx.lineWidth = Math.max(1, seg.width) * 1.4; ctx.lineCap = "round"; ctx.lineJoin = "round";
+        ctx.beginPath(); seg.pts.forEach(([x, y], i) => (i ? ctx.lineTo(X(x), Y(y)) : ctx.moveTo(X(x), Y(y)))); ctx.stroke();
+      }
+      for (const t of n.turtles) {
+        const from = s.shown[t.name] || t;
+        const lerp = (a, b) => a + (b - a) * blend;
+        let dth = t.theta - from.theta; dth = Math.atan2(Math.sin(dth), Math.cos(dth));
+        const x = lerp(from.x, t.x), y = lerp(from.y, t.y), th = from.theta + dth * blend;
+        drawTurtle(ctx, X(x), Y(y), th, k);
+        ctx.fillStyle = "rgba(255,255,255,.85)"; ctx.font = "22px sans-serif"; ctx.fillText(t.name, X(x) + 26, Y(y) - 22);
+      }
+    };
+    const done = () => { n.turtles.forEach((t) => { s.shown[t.name] = { x: t.x, y: t.y, theta: t.theta }; }); };
+    const moved = n.turtles.some((t) => { const o = s.shown[t.name]; return o && (o.x !== t.x || o.y !== t.y || o.theta !== t.theta); });
+    if (!animate && !moved || matchMedia("(prefers-reduced-motion: reduce)").matches) { frame(1); done(); return; }
+    const t0 = performance.now(), ms = 700;
+    const stepA = (now) => { const b = Math.min(1, (now - t0) / ms); frame(b); if (b < 1 && s.canvas.isConnected) requestAnimationFrame(stepA); else done(); };
+    requestAnimationFrame(stepA);
+  }
+  function drawTurtle(ctx, x, y, th, k) {
+    const r = k * 0.32;
+    ctx.save(); ctx.translate(x, y); ctx.rotate(-th);
+    ctx.fillStyle = "#3f8f3a"; ctx.strokeStyle = "#1f3d1c"; ctx.lineWidth = 3;
+    for (const [lx, ly] of [[0.55, 0.55], [0.55, -0.55], [-0.55, 0.55], [-0.55, -0.55]]) { ctx.beginPath(); ctx.ellipse(lx * r, ly * r, r * 0.28, r * 0.2, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke(); }
+    ctx.beginPath(); ctx.arc(r * 0.95, 0, r * 0.32, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = "#7cc36b"; ctx.beginPath(); ctx.ellipse(0, 0, r * 0.75, r * 0.62, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.strokeStyle = "#2d6a27"; ctx.beginPath(); ctx.moveTo(-r * 0.4, 0); ctx.lineTo(r * 0.4, 0); ctx.stroke();
+    ctx.restore();
+  }
+
+  // ---------- keyboard ----------
+  function onKey(e, t) {
+    const input = t.input;
+    if (e.key === "Enter") { e.preventDefault(); const v = input.value; input.value = ""; histPos = -1; run(v); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); histUp(); }
+    else if (e.key === "ArrowDown") { e.preventDefault(); if (histPos >= 0) { histPos++; input.value = histPos < sh.history.length ? sh.history[histPos] : ""; if (histPos >= sh.history.length) histPos = -1; } }
+    else if (e.key === "Tab") { e.preventDefault(); doTab(); }
+    else if (e.ctrlKey && e.key.toLowerCase() === "c") { e.preventDefault(); echoCommand(input.value + "^C"); input.value = ""; scroll(); }
+    else if (e.ctrlKey && e.key.toLowerCase() === "l") { e.preventDefault(); [...t.screen.querySelectorAll(".line")].forEach((n) => n.remove()); }
+  }
+  // while a node runs, keys go to it: Ctrl+C stops it, arrows drive teleop
+  root.addEventListener("keydown", (e) => {
+    const t = active;
+    if (!t || !t.proc || e.target.tagName === "TEXTAREA") return;
+    if (e.ctrlKey && e.key.toLowerCase() === "c") { e.preventDefault(); stopProc(t); focusInput(); return; }
+    const dir = { ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right" }[e.key];
+    if (dir && t.keys) { e.preventDefault(); teleKey(t, dir); }
+  });
+
   function resetAll() {
+    tabs.forEach((t) => { t.screen.remove(); t.tabBtn.remove(); });
+    tabs = []; active = null;
     sh.reset(); step = 0; finished = false; doneBox.hidden = true; histPos = -1;
-    [...screen.querySelectorAll(".line")].forEach((n) => n.remove());
+    const first = makeTab(false); switchTo(first);
     if (spec.intro) addLine({ text: spec.intro, cls: "hint" });
-    paintTasks(); paintPrompt(); input.value = ""; input.focus({ preventScroll: true });
+    paintTasks(); paintPrompt(); paintSim(); focusInput();
   }
 
   function openNano({ path, name, content, root: asRoot }) {
-    input.disabled = true;
+    const t = active;
+    t.input.disabled = true;
     const ta = el("textarea", { spellcheck: "false", "aria-label": `Editing ${name}` });
     ta.value = content;
     const bar = el("div", { class: "nano-bar", text: `GNU nano 7.2     ${name}` });
@@ -1050,7 +1259,7 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
       sh.fs.set(path, { type: "f", mode: sh.isFile(path) ? sh.node(path).mode : "rw-r--r--", content: ta.value.endsWith("\n") || !ta.value ? ta.value : ta.value + "\n" });
       saved = ta.value; status.textContent = `[ Wrote ${ta.value.split("\n").filter((x, i, a) => i < a.length - 1 || x).length} lines ]`;
     };
-    const close = () => { box.remove(); input.disabled = false; addLine({ text: `(closed nano: ${name})`, cls: "hint" }); afterCommand(`nano ${name}`); input.focus(); };
+    const close = () => { box.remove(); t.input.disabled = false; addLine({ text: `(closed nano: ${name})`, cls: "hint" }, t); afterCommand(`nano ${name}`); t.input.focus(); };
     const exit = () => {
       if (ta.value === saved) return close();
       asking = true; status.textContent = "Save changes? Press Y for yes or N for no.";
@@ -1066,22 +1275,13 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
       el("button", { type: "button", text: "^O Save", onclick: () => { save(); ta.focus(); } }),
       el("button", { type: "button", text: "^X Exit", onclick: () => { exit(); ta.focus(); } }), status);
     const box = el("div", { class: "nano" }, bar, ta, keys);
-    screenWrap.append(box);
+    screens.append(box);
     ta.focus();
   }
 
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") { e.preventDefault(); const v = input.value; input.value = ""; histPos = -1; run(v); }
-    else if (e.key === "ArrowUp") { e.preventDefault(); histUp(); }
-    else if (e.key === "ArrowDown") { e.preventDefault(); if (histPos >= 0) { histPos++; input.value = histPos < sh.history.length ? sh.history[histPos] : ""; if (histPos >= sh.history.length) histPos = -1; } }
-    else if (e.key === "Tab") { e.preventDefault(); doTab(); }
-    else if (e.ctrlKey && e.key.toLowerCase() === "c") { e.preventDefault(); echoCommand(input.value + "^C"); input.value = ""; scroll(); }
-    else if (e.ctrlKey && e.key.toLowerCase() === "l") { e.preventDefault(); [...screen.querySelectorAll(".line")].forEach((n) => n.remove()); }
-  });
-  if (spec.allowPaste) input.addEventListener("paste", (e) => e.stopPropagation());   // page-wide paste blocking skips this terminal
-  screen.addEventListener("click", () => { if (!window.getSelection().toString()) input.focus({ preventScroll: true }); });
-  screen.append(inputRow);
+  const first = makeTab(false);
+  switchTo(first);
   if (spec.intro) addLine({ text: spec.intro, cls: "hint" });
-  paintTasks(); paintPrompt();
+  paintTasks(); paintPrompt(); paintSim();
   return { shell: sh, isDone: () => finished };
 }

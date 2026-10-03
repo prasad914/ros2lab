@@ -927,3 +927,31 @@ body.shielded main, body.shielded .watermark { filter: blur(18px) grayscale(1); 
 .shield-box strong { font-family: var(--font-head); font-size: 1.2rem; display: block; margin-bottom: 6px; }
 .shield-box p { margin: 0; }
 @media print { main { display: none !important; } }
+
+/* ---------- v6: terminal tabs, running nodes, TurtleSim window, teleop keys ---------- */
+.term-tabrow { display: flex; align-items: flex-end; gap: 6px; padding: 8px 10px 0; background: #0E1830; border-bottom: 2px solid #2B3A66; flex-wrap: wrap; }
+.term-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.term-tab { display: inline-flex; align-items: center; gap: 8px; font: inherit; font-family: var(--font-mono); font-size: .85rem; color: #AFC0EA; background: #1A2750; border: 1.5px solid #2B3A66; border-bottom: none; border-radius: 8px 8px 0 0; padding: 6px 10px; cursor: pointer; }
+.term-tab.on { background: var(--term-bg); color: var(--white); border-color: #4A5C93; }
+.term-tab .tt-x { opacity: .6; padding: 0 2px; border-radius: 4px; }
+.term-tab .tt-x:hover { opacity: 1; background: rgba(255,255,255,.15); }
+.term-tab-add { font: inherit; font-family: var(--font-head); font-size: .82rem; font-weight: 600; color: var(--ink); background: var(--packet); border: 1.5px solid var(--ink); border-radius: 8px; padding: 4px 10px; margin: 0 0 6px auto; cursor: pointer; }
+.term-tab-add[disabled] { opacity: .45; cursor: not-allowed; }
+.term-proc { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 6px; padding: 8px 10px; border: 1.5px dashed #4A5C93; border-radius: 8px; color: var(--term-fg); font-family: var(--font-body); font-size: .92rem; }
+.term-proc .muted { color: #9FB0DE; }
+.term-proc .tp-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--term-green); box-shadow: 0 0 0 0 rgba(126,226,184,.7); animation: tpPulse 1.6s infinite; }
+@keyframes tpPulse { 70% { box-shadow: 0 0 0 8px rgba(126,226,184,0); } 100% { box-shadow: 0 0 0 0 rgba(126,226,184,0); } }
+.term-proc .tp-text { flex: 1 1 260px; }
+.tele-keys { width: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.tk-grid { display: grid; grid-template-columns: repeat(3, 44px); grid-template-rows: repeat(2, 40px); gap: 4px; }
+.tk-key { font-size: 1.2rem; font-weight: 700; color: var(--ink); background: var(--white); border: 2px solid var(--ink); border-radius: 8px; cursor: pointer; box-shadow: 0 2px 0 var(--ink); }
+.tk-key:active { transform: translateY(2px); box-shadow: none; }
+.tsim-panel { display: flex; flex-wrap: wrap; gap: 12px; padding: 12px; background: #0E1830; border-bottom: 2px solid #2B3A66; }
+.tsim-win { margin: 0; background: #DDE3EE; border: 2px solid #111; border-radius: 8px; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,.35); max-width: 100%; }
+.tsim-win figcaption { display: flex; align-items: center; gap: 6px; padding: 4px 8px; background: #2F2F35; color: #EEE; font-size: .8rem; font-family: var(--font-body); }
+.tsim-win figcaption i { width: 10px; height: 10px; border-radius: 50%; background: #E9524A; }
+.tsim-win figcaption i:nth-child(2) { background: #F5B33B; } .tsim-win figcaption i:nth-child(3) { background: #58C243; }
+.tsim-win figcaption span { margin-left: 6px; }
+.tsim-win canvas { display: block; max-width: 100%; height: auto !important; }
+@media (max-width: 560px) { .tsim-win canvas { width: 100% !important; } }
+.term-screen .warn-line { color: var(--term-yellow); }

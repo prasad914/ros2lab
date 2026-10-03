@@ -40,6 +40,9 @@ const PKG_EXES = {
   demo_nodes_cpp: ["add_two_ints_client", "add_two_ints_server", "listener", "talker"],
 };
 
+const PEN = () => ({ r: 179, g: 184, b: 255, width: 3, off: 0 });
+const newTurtle = (name, x, y, theta) => ({ name, x, y, theta, pen: PEN(), trail: [] });
+
 export class RosGraph {
   constructor(sh, running = []) {
     this.sh = sh;
@@ -57,7 +60,7 @@ export class RosGraph {
   add(kind, name, ns = "", params = {}, remaps = []) {
     const n = { kind, name, ns: ns && ns !== "/" ? "/" + ns.replace(/^\/+|\/+$/g, "") : "", params: {}, remaps };
     n.full = `${n.ns}/${name}`;
-    if (kind === "turtlesim") { n.turtles = [{ name: "turtle1", x: 5.544445, y: 5.544445, theta: 0 }]; n.params = { background_b: 255, background_g: 86, background_r: 69 }; }
+    if (kind === "turtlesim") { n.turtles = [newTurtle("turtle1", 5.544445, 5.544445, 0)]; n.params = { background_b: 255, background_g: 86, background_r: 69 }; }
     if (kind === "teleop") n.params = { scale_angular: 2.0, scale_linear: 2.0 };
     if (kind === "turtlesim" || kind === "teleop") QOS.forEach((q, i) => { n.params[q] = [1000, "volatile", "keep_last", "reliable"][i]; });
     n.params.use_sim_time = false;
@@ -222,8 +225,26 @@ export class RosGraph {
     else if (!T) L.push(this.hint(`(${topic} is a brand-new topic that nobody listens to. Was that a typo?)`));
     return L;
   }
+  // drawing: each segment remembers the pen it was drawn with
+  draw(t, pts) {
+    if (!t.pen || t.pen.off) return;
+    t.trail = t.trail || [];
+    t.trail.push({ pts, r: t.pen.r, g: t.pen.g, b: t.pen.b, width: t.pen.width || 3 });
+    if (t.trail.length > 400) t.trail.shift();
+    this.version = (this.version || 0) + 1;
+  }
   move(t, v, w, secs) {
-    for (let s = 0; s < secs * 20; s++) { t.theta += w / 20; t.x += Math.cos(t.theta) * v / 20; t.y += Math.sin(t.theta) * v / 20; }
+    const pts = [[t.x, t.y]];
+    let hit = null;
+    for (let s = 0; s < secs * 20; s++) {
+      t.theta += w / 20; t.x += Math.cos(t.theta) * v / 20; t.y += Math.sin(t.theta) * v / 20;
+      if (!hit && (t.x < 0 || t.y < 0 || t.x > 11.088889 || t.y > 11.088889)) hit = `[WARN] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=${t.x.toFixed(6)}, y=${t.y.toFixed(6)}])`;
+      t.x = Math.min(11.088889, Math.max(0, t.x)); t.y = Math.min(11.088889, Math.max(0, t.y));
+      pts.push([t.x, t.y]);
+    }
+    if (hit) { const owner = this.nodes.find((n) => (n.turtles || []).includes(t)); (this.notices = this.notices || []).push({ node: owner ? owner.full : "", text: owner ? hit.replace("[turtlesim]", `[${owner.name}]`) : hit }); }
+    if (v) this.draw(t, pts);
+    this.version = (this.version || 0) + 1;
     t.x = +Math.min(11.088889, Math.max(0, t.x)).toFixed(6); t.y = +Math.min(11.088889, Math.max(0, t.y)).toFixed(6);
     t.theta = +Math.atan2(Math.sin(t.theta), Math.cos(t.theta)).toFixed(6);
   }
@@ -254,15 +275,18 @@ export class RosGraph {
       let nm = this.str(yaml, "name");
       if (nm && owner.turtles.some((t) => t.name === nm)) return [this.out(req(`x=${fnum(x)}, y=${fnum(y)}, theta=${fnum(th)}, name='${nm}'`)), this.err(`[ERROR] [${owner.name}]: A turtle named [${nm}] already exists`)];
       if (!nm) { let k = 2; while (owner.turtles.some((t) => t.name === `turtle${k}`)) k++; nm = `turtle${k}`; }
-      owner.turtles.push({ name: nm, x, y, theta: th });
+      owner.turtles.push(newTurtle(nm, x, y, th));
       return [this.out(req(`x=${fnum(x)}, y=${fnum(y)}, theta=${fnum(th)}, name='${this.str(yaml, "name")}'`)), ...res(`name='${nm}'`), this.hint(`(A new turtle, ${nm}, appeared. It brings its own topics: see ros2 topic list)`)];
     }
     if (base === "kill") { const nm = this.str(yaml, "name"); const i = owner.turtles.findIndex((t) => t.name === nm); if (i < 0) return [this.out(req(`name='${nm}'`)), this.err(`[ERROR] [${owner.name}]: Tried to kill turtle [${nm}], which does not exist`)]; owner.turtles.splice(i, 1); return [this.out(req(`name='${nm}'`)), ...res("")]; }
-    if (base === "reset") { owner.turtles = [{ name: "turtle1", x: 5.544445, y: 5.544445, theta: 0 }]; return [this.out(req("")), ...res(""), this.hint("(Every turtle was removed and turtle1 was put back in the middle.)")]; }
-    if (base === "clear") return [this.out(req("")), ...res(""), this.hint("(The turtle's drawn lines were wiped away.)")];
+    if (base === "reset") { owner.turtles = [newTurtle("turtle1", 5.544445, 5.544445, 0)]; return [this.out(req("")), ...res(""), this.hint("(Every turtle was removed and turtle1 was put back in the middle.)")]; }
+    if (base === "clear") { owner.turtles.forEach((t) => { t.trail = []; }); this.version = (this.version || 0) + 1; return [this.out(req("")), ...res(""), this.hint("(The turtle's drawn lines were wiped away.)")]; }
     if (base === "add_two_ints") { const A = Math.trunc(this.num(yaml, "a")), B = Math.trunc(this.num(yaml, "b")); return [this.out(req(`a=${A}, b=${B}`)), ...res(`sum=${A + B}`)]; }
-    if (base === "teleport_absolute") { const hit = this.turtle(name.replace(/\/teleport_absolute$/, "")); const x = this.num(yaml, "x"), y = this.num(yaml, "y"), th = this.num(yaml, "theta"); Object.assign(hit.t, { x, y, theta: th }); return [this.out(req(`x=${fnum(x)}, y=${fnum(y)}, theta=${fnum(th)}`)), ...res("")]; }
-    if (base === "set_pen") { const f = ["r", "g", "b", "width", "off"].map((k) => `${k}=${Math.trunc(this.num(yaml, k))}`).join(", "); return [this.out(req(f)), ...res("")]; }
+    if (base === "teleport_absolute") { const hit = this.turtle(name.replace(/\/teleport_absolute$/, "")); const x = this.num(yaml, "x"), y = this.num(yaml, "y"), th = this.num(yaml, "theta"); this.draw(hit.t, [[hit.t.x, hit.t.y], [x, y]]); Object.assign(hit.t, { x, y, theta: th }); return [this.out(req(`x=${fnum(x)}, y=${fnum(y)}, theta=${fnum(th)}`)), ...res("")]; }
+    if (base === "set_pen") {
+      const hit = this.turtle(name.replace(/\/set_pen$/, ""));
+      if (hit) hit.t.pen = { r: Math.trunc(this.num(yaml, "r")), g: Math.trunc(this.num(yaml, "g")), b: Math.trunc(this.num(yaml, "b")), width: Math.trunc(this.num(yaml, "width", 3)) || 1, off: Math.trunc(this.num(yaml, "off")) };
+      const f = ["r", "g", "b", "width", "off"].map((k) => `${k}=${Math.trunc(this.num(yaml, k))}`).join(", "); return [this.out(req(f)), ...res("")]; }
     if (base.endsWith("parameters") || base.endsWith("parameter_types")) return [this.hint("(Parameter services are easier to use through ros2 param list / get / set.)")];
     return [this.out(req("")), ...res("")];
   }
@@ -432,6 +456,7 @@ export class RosGraph {
     }
     if (this.has(`${ns ? "/" + ns.replace(/^\//, "") : ""}/${name}`)) return [this.out(`[WARN] [rcl.logging_rosout]: Publisher already registered for node name: '${name}'. If this is due to multiple nodes with the same name then all logs for the logger named '${name}' will go out over the existing publisher. As soon as any node with that name is destructed it will unregister the publisher, preventing any further logs for that name from being published on the rosout topic.`), this.hint("Two nodes with the same name confuse ROS 2. Give the second one a new name with --ros-args --remap __node:=another_name")];
     const n = this.add(kind, name, ns, params);
+    this.lastStarted = [n.full];
     const L = {
       turtlesim: [`[INFO] [${name}]: Starting turtlesim with node name ${n.full}`, `[INFO] [${name}]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]`],
       teleop: ["Reading from keyboard", "---------------------------", "Use arrow keys to move the turtle.", "Use G|B|V|C|D|E|R|T keys to rotate to absolute orientations. 'F' to cancel a rotation.", "'Q' to quit."],
@@ -444,11 +469,31 @@ export class RosGraph {
   launch(pkg, file) {
     if (`${pkg} ${file}` !== "turtlesim multisim.launch.py") return null;
     this.add("turtlesim", "sim", "turtlesim1"); this.add("turtlesim", "sim", "turtlesim2");
+    this.lastStarted = ["/turtlesim1/sim", "/turtlesim2/sim"];
     return [this.out("[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-02-10-15-04-120000-ros2lab-4321"), this.out("[INFO] [launch]: Default logging verbosity is set to INFO"),
       this.out("[INFO] [turtlesim_node-1]: process started with pid [4330]"), this.out("[INFO] [turtlesim_node-2]: process started with pid [4332]"),
       this.hint("(Two turtlesim windows opened, in the namespaces /turtlesim1 and /turtlesim2. They keep running in the background. Try: ros2 node list)")];
   }
 }
+
+RosGraph.prototype.stop = function (full) {
+  this.nodes = this.nodes.filter((n) => n.full !== full);
+  this.version = (this.version || 0) + 1;
+};
+// One key press in turtle_teleop_key: publish one Twist on <ns>/turtle1/cmd_vel
+RosGraph.prototype.teleopKey = function (teleFull, key) {
+  const tele = this.node(teleFull);
+  if (!tele) return null;
+  const lin = Number(tele.params.scale_linear) || 2, ang = Number(tele.params.scale_angular) || 2;
+  const v = { up: [lin, 0], down: [-lin, 0], left: [0, ang], right: [0, -ang] }[key];
+  if (!v) return null;
+  const topic = `${tele.ns}/turtle1/cmd_vel`;
+  this.lastTwist = { lx: v[0], ly: 0, az: v[1], topic };
+  const hit = this.turtle(`${tele.ns}/turtle1`);
+  if (hit) this.move(hit.t, v[0], v[1], 1);
+  return hit;
+};
+RosGraph.prototype.turtlesims = function () { return this.nodes.filter((n) => n.kind === "turtlesim"); };
 
 const baseName = (p) => p.split("/").filter(Boolean).pop() || "/";
 export const pkgExecutables = (pkg) => PKG_EXES[pkg] || null;
