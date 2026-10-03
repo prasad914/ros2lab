@@ -92,6 +92,20 @@ export function renderLesson(root, lesson, { onChange } = {}) {
         mountAnim(slot, b.id).catch(() => { slot.textContent = "This animation could not load. Reload the page to try again."; });
         break;
       }
+      case "langs": {
+        // { t: "langs", title, tabs: [{ label: "Python", lang: "python", code, note }] }: one idea, several implementations
+        const tabs = b.tabs || [];
+        const body = el("div", { class: "langs-body" });
+        const btns = tabs.map((tb, k) => el("button", { type: "button", role: "tab", class: "langs-tab", "aria-selected": k === 0 ? "true" : "false", text: tb.label }));
+        const show = (k) => {
+          btns.forEach((x, j) => x.setAttribute("aria-selected", j === k ? "true" : "false"));
+          body.replaceChildren(codeBlock(tabs[k].code, tabs[k].lang), tabs[k].note ? el("p", { class: "langs-note" }, rich(tabs[k].note)) : null);
+        };
+        btns.forEach((x, k) => x.addEventListener("click", () => show(k)));
+        root.append(el("section", { class: "langs" }, el("div", { class: "langs-head", role: "tablist" }, el("b", { text: b.title || "Code" }), ...btns), body));
+        if (tabs.length) show(0);
+        break;
+      }
       case "trace": root.append(trace(b)); break;
       case "think": root.append(think(b)); break;
       case "cards": root.append(cards(b)); break;

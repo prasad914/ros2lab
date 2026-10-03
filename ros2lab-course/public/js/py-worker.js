@@ -856,6 +856,535 @@ _mri.srv = _mod("my_robot_interfaces.srv", SetSpeed=SetSpeed)
 _mri.action = _mod("my_robot_interfaces.action", Countdown=Countdown)
 _ex.action = _mod("example_interfaces.action", Fibonacci=Fibonacci)
 _mod("practice", ros2_param_set=ros2_param_set, ros2_param_get=ros2_param_get, use_params_file=use_params_file)
+# ===================== practice-simulator extension (Weeks 6 and 7) =====================
+# turtlesim world with poses and services, more message types, clock, tf2, executors, drawings
+import math as _math, json as _json
+
+def _plain_msg(full, fields):
+    """A simple message class. fields: list of (name, default_factory)."""
+    pkg, kind_dir, short = full.split("/")
+    names = [f[0] for f in fields]
+    def __init__(self, **kw):
+        for n, d in fields:
+            setattr(self, n, d())
+        for k, v in kw.items():
+            if k not in names:
+                raise AttributeError(f"'{short}' object has no attribute '{k}'")
+            setattr(self, k, v)
+    def __repr__(self):
+        return f"{pkg}.{kind_dir}.{short}(" + ", ".join(f"{n}={getattr(self, n)!r}" for n in names) + ")"
+    return type(short, (), {"__init__": __init__, "__repr__": __repr__, "_fields": names})
+
+Time_ = _plain_msg("builtin_interfaces/msg/Time", [("sec", int), ("nanosec", int)])
+Duration_ = _plain_msg("builtin_interfaces/msg/Duration", [("sec", int), ("nanosec", int)])
+Header = _plain_msg("std_msgs/msg/Header", [("stamp", Time_), ("frame_id", str)])
+Point = _plain_msg("geometry_msgs/msg/Point", [("x", float), ("y", float), ("z", float)])
+Quaternion = _plain_msg("geometry_msgs/msg/Quaternion", [("x", float), ("y", float), ("z", float), ("w", lambda: 1.0)])
+Pose = _plain_msg("geometry_msgs/msg/Pose", [("position", Point), ("orientation", Quaternion)])
+Pose2D = _plain_msg("geometry_msgs/msg/Pose2D", [("x", float), ("y", float), ("theta", float)])
+PoseStamped = _plain_msg("geometry_msgs/msg/PoseStamped", [("header", Header), ("pose", Pose)])
+PointStamped = _plain_msg("geometry_msgs/msg/PointStamped", [("header", Header), ("point", Point)])
+Transform = _plain_msg("geometry_msgs/msg/Transform", [("translation", Vector3), ("rotation", Quaternion)])
+TransformStamped = _plain_msg("geometry_msgs/msg/TransformStamped", [("header", Header), ("child_frame_id", str), ("transform", Transform)])
+TwistStamped = _plain_msg("geometry_msgs/msg/TwistStamped", [("header", Header), ("twist", Twist)])
+PoseWithCovariance = _plain_msg("geometry_msgs/msg/PoseWithCovariance", [("pose", Pose), ("covariance", lambda: [0.0] * 36)])
+TwistWithCovariance = _plain_msg("geometry_msgs/msg/TwistWithCovariance", [("twist", Twist), ("covariance", lambda: [0.0] * 36)])
+Odometry = _plain_msg("nav_msgs/msg/Odometry", [("header", Header), ("child_frame_id", str), ("pose", PoseWithCovariance), ("twist", TwistWithCovariance)])
+JointState = _plain_msg("sensor_msgs/msg/JointState", [("header", Header), ("name", list), ("position", list), ("velocity", list), ("effort", list)])
+JointTrajectoryPoint = _plain_msg("trajectory_msgs/msg/JointTrajectoryPoint", [("positions", list), ("velocities", list), ("time_from_start", Duration_)])
+JointTrajectory = _plain_msg("trajectory_msgs/msg/JointTrajectory", [("header", Header), ("joint_names", list), ("points", list)])
+TPose = _plain_msg("turtlesim/msg/Pose", [("x", float), ("y", float), ("theta", float), ("linear_velocity", float), ("angular_velocity", float)])
+Empty = _srv("Empty", {}, {})
+Spawn = _srv("Spawn", {"x": 0.0, "y": 0.0, "theta": 0.0, "name": ""}, {"name": ""})
+Kill = _srv("Kill", {"name": ""}, {})
+TeleportAbsolute = _srv("TeleportAbsolute", {"x": 0.0, "y": 0.0, "theta": 0.0}, {})
+TeleportRelative = _srv("TeleportRelative", {"linear": 0.0, "angular": 0.0}, {})
+SetPen = _srv("SetPen", {"r": 0, "g": 0, "b": 0, "width": 3, "off": 0}, {})
+GoTo = _typed_srv("my_robot_interfaces/srv/GoTo", [("x", "float", 0.0), ("y", "float", 0.0)], [("success", "bool", False), ("message", "str", "")])
+DriveDistance = _typed_action("my_robot_interfaces/action/DriveDistance", [("distance", "float", 0.0), ("speed", "float", 0.5)],
+                              [("distance_driven", "float", 0.0)], [("remaining", "float", 0.0)])
+RobotStatus = _typed("my_robot_interfaces/msg/RobotStatus", [("name", "str", ""), ("x", "float", 0.0), ("y", "float", 0.0), ("battery", "float", 100.0), ("moving", "bool", False)])
+MoveArm = _typed_srv("my_robot_interfaces/srv/MoveArm", [("x", "float", 0.0), ("y", "float", 0.0)],
+                     [("success", "bool", False), ("shoulder", "float", 0.0), ("elbow", "float", 0.0), ("message", "str", "")])
+
+# ---------------- the pretend turtlesim world ----------------
+class _T:
+    def __init__(self, name, x=5.544445, y=5.544445, theta=0.0):
+        self.name, self.x, self.y, self.theta = name, float(x), float(y), float(theta)
+        self.cmd, self.since = None, 0.0
+        self.pen = (179, 184, 255); self.pen_on = True
+        self.path = [[[round(self.x, 3), round(self.y, 3)]]]
+        self.walls = 0
+    def advance(self, until):
+        if self.cmd is not None and until > self.since:
+            t0 = getattr(self, "cmd_t0", self.since)       # a command lasts 1 s, like the real turtlesim
+            t, end = self.since, min(until, t0 + 1.0)
+            while t < end - 1e-9:
+                dt = min(0.01, end - t)
+                self.theta += self.cmd.angular.z * dt
+                nx = self.x + _math.cos(self.theta) * self.cmd.linear.x * dt
+                ny = self.y + _math.sin(self.theta) * self.cmd.linear.x * dt
+                cx, cy = min(11.088889, max(0.0, nx)), min(11.088889, max(0.0, ny))
+                if (cx, cy) != (nx, ny) and self.walls < 3:
+                    self.walls += 1
+                    print(f"[WARN] [turtlesim]: Oh no! I hit the wall! (Clamping from [x={nx:.6f}, y={ny:.6f}])")
+                self.x, self.y = cx, cy
+                t += dt
+            self.theta = _math.atan2(_math.sin(self.theta), _math.cos(self.theta))
+            if self.pen_on:
+                self.path[-1].append([round(self.x, 3), round(self.y, 3)])
+            if until >= t0 + 1.0:
+                self.cmd = None
+        self.since = max(self.since, until)
+    def moving(self):
+        return self.cmd is not None
+
+class _Tick:
+    """internal timer: turtlesim publishes every turtle's pose every 0.1 s"""
+    def __init__(self):
+        self.period, self.next, self.cancelled = 0.1, _world.time + 0.1, False
+    def callback(self):
+        for t in list(_world.tw.values()):
+            t.advance(_world.time)
+            m = TPose(x=t.x, y=t.y, theta=t.theta,
+                      linear_velocity=(t.cmd.linear.x if t.cmd else 0.0), angular_velocity=(t.cmd.angular.z if t.cmd else 0.0))
+            for cb in list(_world.subs.get(f"/{t.name}/pose", [])):
+                cb(m)
+
+def _tw_active():
+    return _world.tw is not None
+
+def _tw_activate():
+    if _world.tw is not None:
+        return
+    _world.tw = {"turtle1": _T("turtle1")}
+    _world.timers.append(_Tick())
+    _tw_services("turtle1")
+    for nm, typ, fn in [("/spawn", Spawn, _srv_spawn), ("/kill", Kill, _srv_kill), ("/reset", Empty, _srv_reset), ("/clear", Empty, _srv_clear)]:
+        _world.services[nm] = (typ, fn)
+
+def _tw_services(name):
+    def tele_abs(req, res, name=name):
+        t = _world.tw.get(name)
+        t.advance(_world.time); t.x, t.y, t.theta = float(req.x), float(req.y), float(req.theta)
+        if t.pen_on: t.path[-1].append([round(t.x, 3), round(t.y, 3)])
+        return res
+    def tele_rel(req, res, name=name):
+        t = _world.tw.get(name)
+        t.advance(_world.time); t.theta += float(req.angular)
+        t.x += _math.cos(t.theta) * float(req.linear); t.y += _math.sin(t.theta) * float(req.linear)
+        if t.pen_on: t.path[-1].append([round(t.x, 3), round(t.y, 3)])
+        return res
+    def set_pen(req, res, name=name):
+        t = _world.tw.get(name)
+        t.pen, t.pen_on = (int(req.r), int(req.g), int(req.b)), not bool(req.off)
+        t.path.append([[round(t.x, 3), round(t.y, 3)]])
+        return res
+    _world.services[f"/{name}/teleport_absolute"] = (TeleportAbsolute, tele_abs)
+    _world.services[f"/{name}/teleport_relative"] = (TeleportRelative, tele_rel)
+    _world.services[f"/{name}/set_pen"] = (SetPen, set_pen)
+
+def _srv_spawn(req, res):
+    nm = req.name or f"turtle{len(_world.tw) + 1}"
+    if nm in _world.tw:
+        print(f"[ERROR] [turtlesim]: A turtle named [{nm}] already exists")
+        return res
+    _world.tw[nm] = _T(nm, req.x, req.y, req.theta)
+    _tw_services(nm)
+    print(f"[INFO] [turtlesim]: Spawning turtle [{nm}] at x=[{float(req.x):.6f}], y=[{float(req.y):.6f}], theta=[{float(req.theta):.6f}]")
+    res.name = nm
+    return res
+def _srv_kill(req, res):
+    _world.tw.pop(req.name, None)
+    return res
+def _srv_reset(req, res):
+    _world.tw.clear(); _world.tw["turtle1"] = _T("turtle1")
+    return res
+def _srv_clear(req, res):
+    for t in _world.tw.values(): t.path = [[[round(t.x, 3), round(t.y, 3)]]]
+    return res
+
+_TS_SERVICES = ("/spawn", "/kill", "/reset", "/clear")
+def _is_turtle_topic(topic):
+    t = _norm(topic)
+    return t.endswith("/cmd_vel") and t.count("/") == 2 or t.endswith("/pose") and t.count("/") == 2
+
+_prev_reset6 = _World.reset
+def _world_reset6(self):
+    _prev_reset6(self)
+    self.tw = None
+    self.tf = {}
+    self.viz = {}
+    self.log_once = set()
+    self.log_last = {}
+_World.reset = _world_reset6
+_world.reset()
+
+_prev_cp6 = Node.create_publisher
+def _cp6(self, msg_type, topic, qos_profile=10, **kw):
+    if msg_type is Twist and _norm(topic).endswith("/cmd_vel") and _norm(topic).count("/") == 2:
+        _tw_activate()
+    return _prev_cp6(self, msg_type, topic, qos_profile)
+Node.create_publisher = _cp6
+
+_prev_cs6 = Node.create_subscription
+def _cs6(self, msg_type, topic, callback, qos_profile=10, **kw):
+    if msg_type is TPose and _norm(topic).endswith("/pose"):
+        _tw_activate()
+    return _prev_cs6(self, msg_type, topic, callback, qos_profile)
+Node.create_subscription = _cs6
+
+_prev_ct6 = Node.create_timer
+def _ct6(self, timer_period_sec, callback, **kw):
+    return _prev_ct6(self, timer_period_sec, callback)
+Node.create_timer = _ct6
+
+_prev_cc6 = Node.create_client
+def _cc6(self, srv_type, srv_name, **kw):
+    n = _norm(srv_name)
+    if n in _TS_SERVICES or n.endswith(("/teleport_absolute", "/teleport_relative", "/set_pen")):
+        _tw_activate()
+    return _prev_cc6(self, srv_type, srv_name)
+Node.create_client = _cc6
+
+_prev_csrv6 = Node.create_service
+def _csrv6(self, srv_type, srv_name, callback, **kw):
+    return _prev_csrv6(self, srv_type, srv_name, callback)
+Node.create_service = _csrv6
+
+_prev_pub6 = Publisher.publish
+def _pub6(self, msg):
+    t = _norm(self.topic)
+    if isinstance(msg, Twist) and t.endswith("/cmd_vel") and t.count("/") == 2 and _world.tw is not None:
+        tur = _world.tw.get(t.split("/")[1])
+        if tur is not None:
+            tur.advance(_world.time); tur.cmd = Twist(linear=Vector3(msg.linear.x, msg.linear.y, msg.linear.z), angular=Vector3(msg.angular.x, msg.angular.y, msg.angular.z)); tur.since = _world.time; tur.cmd_t0 = _world.time
+        if not isinstance(msg, self.msg_type):
+            raise TypeError(f"This publisher sends {self.msg_type.__name__} messages, but you gave it {type(msg).__name__}.")
+        for cb in list(_world.subs.get(t, [])):
+            cb(msg)
+        return
+    return _prev_pub6(self, msg)
+Publisher.publish = _pub6
+
+# ---------------- clock and time ----------------
+class _TimeObj:
+    def __init__(self, seconds=0.0, nanoseconds=None):
+        self.nanoseconds = int(nanoseconds) if nanoseconds is not None else int(round(float(seconds) * 1e9))
+    def to_msg(self):
+        return Time_(sec=self.nanoseconds // 1_000_000_000, nanosec=self.nanoseconds % 1_000_000_000)
+    def seconds_nanoseconds(self):
+        return (self.nanoseconds // 1_000_000_000, self.nanoseconds % 1_000_000_000)
+    def __sub__(self, other):
+        return _DurationObj(nanoseconds=self.nanoseconds - other.nanoseconds)
+    def __repr__(self):
+        return f"Time(nanoseconds={self.nanoseconds})"
+class _DurationObj:
+    def __init__(self, seconds=0.0, nanoseconds=None):
+        self.nanoseconds = int(nanoseconds) if nanoseconds is not None else int(round(float(seconds) * 1e9))
+    def __repr__(self):
+        return f"Duration(nanoseconds={self.nanoseconds})"
+class _Clock:
+    def now(self):
+        return _TimeObj(nanoseconds=int(round(_world.time * 1e9)))
+Node.get_clock = lambda self: _Clock()
+_rclpy.time = _mod("rclpy.time", Time=_TimeObj)
+_rclpy.duration = _mod("rclpy.duration", Duration=_DurationObj)
+
+# ---------------- logging levels, once and throttle ----------------
+class LoggingSeverity(_enum.IntEnum):
+    UNSET, DEBUG, INFO, WARN, ERROR, FATAL = 0, 10, 20, 30, 40, 50
+def _log(self, level, label, msg, once=False, throttle_duration_sec=None, skip_first=False):
+    key = (self._name, label, str(msg)) if once else (self._name, label)
+    if once:
+        if key in _world.log_once: return
+        _world.log_once.add(key)
+    if throttle_duration_sec is not None:
+        last = _world.log_last.get(key)
+        if last is not None and _world.time - last < float(throttle_duration_sec) - 1e-9: return
+        _world.log_last[key] = _world.time
+    if level < getattr(self, "_level", 20): return
+    print(f"[{label}] [{self._name}]: {msg}")
+_Logger.debug = lambda self, msg, **kw: _log(self, 10, "DEBUG", msg, **kw)
+_Logger.info = lambda self, msg, **kw: _log(self, 20, "INFO", msg, **kw)
+_Logger.warn = lambda self, msg, **kw: _log(self, 30, "WARN", msg, **kw)
+_Logger.warning = _Logger.warn
+_Logger.error = lambda self, msg, **kw: _log(self, 40, "ERROR", msg, **kw)
+_Logger.fatal = lambda self, msg, **kw: _log(self, 50, "FATAL", msg, **kw)
+def _set_level(self, level):
+    self._level = int(level)
+_Logger.set_level = _set_level
+_Logger.get_name = lambda self: self._name
+_rclpy.logging = _mod("rclpy.logging", LoggingSeverity=LoggingSeverity, get_logger=lambda name: _Logger(name))
+_prev_node_init6 = Node.__init__
+def _node_init6(self, node_name, namespace=None, **kw):
+    _prev_node_init6(self, node_name)
+    self._ns = "/" + namespace.strip("/") if namespace else ""
+    lvl = _world.overrides.get("__log_level")
+    if lvl: self._logger.set_level({"debug": 10, "info": 20, "warn": 30, "error": 40, "fatal": 50}[str(lvl).lower()])
+Node.__init__ = _node_init6
+Node.get_namespace = lambda self: self._ns or "/"
+Node.get_fully_qualified_name = lambda self: f"{self._ns}/{self._node_name}"
+
+# ---------------- executors and callback groups ----------------
+class _Executor:
+    def __init__(self, num_threads=None):
+        self.nodes = []
+    def add_node(self, node):
+        self.nodes.append(node)
+    def spin(self):
+        _rclpy.spin(self.nodes[0] if self.nodes else None)
+    def spin_once(self, timeout_sec=None):
+        _rclpy.spin_once(None)
+    def shutdown(self):
+        pass
+class SingleThreadedExecutor(_Executor): pass
+class MultiThreadedExecutor(_Executor): pass
+class MutuallyExclusiveCallbackGroup: pass
+class ReentrantCallbackGroup: pass
+_rclpy.executors = _mod("rclpy.executors", SingleThreadedExecutor=SingleThreadedExecutor, MultiThreadedExecutor=MultiThreadedExecutor, ExternalShutdownException=type("ExternalShutdownException", (Exception,), {}))
+_rclpy.callback_groups = _mod("rclpy.callback_groups", MutuallyExclusiveCallbackGroup=MutuallyExclusiveCallbackGroup, ReentrantCallbackGroup=ReentrantCallbackGroup)
+
+# ---------------- tf2 (broadcaster, static broadcaster, buffer + listener) ----------------
+def _qmul(a, b):
+    ax, ay, az, aw = a; bx, by, bz, bw = b
+    return (aw*bx + ax*bw + ay*bz - az*by, aw*by - ax*bz + ay*bw + az*bx, aw*bz + ax*by - ay*bx + az*bw, aw*bw - ax*bx - ay*by - az*bz)
+def _qrot(q, v):
+    x, y, z, w = _qmul(_qmul(q, (v[0], v[1], v[2], 0.0)), (-q[0], -q[1], -q[2], q[3]))
+    return (x, y, z)
+def _tinv(T):
+    p, q = T; qi = (-q[0], -q[1], -q[2], q[3]); r = _qrot(qi, p)
+    return ((-r[0], -r[1], -r[2]), qi)
+def _tmul(A, B):
+    (pa, qa), (pb, qb) = A, B; r = _qrot(qa, pb)
+    return ((pa[0] + r[0], pa[1] + r[1], pa[2] + r[2]), _qmul(qa, qb))
+class TransformException(Exception): pass
+class LookupException(TransformException): pass
+def _send_tf(transforms):
+    for t in (transforms if isinstance(transforms, (list, tuple)) else [transforms]):
+        if not isinstance(t, TransformStamped):
+            raise TypeError("sendTransform() needs a geometry_msgs.msg.TransformStamped")
+        if not t.header.frame_id or not t.child_frame_id:
+            raise TransformException("A transform needs both header.frame_id (the parent) and child_frame_id.")
+        tr, ro = t.transform.translation, t.transform.rotation
+        _world.tf[t.child_frame_id] = (t.header.frame_id, ((tr.x, tr.y, tr.z), (ro.x, ro.y, ro.z, ro.w)))
+class TransformBroadcaster:
+    def __init__(self, node, qos=None): node._check()
+    def sendTransform(self, transform): _send_tf(transform)
+class StaticTransformBroadcaster(TransformBroadcaster): pass
+class Buffer:
+    def __init__(self, *a, **kw): pass
+    def _to_root(self, frame):
+        T, seen = ((0.0, 0.0, 0.0), (0.0, 0.0, 0.0, 1.0)), set()
+        while frame in _world.tf:
+            if frame in seen: raise TransformException("loop in the tf tree")
+            seen.add(frame); parent, Tp = _world.tf[frame]
+            T = _tmul(Tp, T); frame = parent
+        return frame, T
+    def can_transform(self, target, source, time=None, timeout=None):
+        try: self.lookup_transform(target, source, time); return True
+        except TransformException: return False
+    def lookup_transform(self, target_frame, source_frame, time=None, timeout=None):
+        known = set(_world.tf) | {p for p, _ in _world.tf.values()}
+        for f in (target_frame, source_frame):
+            if f not in known:
+                raise LookupException(f'"{f}" passed to lookupTransform argument {"target_frame" if f == target_frame else "source_frame"} does not exist. ')
+        r1, Tt = self._to_root(target_frame); r2, Ts = self._to_root(source_frame)
+        if r1 != r2: raise TransformException(f"Could not find a connection between '{target_frame}' and '{source_frame}' because they are not part of the same tree.")
+        p, q = _tmul(_tinv(Tt), Ts)
+        out = TransformStamped(); out.header.frame_id = target_frame; out.child_frame_id = source_frame
+        out.header.stamp = _Clock().now().to_msg()
+        out.transform.translation = Vector3(p[0], p[1], p[2]); out.transform.rotation = Quaternion(x=q[0], y=q[1], z=q[2], w=q[3])
+        return out
+class TransformListener:
+    def __init__(self, buffer, node, **kw): node._check()
+_tf2 = _mod("tf2_ros", TransformBroadcaster=TransformBroadcaster, StaticTransformBroadcaster=StaticTransformBroadcaster, Buffer=Buffer,
+            TransformListener=TransformListener, TransformException=TransformException, LookupException=LookupException)
+_mod("tf2_ros.buffer", Buffer=Buffer); _mod("tf2_ros.transform_listener", TransformListener=TransformListener)
+_mod("tf2_ros.transform_broadcaster", TransformBroadcaster=TransformBroadcaster); _mod("tf2_ros.static_transform_broadcaster", StaticTransformBroadcaster=StaticTransformBroadcaster)
+
+# ---------------- spin (timers, turtlesim ticks, message queue) ----------------
+def _spin6(node=None):
+    if _world.in_cb:
+        raise RuntimeError(_DEADLOCK.format(what="rclpy.spin()"))
+    if not _world.ok:
+        raise RuntimeError("Call rclpy.init() before rclpy.spin().")
+    _flush()
+    end = _world.time + SIM_SECONDS
+    while True:
+        active = [t for t in _world.timers if not t.cancelled]
+        user = [t for t in active if not isinstance(t, _Tick)]
+        if not active or (not user and not _world.subs and _world.tw is None):
+            break
+        t = min(active, key=lambda x: x.next)
+        if t.next > end + 1e-9:
+            break
+        _world.time = t.next
+        t.callback()
+        t.next += t.period
+        _flush()
+    _world.time = end
+    if _world.tw is not None:
+        for t in _world.tw.values():
+            t.advance(end)
+            print(f"[turtlesim] {t.name} is now at x={t.x:.2f}, y={t.y:.2f}, theta={t.theta:.2f}")
+    print(f"--- practice simulator: stopped after {SIM_SECONDS:g} seconds (real ROS 2 keeps spinning until Ctrl+C) ---")
+_rclpy.spin = _spin6
+
+def _set_sim_seconds(s):
+    global SIM_SECONDS
+    SIM_SECONDS = float(s)
+    _rclpy.SIM_SECONDS = SIM_SECONDS
+
+# ---------------- drawings for the playground ----------------
+def draw_arm(lengths, angles, target=None, base=None, label=None):
+    """Only for the playground: draws a planar arm (link lengths in m, joint angles in rad)."""
+    _world.viz.setdefault("arms", []).append({"l": [float(v) for v in lengths], "q": [float(v) for v in angles],
+        "target": [float(target[0]), float(target[1])] if target else None,
+        "base": [float(v) for v in base] if base else None, "label": label})
+def draw_path(points, label=None):
+    """Only for the playground: draws a path of (x, y) points in metres."""
+    _world.viz.setdefault("paths", []).append({"pts": [[round(float(p[0]), 3), round(float(p[1]), 3)] for p in points], "label": label})
+def _emit_viz():
+    v = dict(_world.viz)
+    if _world.tw:
+        v["turtles"] = [{"name": t.name, "x": t.x, "y": t.y, "theta": t.theta, "pen": list(t.pen), "path": t.path} for t in _world.tw.values()]
+    if v:
+        print("@@VIZ " + _json.dumps(v))
+
+# ---------------- modules ----------------
+_gm_msg.Point, _gm_msg.Quaternion, _gm_msg.Pose, _gm_msg.Pose2D, _gm_msg.PoseStamped = Point, Quaternion, Pose, Pose2D, PoseStamped
+_gm_msg.PointStamped, _gm_msg.Transform, _gm_msg.TransformStamped, _gm_msg.TwistStamped = PointStamped, Transform, TransformStamped, TwistStamped
+_gm_msg.PoseWithCovariance, _gm_msg.TwistWithCovariance = PoseWithCovariance, TwistWithCovariance
+_std_msg.Header = Header
+_mod("builtin_interfaces"); sys.modules["builtin_interfaces"].msg = _mod("builtin_interfaces.msg", Time=Time_, Duration=Duration_)
+_mod("sensor_msgs"); sys.modules["sensor_msgs"].msg = _mod("sensor_msgs.msg", JointState=JointState)
+_mod("nav_msgs"); sys.modules["nav_msgs"].msg = _mod("nav_msgs.msg", Odometry=Odometry)
+_mod("trajectory_msgs"); sys.modules["trajectory_msgs"].msg = _mod("trajectory_msgs.msg", JointTrajectory=JointTrajectory, JointTrajectoryPoint=JointTrajectoryPoint)
+_ts = _mod("turtlesim"); _ts.msg = _mod("turtlesim.msg", Pose=TPose)
+_ts.srv = _mod("turtlesim.srv", Spawn=Spawn, Kill=Kill, TeleportAbsolute=TeleportAbsolute, TeleportRelative=TeleportRelative, SetPen=SetPen)
+_ss_srv.Empty = Empty
+_mri.srv.GoTo, _mri.srv.MoveArm = GoTo, MoveArm
+_mri.msg.RobotStatus = RobotStatus
+_mri.action.DriveDistance = DriveDistance
+_pr = sys.modules["practice"]; _pr.draw_arm, _pr.draw_path = draw_arm, draw_path
+
+# v7: client.call() inside a callback is fine with a MultiThreadedExecutor when the client has its OWN callback group
+_world.mt = False
+_prev_mt_spin = MultiThreadedExecutor.spin
+def _mt_spin(self):
+    _world.mt = True
+    try:
+        _prev_mt_spin(self)
+    finally:
+        _world.mt = False
+MultiThreadedExecutor.spin = _mt_spin
+_prev_cc7 = Node.create_client
+def _cc7(self, srv_type, srv_name, **kw):
+    c = _prev_cc7(self, srv_type, srv_name)
+    c._group = kw.get("callback_group")
+    return c
+Node.create_client = _cc7
+_prev_ct7 = Node.create_timer
+def _ct7(self, timer_period_sec, callback, **kw):
+    group = kw.get("callback_group")
+    def run(*a, _cb=callback, _g=group):
+        old = getattr(_world, "cur_group", None)
+        _world.cur_group = _g
+        try:
+            return _cb(*a)
+        finally:
+            _world.cur_group = old
+    return _prev_ct7(self, timer_period_sec, run)
+Node.create_timer = _ct7
+def _client_call7(self, request):
+    g = getattr(self, "_group", None)
+    if _world.in_cb and _world.mt and g is not None and g is not getattr(_world, "cur_group", None):
+        return _orig_client_call(self, request)          # another thread can deliver the answer
+    if _world.in_cb and not _world.mt:
+        raise RuntimeError(_DEADLOCK.format(what="client.call()") + " (Or: give the client its own callback group "
+                           "and spin with a MultiThreadedExecutor.)")
+    return _client_call2(self, request)
+Client.call = _client_call7
+
+# ---------------- v7: descriptors, try_shutdown, more interfaces ----------------
+class FloatingPointRange:
+    def __init__(self, from_value=0.0, to_value=0.0, step=0.0):
+        self.from_value, self.to_value, self.step = from_value, to_value, step
+class IntegerRange:
+    def __init__(self, from_value=0, to_value=0, step=0):
+        self.from_value, self.to_value, self.step = from_value, to_value, step
+class ParameterDescriptor:
+    def __init__(self, name="", type=0, description="", additional_constraints="", read_only=False,
+                 dynamic_typing=False, floating_point_range=None, integer_range=None):
+        self.name, self.type, self.description = name, type, description
+        self.additional_constraints, self.read_only, self.dynamic_typing = additional_constraints, read_only, dynamic_typing
+        self.floating_point_range = list(floating_point_range or [])
+        self.integer_range = list(integer_range or [])
+_rim = sys.modules["rcl_interfaces.msg"]
+_rim.ParameterDescriptor, _rim.FloatingPointRange, _rim.IntegerRange = ParameterDescriptor, FloatingPointRange, IntegerRange
+
+_prev_declare7 = Node.declare_parameter
+def _declare7(self, name, value=None, descriptor=None, ignore_override=False):
+    p = _prev_declare7(self, name, value, descriptor, ignore_override)
+    self.__dict__.setdefault("_descr", {})[name] = descriptor
+    return p
+Node.declare_parameter = _declare7
+
+def _declare_parameters7(self, namespace, parameters, ignore_override=False):
+    out = []
+    for item in parameters:
+        name, value = item[0], (item[1] if len(item) > 1 else None)
+        full = f"{namespace}.{name}" if namespace else name
+        out.append(self.declare_parameter(full, value, item[2] if len(item) > 2 else None, ignore_override))
+    return out
+Node.declare_parameters = _declare_parameters7
+
+def _describe_check(self, plist):
+    for q in plist:
+        d = self.__dict__.get("_descr", {}).get(q.name)
+        if d is None:
+            continue
+        if d.read_only:
+            return f"Trying to set a read-only parameter: {q.name}."
+        if d.floating_point_range and isinstance(q.value, (int, float)):
+            r = d.floating_point_range[0]
+            if not (r.from_value <= q.value <= r.to_value):
+                return f"Parameter {q.name} out of range Min: {r.from_value}, Max: {r.to_value}, value: {q.value}"
+        if d.integer_range and isinstance(q.value, int):
+            r = d.integer_range[0]
+            if not (r.from_value <= q.value <= r.to_value):
+                return f"Parameter {q.name} out of range Min: {r.from_value}, Max: {r.to_value}, value: {q.value}"
+    return None
+
+_prev_set7 = Node.set_parameters
+def _set_parameters7(self, params):
+    out = []
+    for p in params:
+        why = _describe_check(self, [p]) if p.name in self._params else None
+        if why:
+            out.append(SetParametersResult(successful=False, reason=why))
+        else:
+            out.extend(_prev_set7(self, [p]))
+    return out
+Node.set_parameters = _set_parameters7
+
+def try_shutdown(context=None):
+    if _world.ok:
+        shutdown()
+_rclpy.try_shutdown = try_shutdown
+
+def _node_destroy_timer(self, timer):
+    timer.cancel()
+    return True
+Node.destroy_timer = _node_destroy_timer
+Node.destroy_publisher = lambda self, pub: True
+Node.destroy_subscription = lambda self, sub: True
+
+def _time_from_msg(msg):
+    return _TimeObj(seconds=msg.sec + msg.nanosec / 1e9)
+_TimeObj.from_msg = staticmethod(_time_from_msg)
+_rclpy._emit_viz, _rclpy._set_sim_seconds = _emit_viz, _set_sim_seconds
 `;
 
 let pyodide = null;
@@ -887,10 +1416,12 @@ self.onmessage = async (e) => {
     postMessage({ id, type: "status", text: "" });
     pyodide.globals.set("_overrides_json", JSON.stringify(e.data.params || {}));
     pyodide.runPython("import json as _j, rclpy as _r\n_r._world_overrides = _j.loads(_overrides_json)\n_r._reset()");
+    pyodide.runPython(`import rclpy as _r\n_r._set_sim_seconds(${Number(e.data.simSeconds) || 3})`);
     const ns = pyodide.globals.get("dict")();
     ns.set("__name__", "__main__");
     await pyodide.runPythonAsync(code, { globals: ns });
     ns.destroy();
+    pyodide.runPython("import rclpy as _r\n_r._emit_viz()");
     postMessage({ id, type: "done" });
   } catch (err) {
     postMessage({ id, type: "error", text: String((err && err.message) || err) });

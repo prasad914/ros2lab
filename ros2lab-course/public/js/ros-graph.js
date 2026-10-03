@@ -7,6 +7,11 @@ const fnum = (n) => (Number.isInteger(n) ? `${n}.0` : String(+n.toFixed(6)));
 const hex = () => Array.from({ length: 32 }, () => "0123456789abcdef"[Math.floor(Math.random() * 16)]).join("");
 
 const IFACES = {
+  "geometry_msgs/msg/Point": "# This contains the position of a point in free space\nfloat64 x\nfloat64 y\nfloat64 z",
+  "sensor_msgs/msg/JointState": "# This is a message that holds data to describe the state of a set of torque controlled joints.\n\nstd_msgs/Header header\n\nstring[] name\nfloat64[] position\nfloat64[] velocity\nfloat64[] effort",
+  "nav_msgs/msg/Odometry": "# This represents an estimate of a position and velocity in free space.\n\nstd_msgs/Header header\nstring child_frame_id\ngeometry_msgs/PoseWithCovariance pose\ngeometry_msgs/TwistWithCovariance twist",
+  "std_srvs/srv/SetBool": "bool data # e.g. for hardware enabling / disabling\n---\nbool success   # indicate successful run of triggered service\nstring message # informational, e.g. for error messages",
+  "std_srvs/srv/Trigger": "---\nbool success   # indicate successful run of triggered service\nstring message # informational, e.g. for error messages",
   "geometry_msgs/msg/Twist": "# This expresses velocity in free space broken into its linear and angular parts.\n\nVector3  linear\n\tfloat64 x\n\tfloat64 y\n\tfloat64 z\nVector3  angular\n\tfloat64 x\n\tfloat64 y\n\tfloat64 z",
   "turtlesim/msg/Pose": "float32 x\nfloat32 y\nfloat32 theta\n\nfloat32 linear_velocity\nfloat32 angular_velocity",
   "turtlesim/msg/Color": "uint8 r\nuint8 g\nuint8 b",
@@ -28,16 +33,18 @@ const QOS = ["qos_overrides./parameter_events.publisher.depth", "qos_overrides./
 
 // package + executable -> kind of node it starts
 const EXES = {
+  "chiku_arm ik_node": "arm", "tf2_ros static_transform_publisher": "static_tf", "robot_state_publisher robot_state_publisher": "rsp", "rclcpp_components component_container": "container", "chiku_base diffbot": "diffbot", "chiku_mm planner": "mm",
   "turtlesim turtlesim_node": "turtlesim", "turtlesim turtle_teleop_key": "teleop",
   "demo_nodes_py talker": "talker", "demo_nodes_cpp talker": "talker", "demo_nodes_py listener": "listener", "demo_nodes_cpp listener": "listener",
   "demo_nodes_py add_two_ints_server": "adder", "demo_nodes_cpp add_two_ints_server": "adder",
   "turtlesim mimic": "mimic",
 };
-const DEFAULT_NAME = { turtlesim: "turtlesim", teleop: "teleop_turtle", talker: "talker", listener: "listener", adder: "add_two_ints_server", mimic: "mimic" };
+const DEFAULT_NAME = { turtlesim: "turtlesim", teleop: "teleop_turtle", talker: "talker", listener: "listener", adder: "add_two_ints_server", mimic: "mimic", arm: "ik_node", diffbot: "diffbot", mm: "mm_planner", container: "ComponentManager", static_tf: "static_transform_publisher", rsp: "robot_state_publisher" };
 const PKG_EXES = {
   turtlesim: ["draw_square", "mimic", "turtle_teleop_key", "turtlesim_node"],
   demo_nodes_py: ["add_two_ints_client", "add_two_ints_server", "listener", "listener_qos", "talker", "talker_qos"],
   demo_nodes_cpp: ["add_two_ints_client", "add_two_ints_server", "listener", "talker"],
+  chiku_arm: ["ik_node"], chiku_base: ["diffbot"], chiku_mm: ["planner"], tf2_ros: ["buffer_server", "static_transform_publisher", "tf2_echo", "tf2_monitor"], robot_state_publisher: ["robot_state_publisher"], rclcpp_components: ["component_container", "component_container_isolated", "component_container_mt"],
 };
 
 const PEN = () => ({ r: 179, g: 184, b: 255, width: 3, off: 0 });
@@ -62,6 +69,9 @@ export class RosGraph {
     n.full = `${n.ns}/${name}`;
     if (kind === "turtlesim") { n.turtles = [newTurtle("turtle1", 5.544445, 5.544445, 0)]; n.params = { background_b: 255, background_g: 86, background_r: 69 }; }
     if (kind === "teleop") n.params = { scale_angular: 2.0, scale_linear: 2.0 };
+    if (kind === "arm") { n.params = { link1_length: 1.0, link2_length: 0.8, elbow_up: false }; n.ptypes = { link1_length: "double", link2_length: "double" }; n.q = [0, 0]; n.target = null; }
+    if (kind === "diffbot") { n.params = { wheel_radius: 0.05, wheel_separation: 0.3 }; n.ptypes = { wheel_radius: "double", wheel_separation: "double" }; n.base = { x: 0, y: 0, theta: 0, v: 0, w: 0 }; n.wheels = [0, 0]; n.path = [[0, 0]]; }
+    if (kind === "mm") { n.params = { approach_ratio: 0.7 }; n.ptypes = { approach_ratio: "double" }; }
     if (kind === "turtlesim" || kind === "teleop") QOS.forEach((q, i) => { n.params[q] = [1000, "volatile", "keep_last", "reliable"][i]; });
     n.params.use_sim_time = false;
     for (const [k, v] of Object.entries(params)) if (k in n.params || kind === "custom") n.params[k] = v;
@@ -78,6 +88,10 @@ export class RosGraph {
     const p = (s) => `${n.ns}/${s}`;
     const e = { pubs: [["/parameter_events", "rcl_interfaces/msg/ParameterEvent"], ["/rosout", "rcl_interfaces/msg/Log"]], subs: [["/parameter_events", "rcl_interfaces/msg/ParameterEvent"]],
       srvs: PARAM_SRVS.map(([s, t]) => [`${n.full}/${s}`, `rcl_interfaces/srv/${t}`]), cli: [], acts: [], actc: [] };
+    if (n.info) { const r = (x) => (x.startsWith("/") ? x : x.startsWith("~/") ? `${n.full}/${x.slice(2)}` : p(x)); for (const k of ["pubs", "subs", "srvs", "cli", "acts", "actc"]) for (const [nm, t] of n.info[k]) e[k].push([r(nm), t]); }
+    if (n.kind === "arm") { e.subs.push([p("target_point"), "geometry_msgs/msg/Point"]); e.pubs.push([p("joint_states"), "sensor_msgs/msg/JointState"], [p("end_effector"), "geometry_msgs/msg/Point"]); e.srvs.push([p("arm/home"), "std_srvs/srv/Trigger"]); }
+    if (n.kind === "diffbot") { e.subs.push([p("cmd_vel"), "geometry_msgs/msg/Twist"]); e.pubs.push([p("odom"), "nav_msgs/msg/Odometry"], [p("ground_truth"), "nav_msgs/msg/Odometry"], [p("wheel_states"), "sensor_msgs/msg/JointState"], ["/tf", "tf2_msgs/msg/TFMessage"]); }
+    if (n.kind === "mm") { e.subs.push([p("goal_point"), "geometry_msgs/msg/Point"]); e.pubs.push([p("cmd_vel"), "geometry_msgs/msg/Twist"], [p("target_point"), "geometry_msgs/msg/Point"]); }
     if (n.kind === "turtlesim") {
       e.srvs.push([p("clear"), "std_srvs/srv/Empty"], [p("kill"), "turtlesim/srv/Kill"], [p("reset"), "std_srvs/srv/Empty"], [p("spawn"), "turtlesim/srv/Spawn"]);
       for (const t of n.turtles) {
@@ -91,6 +105,9 @@ export class RosGraph {
     if (n.kind === "talker") e.pubs.push([p("chatter"), "std_msgs/msg/String"]);
     if (n.kind === "listener") e.subs.push([p("chatter"), "std_msgs/msg/String"]);
     if (n.kind === "adder") e.srvs.push([p("add_two_ints"), "example_interfaces/srv/AddTwoInts"]);
+    if (n.kind === "static_tf") e.pubs.push(["/tf_static", "tf2_msgs/msg/TFMessage"]);
+    if (n.kind === "rsp") { e.subs.push([p("joint_states"), "sensor_msgs/msg/JointState"]); e.pubs.push(["/tf", "tf2_msgs/msg/TFMessage"], ["/tf_static", "tf2_msgs/msg/TFMessage"], [p("robot_description"), "std_msgs/msg/String"]); }
+    if (n.kind === "container") e.srvs.push([`${n.full}/_container/load_node`, "composition_interfaces/srv/LoadNode"], [`${n.full}/_container/unload_node`, "composition_interfaces/srv/UnloadNode"], [`${n.full}/_container/list_nodes`, "composition_interfaces/srv/ListNodes"]);
     if (n.kind === "mimic") { e.subs.push([p("input/pose"), "turtlesim/msg/Pose"]); e.pubs.push([p("output/cmd_vel"), "geometry_msgs/msg/Twist"]); }
     if (n.remaps && n.remaps.length) {
       const res = (x) => (x.startsWith("/") ? x : `${n.ns}/${x}`);
@@ -119,6 +136,8 @@ export class RosGraph {
       case "interface": return this.cmdInterface(a, rest);
       case "bag": return this.cmdBag(a, rest);
       case "doctor": return [this.out("All 5 checks passed")];
+      case "lifecycle": return this.cmdLifecycle(a, rest);
+      case "component": return this.cmdComponent(a, rest);
       case "daemon": {
         if (a === "stop") { this.daemonOff = true; return [this.out("The daemon has been stopped")]; }
         if (a === "start") { const was = this.daemonOff; this.daemonOff = false; return [this.out(was ? "The daemon has been started" : "The daemon is already running")]; }
@@ -189,6 +208,8 @@ export class RosGraph {
     if (t.type === "turtlesim/msg/Color") { const hit = this.turtle(name.replace(/\/color_sensor$/, "")); const P = hit ? hit.n.params : { background_r: 69, background_g: 86, background_b: 255 }; return [0, 1, 2].map(() => `r: ${P.background_r}\ng: ${P.background_g}\nb: ${P.background_b}`); }
     if (t.type === "std_msgs/msg/String" && t.by.pubs.length) { this.chat = (this.chat || 0) + 3; return [3, 2, 1].map((k) => `data: 'Hello World: ${this.chat - k}'`); }
     if (t.type === "geometry_msgs/msg/Twist" && this.lastTwist && this.lastTwist.topic === name) { const v = this.lastTwist; return [0, 1, 2].map(() => `linear:\n  x: ${fnum(v.lx)}\n  y: 0.0\n  z: 0.0\nangular:\n  x: 0.0\n  y: 0.0\n  z: ${fnum(v.az)}`); }
+    const kin = this.kinSample(name, t); if (kin) return kin;
+    const cus = this.customSample(name, t); if (cus) return cus;
     if (name === "/rosout" && this.nodes.length) return [`stamp:\n  sec: 1727860000\n  nanosec: 0\nlevel: 20\nname: ${this.nodes[0].name}\nmsg: Starting ${this.nodes[0].name}`];
     return null;
   }
@@ -206,7 +227,7 @@ export class RosGraph {
     const T = this.topics().get(topic);
     if (T && T.type !== full) return [this.err(`Error: topic ${topic} has type ${T.type}, not ${full}`), this.hint(`Check the type with: ros2 topic type ${topic}`)];
     this.lastPub = { topic, type: full };
-    let repr = "";
+    let repr = "", relayNote = null;
     if (full === "geometry_msgs/msg/Twist") {
       const lin = (String(yaml).match(/linear:\s*\{([^}]*)\}/) || [, ""])[1], ang = (String(yaml).match(/angular:\s*\{([^}]*)\}/) || [, ""])[1];
       const v = { lx: this.num(lin, "x"), ly: this.num(lin, "y"), az: this.num(ang, "z"), topic };
@@ -214,12 +235,36 @@ export class RosGraph {
       repr = `geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=${fnum(v.lx)}, y=${fnum(v.ly)}, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=${fnum(v.az)}))`;
       const hit = this.turtle(topic.replace(/\/cmd_vel$/, ""));
       if (hit && topic.endsWith("/cmd_vel")) this.move(hit.t, v.lx, v.az, once ? 1 : 3);
+      for (const n of this.nodes.filter((m) => m.kind === "custom" && this.subscribes(m, topic, "Twist") && this.endpoints(m).pubs.some(([nm]) => nm.endsWith("/wheel_commands")))) {
+        const R = typeof n.params.wheel_radius === "number" ? n.params.wheel_radius : 0.05, L = typeof n.params.wheel_separation === "number" ? n.params.wheel_separation : 0.3, mx = typeof n.params.max_wheel_speed === "number" ? n.params.max_wheel_speed : 20;
+        let l = (v.lx - v.az * L / 2) / R, r = (v.lx + v.az * L / 2) / R; const big = Math.max(Math.abs(l), Math.abs(r));
+        if (big > mx) { l *= mx / big; r *= mx / big; this.note(n, `[WARN] [${n.name}]: wheel speed limited`); }
+        n.wcmd = [l, r];
+      }
+      const relayed = this.relayTwist(topic, v, once ? 1 : 3);
+      if (relayed) { relayNote = `(Your ${relayed.n.name} node passed the command on${relayed.lx !== v.lx ? `, limited to linear.x=${fnum(relayed.lx)}` : ""}${relayed.stopped ? ", and stopped the turtle near the wall" : ""}. ${relayed.hit.t.name} is now at x=${relayed.hit.t.x.toFixed(2)}, y=${relayed.hit.t.y.toFixed(2)}.)`; }
+      const listens = this.nodes.some((m) => m.kind === "custom" && this.subscribes(m, topic, "Twist") && !/\/turtle\d*\//.test(topic));
+      const bot = this.nodes.find((n) => (n.kind === "diffbot" && `${n.ns}/cmd_vel` === topic) || (n.kind === "custom" && this.vkind(n) === "diffbot" && listens));
+      if (bot) this.driveBot(bot, v.lx, v.az, once ? 1 : 3);
+    } else if (full === "sensor_msgs/msg/JointState") {
+      const list = (k) => ((String(yaml).match(new RegExp(`${k}:\\s*\\[([^\\]]*)\\]`)) || [, ""])[1]).split(",").map((x) => x.trim().replace(/^["']|["']$/g, "")).filter(Boolean);
+      const names = list("name"), pos = list("position").map(Number);
+      repr = `sensor_msgs.msg.JointState(header=std_msgs.msg.Header(stamp=builtin_interfaces.msg.Time(sec=0, nanosec=0), frame_id=''), name=[${names.map((x) => `'${x}'`).join(", ")}], position=[${pos.map(fnum).join(", ")}], velocity=[], effort=[])`;
+      const J = Object.fromEntries(names.map((nm, i) => [nm, pos[i]]));
+      for (const n of this.nodes.filter((m) => this.vkind(m) === "fk" && this.subscribes(m, topic, "JointState"))) {
+        if ("shoulder_joint" in J && "elbow_joint" in J) { n.fkq = [J.shoulder_joint, J.elbow_joint]; const l1 = typeof n.params.link1_length === "number" ? n.params.link1_length : 1, l2 = typeof n.params.link2_length === "number" ? n.params.link2_length : 0.8, e = fk2(l1, l2, n.fkq); this.note(n, `[INFO] [${n.name}]: tip at x=${e[0].toFixed(3)} y=${e[1].toFixed(3)}`); }
+      }
+    } else if (full === "geometry_msgs/msg/Point") {
+      const P = { x: this.num(yaml, "x"), y: this.num(yaml, "y"), z: this.num(yaml, "z") };
+      repr = `geometry_msgs.msg.Point(x=${fnum(P.x)}, y=${fnum(P.y)}, z=${fnum(P.z)})`;
+      this.onPoint(topic, P);
     } else if (full === "std_msgs/msg/String") repr = `std_msgs.msg.String(data='${this.str(yaml, "data")}')`;
     else repr = `${full.replace(/\//g, ".")}()`;
     const L = [this.out("publisher: beginning loop")];
     for (let i = 1; i <= (once ? 1 : 3); i++) L.push(this.out(`publishing #${i}: ${repr}`), this.out(""));
     if (!once) L.push(this.out("^C"), this.hint("Practice terminal stopped after 3 messages. On a real computer, ros2 topic pub keeps publishing once per second until Ctrl+C. Use --once to send just one."));
     const hit = this.turtle(topic.replace(/\/cmd_vel$/, ""));
+    if (relayNote) L.push(this.hint(relayNote));
     if (hit) { const t = hit.t; L.push(this.hint(`(The turtle moved. ${t.name} is now at x=${t.x.toFixed(2)}, y=${t.y.toFixed(2)}, facing ${t.theta.toFixed(2)} rad. Check with: ros2 topic echo --once ${hit.n.ns}/${t.name}/pose)`)); }
     else if (T && !T.by.subs.length) L.push(this.hint(`(Nobody subscribes to ${topic}, so nobody hears these messages.)`));
     else if (!T) L.push(this.hint(`(${topic} is a brand-new topic that nobody listens to. Was that a typo?)`));
@@ -269,6 +314,7 @@ export class RosGraph {
     const pyT = type.replace("/srv/", ".srv.").replace(/\//g, ".");
     const req = (fields) => `requester: making request: ${pyT}_Request(${fields})`;
     const res = (fields) => [this.out(""), this.out("response:"), this.out(`${pyT}_Response(${fields})`), this.out("")];
+    if (owner && owner.kind === "custom") return this.customService(owner, type, yaml, req, res);
     const base = name.split("/").pop();
     if (base === "spawn") {
       const x = this.num(yaml, "x"), y = this.num(yaml, "y"), th = this.num(yaml, "theta");
@@ -281,6 +327,7 @@ export class RosGraph {
     if (base === "kill") { const nm = this.str(yaml, "name"); const i = owner.turtles.findIndex((t) => t.name === nm); if (i < 0) return [this.out(req(`name='${nm}'`)), this.err(`[ERROR] [${owner.name}]: Tried to kill turtle [${nm}], which does not exist`)]; owner.turtles.splice(i, 1); return [this.out(req(`name='${nm}'`)), ...res("")]; }
     if (base === "reset") { owner.turtles = [newTurtle("turtle1", 5.544445, 5.544445, 0)]; return [this.out(req("")), ...res(""), this.hint("(Every turtle was removed and turtle1 was put back in the middle.)")]; }
     if (base === "clear") { owner.turtles.forEach((t) => { t.trail = []; }); this.version = (this.version || 0) + 1; return [this.out(req("")), ...res(""), this.hint("(The turtle's drawn lines were wiped away.)")]; }
+    if (base === "home" && name.endsWith("arm/home")) { const arm = this.nodes.find((n) => n.kind === "arm"); if (arm) { arm.q = [0, 0]; arm.target = null; this.note(arm, `[INFO] [${arm.name}]: Going home: shoulder=0.0, elbow=0.0`); } return [this.out(req("")), ...res("success=True, message='Arm is at home (0, 0)'")]; }
     if (base === "add_two_ints") { const A = Math.trunc(this.num(yaml, "a")), B = Math.trunc(this.num(yaml, "b")); return [this.out(req(`a=${A}, b=${B}`)), ...res(`sum=${A + B}`)]; }
     if (base === "teleport_absolute") { const hit = this.turtle(name.replace(/\/teleport_absolute$/, "")); const x = this.num(yaml, "x"), y = this.num(yaml, "y"), th = this.num(yaml, "theta"); this.draw(hit.t, [[hit.t.x, hit.t.y], [x, y]]); Object.assign(hit.t, { x, y, theta: th }); return [this.out(req(`x=${fnum(x)}, y=${fnum(y)}, theta=${fnum(th)}`)), ...res("")]; }
     if (base === "set_pen") {
@@ -293,7 +340,7 @@ export class RosGraph {
 
   cmdParam(a, rest) {
     const pos = rest.filter((x) => !x.startsWith("--"));
-    const fmtVal = (v) => (typeof v === "boolean" ? ["Boolean", v ? "True" : "False"] : typeof v === "string" ? ["String", v] : Number.isInteger(v) ? ["Integer", v] : ["Double", fnum(v)]);
+    const fmtVal = (v) => (Array.isArray(v) ? ["Double array", `array('d', [${v.map(fnum).join(", ")}])`] : typeof v === "boolean" ? ["Boolean", v ? "True" : "False"] : typeof v === "string" ? ["String", v] : Number.isInteger(v) ? ["Integer", v] : ["Double", fnum(v)]);
     if (a === "list") {
       const list = pos[0] ? [this.node(pos[0])].filter(Boolean) : this.nodes.slice().sort((x, y) => x.full.localeCompare(y.full));
       if (pos[0] && !list.length) return [this.err(`Node not found`)];
@@ -313,19 +360,23 @@ export class RosGraph {
     if (a === "set") {
       const [, k, raw] = pos;
       if (!k || raw == null) return [this.err("usage: ros2 param set <node_name> <parameter_name> <value>")];
-      if (!(k in n.params)) return [this.out(`Set parameter failed: parameter '${k}' cannot be set because it was not declared`)];
-      if (k.startsWith("qos_overrides")) return [this.out(`Set parameter failed: parameter '${k}' cannot be set because it is read-only`)];
+      if (!(k in n.params)) return [this.out(`Setting parameter failed: parameter '${k}' cannot be set because it was not declared`)];
+      if (k.startsWith("qos_overrides")) return [this.out(`Setting parameter failed: parameter '${k}' cannot be set because it is read-only`)];
       const old = n.params[k];
       if (n.ptypes && n.ptypes[k]) {
         const nv = raw === "true" || raw === "True" ? true : raw === "false" || raw === "False" ? false : /^-?\d+$/.test(raw) || /^-?\d*\.\d+$/.test(raw) || /^-?\d+\.\d*$/.test(raw) ? Number(raw) : raw;
         const nk = typeof nv === "boolean" ? "bool" : typeof nv === "string" ? "string" : /^-?\d+$/.test(raw) ? "integer" : "double";
-        if (nk !== n.ptypes[k]) return [this.out(`Set parameter failed: Wrong parameter type, parameter {${k}} is of type {${n.ptypes[k]}}, setting it to {${nk}} is not allowed.`)];
-        n.params[k] = nv; return [this.out("Set parameter successful")];
+        if (nk !== n.ptypes[k] && !(n.ptypes[k] === "double" && nk === "integer" && n.kind !== "custom")) return [this.out(`Setting parameter failed: Wrong parameter type, parameter {${k}} is of type {${n.ptypes[k]}}, setting it to {${nk}} is not allowed.`)];
+        const why = n.info ? this.paramRule(n, k, nv) : null;
+        if (why) return [this.out(`Setting parameter failed: ${why}`)];
+        n.params[k] = nv;
+        if (n.info && n.info.paramLog) this.note(n, `[INFO] [${n.name}]: ${k} changed to ${n.info.lang === "cpp" ? (typeof nv === "number" ? nv.toFixed(6) : String(nv)) : String(nv)}`);
+        return [this.out("Set parameter successful")];
       }
       let v = raw === "true" || raw === "True" ? true : raw === "false" || raw === "False" ? false : /^-?\d+$/.test(raw) ? Number(raw) : /^-?\d*\.\d+$/.test(raw) ? Number(raw) : raw;
-      const kind = (x) => (typeof x === "boolean" ? "bool" : typeof x === "string" ? "string" : Number.isInteger(x) && !(n.kind === "teleop") ? "integer" : "double");
-      if (kind(old) !== kind(v) && !(kind(old) === "double" && typeof v === "number")) return [this.out(`Set parameter failed: Wrong parameter type, parameter {${k}} is of type {${kind(old)}}, setting it to {${kind(v)}} is not allowed.`)];
-      if (k.startsWith("background_") && (v < 0 || v > 255)) return [this.out(`Set parameter failed: Parameter {${k}} doesn't comply with integer range.`)];
+      const kind = (x, key = k) => (typeof x === "boolean" ? "bool" : typeof x === "string" ? "string" : Number.isInteger(x) && !(n.kind === "teleop") && !(n.ptypes && n.ptypes[key] === "double") ? "integer" : "double");
+      if (kind(old) !== kind(v) && !(kind(old) === "double" && typeof v === "number")) return [this.out(`Setting parameter failed: Wrong parameter type, parameter {${k}} is of type {${kind(old)}}, setting it to {${kind(v)}} is not allowed.`)];
+      if (k.startsWith("background_") && (v < 0 || v > 255)) return [this.out(`Setting parameter failed: Parameter {${k}} doesn't comply with integer range.`)];
       n.params[k] = v;
       return [this.out("Set parameter successful"), ...(k.startsWith("background_") ? [this.hint(`(The turtlesim window background is now rgb(${n.params.background_r}, ${n.params.background_g}, ${n.params.background_b}).)`)] : [])];
     }
@@ -340,7 +391,7 @@ export class RosGraph {
       if (!this.sh.isFile(p)) return [this.err(`Error: file ${pos[1]} does not exist`)];
       const L = [];
       for (const m of (this.sh.node(p).content || "").matchAll(/^\s+(\w+):\s*([^\s:]+)\s*$/gm)) {
-        if (m[1] in n.params && !m[1].startsWith("qos")) { const v = /^-?\d+$/.test(m[2]) ? Number(m[2]) : m[2] === "true" ? true : m[2] === "false" ? false : m[2]; n.params[m[1]] = v; L.push(this.out(`Set parameter ${m[1]} successful`)); }
+        if (m[1] in n.params && !m[1].startsWith("qos")) { const v = /^-?\d+$/.test(m[2]) && !(n.ptypes && n.ptypes[m[1]] === "double") ? Number(m[2]) : /^-?\d*\.?\d+(e-?\d+)?$/.test(m[2]) ? Number(m[2]) : m[2] === "true" ? true : m[2] === "false" ? false : m[2]; n.params[m[1]] = v; L.push(this.out(`Set parameter ${m[1]} successful`)); }
       }
       return L.length ? L : [this.hint("(No matching parameters found in that file.)")];
     }
@@ -362,6 +413,8 @@ export class RosGraph {
     if (!type || !yaml) return [this.err("usage: ros2 action send_goal <action_name> <action_type> <goal>")];
     if (!s || !s.by.acts.length) return [this.out("Waiting for an action server to become available..."), this.out("^C"), this.hint(`Nobody serves ${name}. Check with: ros2 action list`)];
     if (type !== s.type) return [this.err("The passed action type is invalid"), this.hint(`${name} has type ${s.type}`)];
+    const own = this.node(s.by.acts[0]);
+    if (own && own.kind === "custom") return this.customAction(own, name, type, yaml, rest);
     const hit = this.turtle(name.replace(/\/rotate_absolute$/, ""));
     const goal = this.num(yaml, "theta"), start = hit.t.theta, diff = goal - start;
     const L = [this.out("Waiting for an action server to become available..."), this.out("Sending goal:"), this.out(`     theta: ${goal}`), this.out(""), this.out(`Goal accepted with ID: ${hex()}`), this.out("")];
@@ -436,13 +489,14 @@ export class RosGraph {
 
   // ros2 run in a terminal with a live graph: the node keeps running "in another terminal"
   start(pkg, exe, extra) {
+    if (`${pkg} ${exe}` === "tf2_ros tf2_echo") return this.tfEcho(extra.filter((x) => !x.startsWith("-"))[0], extra.filter((x) => !x.startsWith("-"))[1]);
     const kind = EXES[`${pkg} ${exe}`];
     if (!kind) return null;
     let name = DEFAULT_NAME[kind], ns = "", pfile = null;
     const params = {};
     for (let i = 0; i < extra.length; i++) {
       if (extra[i] === "-r" || extra[i] === "--remap") { const [k, v] = (extra[++i] || "").split(":="); if (k === "__node" || k === "__name") name = v; if (k === "__ns") ns = v; }
-      if (extra[i] === "-p" || extra[i] === "--param") { const [k, v] = (extra[++i] || "").split(":="); params[k] = /^-?\d+$/.test(v) ? Number(v) : v; }
+      if (extra[i] === "-p" || extra[i] === "--param") { const [k, v] = (extra[++i] || "").split(":="); params[k] = /^-?\d*\.?\d+$/.test(v || "") ? Number(v) : v === "true" ? true : v === "false" ? false : v; }
       if (extra[i] === "--params-file") pfile = extra[++i];
     }
     const pre = [];
@@ -455,6 +509,15 @@ export class RosGraph {
       for (const [key, body] of Object.entries(y.tree)) if (key === "/**" || key === full) for (const [k, v] of Object.entries(body)) params[k] = plainValue(v);
     }
     if (this.has(`${ns ? "/" + ns.replace(/^\//, "") : ""}/${name}`)) return [this.out(`[WARN] [rcl.logging_rosout]: Publisher already registered for node name: '${name}'. If this is due to multiple nodes with the same name then all logs for the logger named '${name}' will go out over the existing publisher. As soon as any node with that name is destructed it will unregister the publisher, preventing any further logs for that name from being published on the rosout topic.`), this.hint("Two nodes with the same name confuse ROS 2. Give the second one a new name with --ros-args --remap __node:=another_name")];
+    if (kind === "static_tf") {
+      const arg = (k, d = 0) => { const i = extra.indexOf(`--${k}`); return i >= 0 ? extra[i + 1] : d; };
+      if (!extra.includes("--frame-id") || !extra.includes("--child-frame-id")) return [this.err("usage: ros2 run tf2_ros static_transform_publisher --x X --y Y --z Z --yaw Y --pitch P --roll R --frame-id PARENT --child-frame-id CHILD")];
+      name = `static_transform_publisher_${hex().slice(0, 8)}`;
+      const st = this.add("static_tf", name, ns, {});
+      st.tf = { parent: arg("frame-id"), child: arg("child-frame-id"), t: [Number(arg("x")), Number(arg("y")), Number(arg("z"))], q: qRPY(Number(arg("roll")), Number(arg("pitch")), Number(arg("yaw"))) };
+      this.lastStarted = [st.full];
+      return [this.out(`[INFO] [${name}]: Spinning until stopped - publishing transform`), this.out(`translation: ('${(+st.tf.t[0]).toFixed(6)}', '${(+st.tf.t[1]).toFixed(6)}', '${(+st.tf.t[2]).toFixed(6)}')`), this.out(`rotation: ('${st.tf.q[0].toFixed(6)}', '${st.tf.q[1].toFixed(6)}', '${st.tf.q[2].toFixed(6)}', '${st.tf.q[3].toFixed(6)}')`), this.out(`from '${st.tf.parent}' to '${st.tf.child}'`)];
+    }
     const n = this.add(kind, name, ns, params);
     this.lastStarted = [n.full];
     const L = {
@@ -463,8 +526,36 @@ export class RosGraph {
       talker: [1, 2, 3].map((i) => `[INFO] [${name}]: Publishing: 'Hello World: ${i}'`),
       listener: this.has("/talker") ? [1, 2, 3].map((i) => `[INFO] [${name}]: I heard: [Hello World: ${i}]`) : [],
       adder: [],
+      arm: kind !== "arm" ? [] : [`[INFO] [${name}]: 2-link arm IK node ready: link1=${fnum(n.params.link1_length)} m, link2=${fnum(n.params.link2_length)} m, reach=${fnum(n.params.link1_length + n.params.link2_length)} m`, `[INFO] [${name}]: Waiting for targets on ${n.ns}/target_point`],
+      diffbot: kind !== "diffbot" ? [] : [`[INFO] [${name}]: Differential-drive base ready: wheel_radius=${fnum(n.params.wheel_radius)} m, wheel_separation=${fnum(n.params.wheel_separation)} m`, `[INFO] [${name}]: Publishing ${n.ns}/odom and the transform odom -> base_link`],
+      container: [],
+      rsp: kind !== "rsp" ? [] : (n.params.robot_description ? [...urdfLinks(String(n.params.robot_description)).map((l) => `[INFO] [robot_state_publisher]: got segment ${l}`)] : ["[ERROR] [robot_state_publisher]: No robot_description parameter: give it the URDF text, for example from a launch file"]),
+      static_tf: kind !== "static_tf" ? [] : ["[INFO] [static_transform_publisher]: Spinning until stopped - publishing transform"],
+      mm: kind !== "mm" ? [] : [`[INFO] [${name}]: Mobile manipulator planner ready. Send a goal on ${n.ns}/goal_point`],
     }[kind];
     return [...pre, ...L.map((t) => this.out(t)), this.hint(`(Practice terminal: ${n.full} now keeps running in the background, as if in its own terminal window. Keep typing ros2 commands here to look at it.)`)];
+  }
+  startCustom(pkg, exe, info, lines, extra) {
+    let name = info.node, ns = "";
+    const params = { ...info.params }, remaps = [];
+    for (let i = 0; i < extra.length; i++) {
+      if (extra[i] === "-r" || extra[i] === "--remap") { const [k, v] = (extra[++i] || "").split(":="); if (k === "__node" || k === "__name") name = v; else if (k === "__ns") ns = v; else if (k && v) remaps.push([k, v]); }
+      if (extra[i] === "-p" || extra[i] === "--param") { const [k, v] = (extra[++i] || "").split(":="); params[k] = /^-?\d*\.?\d+$/.test(v || "") ? Number(v) : v === "true" ? true : v === "false" ? false : v; }
+      if (extra[i] === "--params-file") { const fp = this.sh.abs(extra[++i] || ""); if (this.sh.isFile(fp)) { const y = parseParamsYaml(this.sh.node(fp).content || ""); for (const [key, body] of Object.entries(y.tree)) if (key === "/**" || key.replace(/^\//, "") === name) for (const [k, v] of Object.entries(body)) params[k] = plainValue(v); } }
+    }
+    const full = `${ns ? "/" + ns.replace(/^\//, "") : ""}/${name}`;
+    if (this.has(full)) return [this.out(`[WARN] [rcl.logging_rosout]: Publisher already registered for node name: '${name}'.`), this.hint("Two nodes with the same name confuse ROS 2. Give the second one a new name with --ros-args --remap __node:=another_name")];
+    const n = this.add("custom", name, ns, params, remaps);
+    n.info = info;
+    if (info.actc.length && !info.acts.length) {   // a client program: it sends its goal, prints, and ends
+      n.ptypes = {};
+      const out = this.runActionClient(n, lines.map((t) => this.out(t)));
+      this.nodes = this.nodes.filter((x) => x !== n);
+      return out;
+    } n.ptypes = { ...Object.fromEntries(Object.entries(n.params).map(([k, v]) => [k, typeof v === "boolean" ? "bool" : typeof v === "string" ? "string" : Number.isInteger(v) ? "integer" : "double"])), ...info.ptypes };
+    this.lastStarted = [n.full];
+    const shown = this.renderLogs(n, lines);
+    return [...shown.map((t) => this.out(t.replace(`[${info.node}]`, `[${name}]`))), this.hint(`(Practice terminal: your node ${n.full} now keeps running. Open a new terminal tab and look at it with ros2 node info ${n.full})`)];
   }
   launch(pkg, file) {
     if (`${pkg} ${file}` !== "turtlesim multisim.launch.py") return null;
@@ -493,10 +584,569 @@ RosGraph.prototype.teleopKey = function (teleFull, key) {
   if (hit) this.move(hit.t, v[0], v[1], 1);
   return hit;
 };
+// ---------- Week 7 robots: a 2-link arm IK node, a differential-drive base, a mobile-manipulator planner ----------
+const r2 = (x) => Math.round(x * 100) / 100;
+export function ik2(l1, l2, x, y, elbowUp) {
+  const d2 = x * x + y * y, c2 = (d2 - l1 * l1 - l2 * l2) / (2 * l1 * l2);
+  if (c2 > 1 + 1e-9 || c2 < -1 - 1e-9) return null;
+  const q2 = (elbowUp ? -1 : 1) * Math.acos(Math.max(-1, Math.min(1, c2)));
+  const q1 = Math.atan2(y, x) - Math.atan2(l2 * Math.sin(q2), l1 + l2 * Math.cos(q2));
+  return [Math.atan2(Math.sin(q1), Math.cos(q1)), q2];
+}
+const fk2 = (l1, l2, q) => [l1 * Math.cos(q[0]) + l2 * Math.cos(q[0] + q[1]), l1 * Math.sin(q[0]) + l2 * Math.sin(q[0] + q[1])];
+RosGraph.prototype.note = function (n, text, cls) { (this.notices = this.notices || []).push({ node: n.full, text, cls }); };
+// a student's kinematics node behaves like the matching practice robot: "arm" (IK), "fk", "diffbot" (odometry), "mm" (planner)
+RosGraph.prototype.vkind = function (n) {
+  if (n.kind !== "custom" || !n.info) return n.kind;
+  const e = this.endpoints(n), has = (arr, name, type) => arr.some(([nm, t]) => nm.endsWith(name) && String(t).endsWith(type));
+  if (has(e.subs, "/goal_point", "Point")) return "mm";
+  if ((has(e.subs, "/target_point", "Point") && has(e.pubs, "/joint_states", "JointState")) || e.srvs.some(([, t]) => /MoveArm$/.test(t))) { this.ensureArm(n); return "arm"; }
+  if (has(e.pubs, "/odom", "Odometry")) { this.ensureBot(n); return "diffbot"; }
+  if (has(e.subs, "/joint_states", "JointState") && has(e.pubs, "/end_effector", "Point")) return "fk";
+  return null;
+};
+RosGraph.prototype.ensureArm = function (n) {
+  n.q = n.q || [0, 0];
+  for (const [k, v] of [["link1_length", 1.0], ["link2_length", 0.8]]) if (typeof n.params[k] !== "number") n.params[k] = v;
+};
+RosGraph.prototype.ensureBot = function (n) {
+  if (!n.base) { n.base = { x: 0, y: 0, theta: 0, v: 0, w: 0 }; n.wheels = [0, 0]; n.path = [[0, 0]]; }
+  for (const [k, v] of [["wheel_radius", 0.05], ["wheel_separation", 0.3]]) if (typeof n.params[k] !== "number") n.params[k] = v;
+};
+RosGraph.prototype.subscribes = function (n, topic, type) { return n.kind === "custom" ? this.endpoints(n).subs.some(([nm, t]) => nm === topic && String(t).endsWith(type)) : false; };
+RosGraph.prototype.armSolve = function (arm, P) {
+  const { link1_length: l1, link2_length: l2, elbow_up: up } = arm.params;
+  arm.target = [P.x, P.y];
+  const q = ik2(l1, l2, P.x, P.y, up === true || up === "true");
+  const custom = arm.kind === "custom", traj = custom && /moving in/.test(arm.info.code || "");
+  if (!q) { this.note(arm, traj ? `[WARN] [${arm.name}]: out of reach` : custom ? `[WARN] [${arm.name}]: Target (${P.x.toFixed(2)}, ${P.y.toFixed(2)}) is out of reach: distance ${Math.hypot(P.x, P.y).toFixed(2)} m, reach ${(l1 + l2).toFixed(2)} m` : `[WARN] [${arm.name}]: Target (${fnum(P.x)}, ${fnum(P.y)}) is out of reach: distance ${Math.hypot(P.x, P.y).toFixed(2)} m, reach ${(l1 + l2).toFixed(2)} m (and at least ${Math.abs(l1 - l2).toFixed(2)} m)`); return false; }
+  const before = arm.q || [0, 0];
+  arm.q = q;
+  const e = fk2(l1, l2, q), deg = (r) => (r * 180 / Math.PI).toFixed(1);
+  if (traj) {
+    const big = Math.max(Math.abs(q[0] - before[0]), Math.abs(q[1] - before[1])), ms = typeof arm.params.max_joint_speed === "number" ? arm.params.max_joint_speed : 1;
+    this.note(arm, `[INFO] [${arm.name}]: moving in ${Math.max(1.5 * big / ms, 0.2).toFixed(2)} s`);
+    this.note(arm, `[INFO] [${arm.name}]: arrived: ${deg(q[0])} deg, ${deg(q[1])} deg`);
+  } else this.note(arm, `[INFO] [${arm.name}]: IK solution: shoulder=${q[0].toFixed(3)} rad (${deg(q[0])} deg), elbow=${q[1].toFixed(3)} rad (${deg(q[1])} deg)${custom ? "" : ` -> end effector (${e[0].toFixed(2)}, ${e[1].toFixed(2)})`}`);
+  this.version = (this.version || 0) + 1;
+  return true;
+};
+RosGraph.prototype.driveBot = function (bot, v, w, secs) {
+  const b = bot.base, R = bot.params.wheel_radius, L = bot.params.wheel_separation;
+  // the wheels turn as the controller asks (using the parameters); the real robot moves with the TRUE wheel size.
+  // odometry (b) believes the parameters, so wrong parameters make the estimate drift away from the truth (bot.truth).
+  const wl = (v - w * L / 2) / R, wr = (v + w * L / 2) / R, vt = (wr + wl) / 2 * 0.05, wt = (wr - wl) * 0.05 / 0.3;
+  bot.truth = bot.truth || { x: b.x, y: b.y, theta: b.theta, path: [[b.x, b.y]] };
+  const T = bot.truth;
+  for (let s = 0; s < secs * 20; s++) { b.theta += w / 20; b.x += Math.cos(b.theta) * v / 20; b.y += Math.sin(b.theta) * v / 20; bot.path.push([b.x, b.y]); T.theta += wt / 20; T.x += Math.cos(T.theta) * vt / 20; T.y += Math.sin(T.theta) * vt / 20; T.path.push([T.x, T.y]); }
+  b.theta = Math.atan2(Math.sin(b.theta), Math.cos(b.theta)); b.v = v; b.w = w;
+  bot.wheels[0] += (v - w * L / 2) / R * secs; bot.wheels[1] += (v + w * L / 2) / R * secs;
+  if (bot.path.length > 2000) bot.path.splice(0, bot.path.length - 2000);
+  this.version = (this.version || 0) + 1;
+};
+RosGraph.prototype.onPoint = function (topic, P) {
+  for (const arm of this.nodes.filter((n) => (n.kind === "arm" && `${n.ns}/target_point` === topic) || (this.vkind(n) === "arm" && this.subscribes(n, topic, "Point")))) this.armSolve(arm, P);
+  const mm = this.nodes.find((n) => (n.kind === "mm" && `${n.ns}/goal_point` === topic) || (this.vkind(n) === "mm" && this.subscribes(n, topic, "Point")));
+  if (!mm) return;
+  const bot = this.nodes.find((n) => this.vkind(n) === "diffbot"), arm2 = this.nodes.find((n) => this.vkind(n) === "arm");
+  if (mm.kind === "custom") return this.mmCustom(mm, P, bot, arm2);
+  if (!bot || !arm2) { this.note(mm, `[ERROR] [${mm.name}]: I need both the base (chiku_base diffbot) and the arm (chiku_arm ik_node) running.`); return; }
+  const b = bot.base, reach = arm2.params.link1_length + arm2.params.link2_length;
+  const dx = P.x - b.x, dy = P.y - b.y, d = Math.hypot(dx, dy);
+  this.note(mm, `[INFO] [${mm.name}]: Goal (${fnum(P.x)}, ${fnum(P.y)}) is ${d.toFixed(2)} m from the base; arm reach is ${reach.toFixed(2)} m.`);
+  const keep = reach * (Number(mm.params.approach_ratio) || 0.7);
+  if (d > keep) {
+    const heading = Math.atan2(dy, dx); let turn = heading - b.theta; turn = Math.atan2(Math.sin(turn), Math.cos(turn));
+    const drive = d - keep;
+    this.note(mm, `[INFO] [${mm.name}]: Step 1: turn ${turn.toFixed(2)} rad, then drive ${drive.toFixed(2)} m (publishing on /cmd_vel).`);
+    this.driveBot(bot, 0, turn, 1); this.driveBot(bot, drive, 0, 1);
+  } else this.note(mm, `[INFO] [${mm.name}]: Step 1: the goal is already within reach, the base stays where it is.`);
+  const c = Math.cos(-b.theta), s = Math.sin(-b.theta), lx = c * (P.x - b.x) - s * (P.y - b.y), ly = s * (P.x - b.x) + c * (P.y - b.y);
+  this.note(mm, `[INFO] [${mm.name}]: Step 2: goal in base_link frame = (${lx.toFixed(2)}, ${ly.toFixed(2)}); sending it to ${arm2.ns}/target_point.`);
+  arm2.world = true;
+  if (this.armSolve(arm2, { x: lx, y: ly })) this.note(mm, `[INFO] [${mm.name}]: Done: base at (${b.x.toFixed(2)}, ${b.y.toFixed(2)}, ${b.theta.toFixed(2)} rad), arm reaching the goal.`);
+};
+RosGraph.prototype.mmCustom = function (mm, P, bot, arm) {
+  const l1 = typeof mm.params.link1_length === "number" ? mm.params.link1_length : 1, l2 = typeof mm.params.link2_length === "number" ? mm.params.link2_length : 0.8;
+  const stop = (typeof mm.params.approach_ratio === "number" ? mm.params.approach_ratio : 0.7) * (l1 + l2);
+  this.note(mm, `[INFO] [${mm.name}]: New goal (${P.x.toFixed(2)}, ${P.y.toFixed(2)})`);
+  if (!bot) { this.note(mm, `[INFO] [${mm.name}]: (no /odom yet: start the base nodes, then send the goal again)`); return; }
+  const b = bot.base, toBase = () => { const c = Math.cos(-b.theta), s = Math.sin(-b.theta); return [c * (P.x - b.x) - s * (P.y - b.y), s * (P.x - b.x) + c * (P.y - b.y)]; };
+  let [lx, ly] = toBase(), d = Math.hypot(lx, ly);
+  if (d > stop) {
+    this.driveBot(bot, 0, Math.atan2(ly, lx), 1);
+    [lx, ly] = toBase(); d = Math.hypot(lx, ly);
+    this.note(mm, `[INFO] [${mm.name}]: Facing the goal, driving ${(d - stop).toFixed(2)} m`);
+    this.driveBot(bot, d - stop, 0, 1);
+    [lx, ly] = toBase();
+  }
+  this.note(mm, `[INFO] [${mm.name}]: Within reach: arm target in base_link = (${lx.toFixed(2)}, ${ly.toFixed(2)})`);
+  if (arm) { arm.world = true; this.armSolve(arm, { x: lx, y: ly }); }
+};
+RosGraph.prototype.kinSample = function (name, t) {
+  const yamlHeader = (frame) => `header:\n  stamp:\n    sec: 1790921104\n    nanosec: 120000000\n  frame_id: ${frame}`;
+  if (t.type === "sensor_msgs/msg/JointState") {
+    const arm = this.nodes.find((n) => (n.kind === "arm" && `${n.ns}/joint_states` === name) || (this.vkind(n) === "arm" && n.kind === "custom" && this.endpoints(n).pubs.some(([nm]) => nm === name)));
+    if (arm) return [`${yamlHeader("''")}\nname:\n- shoulder_joint\n- elbow_joint\nposition:\n- ${arm.q[0].toFixed(6)}\n- ${arm.q[1].toFixed(6)}\nvelocity: []\neffort: []`];
+    const dd = this.nodes.find((n) => n.wcmd && this.endpoints(n).pubs.some(([nm]) => nm === name));
+    if (dd) return [`${yamlHeader("''")}\nname:\n- left_wheel_joint\n- right_wheel_joint\nposition: []\nvelocity:\n- ${dd.wcmd[0].toFixed(6)}\n- ${dd.wcmd[1].toFixed(6)}\neffort: []`];
+    const bot = this.nodes.find((n) => n.kind === "diffbot" && `${n.ns}/wheel_states` === name);
+    if (bot) return [`${yamlHeader("''")}\nname:\n- left_wheel_joint\n- right_wheel_joint\nposition:\n- ${bot.wheels[0].toFixed(6)}\n- ${bot.wheels[1].toFixed(6)}\nvelocity: []\neffort: []`];
+  }
+  if (t.type === "geometry_msgs/msg/Point") {
+    const fkn = this.nodes.find((n) => this.vkind(n) === "fk" && n.fkq && this.endpoints(n).pubs.some(([nm]) => nm === name));
+    if (fkn) { const e = fk2(typeof fkn.params.link1_length === "number" ? fkn.params.link1_length : 1, typeof fkn.params.link2_length === "number" ? fkn.params.link2_length : 0.8, fkn.fkq); return [`x: ${e[0].toFixed(6)}\ny: ${e[1].toFixed(6)}\nz: 0.0`]; }
+    let arm = this.nodes.find((n) => n.kind === "arm" && `${n.ns}/end_effector` === name);
+    if (!arm && this.nodes.some((n) => this.vkind(n) === "fk" && this.endpoints(n).pubs.some(([nm]) => nm === name))) arm = this.nodes.find((n) => this.vkind(n) === "arm");
+    if (arm) { const e = fk2(arm.params.link1_length, arm.params.link2_length, arm.q); return [`x: ${e[0].toFixed(6)}\ny: ${e[1].toFixed(6)}\nz: 0.0`]; }
+  }
+  if (t.type === "nav_msgs/msg/Odometry") {
+    const gt = this.nodes.find((n) => n.kind === "diffbot" && `${n.ns}/ground_truth` === name);
+    const bot = gt || this.nodes.find((n) => (n.kind === "diffbot" && `${n.ns}/odom` === name) || (n.kind === "custom" && this.vkind(n) === "diffbot" && this.endpoints(n).pubs.some(([nm]) => nm === name)));
+    if (bot) { const b = gt ? (bot.truth ? { x: bot.truth.x, y: bot.truth.y, theta: bot.truth.theta, v: bot.base.v, w: bot.base.w } : bot.base) : bot.base; return [`${yamlHeader("odom")}\nchild_frame_id: base_link\npose:\n  pose:\n    position:\n      x: ${b.x.toFixed(6)}\n      y: ${b.y.toFixed(6)}\n      z: 0.0\n    orientation:\n      x: 0.0\n      y: 0.0\n      z: ${Math.sin(b.theta / 2).toFixed(6)}\n      w: ${Math.cos(b.theta / 2).toFixed(6)}\n  covariance: [0.0, ...]\ntwist:\n  twist:\n    linear:\n      x: ${fnum(r2(b.v))}\n      y: 0.0\n      z: 0.0\n    angular:\n      x: 0.0\n      y: 0.0\n      z: ${fnum(r2(b.w))}\n  covariance: [0.0, ...]`]; }
+  }
+  return null;
+};
+// student nodes that publish a fixed Twist from a timer drive the turtle once per second
+RosGraph.prototype.tickCustom = function () {
+  let moved = this.tickExtras();
+  for (const n of this.nodes) {
+    if (n.kind === "custom" && n.info && !n.info.twist && this.closedLoop(n)) moved = true;
+    if (n.kind === "custom" && n.info && n.info.switchTwist && n.flags && n.flags[n.info.setbool.flag]) {
+      const out = this.endpoints(n).pubs.find(([nm, t]) => /Twist$/.test(t) && nm.endsWith("/cmd_vel")); const hit = out && this.turtle(out[0].replace(/\/cmd_vel$/, ""));
+      if (hit) { this.move(hit.t, n.info.switchTwist.lx, n.info.switchTwist.az, 1); moved = true; }
+    }
+    if (n.kind !== "custom" || !n.info || !n.info.twist) continue;
+    for (const [nm, t] of this.endpoints(n).pubs) {
+      if (t !== "geometry_msgs/msg/Twist" && t !== "Twist") continue;
+      const hit = nm.endsWith("/cmd_vel") ? this.turtle(nm.replace(/\/cmd_vel$/, "")) : null;
+      if (hit) { this.move(hit.t, n.info.twist.lx, n.info.twist.az, 1); moved = true; }
+      const bot = this.nodes.find((b) => b.kind === "diffbot" && `${b.ns}/cmd_vel` === nm);
+      if (bot) { this.driveBot(bot, n.info.twist.lx, n.info.twist.az, 1); moved = true; }
+    }
+  }
+  return moved;
+};
+// a student node that reads a turtle's pose and publishes its cmd_vel, with goal_x/goal_y or waypoints parameters:
+// simulate its P-controller (kv, kw) for one second
+RosGraph.prototype.closedLoop = function (n) {
+  const e = this.endpoints(n), P = n.params;
+  const pub = e.pubs.find(([nm, t]) => /Twist$/.test(t) && nm.endsWith("/cmd_vel")), sub = e.subs.find(([nm, t]) => /Pose$/.test(t) && nm.endsWith("/pose"));
+  if (!pub || !sub || pub[0].replace(/\/cmd_vel$/, "") !== sub[0].replace(/\/pose$/, "")) return false;
+  const hit = this.turtle(pub[0].replace(/\/cmd_vel$/, "")); if (!hit) return false;
+  let goal = null;
+  if (n.goal) goal = n.goal;
+  else if (typeof P.goal_x === "number" && typeof P.goal_y === "number") goal = [P.goal_x, P.goal_y];
+  else if (Array.isArray(P.waypoints) && P.waypoints.length >= 2) { const k = n.wp || 0; goal = [P.waypoints[2 * k], P.waypoints[2 * k + 1]]; }
+  if (!goal || (n.flags && n.flags.paused)) return false;
+  const key = goal.join(",");
+  if (n.reached === key && !Array.isArray(P.waypoints)) return false;
+  const kv = typeof P.kv === "number" ? P.kv : 1, kw = typeof P.kw === "number" ? P.kw : 4, t = hit.t;
+  for (let s = 0; s < 20; s++) {
+    const dx = goal[0] - t.x, dy = goal[1] - t.y, d = Math.hypot(dx, dy);
+    if (d < (Array.isArray(P.waypoints) ? 0.15 : 0.1)) {
+      if (Array.isArray(P.waypoints)) { n.wp = ((n.wp || 0) + 1) % (P.waypoints.length / 2 | 0); const g = [P.waypoints[2 * n.wp], P.waypoints[2 * n.wp + 1]]; this.note(n, `[INFO] [${n.name}]: reached waypoint, next is (${fnum(g[0])}, ${fnum(g[1])})`); }
+      else if (n.goal) { n.goal = null; this.note(n, `[INFO] [${n.name}]: arrived`); }
+      else { n.reached = key; this.note(n, `[INFO] [${n.name}]: Goal reached: x=${t.x.toFixed(2)} y=${t.y.toFixed(2)}`); }
+      break;
+    }
+    let err = Math.atan2(dy, dx) - t.theta; err = Math.atan2(Math.sin(err), Math.cos(err));
+    this.move(t, Math.min(kv * d, 2), kw * err, 0.05);
+  }
+  return true;
+};
+// a student node that subscribes to one Twist topic and republishes to a turtle (a filter): forward the command,
+// limited by max_speed and stopped near the walls when a margin parameter exists
+RosGraph.prototype.relayTwist = function (topic, v, secs) {
+  let moved = null;
+  for (const n of this.nodes) {
+    if (n.kind !== "custom" || !n.info) continue;
+    const e = this.endpoints(n);
+    if (!e.subs.some(([nm, t]) => nm === topic && /Twist$/.test(t))) continue;
+    const out = e.pubs.find(([nm, t]) => /Twist$/.test(t) && nm !== topic && nm.endsWith("/cmd_vel"));
+    const hit = out && this.turtle(out[0].replace(/\/cmd_vel$/, ""));
+    if (!hit) continue;
+    const lim = typeof n.params.max_speed === "number" ? n.params.max_speed : Infinity, m = typeof n.params.margin === "number" ? n.params.margin : null;
+    let lx = Math.max(-lim, Math.min(lim, v.lx)), stopped = false;
+    const first = lx;
+    for (let s = 0; s < secs * 20; s++) {
+      const t = hit.t, near = m !== null && (t.x < m || t.y < m || t.x > 11 - m || t.y > 11 - m);
+      if (near && lx > 0) { if (!n.warned) this.note(n, `[WARN] [${n.name}]: Too close to a wall: only turning is allowed`); n.warned = true; lx = 0; stopped = true; }
+      this.move(t, lx, v.az, 0.05);
+    }
+    moved = { n, hit, lx: first, stopped };
+  }
+  return moved;
+};
+// what `ros2 topic echo` shows for a topic published by a student node: the message fields with default values
+RosGraph.prototype.customSample = function (name, t) {
+  const n = this.nodes.find((x) => x.kind === "custom" && x.info && this.endpoints(x).pubs.some(([nm]) => nm === name));
+  if (!n) return null;
+  const def = this.allIfaces()[t.type];
+  if (!def) return null;
+  const code = n.info.code || "";
+  const pose = (() => { const s = this.endpoints(n).subs.find(([nm, ty]) => /Pose$/.test(ty)); const h = s && this.turtle(s[0].replace(/\/pose$/, "")); return h ? h.t : null; })();
+  const names = (code.match(/\.name\s*=\s*[\[{]([^\]}]*)[\]}]/) || [, ""])[1].split(",").map((x) => x.trim().replace(/^["']|["']$/g, "")).filter(Boolean);
+  const strVal = (f) => { const m = code.match(new RegExp(`\\.${f}\\s*=\\s*["']([^"']*)["']`)); return m ? `'${m[1]}'` : "''"; };
+  const L = [];
+  for (const raw of def.split("\n")) {
+    const line = raw.replace(/#.*$/, "").trim(); if (!line || line === "---") continue;
+    const [type, field] = line.split(/\s+/); if (!field || /=/.test(line)) continue;
+    if (/^std_msgs\/Header$|^Header$/.test(type)) { L.push("header:", "  stamp:", "    sec: 1790921104", "    nanosec: 120000000", "  frame_id: ''"); continue; }
+    if (/\[\]$/.test(type)) { const vals = field === "name" ? names : field === "position" || field === "velocity" ? names.map(() => "0.0") : []; L.push(vals.length ? `${field}:` : `${field}: []`, ...vals.map((v) => `- ${v}`)); continue; }
+    if (type === "string") { L.push(`${field}: ${strVal(field)}`); continue; }
+    if (type === "bool") { L.push(`${field}: false`); continue; }
+    if (/^float/.test(type)) { const v = pose && (field === "x" || field === "y") ? fnum(+pose[field].toFixed(6)) : "0.0"; L.push(`${field}: ${v}`); continue; }
+    if (/int/.test(type)) { L.push(`${field}: 0`); continue; }
+  }
+  return L.length ? [L.join("\n")] : null;
+};
+// request/response fields of a .srv (or goal/result/feedback of an .action) from its definition
+RosGraph.prototype.fieldsOf = function (type, part) {
+  const def = this.allIfaces()[type]; if (!def) return [];
+  const sec = def.split(/^---\s*$/m)[part] || "";
+  return sec.split("\n").map((l) => l.replace(/#.*$/, "").trim()).filter((l) => l && !/=/.test(l)).map((l) => { const [t, f] = l.split(/\s+/); return { t, f }; });
+};
+RosGraph.prototype.fmtField = function (t, v) { return t === "bool" ? (v ? "True" : "False") : t === "string" ? `'${v}'` : /^float/.test(t) ? fnum(+(+v).toFixed(6)) : String(Math.trunc(+v || 0)); };
+RosGraph.prototype.customService = function (n, type, yaml, req, res) {
+  const rq = this.fieldsOf(type, 0), rs = this.fieldsOf(type, 1);
+  const val = {};
+  for (const { t, f } of rq) val[f] = t === "bool" ? /true/i.test(this.str(yaml, f)) : t === "string" ? this.str(yaml, f) : this.num(yaml, f);
+  const reqText = req(rq.map(({ t, f }) => `${f}=${this.fmtField(t, val[f])}`).join(", "));
+  const out = Object.fromEntries(rs.map(({ t, f }) => [f, t === "bool" ? false : t === "string" ? "" : 0]));
+  const cpp = n.info.lang === "cpp", num = (x) => (cpp ? (+x).toFixed(6) : fnum(+x));
+  const L = [this.out(reqText)];
+  if (n.info.setbool && "data" in val) {
+    (n.flags = n.flags || {})[n.info.setbool.flag] = val.data;
+    out.success = true; out.message = val.data ? n.info.setbool.on : n.info.setbool.off;
+  } else if (/\/GoTo$/.test(type)) {
+    const ok = val.x >= 0.5 && val.x <= 10.5 && val.y >= 0.5 && val.y <= 10.5;
+    out.success = ok;
+    out.message = ok ? `driving to (${num(val.x)}, ${num(val.y)})` : cpp ? "outside the safe area 0.5..10.5" : `(${num(val.x)}, ${num(val.y)}) is outside the safe area 0.5..10.5`;
+    if (ok) { n.goal = [val.x, val.y]; this.note(n, `[INFO] [${n.name}]: ${out.message}`); }
+  } else if (/\/MoveArm$/.test(type)) {
+    const l1 = typeof n.params.link1_length === "number" ? n.params.link1_length : 1, l2 = typeof n.params.link2_length === "number" ? n.params.link2_length : 0.8;
+    const q = ik2(l1, l2, val.x, val.y, false);
+    if (!q) { out.success = false; out.message = `(${val.x.toFixed(2)}, ${val.y.toFixed(2)}) is out of reach (reach ${(l1 + l2).toFixed(2)} m)`; }
+    else { out.success = true; out.shoulder = q[0]; out.elbow = q[1]; out.message = `moving: shoulder ${(q[0] * 180 / Math.PI).toFixed(1)} deg, elbow ${(q[1] * 180 / Math.PI).toFixed(1)} deg`; n.q = q; }
+    this.note(n, `[INFO] [${n.name}]: ${out.message}`);
+  } else if ("success" in out) out.success = true;
+  return [...L, ...res(rs.map(({ t, f }) => `${f}=${this.fmtField(t, out[f])}`).join(", "))];
+};
+RosGraph.prototype.customAction = function (n, name, type, yaml, rest) {
+  const gf = this.fieldsOf(type, 0), rf = this.fieldsOf(type, 1), ff = this.fieldsOf(type, 2);
+  const g = Object.fromEntries(gf.map(({ f }) => [f, this.num(yaml, f)]));
+  const L = [this.out("Waiting for an action server to become available..."), this.out("Sending goal:"), ...gf.map(({ t, f }, i) => this.out(`${i ? "" : "     "}${f}: ${this.fmtField(t, g[f])}`)), this.out("")];
+  if (/\/DriveDistance$/.test(type)) {
+    if (!(g.distance > 0) || !(g.speed > 0 && g.speed <= 2)) { this.note(n, `[WARN] [${n.name}]: Rejected: distance must be > 0 and speed in (0, 2]`); return [...L, this.out("Goal was rejected.")]; }
+    L.push(this.out(`Goal accepted with ID: ${hex()}`), this.out(""));
+    if (rest.includes("--feedback") || rest.includes("-f")) for (let k = 1; k <= 4; k++) L.push(this.out("Feedback:"), this.out(`    remaining: ${fnum(+(g.distance * (1 - k / 4)).toFixed(6))}`), this.out(""));
+    const out = this.endpoints(n).pubs.find(([nm, t]) => /Twist$/.test(t) && nm.endsWith("/cmd_vel")); const hit = out && this.turtle(out[0].replace(/\/cmd_vel$/, ""));
+    if (hit) this.move(hit.t, g.distance, 0, 1);
+    this.note(n, `[INFO] [${n.name}]: Done: drove ${g.distance.toFixed(2)} m`);
+    L.push(this.out("Result:"), this.out(`    distance_driven: ${fnum(g.distance)}`), this.out(""), this.out("Goal finished with status: SUCCEEDED"));
+    if (hit) L.push(this.hint(`(${hit.t.name} drove ${fnum(g.distance)} m and is now at x=${hit.t.x.toFixed(2)}, y=${hit.t.y.toFixed(2)}.)`));
+    return L;
+  }
+  L.push(this.out(`Goal accepted with ID: ${hex()}`), this.out(""), this.out("Result:"), ...rf.map(({ t, f }) => this.out(`    ${f}: ${this.fmtField(t, 0)}`)), this.out(""), this.out("Goal finished with status: SUCCEEDED"));
+  return L;
+};
+RosGraph.prototype.paramRule = function (n, k, v) {
+  const I = n.info, cpp = I.lang === "cpp";
+  if (I.readOnly.includes(k)) return cpp ? `parameter '${k}' cannot be set because it is read-only` : `Trying to set a read-only parameter: ${k}.`;
+  if (I.ranges[k] && typeof v === "number" && (v < I.ranges[k][0] || v > I.ranges[k][1])) return cpp ? `Parameter {${k}} doesn't comply with floating point range.` : `Parameter ${k} out of range Min: ${fnum(I.ranges[k][0])}, Max: ${fnum(I.ranges[k][1])}, value: ${fnum(v)}`;
+  for (const r of I.rules) if (r.name === k && typeof v === "number" && Math.abs(v) > r.max) return r.reason;
+  return null;
+};
+RosGraph.prototype.tickExtras = function () {
+  let moved = false;
+  for (const n of this.nodes) {
+    if (n.kind !== "custom" || !n.info) continue;
+    const I = n.info;
+    if (I.paramTwist) {
+      const out = this.endpoints(n).pubs.find(([nm, t]) => /Twist$/.test(t) && nm.endsWith("/cmd_vel")); const hit = out && this.turtle(out[0].replace(/\/cmd_vel$/, ""));
+      if (hit) { this.move(hit.t, Number(n.params[I.paramTwist.lx]) || 0, I.paramTwist.az ? Number(n.params[I.paramTwist.az]) || 0 : 0, 1); moved = true; }
+    }
+    if (I.lifecycle && n.lstate === "active" && I.lcTwist) {
+      const out = this.endpoints(n).pubs.find(([nm, t]) => /Twist$/.test(t) && nm.endsWith("/cmd_vel")); const hit = out && this.turtle(out[0].replace(/\/cmd_vel$/, ""));
+      if (hit) { this.move(hit.t, I.lcTwist.lx, I.lcTwist.az, 1); moved = true; }
+    }
+    if (I.follow) {
+      const sim = this.nodes.find((x) => x.kind === "turtlesim"); if (!sim) continue;
+      const spawnCli = I.cli.some(([nm]) => /spawn$/.test(nm));
+      let me = this.turtle(I.follow.me), tg = this.turtle(I.follow.target);
+      if (!me && spawnCli && sim) { sim.turtles.push(newTurtle(I.follow.me, 1, 1, 0)); this.note(sim, `[INFO] [${sim.name}]: Spawning turtle [${I.follow.me}] at x=[1.000000], y=[1.000000], theta=[0.000000]`); me = this.turtle(I.follow.me); moved = true; continue; }
+      if (!me || !tg) continue;
+      const casters = this.nodes.filter((x) => x.kind === "custom" && x.info && x.info.broadcaster).map((x) => String(x.params.turtlename || "turtle1"));
+      if (!casters.includes(I.follow.me) || !casters.includes(I.follow.target)) { if (!n.tfWarned) this.note(n, `[INFO] [${n.name}]: Could not transform ${I.follow.target} to ${I.follow.me}: "${casters.includes(I.follow.me) ? I.follow.target : I.follow.me}" passed to lookupTransform argument ${casters.includes(I.follow.me) ? "source_frame" : "target_frame"} does not exist.`); n.tfWarned = true; continue; }
+      for (let s = 0; s < 20; s++) {
+        const a = me.t, b = tg.t, dx = b.x - a.x, dy = b.y - a.y, c = Math.cos(-a.theta), si = Math.sin(-a.theta);
+        const lx = c * dx - si * dy, ly = si * dx + c * dy;
+        this.move(a, I.follow.kv * Math.hypot(lx, ly), I.follow.kw * Math.atan2(ly, lx), 0.05);
+      }
+      moved = true;
+    }
+  }
+  return moved;
+};
+// a student action client (drive_distance_client): send the goal to the server, print what the client logs, then exit
+RosGraph.prototype.runActionClient = function (n, lines) {
+  const I = n.info, P = n.params, cpp = I.lang === "cpp";
+  const [aname] = I.actc[0], full = aname.startsWith("/") ? aname : `${n.ns}/${aname}`;
+  const srv = this.nodes.find((x) => x !== n && x.info && this.endpoints(x).acts.some(([nm]) => nm === full));
+  const log = (t) => this.out(`[INFO] [${n.name}]: ${t}`);
+  if (!srv) return [...lines, this.hint(`(Your client waits for the action server ${full}. Start the server in another terminal first.)`)];
+  const d = Number(P.distance), sp = Number(P.speed), cancel = Number(P.cancel_after) || 0;
+  const L = [log(`Sending goal: ${d.toFixed(1)} m at ${sp.toFixed(1)} m/s`)];
+  if (!(d > 0) || !(sp > 0 && sp <= 2)) { this.note(srv, `[WARN] [${srv.name}]: Rejected: distance must be > 0 and speed in (0, 2]`); return [...L, this.out(`[WARN] [${n.name}]: Goal rejected`)]; }
+  L.push(log("Goal accepted"));
+  const steps = Math.round(d / (sp * 0.1)), stop = cancel > 0 ? Math.min(steps, Math.round(cancel / 0.1) + 1) : steps;
+  let driven = 0;
+  for (let k = 1; k <= stop; k++) { driven = Math.min(d, k * sp * 0.1); if (k % Math.max(1, Math.round(steps / 6)) === 0 || k === stop) L.push(log(`remaining: ${(d - driven).toFixed(2)} m`)); }
+  if (cancel > 0 && stop < steps) L.push(log("Changed my mind: cancelling"));
+  const out = this.endpoints(srv).pubs.find(([nm, t]) => /Twist$/.test(t) && nm.endsWith("/cmd_vel")); const hit = out && this.turtle(out[0].replace(/\/cmd_vel$/, ""));
+  if (hit) this.move(hit.t, driven, 0, 1);
+  const status = cancel > 0 && stop < steps ? 5 : 4;
+  this.note(srv, status === 4 ? `[INFO] [${srv.name}]: Done: drove ${driven.toFixed(2)} m` : `[INFO] [${srv.name}]: Cancel requested`);
+  L.push(log(`Result: drove ${driven.toFixed(2)} m (${cpp ? "code" : "status"} ${status})`));
+  return L;
+};
+const LC_ID = { unconfigured: 1, inactive: 2, active: 3, finalized: 4 };
+const LC_MOVES = { unconfigured: [["configure", 1, "inactive"], ["shutdown", 5, "finalized"]], inactive: [["cleanup", 2, "unconfigured"], ["activate", 3, "active"], ["shutdown", 6, "finalized"]], active: [["deactivate", 4, "inactive"], ["shutdown", 7, "finalized"]], finalized: [] };
+RosGraph.prototype.cmdLifecycle = function (a, rest) {
+  const lc = this.nodes.filter((n) => n.info && n.info.lifecycle);
+  if (a === "nodes") return lc.map((n) => this.out(n.full));
+  const n = this.node(rest[0] || "");
+  if (!n) return [this.err(`Node not found`)];
+  if (!(n.info && n.info.lifecycle)) return [this.err(`Node ${n.full} is not a managed node (it has no lifecycle)`)];
+  n.lstate = n.lstate || "unconfigured";
+  if (a === "get") return [this.out(`${n.lstate} [${LC_ID[n.lstate]}]`)];
+  if (a === "list") return LC_MOVES[n.lstate].flatMap(([t, id, goal]) => [this.out(`- ${t} [${id}]`), this.out(`\tStart: ${n.lstate}`), this.out(`\tGoal: ${goal === "finalized" ? "shuttingdown" : { inactive: t === "configure" ? "configuring" : "deactivating", active: "activating", unconfigured: "cleaningup" }[goal]}`)]);
+  if (a === "set") {
+    const mv = LC_MOVES[n.lstate].find(([t]) => t === rest[1]);
+    if (!mv) return [this.out("Unknown transition requested, available ones are:"), ...LC_MOVES[n.lstate].map(([t, id]) => this.out(`- ${t} [${id}]`))];
+    n.lstate = mv[2];
+    if (n.info.lcLogs[mv[0]]) this.note(n, `[INFO] [${n.name}]: ${n.info.lcLogs[mv[0]]}`);
+    return [this.out("Transitioning successful")];
+  }
+  return [this.err(`ros2 lifecycle: unknown command '${a}'`), this.hint("Try: nodes, get, list, set")];
+};
+RosGraph.prototype.cmdComponent = function (a, rest) {
+  const conts = this.nodes.filter((n) => n.kind === "container");
+  const comps = () => { const all = {}; for (const pk of this.sh.wsPkgs ? this.sh.wsPkgs.values() : []) for (const [cls, inf] of Object.entries(pk.components || {})) all[cls] = { pkg: pk.name, inf }; return all; };
+  if (a === "types") { const by = {}; for (const [cls, c] of Object.entries(comps())) (by[c.pkg] = by[c.pkg] || []).push(cls); return Object.entries(by).flatMap(([pk, cl]) => [this.out(pk), ...cl.map((c) => this.out(`  ${c}`))]); }
+  if (a === "list") return conts.flatMap((c) => [this.out(c.full), ...(c.loaded || []).map((x, i) => this.out(`  ${i + 1}  ${x}`))]);
+  const cont = this.node(rest[0] || "");
+  if (a === "load") {
+    if (!cont || cont.kind !== "container") return [this.err(`Unable to find component manager node '${rest[0] || ""}'`), this.hint("Start one first: ros2 run rclcpp_components component_container")];
+    const c = comps()[rest[2] || ""];
+    if (!c || c.pkg !== rest[1]) return [this.err(`Failed to load component: Failed to find class with the requested plugin name '${rest[2] || ""}' in the loaded library`), this.hint("List what is available with: ros2 component types (and source the workspace)")];
+    const n = this.add("custom", c.inf.node || "component", "", { ...c.inf.params });
+    n.info = c.inf; n.ptypes = { ...c.inf.ptypes };
+    cont.loaded = [...(cont.loaded || []), n.full];
+    if (c.inf.logs[0]) this.note(cont, c.inf.logs[0]);
+    return [this.out(`Loaded component ${cont.loaded.length} into '${cont.full}' container node as '${n.full}'`)];
+  }
+  if (a === "unload") {
+    if (!cont || cont.kind !== "container") return [this.err(`Unable to find component manager node '${rest[0] || ""}'`)];
+    const id = Number(rest[1]), full = (cont.loaded || [])[id - 1];
+    if (!full) return [this.err(`Failed to unload component ${rest[1]} from '${cont.full}' container node`)];
+    this.nodes = this.nodes.filter((x) => x.full !== full); cont.loaded[id - 1] = null; cont.loaded = cont.loaded.filter(Boolean);
+    return [this.out(`Unloaded component ${id} from '${cont.full}' container node`)];
+  }
+  return [this.err(`ros2 component: unknown command '${a}'`), this.hint("Try: types, list, load, unload")];
+};
+// fill "…" in a student node's start-up log lines with the real parameter values, where the code makes that possible
+RosGraph.prototype.renderLogs = function (n, lines) {
+  const I = n.info, P = n.params, out = lines.slice();
+  const val = (k, fmt) => { const v = P[k]; if (v === undefined) return null; if (typeof v === "number") { const m = fmt && fmt.match(/\.(\d+)f/); return m ? v.toFixed(+m[1]) : I.lang === "cpp" ? String(v) : fnum(v); } return String(v); };
+  const logIdx = out.map((t, i) => (/^\[(INFO|WARN|ERROR)\]/.test(t) ? i : -1)).filter((i) => i >= 0);
+  if (I.lang === "python" && I.tpl) I.tpl.forEach((t, k) => {
+    const i = logIdx[k]; if (i === undefined) return;
+    let ok = true;
+    const text = t.py.replace(/\{([^}:]+)(?::([^}]*))?\}/g, (all, expr, fmt) => {
+      expr = expr.trim();
+      const keyOf = (x) => { x = x.trim(); const gp = x.match(/^self\.get_parameter\(\s*['"](\w+)['"]\)\.value$/); return gp ? gp[1] : I.pyVars[x] || (x.startsWith("self.") && x.slice(5) in P ? x.slice(5) : null); };
+      const parts = expr.split("+");
+      if (parts.length === 2 && keyOf(parts[0]) && keyOf(parts[1])) { const a = Number(P[keyOf(parts[0])]), b = Number(P[keyOf(parts[1])]); const m = fmt && fmt.match(/\.(\d+)f/); return m ? (a + b).toFixed(+m[1]) : fnum(+(a + b).toFixed(10)); }
+      const key = keyOf(expr);
+      const v = key ? val(key, fmt) : null; if (v === null) { ok = false; return "…"; } return v;
+    });
+    if (ok) out[i] = out[i].replace(/\]: .*$/, `]: ${text}`);
+  });
+  if (I.lang === "cpp" && I.ctpl) I.ctpl.forEach((t, k) => {
+    const i = logIdx[k]; if (i === undefined || !/%/.test(t.fmt)) return;
+    let a = 0, ok = true;
+    const text = t.fmt.replace(/%%/g, "\u0000").replace(/%[-.\d]*[lz]*([sdfiu])/g, (all, ty) => {
+      const arg = t.args[a++] || "";
+      const keyOf = (x) => { x = x.trim(); const g = x.match(/get_parameter\(\s*"(\w+)"\s*\)/); return g ? g[1] : I.cVars[x] || null; };
+      const sum = arg.split("+");
+      if (sum.length === 2 && keyOf(sum[0]) && keyOf(sum[1])) { const m = all.match(/\.(\d+)f/); const tot = Number(P[keyOf(sum[0])]) + Number(P[keyOf(sum[1])]); return m ? tot.toFixed(+m[1]) : String(tot); }
+      const key = keyOf(arg);
+      const v = key ? val(key, all) : null; if (v === null) { ok = false; return "…"; }
+      return ty === "f" && !/\.\d+f/.test(all) ? Number(v).toFixed(6) : v;
+    }).replace(/\u0000/g, "%");
+    if (ok) out[i] = out[i].replace(/\]: .*$/, `]: ${text}`);
+  });
+  return out;
+};
+// ---------- a small tf2: frames from static publishers, robot_state_publisher + arm, odometry, turtle broadcasters ----------
+function qRPY(r, p, y) { const cr = Math.cos(r / 2), sr = Math.sin(r / 2), cp = Math.cos(p / 2), sp = Math.sin(p / 2), cy = Math.cos(y / 2), sy = Math.sin(y / 2); return [sr * cp * cy - cr * sp * sy, cr * sp * cy + sr * cp * sy, cr * cp * sy - sr * sp * cy, cr * cp * cy + sr * sp * sy]; }
+function qMul(a, b) { return [a[3] * b[0] + a[0] * b[3] + a[1] * b[2] - a[2] * b[1], a[3] * b[1] - a[0] * b[2] + a[1] * b[3] + a[2] * b[0], a[3] * b[2] + a[0] * b[1] - a[1] * b[0] + a[2] * b[3], a[3] * b[3] - a[0] * b[0] - a[1] * b[1] - a[2] * b[2]]; }
+function qRot(q, v) { const p = qMul(qMul(q, [v[0], v[1], v[2], 0]), [-q[0], -q[1], -q[2], q[3]]); return [p[0], p[1], p[2]]; }
+const tMul = (A, B) => { const r = qRot(A.q, B.t); return { t: [A.t[0] + r[0], A.t[1] + r[1], A.t[2] + r[2]], q: qMul(A.q, B.q) }; };
+const tInv = (A) => { const qi = [-A.q[0], -A.q[1], -A.q[2], A.q[3]], r = qRot(qi, A.t); return { t: [-r[0], -r[1], -r[2]], q: qi }; };
+export function urdfLinks(text) { return [...String(text).matchAll(/<link\s+name="([^"]+)"/g)].map((m) => m[1]); }
+RosGraph.prototype.tfTree = function () {
+  const E = [];
+  for (const n of this.nodes) {
+    if (n.kind === "static_tf" && n.tf) E.push({ ...n.tf });
+    const vk = this.vkind(n);
+    if (vk === "diffbot" && n.base) E.push({ parent: "odom", child: "base_link", t: [n.base.x, n.base.y, 0], q: qRPY(0, 0, n.base.theta) });
+    if (n.kind === "custom" && n.info && n.info.broadcaster) { const nm = String(n.params.turtlename || "turtle1"), h = this.turtle(nm); if (h) E.push({ parent: "world", child: nm, t: [h.t.x, h.t.y, 0], q: qRPY(0, 0, h.t.theta) }); }
+  }
+  const rsp = this.nodes.find((n) => n.kind === "rsp" && n.params.robot_description), arm = this.nodes.find((n) => this.vkind(n) === "arm");
+  if (rsp) {
+    const q = arm ? arm.q : [0, 0], L1 = arm ? arm.params.link1_length : 1, L2 = arm ? arm.params.link2_length : 0.8;
+    E.push({ parent: "base_link", child: "link1", t: [0, 0, 0.05], q: qRPY(0, 0, q[0]) }, { parent: "link1", child: "link2", t: [L1, 0, 0], q: qRPY(0, 0, q[1]) }, { parent: "link2", child: "tool", t: [L2, 0, 0], q: [0, 0, 0, 1] });
+  }
+  return E;
+};
+RosGraph.prototype.tfLookup = function (target, source) {
+  const E = this.tfTree(), up = (f) => { const path = []; let cur = f, guard = 0; while (guard++ < 20) { const e = E.find((x) => x.child === cur); if (!e) break; path.push(e); cur = e.parent; } return { root: cur, path }; };
+  const known = (f) => E.some((e) => e.child === f || e.parent === f);
+  if (!known(target)) return { err: `Invalid frame ID "${target}" passed to canTransform argument target_frame - frame does not exist` };
+  if (!known(source)) return { err: `Invalid frame ID "${source}" passed to canTransform argument source_frame - frame does not exist` };
+  const a = up(target), b = up(source);
+  if (a.root !== b.root) return { err: `Could not find a connection between '${target}' and '${source}' because they are not part of the same tree.Tf has two or more unconnected trees.` };
+  const toRoot = (pth) => pth.reduceRight((acc, e) => tMul(acc, { t: e.t, q: e.q }), { t: [0, 0, 0], q: [0, 0, 0, 1] });
+  return { T: tMul(tInv(toRoot(a.path)), toRoot(b.path)) };
+};
+RosGraph.prototype.tfEcho = function (target, source) {
+  if (!target || !source) return [this.err("usage: ros2 run tf2_ros tf2_echo <source_frame> <target_frame>"), this.hint("Example: ros2 run tf2_ros tf2_echo world turtle1")];
+  const r = this.tfLookup(target, source);
+  if (r.err) return [this.out(`[INFO] [tf2_echo]: Waiting for transform ${target} ->  ${source}: ${r.err}`), this.out("^C"), this.hint("tf2_echo waits until both frames exist. Start the node that broadcasts them.")];
+  const { t, q } = r.T, f = (x) => (Math.abs(x) < 5e-4 ? (x < 0 ? "-0.000" : "0.000") : x.toFixed(3));
+  const roll = Math.atan2(2 * (q[3] * q[0] + q[1] * q[2]), 1 - 2 * (q[0] * q[0] + q[1] * q[1])), pitch = Math.asin(Math.max(-1, Math.min(1, 2 * (q[3] * q[1] - q[2] * q[0])))), yaw = Math.atan2(2 * (q[3] * q[2] + q[0] * q[1]), 1 - 2 * (q[1] * q[1] + q[2] * q[2]));
+  const ex = qRot(q, [1, 0, 0]), ey = qRot(q, [0, 1, 0]), ez = qRot(q, [0, 0, 1]);
+  const pad = (x) => (x.startsWith("-") ? "" : " ") + x;
+  const block = (k) => [`At time 1790921${104 + k}.120000000`, `- Translation: [${t.map(f).join(", ")}]`, `- Rotation: in Quaternion (xyzw) [${q.map(f).join(", ")}]`, `- Rotation: in RPY (radian) [${[roll, pitch, yaw].map(f).join(", ")}]`, `- Rotation: in RPY (degree) [${[roll, pitch, yaw].map((x) => f(x * 180 / Math.PI)).join(", ")}]`, "- Matrix:",
+    ...[0, 1, 2].map((i) => ` ${[ex[i], ey[i], ez[i], t[i]].map((x) => pad(f(x))).join(" ")}`), "  0.000  0.000  0.000  1.000"];
+  return [...block(0), ...block(1)].map((x) => this.out(x)).concat([this.out("^C"), this.hint(`(tf2_echo prints ${source} as seen from ${target} once per second until Ctrl+C.)`)]);
+};
+RosGraph.prototype.robots = function () { return this.nodes.filter((n) => ["arm", "diffbot"].includes(this.vkind(n))); };
+
 RosGraph.prototype.turtlesims = function () { return this.nodes.filter((n) => n.kind === "turtlesim"); };
 
 const baseName = (p) => p.split("/").filter(Boolean).pop() || "/";
 export const pkgExecutables = (pkg) => PKG_EXES[pkg] || null;
+
+// ---------- reads a student's node source (Python or C++) to find its name, topics, services, parameters and first log lines ----------
+// a node "drives by itself" only if a timer publishes fixed numbers and nothing is conditional
+function constantTwist(code) {
+  if (/Lifecycle/.test(code)) return false;
+  const body = code.replace(/if\s+__name__\s*==/g, "").replace(/\s#.*$/gm, "").replace(/\/\/.*$/gm, "");
+  const all = (re) => (body.match(re) || []).length;
+  const lin = all(/\.linear\.x\s*=[^=]/g), ang = all(/\.angular\.z\s*=[^=]/g);
+  const linN = all(/\.linear\.x\s*=\s*-?\d*\.?\d+\s*[;\n]/g), angN = all(/\.angular\.z\s*=\s*-?\d*\.?\d+\s*[;\n]/g);
+  return /create_(wall_)?timer\s*[<(]/.test(body) && (lin + ang) > 0 && lin === linN && ang === angN && lin <= 1 && ang <= 1 && !/\bif\b|\?/.test(body.replace(/#.*$/gm, "").replace(/\/\/.*$/gm, ""));
+}
+export function parseNodeCode(code, lang) {
+  const info = { node: null, pubs: [], subs: [], srvs: [], cli: [], acts: [], actc: [], params: {}, ptypes: {}, logs: [], code };
+  const clean = code.replace(lang === "python" ? /^\s*#.*$/gm : /\/\/.*$/gm, "");
+  const lit = (v) => { v = v.trim(); const arr = v.match(/^[\[{]([-\d.,\s]*)[\]}]$/); if (arr) return arr[1].split(",").map((x) => Number(x.trim())).filter((x) => !Number.isNaN(x)); if (/^(True|true)$/.test(v)) return true; if (/^(False|false)$/.test(v)) return false; if (/^-?\d+$/.test(v)) return Number(v); if (/^-?\d*\.\d+(e-?\d+)?$|^-?\d+\.$/.test(v)) return Number(v); const m = v.match(/^["'](.*)["']$/); return m ? m[1] : null; };
+  const fl = lang === "python" ? clean.match(/self\.(\w+)\s*=\s*request\.data/) : clean.match(/(\w+)\s*=\s*req(?:uest)?->data/);
+  if (fl) {
+    const v = fl[1].replace(/\W/g, "");
+    const mm = lang === "python" ? clean.match(new RegExp(`['"]([\\w ]+)['"] if self\\.${v} else ['"]([\\w ]+)['"]`)) : clean.match(new RegExp(`${v}\\s*\\?\\s*"([\\w ]+)"\\s*:\\s*"([\\w ]+)"`));
+    info.setbool = { flag: v.replace(/_$/, ""), on: mm ? mm[1] : "", off: mm ? mm[2] : "" };
+    const lx = clean.match(/\.linear\.x\s*=\s*(-?\d*\.?\d+)/), az = clean.match(/\.angular\.z\s*=\s*(-?\d*\.?\d+)/);
+    if (/enable/.test(v) && (lx || az)) info.switchTwist = { lx: lx ? Number(lx[1]) : 0, az: az ? Number(az[1]) : 0 };
+  }
+  info.lang = lang;
+  if (lang === "python") {
+    const types = {};
+    for (const m of clean.matchAll(/from[ \t]+(\w+)\.(msg|srv|action)[ \t]+import[ \t]+(\([^)]*\)|[\w \t,]+)/g)) for (const t of m[3].replace(/[()]/g, "").split(",").map((x) => x.trim()).filter(Boolean)) types[t.split(/\s+as\s+/).pop()] = `${m[1]}/${m[2]}/${t.split(/\s+as\s+/)[0]}`;
+    const T = (x) => types[x] || x;
+    const nm = clean.match(/super\(\)\.__init__\(\s*(?:node_name\s*=\s*)?["']([\w]+)["']/) || clean.match(/Node\(\s*["']([\w]+)["']/); if (nm) info.node = nm[1];
+    for (const m of clean.matchAll(/create_publisher\(\s*(\w+)\s*,\s*["']([\w/~]+)["']/g)) info.pubs.push([m[2], T(m[1])]);
+    for (const m of clean.matchAll(/create_subscription\(\s*(\w+)\s*,\s*["']([\w/~]+)["']/g)) info.subs.push([m[2], T(m[1])]);
+    for (const m of clean.matchAll(/create_service\(\s*(\w+)\s*,\s*["']([\w/~]+)["']/g)) info.srvs.push([m[2], T(m[1])]);
+    for (const m of clean.matchAll(/create_client\(\s*(\w+)\s*,\s*["']([\w/~]+)["']/g)) info.cli.push([m[2], T(m[1])]);
+    for (const m of clean.matchAll(/ActionServer\(\s*\w+\s*,\s*(\w+)\s*,\s*["']([\w/~]+)["']/g)) info.acts.push([m[2], T(m[1])]);
+    for (const m of clean.matchAll(/ActionClient\(\s*\w+\s*,\s*(\w+)\s*,\s*["']([\w/~]+)["']/g)) info.actc.push([m[2], T(m[1])]);
+    const lx = clean.match(/\.linear\.x\s*=\s*(-?\d*\.?\d+)/), az = clean.match(/\.angular\.z\s*=\s*(-?\d*\.?\d+)/);
+    if (constantTwist(clean)) info.twist = { lx: lx ? Number(lx[1]) : 0, az: az ? Number(az[1]) : 0 };
+    for (const m of clean.matchAll(/declare_parameter\(\s*["'](\w+)["']\s*(?:,\s*(\[[^\]]*\]|[^,)]+))?/g)) { const v = m[2] === undefined ? null : lit(m[2]); info.params[m[1]] = v === null ? "" : v; if (typeof v === "number" && /\./.test(m[2])) info.ptypes[m[1]] = "double"; }
+    const a0 = clean.search(/super\(\)\.__init__\(/), a1 = a0 < 0 ? -1 : clean.slice(a0).search(/\n    def |\ndef /);
+    const ctorPy = a0 < 0 ? "" : clean.slice(a0, a1 < 0 ? undefined : a0 + a1);
+    info.pyVars = {};
+    for (const m of clean.matchAll(/(self\.\w+|\b\w+)\s*=\s*self\.(?:get_parameter|declare_parameter)\(\s*['"](\w+)['"][^)]*\)\.value/g)) info.pyVars[m[1].replace(/^self\./, "self.")] = m[2];
+    for (const m of clean.matchAll(/(self\.\w+)\s*=\s*self\.get_parameter\(\s*['"](\w+)['"]\)\.value/g)) info.pyVars[m[1]] = m[2];
+    info.tpl = [];
+    for (const m of ctorPy.matchAll(/get_logger\(\)\.(info|warn|warning|error)\(\s*(f?)(["'])(.*?)\3/g)) if (m[2] && info.tpl.length < 3) info.tpl.push({ i: info.tpl.length, py: m[4] });
+    for (const m of ctorPy.matchAll(/get_logger\(\)\.(info|warn|warning|error)\(\s*(f?)(["'])(.*?)\3/g)) if (info.logs.length < 3) info.logs.push(`[${m[1] === "info" ? "INFO" : m[1] === "error" ? "ERROR" : "WARN"}] [${info.node || "node"}]: ${m[2] ? m[4].replace(/\{[^}]*\}/g, "…") : m[4]}`);
+  } else {
+    const alias = {};
+    for (const m of clean.matchAll(/using\s+(\w+)\s*=\s*([\w:]+)\s*;/g)) alias[m[1]] = m[2];
+    for (const m of clean.matchAll(/using\s+((?:\w+::)+)(\w+)\s*;/g)) alias[m[2]] = m[1] + m[2];
+    const T = (x) => { x = alias[x.trim()] || x.trim(); const m = x.match(/^(\w+)::(msg|srv|action)::(\w+)$/); return m ? `${m[1]}/${m[2]}/${m[3]}` : x; };
+    const nm = clean.match(/(?:rclcpp::)?Node\(\s*"(\w+)"/) || clean.match(/make_shared<rclcpp::Node>\(\s*"(\w+)"/) || clean.match(/Node::make_shared\(\s*"(\w+)"/); if (nm) info.node = nm[1];
+    for (const m of clean.matchAll(/create_publisher<\s*([\w:]+)\s*>\(\s*"([\w/~]+)"/g)) info.pubs.push([m[2], T(m[1])]);
+    for (const m of clean.matchAll(/create_subscription<\s*([\w:]+)\s*>\(\s*"([\w/~]+)"/g)) info.subs.push([m[2], T(m[1])]);
+    for (const m of clean.matchAll(/create_service<\s*([\w:]+)\s*>\(\s*"([\w/~]+)"/g)) info.srvs.push([m[2], T(m[1])]);
+    for (const m of clean.matchAll(/create_client<\s*([\w:]+)\s*>\(\s*"([\w/~]+)"/g)) info.cli.push([m[2], T(m[1])]);
+    for (const m of clean.matchAll(/rclcpp_action::create_server<\s*([\w:]+)\s*>\(\s*[\w>-]+\s*,\s*"([\w/~]+)"/g)) info.acts.push([m[2], T(m[1])]);
+    for (const m of clean.matchAll(/rclcpp_action::create_client<\s*([\w:]+)\s*>\(\s*[\w>-]+\s*,\s*"([\w/~]+)"/g)) info.actc.push([m[2], T(m[1])]);
+    const lx = clean.match(/\.linear\.x\s*=\s*(-?\d*\.?\d+)/), az = clean.match(/\.angular\.z\s*=\s*(-?\d*\.?\d+)/);
+    if (constantTwist(clean)) info.twist = { lx: lx ? Number(lx[1]) : 0, az: az ? Number(az[1]) : 0 };
+    for (const m of clean.matchAll(/declare_parameter(?:<\s*([\w:<>]+?)\s*>)?\(\s*"(\w+)"\s*(?:,\s*(\{[^}]*\}|[^,)]+))?/g)) { const v = m[3] === undefined ? null : lit(m[3]); info.params[m[2]] = v === null ? "" : v; if (m[1] === "double" || (typeof v === "number" && /\./.test(m[3]))) info.ptypes[m[2]] = "double"; }
+    const c0 = clean.search(/:\s*(?:rclcpp::|rclcpp_lifecycle::)?(?:Node|LifecycleNode)\(/), c1 = c0 < 0 ? -1 : clean.slice(c0).search(/\n  }\n/);
+    const main0 = clean.search(/int\s+main\s*\(/);
+    const ctorC = (c0 >= 0 ? clean.slice(c0, c1 < 0 ? undefined : c0 + c1) : main0 >= 0 ? clean.slice(main0) : "").replace(/\[(this|&|=)[^\]]*\]\s*\([^)]*\)\s*(->\s*\w+\s*)?\{[\s\S]*?\n\s*\}\)/g, "");
+    info.cVars = {};
+    for (const m of clean.matchAll(/(\w+_?)\s*=\s*declare_parameter(?:<[^>]*>)?\(\s*"(\w+)"/g)) info.cVars[m[1]] = m[2];
+    info.ctpl = [];
+    for (const m of ctorC.matchAll(/RCLCPP_(?:INFO|WARN|ERROR)(?:_ONCE)?\(\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"((?:\s*,\s*[^;]+?)*)\);/g)) if (info.ctpl.length < 3) info.ctpl.push({ fmt: m[1], args: m[2].split(/,(?![^(]*\))/).map((x) => x.trim()).filter(Boolean) });
+    for (const m of ctorC.matchAll(/RCLCPP_(INFO|WARN|ERROR)(?:_ONCE|_THROTTLE)?\(\s*[^,]+,\s*(?:[^,"]+,\s*\d+\s*,\s*)?"((?:[^"\\]|\\.)*)"/g)) if (info.logs.length < 3) info.logs.push(`[${m[1]}] [${info.node || "node"}]: ${m[2].replace(/%[-.\d]*[lz]*[sdfiu]/g, "…").replace(/%%/g, "%")}`);
+  }
+  // parameter descriptors (read_only, floating point range) and simple "reject" rules in an on-set callback
+  info.readOnly = []; info.ranges = {}; info.rules = [];
+  for (const m of clean.matchAll(/declare_parameter(?:<[^>]*>)?\(\s*["'](\w+)["']([\s\S]*?)(?=\n\s*\n|self\.declare_parameter|declare_parameter\(|\n\s{4}\w+_?\s*=|$)/g)) {
+    const body = m[2];
+    if (/read_only\s*=\s*True/.test(body)) info.readOnly.push(m[1]);
+    const r = body.match(/from_value\s*=\s*(-?[\d.]+)\s*,\s*to_value\s*=\s*(-?[\d.]+)/); if (r) info.ranges[m[1]] = [Number(r[1]), Number(r[2])];
+    const d = body.match(/^\s*,\s*[^,]+,\s*(\w+)\s*\)/); if (d) info[`desc_${m[1]}`] = d[1];
+  }
+  if (lang === "cpp") {
+    for (const m of clean.matchAll(/(\w+)\.read_only\s*=\s*true/g)) { const dm = clean.match(new RegExp(`declare_parameter\\(\\s*"(\\w+)"[^;]*\\b${m[1]}\\s*\\)`)); if (dm) info.readOnly.push(dm[1]); }
+    const fr = clean.match(/(\w+)\.from_value\s*=\s*(-?[\d.]+);\s*\n\s*\1\.to_value\s*=\s*(-?[\d.]+);\s*\n\s*(\w+)\.floating_point_range/);
+    if (fr) { const dm = clean.match(new RegExp(`declare_parameter\\(\\s*"(\\w+)"[^;]*\\b${fr[4]}\\s*\\)`)); if (dm) info.ranges[dm[1]] = [Number(fr[2]), Number(fr[3])]; }
+  }
+  for (const m of clean.matchAll(/p\.name\s*==\s*'(\w+)'\s*and\s*abs\(p\.value\)\s*>\s*([\d.]+):\s*\n\s*return SetParametersResult\(successful=False,\s*reason='([^']*)'\)/g)) info.rules.push({ name: m[1], max: Number(m[2]), reason: m[3] });
+  for (const m of clean.matchAll(/p\.get_name\(\)\s*==\s*"(\w+)"\s*&&\s*std::fabs\(p\.as_double\(\)\)\s*>\s*([\d.]+)\)\s*\{[^}]*?reason\s*=\s*"([^"]*)"/g)) info.rules.push({ name: m[1], max: Number(m[2]), reason: m[3] });
+  info.paramLog = /changed to/.test(clean);
+  // a Twist whose fields come from parameters (lx = self.speed): the node drives with the current parameter values
+  const pl = clean.match(/\.linear\.x\s*=\s*(?:self\.)?(\w+?)_?\s*[;\n]/), pa = clean.match(/\.angular\.z\s*=\s*(?:self\.)?(\w+?)_?\s*[;\n]/);
+  if (pl && pl[1] in info.params) info.paramTwist = { lx: pl[1], az: pa && pa[1] in info.params ? pa[1] : null };
+  // a tf2 follower: lookup_transform('turtle2', 'turtle1', ...) then publish to /turtle2/cmd_vel
+  const lk = clean.match(/lookup_?[Tt]ransform\(\s*["'](\w+)["']\s*,\s*["'](\w+)["']/);
+  if (lk) { const kw = clean.match(/angular\.z\s*=\s*([\d.]+)\s*\*\s*(?:math|std)\W+atan2/), kv = clean.match(/linear\.x\s*=\s*([\d.]+)\s*\*\s*(?:math|std)\W+hypot/); info.follow = { me: lk[1], target: lk[2], kw: kw ? Number(kw[1]) : 1, kv: kv ? Number(kv[1]) : 0.5 }; }
+  info.broadcaster = /TransformBroadcaster/.test(clean);
+  info.lifecycle = /LifecycleNode/.test(clean);
+  if (info.lifecycle) {
+    info.logs = [];      // a managed node prints nothing until someone configures it
+    const lx = clean.match(/\.linear\.x\s*=\s*(-?\d*\.?\d+)/), az = clean.match(/\.angular\.z\s*=\s*(-?\d*\.?\d+)/);
+    info.lcTwist = { lx: lx ? Number(lx[1]) : 0, az: az ? Number(az[1]) : 0 };
+    info.lcLogs = {};
+    for (const st of ["configure", "activate", "deactivate", "cleanup", "shutdown"]) {
+      const at = clean.search(new RegExp(`on_${st}\\s*\\(`)); if (at < 0) continue;
+      const m = clean.slice(at, at + 600).match(lang === "python" ? /get_logger\(\)\.info\(\s*['"]([^'"]*)['"]/ : /RCLCPP_INFO\([^,]+,\s*"([^"]*)"/);
+      if (m) info.lcLogs[st] = m[1];
+    }
+  }
+  return info;
+}
 
 // ---------- ros2 pkg create (writes the real file layout into the practice file system) ----------
 export function pkgCreate(sh, args) {
@@ -548,18 +1198,37 @@ export function findPackages(sh, ws) {
     const xml = n.content || "";
     const name = (xml.match(/<name>([^<]+)<\/name>/) || [, baseName(dir)])[1];
     const type = /ament_python/.test(xml) ? "ament_python" : "ament_cmake";
-    const exes = {};
+    const exes = {}, infos = {}, notRunnable = {}, components = {};
     if (type === "ament_python") {
       const setup = (sh.fs.get(`${dir}/setup.py`) || {}).content || "";
       for (const m of setup.matchAll(/'(\w+)\s*=\s*([\w.]+):main'/g)) {
         const file = `${dir}/${m[2].replace(/\./g, "/")}.py`;
         const code = (sh.fs.get(file) || {}).content || "";
-        exes[m[1]] = [...code.matchAll(/print\(\s*(["'])(.*?)\1\s*\)/g)].map((x) => x[2]);
+        const info = parseNodeCode(code, "python");
+        exes[m[1]] = [...code.matchAll(/print\(\s*(["'])(.*?)\1\s*\)/g)].map((x) => x[2]).concat(info.logs);
+        infos[m[1]] = info;
       }
     } else {
-      for (const [q, f] of sh.fs) if (q.startsWith(`${dir}/src/`) && q.endsWith(".cpp")) { const m = (f.content || "").match(/printf\("([^"\\]*)/); exes[baseName(q).replace(/\.cpp$/, "")] = m ? [m[1]] : []; }
+      const cm = ((sh.fs.get(`${dir}/CMakeLists.txt`) || {}).content || "").replace(/#.*$/gm, "");
+      const adds = [...cm.matchAll(/add_executable\(\s*([\w-]+)\s+([\w/.-]+\.cpp)/g)];
+      if (adds.length) {
+        const inst = [...cm.matchAll(/install\(\s*TARGETS([^)]*)/g)].map((m) => m[1]).join(" ");
+        for (const [, exe, file] of adds) {
+          const code = (sh.fs.get(`${dir}/${file}`) || {}).content;
+          if (code === undefined) { notRunnable[exe] = `CMake Error: Cannot find source file: ${file} (add_executable(${exe} ...))`; continue; }
+          if (!new RegExp(`\\b${exe}\\b`).test(inst)) { notRunnable[exe] = `${exe} was built but not installed: add it to install(TARGETS ... DESTINATION lib/\${PROJECT_NAME})`; continue; }
+          const info = parseNodeCode(code, "cpp"), m = code.match(/printf\("([^"\\]*)/);
+          exes[exe] = (m ? [m[1]] : []).concat(info.logs); infos[exe] = info;
+        }
+      }
+      for (const m of cm.matchAll(/rclcpp_components_register_nodes\(\s*(\w+)\s+"([\w:]+)"/g)) {
+        const lib = cm.match(new RegExp(`add_library\\(\\s*${m[1]}\\s+SHARED\\s+([\\w/.-]+\\.cpp)`));
+        const code = lib ? (sh.fs.get(`${dir}/${lib[1]}`) || {}).content : undefined;
+        if (code !== undefined) components[m[2]] = parseNodeCode(code, "cpp");
+      }
+      if (!adds.length) for (const [q, f] of sh.fs) if (q.startsWith(`${dir}/src/`) && q.endsWith(".cpp") && !/RCLCPP_COMPONENTS_REGISTER_NODE/.test(f.content || "")) { const m = (f.content || "").match(/printf\("([^"\\]*)/); exes[baseName(q).replace(/\.cpp$/, "")] = m ? [m[1]] : []; }
     }
-    pk.push({ name, type, exes, dir, ...packageExtras(sh, dir, name, type, xml) });
+    pk.push({ name, type, exes, infos, notRunnable, components, dir, ...packageExtras(sh, dir, name, type, xml) });
   }
   return pk.sort((a, b) => a.name.localeCompare(b.name));
 }
@@ -600,7 +1269,7 @@ function checkIfaceText(text, kind, pkg, localTypes, file) {
 // Called by findPackages for every package: generated interfaces, installed launch and config files.
 export function packageExtras(sh, dir, name, type, xml) {
   const files = (sub, ext) => [...sh.fs].filter(([p, n]) => n.type === "f" && p.startsWith(`${dir}/${sub}/`) && (!ext || p.endsWith(ext)) && !p.slice(dir.length + sub.length + 2).includes("/"));
-  const out = { ifaces: {}, errors: [], launch: {}, config: {} };
+  const out = { ifaces: {}, errors: [], launch: {}, config: {}, urdf: {} };
   const cm = type === "ament_cmake" ? ((sh.fs.get(`${dir}/CMakeLists.txt`) || {}).content || "") : "";
   const setup = type === "ament_python" ? ((sh.fs.get(`${dir}/setup.py`) || {}).content || "") : "";
   // ---- interfaces ----
@@ -628,7 +1297,7 @@ export function packageExtras(sh, dir, name, type, xml) {
     }
   }
   // ---- launch and config files (only if an install rule copies them) ----
-  for (const sub of ["launch", "config"]) {
+  for (const sub of ["launch", "config", "urdf"]) {
     const installed = type === "ament_cmake"
       ? new RegExp(`install\\s*\\(\\s*DIRECTORY[^)]*\\b${sub}\\b[^)]*DESTINATION\\s+share/\\$\\{PROJECT_NAME\\}`).test(cm)
       : new RegExp(`glob\\(\\s*['"]${sub}/\\*`).test(setup);
@@ -669,7 +1338,7 @@ export function yamlValue(v) {
   if (/^\[.*\]$/.test(v)) return v.slice(1, -1).split(",").map((x) => yamlValue(x)).filter((x) => x !== "");
   return v.replace(/^["']|["']$/g, "");
 }
-export const plainValue = (v) => (v && typeof v === "object" && "__double" in v ? v.__double : v);
+export const plainValue = (v) => (Array.isArray(v) ? v.map(plainValue) : v && typeof v === "object" && "__double" in v ? v.__double : v);
 
 // ---------- launch file readers ----------
 function attrs(s) { const o = {}; for (const m of String(s).matchAll(/([\w-]+)\s*=\s*"([^"]*)"/g)) o[m[1]] = m[2]; return o; }
@@ -687,6 +1356,8 @@ export function readLaunchXml(text, cli) {
   const nodes = [];
   for (const m of text.matchAll(/<node\b([^>]*?)(?:\/>|>([\s\S]*?)<\/node>)/g)) {
     const a = attrs(m[1]); const body = m[2] || "";
+    if ("if" in a && !/^(true|1)$/i.test(sub(a.if))) continue;
+    if ("unless" in a && /^(true|1)$/i.test(sub(a.unless))) continue;
     const n = { pkg: sub(a.pkg), exec: sub(a.exec), name: sub(a.name), ns: sub(a.namespace), params: {}, files: [], remaps: [] };
     for (const p of body.matchAll(/<param\b([^>]*?)\/?>/g)) { const pa = attrs(p[1]); if (pa.from) n.files.push(sub(pa.from)); else if (pa.name) n.params[pa.name] = yamlValue(sub(pa.value)); }
     for (const r of body.matchAll(/<remap\b([^>]*?)\/?>/g)) { const ra = attrs(r[1]); n.remaps.push([sub(ra.from), sub(ra.to)]); }
@@ -701,7 +1372,11 @@ export function readLaunchPy(text, cli) {
     if (m[1] in cli) vals[m[1]] = cli[m[1]]; else if (m[2] !== undefined) vals[m[1]] = m[2];
     else return { error: `Required launch argument "${m[1]}" (description: "no description given") was not provided` };
   }
-  const str = (s) => { if (!s) return ""; const q = s.match(/^['"]([^'"]*)['"]$/); if (q) return q[1]; const lc = s.match(/LaunchConfiguration\(\s*['"]([\w-]+)['"]\s*\)/); return lc ? vals[lc[1]] ?? "" : s.trim(); };
+  const lcVar = {}, fileVar = {};
+  for (const m of text.matchAll(/^\s*(\w+)\s*=\s*LaunchConfiguration\(\s*['"]([\w-]+)['"]\s*\)/gm)) lcVar[m[1]] = m[2];
+  const shareRe = /os\.path\.join\(\s*get_package_share_directory\(\s*['"](\w+)['"]\s*\)\s*,\s*['"](\w+)['"]\s*,\s*['"]([\w.]+)['"]\s*\)/;
+  for (const m of text.matchAll(new RegExp(`^\\s*(\\w+)\\s*=\\s*${shareRe.source}`, "gm"))) fileVar[m[1]] = `$FINDSHARE:${m[2]}/${m[3]}/${m[4]}`;
+  const str = (s) => { if (!s) return ""; const q = s.match(/^['"]([^'"]*)['"]$/); if (q) return q[1]; const lc = s.match(/LaunchConfiguration\(\s*['"]([\w-]+)['"]\s*\)/); if (lc) return vals[lc[1]] ?? ""; if (s.trim() in lcVar) return vals[lcVar[s.trim()]] ?? ""; return s.trim(); };
   const nodes = [];
   let i = 0;
   while ((i = text.indexOf("Node(", i)) >= 0) {
@@ -711,13 +1386,22 @@ export function readLaunchPy(text, cli) {
     const body = text.slice(i + 5, j); i = j;
     const kw = (k) => { const m = body.match(new RegExp(`\\b${k}\\s*=\\s*('[^']*'|"[^"]*"|LaunchConfiguration\\([^)]*\\))`)); return m ? str(m[1]) : ""; };
     const n = { pkg: kw("package"), exec: kw("executable"), name: kw("name"), ns: kw("namespace"), params: {}, files: [], remaps: [] };
+    const am = body.match(/arguments\s*=\s*\[([^\]]*)\]/); if (am) n.args = [...am[1].matchAll(/['"]([^'"]*)['"]/g)].map((x) => x[1]);
+    const rd = body.match(/['"]robot_description['"]\s*:\s*(\w+)/); if (rd) n.rdVar = rd[1];
+    const cond = body.match(/condition\s*=\s*(If|Unless)Condition\(\s*LaunchConfiguration\(\s*['"]([\w-]+)['"]\s*\)\s*\)/);
+    if (cond) { const on = /^(true|1)$/i.test(String(vals[cond[2]])); if (cond[1] === "If" ? !on : on) continue; }
     const pm = body.match(/parameters\s*=\s*\[([\s\S]*?)\]\s*(,|$)/);
-    if (pm) for (const e of pm[1].matchAll(/['"]([\w.]+)['"]\s*:\s*('[^']*'|"[^"]*"|LaunchConfiguration\([^)]*\)|[-\w.]+)/g)) n.params[e[1]] = yamlValue(str(e[2]) === "" ? e[2] : /^['"]/.test(e[2]) || /^Launch/.test(e[2]) ? str(e[2]) : e[2]);
+    if (pm) for (const tok of pm[1].split(",").map((x) => x.trim())) { if (tok in fileVar) n.files.push(fileVar[tok]); const sm = tok.match(shareRe); if (sm) n.files.push(`$FINDSHARE:${sm[1]}/${sm[2]}/${sm[3]}`); }
+    if (pm) for (const e of pm[1].matchAll(/['"]([\w.]+)['"]\s*:\s*('[^']*'|"[^"]*"|LaunchConfiguration\([^)]*\)|[-\w.]+)/g)) n.params[e[1]] = yamlValue(e[2] in lcVar ? str(e[2]) : str(e[2]) === "" ? e[2] : /^['"]/.test(e[2]) || /^Launch/.test(e[2]) ? str(e[2]) : e[2]);
     const rm = body.match(/remappings\s*=\s*\[([\s\S]*?)\]\s*(,|$)/);
     if (rm) for (const r of rm[1].matchAll(/\(\s*['"]([^'"]+)['"]\s*,\s*['"]([^'"]+)['"]\s*\)/g)) n.remaps.push([r[1], r[2]]);
     nodes.push(n);
   }
-  return { nodes, vals };
+  const shareVar = {};
+  for (const m of text.matchAll(/^\s*(\w+)\s*=\s*get_package_share_directory\(\s*['"](\w+)['"]\s*\)/gm)) shareVar[m[1]] = m[2];
+  const includes = [];
+  for (const m of text.matchAll(/IncludeLaunchDescription\(\s*(?:Python|XML|AnyLaunch)?\w*LaunchDescriptionSource\(\s*os\.path\.join\(\s*(\w+|get_package_share_directory\(\s*['"](\w+)['"]\s*\))\s*,\s*['"]launch['"]\s*,\s*['"]([\w.]+)['"]\s*\)/g)) includes.push({ pkg: m[2] || shareVar[m[1]], file: m[3] });
+  return { nodes, vals, includes };
 }
 
 // ros2 launch <workspace package> <file> [arg:=value ...]
@@ -736,6 +1420,12 @@ RosGraph.prototype.launchUser = function (pk, file, extra = []) {
     return decl.length ? ["Arguments (pass arguments as '<name>:=<value>'):", ""].concat(...decl.map((a) => [`    '${a.name}':`, "        no description given", a.default !== undefined ? `        (default: '${a.default}')` : "", ""])).filter((x, i, arr) => x !== "" || arr[i - 1] !== "").map((t) => this.out(t)) : [this.out("No arguments.")];
   }
   const r = kindOf === "py" ? readLaunchPy(text, cli) : kindOf === "xml" ? readLaunchXml(text, cli) : { error: "the practice terminal reads .launch.xml and .launch.py files" };
+  for (const inc of (r.includes || [])) {      // IncludeLaunchDescription: read the other launch file and start its nodes too
+    const ip = sh.wsPkgs && sh.wsPkgs.get(inc.pkg), itext = ip && (ip.launch || {})[inc.file];
+    if (itext === undefined) return [this.out(`[INFO] [launch]: Default logging verbosity is set to INFO`), this.err(`[ERROR] [launch]: Caught exception in launch (see debug for traceback): file '${inc.file}' was not found in the share directory of package '${inc.pkg}'`)];
+    const ir = /\.xml$/.test(inc.file) ? readLaunchXml(itext, {}) : readLaunchPy(itext, {});
+    if (!ir.error) r.nodes = [...ir.nodes, ...r.nodes];
+  }
   const L = [this.out(`[INFO] [launch]: All log files can be found below ${HOME}/.ros/log/2026-10-12-09-30-00-000000-ros2lab-4300`), this.out("[INFO] [launch]: Default logging verbosity is set to INFO")];
   if (r.error) return [...L, this.err(`[ERROR] [launch]: Caught exception in launch (see debug for traceback): ${r.error}`)];
   let count = 0;
@@ -755,7 +1445,10 @@ RosGraph.prototype.launchUser = function (pk, file, extra = []) {
     }
     Object.assign(params, n.params);
     const node = this.add(kind, name, ns, Object.fromEntries(Object.entries(params).map(([k, v]) => [k, plainValue(v)])), n.remaps);
-    if (kind === "custom") node.ptypes = Object.fromEntries(Object.entries(params).map(([k, v]) => [k, v && typeof v === "object" ? "double" : typeof v === "boolean" ? "bool" : typeof v === "string" ? "string" : "integer"]));
+    if (kind === "static_tf" && n.args) { const g = (k) => { const i = n.args.indexOf(`--${k}`); return i >= 0 ? n.args[i + 1] : 0; }; node.tf = { parent: g("frame-id"), child: g("child-frame-id"), t: [Number(g("x")), Number(g("y")), Number(g("z"))], q: qRPY(Number(g("roll")), Number(g("pitch")), Number(g("yaw"))) }; }
+    if (kind === "rsp" && n.rdVar) { const urdf = Object.entries(pk.urdf || {})[0]; if (urdf) node.params.robot_description = urdf[1]; }
+    if (kind === "custom" && ws.infos && ws.infos[n.exec]) { const inf = ws.infos[n.exec]; node.info = inf; for (const [k, v] of Object.entries(inf.params)) if (!(k in node.params)) node.params[k] = v; }
+    if (kind === "custom") node.ptypes = { ...Object.fromEntries(Object.entries(params).map(([k, v]) => [k, v && typeof v === "object" ? "double" : typeof v === "boolean" ? "bool" : typeof v === "string" ? "string" : "integer"])), ...((node.info && node.info.ptypes) || {}) };
     count++;
     L.push(this.out(`[INFO] [${n.exec}-${count}]: process started with pid [${4300 + count * 7}]`));
   }

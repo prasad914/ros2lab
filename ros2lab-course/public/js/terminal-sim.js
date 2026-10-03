@@ -62,7 +62,7 @@ const APT = {
   "ros-jazzy-ur-description": { repo: true, ros: ["ur_description"], about: "Universal Robots arm models" },
   "ros-jazzy-rmw-cyclonedds-cpp": { repo: true, ros: ["rmw_cyclonedds_cpp"], about: "Cyclone DDS middleware" },
 };
-const DEFAULT_ROS = ["turtlesim", "demo_nodes_py", "demo_nodes_cpp", "rclpy", "std_msgs", "rqt"];
+const DEFAULT_ROS = ["turtlesim", "demo_nodes_py", "demo_nodes_cpp", "rclpy", "std_msgs", "rqt", "rclcpp", "rclcpp_components", "geometry_msgs", "sensor_msgs", "std_srvs"];
 const HELP = {
   ls: "Usage: ls [OPTION]... [FILE]...\n  -a   show hidden files (names starting with .)\n  -l   long list: permissions, owner, size, date",
   cd: "cd [folder]   go into a folder.  cd ..  goes up.  cd ~  goes home.",
@@ -122,6 +122,7 @@ export class Shell {
       this.cmds.delete("curl"); this.cmds.delete("add-apt-repository");
     }
     for (const c of s.cmds || []) this.cmds.add(c);
+    for (const p of s.rosPkgs || []) this.rosPkgs.add(p);
     this.aptUpdated = false;
     this.sudoTold = false;
     // a pretend running ROS 2 system (nodes in "other terminals"), and packages built with colcon
@@ -628,6 +629,7 @@ export class Shell {
       }
       case "colcon": {
         const n = need("colcon", "python3-colcon-common-extensions"); if (n) return n;
+        if (plain[0] === "test" || plain[0] === "test-result") return { lines: this.colconTest(plain[0], rest) };
         if (plain[0] !== "build") return { lines: [this.out("usage: colcon build [--symlink-install]")] };
         if (!this.sourced) return { lines: [this.err("colcon build: ROS 2 is not loaded in this terminal"), this.hint("Run source /opt/ros/jazzy/setup.bash first.")] };
         const L = [];
@@ -832,7 +834,10 @@ export class Shell {
       if (!a || !b) return [this.err("usage: ros2 run <package_name> <executable_name>")];
       const ws = this.wsPkgs.get(a);
       if (ws) {
+        if (ws.notRunnable && b in ws.notRunnable) return [this.err("No executable found"), this.hint(ws.notRunnable[b])];
         if (!(b in ws.exes)) return [this.err("No executable found"), this.hint(`See the programs in this package with: ros2 pkg executables ${a}`)];
+        const info = ws.infos && ws.infos[b];
+        if (info && info.node && this.graph) return this.graph.startCustom(a, b, info, ws.exes[b], args.slice(3));
         return ws.exes[b].length ? ws.exes[b].map((t) => this.out(t)) : [this.hint("(The program ran but printed nothing.)")];
       }
       if (this.graph && this.rosPkgs.has(a)) { const r = this.graph.start(a, b, args.slice(3)); if (r) return r; }
@@ -929,6 +934,53 @@ export class Shell {
   }
 
   // ---------- task checking ----------
+  // colcon test / colcon test-result: count the tests that the packages' test files define
+  colconTest(verb, rest) {
+    if (!this.sourced) return [this.err("colcon: ROS 2 is not loaded in this terminal"), this.hint("Run source /opt/ros/jazzy/setup.bash first.")];
+    const ws = this.cwd === "/" ? "" : this.cwd;
+    let pkgs = findPackages(this, this.cwd);
+    const sel = rest.indexOf("--packages-select");
+    if (sel >= 0) pkgs = pkgs.filter((p) => rest.slice(sel + 1).includes(p.name));
+    const count = (p) => {
+      const out = [];
+      for (const [path, n] of this.fs) {
+        if (n.type !== "f" || !path.startsWith(`${p.dir}/test/`)) continue;
+        const code = n.content || "";
+        if (p.type === "ament_python" && /\/test_\w+\.py$/.test(path)) {
+          let total = 0;
+          const lines = code.split("\n");
+          lines.forEach((l, i) => {
+            if (!/^def test_/.test(l)) return;
+            let k = 1;
+            for (let j = i - 1; j >= 0 && /^@/.test(lines[j]); j--) { const m = lines[j].match(/parametrize\(\s*(['"])[^'"]*\1\s*,\s*\[(.*)\]\s*\)/); if (m) k *= (m[2].match(/\(/g) || []).length || m[2].split(",").length; }
+            total += k;
+          });
+          out.push({ file: `build/${p.name}/pytest.xml`, n: total });
+        }
+        if (p.type === "ament_cmake" && /\.cpp$/.test(path)) {
+          const cm = (this.fs.get(`${p.dir}/CMakeLists.txt`) || {}).content || "";
+          const name = baseName(path).replace(/\.cpp$/, "");
+          if (new RegExp(`ament_add_gtest\\(\\s*\\w+\\s+test/${name}\\.cpp`).test(cm)) {
+            if (!out.some((o) => /Test\.xml$/.test(o.file))) out.push({ file: `build/${p.name}/Testing/20261012-0930/Test.xml`, n: 1 });   // CTest's own summary file
+            out.push({ file: `build/${p.name}/test_results/${p.name}/${name}.gtest.xml`, n: (code.match(/^TEST\(/gm) || []).length });
+          }
+        }
+      }
+      return out;
+    };
+    if (verb === "test") {
+      if (!pkgs.length) return [this.out("Summary: 0 packages finished [0.2s]")];
+      if (pkgs.some((p) => !this.isDir(`${ws}/build/${p.name}`) && !this.isDir(`${ws}/install/${p.name}`))) return [this.err("Build the packages first: colcon build"), this.hint("colcon test runs the tests of packages that were already built.")];
+      this.testsRun = pkgs.map((p) => p.name);
+      return [...pkgs.map((p) => this.out(`Starting >>> ${p.name}`)), ...pkgs.map((p, i) => this.out(`Finished <<< ${p.name} [${(1.1 + i * 0.6).toFixed(2)}s]`)), this.out(""), this.out(`Summary: ${pkgs.length} package${pkgs.length === 1 ? "" : "s"} finished [${(1.4 + pkgs.length * 0.6).toFixed(1)}s]`)];
+    }
+    const ran = findPackages(this, this.cwd).filter((p) => (this.testsRun || []).includes(p.name));
+    const files = ran.flatMap(count);
+    if (!files.length) return [this.out("Summary: 0 tests, 0 errors, 0 failures, 0 skipped"), this.hint("Run colcon test first.")];
+    const tot = files.reduce((a, f) => a + f.n, 0);
+    const all = rest.includes("--all");
+    return [...(all ? files.map((f) => this.out(`${f.file}: ${f.n} test${f.n === 1 ? "" : "s"}, 0 errors, 0 failures, 0 skipped`)).concat([this.out("")]) : []), this.out(`Summary: ${tot} tests, 0 errors, 0 failures, 0 skipped`), ...(all ? [] : [this.hint("Only failures are listed one by one. Add --all to see every result file.")])];
+  }
   check(c, lastCmd) {
     if (!c) return false;
     const norm = (s) => String(s).trim().replace(/\s+/g, " ");
@@ -1142,6 +1194,7 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
   let chat = 0;
   const ticker = setInterval(() => {
     if (!root.isConnected) { clearInterval(ticker); return; }
+    if (sh.graph.tickCustom()) paintSim(true);
     const talking = sh.graph.nodes.some((n) => n.kind === "talker");
     if (!talking) return;
     chat++;
@@ -1158,7 +1211,7 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
 
   function flushNotices() {
     const q = sh.graph.notices || []; sh.graph.notices = [];
-    for (const nt of q) { const t = tabs.find((x) => x.proc && x.proc.fulls.includes(nt.node)); if (t) { addLine({ text: nt.text, cls: "warn-line" }, t); scroll(t); } }
+    for (const nt of q) { const t = tabs.find((x) => x.proc && x.proc.fulls.includes(nt.node)); if (t) { addLine({ text: nt.text, cls: nt.cls || (/\[(WARN|ERROR)\]/.test(nt.text) ? "warn-line" : "") }, t); scroll(t); } }
   }
 
   // ---------- the TurtleSim window(s) ----------
@@ -1178,7 +1231,66 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
       }
       drawSim(n, sims.get(n.full), animate);
     }
-    simPanel.hidden = live.length === 0;
+    const bots = sh.graph.robots();
+    for (const [full, s] of robs) if (!bots.some((n) => n.full === full)) { s.box.remove(); robs.delete(full); }
+    for (const n of bots) {
+      if (!robs.has(n.full)) {
+        const canvas = el("canvas", { width: SIZE * 2, height: SIZE * 2, "aria-label": `Robot window for ${n.full}`, role: "img" });
+        canvas.style.width = canvas.style.height = SIZE + "px";
+        const box = el("figure", { class: "tsim-win" }, el("figcaption", {}, el("i"), el("i"), el("i"), el("span", { text: sh.graph.vkind(n) === "arm" ? `2-link arm  ${n.full}` : `Mobile base (odom view)  ${n.full}` })), canvas);
+        simPanel.append(box);
+        robs.set(n.full, { box, canvas });
+      }
+      drawRobot(n, robs.get(n.full).canvas);
+    }
+    simPanel.hidden = live.length === 0 && bots.length === 0;
+  }
+  const robs = new Map();
+  function drawRobot(n, canvas) {
+    const ctx = canvas.getContext("2d"), S = SIZE * 2;
+    const vk = sh.graph.vkind(n), arm = sh.graph.nodes.find((x) => sh.graph.vkind(x) === "arm");
+    const span = vk === "arm" ? (n.params.link1_length + n.params.link2_length) * 1.15 : 3;
+    let cx = 0, cy = 0;
+    if (vk === "diffbot") { cx = n.base.x; cy = n.base.y; }
+    const k = S / (2 * span), X = (x) => S / 2 + (x - cx) * k, Y = (y) => S / 2 - (y - cy) * k;
+    ctx.fillStyle = "#0f1720"; ctx.fillRect(0, 0, S, S);
+    ctx.strokeStyle = "rgba(255,255,255,.08)"; ctx.lineWidth = 1;
+    const step = span > 2.5 ? 1 : 0.25;
+    for (let g = Math.floor((cx - span) / step) * step; g <= cx + span; g += step) { ctx.beginPath(); ctx.moveTo(X(g), 0); ctx.lineTo(X(g), S); ctx.stroke(); }
+    for (let g = Math.floor((cy - span) / step) * step; g <= cy + span; g += step) { ctx.beginPath(); ctx.moveTo(0, Y(g)); ctx.lineTo(S, Y(g)); ctx.stroke(); }
+    ctx.strokeStyle = "rgba(255,255,255,.35)"; ctx.beginPath(); ctx.moveTo(X(0), 0); ctx.lineTo(X(0), S); ctx.moveTo(0, Y(0)); ctx.lineTo(S, Y(0)); ctx.stroke();
+    ctx.font = "20px sans-serif"; ctx.fillStyle = "rgba(255,255,255,.7)";
+    const drawArm = (ox, oy, oth, A) => {
+      const l1 = A.params.link1_length, l2 = A.params.link2_length, q = A.q;
+      const j1 = [ox + l1 * Math.cos(oth + q[0]), oy + l1 * Math.sin(oth + q[0])], e = [j1[0] + l2 * Math.cos(oth + q[0] + q[1]), j1[1] + l2 * Math.sin(oth + q[0] + q[1])];
+      ctx.setLineDash([6, 6]); ctx.strokeStyle = "rgba(120,180,255,.35)"; ctx.beginPath(); ctx.arc(X(ox), Y(oy), (l1 + l2) * k, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
+      ctx.lineCap = "round"; ctx.lineWidth = 14; ctx.strokeStyle = "#f59e0b"; ctx.beginPath(); ctx.moveTo(X(ox), Y(oy)); ctx.lineTo(X(j1[0]), Y(j1[1])); ctx.stroke();
+      ctx.strokeStyle = "#38bdf8"; ctx.beginPath(); ctx.moveTo(X(j1[0]), Y(j1[1])); ctx.lineTo(X(e[0]), Y(e[1])); ctx.stroke();
+      ctx.fillStyle = "#e5e7eb"; for (const [px, py] of [[ox, oy], j1]) { ctx.beginPath(); ctx.arc(X(px), Y(py), 9, 0, Math.PI * 2); ctx.fill(); }
+      ctx.fillStyle = "#22c55e"; ctx.beginPath(); ctx.arc(X(e[0]), Y(e[1]), 8, 0, Math.PI * 2); ctx.fill();
+      if (A.target) {
+        const tx = ox + Math.cos(oth) * A.target[0] - Math.sin(oth) * A.target[1], ty = oy + Math.sin(oth) * A.target[0] + Math.cos(oth) * A.target[1];
+        ctx.strokeStyle = "#ef4444"; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(X(tx) - 9, Y(ty) - 9); ctx.lineTo(X(tx) + 9, Y(ty) + 9); ctx.moveTo(X(tx) + 9, Y(ty) - 9); ctx.lineTo(X(tx) - 9, Y(ty) + 9); ctx.stroke();
+      }
+      ctx.fillStyle = "rgba(255,255,255,.8)"; ctx.fillText(`q1=${(q[0] * 180 / Math.PI).toFixed(1)}°  q2=${(q[1] * 180 / Math.PI).toFixed(1)}°`, 14, S - 16);
+    };
+    if (vk === "arm") { ctx.fillText("base_link frame (metres)", 14, 28); drawArm(0, 0, 0, n); return; }
+    const b = n.base;
+    const T = n.truth;
+    if (T && Math.hypot(T.x - b.x, T.y - b.y) > 0.02) {   // odometry has drifted: show where the robot REALLY is
+      ctx.setLineDash([8, 6]); ctx.strokeStyle = "rgba(255,255,255,.55)"; ctx.lineWidth = 2; ctx.beginPath(); T.path.forEach(([x, y], i) => (i ? ctx.lineTo(X(x), Y(y)) : ctx.moveTo(X(x), Y(y)))); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = "rgba(255,255,255,.75)"; ctx.beginPath(); ctx.arc(X(T.x), Y(T.y), 7, 0, Math.PI * 2); ctx.fill();
+      ctx.fillText("dashed = real path, purple = odometry", 14, S - 40);
+    }
+    ctx.strokeStyle = "#a78bfa"; ctx.lineWidth = 3; ctx.beginPath(); n.path.forEach(([x, y], i) => (i ? ctx.lineTo(X(x), Y(y)) : ctx.moveTo(X(x), Y(y)))); ctx.stroke();
+    ctx.save(); ctx.translate(X(b.x), Y(b.y)); ctx.rotate(-b.theta);
+    const L = 0.36 * k, Wd = 0.3 * k;
+    ctx.fillStyle = "#475569"; ctx.fillRect(-L / 2, -Wd / 2, L, Wd);
+    ctx.fillStyle = "#111827"; ctx.fillRect(-L * 0.3, -Wd / 2 - 8, L * 0.6, 10); ctx.fillRect(-L * 0.3, Wd / 2 - 2, L * 0.6, 10);
+    ctx.strokeStyle = "#f87171"; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(L * 0.7, 0); ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle = "rgba(255,255,255,.8)"; ctx.fillText(`odom: x=${b.x.toFixed(2)} y=${b.y.toFixed(2)} θ=${b.theta.toFixed(2)} rad`, 14, 28);
+    if (arm && arm.world) drawArm(b.x, b.y, b.theta, arm);
   }
   function drawSim(n, s, animate) {
     const ctx = s.canvas.getContext("2d"), k = (SIZE * 2) / W;

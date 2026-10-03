@@ -714,6 +714,8 @@ table.data td.num { text-align: right; font-variant-numeric: tabular-nums; }
 [data-mod="W3"] { --mc: var(--sky); --mt: var(--sky-tint); }
 [data-mod="IN"] { --mc: #B86E00; --mt: var(--sun-tint); }
 [data-mod="PF"] { --mc: var(--coral); --mt: var(--coral-tint); }
+[data-mod="NP"] { --mc: #1E8A4C; --mt: var(--green-tint); }
+[data-mod="KM"] { --mc: #3B4FC4; --mt: #E8EBFF; }
 .lesson-body > .lesson-anim, .lesson-body > .pzl { margin: 26px 0; }
 
 /* ---------- concept animations ---------- */
@@ -955,3 +957,22 @@ body.shielded main, body.shielded .watermark { filter: blur(18px) grayscale(1); 
 .tsim-win canvas { display: block; max-width: 100%; height: auto !important; }
 @media (max-width: 560px) { .tsim-win canvas { width: 100% !important; } }
 .term-screen .warn-line { color: var(--term-yellow); }
+
+/* ---------- v7: playground drawings, tabbed code ---------- */
+.py-viz:not(:empty) { display: flex; flex-wrap: wrap; gap: 12px; padding: 10px 12px; border-top: 2px solid var(--line-soft); background: var(--paper); }
+.py-viz-fig { margin: 0; border: 2px solid var(--ink); border-radius: var(--r-sm); background: var(--white); overflow: hidden; max-width: 100%; }
+.py-viz-fig figcaption { font-family: var(--font-head); font-size: .85rem; padding: 4px 8px; border-bottom: 2px solid var(--ink); background: var(--sun-tint); }
+.py-viz-fig canvas { display: block; max-width: 100%; height: auto !important; }
+.langs { border: var(--border); border-radius: var(--r-lg); overflow: hidden; background: var(--white); }
+.langs-head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 8px 10px; background: var(--paper); border-bottom: 2px solid var(--ink); }
+.langs-head b { font-family: var(--font-head); margin-right: auto; }
+.langs-tab { font: inherit; font-family: var(--font-head); font-size: .88rem; font-weight: 600; color: var(--ink); background: var(--white); border: 2px solid var(--ink); border-radius: 999px; padding: 3px 12px; cursor: pointer; }
+.langs-tab[aria-selected="true"] { background: var(--sun); box-shadow: var(--shadow-sm); }
+.langs-body { padding: 12px; }
+.langs-body .code-wrap, .langs-body pre.code { margin: 0; }
+.langs-note { margin: 10px 0 0; font-size: .98rem; }
+
+/* phone widths: long words and code never push the page sideways */
+.lesson-hero h1, h1, h2, .lesson-body p, .lesson-body li, .lesson-body .opt, .lesson-body td { overflow-wrap: anywhere; }
+.lesson-body pre { max-width: 100%; overflow-x: auto; }
+.lesson-body { overflow-x: clip; }

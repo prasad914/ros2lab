@@ -42,6 +42,7 @@ export function mountPython(container, spec, { onComplete } = {}) {
   ta.rows = Math.min(40, Math.max(6, (spec.code || "").split("\n").length + 1));
   const out = el("div", { class: "py-out", role: "log", "aria-live": "polite" }, el("span", { class: "info", text: "Press Run to see the output here." }));
   const help = el("div", { class: "py-help", hidden: true });
+  const viz = el("div", { class: "py-viz" });
   const pass = el("div", { class: "py-pass", hidden: true, text: "Goal reached. Well done!" });
   const solBtn = el("button", { class: "btn btn-white btn-small", type: "button", text: "Show me a solution", hidden: true });
   let misses = 0;
@@ -51,7 +52,7 @@ export function mountPython(container, spec, { onComplete } = {}) {
   const typed = spec.inputs && spec.inputs.length ? el("div", { class: "py-goal small" }, el("b", { text: "When the program asks, it types: " }), spec.inputs.map((v, i) => [i ? ", " : "", el("code", { text: v })])) : null;
   const box = el("div", { class: "py" },
     el("div", { class: "py-head" }, el("b", { text: spec.title || "Python playground" }), el("span", { style: { display: "flex", gap: "8px", flexWrap: "wrap" } }, solBtn, resetBtn, runBtn)),
-    goal, typed, ta, out, help, pass);
+    goal, typed, ta, out, viz, help, pass);
   container.append(box);
   let done = false;
 
@@ -90,6 +91,10 @@ export function mountPython(container, spec, { onComplete } = {}) {
     });
     function finish(m, killed) {
       waiting.delete(id);
+      const vizLines = text.split("\n").filter((l) => l.startsWith("@@VIZ "));
+      text = text.split("\n").filter((l) => !l.startsWith("@@VIZ ")).join("\n");
+      viz.replaceChildren();
+      for (const l of vizLines) { try { drawViz(viz, JSON.parse(l.slice(6))); } catch { /* ignore a broken drawing */ } }
       runBtn.disabled = false;
       if (killed && worker) { worker.terminate(); worker = null; }
       if (m.type === "error") errText += m.text;
@@ -104,7 +109,7 @@ export function mountPython(container, spec, { onComplete } = {}) {
       if (!text && !errText) out.append(el("span", { class: "info", text: "(The program finished without printing anything.)" }));
       checkGoal(text, errText);
     }
-    getWorker().postMessage({ id, code: ta.value, inputs: spec.inputs || [], params: spec.params || {} });
+    getWorker().postMessage({ id, code: ta.value, inputs: spec.inputs || [], params: spec.params || {}, simSeconds: spec.simSeconds || 3 });
   }
 
   function checkGoal(text, errText) {
@@ -125,4 +130,65 @@ export function mountPython(container, spec, { onComplete } = {}) {
     }
   }
   return { isDone: () => done };
+}
+
+
+// ---------- drawings after a run: turtlesim paths, planar arms, odometry paths ----------
+function drawViz(box, v) {
+  const panel = (title, w = 300, h = 300) => {
+    const c = el("canvas", { width: w * 2, height: h * 2, role: "img", "aria-label": title });
+    c.style.width = w + "px"; c.style.height = h + "px";
+    box.append(el("figure", { class: "py-viz-fig" }, el("figcaption", { text: title }), c));
+    const ctx = c.getContext("2d"); ctx.scale(2, 2); return ctx;
+  };
+  if (v.turtles) {
+    const W = 11.088889, S = 300, k = S / W, X = (x) => x * k, Y = (y) => S - y * k;
+    const ctx = panel("TurtleSim after the run");
+    ctx.fillStyle = "rgb(69,86,255)"; ctx.fillRect(0, 0, S, S);
+    for (const t of v.turtles) {
+      ctx.strokeStyle = `rgb(${t.pen.join(",")})`; ctx.lineWidth = 2; ctx.lineJoin = "round";
+      for (const seg of t.path) { ctx.beginPath(); seg.forEach(([x, y], i) => (i ? ctx.lineTo(X(x), Y(y)) : ctx.moveTo(X(x), Y(y)))); ctx.stroke(); }
+    }
+    for (const t of v.turtles) {
+      ctx.save(); ctx.translate(X(t.x), Y(t.y)); ctx.rotate(-t.theta);
+      ctx.fillStyle = "#7cc36b"; ctx.strokeStyle = "#1f3d1c"; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.ellipse(0, 0, 9, 7, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.beginPath(); ctx.arc(11, 0, 3.5, 0, Math.PI * 2); ctx.fill(); ctx.stroke(); ctx.restore();
+      ctx.fillStyle = "#fff"; ctx.font = "11px sans-serif"; ctx.fillText(t.name, X(t.x) + 12, Y(t.y) - 10);
+    }
+  }
+  for (const a of v.arms || []) {
+    const reach = a.l.reduce((s, x) => s + x, 0), base = a.base || [0, 0, 0];
+    const span = reach * 1.25 + Math.max(Math.abs(base[0]), Math.abs(base[1]));
+    const S = 300, k = S / (2 * span), X = (x) => S / 2 + x * k, Y = (y) => S / 2 - y * k;
+    const ctx = panel(a.label || "Arm after the run");
+    ctx.fillStyle = "#F7FAFF"; ctx.fillRect(0, 0, S, S);
+    ctx.strokeStyle = "#DCE6F3"; ctx.lineWidth = 1;
+    for (let g = -Math.ceil(span); g <= Math.ceil(span); g += 0.5) { ctx.beginPath(); ctx.moveTo(X(g), 0); ctx.lineTo(X(g), S); ctx.moveTo(0, Y(g)); ctx.lineTo(S, Y(g)); ctx.stroke(); }
+    ctx.strokeStyle = "#9AA6C2"; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.arc(X(base[0]), Y(base[1]), reach * k, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
+    if (a.base) { ctx.save(); ctx.translate(X(base[0]), Y(base[1])); ctx.rotate(-base[2]); ctx.fillStyle = "#FFC83D"; ctx.strokeStyle = "#1D2B53"; ctx.lineWidth = 2; ctx.fillRect(-0.25 * k, -0.18 * k, 0.5 * k, 0.36 * k); ctx.strokeRect(-0.25 * k, -0.18 * k, 0.5 * k, 0.36 * k); ctx.restore(); }
+    let x = base[0], y = base[1], th = base[2];
+    const pts = [[x, y]];
+    a.l.forEach((L, i) => { th += a.q[i] || 0; x += L * Math.cos(th); y += L * Math.sin(th); pts.push([x, y]); });
+    ctx.strokeStyle = "#6C4FE0"; ctx.lineWidth = 7; ctx.lineCap = "round";
+    ctx.beginPath(); pts.forEach(([px, py], i) => (i ? ctx.lineTo(X(px), Y(py)) : ctx.moveTo(X(px), Y(py)))); ctx.stroke();
+    ctx.fillStyle = "#1D2B53"; pts.forEach(([px, py]) => { ctx.beginPath(); ctx.arc(X(px), Y(py), 5, 0, Math.PI * 2); ctx.fill(); });
+    if (a.target) { ctx.strokeStyle = "#D93E5F"; ctx.lineWidth = 2.5; const [tx, ty] = a.target; ctx.beginPath(); ctx.moveTo(X(tx) - 7, Y(ty) - 7); ctx.lineTo(X(tx) + 7, Y(ty) + 7); ctx.moveTo(X(tx) + 7, Y(ty) - 7); ctx.lineTo(X(tx) - 7, Y(ty) + 7); ctx.stroke(); }
+    ctx.fillStyle = "#1D2B53"; ctx.font = "11px sans-serif";
+    ctx.fillText(`end effector: (${x.toFixed(2)}, ${y.toFixed(2)})`, 8, S - 10);
+  }
+  for (const p of v.paths || []) {
+    if (!p.pts.length) continue;
+    const xs = p.pts.map((q) => q[0]), ys = p.pts.map((q) => q[1]);
+    const minX = Math.min(...xs, 0), maxX = Math.max(...xs, 0), minY = Math.min(...ys, 0), maxY = Math.max(...ys, 0);
+    const span = Math.max(maxX - minX, maxY - minY, 0.5) * 1.2, cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
+    const S = 300, k = S / span, X = (x) => S / 2 + (x - cx) * k, Y = (y) => S / 2 - (y - cy) * k;
+    const ctx = panel(p.label || "Path");
+    ctx.fillStyle = "#F7FAFF"; ctx.fillRect(0, 0, S, S);
+    ctx.strokeStyle = "#9AA6C2"; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(X(0), 0); ctx.lineTo(X(0), S); ctx.moveTo(0, Y(0)); ctx.lineTo(S, Y(0)); ctx.stroke();
+    ctx.strokeStyle = "#0E9F95"; ctx.lineWidth = 3; ctx.beginPath(); p.pts.forEach(([x, y], i) => (i ? ctx.lineTo(X(x), Y(y)) : ctx.moveTo(X(x), Y(y)))); ctx.stroke();
+    const [ex, ey] = p.pts[p.pts.length - 1];
+    ctx.fillStyle = "#D93E5F"; ctx.beginPath(); ctx.arc(X(ex), Y(ey), 5, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = "#1D2B53"; ctx.font = "11px sans-serif"; ctx.fillText(`end: (${ex.toFixed(2)}, ${ey.toFixed(2)})`, 8, S - 10);
+  }
 }
