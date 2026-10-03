@@ -7,7 +7,7 @@ const LAYERS = [
   ["DDS middleware", "the postal service", "DDS delivers messages between programs, even across Wi-Fi to another computer. You never write DDS code: ROS 2 uses it for you."],
   ["ROS 2 (rclpy / rclcpp)", "nodes, topics, services, actions", "ROS 2 gives you nodes and the three ways to talk. rclpy is the Python library, rclcpp the C++ one. That is why Week 2 taught classes in both."],
   ["Ready-made packages", "Nav2, SLAM, MoveIt, ros2_control", "Thousands of free packages: navigation, map making, arm planning. You reuse them instead of writing everything yourself."],
-  ["Your nodes", "patrol, obstacle_stop, deliver", "Your code sits on top and only describes what is special about YOUR robot. Weeks 4 and 5 show how; in Weeks 6 and 7 you write such nodes yourself, in Python and C++."],
+  ["Your nodes", "patrol, obstacle_stop, deliver", "Your code sits on top and only describes what is special about YOUR robot. Week 4 shows how to use them; in Weeks 5 and 6 you write such nodes yourself, in Python and C++."],
 ];
 
 export function mount(container, meta) {

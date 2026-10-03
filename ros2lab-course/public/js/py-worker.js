@@ -615,8 +615,8 @@ def _set_parameters2(self, params):
         for q in plist:
             old = self._params.get(q.name)
             if old is not None and old.type_ != _PType.NOT_SET and q.type_ != old.type_:
-                reason = (f"Wrong parameter type, parameter {{{q.name}}} is of type {{{_TNAME.get(int(old.type_), old.type_)}}}, "
-                          f"setting it to {{{_TNAME.get(int(q.type_), q.type_)}}} is not allowed.")
+                _TT = {1: "Type.BOOL", 2: "Type.INTEGER", 3: "Type.DOUBLE", 4: "Type.STRING", 6: "Type.BOOL_ARRAY", 7: "Type.INTEGER_ARRAY", 8: "Type.DOUBLE_ARRAY", 9: "Type.STRING_ARRAY"}
+                reason = f"Wrong parameter type, expected '{_TT.get(int(old.type_), old.type_)}' got '{_TT.get(int(q.type_), q.type_)}'"   # rclpy's wording
         if reason is None:
             for cb in self.__dict__.get("_on_set", []):
                 r = _guard(cb)(plist)
@@ -1268,6 +1268,24 @@ _mri.srv.GoTo, _mri.srv.MoveArm = GoTo, MoveArm
 _mri.msg.RobotStatus = RobotStatus
 _mri.action.DriveDistance = DriveDistance
 _pr = sys.modules["practice"]; _pr.draw_arm, _pr.draw_path = draw_arm, draw_path
+
+# Week 5: launch files can be written and inspected in the playground (they describe what to start; nothing is started here)
+class _LaunchDescription:
+    def __init__(self, entities=None):
+        self.entities = list(entities or [])
+    def add_action(self, action):
+        self.entities.append(action)
+class _LaunchNode:
+    def __init__(self, package=None, executable=None, name=None, namespace=None, output=None, parameters=None, remappings=None, arguments=None, **kw):
+        if not package or not executable:
+            raise TypeError("Node() needs package='...' and executable='...'")
+        self.package, self.executable, self.name, self.namespace = package, executable, name, namespace
+        self.output, self.parameters, self.remappings, self.arguments = output, list(parameters or []), list(remappings or []), list(arguments or [])
+    def __repr__(self):
+        return f"Node(package='{self.package}', executable='{self.executable}')"
+_mod("launch", LaunchDescription=_LaunchDescription)
+sys.modules["launch_ros"] = _mod("launch_ros")
+sys.modules["launch_ros"].actions = _mod("launch_ros.actions", Node=_LaunchNode)
 
 # v7: client.call() inside a callback is fine with a MultiThreadedExecutor when the client has its OWN callback group
 _world.mt = False

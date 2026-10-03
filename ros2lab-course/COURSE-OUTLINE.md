@@ -1,8 +1,8 @@
-# ROS 2 from zero, in seven weeks: course outline
+# ROS 2 from zero, in six weeks: course outline
 
-A free online course on www.ros2lab.com for engineering students, designed for beginners and slow learners. 113 lessons of up to 30 minutes over 35 study days. Every lesson: a short story about Chiku the delivery robot, an "In plain words" summary, goals, slow step-by-step worked examples, interactive animations, practice in the browser (a simulated Ubuntu terminal with tabs, a live ROS 2 graph, TurtleSim, arm and mobile-base windows, or a Python playground with a practice rclpy), puzzles, common mistakes, quick checks, a recap and flashcards.
+A free online course on www.ros2lab.com for engineering students, designed for beginners and slow learners. 95 lessons of up to 30 minutes over 30 study days. Every lesson: a short story about Chiku the delivery robot, an "In plain words" summary, goals, slow step-by-step worked examples, interactive animations, practice in the browser (a simulated Ubuntu terminal with tabs, a live ROS 2 graph and TurtleSim windows, or a Python playground with a practice rclpy), puzzles, common mistakes, quick checks, a recap and flashcards.
 
-Weeks 6 and 7 show every node in **Python and C++**. All of their code was built and run on a real ROS 2 Jazzy system (colcon build, colcon test with 30 unit tests, and runtime checks with turtlesim) before it was put into the lessons.
+Week 5 teaches every idea twice, in a **Python chapter and a separate C++ chapter**. Week 6 then shows every robot-control node in Python and C++. All of their code was built and run on a real ROS 2 Jazzy system (colcon build with zero compiler warnings, colcon test with 12 unit tests, and runtime checks with turtlesim) before it was put into the lessons.
 
 ## Week 1: Talk to the robot's computer
 
@@ -11,7 +11,7 @@ The Ubuntu terminal and Python from zero: move around, manage files, install sof
 
 ### Day 1: Meet the terminal
 
-- **Start here: how this course works** (30 min). Your 35-day route, the robot you will program, and how to use the animations, puzzles and practice tools. *Practice: animation, think-first, step-through code, matching puzzle, flashcards, checklist, Python playground, sorting puzzle, ordering puzzle, quick checks.*
+- **Start here: how this course works** (30 min). Your 30-day route, the robot you will program, and how to use the animations, puzzles and practice tools. *Practice: animation, think-first, step-through code, matching puzzle, flashcards, checklist, Python playground, sorting puzzle, ordering puzzle, quick checks.*
 - **Meet the terminal** (30 min). What the terminal is, how to read the prompt, and your first commands. *Practice: practice terminal, quick checks, flashcards.*
 - **Folders and paths: moving around (part 1)** (30 min). Move between folders with `cd`, and learn absolute and relative paths. *Practice: animation, practice terminal, game, quick checks, matching puzzle.*
 - **Folders and paths: moving around (part 2)** (30 min). Part 2: Walking a path, one step at a time. *Practice: practice terminal, sorting puzzle, quick checks, flashcards.*
@@ -39,7 +39,7 @@ The Ubuntu terminal and Python from zero: move around, manage files, install sof
 
 - **Python 3: memory and skills** (30 min). Keep many values in lists and dictionaries, and write your own functions. *Practice: Python playground, step-through code, matching puzzle, quick checks, flashcards.*
 
-**Week 1 test: terminal and Python basics:** 15 questions, 35 minutes, 2 attempts (best score counts). Every student gets a different paper, built on the server from 209 question templates.
+**Week 1 test: terminal and Python basics:** 15 questions, 35 minutes, 2 attempts (best score counts). Every student gets a different paper, built on the server from 188 question templates.
 
 ## Week 2: Build the robot's brain
 
@@ -77,7 +77,7 @@ Python objects, C++ from the basics, your first ROS 2 nodes, then installing ROS
 - **Environment variables, source and ~/.bashrc** (30 min). Why a new terminal forgets ROS 2, and how `source` and `~/.bashrc` fix it. *Practice: practice terminal, game, think-first, quick checks, flashcards.*
 - **Set up the ROS 2 robotics lab** (30 min). Install Gazebo, ros2_control, Nav2, SLAM, TurtleBot3 and MoveIt, prepare rosdep and a workspace, and check everything. *Practice: practice terminal, checklist, quick checks, flashcards.*
 
-**Week 2 test: objects, C++ and ROS 2 setup:** 15 questions, 35 minutes, 2 attempts (best score counts). Every student gets a different paper, built on the server from 209 question templates.
+**Week 2 test: objects, C++ and ROS 2 setup:** 15 questions, 35 minutes, 2 attempts (best score counts). Every student gets a different paper, built on the server from 188 question templates.
 
 ## Week 3: Introduction to ROS
 
@@ -110,7 +110,7 @@ Why robots need a software platform, the goals, parts and ecosystem of ROS, its 
 - **DDS: how nodes find each other** (30 min). The DDS standard, automatic discovery (SPDP and SEDP), domains and ROS_DOMAIN_ID. *Practice: animation, think-first, practice terminal, quick checks, flashcards, matching puzzle.*
 - **Quality of Service (QoS)** (30 min). Reliability, durability, history and depth; ROS 2 QoS profiles; and the compatibility rule. *Practice: animation, sorting puzzle, Python playground, practice terminal, quick checks, flashcards.*
 
-**Week 3 test: Introduction to ROS:** 15 questions, 35 minutes, 2 attempts (best score counts). Every student gets a different paper, built on the server from 209 question templates.
+**Week 3 test: Introduction to ROS:** 15 questions, 35 minutes, 2 attempts (best score counts). Every student gets a different paper, built on the server from 188 question templates.
 
 ## Week 4: Speak ROS 2
 
@@ -146,127 +146,87 @@ The core ideas of ROS 2, hands-on in a practice terminal: nodes, topics, message
 - **Your debugging toolbox** (30 min). Record and replay data with `ros2 bag`, see the graph with rqt_graph, and pick the right tool for each problem. *Practice: practice terminal, matching puzzle, checklist, quick checks, flashcards, think-first.*
 - **Mini-project: design Chiku's ROS 2 graph** (30 min). Put the whole week together: design the graph of a delivery robot, then build one node that uses a parameter, two publishers and a service. *Practice: sorting puzzle, think-first, Python playground, spot-the-bug, flashcards, practice terminal, quick checks.*
 
-**Week 4 test: ROS 2 core concepts:** 15 questions, 35 minutes, 2 attempts (best score counts). Every student gets a different paper, built on the server from 209 question templates.
+**Week 4 test: ROS 2 core concepts:** 15 questions, 35 minutes, 2 attempts (best score counts). Every student gets a different paper, built on the server from 188 question templates.
 
 ## Week 5: ROS Programming Fundamentals
 
-Write real ROS 2 programs in Python and C++: packages and nodes, topics, custom interfaces, services, actions, parameters with YAML files and callbacks, and launch files.
+Write your own ROS 2 programs, one idea at a time, first in Python and then in C++: packages and nodes, timers and publishers, subscribers, custom messages, services and clients, actions, parameters and launch files, and a mini-project. Every chapter has a live Ubuntu terminal with TurtleSim.
 
 
-### Day 21: Packages, nodes and topics in code
+### Day 21: Your first package, node and publisher
 
-- **Packages and nodes, the right way** (30 min). Create Python and C++ packages, write a node as a class, register it, build and run it. *Practice: animation, practice terminal, Python and C++ side by side, spot-the-bug, ordering puzzle, quick checks, flashcards.*
-- **Publishers and subscribers in Python and C++** (30 min). Write a topic publisher and subscriber in both languages, choose the queue/QoS, and test them from the terminal. *Practice: Python and C++ side by side, Python playground, spot-the-bug, practice terminal, quick checks, flashcards.*
+- **Python: your first package and node** (30 min). Create a Python package with ros2 pkg create, understand every file in it, write a node class that follows the five steps, register it, build it with colcon and run it. *Practice: step-through code, practice terminal, spot-the-bug, quick checks, flashcards.*
+- **C++: your first package and node** (30 min). Create a C++ package, read its CMakeLists.txt, write the same hello node in rclcpp, tell CMake to compile and install it, build it and run it. Learn the C++ words you need on the way. *Practice: step-through code, practice terminal, spot-the-bug, matching puzzle, quick checks, flashcards.*
+- **Python: a timer and a publisher drive the turtle** (30 min). Add a timer and a publisher to a Python node, fill a Twist message, and make turtlesim draw a circle with your own code. Check it with ros2 topic tools. *Practice: animation, step-through code, Python playground, practice terminal, spot-the-bug, quick checks, flashcards.*
+- **C++: a timer and a publisher drive the turtle** (30 min). Write the circle driver in C++: create_publisher, create_wall_timer with chrono literals, std::bind, member variables and publish. Build it and watch your compiled node drive turtlesim. *Practice: step-through code, Python and C++ side by side, practice terminal, spot-the-bug, matching puzzle, quick checks, flashcards.*
 
-### Day 22: Custom interfaces and services
+### Day 22: Listening, and your own messages
 
-- **Custom interfaces: your own messages** (30 min). Create an interfaces package with a .msg file, generate code with rosidl, and use the message from Python and C++. *Practice: animation, practice terminal, spot-the-bug, Python and C++ side by side, Python playground, quick checks, flashcards.*
-- **Services: write a server and a client** (30 min). Write service servers and clients in Python and C++, use call_async safely, and create a custom service. *Practice: animation, Python and C++ side by side, Python playground, practice terminal, quick checks, flashcards.*
+- **Python: a subscriber that listens to the robot** (30 min). Subscribe to turtlesim's pose, keep the newest message in the node, add up the distance travelled, and report it once per second from a timer. *Practice: step-through code, Python playground, practice terminal, spot-the-bug, ordering puzzle, quick checks, flashcards.*
+- **C++: a subscriber that listens to the robot** (30 min). Write the pose monitor in C++: create_subscription with std::bind and a placeholder, a callback that takes a const reference, std::optional for "no message yet", and printf-style logging. *Practice: step-through code, Python and C++ side by side, practice terminal, spot-the-bug, matching puzzle, quick checks, flashcards.*
+- **Your own message, used from Python** (30 min). Design RobotStatus.msg, build it in an interfaces package (rosidl), check it with ros2 interface show, and publish it from a Python node that reads live data. *Practice: animation, code tabs, Python playground, practice terminal, sorting puzzle, quick checks, flashcards.*
+- **C++: publishing your own message** (30 min). Use RobotStatus from C++: the snake_case header, the namespace, the three build-file lines, float vs double, and a lambda as a short callback. Run it and read it in the terminal. *Practice: Python and C++ side by side, step-through code, practice terminal, spot-the-bug, matching puzzle, quick checks, flashcards.*
 
-### Day 23: Actions
+### Day 23: Services: ask the robot, get an answer
 
-- **Actions: write an action server and client** (30 min). Define a custom action, write a server that sends feedback, write a client, and see the 3 services + 2 topics underneath. *Practice: animation, Python playground, practice terminal, ordering puzzle, quick checks, flashcards.*
+- **Python: a service server that switches the robot on and off** (30 min). Write a service server with create_service: read the request, fill the response, return it. Use it to switch a driving timer on and off, and call it from the terminal. *Practice: step-through code, Python playground, practice terminal, spot-the-bug, sorting puzzle, quick checks, flashcards.*
+- **C++: a service server that switches the robot on and off** (30 min). Write the switchable driver in C++: create_service<T>, a callback that receives shared pointers to the request and the response and fills the response in place, two placeholders, and the ? : operator. *Practice: step-through code, Python and C++ side by side, practice terminal, spot-the-bug, matching puzzle, quick checks, flashcards.*
+- **Python: a service client that asks turtlesim for help** (30 min). Write client programs: wait for a service, send a request with call_async, wait for the future in main(), read the answer. Spawn a turtle, then let an artist node draw a triangle with three services. *Practice: step-through code, animation, Python playground, practice terminal, spot-the-bug, ordering puzzle, quick checks, flashcards.*
+- **C++: a service client that asks turtlesim for help** (30 min). Write the spawn client in C++: rclcpp::Node::make_shared without a class, create_client<T>, wait_for_service(1s), a request in a shared pointer, async_send_request, spin_until_future_complete and FutureReturnCode. *Practice: step-through code, Python and C++ side by side, practice terminal, spot-the-bug, matching puzzle, quick checks, flashcards.*
 
-### Day 24: Parameters
+### Day 24: Actions and parameters
 
-- **Parameters: declare, YAML files and callbacks** (30 min). Declare and read parameters in Python and C++, store them in YAML files, and validate changes with callbacks. *Practice: animation, Python and C++ side by side, Python playground, practice terminal, quick checks, flashcards.*
+- **Python: an action that drives a distance, with progress** (30 min). Write DriveDistance as an action: a server that accepts or rejects goals, publishes feedback while it drives and returns a result, and a client that sends a goal, prints progress and can cancel. *Practice: code tabs, step-through code, Python playground, practice terminal, spot-the-bug, ordering puzzle, flashcards.*
+- **C++: an action that drives a distance, with progress** (30 min). Write the DriveDistance server in C++ with rclcpp_action: handle_goal, handle_cancel, handle_accepted, an execute() that runs in its own thread, rclcpp::Rate, feedback and result in shared pointers. *Practice: step-through code, code tabs, practice terminal, spot-the-bug, matching puzzle, quick checks, flashcards.*
+- **Python: parameters, change the robot without changing the code** (30 min). Declare parameters with default values, read them in the node, change them live with ros2 param set, start a node with -p values or a YAML file, and save the current values with ros2 param dump. *Practice: animation, code tabs, Python playground, practice terminal, spot-the-bug, quick checks, flashcards.*
+- **C++: parameters, change the robot without changing the code** (30 min). Declare and read parameters in rclcpp: declare_parameter with a default, get_parameter(...).as_double() and as_string(), live changes, YAML files, and the extra qos_overrides parameters every C++ node has. *Practice: step-through code, Python and C++ side by side, practice terminal, spot-the-bug, matching puzzle, quick checks, flashcards.*
 
-### Day 25: Launch files and mini-project
+### Day 25: Launch files and your first robot project
 
-- **Launch files: XML and Python** (30 min). Write XML and Python launch files, install them, and configure nodes: names, namespaces, remaps, parameters and arguments. *Practice: animation, Python and C++ side by side, practice terminal, sorting puzzle, quick checks, flashcards.*
-- **Mini-project: Chiku's battery monitor** (30 min). Combine a custom message, a publisher, a subscriber and a parameter into a small working system. *Practice: Python playground, think-first, checklist, flashcards, ordering puzzle.*
+- **Python: a launch file starts the whole robot** (30 min). Write a Python launch file that starts turtlesim, speed_driver with parameters and pose_monitor; read the same file in XML; install it with data_files in setup.py; and start everything with one command. *Practice: animation, code tabs, Python playground, practice terminal, spot-the-bug, matching puzzle, flashcards.*
+- **C++: launch files for a C++ package** (30 min). Start C++ nodes from an XML launch file, install the launch and config folders with one CMake line, and know that launch files are never compiled: the same launch languages work for every package. *Practice: Python and C++ side by side, practice terminal, spot-the-bug, sorting puzzle, ordering puzzle, think-first, quick checks, flashcards.*
+- **Python mini-project: Chiku's battery monitor** (30 min). Put the week together: a node with a subscriber, a publisher of your own message, a service, two parameters and a timer, configured from YAML and started from a launch file. Then operate it like a robot engineer. *Practice: code tabs, Python playground, practice terminal, checklist, think-first, flashcards.*
+- **C++ mini-project: Chiku's battery monitor** (30 min). Build the battery monitor in C++: a subscriber, a publisher of your own message, a Trigger service, two parameters and a timer in one rclcpp node, started from a launch file with YAML. Then compare it with the Python version. *Practice: Python and C++ side by side, practice terminal, spot-the-bug, matching puzzle, checklist, flashcards.*
 
-**Week 5 test: ROS programming fundamentals:** 15 questions, 40 minutes, 2 attempts (best score counts). Every student gets a different paper, built on the server from 209 question templates.
+**Week 5 test: ROS programming fundamentals:** 16 questions, 40 minutes, 2 attempts (best score counts). Every student gets a different paper, built on the server from 188 question templates.
 
 ## Week 6: Writing your own ROS 2 nodes
 
-Write real nodes that control a robot, each one in Python AND in C++: timers, logging, open- and closed-loop driving, messages, QoS, custom interfaces, services, actions, parameters, launch, tf2, executors, lifecycle, components and tests. Every lesson has a live Ubuntu terminal.
+Build on Week 5 and write nodes that really control a robot, each one in Python AND in C++: time and logging, open- and closed-loop driving, chaining nodes, messages in code, QoS, safe parameters, launch files for several robots, tf2 frames, executors, lifecycle nodes and components, tests, and a patrol-robot project. Every lesson has a live Ubuntu terminal.
 
 
-### Day 26: Your own nodes, step by step
+### Day 26: Time, logs and driving patterns
 
-- **Anatomy of a node: the 5 steps in Python and C++ (part 1)** (30 min). Every ROS 2 program follows the same five steps. Write the smallest real node in Python and in C++, register it, build it and run both versions side by side. *Practice: animation, Python and C++ side by side, step-through code, Python playground.*
-- **Anatomy of a node: the 5 steps in Python and C++ (part 2)** (30 min). Part 2: more practice, quick checks and the recap. *Practice: practice terminal, spot-the-bug, ordering puzzle, matching puzzle, think-first, quick checks, flashcards.*
-- **Timers and time: give your robot a heartbeat** (30 min). Make a node do something regularly with a timer, measure time with the node's clock, choose good rates, and stop a timer after N ticks. *Practice: Python and C++ side by side, step-through code, Python playground, practice terminal, matching puzzle, quick checks, flashcards.*
-- **Package files in depth: package.xml, setup.py and CMakeLists.txt** (30 min). Understand every important line of the three package files, add a dependency correctly, and fix the three most common build errors in a live terminal. *Practice: Python and C++ side by side, sorting puzzle, practice terminal, quick checks, flashcards.*
+- **Time in your nodes: rates, clocks and stopping timers** (30 min). Choose a good rate for each job, measure time with the node's clock (Time and Duration), stop a timer after N ticks, and see what use_sim_time changes. Python and C++. *Practice: Python and C++ side by side, step-through code, Python playground, practice terminal, matching puzzle, quick checks, flashcards.*
 - **Logging like a pro: levels, throttle and once** (30 min). Use the five log levels, show only what matters with --log-level, avoid flooding the screen with throttle and once, and log the same way in Python and C++. *Practice: Python and C++ side by side, Python playground, practice terminal, sorting puzzle, matching puzzle, quick checks, flashcards.*
-- **Your first robot controller: open-loop driving (part 1)** (30 min). Write a node that drives turtlesim by publishing Twist messages from a timer: a circle, then a square with a small state machine. See why open loop is never exact. *Practice: animation, Python and C++ side by side, step-through code, Python playground.*
-- **Your first robot controller: open-loop driving (part 2)** (30 min). Part 2: Why the square is never perfect. *Practice: practice terminal, spot-the-bug, matching puzzle, quick checks, flashcards.*
+- **Driving patterns: a square with a state machine (open loop)** (30 min). Make a node do a sequence of moves: drive a side, turn a corner, four times. Build it as a small state machine in Python and C++, and see why open-loop driving is never exact. *Practice: Python and C++ side by side, step-through code, Python playground, practice terminal, spot-the-bug, ordering puzzle, quick checks, flashcards.*
 
-### Day 27: Closing the loop: sense, decide, act
+### Day 27: Closing the loop
 
-- **Listening to the robot: a pose subscriber** (30 min). Subscribe to the robot's pose, keep the latest message in the node, compute the distance travelled, and report it from a timer. Python and C++. *Practice: Python and C++ side by side, step-through code, Python playground, practice terminal, spot-the-bug, ordering puzzle, quick checks, flashcards.*
 - **Closed-loop control: go to a goal by yourself (part 1)** (30 min). Combine a pose subscriber, a timer and a Twist publisher into a P-controller that drives the robot to any goal, with gains as parameters. Python and C++. *Practice: animation, Python and C++ side by side, step-through code, Python playground.*
 - **Closed-loop control: go to a goal by yourself (part 2)** (30 min). Part 2: more practice, quick checks and the recap. *Practice: practice terminal, sorting puzzle, spot-the-bug, quick checks, flashcards.*
 - **A safety filter node: chaining nodes with remapping** (30 min). Write a node that sits between a driver and the robot, limits speed and blocks driving into walls, and connect it with topic remapping instead of changing code. *Practice: Python and C++ side by side, Python playground, practice terminal, matching puzzle, quick checks, flashcards.*
 - **Building messages in code: nested fields, arrays and stamps** (30 min). Fill nested message fields, lists (arrays) and header time stamps in Python and C++, using sensor_msgs/JointState and geometry_msgs/PoseStamped as examples. *Practice: Python and C++ side by side, sorting puzzle, Python playground, practice terminal, spot-the-bug, matching puzzle, quick checks, flashcards.*
+
+### Day 28: QoS, safe parameters and launch for two robots
+
 - **QoS in code: reliable, best effort and latched topics** (30 min). Choose QoS profiles in Python and C++: sensor data (best effort), commands (reliable) and latched status (transient local), and see a late subscriber still get the message. *Practice: animation, Python and C++ side by side, Python playground, practice terminal, sorting puzzle, quick checks, flashcards.*
-
-### Day 28: Your own interfaces, services and actions
-
-- **A custom message for robot status: RobotStatus.msg (part 1)** (30 min). Design a .msg for the robot's status, build it in an interfaces package, and publish it from Python and C++ nodes that also read the turtle's pose. *Practice: animation, code tabs, Python and C++ side by side, sorting puzzle, Python playground.*
-- **A custom message for robot status: RobotStatus.msg (part 2)** (30 min). Part 2: more practice, quick checks and the recap. *Practice: practice terminal, spot-the-bug, matching puzzle, quick checks, flashcards.*
-- **A service that controls the robot: enable and disable driving (part 1)** (30 min). Write a service server that switches the robot's driving on and off (std_srvs/SetBool), in Python and C++, and call it from the terminal. *Practice: animation, Python and C++ side by side, step-through code, Python playground.*
-- **A service that controls the robot: enable and disable driving (part 2)** (30 min). Part 2: more practice, quick checks and the recap. *Practice: practice terminal, spot-the-bug, matching puzzle, quick checks, flashcards.*
-- **Service clients: let your node use turtlesim's services** (30 min). Write a client node that spawns a turtle, changes its pen and teleports it to draw a triangle: async calls in Python and C++, and why you must never block inside a callback. *Practice: animation, Python and C++ side by side, Python playground, practice terminal, spot-the-bug, ordering puzzle, quick checks, flashcards.*
-- **Your own service type: GoTo.srv drives the robot** (30 min). Design GoTo.srv, write a server that checks the request, answers at once and then drives to the point with a timer, and call it with valid and invalid goals. *Practice: code tabs, Python and C++ side by side, Python playground, practice terminal, spot-the-bug, matching puzzle, quick checks, flashcards.*
-- **An action server: drive a distance with feedback (part 1)** (30 min). Write DriveDistance.action and an action server that accepts or rejects goals, sends feedback while driving, handles cancel and returns a result. Python and C++. *Practice: animation, code tabs, Python and C++ side by side, step-through code, Python playground.*
-- **An action server: drive a distance with feedback (part 2)** (30 min). Part 2: more practice, quick checks and the recap. *Practice: practice terminal, spot-the-bug, ordering puzzle, quick checks, flashcards.*
-
-### Day 29: Action clients, parameters, launch and frames
-
-- **An action client: send a goal, follow progress, cancel** (30 min). Write a client node that sends a DriveDistance goal, prints feedback, reads the result and can cancel after a delay, using callbacks in Python and SendGoalOptions in C++. *Practice: Python and C++ side by side, step-through code, Python playground, practice terminal, matching puzzle, ordering puzzle, quick checks, flashcards.*
-- **Parameters in depth: descriptors, ranges, read-only and callbacks (part 1)** (30 min). Describe parameters with ParameterDescriptor (description, read-only, ranges), validate changes in an on-set callback, react to them live, and store them in YAML. Python and C++. *Practice: animation, Python and C++ side by side, step-through code, Python playground.*
+- **Parameters in depth: descriptors, ranges, read-only and callbacks (part 1)** (30 min). Week 5 taught declare, get, set and YAML. Now make parameters safe: describe them with ParameterDescriptor (description, read-only, ranges), validate changes in an on-set callback and react to them at once. Python and C++. *Practice: animation, Python and C++ side by side, step-through code, Python playground.*
 - **Parameters in depth: descriptors, ranges, read-only and callbacks (part 2)** (30 min). Part 2: more practice, quick checks and the recap. *Practice: practice terminal, spot-the-bug, sorting puzzle, quick checks, flashcards.*
 - **Launch in depth: arguments, YAML, namespaces and two robots** (30 min). Write the same launch file in Python, XML and YAML, pass arguments, load a parameter file, start two robots in two namespaces, use a condition, and run it all in the terminal. *Practice: animation, Python and C++ side by side, code tabs, practice terminal, matching puzzle, quick checks, flashcards.*
+
+### Day 29: Frames and executors
+
 - **Publishing frames: a tf2 broadcaster** (30 min). Turn the robot's pose into a moving coordinate frame (world -> turtle1) with tf2's TransformBroadcaster, including the yaw-to-quaternion step, in Python and C++. *Practice: animation, Python and C++ side by side, step-through code, Python playground, practice terminal, matching puzzle, quick checks, flashcards.*
 - **Using frames: a tf2 listener that follows another robot** (30 min). Ask tf2 where one robot is seen from another (lookup_transform), handle the case where a frame is not there yet, and turn the answer into a chase controller. Launch it all together. *Practice: Python and C++ side by side, step-through code, code tabs, Python playground, practice terminal, spot-the-bug, quick checks, flashcards.*
-
-### Day 30: Structure, testing and your first complete robot program
-
 - **Executors and callback groups: waiting without freezing** (30 min). Understand what the executor does, why a blocking call inside a callback deadlocks, and how callback groups plus a MultiThreadedExecutor make it safe. Python and C++. *Practice: animation, Python and C++ side by side, step-through code, Python playground, practice terminal, sorting puzzle, quick checks, flashcards.*
+
+### Day 30: Robust robots and the patrol project
+
 - **Lifecycle nodes and components: starting robots safely and efficiently (part 1)** (30 min). Write a managed (lifecycle) node that only drives after configure and activate, control it from the terminal, then build a C++ component and load it into a container. *Practice: Python and C++ side by side, practice terminal, code tabs.*
 - **Lifecycle nodes and components: starting robots safely and efficiently (part 2)** (30 min). Part 2: more practice, quick checks and the recap. *Practice: practice terminal, Python playground, matching puzzle, quick checks, flashcards.*
 - **Testing your nodes: pytest and gtest** (30 min). Move the controller maths into pure functions, test them with pytest (Python) and gtest (C++), run colcon test and read the results. *Practice: code tabs, Python playground, practice terminal, matching puzzle, quick checks, flashcards.*
 - **Mini-project: Chiku's patrol robot (part 1)** (30 min). Put the week together: a patrol node with waypoint parameters, a pause service, a custom status topic, tested maths, a YAML config and a launch file, in Python and C++. *Practice: checklist, Python and C++ side by side, code tabs, step-through code, Python playground.*
 - **Mini-project: Chiku's patrol robot (part 2)** (30 min). Part 2: Make it yours: extension ideas. *Practice: practice terminal, ordering puzzle, quick checks, flashcards.*
 
-**Week 6 test: writing your own ROS 2 nodes:** 16 questions, 40 minutes, 2 attempts (best score counts). Every student gets a different paper, built on the server from 209 question templates.
-
-## Week 7: Kinematics nodes for arms and mobile robots
-
-Advanced: frames and quaternions, forward and inverse kinematics of a 2-link arm, user-to-robot interfaces, smooth joint trajectories, differential-drive kinematics, wheel odometry with TF, and a mobile manipulator that drives and then reaches. Python and C++, with live robot terminals.
-
-
-### Day 31: Describe the robot: links, joints and frames
-
-- **Describe your robot: URDF links, joints and robot_state_publisher** (30 min). Write a URDF for a 2-link arm (links, joints, origins, axes, limits), let robot_state_publisher turn joint angles into TF frames, and check the tool frame with tf2_echo. *Practice: code tabs, Python playground, practice terminal, matching puzzle, quick checks, flashcards.*
-- **Frames and transforms: rotate, move, chain** (30 min). Rotate a point, move it from the robot frame to the world frame and back, chain two transforms, and use quaternions for orientation, by hand in Python and with tf2's math classes in C++. *Practice: animation, Python and C++ side by side, Python playground, practice terminal, spot-the-bug, ordering puzzle, quick checks, flashcards.*
-- **Forward kinematics: where is the arm's tip?** (30 min). Compute the tip position of a 2-link arm from its joint angles (forward kinematics), write an FK node that turns /joint_states into /end_effector, and test it live. *Practice: code tabs, Python and C++ side by side, step-through code, Python playground, practice terminal, spot-the-bug, matching puzzle, quick checks, flashcards.*
-
-### Day 32: Arm kinematics: from angles to positions and back
-
-- **Inverse kinematics: which angles reach this point?** (30 min). Solve the 2-link arm's inverse kinematics with the law of cosines, find both elbow-up and elbow-down solutions, detect unreachable points, and verify every answer with FK. *Practice: animation, code tabs, step-through code, Python playground, practice terminal, sorting puzzle, quick checks, flashcards.*
-- **An IK node: publish joint angles for any target** (30 min). Wrap the IK maths in a node: subscribe to /target_point, publish /joint_states continuously, use link lengths and elbow_up as parameters, and handle unreachable targets. Python and C++. *Practice: Python and C++ side by side, step-through code, Python playground, practice terminal, matching puzzle, quick checks, flashcards.*
-- **Talking to the robot: a MoveArm service and a command-line client** (30 min). Give people a simple way to command the arm: a MoveArm service that answers with the joint angles or a clear refusal, and a small client program that reads targets typed by the user. Python and C++. *Practice: code tabs, Python and C++ side by side, Python playground, practice terminal, spot-the-bug, matching puzzle, quick checks, flashcards.*
-
-### Day 33: Smooth motion and wheeled robots
-
-- **Smooth joint trajectories: no more jumping arms** (30 min). Move the joints smoothly from the current pose to the IK solution: timing from a speed limit, smoothstep interpolation, streaming joint states at 50 Hz, and the standard JointTrajectory message. *Practice: Python and C++ side by side, step-through code, code tabs, Python playground, practice terminal, spot-the-bug, quick checks, flashcards.*
-- **Differential drive: two wheels, one robot (part 1)** (30 min). Learn the kinematics of a two-wheeled robot: from wheel speeds to body speed (forward) and from a Twist to wheel speeds (inverse), with wheel-speed limits that keep the path's shape. Python and C++. *Practice: animation, code tabs, Python and C++ side by side, step-through code, Python playground.*
-- **Differential drive: two wheels, one robot (part 2)** (30 min). Part 2: more practice, quick checks and the recap. *Practice: practice terminal, matching puzzle, quick checks, flashcards.*
-
-### Day 34: Odometry: where has the robot gone?
-
-- **Wheel odometry: publish where the robot is (Odometry + TF) (part 1)** (30 min). Turn wheel angle changes into small steps, add them up into a pose, and publish nav_msgs/Odometry and the odom -> base_link transform. Run the full base chain from a launch file. *Practice: code tabs, Python and C++ side by side, step-through code, Python playground.*
-- **Wheel odometry: publish where the robot is (Odometry + TF) (part 2)** (30 min). Part 2: more practice, quick checks and the recap. *Practice: practice terminal, spot-the-bug, matching puzzle, quick checks, flashcards.*
-- **Why odometry drifts: errors, covariance and sensor fusion** (30 min). See how a 5 % wheel-size error or a slipping wheel makes odometry drift, compare the estimate with the real path, and learn how covariance and sensor fusion (IMU, lidar, robot_localization) fix it. *Practice: Python playground, practice terminal, sorting puzzle, quick checks, flashcards.*
-
-### Day 35: Mobile manipulation: drive, then reach
-
-- **Mobile manipulator kinematics: frames from the floor to the gripper** (30 min). Combine a mobile base and an arm: the frame chain odom -> base_link -> arm_base -> tool, turning a goal from the odom frame into the arm's frame, checking reach, and choosing where to park the base. *Practice: animation, code tabs, Python playground, practice terminal, spot-the-bug, ordering puzzle, quick checks, flashcards.*
-- **The mobile manipulator node: drive, then reach (part 1)** (30 min). Write mm_planner, a state machine (IDLE, TURN, DRIVE, REACH) that reads /odom and /goal_point, drives the base with /cmd_vel and sends the converted goal to the IK node. Launch the whole robot and run it live. Python and C++. *Practice: Python and C++ side by side, step-through code, code tabs, Python playground.*
-- **The mobile manipulator node: drive, then reach (part 2)** (30 min). Part 2: more practice, quick checks and the recap. *Practice: practice terminal, spot-the-bug, matching puzzle, quick checks, flashcards.*
-- **Capstone: your robot, end to end, and where to go next** (30 min). Run, inspect and test the whole system you built (arm IK, trajectories, base odometry, planner), choose a capstone extension, and see how ros2_control, MoveIt 2, Nav2 and Gazebo take these ideas to real robots. *Practice: practice terminal, checklist, Python playground, sorting puzzle, quick checks, flashcards.*
-
-**Week 7 test: kinematics nodes for arms and mobile robots:** 16 questions, 40 minutes, 2 attempts (best score counts). Every student gets a different paper, built on the server from 209 question templates.
+**Week 6 test: writing your own ROS 2 nodes:** 16 questions, 40 minutes, 2 attempts (best score counts). Every student gets a different paper, built on the server from 188 question templates.

@@ -26,8 +26,9 @@ const IFACES = {
   "turtlesim/action/RotateAbsolute": "# The desired heading in radians\nfloat32 theta\n---\n# The angular displacement in radians to the starting position\nfloat32 delta\n---\n# The remaining rotation in radians\nfloat32 remaining",
   "rcl_interfaces/msg/Log": "##\n## Severity level constants\n##\nuint8 DEBUG=10\nuint8 INFO=20\nuint8 WARN=30\nuint8 ERROR=40\nuint8 FATAL=50\n\nbuiltin_interfaces/Time stamp\nuint8 level\nstring name\nstring msg\nstring file\nstring function\nuint32 line",
 };
-const PARAM_SRVS = [["describe_parameters", "DescribeParameters"], ["get_parameter_types", "GetParameterTypes"], ["get_parameters", "GetParameters"],
-  ["list_parameters", "ListParameters"], ["set_parameters", "SetParameters"], ["set_parameters_atomically", "SetParametersAtomically"]];
+const PARAM_SRVS = [["describe_parameters", "rcl_interfaces/srv/DescribeParameters"], ["get_parameter_types", "rcl_interfaces/srv/GetParameterTypes"], ["get_parameters", "rcl_interfaces/srv/GetParameters"],
+  ["get_type_description", "type_description_interfaces/srv/GetTypeDescription"],   // every Jazzy node offers this one too
+  ["list_parameters", "rcl_interfaces/srv/ListParameters"], ["set_parameters", "rcl_interfaces/srv/SetParameters"], ["set_parameters_atomically", "rcl_interfaces/srv/SetParametersAtomically"]];
 const QOS = ["qos_overrides./parameter_events.publisher.depth", "qos_overrides./parameter_events.publisher.durability",
   "qos_overrides./parameter_events.publisher.history", "qos_overrides./parameter_events.publisher.reliability"];
 
@@ -67,12 +68,13 @@ export class RosGraph {
   add(kind, name, ns = "", params = {}, remaps = []) {
     const n = { kind, name, ns: ns && ns !== "/" ? "/" + ns.replace(/^\/+|\/+$/g, "") : "", params: {}, remaps };
     n.full = `${n.ns}/${name}`;
-    if (kind === "turtlesim") { n.turtles = [newTurtle("turtle1", 5.544445, 5.544445, 0)]; n.params = { background_b: 255, background_g: 86, background_r: 69 }; }
+    if (kind === "turtlesim") { n.turtles = [newTurtle("turtle1", 5.544445, 5.544445, 0)]; n.params = { background_b: 255, background_g: 86, background_r: 69, holonomic: false }; }
     if (kind === "teleop") n.params = { scale_angular: 2.0, scale_linear: 2.0 };
     if (kind === "arm") { n.params = { link1_length: 1.0, link2_length: 0.8, elbow_up: false }; n.ptypes = { link1_length: "double", link2_length: "double" }; n.q = [0, 0]; n.target = null; }
     if (kind === "diffbot") { n.params = { wheel_radius: 0.05, wheel_separation: 0.3 }; n.ptypes = { wheel_radius: "double", wheel_separation: "double" }; n.base = { x: 0, y: 0, theta: 0, v: 0, w: 0 }; n.wheels = [0, 0]; n.path = [[0, 0]]; }
     if (kind === "mm") { n.params = { approach_ratio: 0.7 }; n.ptypes = { approach_ratio: "double" }; }
     if (kind === "turtlesim" || kind === "teleop") QOS.forEach((q, i) => { n.params[q] = [1000, "volatile", "keep_last", "reliable"][i]; });
+    n.params.start_type_description_service = true;   // every Jazzy node has these two
     n.params.use_sim_time = false;
     for (const [k, v] of Object.entries(params)) if (k in n.params || kind === "custom") n.params[k] = v;
     this.nodes = this.nodes.filter((x) => x.full !== n.full);
@@ -87,7 +89,7 @@ export class RosGraph {
   endpoints(n) {
     const p = (s) => `${n.ns}/${s}`;
     const e = { pubs: [["/parameter_events", "rcl_interfaces/msg/ParameterEvent"], ["/rosout", "rcl_interfaces/msg/Log"]], subs: [["/parameter_events", "rcl_interfaces/msg/ParameterEvent"]],
-      srvs: PARAM_SRVS.map(([s, t]) => [`${n.full}/${s}`, `rcl_interfaces/srv/${t}`]), cli: [], acts: [], actc: [] };
+      srvs: PARAM_SRVS.map(([s, t]) => [`${n.full}/${s}`, t]), cli: [], acts: [], actc: [] };
     if (n.info) { const r = (x) => (x.startsWith("/") ? x : x.startsWith("~/") ? `${n.full}/${x.slice(2)}` : p(x)); for (const k of ["pubs", "subs", "srvs", "cli", "acts", "actc"]) for (const [nm, t] of n.info[k]) e[k].push([r(nm), t]); }
     if (n.kind === "arm") { e.subs.push([p("target_point"), "geometry_msgs/msg/Point"]); e.pubs.push([p("joint_states"), "sensor_msgs/msg/JointState"], [p("end_effector"), "geometry_msgs/msg/Point"]); e.srvs.push([p("arm/home"), "std_srvs/srv/Trigger"]); }
     if (n.kind === "diffbot") { e.subs.push([p("cmd_vel"), "geometry_msgs/msg/Twist"]); e.pubs.push([p("odom"), "nav_msgs/msg/Odometry"], [p("ground_truth"), "nav_msgs/msg/Odometry"], [p("wheel_states"), "sensor_msgs/msg/JointState"], ["/tf", "tf2_msgs/msg/TFMessage"]); }
@@ -208,6 +210,13 @@ export class RosGraph {
     if (t.type === "turtlesim/msg/Color") { const hit = this.turtle(name.replace(/\/color_sensor$/, "")); const P = hit ? hit.n.params : { background_r: 69, background_g: 86, background_b: 255 }; return [0, 1, 2].map(() => `r: ${P.background_r}\ng: ${P.background_g}\nb: ${P.background_b}`); }
     if (t.type === "std_msgs/msg/String" && t.by.pubs.length) { this.chat = (this.chat || 0) + 3; return [3, 2, 1].map((k) => `data: 'Hello World: ${this.chat - k}'`); }
     if (t.type === "geometry_msgs/msg/Twist" && this.lastTwist && this.lastTwist.topic === name) { const v = this.lastTwist; return [0, 1, 2].map(() => `linear:\n  x: ${fnum(v.lx)}\n  y: 0.0\n  z: 0.0\nangular:\n  x: 0.0\n  y: 0.0\n  z: ${fnum(v.az)}`); }
+    if (t.type === "geometry_msgs/msg/Twist") {      // a student node driving a turtle: show what it sends right now
+      const n = this.nodes.find((x) => x.kind === "custom" && x.info && this.endpoints(x).pubs.some(([nm]) => nm === name));
+      const I = n && n.info;
+      const v = !I ? null : I.twist ? I.twist : I.paramTwist ? { lx: Number(n.params[I.paramTwist.lx]) || 0, az: I.paramTwist.az ? Number(n.params[I.paramTwist.az]) || 0 : 0 }
+        : I.switchTwist ? (n.flags && n.flags[I.setbool.flag] ? I.switchTwist : { lx: 0, az: 0 }) : null;
+      if (v) { const f = (x) => (I.lang === "cpp" ? fnum(x) : fnum(x)); return [0, 1, 2].map(() => `linear:\n  x: ${f(v.lx)}\n  y: 0.0\n  z: 0.0\nangular:\n  x: 0.0\n  y: 0.0\n  z: ${f(v.az)}`); }
+    }
     const kin = this.kinSample(name, t); if (kin) return kin;
     const cus = this.customSample(name, t); if (cus) return cus;
     if (name === "/rosout" && this.nodes.length) return [`stamp:\n  sec: 1727860000\n  nanosec: 0\nlevel: 20\nname: ${this.nodes[0].name}\nmsg: Starting ${this.nodes[0].name}`];
@@ -366,7 +375,11 @@ export class RosGraph {
       if (n.ptypes && n.ptypes[k]) {
         const nv = raw === "true" || raw === "True" ? true : raw === "false" || raw === "False" ? false : /^-?\d+$/.test(raw) || /^-?\d*\.\d+$/.test(raw) || /^-?\d+\.\d*$/.test(raw) ? Number(raw) : raw;
         const nk = typeof nv === "boolean" ? "bool" : typeof nv === "string" ? "string" : /^-?\d+$/.test(raw) ? "integer" : "double";
-        if (nk !== n.ptypes[k] && !(n.ptypes[k] === "double" && nk === "integer" && n.kind !== "custom")) return [this.out(`Setting parameter failed: Wrong parameter type, parameter {${k}} is of type {${n.ptypes[k]}}, setting it to {${nk}} is not allowed.`)];
+        if (nk !== n.ptypes[k] && !(n.ptypes[k] === "double" && nk === "integer" && n.kind !== "custom")) {
+          const PYT = { double: "Type.DOUBLE", integer: "Type.INTEGER", string: "Type.STRING", bool: "Type.BOOL" };
+          if (n.info && n.info.lang === "python") return [this.out(`Setting parameter failed: Wrong parameter type, expected '${PYT[n.ptypes[k]]}' got '${PYT[nk]}'`)];
+          return [this.out(`Setting parameter failed: Wrong parameter type, parameter {${k}} is of type {${n.ptypes[k]}}, setting it to {${nk}} is not allowed.`)];
+        }
         const why = n.info ? this.paramRule(n, k, nv) : null;
         if (why) return [this.out(`Setting parameter failed: ${why}`)];
         n.params[k] = nv;
@@ -380,10 +393,22 @@ export class RosGraph {
       n.params[k] = v;
       return [this.out("Set parameter successful"), ...(k.startsWith("background_") ? [this.hint(`(The turtlesim window background is now rgb(${n.params.background_r}, ${n.params.background_g}, ${n.params.background_b}).)`)] : [])];
     }
+    if (a === "describe") {
+      const k = pos[1]; if (!k) return [this.err("usage: ros2 param describe <node_name> <parameter_name>")];
+      if (!(k in n.params)) return [this.out(`Parameter not set: ${k}`)];
+      const v = n.params[k], I = n.info || {}, ty = n.ptypes && n.ptypes[k] ? n.ptypes[k] : typeof v === "boolean" ? "bool" : typeof v === "string" ? "string" : Number.isInteger(v) && !(n.kind === "teleop") ? "integer" : "double";
+      const L = [`Parameter name: ${k}`, `  Type: ${ty === "bool" ? "boolean" : Array.isArray(v) ? "double array" : ty}`];
+      if (I.descs && I.descs[k]) L.push(`  Description: ${I.descs[k]}`);
+      L.push("  Constraints:");
+      if ((I.readOnly || []).includes(k) || k.startsWith("qos_overrides")) L.push("    Read only: true");
+      if (I.ranges && I.ranges[k]) L.push(`    Min value: ${fnum(I.ranges[k][0])}`, `    Max value: ${fnum(I.ranges[k][1])}`);
+      return L.map((t) => this.out(t));
+    }
     if (a === "dump") {
       const P = n.params;
       const y = [`${n.full}:`, "  ros__parameters:"];
-      for (const k of Object.keys(P).filter((k) => !k.startsWith("qos")).sort()) { if (k === "use_sim_time" && Object.keys(P).some((q) => q.startsWith("qos"))) y.push("    qos_overrides:", "      /parameter_events:", "        publisher:", "          depth: 1000", "          durability: volatile", "          history: keep_last", "          reliability: reliable"); y.push(`    ${k}: ${typeof P[k] === "boolean" ? P[k] : P[k]}`); }
+      const keys = Object.keys(P).filter((k) => !k.startsWith("qos")); if (Object.keys(P).some((q) => q.startsWith("qos"))) keys.push("qos_overrides");
+      for (const k of keys.sort()) { if (k === "qos_overrides") y.push("    qos_overrides:", "      /parameter_events:", "        publisher:", "          depth: 1000", "          durability: volatile", "          history: keep_last", "          reliability: reliable"); else if (Array.isArray(P[k])) y.push(`    ${k}:`, ...P[k].map((v) => `    - ${typeof v === "number" ? fnum(v) : v}`)); else y.push(`    ${k}: ${P[k]}`); }
       return y.map((t) => this.out(t));
     }
     if (a === "load") {
@@ -547,6 +572,13 @@ export class RosGraph {
     if (this.has(full)) return [this.out(`[WARN] [rcl.logging_rosout]: Publisher already registered for node name: '${name}'.`), this.hint("Two nodes with the same name confuse ROS 2. Give the second one a new name with --ros-args --remap __node:=another_name")];
     const n = this.add("custom", name, ns, params, remaps);
     n.info = info;
+    if (info.lang === "cpp") QOS.forEach((q, i) => { n.params[q] = [1000, "volatile", "keep_last", "reliable"][i]; });   // rclcpp nodes list these too
+    if (info.cli.some(([, t]) => /Spawn$/.test(t)) && !/\bspin\s*\(/.test(info.code || "")) {   // a service-client program: calls turtlesim, prints, ends
+      n.ptypes = {};
+      const out = this.runServiceClient(n, info);
+      this.nodes = this.nodes.filter((x) => x !== n);
+      return out;
+    }
     if (info.actc.length && !info.acts.length) {   // a client program: it sends its goal, prints, and ends
       n.ptypes = {};
       const out = this.runActionClient(n, lines.map((t) => this.out(t)));
@@ -787,7 +819,7 @@ RosGraph.prototype.customSample = function (name, t) {
   const code = n.info.code || "";
   const pose = (() => { const s = this.endpoints(n).subs.find(([nm, ty]) => /Pose$/.test(ty)); const h = s && this.turtle(s[0].replace(/\/pose$/, "")); return h ? h.t : null; })();
   const names = (code.match(/\.name\s*=\s*[\[{]([^\]}]*)[\]}]/) || [, ""])[1].split(",").map((x) => x.trim().replace(/^["']|["']$/g, "")).filter(Boolean);
-  const strVal = (f) => { const m = code.match(new RegExp(`\\.${f}\\s*=\\s*["']([^"']*)["']`)); return m ? `'${m[1]}'` : "''"; };
+  const strVal = (f) => { const m = code.match(new RegExp(`\\.${f}\\s*=\\s*["']([^"']*)["']`)); return !m || !m[1] ? "''" : /: |^[\d\-'"{\[]|^(true|false|null)$/i.test(m[1]) ? `'${m[1]}'` : m[1]; };
   const L = [];
   for (const raw of def.split("\n")) {
     const line = raw.replace(/#.*$/, "").trim(); if (!line || line === "---") continue;
@@ -796,7 +828,7 @@ RosGraph.prototype.customSample = function (name, t) {
     if (/\[\]$/.test(type)) { const vals = field === "name" ? names : field === "position" || field === "velocity" ? names.map(() => "0.0") : []; L.push(vals.length ? `${field}:` : `${field}: []`, ...vals.map((v) => `- ${v}`)); continue; }
     if (type === "string") { L.push(`${field}: ${strVal(field)}`); continue; }
     if (type === "bool") { L.push(`${field}: false`); continue; }
-    if (/^float/.test(type)) { const v = pose && (field === "x" || field === "y") ? fnum(+pose[field].toFixed(6)) : "0.0"; L.push(`${field}: ${v}`); continue; }
+    if (/^float/.test(type)) { const lv = n.level === undefined ? 100 : n.level; const v = n.info.battery && field === "percentage" ? fnum(+lv.toFixed(6)) : n.info.battery && field === "voltage" ? fnum(+(10 + 2.6 * lv / 100).toFixed(6)) : pose && (field === "x" || field === "y") ? fnum(+pose[field].toFixed(6)) : "0.0"; L.push(`${field}: ${v}`); continue; }
     if (/int/.test(type)) { L.push(`${field}: 0`); continue; }
   }
   return L.length ? [L.join("\n")] : null;
@@ -830,7 +862,11 @@ RosGraph.prototype.customService = function (n, type, yaml, req, res) {
     if (!q) { out.success = false; out.message = `(${val.x.toFixed(2)}, ${val.y.toFixed(2)}) is out of reach (reach ${(l1 + l2).toFixed(2)} m)`; }
     else { out.success = true; out.shoulder = q[0]; out.elbow = q[1]; out.message = `moving: shoulder ${(q[0] * 180 / Math.PI).toFixed(1)} deg, elbow ${(q[1] * 180 / Math.PI).toFixed(1)} deg`; n.q = q; }
     this.note(n, `[INFO] [${n.name}]: ${out.message}`);
-  } else if ("success" in out) out.success = true;
+  } else if ("success" in out) {
+    out.success = true;
+    const lit = (n.info.code || "").match(/(?:response|res)(?:\.|->)message\s*=\s*["']([^"']*)["']/); if (lit && "message" in out && !/data/.test(rq.map((x) => x.f).join())) out.message = lit[1];
+    if (n.info.battery && /Trigger$/.test(type)) { n.level = 100; n.bwarned = false; this.note(n, `[INFO] [${n.name}]: Recharged to 100 %`); }
+  }
   return [...L, ...res(rs.map(({ t, f }) => `${f}=${this.fmtField(t, out[f])}`).join(", "))];
 };
 RosGraph.prototype.customAction = function (n, name, type, yaml, rest) {
@@ -867,6 +903,26 @@ RosGraph.prototype.tickExtras = function () {
       const out = this.endpoints(n).pubs.find(([nm, t]) => /Twist$/.test(t) && nm.endsWith("/cmd_vel")); const hit = out && this.turtle(out[0].replace(/\/cmd_vel$/, ""));
       if (hit) { this.move(hit.t, Number(n.params[I.paramTwist.lx]) || 0, I.paramTwist.az ? Number(n.params[I.paramTwist.az]) || 0 : 0, 1); moved = true; }
     }
+    if (I.battery) {
+      const s = this.endpoints(n).subs.find(([nm, ty]) => /Pose$/.test(ty)); const h = s && this.turtle(s[0].replace(/\/pose$/, ""));
+      if (n.level === undefined) n.level = 100;
+      if (h) {
+        if (n.blast) n.level = Math.max(0, n.level - Math.hypot(h.t.x - n.blast[0], h.t.y - n.blast[1]) * (Number(n.params.drain_per_metre) || 0));
+        n.blast = [h.t.x, h.t.y];
+      }
+      const low = Number(n.params.low_level); if (n.level < low && !n.bwarned) { this.note(n, `[WARN] [${n.name}]: Battery low: ${n.level.toFixed(1)} %. Please recharge!`); n.bwarned = true; }
+    }
+    if (I.square && !(n.sq && n.sq.done)) {   // run the state machine for one second of ticks
+      const out = this.endpoints(n).pubs.find(([nm, t]) => /Twist$/.test(t) && nm.endsWith("/cmd_vel")); const hit = out && this.turtle(out[0].replace(/\/cmd_vel$/, ""));
+      const q = I.square, st = n.sq = n.sq || { state: "FORWARD", ticks: 0, sides: 0, done: false };
+      if (hit) for (let k = 0; k < Math.round(1 / q.dt) && !st.done; k++) {
+        st.ticks++;
+        if (st.state === "FORWARD") { this.move(hit.t, q.lx, 0, q.dt); if (st.ticks >= q.fwd) { st.state = "TURN"; st.ticks = 0; } }
+        else { this.move(hit.t, 0, q.az, q.dt); if (st.ticks >= q.turn) { st.state = "FORWARD"; st.ticks = 0; st.sides++; this.note(n, `[INFO] [${n.name}]: side ${st.sides} done`); } }
+        if (st.sides === q.sides) { this.note(n, `[INFO] [${n.name}]: Square finished!`); st.done = true; }
+      }
+      if (hit) moved = true;
+    }
     if (I.lifecycle && n.lstate === "active" && I.lcTwist) {
       const out = this.endpoints(n).pubs.find(([nm, t]) => /Twist$/.test(t) && nm.endsWith("/cmd_vel")); const hit = out && this.turtle(out[0].replace(/\/cmd_vel$/, ""));
       if (hit) { this.move(hit.t, I.lcTwist.lx, I.lcTwist.az, 1); moved = true; }
@@ -888,6 +944,32 @@ RosGraph.prototype.tickExtras = function () {
     }
   }
   return moved;
+};
+// a student service-client program (spawn_client, turtle_artist): spawn a turtle, maybe set its pen and teleport it around, print, exit
+RosGraph.prototype.runServiceClient = function (n, info) {
+  const code = info.code || "", cpp = info.lang === "cpp", log = (lvl, t) => this.out(`[${lvl}] [${n.name}]: ${t}`);
+  const sim = this.nodes.find((x) => x.kind === "turtlesim");
+  if (!sim) return [log("INFO", "waiting for /spawn ... is turtlesim running?"), log("INFO", "waiting for /spawn ... is turtlesim running?"), this.out("^C"), this.hint("(The client waits for the /spawn service forever. Start turtlesim first, then run the client again.)")];
+  const num = (k) => { const m = code.match(new RegExp(`Spawn\\.Request\\([^)]*\\b${k}\\s*=\\s*(-?[\\d.]+)`)) || code.match(new RegExp(`\\w+(?:->|\\.)${k}\\s*=\\s*(-?[\\d.]+)f?\\s*[;\\n]`)); return m ? Number(m[1]) : 0; };
+  const nm = (code.match(/Spawn\.Request\([^)]*name\s*=\s*['"](\w*)['"]/) || code.match(/->name\s*=\s*"(\w*)"/) || code.match(/\.name\s*=\s*['"](\w*)['"]/) || [, ""])[1];
+  const x = num("x"), y = num("y"), th = num("theta");
+  const L = [];
+  let name = nm;
+  if (nm && sim.turtles.some((t) => t.name === nm)) { this.note(sim, `[ERROR] [${sim.name}]: A turtle named [${nm}] already exists`); name = ""; }
+  else { if (!name) { let k = 2; while (sim.turtles.some((t) => t.name === `turtle${k}`)) k++; name = `turtle${k}`; } sim.turtles.push(newTurtle(name, x, y, th)); this.note(sim, `[INFO] [${sim.name}]: Spawning turtle [${name}] at x=[${x.toFixed(6)}], y=[${y.toFixed(6)}], theta=[${th.toFixed(6)}]`); }
+  const said = (code.match(/(?:info\(\s*f?['"]|RCLCPP_INFO\([^"]*")([^'"{%]*?(?:spawned|made a turtle called)[^'"{%]*)/) || [, "spawned "])[1].trim();
+  L.push(log("INFO", `${said} ${name}`));
+  const t = sim.turtles.find((q) => q.name === (name || nm));
+  const pen = code.match(/SetPen\.Request\(\s*r\s*=\s*(\d+),\s*g\s*=\s*(\d+),\s*b\s*=\s*(\d+),\s*width\s*=\s*(\d+)/) || code.match(/->r\s*=\s*(\d+);\s*\w+->g\s*=\s*(\d+);\s*\w+->b\s*=\s*(\d+);\s*\w+->width\s*=\s*(\d+)/);
+  if (t && pen) t.pen = { r: +pen[1], g: +pen[2], b: +pen[3], width: +pen[4] || 1, off: 0 };
+  const list = code.match(/for\s+\w+\s*,\s*\w+\s+in\s+\[([^\]]*)\]/) || code.match(/corners\s*=\s*\{([^;]*)\};/);
+  if (t && list) for (const m of list[1].matchAll(/[({]\s*(-?[\d.]+)f?\s*,\s*(-?[\d.]+)f?\s*[)}]/g)) {
+    const cx = +m[1], cy = +m[2]; this.draw(t, [[t.x, t.y], [cx, cy]]); Object.assign(t, { x: cx, y: cy, theta: 0 });
+    L.push(log("INFO", `line to (${cpp ? cx.toFixed(1) : fnum(cx)}, ${cpp ? cy.toFixed(1) : fnum(cy)})`));
+  }
+  this.version = (this.version || 0) + 1;
+  L.push(this.hint(name ? `(Your client program asked turtlesim for a turtle called ${name}, printed the answer and ended. Look at the TurtleSim window and at: ros2 service list)` : "(turtlesim refused: that name is already taken, so the answer's name is empty. Its own terminal shows an ERROR line. Change request.name and build again.)"));
+  return L;
 };
 // a student action client (drive_distance_client): send the goal to the server, print what the client logs, then exit
 RosGraph.prototype.runActionClient = function (n, lines) {
@@ -979,7 +1061,7 @@ RosGraph.prototype.renderLogs = function (n, lines) {
     let a = 0, ok = true;
     const text = t.fmt.replace(/%%/g, "\u0000").replace(/%[-.\d]*[lz]*([sdfiu])/g, (all, ty) => {
       const arg = t.args[a++] || "";
-      const keyOf = (x) => { x = x.trim(); const g = x.match(/get_parameter\(\s*"(\w+)"\s*\)/); return g ? g[1] : I.cVars[x] || null; };
+      const keyOf = (x) => { x = x.trim().replace(/\.c_str\(\)$/, ""); const g = x.match(/get_parameter\(\s*"(\w+)"\s*\)/); return g ? g[1] : I.cVars[x] || null; };
       const sum = arg.split("+");
       if (sum.length === 2 && keyOf(sum[0]) && keyOf(sum[1])) { const m = all.match(/\.(\d+)f/); const tot = Number(P[keyOf(sum[0])]) + Number(P[keyOf(sum[1])]); return m ? tot.toFixed(+m[1]) : String(tot); }
       const key = keyOf(arg);
@@ -1106,19 +1188,22 @@ export function parseNodeCode(code, lang) {
     const ctorC = (c0 >= 0 ? clean.slice(c0, c1 < 0 ? undefined : c0 + c1) : main0 >= 0 ? clean.slice(main0) : "").replace(/\[(this|&|=)[^\]]*\]\s*\([^)]*\)\s*(->\s*\w+\s*)?\{[\s\S]*?\n\s*\}\)/g, "");
     info.cVars = {};
     for (const m of clean.matchAll(/(\w+_?)\s*=\s*declare_parameter(?:<[^>]*>)?\(\s*"(\w+)"/g)) info.cVars[m[1]] = m[2];
+    for (const m of clean.matchAll(/(\w+_?)\s*=\s*get_parameter\(\s*"(\w+)"\s*\)/g)) info.cVars[m[1]] = m[2];
     info.ctpl = [];
     for (const m of ctorC.matchAll(/RCLCPP_(?:INFO|WARN|ERROR)(?:_ONCE)?\(\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"((?:\s*,\s*[^;]+?)*)\);/g)) if (info.ctpl.length < 3) info.ctpl.push({ fmt: m[1], args: m[2].split(/,(?![^(]*\))/).map((x) => x.trim()).filter(Boolean) });
     for (const m of ctorC.matchAll(/RCLCPP_(INFO|WARN|ERROR)(?:_ONCE|_THROTTLE)?\(\s*[^,]+,\s*(?:[^,"]+,\s*\d+\s*,\s*)?"((?:[^"\\]|\\.)*)"/g)) if (info.logs.length < 3) info.logs.push(`[${m[1]}] [${info.node || "node"}]: ${m[2].replace(/%[-.\d]*[lz]*[sdfiu]/g, "…").replace(/%%/g, "%")}`);
   }
   // parameter descriptors (read_only, floating point range) and simple "reject" rules in an on-set callback
-  info.readOnly = []; info.ranges = {}; info.rules = [];
+  info.readOnly = []; info.ranges = {}; info.rules = []; info.descs = {};
   for (const m of clean.matchAll(/declare_parameter(?:<[^>]*>)?\(\s*["'](\w+)["']([\s\S]*?)(?=\n\s*\n|self\.declare_parameter|declare_parameter\(|\n\s{4}\w+_?\s*=|$)/g)) {
     const body = m[2];
     if (/read_only\s*=\s*True/.test(body)) info.readOnly.push(m[1]);
+    const ds = body.match(/description\s*=\s*(['"])(.*?)\1/); if (ds) info.descs[m[1]] = ds[2];
     const r = body.match(/from_value\s*=\s*(-?[\d.]+)\s*,\s*to_value\s*=\s*(-?[\d.]+)/); if (r) info.ranges[m[1]] = [Number(r[1]), Number(r[2])];
     const d = body.match(/^\s*,\s*[^,]+,\s*(\w+)\s*\)/); if (d) info[`desc_${m[1]}`] = d[1];
   }
   if (lang === "cpp") {
+    for (const m of clean.matchAll(/(\w+)\.description\s*=\s*"([^"]*)";/g)) { const dm = clean.match(new RegExp(`declare_parameter\\(\\s*"(\\w+)"[^;]*\\b${m[1]}\\s*\\)`)); if (dm) info.descs[dm[1]] = m[2]; }
     for (const m of clean.matchAll(/(\w+)\.read_only\s*=\s*true/g)) { const dm = clean.match(new RegExp(`declare_parameter\\(\\s*"(\\w+)"[^;]*\\b${m[1]}\\s*\\)`)); if (dm) info.readOnly.push(dm[1]); }
     const fr = clean.match(/(\w+)\.from_value\s*=\s*(-?[\d.]+);\s*\n\s*\1\.to_value\s*=\s*(-?[\d.]+);\s*\n\s*(\w+)\.floating_point_range/);
     if (fr) { const dm = clean.match(new RegExp(`declare_parameter\\(\\s*"(\\w+)"[^;]*\\b${fr[4]}\\s*\\)`)); if (dm) info.ranges[dm[1]] = [Number(fr[2]), Number(fr[3])]; }
@@ -1132,7 +1217,17 @@ export function parseNodeCode(code, lang) {
   // a tf2 follower: lookup_transform('turtle2', 'turtle1', ...) then publish to /turtle2/cmd_vel
   const lk = clean.match(/lookup_?[Tt]ransform\(\s*["'](\w+)["']\s*,\s*["'](\w+)["']/);
   if (lk) { const kw = clean.match(/angular\.z\s*=\s*([\d.]+)\s*\*\s*(?:math|std)\W+atan2/), kv = clean.match(/linear\.x\s*=\s*([\d.]+)\s*\*\s*(?:math|std)\W+hypot/); info.follow = { me: lk[1], target: lk[2], kw: kw ? Number(kw[1]) : 1, kv: kv ? Number(kv[1]) : 0.5 }; }
+  // a driving state machine (square_driver): FORWARD for N ticks, TURN for M ticks, K sides
+  if (/FORWARD/.test(clean) && /TURN/.test(clean) && /create_(wall_)?timer/.test(clean)) {
+    const ev = (e) => { const x = e.replace(/math\.pi|M_PI/g, String(Math.PI)).replace(/\s/g, ""); return /^[\d.+\-*/()]+$/.test(x) ? Function(`return (${x});`)() : NaN; };
+    const lx = clean.match(/\.linear\.x\s*=\s*([^;\n#]+)/), az = clean.match(/\.angular\.z\s*=\s*([^;\n#]+)/);
+    const ticks = [...clean.matchAll(/ticks_?\s*>=\s*(\d+)/g)].map((m) => +m[1]), sides = clean.match(/sides_?\s*==\s*(\d+)/);
+    const period = (clean.match(/create_timer\(\s*([\d.]+)/) || [, null])[1] || ((clean.match(/create_wall_timer\(\s*(\d+)ms/) || [, 100])[1] / 1000);
+    if (lx && az && ticks.length >= 2 && sides) info.square = { lx: ev(lx[1]), az: ev(az[1]), fwd: ticks[0], turn: ticks[1], sides: +sides[1], dt: Number(period) || 0.1 };
+  }
   info.broadcaster = /TransformBroadcaster/.test(clean);
+  // a pretend battery (Week 5 mini-project): drains with the distance its turtle drives
+  info.battery = /drain_per_metre/.test(clean) && /BatteryStatus/.test(clean);
   info.lifecycle = /LifecycleNode/.test(clean);
   if (info.lifecycle) {
     info.logs = [];      // a managed node prints nothing until someone configures it
@@ -1170,17 +1265,28 @@ export function pkgCreate(sh, args) {
     "description: TODO: Package description", "maintainer: ['student <student@todo.todo>']", `licenses: ['${license || "TODO: License declaration"}']`, `build type: ${build}`,
     `dependencies: [${deps.map((d) => `'${d}'`).join(", ")}]`, ...(node ? [`node_name: ${node}`] : []), `creating folder ./${name}`, `creating ./${name}/package.xml`];
   sh.mkdirP(dir);
-  f(`${dir}/package.xml`, `<?xml version="1.0"?>\n<package format="3">\n  <name>${name}</name>\n  <version>0.0.0</version>\n  <description>TODO: Package description</description>\n  <maintainer email="student@todo.todo">student</maintainer>\n  <license>${license || "TODO: License declaration"}</license>\n${deps.map((d) => `  <depend>${d}</depend>\n`).join("")}  <export>\n    <build_type>${build}</build_type>\n  </export>\n</package>\n`);
-  if (build === "ament_python") {
+  const lic = license || "TODO: License declaration", py = build === "ament_python";
+  const testDeps = py ? ["ament_copyright", "ament_flake8", "ament_pep257", "python3-pytest"] : ["ament_lint_auto", "ament_lint_common"];
+  f(`${dir}/package.xml`, `<?xml version="1.0"?>\n<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>\n<package format="3">\n  <name>${name}</name>\n  <version>0.0.0</version>\n  <description>TODO: Package description</description>\n  <maintainer email="student@todo.todo">student</maintainer>\n  <license>${lic}</license>\n\n`
+    + (py ? "" : "  <buildtool_depend>ament_cmake</buildtool_depend>\n\n") + (deps.length ? deps.map((d) => `  <depend>${d}</depend>\n`).join("") + "\n" : "")
+    + testDeps.map((d) => `  <test_depend>${d}</test_depend>\n`).join("") + `\n  <export>\n    <build_type>${build}</build_type>\n  </export>\n</package>\n`);
+  if (license) f(`${dir}/LICENSE`, `\n                                 ${license === "Apache-2.0" ? "Apache License\n                           Version 2.0, January 2004" : license}\n`);
+  const LINT = "if(BUILD_TESTING)\n  find_package(ament_lint_auto REQUIRED)\n  # the following line skips the linter which checks for copyrights\n  # comment the line when a copyright and license is added to all source files\n  set(ament_cmake_copyright_FOUND TRUE)\n  # the following line skips cpplint (only works in a git repo)\n  # comment the line when this package is in a git repo and when\n  # a copyright and license is added to all source files\n  set(ament_cmake_cpplint_FOUND TRUE)\n  ament_lint_auto_find_test_dependencies()\nendif()\n\nament_package()\n";
+  if (py) {
     L.push("creating source folder", `creating folder ./${name}/${name}`, `creating ./${name}/setup.py`, `creating ./${name}/setup.cfg`, `creating folder ./${name}/resource`, `creating ./${name}/resource/${name}`, `creating ./${name}/${name}/__init__.py`, `creating folder ./${name}/test`, `creating ./${name}/test/test_copyright.py`, `creating ./${name}/test/test_flake8.py`, `creating ./${name}/test/test_pep257.py`);
-    f(`${dir}/setup.py`, `from setuptools import find_packages, setup\n\npackage_name = '${name}'\n\nsetup(\n    name=package_name,\n    version='0.0.0',\n    packages=find_packages(exclude=['test']),\n    entry_points={\n        'console_scripts': [\n${node ? `            '${node} = ${name}.${node}:main'\n` : ""}        ],\n    },\n)\n`);
+    f(`${dir}/setup.py`, `from setuptools import find_packages, setup\n\npackage_name = '${name}'\n\nsetup(\n    name=package_name,\n    version='0.0.0',\n    packages=find_packages(exclude=['test']),\n    data_files=[\n        ('share/ament_index/resource_index/packages',\n            ['resource/' + package_name]),\n        ('share/' + package_name, ['package.xml']),\n    ],\n    install_requires=['setuptools'],\n    zip_safe=True,\n    maintainer='student',\n    maintainer_email='student@todo.todo',\n    description='TODO: Package description',\n    license='${lic}',\n    extras_require={\n        'test': [\n            'pytest',\n        ],\n    },\n    entry_points={\n        'console_scripts': [\n${node ? `            '${node} = ${name}.${node}:main'\n` : ""}        ],\n    },\n)\n`);
     f(`${dir}/setup.cfg`, `[develop]\nscript_dir=$base/lib/${name}\n[install]\ninstall_scripts=$base/lib/${name}\n`);
     f(`${dir}/resource/${name}`); f(`${dir}/${name}/__init__.py`);
     ["test_copyright.py", "test_flake8.py", "test_pep257.py"].forEach((t) => f(`${dir}/test/${t}`, "# test\n"));
     if (node) { L.push(`creating ./${name}/${name}/${node}.py`); f(`${dir}/${name}/${node}.py`, `def main():\n    print('Hi from ${name}.')\n\n\nif __name__ == '__main__':\n    main()\n`); }
   } else {
     L.push("creating source and include folder", `creating folder ./${name}/src`, `creating folder ./${name}/include/${name}`, `creating ./${name}/CMakeLists.txt`);
-    sh.mkdirP(`${dir}/src`); sh.mkdirP(`${dir}/include/${name}`); f(`${dir}/CMakeLists.txt`, `cmake_minimum_required(VERSION 3.8)\nproject(${name})\n`);
+    sh.mkdirP(`${dir}/src`); sh.mkdirP(`${dir}/include/${name}`);
+    let cm = `cmake_minimum_required(VERSION 3.8)\nproject(${name})\n\nif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")\n  add_compile_options(-Wall -Wextra -Wpedantic)\nendif()\n\n# find dependencies\nfind_package(ament_cmake REQUIRED)\n`;
+    cm += deps.length ? deps.map((d) => `find_package(${d} REQUIRED)\n`).join("") : "# uncomment the following section in order to fill in\n# further dependencies manually.\n# find_package(<dependency> REQUIRED)\n";
+    if (node) cm += `\nadd_executable(${node} src/${node}.cpp)\ntarget_include_directories(${node} PUBLIC\n  $<BUILD_INTERFACE:\${CMAKE_CURRENT_SOURCE_DIR}/include>\n  $<INSTALL_INTERFACE:include/\${PROJECT_NAME}>)\ntarget_compile_features(${node} PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17\n`
+      + (deps.length ? `ament_target_dependencies(\n  ${node}\n${deps.map((d) => `  "${d}"\n`).join("")})\n` : "") + `\ninstall(TARGETS ${node}\n  DESTINATION lib/\${PROJECT_NAME})\n`;
+    f(`${dir}/CMakeLists.txt`, cm + "\n" + LINT);
     if (node) { L.push(`creating ./${name}/src/${node}.cpp`); f(`${dir}/src/${node}.cpp`, `#include <cstdio>\n\nint main(int argc, char ** argv)\n{\n  (void) argc;\n  (void) argv;\n\n  printf("hello world ${name} package\\n");\n  return 0;\n}\n`); }
   }
   const out = L.map((t) => sh.out(t));
@@ -1447,7 +1553,7 @@ RosGraph.prototype.launchUser = function (pk, file, extra = []) {
     const node = this.add(kind, name, ns, Object.fromEntries(Object.entries(params).map(([k, v]) => [k, plainValue(v)])), n.remaps);
     if (kind === "static_tf" && n.args) { const g = (k) => { const i = n.args.indexOf(`--${k}`); return i >= 0 ? n.args[i + 1] : 0; }; node.tf = { parent: g("frame-id"), child: g("child-frame-id"), t: [Number(g("x")), Number(g("y")), Number(g("z"))], q: qRPY(Number(g("roll")), Number(g("pitch")), Number(g("yaw"))) }; }
     if (kind === "rsp" && n.rdVar) { const urdf = Object.entries(pk.urdf || {})[0]; if (urdf) node.params.robot_description = urdf[1]; }
-    if (kind === "custom" && ws.infos && ws.infos[n.exec]) { const inf = ws.infos[n.exec]; node.info = inf; for (const [k, v] of Object.entries(inf.params)) if (!(k in node.params)) node.params[k] = v; }
+    if (kind === "custom" && ws.infos && ws.infos[n.exec]) { const inf = ws.infos[n.exec]; node.info = inf; for (const [k, v] of Object.entries(inf.params)) if (!(k in node.params)) node.params[k] = v; if (inf.lang === "cpp") QOS.forEach((q, i) => { node.params[q] = [1000, "volatile", "keep_last", "reliable"][i]; }); }
     if (kind === "custom") node.ptypes = { ...Object.fromEntries(Object.entries(params).map(([k, v]) => [k, v && typeof v === "object" ? "double" : typeof v === "boolean" ? "bool" : typeof v === "string" ? "string" : "integer"])), ...((node.info && node.info.ptypes) || {}) };
     count++;
     L.push(this.out(`[INFO] [${n.exec}-${count}]: process started with pid [${4300 + count * 7}]`));

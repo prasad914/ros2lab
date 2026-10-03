@@ -26,10 +26,7 @@ export const ANIMS = [
   { id: "actionwire", title: "Inside an action", concept: "3 services + 2 topics, goal states", week: 5, load: () => import("./actionwire.js") },
   { id: "paramcb", title: "Parameter callbacks", concept: "validate and react to changes", week: 5, load: () => import("./paramcb.js") },
   { id: "pctrl", title: "Go to the goal by yourself", concept: "a P-controller node: pose in, Twist out", week: 6, load: () => import("./pctrl.js") },
-  { id: "quat", title: "Yaw angle to quaternion", concept: "orientation for robots on the floor", week: 7, load: () => import("./quat.js") },
-  { id: "ik2", title: "Inverse kinematics of a 2-link arm", concept: "law of cosines, elbow up and down, reach", week: 7, load: () => import("./ik2.js") },
-  { id: "diffdrive", title: "Two wheels, one path", concept: "differential drive and odometry", week: 7, load: () => import("./diffdrive.js") },
-  { id: "mmplan", title: "Drive, then reach", concept: "mobile manipulator planning", week: 7, load: () => import("./mmplan.js") },
+  { id: "quat", title: "Yaw angle to quaternion", concept: "orientation for robots on the floor", week: 6, load: () => import("./quat.js") },
   { id: "launchcfg", title: "What a launch file does to names", concept: "namespace, remap, params file", week: 5, load: () => import("./launchcfg.js") },
 ];
 

@@ -715,7 +715,6 @@ table.data td.num { text-align: right; font-variant-numeric: tabular-nums; }
 [data-mod="IN"] { --mc: #B86E00; --mt: var(--sun-tint); }
 [data-mod="PF"] { --mc: var(--coral); --mt: var(--coral-tint); }
 [data-mod="NP"] { --mc: #1E8A4C; --mt: var(--green-tint); }
-[data-mod="KM"] { --mc: #3B4FC4; --mt: #E8EBFF; }
 .lesson-body > .lesson-anim, .lesson-body > .pzl { margin: 26px 0; }
 
 /* ---------- concept animations ---------- */
@@ -976,3 +975,13 @@ body.shielded main, body.shielded .watermark { filter: blur(18px) grayscale(1); 
 .lesson-hero h1, h1, h2, .lesson-body p, .lesson-body li, .lesson-body .opt, .lesson-body td { overflow-wrap: anywhere; }
 .lesson-body pre { max-width: 100%; overflow-x: auto; }
 .lesson-body { overflow-x: clip; }
+
+/* wide lessons: the whole lesson, code included, is visible without scrolling sideways */
+.lesson-top .narrow, main > .narrow[data-mod], #root.narrow { max-width: 1280px; }
+.lesson-body p, .lesson-body li { max-width: 90ch; }
+.lesson-body pre.code, .tr-code li code, .figure-out, .langs-body pre { white-space: pre-wrap; overflow-wrap: anywhere; overflow-x: hidden; }
+.tr-code { overflow-x: hidden; }
+.tr-code li code { min-width: 0; }
+.py textarea, .nano textarea { white-space: pre-wrap; overflow-wrap: anywhere; overflow-x: hidden; }
+@media (min-width: 1100px) { .tr-grid { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); } }
+.anim-file { white-space: pre-wrap; overflow-wrap: anywhere; overflow-x: hidden; }
