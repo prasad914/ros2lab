@@ -75,6 +75,19 @@ for (const m of course.modules) for (const l of m.lessons) for (const [i, b] of 
     if (goalMet(b, start) && !(b.mustInclude && ![].concat(b.mustInclude).every((c) => b.code.includes(c)))) bad(where, "the starting code already reaches the goal");
   }
 }
+// Firestore limits: no list directly inside a list, documents under 1 MB
+const fsProblem = (v, path, inList = false) => {
+  if (Array.isArray(v)) {
+    if (inList) return path;
+    for (let i = 0; i < v.length; i++) { const r = fsProblem(v[i], `${path}[${i}]`, true); if (r) return r; }
+  } else if (v && typeof v === "object") for (const [k, x] of Object.entries(v)) { const r = fsProblem(x, `${path}.${k}`); if (r) return r; }
+  return null;
+};
+for (const m of course.modules) for (const l of m.lessons) {
+  const at = fsProblem(l.blocks, "blocks");
+  if (at) bad(l.id, `a list inside a list at ${at}: Firestore cannot store this, so the upload would fail`);
+  if (JSON.stringify(l).length > 900000) bad(l.id, "lesson is too large for one Firestore document (1 MB)");
+}
 console.log(`Checked ${terms} practice terminals and ${pys} Python exercises${python ? "" : " (Python skipped: python3 not found)"}.`);
 console.log(problems ? `${problems} problem(s) found.` : "All good.");
 process.exit(problems ? 1 : 0);

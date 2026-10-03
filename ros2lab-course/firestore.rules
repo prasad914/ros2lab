@@ -112,7 +112,7 @@ service cloud.firestore {
           && get(/databases/$(database)/documents/attempts/$(attemptId)).data.status == 'in_progress'
           && request.resource.data.keys().hasOnly(['type','at','q'])
           && request.resource.data.keys().hasAll(['type','at','q'])
-          && request.resource.data.type in ['hidden','blur','copy','paste','contextmenu','fullscreen-exit','devtools-key','print']
+          && request.resource.data.type in ['hidden','blur','copy','paste','contextmenu','fullscreen-exit','devtools-key','print','screenshot']
           && request.resource.data.at == request.time
           && request.resource.data.q is int;
         allow read: if isAdmin();

@@ -1,4 +1,5 @@
 // Shared helpers for every page. Builds the DOM safely (no innerHTML with data).
+import { screenGuard } from "./guard.js";
 import { auth, db, onAuthStateChanged, signOut, getIdTokenResult, reload, doc, getDoc } from "./fb.js";
 import { el, rich, toast } from "./dom.js";
 export { el, rich, toast };
@@ -107,6 +108,7 @@ export function watermark(lines) {
 export function protectPage({ onEvent, allowTyping = true } = {}) {
   document.body.classList.add("no-select");
   const report = (type) => { try { onEvent && onEvent(type); } catch { /* ignore */ } };
+  screenGuard(report);
   const block = (type, msg) => (e) => { e.preventDefault(); report(type); if (msg) toast(msg, 2500); };
   document.addEventListener("copy", block("copy", "Copying is turned off on course pages."));
   document.addEventListener("cut", block("copy", "Copying is turned off on course pages."));

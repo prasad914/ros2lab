@@ -1,4 +1,4 @@
-# ROS2Lab: "ROS 2 from zero, in three weeks" (www.ros2lab.com)
+# ROS2Lab: "ROS 2 from zero, in five weeks" (www.ros2lab.com)
 
 A free online course for engineering students. Anyone with a valid college ID card can register; the instructor approves each registration.
 **Start with SETUP-GUIDE.md.** Updating from v2? Read **UPDATE-GUIDE.md**.
@@ -22,6 +22,8 @@ A free online course for engineering students. Anyone with a valid college ID ca
 
 - **Week 1, Talk to the robot's computer:** Day 1 start here, terminal basics, Day 2 files, permissions and apt, Days 3 to 5 Python from zero, Week 1 test.
 - **Week 2, Build the robot's brain:** Days 6 and 7 Python objects and first ROS 2 nodes, Days 8 and 9 C++ basics, classes and an rclcpp node, Day 10 Ubuntu, ROS 2 Jazzy installation and the robotics lab, Week 2 test.
-- **Week 3, Speak ROS 2:** Day 11 the ROS 2 graph and nodes, Day 12 topics, messages and writing publishers/subscribers, Day 13 services and parameters, Day 14 actions and launch files, Day 15 packages and colcon, TF2, debugging tools and a mini-project, Week 3 test.
+- **Week 3, Introduction to ROS:** Days 11–15: why robots need a software platform, ROS objectives, parts and ecosystem, history and versions, ROS 1 vs ROS 2, middleware, DDS, domains and QoS.
+- **Week 4, Speak ROS 2:** Days 16–20: nodes, topics, messages, services, parameters, actions, launch files, workspaces, TF2 and debugging, hands-on in the practice terminal.
+- **Week 5, ROS Programming Fundamentals:** Days 21–25: packages and nodes in Python and C++, publishers and subscribers, custom interfaces, services, actions, parameters with YAML and callbacks, launch files, mini-project.
 
 Keep this folder private: it contains the question templates.

@@ -77,7 +77,7 @@ const HELP = {
 const COMMANDS = ["pwd", "ls", "cd", "mkdir", "touch", "cat", "head", "tail", "echo", "cp", "mv", "rm", "rmdir", "chmod",
   "clear", "whoami", "hostname", "date", "history", "export", "unset", "printenv", "env", "source", "sudo", "apt", "apt-get",
   "ros2", "python3", "nano", "grep", "wc", "help", "man", "exit", "tree", "locale", "locale-gen", "update-locale",
-  "add-apt-repository", "curl", "dpkg", "rosdep", "colcon", "gz", "g++", "rqt_graph", "rviz2"];
+  "add-apt-repository", "curl", "dpkg", "rosdep", "colcon", "gz", "g++", "rqt_graph", "rviz2", "lsb_release", "uname", "nproc", "free", "df"];
 
 const normPath = (p) => {
   const parts = [];
@@ -301,6 +301,11 @@ export class Shell {
       case "pwd": return { lines: [this.out(this.cwd)] };
       case "whoami": return { lines: [this.out(root ? "root" : USER)] };
       case "hostname": return { lines: [this.out(HOST)] };
+      case "lsb_release": return { lines: ["No LSB modules are available.", "Distributor ID:\tUbuntu", "Description:\tUbuntu 24.04.1 LTS", "Release:\t24.04", "Codename:\tnoble"].map((t) => this.out(t)) };
+      case "uname": return { lines: [this.out(flags.includes("a") ? `Linux ${HOST} 6.8.0-45-generic #45-Ubuntu SMP PREEMPT_DYNAMIC x86_64 x86_64 x86_64 GNU/Linux` : flags.includes("r") ? "6.8.0-45-generic" : "Linux")] };
+      case "nproc": return { lines: [this.out("8")] };
+      case "free": return { lines: ["               total        used        free      shared  buff/cache   available", "Mem:            15Gi       3.1Gi       9.2Gi       412Mi       3.4Gi        12Gi", "Swap:          4.0Gi          0B       4.0Gi"].map((t) => this.out(t)) };
+      case "df": return { lines: ["Filesystem      Size  Used Avail Use% Mounted on", "/dev/sda2       234G   38G  184G  18% /", "tmpfs           7.7G     0  7.7G   0% /dev/shm"].map((t) => this.out(t)) };
       case "date": return { lines: [this.out(new Date().toString().replace(/ GMT.*$/, " IST"))] };
       case "clear": return { lines: [], clear: true };
       case "exit": return { lines: [this.hint("This practice terminal stays open. Use \"Start again\" to reset it.")] };
@@ -635,6 +640,18 @@ export class Shell {
         let pkgs = findPackages(this, this.cwd);
         const sel = rest.indexOf("--packages-select");
         if (sel >= 0) pkgs = pkgs.filter((p) => rest.slice(sel + 1).includes(p.name));
+        const failed = pkgs.filter((p) => p.errors && p.errors.length);
+        if (failed.length) {
+          const ok = pkgs.filter((p) => !failed.includes(p));
+          this.installs[`${ws}/install`] = [...(this.installs[`${ws}/install`] || []).filter((p) => !ok.some((q) => q.name === p.name)), ...ok];
+          for (const p of ok) this.mkdirP(`${ws}/install/${p.name}`);
+          for (const p of pkgs) L.push(this.out(`Starting >>> ${p.name}`));
+          for (const p of ok) L.push(this.out(`Finished <<< ${p.name} [1.02s]`));
+          for (const p of failed) { L.push(this.err(`--- stderr: ${p.name}`), ...p.errors.map((e) => this.err(e)), this.err("---"), this.err(`Failed   <<< ${p.name} [1.37s, exited with code 1]`)); }
+          L.push(this.out(""), this.out(`Summary: ${ok.length} package${ok.length === 1 ? "" : "s"} finished [1.6s]`), this.err(`  ${failed.length} package${failed.length === 1 ? "" : "s"} failed: ${failed.map((p) => p.name).join(" ")}`));
+          L.push(this.hint("Read the first error line under --- stderr. Fix the file, then run colcon build again."));
+          return { lines: L };
+        }
         this.installs[`${ws}/install`] = [...(this.installs[`${ws}/install`] || []).filter((p) => !pkgs.some((q) => q.name === p.name)), ...pkgs];
         for (const p of pkgs) this.mkdirP(`${ws}/install/${p.name}`);
         const t = (i) => (0.9 + i * 0.37).toFixed(2);
@@ -835,7 +852,10 @@ export class Shell {
       const extra = a.endsWith("listener") || b === "listener" ? " (In a real computer the listener prints only while a talker is running in another terminal.)" : "";
       return [...lines.map((t) => this.out(t)), this.out("^C"), this.hint(`Practice terminal stopped the program for you. On a real computer it keeps running until you press Ctrl+C.${extra}`)];
     }
-    if (sub === "launch") { const r = this.graph && this.rosPkgs.has(a) ? this.graph.launch(a, b) : null; return r || this.ros2Launch(a, b); }
+    if (sub === "launch") {
+      if (this.wsPkgs.has(a)) { if (!this.graph) this.graph = new RosGraph(this, []); return this.graph.launchUser(this.wsPkgs.get(a), b, args.slice(3)); }
+      const r = this.graph && this.rosPkgs.has(a) ? this.graph.launch(a, b) : null; return r || this.ros2Launch(a, b);
+    }
     if (this.graph) { const r = this.graph.run(args); if (r) return r; }
     if (sub === "topic" && a === "list") return [this.out("/parameter_events"), this.out("/rosout")];
     if (sub === "topic" && a === "echo") return [this.out(`WARNING: topic [${b || "/chatter"}] does not appear to be published yet`), this.hint("Nothing is publishing in this practice terminal. In a real lab, start a talker in another terminal first.")];
@@ -932,6 +952,8 @@ export class Shell {
     if (c.outputHas && !this.lastOutput.includes(c.outputHas)) return false;
     if (c.ok && this.lastError) return false;
     if (c.rosNode && !(this.graph && [].concat(c.rosNode).every((x) => this.graph.has(x)))) return false;
+    if (c.iface && !(this.graph && [].concat(c.iface).every((x) => x in this.graph.allIfaces()))) return false;
+    if (c.topicExists && !(this.graph && [].concat(c.topicExists).every((x) => this.graph.topics().has(x)))) return false;
     if (c.turtle && !(this.graph && [].concat(c.turtle).every((x) => this.graph.turtle(x)))) return false;
     if (c.param) { const n = this.graph && this.graph.node(c.param.node); if (!n || String(n.params[c.param.name]) !== String(c.param.value)) return false; }
     if (c.wsPkg && ![].concat(c.wsPkg).every((x) => this.wsPkgs.has(x))) return false;

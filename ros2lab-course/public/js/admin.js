@@ -218,7 +218,7 @@ async function attemptDialog(r, a) {
   try {
     const k = (await getDoc(doc(db, "attemptKeys", a.id))).data();
     const evs = (DATA.evByAttempt[a.id] || []).slice().sort((x, y) => x.at.toMillis() - y.at.toMillis());
-    const names = { hidden: "left the page (switched tab/app)", blur: "window lost focus", copy: "tried to copy", paste: "tried to paste", contextmenu: "right-click", "fullscreen-exit": "left full screen", "devtools-key": "pressed a developer-tools key", print: "tried to print" };
+    const names = { hidden: "left the page (switched tab/app)", blur: "window lost focus", copy: "tried to copy", paste: "tried to paste", contextmenu: "right-click", "fullscreen-exit": "left full screen", "devtools-key": "pressed a developer-tools key", print: "tried to print", screenshot: "pressed a screenshot key" };
     holder.replaceChildren(
       el("p", { text: `Status: ${a.status}. Score: ${a.score != null ? `${a.score}/${a.maxScore}` : "–"}. Started ${fmtDate(a.startedAt)}${a.submittedAt ? `, submitted ${fmtDate(a.submittedAt)}` : ""}.` }),
       el("div", { class: "table-wrap" }, el("table", { class: "data" },
@@ -312,10 +312,23 @@ function validate(d) {
       if (ids.has(l.id)) p.push(`Duplicate lesson id ${l.id}`); ids.add(l.id);
       if (!Array.isArray(l.blocks) || !l.blocks.length) p.push(`Lesson ${l.id}: no blocks`);
       if (JSON.stringify(l).length > 900000) p.push(`Lesson ${l.id}: too large`);
+      const nested = firestoreProblem(l.blocks, "blocks");
+      if (nested) p.push(`Lesson ${l.id}: ${nested}`);
     });
   });
   (d.tests || []).forEach((t) => { if (!ID.test(t.id || "")) p.push(`Test: bad id "${t.id}"`); if (!Array.isArray(t.topics)) p.push(`Test ${t.id}: missing topics`); });
   return p;
+}
+// Firestore cannot store a list directly inside another list, or empty (undefined) values.
+function firestoreProblem(v, path, inList = false) {
+  if (v === undefined) return `empty value at ${path} (Firestore cannot store undefined)`;
+  if (Array.isArray(v)) {
+    if (inList) return `a list inside a list at ${path} (Firestore cannot store this; use objects like {"w": ..., "m": ...})`;
+    for (let i = 0; i < v.length; i++) { const r = firestoreProblem(v[i], `${path}[${i}]`, true); if (r) return r; }
+  } else if (v && typeof v === "object") {
+    for (const [k, x] of Object.entries(v)) { const r = firestoreProblem(x, `${path}.${k}`); if (r) return r; }
+  }
+  return null;
 }
 async function upload(d, btn, out) {
   btn.disabled = true;

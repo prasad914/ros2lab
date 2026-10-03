@@ -712,6 +712,8 @@ table.data td.num { text-align: right; font-variant-numeric: tabular-nums; }
    ===================================================================== */
 :root { --sky: #2F7DD1; --sky-tint: #DCEBFF; }
 [data-mod="W3"] { --mc: var(--sky); --mt: var(--sky-tint); }
+[data-mod="IN"] { --mc: #B86E00; --mt: var(--sun-tint); }
+[data-mod="PF"] { --mc: var(--coral); --mt: var(--coral-tint); }
 .lesson-body > .lesson-anim, .lesson-body > .pzl { margin: 26px 0; }
 
 /* ---------- concept animations ---------- */
@@ -893,3 +895,35 @@ table.data td.num { text-align: right; font-variant-numeric: tabular-nums; }
 .anim-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-bottom: 18px; }
 .pg-sec { margin: 34px 0 10px; }
 .pg-sec h2 { margin-bottom: .2em; }
+
+/* ---------- Week 3 and 5 animations ---------- */
+.an-box.ok rect { fill: var(--green-tint); }
+.an-box.bad rect { fill: var(--coral-tint); stroke: var(--coral); }
+.an-wire.bad { stroke: var(--coral); stroke-width: 4; stroke-dasharray: none; animation: an-flash .5s 3; }
+@keyframes an-flash { 50% { opacity: .25; } }
+.an-pk.bad rect { fill: var(--coral-tint); stroke: var(--coral); }
+.an-lbl.small { font-size: 11.5px; }
+.an-lbl.l { text-anchor: start; font-weight: 700; } .an-lbl.r { text-anchor: end; font-weight: 600; fill: var(--ink); } .an-lbl.in { text-anchor: start; font-size: 11.5px; fill: var(--ink); }
+.an-rail { stroke-width: 6; stroke-linecap: round; } .an-rail.r1 { stroke: #5B8DEF; } .an-rail.r2 { stroke: #F59E0B; }
+.an-stopblock { fill: var(--ink); }
+.an-stn { fill: var(--white); stroke: var(--ink); stroke-width: 2.5; } .an-stn.now { fill: var(--sun); }
+.an-gridline { stroke: #DCE3EF; stroke-width: 1; }
+.an-span { fill: #E3E8F1; stroke: var(--ink); stroke-width: 1.5; } .an-span.lts { fill: var(--teal-tint); } .an-span.sel { stroke: var(--grape); stroke-width: 4; }
+.an-today { stroke: var(--coral); stroke-width: 3; stroke-dasharray: 5 4; }
+.an-ripple { fill: none; stroke: var(--grape); stroke-width: 3; animation: an-ripple 1.2s ease-out 1 forwards; }
+@keyframes an-ripple { from { r: 10; opacity: 1; } to { r: 150; opacity: 0; } }
+.an-net { fill: #E3E8F1; stroke: var(--ink); stroke-width: 2; }
+.an-state rect { fill: var(--white); stroke: #9AA6C2; stroke-width: 2; } .an-state text { font-size: 11.5px; text-anchor: middle; font-weight: 700; fill: var(--ink-soft); }
+.an-state.now rect { fill: var(--sun); stroke: var(--ink); } .an-state.now text { fill: var(--ink); }
+.anim-file { font-family: var(--font-mono); font-size: .85rem; background: var(--term-bg); color: var(--term-fg); border-radius: 8px; padding: 10px 12px; margin: 8px 0; overflow-x: auto; white-space: pre; }
+.anim-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 4px 0; }
+.anim-extra select { font: inherit; font-size: .9rem; padding: 4px 6px; border: 2px solid var(--ink); border-radius: 6px; }
+@media (prefers-reduced-motion: reduce) { .an-ripple, .an-wire.bad { animation: none; } }
+
+/* ---------- v5: screenshot deterrent ---------- */
+body.shielded main, body.shielded .watermark { filter: blur(18px) grayscale(1); }
+.shield { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center; background: rgba(20, 32, 74, .92); padding: 20px; cursor: pointer; }
+.shield-box { max-width: 420px; background: var(--white); border: var(--border); border-radius: var(--r-lg); box-shadow: var(--shadow); padding: 22px; text-align: center; }
+.shield-box strong { font-family: var(--font-head); font-size: 1.2rem; display: block; margin-bottom: 6px; }
+.shield-box p { margin: 0; }
+@media print { main { display: none !important; } }

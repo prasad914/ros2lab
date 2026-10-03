@@ -96,7 +96,7 @@ function arcade() {
   const n = GAMES.filter((g) => got[g.id]).length;
   return el("section", { class: "arcade" },
     el("div", {}, el("h2", { text: "Playground" }),
-      el("p", { text: n ? `${n} of ${GAMES.length} game badges earned. Replay any game to practise.` : "Six mini-games and 13 concept animations, one for each big idea. They also appear inside the lessons." })),
+      el("p", { text: n ? `${n} of ${GAMES.length} game badges earned. Replay any game to practise.` : "Six mini-games and 25 concept animations, one for each big idea. They also appear inside the lessons." })),
     el("div", { class: "shelf" }, GAMES.map((g) => el("div", { class: `shelf-badge${got[g.id] ? " got" : ""}`, title: g.badge },
       el("span", { class: "sb-icon", "aria-hidden": "true", text: g.badgeIcon }), el("span", { class: "sb-name", text: g.badge })))),
     el("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap" } },

@@ -1,6 +1,6 @@
 # About this folder
 
-This is the **website code** of the ROS2Lab course (v3, "ROS 2 from zero, in three weeks"), kept here for version history.
+This is the **website code** of the ROS2Lab course (v5, "ROS 2 from zero, in five weeks"), kept here for version history.
 
 Three parts of the full project are **deliberately not in this public repository**:
 
