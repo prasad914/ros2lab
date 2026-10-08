@@ -266,7 +266,7 @@ export async function createVsCode(host, opts = {}) {
         cm.keymap.of([...cm.closeBracketsKeymap, ...cm.defaultKeymap, ...cm.searchKeymap, ...cm.historyKeymap, ...cm.foldKeymap, ...cm.completionKeymap, cm.indentWithTab, { key: "Mod-/", run: cm.toggleComment }]),
         wrapComp.of(wrap ? cm.EditorView.lineWrapping : []),
         langExt(lang), theme,
-        cm.EditorView.domEventHandlers({ paste: blockClip, copy: blockClip, cut: blockClip }),
+        cm.EditorView.domEventHandlers({ paste: blockClip, copy: (e) => { e.preventDefault(); return true; }, cut: (e) => { e.preventDefault(); return true; }, dragstart: (e) => { e.preventDefault(); return true; } }),
         cm.EditorView.updateListener.of((u) => { if (u.docChanged) markDirty(); if (u.docChanged || u.selectionSet) paintStatus(); }),
       ],
     });

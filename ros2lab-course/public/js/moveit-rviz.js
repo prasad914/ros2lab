@@ -7,7 +7,7 @@
 // It talks to the practice move_group (ros-moveit.js), which plans with OMPL, Pilz, CHOMP or STOMP (moveit-core.js)
 // and executes through the ros2_control trajectory controller (mock hardware or Gazebo).
 import * as THREE from "../vendor/three/three.module.js";
-import { fromQuat, poseOf, sampleTrajectory } from "./moveit-core.js";
+import { fromQuat, fromRPY, poseOf, sampleTrajectory } from "./moveit-core.js";
 
 const h = (tag, a = {}, ...kids) => { const e = document.createElement(tag); for (const [k, v] of Object.entries(a)) { if (v === null || v === undefined || v === false) continue; if (k === "text") e.textContent = v; else if (k.startsWith("on")) e.addEventListener(k.slice(2), v); else if (k === "class") e.className = v; else e.setAttribute(k, v === true ? "" : v); } for (const c of kids.flat()) if (c != null) e.append(c); return e; };
 const rgb = (s) => String(s || "").split(/[;,]\s*/).map((x) => Math.max(0, Math.min(255, Number(x) || 0)) / 255);
@@ -22,7 +22,7 @@ export function attachMotionPlanning(viewer, mg, { onClose } = {}) {
   const S = {
     group: (() => { const want = prop("Planning Group", ""); return groups.includes(want) ? want : groups.find((g) => mg.srdf.groups[g].chain) || groups[0]; })(),
     pipeline: pipelines[0] ? pipelines[0].id : "ompl", planner: {}, time: Number(prop("MoveIt_Planning_Time", 5)) || 5, attempts: 10, vel: 0.1, acc: 0.1,
-    goal: null, start: null, result: null, anim: 0, status: "", colliding: null, ikFail: false, trailOn: false,
+    goal: null, start: null, result: null, anim: 0, status: "", colliding: null, ikFail: false, trailOn: false, cartesian: false, lastError: null,
   };
   for (const p of pipelines) S.planner[p.id] = p.def;
   const G = () => mg.group(S.group);
@@ -79,7 +79,7 @@ export function attachMotionPlanning(viewer, mg, { onClose } = {}) {
     while (trail.length < want) trail.push(viewer.ghost());
     trail.forEach((tg, i) => { if (i >= want) { tg.hide(); return; } const pts = r.trajectory.points, k = Math.round((i / Math.max(1, want - 1)) * (pts.length - 1)); tg.set(G().values(pts[k].positions, cur), { color: [150 / 255, 50 / 255, 150 / 255], alpha: 0.15 }); });
     paintObjects();
-    viewer.setDisplayStatus("MotionPlanning", [mg.ready ? ["ok", "Planning Scene: OK", "Planning Scene"] : ["warn", mg.status || "Waiting for move_group ...", "Planning Scene"], ["ok", `Robot State: ${mg.model.name}`, "Robot State"], ...(S.ikFail ? [["warn", "No IK solution for the last marker pose: the goal state stays at the last reachable pose", "Interactive Marker"]] : [])]);
+    viewer.setDisplayStatus("MotionPlanning", [mg.ready ? ["ok", "Planning Scene: OK", "Planning Scene"] : ["warn", mg.status || "Waiting for move_group ...", "Planning Scene"], ["ok", `Robot State: ${mg.model.name}`, "Robot State"], ...(S.ikFail ? [["warn", "No IK solution for the last marker pose: the goal state stays at the last reachable pose", "Interactive Marker"]] : []), ...(S.lastError ? [["err", S.lastError, "Planning Request"]] : [])]);
   }
   // ---------------- interactive marker at the tip of the planning group (goal state) ----------------
   let im = null, imKey = "";
@@ -137,7 +137,13 @@ export function attachMotionPlanning(viewer, mg, { onClose } = {}) {
   fillPlanners();
   // Planning
   const statusLbl = h("div", { class: "mp-status", role: "status" });
-  const say = (t, cls = "") => { S.status = t; statusLbl.textContent = t; statusLbl.className = `mp-status ${cls}`; };
+  const say = (t, cls = "") => {
+    S.status = t; statusLbl.textContent = t; statusLbl.className = `mp-status ${cls}`;
+    if (pgStatus) { pgStatus.textContent = t; pgStatus.className = `mp-status ${cls}`; }
+    S.lastError = cls === "err" ? t : null;
+    paint3d();
+  };
+  let pgStatus = null, pgCart = null;
   const named = () => Object.keys(mg.namedStates(S.group));
   const startCombo = combo(["<current>", "<random valid>", "<random>", ...named()], "<current>", (v) => setState("start", v), "Start State");
   const goalCombo = combo(["<current>", "<random valid>", "<random>", "<same as start>", ...named()], "<current>", (v) => setState("goal", v), "Goal State");
@@ -157,6 +163,7 @@ export function attachMotionPlanning(viewer, mg, { onClose } = {}) {
     paint3d(); viewer.draw(); paintJoints();
   }
   const btn = (t, fn) => h("button", { type: "button", class: "q-btn mp-cmd", text: t, onclick: fn });
+  const cartBox = h("input", { type: "checkbox", "aria-label": "Use Cartesian Path" }); cartBox.addEventListener("change", () => { S.cartesian = cartBox.checked; if (pgCart) pgCart.checked = cartBox.checked; });
   const bPlan = btn("Plan", () => doPlan(false)), bExec = btn("Execute", () => doExecute()), bPE = btn("Plan & Execute", () => doPlan(true)), bStop = btn("Stop", () => { mg.stop(); say("Execution stopped"); }), bClear = btn("Clear", () => { S.result = null; S.animating = false; paint3d(); viewer.draw(); say(""); });
   bExec.disabled = true;
   pages.Planning.append(h("div", { class: "mp-cols" },
@@ -167,7 +174,7 @@ export function attachMotionPlanning(viewer, mg, { onClose } = {}) {
       h("label", { text: "Planning Attempts:" }), spin(S.attempts, 1, 1, 100, (v) => { S.attempts = v; }, "Planning Attempts"),
       h("label", { text: "Velocity Scaling:" }), spin(S.vel, 0.05, 0.01, 1, (v) => { S.vel = v; }, "Velocity Scaling"),
       h("label", { text: "Accel. Scaling:" }), spin(S.acc, 0.05, 0.01, 1, (v) => { S.acc = v; }, "Acceleration Scaling")),
-      h("label", { class: "mp-cb" }, h("input", { type: "checkbox", "aria-label": "Use Cartesian Path" }), " Use Cartesian Path"),
+      h("label", { class: "mp-cb" }, cartBox, " Use Cartesian Path"),
       h("label", { class: "mp-cb" }, h("input", { type: "checkbox", checked: true, "aria-label": "Collision-aware IK" }), " Collision-aware IK"),
       h("label", { class: "mp-cb" }, h("input", { type: "checkbox", "aria-label": "Replanning" }), " Replanning"))),
     h("div", { class: "mp-row" }, h("label", { text: "Path Constraints: " }), combo(["None"], "None", () => {}, "Path Constraints")), statusLbl);
@@ -215,10 +222,12 @@ export function attachMotionPlanning(viewer, mg, { onClose } = {}) {
     say("Planning request sent ...");
     setTimeout(() => {   // let the label paint first: planning can take a moment
       const goal = Object.fromEntries(g.joints.map((j) => [j, S.goal[j] ?? current()[j] ?? 0]));
-      const r = mg.plan({ group: S.group, startValues: S.start || null, goal, pipeline: S.pipeline, planner_id: S.planner[S.pipeline] === "CHOMP" || S.planner[S.pipeline] === "STOMP" ? "" : S.planner[S.pipeline], time: S.time, attempts: S.attempts, vel: S.vel, acc: S.acc });
+      const req = { group: S.group, startValues: S.start || null, goal, pipeline: S.pipeline, planner_id: S.planner[S.pipeline] === "CHOMP" || S.planner[S.pipeline] === "STOMP" ? "" : S.planner[S.pipeline], time: S.time, attempts: S.attempts, vel: S.vel, acc: S.acc, circAux: S.circAux || null };
+      if (S.pipeline === "pilz_industrial_motion_planner" && S.planner[S.pipeline] === "CIRC" && !S.circAux) req.circAux = defaultInterim();
+      const r = S.cartesian && g.tip ? mg.cartesianPath({ group: S.group, T: mg.tipPose(S.group, goal), vel: S.vel, acc: S.acc }) : mg.plan(req);
       S.result = r; S.executed = false;
       if (r.ok) { S.animating = true; S.anim = performance.now(); bExec.disabled = !!S.start; say(`Plan: Success (${S.pipeline}${r.planner ? ` / ${r.planner}` : ""}). Planning time ${fmt(r.planning_time)} s, motion ${fmt(r.duration, 2)} s${S.start ? " (start state is not the current state: Execute is disabled)" : ""}`, "ok"); }
-      else { S.animating = false; bExec.disabled = true; say(`Plan: FAILED: ${r.error} — ${r.message}`, "err"); }
+      else { S.animating = false; bExec.disabled = true; say(`Planning failed: ${r.error}. ${r.message}`, "err"); }
       paint3d(); viewer.draw();
       if (andExecute && r.ok && !S.start) doExecute();
     }, 20);
@@ -230,6 +239,71 @@ export function attachMotionPlanning(viewer, mg, { onClose } = {}) {
     else say(`Execution failed: ${e.message}`, "err");
     paint3d(); viewer.draw();
   }
+  // ---------------- Pose Goal dock (right side): the tool's goal as numbers ----------------
+  const D2R = Math.PI / 180, R2D = 180 / Math.PI;
+  function defaultInterim() {   // CIRC without an interim point: half way, lifted by 10 % of the reach
+    const A = mg.tipPose(S.group, {}), B = mg.tipPose(S.group, S.goal); if (!A || !B) return null;
+    return { interim: [(A[3] + B[3]) / 2, (A[7] + B[7]) / 2, (A[11] + B[11]) / 2 + 0.1 * (mg.reach || 0.8)] };
+  }
+  const frames = [mg.model.root, ...Object.keys(mg.model.links).filter((l) => l !== mg.model.root)];
+  const pgFrame = combo(frames, mg.model.root, () => fillFromGoal(), "Pose goal frame");
+  const num = (label, step) => h("input", { class: "q-line mp-spin", type: "number", step: String(step), value: "0", "aria-label": label });
+  const pgX = num("x (m)", 0.01), pgY = num("y (m)", 0.01), pgZ = num("z (m)", 0.01), pgR = num("roll (deg)", 5), pgP = num("pitch (deg)", 5), pgYaw = num("yaw (deg)", 5);
+  const ciX = num("interim x", 0.01), ciY = num("interim y", 0.01), ciZ = num("interim z", 0.01);
+  pgCart = h("input", { type: "checkbox", "aria-label": "Cartesian path (straight line)" }); pgCart.addEventListener("change", () => { S.cartesian = pgCart.checked; cartBox.checked = pgCart.checked; });
+  pgStatus = h("div", { class: "mp-status", role: "status" });
+  const frameT = (f) => (f === mg.model.root ? null : mg.K.fk(current())[f]);
+  // the goal pose (root frame) -> numbers in the chosen frame
+  function fillFromGoal(values) {
+    const T = mg.tipPose(S.group, values || S.goal); if (!T) return;
+    const F = frameT(pgFrame.value); const M = F ? mulInv(F, T) : T;
+    const p = [M[3], M[7], M[11]], rpy = toRPY(M);
+    [pgX, pgY, pgZ].forEach((i, k) => { i.value = p[k].toFixed(4); });
+    [pgR, pgP, pgYaw].forEach((i, k) => { i.value = (rpy[k] * R2D).toFixed(2); });
+  }
+  function mulInv(F, T) {   // F^-1 * T
+    const R = [F[0], F[4], F[8], F[1], F[5], F[9], F[2], F[6], F[10]], t = [T[3] - F[3], T[7] - F[7], T[11] - F[11]];
+    const m = (r, c) => R[r * 3] * T[c] + R[r * 3 + 1] * T[4 + c] + R[r * 3 + 2] * T[8 + c];
+    return [m(0, 0), m(0, 1), m(0, 2), R[0] * t[0] + R[1] * t[1] + R[2] * t[2], m(1, 0), m(1, 1), m(1, 2), R[3] * t[0] + R[4] * t[1] + R[5] * t[2], m(2, 0), m(2, 1), m(2, 2), R[6] * t[0] + R[7] * t[1] + R[8] * t[2]];
+  }
+  function toRPY(T) { const sp = Math.max(-1, Math.min(1, -T[8])), p = Math.asin(sp); if (Math.abs(sp) > 0.9999) return [0, p, Math.atan2(-T[1], T[5])]; return [Math.atan2(T[9], T[10]), p, Math.atan2(T[4], T[0])]; }
+  function poseFromInputs() {
+    const v = (i) => Number(i.value) || 0;
+    let T = fromRPY([v(pgX), v(pgY), v(pgZ)], [v(pgR) * D2R, v(pgP) * D2R, v(pgYaw) * D2R]);
+    const F = frameT(pgFrame.value);
+    if (F) { const A = F, B = T; const m = (r, c) => A[r * 4] * B[c] + A[r * 4 + 1] * B[4 + c] + A[r * 4 + 2] * B[8 + c];
+      T = [m(0, 0), m(0, 1), m(0, 2), m(0, 3) + A[3], m(1, 0), m(1, 1), m(1, 2), m(1, 3) + A[7], m(2, 0), m(2, 1), m(2, 2), m(2, 3) + A[11]]; }
+    return T;
+  }
+  function setPoseGoal() {   // IK for the typed pose -> the orange goal state (like dragging the marker there)
+    const g = G(); if (!g || !g.tip) { say(`The group ${S.group} has no tool link: use the Joints tab`, "err"); return false; }
+    const r = mg.poseToJoints(S.group, poseFromInputs(), S.goal);
+    if (!r.ok) { S.ikFail = true; say(`Pose goal: ${r.error}. ${r.message}`, "err"); mg.rvizLog(`Pose goal: ${r.message}`, "WARN", "moveit_ros_visualization.motion_planning_frame"); paint3d(); viewer.draw(); return false; }
+    S.ikFail = false; S.goal = { ...S.goal, ...r.values }; checkGoal(); im = null; viewer.rebuildIMarkers(); paint3d(); viewer.draw(); paintJoints();
+    say(S.colliding ? `Goal state set, but it is in collision (${S.colliding.join(", ")})` : "Goal state set from the pose (IK solved). Now Plan.", S.colliding ? "err" : "ok");
+    return !S.colliding;
+  }
+  const pgPipe = combo(pipelines.map((p) => p.id), S.pipeline, (v) => { S.pipeline = v; fillPlanners(); fillPgPlanners(); }, "Pose goal pipeline");
+  const pgPlanner = h("select", { class: "q-combo", "aria-label": "Pose goal planner" });
+  pgPlanner.addEventListener("change", () => { S.planner[S.pipeline] = pgPlanner.value; fillPlanners(); circRow.hidden = !(S.pipeline === "pilz_industrial_motion_planner" && pgPlanner.value === "CIRC"); });
+  function fillPgPlanners() { const p = pipelines.find((x) => x.id === S.pipeline); pgPlanner.replaceChildren(...(p ? p.planners : []).map((x) => new Option(x, x))); pgPlanner.value = S.planner[S.pipeline]; pgPipe.value = S.pipeline; circRow.hidden = !(S.pipeline === "pilz_industrial_motion_planner" && S.planner[S.pipeline] === "CIRC"); }
+  const circRow = h("div", { class: "mp-grid", hidden: true }, h("label", { text: "CIRC interim x y z:" }), h("div", { class: "mp-row" }, ciX, ciY, ciZ));
+  const useCirc = () => { if (S.pipeline === "pilz_industrial_motion_planner" && S.planner[S.pipeline] === "CIRC") { const v = [ciX, ciY, ciZ].map((i) => Number(i.value)); S.circAux = v.every((x) => Number.isFinite(x)) && v.some((x) => x !== 0) ? { interim: v } : null; } else S.circAux = null; };
+  const pgBtn = (t, fn) => h("button", { type: "button", class: "q-btn mp-cmd", text: t, onclick: fn });
+  const pgBody = h("div", { class: "mp-panel mp-pose" },
+    h("p", { class: "mp-note", text: "Type where the tool should go, then Plan. Position in metres, orientation as roll / pitch / yaw in degrees (fixed axes X, Y, Z), in the frame chosen below. The same goal as dragging the orange marker." }),
+    h("div", { class: "mp-grid" }, h("label", { text: "Frame:" }), pgFrame, h("label", { text: "x (m):" }), pgX, h("label", { text: "y (m):" }), pgY, h("label", { text: "z (m):" }), pgZ,
+      h("label", { text: "roll (°):" }), pgR, h("label", { text: "pitch (°):" }), pgP, h("label", { text: "yaw (°):" }), pgYaw),
+    h("div", { class: "mp-row" }, pgBtn("Current tool pose", () => { fillFromGoal(current()); say("Filled in the tool's current pose"); }), pgBtn("Goal marker pose", () => { fillFromGoal(); say("Filled in the orange goal's pose"); })),
+    h("div", { class: "mp-grid" }, h("label", { text: "Pipeline:" }), pgPipe, h("label", { text: "Planner:" }), pgPlanner), circRow,
+    h("label", { class: "mp-cb" }, pgCart, " Cartesian path (straight line of the tool)"),
+    h("div", { class: "mp-row" }, pgBtn("Set Goal", () => setPoseGoal()), pgBtn("Plan", () => { useCirc(); if (setPoseGoal()) doPlan(false); }), pgBtn("Execute", () => doExecute()), pgBtn("Plan & Execute", () => { useCirc(); if (setPoseGoal()) doPlan(true); }), pgBtn("Stop", () => { mg.stop(); })),
+    pgStatus);
+  fillPgPlanners(); fillFromGoal(current());
+  plannerCombo.addEventListener("change", () => fillPgPlanners());
+  pipeCombo.addEventListener("change", () => fillPgPlanners());
+  const removePoseDock = viewer.addDock("Pose Goal (pose_goal_panel)", pgBody, { side: "right" });
+
   const body = h("div", { class: "mp-panel" }, tabBar, pane);
   const removeDock = viewer.addDock("MotionPlanning", body);
   const removeExt = viewer.addExtension(ext);
@@ -240,8 +314,10 @@ export function attachMotionPlanning(viewer, mg, { onClose } = {}) {
   loop();
   return {
     tick() { paint3d(); },
-    destroy() { cancelAnimationFrame(raf); off(); removeExt(); removeDock(); for (const g of [sceneRobot, goalGhost, startGhost, pathGhost, ...trail]) g.dispose(); if (onClose) onClose(); },
+    destroy() { cancelAnimationFrame(raf); off(); removeExt(); removeDock(); removePoseDock(); for (const g of [sceneRobot, goalGhost, startGhost, pathGhost, ...trail]) g.dispose(); if (onClose) onClose(); },
     // used by automated tests
-    test: { S, setGoalPose: (t, q) => onMarker({ event: "MOUSE_UP", p: t, q }), setState, plan: () => doPlan(false), execute: () => doExecute(), planExecute: () => doPlan(true), select: (pipe, planner) => { S.pipeline = pipe; if (planner) S.planner[pipe] = planner; fillPlanners(); }, status: () => S.status },
+    test: { S, setGoalPose: (t, q) => onMarker({ event: "MOUSE_UP", p: t, q }), setState, plan: () => doPlan(false), execute: () => doExecute(), planExecute: () => doPlan(true), select: (pipe, planner) => { S.pipeline = pipe; if (planner) S.planner[pipe] = planner; fillPlanners(); fillPgPlanners(); }, status: () => S.status,
+      pose: (xyz, rpyDeg, frame) => { if (frame) pgFrame.value = frame; [pgX, pgY, pgZ].forEach((i, k) => { i.value = String(xyz[k]); }); [pgR, pgP, pgYaw].forEach((i, k) => { i.value = String(rpyDeg[k]); }); return setPoseGoal(); },
+      cartesian: (on) => { S.cartesian = !!on; cartBox.checked = !!on; pgCart.checked = !!on; }, interim: (v) => { S.circAux = v ? { interim: v } : null; } },
   };
 }

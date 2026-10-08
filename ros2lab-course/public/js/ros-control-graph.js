@@ -50,7 +50,7 @@ export const rcMethods = {
       if (a === "-c" || a === "--controller-manager") opt.cm = args[++i];
       else if (a === "-p" || a === "--param-file") opt.file = args[++i];
       else if (a === "--inactive") opt.inactive = true;
-      else if (a === "-t" || a === "--controller-type" || a === "--controller-manager-timeout" || a === "-n" || a === "--namespace") i++;
+      else if (a === "-t" || a === "--controller-type" || a === "--controller-manager-timeout" || a === "--switch-timeout" || a === "--service-call-timeout" || a === "-n" || a === "--namespace") i++;
       else if (!a.startsWith("-")) names.push(a);
     }
     const sp = `spawner_${names[0] || "controller"}`, P = (lv, t) => `${tag ? `[${tag}] ` : ""}[${lv}] [${stampNow()}] [${sp}]: ${t}`;

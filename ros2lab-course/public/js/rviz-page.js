@@ -8,6 +8,7 @@ import { galleryPackage, folderPackage } from "./rviz-pkg.js";
 import { parseURDF, xacro } from "./urdf-core.js";
 import { Rosbridge } from "./rosbridge.js";
 import { convert, LIVE_TYPES, THROTTLE } from "./ros-msgs.js";
+import { licenseStatus, cachedLicense, licensed, licenseMessage, requestLicense } from "./hw-license.js";
 
 const $ = (id) => document.getElementById(id);
 const WS = "~/ros2_ws";
@@ -17,12 +18,19 @@ const term = mountTerminal($("term"), {
   title: "Terminal: ~/ros2_ws",
   intro: "",
   sourced: true, start: WS, cmds: ["colcon", "tree", "gz"], newTerminal: true, ide: true, rvizSave: "~/ros2_ws/my_config.rviz",
+  // real hardware (a *_bringup or real.launch.py launch) needs the course administrator's hardware license
+  hardwareGate: (robot) => { const st = cachedLicense(); return licensed(st, robot) ? { ok: true } : { ok: false, message: licenseMessage(st || { status: "unavailable" }, robot) }; },
   // a ROS 2 Jazzy desktop with Gazebo (ros-jazzy-ros-gz), teleop_twist_keyboard and the RViz IMU plugin installed
   // ... and ros2_control for Gazebo (ros-jazzy-gz-ros2-control, ros-jazzy-ros2-controllers)
   rosPkgs: ["ros_gz_sim", "ros_gz_bridge", "ros_gz_image", "teleop_twist_keyboard", "rviz_imu_plugin", "controller_manager", "gz_ros2_control", "ros2controlcli", "hardware_interface", "joint_state_broadcaster", "diff_drive_controller", "joint_trajectory_controller", "forward_command_controller", "position_controllers", "velocity_controllers",
     // MoveIt 2 (ros-jazzy-moveit + the CHOMP / STOMP / Pilz planners) and the extra ros2_controllers the robots use
     "moveit_ros_move_group", "moveit_configs_utils", "moveit_rviz_plugin", "moveit_ros_visualization", "moveit_planners_ompl", "moveit_planners_chomp", "moveit_planners_stomp", "pilz_industrial_motion_planner", "moveit_simple_controller_manager", "moveit_kinematics", "mock_components",
-    "mecanum_drive_controller", "ackermann_steering_controller", "tricycle_controller"],
+    "mecanum_drive_controller", "ackermann_steering_controller", "tricycle_controller",
+    // MoveIt Servo, pose goals, and the tools a robot workspace uses
+    "moveit_servo", "moveit_msgs", "moveit_py", "launch_param_builder", "control_msgs", "shape_msgs", "rosbridge_server", "rqt_joint_trajectory_controller", "rqt_controller_manager", "plotjuggler_ros", "nav2_bringup", "slam_toolbox",
+    // the makers' drivers for the real robots (pre-installed here; real.launch.py needs a hardware license)
+    "ur_robot_driver", "ur_client_library", "ur_moveit_config", "kortex_bringup", "kortex_driver", "franka_bringup", "franka_hardware", "xarm_controller", "xarm_api", "dobot_bringup_v4", "dobot_bringup", "feetech_ros2_driver",
+    "interbotix_xsarm_control", "abb_bringup", "abb_hardware_interface", "kuka_rsi_driver", "fanuc_hardware_interface", "turtlebot3_bringup", "turtlebot3_node", "hls_lfcd_lds_driver", "ld08_driver", "scout_base", "spot_driver", "crazyflie", "crazyflie_examples", "unitree_api", "livox_ros_driver2"],
   fs: { dirs: [`${WS}/src`], files: {} },
 });
 const sh = term.shell;
@@ -37,7 +45,7 @@ function writePackage(p) {
   for (const [rel, content] of Object.entries(p.files)) {
     const path = `${dir}/${rel}`;
     sh.mkdirP(path.replace(/\/[^/]*$/, ""));
-    sh.fs.set(path, { type: "f", mode: "rw-r--r--", content });
+    sh.fs.set(path, { type: "f", mode: /^#!/.test(String(content)) ? "rwxrwxr-x" : "rw-r--r--", content });
   }
 }
 function launchFile() {
@@ -51,10 +59,10 @@ function commands() {
   const what = document.querySelector("input[name=what]:checked").value;
   if ((what === "moveit" || what === "moveit_gz") && current.moveit) {
     const M = current.moveit.pkg;
-    return ["cd ~/ros2_ws", `colcon build --packages-select ${current.name} ${M}`, "source install/setup.bash", `ros2 launch ${M} ${what === "moveit" ? "demo.launch.py" : "gazebo.launch.py"}`];
+    return ["cd ~/ros2_ws", `colcon build --packages-select ${[current.name, ...(current.extraPackages || []).map((x) => x.name)].join(" ")}`, "source install/setup.bash", `ros2 launch ${M} ${what === "moveit" ? "demo.launch.py" : "gazebo.launch.py"}`];
   }
   const lf = launchFile();
-  return ["cd ~/ros2_ws", `colcon build --packages-select ${current.name}`, "source install/setup.bash",
+  return ["cd ~/ros2_ws", `colcon build --packages-select ${[current.name, ...(current.extraPackages || []).map((x) => x.name)].join(" ")}`, "source install/setup.bash",
     lf ? `ros2 launch ${current.name} ${lf}` : current.mainPath ? `ros2 launch urdf_tutorial display.launch.py model:=$PWD/src/${current.name}/${current.mainPath}` : "# no robot file (.urdf / .urdf.xacro) was found in this package"];
 }
 function paintCommands() {
@@ -77,6 +85,12 @@ function paintCommands() {
     const M = current.moveit;
     t = `In RViz's MotionPlanning panel: drag the orange marker at ${M.tip} (goal state), pick the pipeline in the Context tab (ompl, pilz_industrial_motion_planner, chomp, stomp) and the planner, then Plan and Execute in the Planning tab.${what === "moveit" ? ` The work cell's obstacles: in a + New terminal, cd ~/ros2_ws && source install/setup.bash && ros2 run ${M.pkg} add_scene_objects.py` : " The table, box and post are already in the Gazebo world and the planning scene."}${M.real ? `  Real robot: ${M.real.connection}; see src/${M.pkg}/README.md.` : ""}`;
   }
+  if (current && current.moveit && (what === "moveit" || what === "moveit_gz")) {
+    const M = current.moveit;
+    t += ` Type a goal instead: the Pose Goal panel on the right of RViz (x, y, z, roll, pitch, yaw), or ros2 run ${M.pkg} pose_goal_commander.py and publish geometry_msgs/msg/PoseStamped on /goal_pose. Jog it live with MoveIt Servo: ros2 launch ${M.pkg} servo.launch.py. Failed plans print move_group's errors in the launch terminal.`;
+  }
+  const bu = current && (current.extraPackages || []).find((x) => /_bringup$/.test(x.name));
+  if (bu && t) t += ` The real robot: ros2 launch ${bu.name} real.launch.py (needs a hardware license from your course administrator).`;
   if (tip) { tip.textContent = t; tip.hidden = !t; }
   // the package's files: click one to see it with cat (like on Ubuntu)
   const tree = $("tree"); tree.replaceChildren();
@@ -104,7 +118,8 @@ async function usePackage(p, label) {
   writePackage(p);
   paintCommands();
   paintDetails(p);
-  term.say(`(${label}: the package ${p.name} is in ~/ros2_ws/src/${p.name}. Build it, source the workspace and launch it: the commands are above the terminal.)`);
+  const all = [p.name, ...(p.extraPackages || []).map((x) => x.name)];
+  term.say(`(${label}: ${all.length > 1 ? `the packages ${all.join(", ")} are` : `the package ${p.name} is`} in ~/ros2_ws/src. Build, source the workspace and launch: the commands are above the terminal. code ~/ros2_ws opens them all in VS Code.)`);
   for (const n of p.notes || []) term.say(`(${n})`);
 }
 
@@ -165,32 +180,8 @@ async function openOwn(files) {
 $("folder").addEventListener("change", (e) => openOwn([...e.target.files]));
 $("files").addEventListener("change", (e) => openOwn([...e.target.files]));
 
-// ---------------- the workspace as a real ROS 2 Jazzy workspace (.zip): ~/ros2_ws/src as it is now, meshes included
-async function downloadWorkspace() {
-  const btn = $("dl"); btn.disabled = true; const label = btn.textContent; btn.textContent = "Preparing the .zip ...";
-  try {
-    const { makeZip } = await import("./zip.js");
-    const src = sh.abs(`${WS}/src`), entries = [], pkgs = new Set();
-    for (const [path, n] of sh.fs) {
-      if (n.type !== "f" || !path.startsWith(src + "/")) continue;
-      const rel = path.slice(src.length + 1); pkgs.add(rel.split("/")[0]);
-      const m = String(n.content || "").match(/^@url:(.+)$/);
-      let data = n.content || "";
-      if (m) { const r = await fetch(m[1]); if (!r.ok) continue; data = new Uint8Array(await r.arrayBuffer()); }
-      entries.push({ path: `ros2_ws/src/${rel}`, data, executable: /^[\w-]+\/scripts\//.test(rel) || /^#!/.test(String(n.content || "")) });
-    }
-    const list = [...pkgs].sort();
-    entries.push({ path: "ros2_ws/README.md", data: `# ROS 2 Jazzy workspace from ROS2Lab\n\nPackages: ${list.join(", ")}\n\n\`\`\`bash\n# Ubuntu 24.04 with ROS 2 Jazzy (https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html)\nsudo apt install ros-jazzy-desktop ros-jazzy-xacro ros-jazzy-joint-state-publisher-gui ros-jazzy-ros-gz \\\n  ros-jazzy-gz-ros2-control ros-jazzy-ros2-controllers ros-jazzy-teleop-twist-keyboard ros-jazzy-rviz-imu-plugin \\\n  ros-jazzy-moveit ros-jazzy-moveit-planners-chomp ros-jazzy-moveit-planners-stomp ros-jazzy-pilz-industrial-motion-planner ros-jazzy-warehouse-ros-sqlite\ncd ros2_ws\nrosdep install --from-paths src --ignore-src -r -y\ncolcon build\nsource install/setup.bash\n\`\`\`\n\nThen run the same ros2 launch commands as on the ROS2Lab RViz page. For the real robot, read REAL_ROBOT.md in the description package, or README.md in the *_moveit_config package.\n` });
-    const blob = makeZip(entries), a = document.createElement("a");
-    a.href = URL.createObjectURL(blob); a.download = `ros2_ws_${list.join("+").slice(0, 60) || "empty"}.zip`; document.body.append(a); a.click(); a.remove();
-    term.say(`(Downloaded ~/ros2_ws/src as a .zip: ${list.join(", ")}. On Ubuntu 24.04 with ROS 2 Jazzy: unzip it, then rosdep install --from-paths src --ignore-src -r -y && colcon build && source install/setup.bash.)`);
-  } catch (e) { term.say(`(Could not make the .zip: ${e.message})`); }
-  btn.disabled = false; btn.textContent = label;
-}
-
 // ---------------- 3. launch
 document.querySelectorAll("input[name=lf], input[name=what]").forEach((r) => r.addEventListener("change", paintCommands));
-if ($("dl")) $("dl").addEventListener("click", downloadWorkspace);
 $("go").addEventListener("click", () => {
   if (!current) return;
   term.stopAll();
@@ -210,7 +201,7 @@ async function ensureLive() {
   const holder = document.createElement("div"); desk.append(holder);
   const viewer = createRviz(holder, {
     fixedFrame: "base_link", displays: { Grid: true, RobotModel: true, TF: true }, resolve: () => null, topics: () => topics, title: "", externalTf: true, plugins: () => ["rviz_imu_plugin"],
-    onSave: (path, text) => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], { type: "text/yaml" })); a.download = path.split("/").pop() || "my_config.rviz"; a.click(); },
+    onSave: (path) => say(`${path} is kept in this page only: ROS2Lab does not download files to your device.`),
     onOpenConfig: () => { const i = document.createElement("input"); i.type = "file"; i.accept = ".rviz,.yaml"; i.onchange = async () => { const f = i.files[0]; if (f) viewer.loadConfig(await f.text(), f.name); }; i.click(); },
     onPublish: (topic, type, msg) => { if (rb) { rb.publish(topic, type, msg); say(`Published a ${type} on ${topic} through rosbridge.`); } },
   });
@@ -240,8 +231,29 @@ function disconnect() {
   if (live) { live.viewer.setExtraEdges([]); live.viewer.setSensors({}); live.viewer.setMarkers([]); live.viewer.update({ topicData: new Map() }); }
   $("connect").textContent = "Connect";
 }
+// ---------------- the hardware license (real robots only; simulation needs none)
+licenseStatus().then(paintLicense);
+function paintLicense(st) {
+  const box = $("hwlic"); if (!box) return;
+  const ok = licensed(st);
+  box.className = `notice ${ok ? "ok" : ""}`;
+  box.replaceChildren();
+  const p = document.createElement("p"); p.style.margin = "0 0 6px";
+  p.textContent = ok ? `Hardware license active${st.admin ? " (instructor)" : ""}: ${(st.robots || []).join(", ")}${st.validUntil ? `, until ${new Date(st.validUntil).toLocaleDateString()}` : ""}.` : licenseMessage(st);
+  box.append(p);
+  if (!ok && ["none", "rejected", "expired", "revoked"].includes(st.status)) {
+    const robot = document.createElement("input"); robot.value = current && current.robotId ? current.robotId : ($("gal") && $("gal").value) || ""; robot.size = 14; robot.setAttribute("aria-label", "Robot id");
+    const why = document.createElement("textarea"); why.rows = 2; why.style.width = "100%"; why.placeholder = "Which robot (model, serial if known), where it is, and what you will do with it"; why.setAttribute("aria-label", "Purpose");
+    const b = document.createElement("button"); b.type = "button"; b.className = "btn btn-small"; b.textContent = "Ask for a hardware license";
+    b.onclick = async () => { b.disabled = true; try { await requestLicense([robot.value.trim()], why.value.trim()); paintLicense(await licenseStatus(true)); } catch (e) { b.disabled = false; p.textContent = String(e.message || e).replace(/^.*?:\s*/, ""); } };
+    const row = document.createElement("div"); row.className = "rvp-row"; row.append("Robot: ", robot, b);
+    box.append(why, row);
+  }
+}
 $("connect").addEventListener("click", async () => {
   if (rb) { disconnect(); say("Disconnected."); return; }
+  const st = await licenseStatus(true); paintLicense(st);
+  if (!licensed(st)) { say(`${licenseMessage(st)} (Simulation in the terminal above needs no license.)`, true); return; }
   const url = $("url").value.trim();
   say(`Connecting to ${url} …`);
   try {

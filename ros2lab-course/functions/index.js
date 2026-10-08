@@ -958,3 +958,54 @@ exports.adminReturnCertificateRequest = onCall(CALL_OPTS, async (req) => {
   await db.collection("auditLog").add({ uid, decision: "certificate-returned", reason: note, by: req.auth.token.email || req.auth.uid, at: FieldValue.serverTimestamp() });
   return { ok: true };
 });
+
+// =====================================================================
+// 14) REAL-HARDWARE LICENSE: students ask, the course administrator decides
+// =====================================================================
+// Connecting a real robot (rosbridge from the RViz page, or launching a *_bringup / real.launch.py) needs a
+// license. hardwareLicenses/{uid} is written only here: { status: pending|approved|rejected|revoked, robots,
+// purpose, requestedAt, decidedAt, decidedBy, validUntil, note, key }.
+const HW_ROBOTS = /^[a-z0-9_]{2,40}$/;
+exports.requestHardwareLicense = onCall(CALL_OPTS, async (req) => {
+  const uid = requireMember(req);
+  const d = req.data || {};
+  const robots = [...new Set((Array.isArray(d.robots) ? d.robots : [d.robot]).map((x) => String(x || "").trim()).filter((x) => HW_ROBOTS.test(x)))].slice(0, 20);
+  const purpose = String(d.purpose || "").trim().replace(/\s+/g, " ");
+  if (!robots.length) throw new HttpsError("invalid-argument", "Name the robot you want to connect.");
+  if (purpose.length < 15 || purpose.length > 600) throw new HttpsError("invalid-argument", "Describe in 15 to 600 characters which robot you will connect, where, and what for.");
+  const ref = db.doc(`hardwareLicenses/${uid}`);
+  const cur = (await ref.get()).data();
+  if (cur && cur.status === "pending") return { status: "pending" };
+  if (cur && cur.status === "approved" && (!cur.validUntil || ms(cur.validUntil) > Date.now()) && robots.every((r) => (cur.robots || []).includes(r) || (cur.robots || []).includes("all"))) return { status: "approved" };
+  const u = (await db.doc(`users/${uid}`).get()).data() || {};
+  await ref.set({ status: "pending", robots, purpose, fullName: u.fullName || "", email: req.auth.token.email || "", requestedAt: Timestamp.now(), previous: cur ? cur.status : null });
+  await db.collection("auditLog").add({ uid, decision: "hardware-license-requested", robots, by: "self", at: FieldValue.serverTimestamp() });
+  return { status: "pending" };
+});
+
+// Instructor: approve (for some robots or "all", for 1 to 365 days), refuse, or revoke.
+exports.adminDecideHardwareLicense = onCall(CALL_OPTS, async (req) => {
+  requireAdmin(req);
+  const d = req.data || {};
+  const uid = String(d.uid || "");
+  if (!/^[A-Za-z0-9]{10,40}$/.test(uid)) throw new HttpsError("invalid-argument", "Bad request.");
+  const action = String(d.action || "");
+  if (!["approve", "reject", "revoke"].includes(action)) throw new HttpsError("invalid-argument", "Bad request.");
+  const note = String(d.note || "").trim().slice(0, 300);
+  const ref = db.doc(`hardwareLicenses/${uid}`);
+  const cur = (await ref.get()).data();
+  if (!cur) throw new HttpsError("failed-precondition", "This student has not asked for a hardware license.");
+  const by = req.auth.token.email || req.auth.uid;
+  if (action === "approve") {
+    const days = Number(d.days);
+    if (!Number.isInteger(days) || days < 1 || days > 365) throw new HttpsError("invalid-argument", "Choose 1 to 365 days.");
+    const robots = (Array.isArray(d.robots) && d.robots.length ? d.robots : cur.robots || []).map(String).filter((x) => x === "all" || HW_ROBOTS.test(x)).slice(0, 40);
+    const key = `ROS2LAB-HW-${crypto.randomBytes(6).toString("hex").toUpperCase()}`;
+    await ref.update({ status: "approved", robots, validUntil: Timestamp.fromMillis(Date.now() + days * DAY_MS), note, key, decidedAt: Timestamp.now(), decidedBy: by });
+    await db.collection("auditLog").add({ uid, decision: `hardware-license-approved-${days}d`, robots, by, at: FieldValue.serverTimestamp() });
+    return { status: "approved", key };
+  }
+  await ref.update({ status: action === "reject" ? "rejected" : "revoked", note, decidedAt: Timestamp.now(), decidedBy: by });
+  await db.collection("auditLog").add({ uid, decision: `hardware-license-${action}ed`, by, at: FieldValue.serverTimestamp() });
+  return { status: action === "reject" ? "rejected" : "revoked" };
+});

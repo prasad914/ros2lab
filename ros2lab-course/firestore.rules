@@ -199,6 +199,13 @@ service cloud.firestore {
     }
 
     // Everything else is closed.
+    // ---------- Real-hardware licenses (written only by Cloud Functions) ----------
+    match /hardwareLicenses/{uid} {
+      allow get: if isOwner(uid) || isAdmin();
+      allow list: if isAdmin();
+      allow write: if false;
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

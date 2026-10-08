@@ -10,6 +10,7 @@ import { urdfGazebo } from "./gz-sdf.js";
 import { moveitModel, moveitConfigFiles, placeScene } from "./moveit-config.js";
 import { meshPointsFrom } from "./moveit-core.js";
 import { realFor, realLaunchPy, realReadme } from "./real-robot.js";
+import { gazeboPackage, bringupPackage } from "./robot-packages.js";
 
 const fetchText = (url) => fetch(url).then((r) => { if (!r.ok) throw new Error(`${url} (${r.status})`); return r.text(); });
 
@@ -322,8 +323,17 @@ export async function galleryPackage(g) {
   // arms: a <robot>_moveit_config package next to the description (MoveIt 2 with OMPL, Pilz, CHOMP, STOMP)
   let moveit = null;
   if (g.moveit) { try { moveit = await galleryMoveit(g, pkg, main, plain, view); } catch (e) { moveit = { error: e.message }; } }
+  // the rest of the robot's workspace: <id>_gazebo (simulation bringup) and <id>_bringup (the real robot's driver and hardware config)
+  const extra = moveit && moveit.pkg ? [moveit.pkg] : [];
+  const mpkg = moveit && moveit.pkg ? moveit.pkg.name : null;
+  try {
+    const gz = gazeboPackage(g, pkg, { sim: sim ? { control: sim.control ? { controller: sim.control.controller } : null } : null, moveitPkg: mpkg });
+    if (gz) extra.push(gz);
+    const bu = bringupPackage(g, pkg, { moveitPkg: mpkg, moveitReal: g.moveit && g.moveit.real, sim: sim ? { control: sim.control ? {} : null } : null });
+    if (bu) extra.push(bu);
+  } catch (e) { console.error(e); }
   return { name: pkg, files, main, launches, sim: sim ? { ...sim.sim, control: sim.control ? { controller: sim.control.controller, arm: sim.control.arm } : null } : null,
-    moveit: moveit && !moveit.error ? moveit.info : null, extraPackages: moveit && moveit.pkg ? [moveit.pkg] : [], notes: moveit && moveit.error ? [`MoveIt config could not be made: ${moveit.error}`] : [] };
+    moveit: moveit && !moveit.error ? moveit.info : null, extraPackages: extra, notes: moveit && moveit.error ? [`MoveIt config could not be made: ${moveit.error}`] : [] };
 }
 
 // The student's own files: a package folder (with package.xml) is used as it is; loose .urdf/.xacro files

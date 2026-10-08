@@ -99,10 +99,7 @@ Each arm gets a second package next to its description: **`<robot>_moveit_config
 - **Mobile robots, legged robots and drones:** `ros2 launch <description> real.launch.py` starts the maker's driver and RViz with the simulation's displays. `REAL_ROBOT.md` in the package gives:
   - the install command, the connection, the udev or network setup, and the teleop command;
   - for TurtleBot3, the Jazzy detail: `/cmd_vel` is a TwistStamped.
-- **New button "Download this workspace (.zip)":**
-  - It saves `~/ros2_ws/src` as it is in the practice terminal: your edits from the practice VS Code, the meshes, and executable scripts.
-  - The zip includes a README.
-  - On Ubuntu 24.04 + Jazzy: `rosdep install --from-paths src --ignore-src -r -y && colcon build`.
+- (V19 removed the "Download this workspace" button: files no longer leave ROS2Lab. See UPDATE-V19.md.)
 - **`tools/export-ws.mjs --per-robot <folder>`** writes one ready-to-build workspace per gallery robot, with the same files the page generates.
 
 ## Verification (what was run)
@@ -164,7 +161,6 @@ Each arm gets a second package next to its description: **`<robot>_moveit_config
 | `public/js/ros-moveit.js` | move_group, mock ros2_control and the MoveIt launch files in the practice terminal |
 | `public/js/moveit-rviz.js` | RViz's MotionPlanning display and panel |
 | `public/js/real-robot.js` | `real.launch.py` and `REAL_ROBOT.md` for the mobile, legged and flying robots |
-| `public/js/zip.js` | The workspace download |
 | `public/robots/moveit/<robot>.json` | Each arm's collision spheres and collision matrix (from `tools/moveit-precompute.mjs`) |
 | `tools/export-ws.mjs`, `tools/test-moveit.mjs`, `tools/moveit-precompute.mjs` | Export the workspaces; test and prepare MoveIt |
 | `public/js/rviz-sim.js`, `ros-gz.js`, `gz-sdf.js`, `ros-graph.js`, `ros-control-graph.js`, `rviz.js`, `rviz-pkg.js`, `rviz-page.js`, `terminal-sim.js`, `urdf-core.js`, `rviz.html`, `css/rviz.css`, `robots/index.json`, `robots/scout_description/urdf/scout_v2.urdf` | The fixes and features above |

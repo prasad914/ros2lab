@@ -49,11 +49,37 @@ for (const g of list.filter((x) => (ids.length ? ids.includes(x.id) : x.moveit))
   let obj = { id: "box", type: "box", dims: [0.06, 0.06, 0.06].map((x) => x * (spec.scale || 1)), pose: M.fromRPY(mid, [0, 0, 0]) };
   CM.setObjects([obj]);
   if (CM.contact(G.values(home), { full: true }) || CM.contact(G.values(goalQ), { full: true })) { CM.setObjects([]); console.log("  (obstacle overlapped start/goal: planning without it)"); }
-  for (const [pipeline, id] of [["ompl", "RRTConnectkConfigDefault"], ["ompl", "RRTstarkConfigDefault"], ["ompl", "PRMkConfigDefault"], ["pilz_industrial_motion_planner", "PTP"], ["pilz_industrial_motion_planner", "LIN"], ["chomp", ""], ["stomp", ""]]) {
-    const r = M.plan({ pipeline, planner_id: id, group: G, start: home, goal: goalQ, CM, allowed_planning_time: 5, max_velocity_scaling_factor: 0.5, max_acceleration_scaling_factor: 0.5, positionOnly: G.dof < 6 || !!spec.positionOnly });
-    console.log(`  ${pipeline}/${id || "-"}: ${r.ok ? `OK ${r.trajectory.points.length} pts, ${r.duration.toFixed(2)} s motion, planned in ${(r.planning_time * 1000).toFixed(0)} ms` : `${r.error}: ${r.message.slice(0, 150)}`}`);
-    if (!r.ok && pipeline === "ompl") bad++;
-  }
+  // Each result is labelled: OK, EXPECTED (what real MoveIt does too, with the reason) or PROBLEM (a fault to fix).
+  //  - OMPL must always find a path around the box.
+  //  - Pilz never avoids obstacles: a PTP/LIN through the box is rejected (FAILURE / "Computed path is not valid"), as in real MoveIt.
+  //  - Pilz LIN needs IK all along the straight line: NO_IK_SOLUTION when the line leaves the workspace is correct.
+  //  - CHOMP / STOMP start from the straight joint-space line; with the box on it they can fail (local optimizers).
+  // Then the same start/goal without the box: PTP, CHOMP and STOMP must succeed, unless the direct joint-space motion makes
+  // the arm hit itself (then only OMPL can go around; LIN may still be NO_IK).
+  const why = (pipeline, id, r, free) => {
+    if (r.ok) return null;
+    const collide = /not valid|collision|contact/i.test(r.message);
+    if (free && collide && pipeline !== "ompl") return `the direct joint-space motion makes the arm hit itself (self-collision: ${(r.message.match(/between '([^']+)'.*?and '([^']+)'/) || []).slice(1).join(" / ") || "robot links"}); only a sampling planner (OMPL) goes around it, as in real MoveIt`;
+    if (pipeline === "pilz_industrial_motion_planner" && collide) return "Pilz does not plan around obstacles: the motion through the box is rejected (real MoveIt does the same)";
+    if (pipeline === "pilz_industrial_motion_planner" && id === "LIN" && r.error === "NO_IK_SOLUTION") return "the tool's straight line leaves the reachable workspace or the joint limits";
+    if ((pipeline === "chomp" || pipeline === "stomp") && (collide || /PLANNING_FAILED|TIMED_OUT/.test(r.error))) return `${pipeline.toUpperCase()} optimizes the straight joint-space line locally and could not bend it free of ${free ? "the arm itself (self-collision)" : "the box"}; use OMPL here (real ${pipeline.toUpperCase()} behaves the same)`;
+    return null;
+  };
+  const run = (label, cases, strict) => {
+    console.log(`  -- ${label}`);
+    for (const [pipeline, id] of cases) {
+      const r = M.plan({ pipeline, planner_id: id, group: G, start: home, goal: goalQ, CM, allowed_planning_time: 5, max_velocity_scaling_factor: 0.5, max_acceleration_scaling_factor: 0.5, positionOnly: G.dof < 6 || !!spec.positionOnly });
+      const w = why(pipeline, id, r, strict);
+      const problem = !r.ok && (pipeline === "ompl" || !w);
+      const tag = r.ok ? "OK      " : problem ? "PROBLEM " : "EXPECTED";
+      console.log(`  ${tag} ${pipeline}/${id || "-"}: ${r.ok ? `${r.trajectory.points.length} pts, ${r.duration.toFixed(2)} s motion, planned in ${(r.planning_time * 1000).toFixed(0)} ms` : `${r.error}: ${w || r.message.slice(0, 150)}`}`);
+      if (problem) bad++;
+    }
+  };
+  const ALL = [["ompl", "RRTConnectkConfigDefault"], ["ompl", "RRTstarkConfigDefault"], ["ompl", "PRMkConfigDefault"], ["pilz_industrial_motion_planner", "PTP"], ["pilz_industrial_motion_planner", "LIN"], ["chomp", ""], ["stomp", ""]];
+  const hadBox = CM.objects && CM.objects.length;
+  run(hadBox ? "with a box on the tool's path" : "no obstacle (it overlapped start or goal)", ALL, !hadBox);
+  if (hadBox) { CM.setObjects([]); run("same start and goal, no obstacle", ALL.filter(([p]) => p !== "ompl"), true); }
 }
-console.log(bad ? `\n${bad} problem(s)` : "\nAll good");
+console.log(bad ? `\n${bad} PROBLEM(s): see the lines marked PROBLEM` : "\nAll good: every result is OK or EXPECTED (EXPECTED = what real MoveIt also does; the reason is printed)");
 process.exitCode = bad ? 1 : 0;

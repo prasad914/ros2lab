@@ -359,7 +359,12 @@ span.q-ecin { display: flex; align-items: center; }
 .mp-note { margin: 2px 0 6px; color: #444; font-size: 11px; line-height: 1.35; }
 .mp-status { margin-top: 6px; min-height: 1.4em; padding: 3px 4px; background: #fff; border: 1px solid #c4c4c4; font-size: 11px; white-space: normal; }
 .mp-status.ok { color: #0b6b0b; }
-.mp-status.err { color: #b00020; }
+.mp-status.err { color: #fff; background: #c62828; border-color: #8e0000; font-weight: 600; }
+.mp-status.ok { background: #e8f5e9; border-color: #8bc34a; }
+.mp-pose { overflow: auto; padding: 4px; }
+.mp-pose .mp-grid { display: grid; grid-template-columns: auto 1fr; gap: 3px 6px; align-items: center; margin: 4px 0; }
+.mp-pose .mp-spin { width: 100%; min-width: 0; }
+.mp-pose .mp-row { display: flex; flex-wrap: wrap; gap: 3px; margin: 4px 0; }
 .mp-joints { display: flex; flex-direction: column; gap: 3px; }
 .mp-jrow { display: grid; grid-template-columns: minmax(80px, 1fr) 2fr 52px; gap: 6px; align-items: center; font-size: 11px; }
 .mp-jrow label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

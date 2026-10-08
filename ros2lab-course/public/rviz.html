@@ -27,7 +27,7 @@
   <h1>RViz in your browser</h1>
   <p class="lead">RViz2 started the way it is on Ubuntu: a robot <b>description package</b> is built with <code>colcon</code>, and a <b>launch file</b> (Python or XML) starts <code>robot_state_publisher</code>, <code>joint_state_publisher_gui</code> and <code>rviz2</code> with a saved <code>.rviz</code> config. Move a slider and the robot moves: <code>/joint_states</code> → robot_state_publisher → <code>/tf</code> → RViz.</p>
   <p>Robots with sensors also have <code>sim.launch.py</code>: <b>Gazebo Harmonic</b> runs the robot's lidar, camera, depth camera and IMU (declared in <code>&lt;gazebo&gt;</code> tags of the URDF), <code>ros_gz_bridge</code> brings their topics to ROS 2, and RViz shows the scan, point cloud, images and IMU. Drive the mobile robots with <code>ros2 run teleop_twist_keyboard teleop_twist_keyboard</code> in a new terminal.</p>
-  <p>Every arm also has a <b>MoveIt 2</b> package (<code>&lt;robot&gt;_moveit_config</code>, laid out like the MoveIt Setup Assistant makes it): drag the orange interactive marker at the tool, choose the <b>OMPL</b>, <b>Pilz</b>, <b>CHOMP</b> or <b>STOMP</b> planning pipeline, and <b>Plan &amp; Execute</b> around the table, box and post of the work cell, with mock hardware or in Gazebo. <b>Download this workspace</b> gives the same packages as a ROS 2 Jazzy workspace for Ubuntu 24.04; their <code>real.launch.py</code> and README connect the real robot through its maker's driver (USB, Ethernet, CAN or Wi-Fi).</p>
+  <p>Every arm also has a <b>MoveIt 2</b> package (<code>&lt;robot&gt;_moveit_config</code>, laid out like the MoveIt Setup Assistant makes it): drag the orange interactive marker at the tool, choose the <b>OMPL</b>, <b>Pilz</b>, <b>CHOMP</b> or <b>STOMP</b> planning pipeline, and <b>Plan &amp; Execute</b> around the table, box and post of the work cell, with mock hardware or in Gazebo. Each robot's <code>&lt;robot&gt;_bringup</code> package (and the arm's <code>real.launch.py</code>) shows how the real robot connects through its maker's driver (USB, Ethernet, CAN or Wi-Fi). Files stay inside ROS2Lab: they cannot be downloaded, and running a real robot needs a hardware license from your course administrator.</p>
   <ol class="rvp-flow" aria-label="What the launch file starts">
     <li><b>xacro</b><span>my_robot.urdf.xacro → URDF text</span></li>
     <li><b>robot_state_publisher</b><span>robot_description parameter → publishes /robot_description, /tf, /tf_static</span></li>
@@ -66,7 +66,6 @@
       <div class="rvp-row">
         <button type="button" class="btn btn-small" id="go">Type these commands for me</button>
         <span class="small muted">or type them in the terminal below</span>
-        <button type="button" class="btn btn-small btn-white" id="dl" title="Download ~/ros2_ws/src (with your edits and the meshes) as a ROS 2 Jazzy workspace to build on Ubuntu 24.04 and run on the real robot">Download this workspace (.zip)</button>
       </div>
     </div>
   </section>
@@ -76,6 +75,7 @@
   <details class="rvp-live">
     <summary>Connect to ROS 2 on your Ubuntu computer (rosbridge)</summary>
     <p class="small">On Ubuntu: <code>sudo apt install ros-jazzy-rosbridge-suite</code>, then <code>ros2 launch rosbridge_server rosbridge_websocket_launch.xml</code>, and launch your robot there as usual. Open this page on the same computer. This RViz then shows your real /robot_description, /tf, markers, /scan and /map.</p>
+    <div id="hwlic" class="notice" role="status"><p style="margin:0">Connecting real hardware needs a hardware license from your course administrator. Checking your license …</p></div>
     <div class="rvp-row">
       <input id="url" type="text" value="ws://localhost:9090" size="20" aria-label="rosbridge address">
       <button type="button" class="btn btn-small" id="connect">Connect</button>

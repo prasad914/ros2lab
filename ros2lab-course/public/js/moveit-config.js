@@ -14,6 +14,7 @@
 //   launch/gazebo.launch.py              Gazebo Harmonic + gz_ros2_control + MoveIt, same scene objects as the world
 //   launch/real.launch.py                MoveIt for the real robot (the maker's driver runs the hardware)
 //   worlds/<robot>_moveit.sdf, scripts/add_scene_objects.py, README.md
+//   config/servo.yaml + launch/servo.launch.py (MoveIt Servo: twist / joint jog / pose streaming), scripts/pose_goal_commander.py
 import { OMPL_PLANNERS } from "./moveit-core.js";
 
 const n4 = (v) => String(Math.round(v * 1e4) / 1e4);
@@ -123,6 +124,8 @@ export function moveitConfigFiles(spec, ctx) {
   <exec_depend>xacro</exec_depend>
   <exec_depend>rclpy</exec_depend>
   <exec_depend>moveit_msgs</exec_depend>
+  <exec_depend>moveit_servo</exec_depend>
+  <exec_depend>launch_param_builder</exec_depend>
   <exec_depend>shape_msgs</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
 ${hw === "feetech" ? "  <exec_depend>feetech_ros2_driver</exec_depend>\n" : ""}
@@ -142,7 +145,7 @@ ament_package()
 install(DIRECTORY launch config worlds DESTINATION share/\${PROJECT_NAME}
   PATTERN "setup_assistant.launch" EXCLUDE)
 install(FILES .setup_assistant README.md DESTINATION share/\${PROJECT_NAME})
-install(PROGRAMS scripts/add_scene_objects.py DESTINATION lib/\${PROJECT_NAME})
+install(PROGRAMS scripts/add_scene_objects.py scripts/pose_goal_commander.py DESTINATION lib/\${PROJECT_NAME})
 `;
 
   // ---------------- URDF with ros2_control
@@ -435,6 +438,9 @@ def generate_launch_description():
   files["launch/real.launch.py"] = realLaunch(pkg, robot, builder, pipelines, real, hw, armCtl, grip.length ? gripCtl : null);
   files[`worlds/${robot}_moveit.sdf`] = moveitWorld(`${robot}_moveit`, objects);
   files["scripts/add_scene_objects.py"] = sceneScript(objects);
+  files["config/servo.yaml"] = servoYaml(group, G, armCtl);
+  files["launch/servo.launch.py"] = servoLaunch(pkg, builder, pipelines, group);
+  files["scripts/pose_goal_commander.py"] = poseGoalScript(pkg, group, G.tip, objects.length ? "world" : model.root);
   files["README.md"] = readme(pkg, robot, title, descPkg, real, hw, group, grip.length ? ggroup : null);
   return { name: pkg, files, group, gripperGroup: grip.length ? ggroup : null, arm, grip, home, ready, init, armCtl, gripCtl: grip.length ? gripCtl : null, objects };
 }
@@ -478,7 +484,7 @@ def generate_launch_description():
     controllers = Node(
         package='controller_manager', executable='spawner', output='screen',
         arguments=['joint_state_broadcaster', '${armCtl}'${gripCtl ? `, '${gripCtl}'` : ""},
-                   '--controller-manager', '/controller_manager', '--controller-manager-timeout', '120'])
+                   '--controller-manager', '/controller_manager', '--controller-manager-timeout', '120', '--switch-timeout', '30'])
     move_group = Node(
         package='moveit_ros_move_group', executable='move_group', output='screen',
         parameters=[moveit_config.to_dict(), sim_time])
@@ -929,4 +935,272 @@ export function placeScene(mm, spec) {
     o.xyz = o.xyz.map((x) => Math.round(x * 1e4) / 1e4);
   }
   return objs;
+}
+
+// ---------------- MoveIt Servo (moveit_servo, MoveIt 2.12 / Jazzy) ----------------
+function servoYaml(group, G, armCtl) {
+  return `###############################################
+# MoveIt Servo for the ${group} group (moveit_servo, ROS 2 Jazzy)
+# Start it after MoveIt (demo.launch.py, gazebo.launch.py or real.launch.py): ros2 launch <this package> servo.launch.py
+# Then choose the command type: 0 JOINT_JOG, 1 TWIST, 2 POSE
+#   ros2 service call /servo_node/switch_command_type moveit_msgs/srv/ServoCommandType "{command_type: 1}"
+#   ros2 topic pub -r 30 /servo_node/delta_twist_cmds geometry_msgs/msg/TwistStamped "{header: {stamp: now, frame_id: ${G.base}}, twist: {linear: {z: 0.05}}}"
+# Commands must carry a current header.stamp (stamp: now): older ones are dropped as stale.
+###############################################
+
+## Properties of outgoing commands
+publish_period: 0.01  # 1/Nominal publish rate [seconds] (must be under 1/3 of max_expected_latency)
+max_expected_latency: 0.1  # delay between sending a command and the robot executing it [seconds]
+
+command_in_type: "speed_units"  # "unitless": in the range [-1:1], as if from a joystick. "speed_units": m/s and rad/s
+scale:
+  # Scale parameters are only used if command_in_type=="unitless"
+  linear: 0.4  # Max linear velocity [m/s]. Only used for Cartesian commands.
+  rotational: 0.8  # Max angular velocity [rad/s]. Only used for Cartesian commands.
+  joint: 0.5  # Max joint velocity. Only used for joint commands.
+
+# The ${armCtl} (joint_trajectory_controller) takes trajectory_msgs/JointTrajectory
+command_out_type: trajectory_msgs/JointTrajectory
+publish_joint_positions: true
+publish_joint_velocities: true
+publish_joint_accelerations: false
+
+## Plugins for smoothing outgoing commands
+use_smoothing: true
+smoothing_filter_plugin_name: "online_signal_smoothing::AccelerationLimitedPlugin"
+
+# move_group owns the primary planning scene
+is_primary_planning_scene_monitor: false
+check_octomap_collisions: false
+
+## MoveIt properties
+move_group_name: ${group}
+
+## Configure handling of singularities and joint limits
+lower_singularity_threshold: 17.0  # Start decelerating when the condition number hits this (close to singularity)
+hard_stop_singularity_threshold: 30.0  # Stop when the condition number hits this
+leaving_singularity_threshold_multiplier: 2.0
+joint_limit_margins: [${G.joints.map(() => "0.1").join(", ")}]  # buffer to the joint limits [rad], one per joint of ${group}
+
+## Topic names
+cartesian_command_in_topic: ~/delta_twist_cmds  # geometry_msgs/msg/TwistStamped
+joint_command_in_topic: ~/delta_joint_cmds  # control_msgs/msg/JointJog
+pose_command_in_topic: ~/pose_target_cmds  # geometry_msgs/msg/PoseStamped
+robot_link_command_frame: ${G.base}  # commands must be given in the frame of a robot link (here: the base of ${group})
+command_out_topic: /${armCtl}/joint_trajectory  # Publish outgoing commands here
+status_topic: ~/status
+
+## Collision checking for the entire robot body
+check_collisions: true
+collision_check_rate: 10.0  # [Hz]
+self_collision_proximity_threshold: 0.01  # Start decelerating when a self-collision is this far [m]
+scene_collision_proximity_threshold: 0.02  # Start decelerating when a scene collision is this far [m]
+
+## Incoming Joint State properties
+joint_topic: /joint_states
+incoming_command_timeout: 0.1  # Stop servoing if X seconds elapse without a new command
+`;
+}
+function servoLaunch(pkg, builder, pipelines, group) {
+  return `# MoveIt Servo: real-time Cartesian (twist), joint jog and pose commands for the ${group} group.
+# Start MoveIt first (demo.launch.py, gazebo.launch.py use_sim_time:=true, or real.launch.py), then:
+#   ros2 launch ${pkg} servo.launch.py
+#   ros2 service call /servo_node/switch_command_type moveit_msgs/srv/ServoCommandType "{command_type: 1}"
+#   ros2 topic pub -r 30 /servo_node/delta_twist_cmds geometry_msgs/msg/TwistStamped "{header: {stamp: now, frame_id: <base link>}, twist: {linear: {x: 0.05}}}"
+# (Servo ignores commands whose header.stamp is older than incoming_command_timeout: give stamp: now)
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration
+from launch_param_builder import ParameterBuilder
+from launch_ros.actions import Node
+from moveit_configs_utils import MoveItConfigsBuilder
+
+
+def generate_launch_description():
+    moveit_config = ${builder}${pipelines}.to_moveit_configs()
+    servo_params = {"moveit_servo": ParameterBuilder("${pkg}").yaml("config/servo.yaml").to_dict()}
+    servo_node = Node(
+        package="moveit_servo",
+        executable="servo_node",
+        name="servo_node",
+        parameters=[
+            servo_params,
+            {"update_period": 0.01},   # acceleration filter
+            {"planning_group_name": "${group}"},
+            moveit_config.robot_description,
+            moveit_config.robot_description_semantic,
+            moveit_config.robot_description_kinematics,
+            moveit_config.joint_limits,
+            {"use_sim_time": LaunchConfiguration("use_sim_time")},
+        ],
+        output="screen",
+    )
+    return LaunchDescription([
+        DeclareLaunchArgument("use_sim_time", default_value="false", description="true with gazebo.launch.py"),
+        servo_node,
+    ])
+`;
+}
+// ---------------- pose_goal_commander.py: /goal_pose (PoseStamped) -> move_group (MoveGroup action) ----------------
+function poseGoalScript(pkg, group, tip, frame) {
+  return `#!/usr/bin/env python3
+"""pose_goal_commander: move the ${group} group's tool (${tip}) to a pose sent on /goal_pose.
+
+    ros2 run ${pkg} pose_goal_commander.py
+    ros2 run ${pkg} pose_goal_commander.py --ros-args -p pipeline:=pilz_industrial_motion_planner -p planner_id:=LIN
+    ros2 run ${pkg} pose_goal_commander.py --ros-args -p cartesian:=true
+    ros2 topic pub --once /goal_pose geometry_msgs/msg/PoseStamped \\
+      "{header: {frame_id: ${frame}}, pose: {position: {x: 0.4, y: 0.1, z: 0.4}, orientation: {x: 1.0, y: 0.0, z: 0.0, w: 0.0}}}"
+
+It sends a moveit_msgs/action/MoveGroup goal (pose constraints on ${tip}) to move_group's /move_action, which
+plans with the chosen pipeline and executes through the trajectory controller. With cartesian:=true it asks
+/compute_cartesian_path for a straight line and executes it with /execute_trajectory. Works the same with
+demo.launch.py (mock hardware), gazebo.launch.py and real.launch.py (the real arm).
+"""
+import rclpy
+from rclpy.action import ActionClient
+from rclpy.executors import ExternalShutdownException
+from rclpy.node import Node
+
+from geometry_msgs.msg import PoseStamped
+from moveit_msgs.action import ExecuteTrajectory, MoveGroup
+from moveit_msgs.msg import BoundingVolume, Constraints, MoveItErrorCodes, OrientationConstraint, PositionConstraint
+from moveit_msgs.srv import GetCartesianPath
+from shape_msgs.msg import SolidPrimitive
+
+ERROR_NAMES = {}
+for _n in ['SUCCESS', 'FAILURE', 'PLANNING_FAILED', 'INVALID_MOTION_PLAN', 'CONTROL_FAILED', 'TIMED_OUT', 'PREEMPTED',
+           'START_STATE_IN_COLLISION', 'GOAL_IN_COLLISION', 'INVALID_GROUP_NAME', 'INVALID_GOAL_CONSTRAINTS',
+           'START_STATE_INVALID', 'NO_IK_SOLUTION', 'FRAME_TRANSFORM_FAILURE', 'INVALID_LINK_NAME']:
+    if hasattr(MoveItErrorCodes, _n):
+        ERROR_NAMES[getattr(MoveItErrorCodes, _n)] = _n
+
+
+class PoseGoalCommander(Node):
+    def __init__(self):
+        super().__init__('pose_goal_commander')
+        self.declare_parameter('group', '${group}')
+        self.declare_parameter('ee_link', '${tip}')
+        self.declare_parameter('pipeline', 'ompl')
+        self.declare_parameter('planner_id', '')
+        self.declare_parameter('cartesian', False)
+        self.declare_parameter('execute', True)
+        self.declare_parameter('planning_time', 5.0)
+        self.declare_parameter('velocity_scaling', 0.1)
+        self.declare_parameter('acceleration_scaling', 0.1)
+        self.declare_parameter('position_tolerance', 0.001)
+        self.declare_parameter('orientation_tolerance', 0.01)
+        self.move = ActionClient(self, MoveGroup, 'move_action')
+        self.exec = ActionClient(self, ExecuteTrajectory, 'execute_trajectory')
+        self.cartesian = self.create_client(GetCartesianPath, 'compute_cartesian_path')
+        self.get_logger().info('Waiting for the move_group action server (/move_action) ...')
+        self.move.wait_for_server()
+        self.create_subscription(PoseStamped, 'goal_pose', self.on_goal, 10)
+        p = self.get_parameter
+        self.get_logger().info(f"Connected to move_group. Group '{p('group').value}', pipeline '{p('pipeline').value}'"
+                               f"{', Cartesian path' if p('cartesian').value else ''}")
+        self.get_logger().info('Listening for geometry_msgs/msg/PoseStamped goals on /goal_pose')
+
+    def on_goal(self, msg):
+        p = msg.pose.position
+        o = msg.pose.orientation
+        self.get_logger().info(f'Goal in {msg.header.frame_id or "${frame}"}: position [{p.x:.3f}, {p.y:.3f}, {p.z:.3f}] '
+                               f'orientation [{o.x:.3f}, {o.y:.3f}, {o.z:.3f}, {o.w:.3f}]')
+        if not msg.header.frame_id:
+            msg.header.frame_id = '${frame}'
+        if self.get_parameter('cartesian').value:
+            self.cartesian_path(msg)
+        else:
+            self.plan_and_execute(msg)
+
+    def plan_and_execute(self, target):
+        g = self.get_parameter
+        goal = MoveGroup.Goal()
+        req = goal.request
+        req.group_name = g('group').value
+        req.pipeline_id = g('pipeline').value
+        req.planner_id = g('planner_id').value
+        req.num_planning_attempts = 10
+        req.allowed_planning_time = float(g('planning_time').value)
+        req.max_velocity_scaling_factor = float(g('velocity_scaling').value)
+        req.max_acceleration_scaling_factor = float(g('acceleration_scaling').value)
+        req.start_state.is_diff = True
+        c = Constraints()
+        pc = PositionConstraint()
+        pc.header = target.header
+        pc.link_name = g('ee_link').value
+        box = SolidPrimitive(type=SolidPrimitive.SPHERE, dimensions=[float(g('position_tolerance').value)])
+        pc.constraint_region = BoundingVolume(primitives=[box], primitive_poses=[target.pose])
+        pc.weight = 1.0
+        oc = OrientationConstraint()
+        oc.header = target.header
+        oc.link_name = g('ee_link').value
+        oc.orientation = target.pose.orientation
+        tol = float(g('orientation_tolerance').value)
+        oc.absolute_x_axis_tolerance = oc.absolute_y_axis_tolerance = oc.absolute_z_axis_tolerance = tol
+        oc.weight = 1.0
+        c.position_constraints.append(pc)
+        c.orientation_constraints.append(oc)
+        req.goal_constraints.append(c)
+        goal.planning_options.plan_only = not g('execute').value
+        goal.planning_options.look_around = False
+        goal.planning_options.replan = False
+        self.get_logger().info(f"Planning with {req.pipeline_id}{' / ' + req.planner_id if req.planner_id else ''} ...")
+        self.move.send_goal_async(goal).add_done_callback(self.on_accepted)
+
+    def on_accepted(self, future):
+        handle = future.result()
+        if not handle.accepted:
+            self.get_logger().error('move_group rejected the goal')
+            return
+        handle.get_result_async().add_done_callback(self.on_result)
+
+    def on_result(self, future):
+        code = future.result().result.error_code.val
+        name = ERROR_NAMES.get(code, str(code))
+        if code == MoveItErrorCodes.SUCCESS:
+            self.get_logger().info('Goal reached: SUCCEEDED')
+        else:
+            self.get_logger().error(f'MoveGroup failed: {name}')
+
+    def cartesian_path(self, target):
+        g = self.get_parameter
+        req = GetCartesianPath.Request()
+        req.header = target.header
+        req.group_name = g('group').value
+        req.link_name = g('ee_link').value
+        req.waypoints = [target.pose]
+        req.max_step = 0.01
+        req.jump_threshold = 0.0
+        req.avoid_collisions = True
+        req.start_state.is_diff = True
+        self.cartesian.call_async(req).add_done_callback(self.on_cartesian)
+
+    def on_cartesian(self, future):
+        res = future.result()
+        self.get_logger().info(f'Cartesian path: {res.fraction * 100:.1f}% of the straight line is possible')
+        if res.fraction < 0.999:
+            self.get_logger().error('Cartesian path incomplete: not executing (try cartesian:=false to plan around obstacles)')
+            return
+        if not self.get_parameter('execute').value:
+            return
+        goal = ExecuteTrajectory.Goal()
+        goal.trajectory = res.solution
+        self.exec.send_goal_async(goal).add_done_callback(self.on_accepted)
+
+
+def main():
+    rclpy.init()
+    node = PoseGoalCommander()
+    try:
+        rclpy.spin(node)
+    except (KeyboardInterrupt, ExternalShutdownException):
+        pass
+    node.destroy_node()
+    rclpy.try_shutdown()
+
+
+if __name__ == '__main__':
+    main()
+`;
 }

@@ -35,6 +35,11 @@ const IFACES = {
   "control_msgs/action/FollowJointTrajectory": "# The trajectory for all revolute, continuous or prismatic joints\ntrajectory_msgs/JointTrajectory trajectory\n...\n---\nint32 error_code\nstring error_string\n---\nstd_msgs/Header header\nstring[] joint_names\ntrajectory_msgs/JointTrajectoryPoint desired\ntrajectory_msgs/JointTrajectoryPoint actual\ntrajectory_msgs/JointTrajectoryPoint error",
   "example_interfaces/srv/AddTwoInts": "int64 a\nint64 b\n---\nint64 sum",
   "turtlesim/action/RotateAbsolute": "# The desired heading in radians\nfloat32 theta\n---\n# The angular displacement in radians to the starting position\nfloat32 delta\n---\n# The remaining rotation in radians\nfloat32 remaining",
+  "geometry_msgs/msg/PoseStamped": "# A Pose with reference coordinate frame and timestamp\n\nstd_msgs/Header header\n\tbuiltin_interfaces/Time stamp\n\t\tint32 sec\n\t\tuint32 nanosec\n\tstring frame_id\nPose pose\n\tPoint position\n\t\tfloat64 x\n\t\tfloat64 y\n\t\tfloat64 z\n\tQuaternion orientation\n\t\tfloat64 x 0\n\t\tfloat64 y 0\n\t\tfloat64 z 0\n\t\tfloat64 w 1",
+  "geometry_msgs/msg/Pose": "# A representation of pose in free space, composed of position and orientation.\n\nPoint position\n\tfloat64 x\n\tfloat64 y\n\tfloat64 z\nQuaternion orientation\n\tfloat64 x 0\n\tfloat64 y 0\n\tfloat64 z 0\n\tfloat64 w 1",
+  "control_msgs/msg/JointJog": "# Used in time-stamping the message.\nstd_msgs/Header header\n\n# Name list of the joints. You don't need to specify all joint of the\n# robot. Joint names are case-sensitive.\nstring[] joint_names\n\n# A position command to the joints relative to the current position.\n# The units depend on the type of joint.\nfloat64[] displacements\n\n# A velocity command to the joints. The units depend on the type of joint.\nfloat64[] velocities\n\n# The desired time duration to make the movement.\nfloat64 duration",
+  "moveit_msgs/srv/ServoCommandType": "# The different types of commands that MoveIt Servo accepts.\nint8 JOINT_JOG = 0\nint8 TWIST = 1\nint8 POSE = 2\n\nint8 command_type\n---\nbool success",
+  "moveit_msgs/action/MoveGroup": "# Motion planning request to pass to planner\nMotionPlanRequest request\n\n# Planning options\nPlanningOptions planning_options\n---\n# An error code reflecting what went wrong\nMoveItErrorCodes error_code\n...\n---\n# The internal state that the move group action currently is in\nstring state",
   "rcl_interfaces/msg/Log": "##\n## Severity level constants\n##\nuint8 DEBUG=10\nuint8 INFO=20\nuint8 WARN=30\nuint8 ERROR=40\nuint8 FATAL=50\n\nbuiltin_interfaces/Time stamp\nuint8 level\nstring name\nstring msg\nstring file\nstring function\nuint32 line",
 };
 const PARAM_SRVS = [["describe_parameters", "rcl_interfaces/srv/DescribeParameters"], ["get_parameter_types", "rcl_interfaces/srv/GetParameterTypes"], ["get_parameters", "rcl_interfaces/srv/GetParameters"],
@@ -83,6 +88,8 @@ export class RosGraph {
   add(kind, name, ns = "", params = {}, remaps = [], dup = false) {
     const n = { kind, name, ns: ns && ns !== "/" ? "/" + ns.replace(/^\/+|\/+$/g, "") : "", params: {}, remaps };
     n.full = `${n.ns}/${name}`;
+    const env = (this.sh && this.sh.env) || {};
+    n.domain = String(env.ROS_DOMAIN_ID || "0"); n.rmw = env.RMW_IMPLEMENTATION || "rmw_fastrtps_cpp";   // the terminal it started in
     if (kind === "turtlesim") { n.turtles = [newTurtle("turtle1", 5.544445, 5.544445, 0)]; n.params = { background_b: 255, background_g: 86, background_r: 69, holonomic: false }; }
     if (kind === "teleop") n.params = { scale_angular: 2.0, scale_linear: 2.0 };
     if (kind === "teleop_twist") n.params = { stamped: false, frame_id: "", repeat_rate: 0.0, key_timeout: 0.0, speed: 0.5, turn: 1.0 };
@@ -96,6 +103,17 @@ export class RosGraph {
     if (!dup) this.nodes = this.nodes.filter((x) => x.full !== n.full);
     this.nodes.push(n);
     return n;
+  }
+  // DDS discovery: a terminal sees the nodes of its own ROS_DOMAIN_ID only (and none with ROS_AUTOMATIC_DISCOVERY_RANGE=OFF
+  // unless they are its own). DDS middlewares (Fast DDS, Cyclone DDS) share one DDS graph on a domain, as in the ROS 2 docs'
+  // "Working with multiple RMW implementations"; Zenoh is not DDS, so rmw_zenoh_cpp nodes only see rmw_zenoh_cpp nodes.
+  domain() { return String((this.sh.env && this.sh.env.ROS_DOMAIN_ID) || "0"); }
+  rmw() { return (this.sh.env && this.sh.env.RMW_IMPLEMENTATION) || "rmw_fastrtps_cpp"; }
+  unseen(n) {
+    if (n.hidden) return true;
+    if ((n.domain || "0") !== this.domain()) return true;
+    const fam = (r) => (/zenoh/.test(r) ? "zenoh" : "dds");
+    return fam(n.rmw || "rmw_fastrtps_cpp") !== fam(this.rmw());
   }
   node(full) { return this.nodes.find((n) => n.full === full || n.full === "/" + full); }
   has(full) { return !!this.node(full); }
@@ -144,10 +162,32 @@ export class RosGraph {
   }
   collect(kinds) {
     const m = new Map();
-    for (const n of this.nodes) { if (n.hidden) continue; const e = this.endpoints(n); for (const k of kinds) for (const [name, type] of e[k]) { if (!m.has(name)) m.set(name, { type, by: { pubs: [], subs: [], srvs: [], cli: [], acts: [], actc: [] } }); m.get(name).by[k].push(n.full); } }
+    for (const n of this.nodes) { if (this.unseen(n)) continue; const e = this.endpoints(n); for (const k of kinds) for (const [name, type] of e[k]) { if (!m.has(name)) m.set(name, { type, by: { pubs: [], subs: [], srvs: [], cli: [], acts: [], actc: [] } }); m.get(name).by[k].push(n.full); } }
     return new Map([...m.entries()].sort((a, b) => a[0].localeCompare(b[0])));
   }
   topics() { const t = this.collect(["pubs", "subs"]); if (this.lastPub && !t.has(this.lastPub.topic)) t.set(this.lastPub.topic, { type: this.lastPub.type, by: { pubs: [], subs: [] } }); return t; }
+
+  // ros2 doctor / ros2 doctor --report (ros2doctor, Jazzy)
+  doctor(args) {
+    const env = this.sh.env, rmw = this.rmw();
+    if (!args.some((x) => x === "--report" || x === "-r")) {
+      const warn = [];
+      if (env.ROS_LOCALHOST_ONLY) warn.push("UserWarning: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.");
+      return [...warn.map((w) => this.out(`/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/network.py: ${w}`)), this.out(`All 5 checks passed`)];
+    }
+    const sec = (t, rows) => [this.out(""), this.out(`   ${t}`), ...rows.map(([k, v]) => this.out(`${k.padStart(28)} : ${v}`))];
+    const T = this.topics();
+    return [
+      ...sec("NETWORK CONFIGURATION", [["inet", "127.0.0.1"], ["inet4", "['127.0.0.1']"], ["inet6", "['::1']"], ["netmask", "255.0.0.0"], ["device", "lo"], ["flags", "73<UP,LOOPBACK,RUNNING>"], ["mtu", "65536"], ["inet", "192.168.1.23"], ["device", "wlp2s0"], ["flags", "4163<UP,BROADCAST,RUNNING,MULTICAST>"], ["mtu", "1500"]]),
+      ...sec("PACKAGE VERSIONS", [["rclpy", "required=7.1.5, local=7.1.5"], ["rclcpp", "required=28.1.10, local=28.1.10"], ["rmw_cyclonedds_cpp", "required=3.0.2, local=3.0.2"], ["rmw_fastrtps_cpp", "required=8.4.2, local=8.4.2"], ["moveit_ros_move_group", "required=2.12.3, local=2.12.3"], ["gz_ros2_control", "required=1.2.13, local=1.2.13"]]),
+      ...sec("PLATFORM INFORMATION", [["system", "Linux"], ["platform info", "Linux-6.8.0-45-generic-x86_64-with-glibc2.39"], ["release", "6.8.0-45-generic"], ["processor", "x86_64"]]),
+      ...sec("QOS COMPATIBILITY LIST", [["compatibility status", "No publisher/subscriber pairs found"]]),
+      ...sec("RMW MIDDLEWARE", [["middleware name", rmw]]),
+      ...sec("ROS 2 INFORMATION", [["distribution name", "jazzy"], ["distribution type", "ros2"], ["distribution status", "active"], ["release platforms", "{'debian': ['bookworm'], 'rhel': ['9'], 'ubuntu': ['noble']}"]]),
+      ...sec("TOPIC LIST", T.size ? [...T.entries()].flatMap(([name, t]) => [["topic", name], ["publisher count", String(t.by.pubs.length)], ["subscriber count", String(t.by.subs.length)]]) : [["topic", "none"], ["publisher count", "0"], ["subscriber count", "0"]]),
+      this.out(""), this.out(`   ENVIRONMENT`), ...["ROS_DOMAIN_ID", "RMW_IMPLEMENTATION", "ROS_AUTOMATIC_DISCOVERY_RANGE", "ROS_STATIC_PEERS", "CYCLONEDDS_URI", "FASTRTPS_DEFAULT_PROFILES_FILE"].filter((k) => env[k] !== undefined).map((k) => this.out(`${k.padStart(28)} : ${env[k]}`)),
+    ];
+  }
 
   // ---------- ros2 <sub> ... ----------
   run(args) {
@@ -161,7 +201,7 @@ export class RosGraph {
       case "action": return this.cmdAction(a, rest);
       case "interface": return this.cmdInterface(a, rest);
       case "bag": return this.cmdBag(a, rest);
-      case "doctor": return [this.out("All 5 checks passed")];
+      case "doctor": return this.doctor(args.slice(1));
       case "lifecycle": return this.cmdLifecycle(a, rest);
       case "component": return this.cmdComponent(a, rest);
       case "daemon": {
@@ -173,10 +213,14 @@ export class RosGraph {
       default: return null;
     }
   }
-  noNodes() { return [this.hint("(No nodes are running. Start one first, for example: ros2 run turtlesim turtlesim_node)")]; }
+  noNodes() {
+    const other = this.nodes.filter((n) => !n.hidden && this.unseen(n));
+    if (other.length) { const n = other[0]; return [this.hint(`(No nodes on this terminal's network. ${other.length} node${other.length > 1 ? "s run" : " runs"} with ROS_DOMAIN_ID=${n.domain} and RMW_IMPLEMENTATION=${n.rmw}, but this terminal has ROS_DOMAIN_ID=${this.domain()} and ${this.rmw()}: use the same values in every terminal, e.g. export ROS_DOMAIN_ID=${n.domain}${n.rmw !== "rmw_fastrtps_cpp" ? ` RMW_IMPLEMENTATION=${n.rmw}` : ""}. Put them in ~/.bashrc so every new terminal gets them.)`)]; }
+    return [this.hint("(No nodes are running. Start one first, for example: ros2 run turtlesim turtlesim_node)")];
+  }
 
   cmdNode(a, rest) {
-    if (a === "list") return this.nodes.some((n) => !n.hidden) ? (() => { const L = this.nodes.filter((n) => !n.hidden).map((n) => n.full).sort(); return new Set(L).size < L.length ? ["WARNING: Be aware that there are nodes in the graph that share an exact name, which can have unintended side effects.", ...L] : L; })().map((t) => this.out(t)) : this.noNodes();
+    if (a === "list") return this.nodes.some((n) => !this.unseen(n)) ? (() => { const L = this.nodes.filter((n) => !this.unseen(n)).map((n) => n.full).sort(); return new Set(L).size < L.length ? ["WARNING: Be aware that there are nodes in the graph that share an exact name, which can have unintended side effects.", ...L] : L; })().map((t) => this.out(t)) : this.noNodes();
     if (a === "info") {
       const n = this.node(rest[0] || "");
       if (!rest[0]) return [this.err("usage: ros2 node info <node_name>")];
@@ -285,6 +329,20 @@ export class RosGraph {
     if (T && T.type !== full && (T.by.pubs.length || T.by.subs.length)) return [this.err(`Error: topic ${topic} has type ${T.type}, not ${full}`), this.hint(`Check the type with: ros2 topic type ${topic}`)];
     this.lastPub = { topic, type: full };
     let repr = "", relayNote = null;
+    const mv = ["geometry_msgs/msg/TwistStamped", "geometry_msgs/msg/PoseStamped", "control_msgs/msg/JointJog"].includes(full) ? this.moveitTopic(topic, full, yaml, once) : null;
+    if (mv) {
+      const ri = rest.findIndex((x) => x === "-r" || x === "--rate"), rate = ri >= 0 ? Number(rest[ri + 1]) || 1 : 1;
+      const L = [this.out("publisher: beginning loop"), this.out(`publishing #1: ${full.replace(/\//g, ".")}(...)`), this.out("")];
+      if (mv.servo && !once) {   // a stream to servo_node keeps running until Ctrl+C
+        const pn = this.add("pubcli", `_ros2cli_${4300 + Math.floor(Math.random() * 900)}`, "", {}); pn.hidden = true;
+        pn.pub = { topic, type: full, msg: mv.msg, rate, servo: mv.servo }; this.lastStarted = [pn.full];
+        L.push(this.hint(`(${mv.note} Practice terminal: this keeps publishing ${rate} time${rate === 1 ? "" : "s"} per second until Ctrl+C, like on Ubuntu.)`));
+        return L;
+      }
+      if (!once) L.push(this.out(`publishing #2: ${full.replace(/\//g, ".")}(...)`), this.out(""), this.out("^C"));
+      L.push(this.hint(`(${mv.note})`));
+      return L;
+    }
     if (full === "geometry_msgs/msg/Twist") {
       const lin = (String(yaml).match(/linear:\s*\{([^}]*)\}/) || [, ""])[1], ang = (String(yaml).match(/angular:\s*\{([^}]*)\}/) || [, ""])[1];
       const v = { lx: this.num(lin, "x"), ly: this.num(lin, "y"), az: this.num(ang, "z"), topic };
@@ -405,6 +463,7 @@ export class RosGraph {
     const pyT = type.replace("/srv/", ".srv.").replace(/\//g, ".");
     const req = (fields) => `requester: making request: ${pyT}_Request(${fields})`;
     const res = (fields) => [this.out(""), this.out("response:"), this.out(`${pyT}_Response(${fields})`), this.out("")];
+    if (owner && owner.kind === "servo") { const r = this.servoService(name, yaml, req, res); if (r) return r; }
     if (owner && owner.kind === "custom") return this.customService(owner, type, yaml, req, res);
     const base = name.split("/").pop();
     if (base === "spawn") {
@@ -522,7 +581,10 @@ export class RosGraph {
     if (type !== s.type) return [this.err("The passed action type is invalid"), this.hint(`${name} has type ${s.type}`)];
     const own = this.node(s.by.acts[0]);
     if (own && own.kind === "custom") return this.customAction(own, name, type, yaml, rest);
+    if (type === "control_msgs/action/FollowJointTrajectory") { const r = this.fjtAction(name, yaml, rest); if (r) return r; }
+    if (type === "moveit_msgs/action/MoveGroup") return [this.out("Waiting for an action server to become available..."), this.out("Sending goal:"), this.out("     request: ..."), this.out(""), this.out(`Goal accepted with ID: ${hex()}`), this.out(""), this.hint("(A MoveGroup goal is a whole MotionPlanRequest: easier from code. Use the RViz MotionPlanning panel, the Pose Goal panel, or ros2 run <robot>_moveit_config pose_goal_commander.py with /goal_pose.)")];
     const hit = this.turtle(name.replace(/\/rotate_absolute$/, ""));
+    if (!hit) return [this.out("Waiting for an action server to become available..."), this.out(`Goal accepted with ID: ${hex()}`), this.out(""), this.out("Goal finished with status: SUCCEEDED")];
     const goal = this.num(yaml, "theta"), start = hit.t.theta, diff = goal - start;
     const L = [this.out("Waiting for an action server to become available..."), this.out("Sending goal:"), this.out(`     theta: ${goal}`), this.out(""), this.out(`Goal accepted with ID: ${hex()}`), this.out("")];
     if (rest.includes("--feedback") || rest.includes("-f")) for (let k = 0; k < 4; k++) L.push(this.out("Feedback:"), this.out(`    remaining: ${fnum(+(diff * (1 - k * 0.3)).toFixed(6))}`), this.out(""));
@@ -598,6 +660,7 @@ export class RosGraph {
   start(pkg, exe, extra) {
     if (`${pkg} ${exe}` === "tf2_tools view_frames") return this.viewFrames();
     if (/^add_scene_objects\.py$/.test(exe) && this.sh.wsPkgs && this.sh.wsPkgs.get(pkg)) return this.mgSceneScript(this.sh.wsPkgs.get(pkg));
+    if (/^pose_goal_commander\.py$/.test(exe) && this.sh.wsPkgs && this.sh.wsPkgs.get(pkg)) return this.mgPoseGoalNode(this.sh.wsPkgs.get(pkg), extra);
     if (`${pkg} ${exe}` === "tf2_ros tf2_echo") return this.tfEcho(extra.filter((x) => !x.startsWith("-"))[0], extra.filter((x) => !x.startsWith("-"))[1]);
     const kind = EXES[`${pkg} ${exe}`];
     if (!kind) return null;
@@ -1680,6 +1743,25 @@ export function readLaunchPy(text, cli) {
 
 // ros2 launch <workspace package> <file> [arg:=value ...]
 // like ros2 launch: if the launch fails part-way, every process it already started is shut down again
+// A maker's real-robot driver started from a launch file: it tries to reach the robot over USB, Ethernet, CAN or Wi-Fi.
+// The practice computer has no robot attached, so it reports what the real driver prints when the robot is not there.
+RosGraph.prototype.driverLaunch = function (inc, text, cli) {
+  const arg = (k, d) => cli[k] || (String(text).match(new RegExp(`DeclareLaunchArgument\\(\\s*['"]${k}['"]\\s*,\\s*default_value\\s*=\\s*['"]([^'"]*)['"]`)) || [])[1] || d;
+  const ip = arg("robot_ip", arg("rws_ip", arg("client_ip", ""))), port = arg("usb_port", arg("port_name", "")), now = () => (Date.now() / 1000).toFixed(9);
+  const L = [this.out("[INFO] [launch]: All log files can be found below /home/student/.ros/log"), this.out("[INFO] [launch]: Default logging verbosity is set to INFO")];
+  const P = { ur_robot_driver: ["ur_ros2_control_node", () => [`[ERROR] [${now()}] [UR_Client_Library:]: Failed to connect to robot on IP ${ip || "192.168.56.101"}. Please check that the robot is booted and reachable on ${ip || "192.168.56.101"}. Retrying in 10 seconds`]],
+    kortex_bringup: ["ros2_control_node", () => [`[ERROR] [${now()}] [KortexMultiInterfaceHardware]: Connection to the robot at ${ip || "192.168.1.10"} failed: kError (TCP connection timeout)`]],
+    franka_bringup: ["ros2_control_node", () => [`[ERROR] [${now()}] [franka_hardware]: libfranka: Connection error: Connection timeout (robot ${ip || "172.16.0.3"}; is FCI activated in Desk?)`]],
+    turtlebot3_bringup: ["turtlebot3_ros", () => [`[ERROR] [${now()}] [turtlebot3_node]: Failed to open the port(${port || "/dev/ttyACM0"})! Is the OpenCR board connected? (ls /dev/ttyACM*)`]],
+    scout_base: ["scout_base_node", () => [`[ERROR] [${now()}] [scout_base_node]: Failed to setup CAN port ${port || "can0"}: No such device (is the USB-to-CAN adapter plugged in and can0 up?)`]],
+    crazyflie: ["crazyflie_server", () => [`[ERROR] [${now()}] [crazyflie_server]: No Crazyradio dongle found (lsusb | grep 1915:7777)`]],
+    spot_driver: ["spot_ros2", () => [`[ERROR] [${now()}] [spot_ros2]: Failed to authenticate with Spot at ${cli.hostname || "10.0.0.3"}: RetryableUnavailableError (robot not reachable)`]],
+  };
+  const d = P[inc.pkg] || ["driver_node", () => [`[ERROR] [${now()}] [${inc.pkg}]: Could not connect to the robot${ip ? ` at ${ip}` : port ? ` on ${port}` : ""}: no answer (is it powered on, cabled and on the same network?)`]];
+  L.push(this.out(`[INFO] [${d[0]}-1]: process started with pid [7311]`), ...d[1]().map((t) => this.err(`[${d[0]}-1] ${t}`)), this.err(`[ERROR] [${d[0]}-1]: process has died [pid 7311, exit code 1]`),
+    this.hint(`(${inc.pkg} is installed and licensed, and it tried to reach the robot: no ${port ? "USB / serial device" : "robot"} answers from this practice computer. On your Ubuntu computer, cabled to the robot, the same command starts it.)`));
+  return L;
+};
 RosGraph.prototype.launchUser = function (pk, file, extra = []) {
   const before = new Set(this.nodes), gzBefore = this.gz;
   this.lastStarted = null;
@@ -1697,6 +1779,14 @@ RosGraph.prototype.launchUserInner = function (pk, file, extra = []) {
   }
   const cli = {}; for (const x of extra) { const m = String(x).match(/^([\w-]+):=(.*)$/); if (m) cli[m[1]] = m[2]; }
   const kindOf = /\.py$/.test(file) ? "py" : /\.xml$/.test(file) ? "xml" : null;
+  // real hardware: a robot's bringup / real.launch.py talks to the purchased robot, which needs the administrator's license
+  const realHw = (/_bringup$/.test(pk.name) && /^(real|bringup|driver|hardware)/.test(file)) || /^real\.launch\.(py|xml)$/.test(file) || (/_bringup$/.test(pk.name) && /mode:=real|use_sim:=false/.test(extra.join(" ")));
+  if (realHw && !extra.includes("--show-args") && sh.spec && sh.spec.hardwareGate) {
+    const base = pk.name.replace(/_(bringup|moveit_config|description|gazebo)$/, ""), robot = (text.match(/# ros2lab-robot:\s*([\w-]+)/) || [])[1];
+    const gate = sh.spec.hardwareGate([robot, base].filter(Boolean));
+    if (!gate.ok) return [this.out("[INFO] [launch]: Default logging verbosity is set to INFO"), this.err(`[ERROR] [ros2lab_hardware_license]: ${gate.message}`), this.err("[ERROR] [launch]: real hardware is locked: nothing was started"),
+      this.hint("(Simulation needs no license: use sim.launch.py / gazebo.launch.py / demo.launch.py. For the real robot, ask your course administrator for a hardware license: RViz page → Connect to ROS 2 → Ask for a hardware license.)")];
+  }
   if (extra.includes("--show-args")) {
     const decl = kindOf === "xml" ? [...text.matchAll(/<arg\b([^>]*?)\/?>/g)].map((m) => attrs(m[1])) : [...text.matchAll(/DeclareLaunchArgument\(\s*['"]([\w-]+)['"](?:\s*,\s*default_value\s*=\s*['"]([^'"]*)['"])?/g)].map((m) => ({ name: m[1], default: m[2] }));
     return decl.length ? ["Arguments (pass arguments as '<name>:=<value>'):", ""].concat(...decl.map((a) => [`    '${a.name}':`, "        no description given", a.default !== undefined ? `        (default: '${a.default}')` : "", ""])).filter((x, i, arr) => x !== "" || arr[i - 1] !== "").map((t) => this.out(t)) : [this.out("No arguments.")];
@@ -1704,9 +1794,14 @@ RosGraph.prototype.launchUserInner = function (pk, file, extra = []) {
   // a MoveIt config package (MoveItConfigsBuilder / moveit_configs_utils launch files): move_group, RViz MotionPlanning, ros2_control
   if (kindOf === "py" && this.isMoveitLaunch(text)) return this.launchMoveit(pk, file, cli, text);
   const r = kindOf === "py" ? readLaunchPy(text, cli) : kindOf === "xml" ? readLaunchXml(text, cli) : { error: "the practice terminal reads .launch.xml and .launch.py files" };
+  if (!r.error && !r.gz && !(r.nodes || []).length && (r.includes || []).length === 1 && r.includes[0].file !== "gz_sim.launch.py") {   // a wrapper (e.g. <robot>_bringup sim.launch.py): run the included file
+    const inc = r.includes[0], ip = sh.wsPkgs && sh.wsPkgs.get(inc.pkg);
+    if (ip && (ip.launch || {})[inc.file] !== undefined) return this.launchUserInner(ip, inc.file, [...extra, ...Object.entries(inc.args || {}).map(([k, v]) => `${k}:=${v}`)]);
+  }
   for (const inc of (r.includes || [])) {      // IncludeLaunchDescription: read the other launch file and start its nodes too
     if (inc.file === "gz_sim.launch.py") continue;   // Gazebo itself (r.gz)
     const ip = sh.wsPkgs && sh.wsPkgs.get(inc.pkg), itext = ip && (ip.launch || {})[inc.file];
+    if (itext === undefined && !ip && sh.rosPkgs.has(inc.pkg)) return this.driverLaunch(inc, text, cli);   // a maker's driver (installed from apt / source)
     if (itext === undefined) return [this.out(`[INFO] [launch]: Default logging verbosity is set to INFO`), this.err(`[ERROR] [launch]: Caught exception in launch (see debug for traceback): file '${inc.file}' was not found in the share directory of package '${inc.pkg}'`)];
     const ir = /\.xml$/.test(inc.file) ? readLaunchXml(itext, {}) : readLaunchPy(itext, {});
     if (!ir.error) { r.nodes = [...ir.nodes, ...r.nodes]; r.gz = r.gz || ir.gz; }

@@ -203,14 +203,15 @@ export function createRviz(container, opts = {}) {
   }
 
   // ================= menus (rviz_common/visualization_frame.cpp) =================
-  const download = (name, blob) => { const a = h("a", { href: URL.createObjectURL(blob), download: name }); document.body.append(a); a.click(); a.remove(); };
+  // ROS2Lab keeps every file inside the practice computer: nothing is ever downloaded to the student's device.
+  const download = (name) => msgDialog("RViz", `${name} stays inside the ROS2Lab practice computer: files cannot be downloaded from ROS2Lab.`);
   const MENUS = {
     File: () => [
       { t: "&Open Config", k: "Ctrl+O", fn: () => opts.onOpenConfig ? opts.onOpenConfig() : msgDialog("Open Config", "Opening .rviz files is available on the RViz page of ROS2Lab.") },
-      { t: "&Save Config", k: "Ctrl+S", fn: () => (opts.onSave ? (opts.onSave(S.configName || opts.savePath || "~/my_config.rviz", configText()), S.dirty = false, renderTitle()) : download("default.rviz", new Blob([configText()], { type: "text/yaml" }))) },
+      { t: "&Save Config", k: "Ctrl+S", fn: () => (opts.onSave ? (opts.onSave(S.configName || opts.savePath || "~/my_config.rviz", configText()), S.dirty = false, renderTitle()) : download("default.rviz")) },
       { t: "Save Config &As", k: "Ctrl+Shift+S", fn: () => saveAsDialog() },
       { t: "&Recent Configs", sub: S.configName ? [{ t: S.configName, fn: () => {} }] : [] },
-      { t: "Save &Image", fn: () => { draw(true); renderer && renderer.domElement.toBlob((b) => b && download("rviz_screenshot.png", b)); } },
+      { t: "Save &Image", fn: () => download("rviz_screenshot.png") },
       { sep: true },
       { t: "&Quit", k: "Ctrl+Q", fn: () => msgDialog("RViz", "This practice RViz cannot be closed: it is part of the page.") },
     ],
@@ -1390,7 +1391,7 @@ export function createRviz(container, opts = {}) {
   function renameDialog(d) { textDialog("Rename Display", "New Name?", d.name, (n) => { d.name = n; changed(); refresh(); }); }
   function saveAsDialog() {
     const i = h("input", { class: "q-line wide", value: S.configName || opts.savePath || "~/my_config.rviz" });
-    modal("Choose a file to save to", h("div", {}, h("p", { class: "q-lbl", text: "File name:" }), i), [cancelBtn_(), qbtn("&Save", () => { const p = i.value.trim(); close(); S.configName = p; S.dirty = false; renderTitle(); if (opts.onSave) opts.onSave(p, configText()); else download(p.split("/").pop() || "my_config.rviz", new Blob([configText()], { type: "text/yaml" })); })], "q-small");
+    modal("Choose a file to save to", h("div", {}, h("p", { class: "q-lbl", text: "File name:" }), i), [cancelBtn_(), qbtn("&Save", () => { const p = i.value.trim(); close(); S.configName = p; S.dirty = false; renderTitle(); if (opts.onSave) opts.onSave(p, configText()); else download(p.split("/").pop() || "my_config.rviz"); })], "q-small");
   }
   function pickTree(items, onPick, onDbl, ratio = 1) {   // a QTreeWidget with package groups and class icons
     const el = h("div", { class: "q-tree q-picktree", role: "tree", tabindex: "0" });
@@ -1527,7 +1528,7 @@ export function createRviz(container, opts = {}) {
   }
   function layout() {
     dispDock.hidden = !S.panels.displays; viewsDock.hidden = !S.panels.views; toolDock.hidden = !S.panels.tool; selDock.hidden = !S.panels.selection; helpDock.hidden = !S.panels.help; timeDock.hidden = !S.panels.time; toolBar.hidden = !S.toolbar;
-    const L = (S.panels.displays || S.panels.tool || S.panels.selection) && !S.hideL, Rt = (S.panels.views || S.panels.help) && !S.hideR;
+    const L = (S.panels.displays || S.panels.tool || S.panels.selection) && !S.hideL, Rt = (S.panels.views || S.panels.help || !!right.querySelector(".rv-extdock")) && !S.hideR;
     root.classList.toggle("no-left", !L); root.classList.toggle("no-right", !Rt);
     hideL.classList.toggle("flip", !!S.hideL); hideR.classList.toggle("flip", !!S.hideR);
     hideL.setAttribute("aria-pressed", String(!!S.hideL)); hideR.setAttribute("aria-pressed", String(!!S.hideR));
@@ -1626,9 +1627,10 @@ export function createRviz(container, opts = {}) {
     };
   }
   // a dock in the left dock area (like the MotionPlanning panel under Displays)
-  function addDock(title, body) {
+  function addDock(title, body, { side = "left" } = {}) {
     const el = h("section", { class: "q-dock rv-extdock" }, h("div", { class: "q-docktitle" }, h("span", { text: title })), body);
-    left.append(el); layout();
+    (side === "right" ? right : left).append(el);
+    layout();
     return () => { el.remove(); layout(); };
   }
 

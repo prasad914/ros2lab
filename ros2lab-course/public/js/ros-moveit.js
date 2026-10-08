@@ -10,6 +10,7 @@ import { KinematicModel, JointGroup, CollisionModel, plan as planMotion, solveIK
 import { ControllerManager } from "./ros2-control.js";
 import { armReach } from "./moveit-config.js";
 import { blockYaml } from "./urdf-core.js";
+import { poseMethods, servoGraphMethods } from "./moveit-servo.js";
 
 const stampNow = () => { const t = Date.now() / 1000; return `${Math.floor(t)}.${String(Math.floor((t % 1) * 1e9)).padStart(9, "0")}`; };
 const attrs = (s) => Object.fromEntries([...String(s).matchAll(/([\w:-]+)\s*=\s*"([^"]*)"/g)].map((m) => [m[1], m[2]]));
@@ -67,7 +68,16 @@ export class MoveGroup {
   }
   on(fn) { this.listeners.add(fn); return () => this.listeners.delete(fn); }
   emit(ev) { for (const f of this.listeners) try { f(ev); } catch { /* a closed panel */ } }
-  log(text, level = "INFO") { const g = this.graph; (g.notices = g.notices || []).push({ node: this.node, text: `[${level}] [${stampNow()}] [move_group]: ${text}`, cls: level === "INFO" ? "" : "warn-line" }); this.emit({ type: "log", text, level }); }
+  // a log line of the move_group process (or of rviz2), printed in the terminal that launched it, as `ros2 launch` shows it:
+  // [move_group-4] [ERROR] [1760000000.123456789] [move_group.moveit.moveit.ros.move_group.move_action]: ...
+  log(text, level = "INFO", logger = "move_group") { this.say(this.node, text, level, logger); this.emit({ type: "log", text, level, logger }); }
+  rvizLog(text, level = "INFO", logger = "move_group_interface") { const rz = this.graph.nodes.find((n) => n.kind === "rviz"); if (rz) this.say(rz.full, text, level, logger); }
+  say(full, text, level, logger) {
+    if (level === "DEBUG") return;   // move_group logs at INFO by default
+    const g = this.graph, n = g.node(full), tag = n && n.procName ? `[${n.procName}] ` : "";
+    (g.notices = g.notices || []).push({ node: full, text: `${tag}[${level}] [${stampNow()}] [${logger}]: ${text}`, cls: level === "INFO" ? "" : "warn-line" });
+    if (g.onNotice) g.onNotice();
+  }
   async init(readMesh, pre) {
     try {
       this.spheres = pre && pre.spheres ? pre.spheres : linkSpheres(await linkPoints(this.model, readMesh));
@@ -116,12 +126,38 @@ export class MoveGroup {
     const G = this.group(req.group); if (!G) return { ok: false, error: "INVALID_GROUP_NAME", error_code: ERR.INVALID_GROUP_NAME, message: `No group named '${req.group}'` };
     const base = { ...this.current(), ...(req.startValues || {}) };
     const start = G.vec(base), goal = G.vec({ ...base, ...req.goal });
-    this.log(`MoveGroupMoveAction: Received request`);
-    this.log(`Using planning pipeline '${req.pipeline}'`);
+    const MA = "move_group.moveit.moveit.ros.move_group.move_action", PP = "move_group.moveit.moveit.ros.planning_pipeline";
+    this.log("MoveGroupMoveAction: Received request", "INFO", MA);
+    this.log("executing..", "INFO", MA);
+    this.log("Planning request received for MoveGroup action. Forwarding to planning pipeline.", "INFO", MA);
+    const pipes = this.pipelines().map((p) => p.id);
+    if (!pipes.includes(req.pipeline)) {
+      this.log(`Couldn't find requested planning pipeline '${req.pipeline}'`, "ERROR", "move_group.moveit.moveit.ros.planning_pipeline_interfaces");
+      const r = { ok: false, error: "FAILURE", error_code: ERR.FAILURE, message: `Pipeline '${req.pipeline}' is not loaded (planning_pipelines: ${pipes.join(", ")})`, planning_time: 0 };
+      this.log("FAILURE", "INFO", MA); this.rvizLog("MoveGroupInterface::plan() failed or timeout reached", "ERROR"); r.group = req.group; this.lastResult = r; this.emit({ type: "plan", result: r }); return r;
+    }
+    const pl = String(req.planner_id || "").replace(/kConfigDefault$/, "");
+    if (req.pipeline === "ompl") this.log(`Planner configuration '${req.group}' will use planner 'geometric::${pl || "RRTConnect"}'. Additional configuration parameters will be set when the planner is constructed.`, "INFO", "move_group.moveit.moveit.planners.ompl.model_based_planning_context");
+    if (req.pipeline === "pilz_industrial_motion_planner") this.log(`Using planning pipeline 'pilz_industrial_motion_planner' with planner '${pl || "PTP"}'`, "INFO", "move_group.moveit.moveit.planners.pilz.command_planner");
+    if (req.pipeline === "stomp") this.log("Using STOMP planner", "INFO", "move_group.moveit.moveit.planners.stomp");
     const r = planMotion({ pipeline: req.pipeline, planner_id: req.planner_id, group: G, start, goal, base, CM: this.collision(G), allowed_planning_time: req.time, num_planning_attempts: req.attempts,
-      max_velocity_scaling_factor: req.vel, max_acceleration_scaling_factor: req.acc, cartesianLimits: this.cart, positionOnly: G.positionOnly, params: this.pipelineParams(req.pipeline) });
-    if (r.ok) this.log(`Motion plan was computed successfully. (${req.pipeline}${r.planner ? ` / ${r.planner}` : ""}, ${r.trajectory.points.length} points, ${r.duration.toFixed(2)} s, planning time ${r.planning_time.toFixed(3)} s)`);
-    else this.log(`${r.message} -> ${r.error}`, "ERROR");
+      max_velocity_scaling_factor: req.vel, max_acceleration_scaling_factor: req.acc, cartesianLimits: this.cart, positionOnly: G.positionOnly, params: this.pipelineParams(req.pipeline), circAux: req.circAux });
+    if (r.ok) {
+      if (req.pipeline === "ompl") { this.log(`${req.group}/${req.group}: Starting planning with 1 states already in datastructure`); this.log(`${req.group}/${req.group}: Created ${r.states || 2} states (1 start + ${Math.max(1, (r.states || 2) - 1)} goal)`); this.log(`Solution found in ${r.planning_time.toFixed(6)} seconds`); this.log(`SimpleSetup: Path simplification took ${(r.planning_time / 4).toFixed(6)} seconds and changed from ${r.states || 2} to ${r.simplified || 2} states`); }
+      if (req.pipeline === "chomp") this.log(`Optimization core finished in ${r.iterations || 1} iterations`, "INFO", "move_group.moveit.moveit.planners.chomp.optimizer");
+      if (req.pipeline === "stomp") this.log(`STOMP found a valid path after ${r.iterations || 1} iterations`, "INFO", "move_group.moveit.moveit.planners.stomp");
+      this.log("Motion plan was computed successfully.", "INFO", MA);
+    } else {
+      // what move_group prints for each failure (moveit_ros_planning / ompl_interface / pilz / chomp / stomp)
+      const E = r.error, planner = req.pipeline === "pilz_industrial_motion_planner" ? "move_group.moveit.moveit.planners.pilz.trajectory_generator" : req.pipeline === "chomp" ? "move_group.moveit.moveit.planners.chomp.planner" : req.pipeline === "stomp" ? "move_group.moveit.moveit.planners.stomp" : PP;
+      if (E === "START_STATE_IN_COLLISION") { this.log(`Start state appears to be in collision with respect to group ${req.group}`, "ERROR", "move_group.moveit.moveit.ros.fix_start_state_collision"); this.log("Unable to find a valid state nearby the start state (using jiggle fraction of 0.050000 and 100 sampling attempts). Passing the original planning request to the planner.", "WARN", "move_group.moveit.moveit.ros.fix_start_state_collision"); }
+      else if (E === "START_STATE_INVALID") this.log("Start state is out of the joint limits", "ERROR", "move_group.moveit.moveit.ros.fix_start_state_bounds");
+      else if (E === "GOAL_IN_COLLISION") { if (req.pipeline === "ompl") this.log(`${req.group}/${req.group}: Unable to sample any valid states for goal tree`, "ERROR"); }
+      else if (E === "TIMED_OUT") { this.log(`${req.group}/${req.group}: Starting planning with 1 states already in datastructure`); this.log(`No solution found after ${(req.time || 5).toFixed(6)} seconds`); this.log("Unable to solve the planning problem", "INFO", "move_group.moveit.moveit.planners.ompl.model_based_planning_context"); }
+      this.log(r.message, "ERROR", E === "INVALID_MOTION_PLAN" || (E === "FAILURE" && /not valid/.test(r.message)) ? "move_group.moveit.moveit.ros.validate_solution" : planner);
+      this.log(E, "INFO", MA);
+      this.rvizLog("MoveGroupInterface::plan() failed or timeout reached", "ERROR");
+    }
     r.group = req.group;
     this.lastResult = r;
     this.emit({ type: "plan", result: r });
@@ -129,34 +165,69 @@ export class MoveGroup {
   }
   // execute: hand the trajectory to the controller that owns its joints (moveit_simple_controller_manager)
   execute(r) {
-    if (!r || !r.ok) return { ok: false, message: "No motion plan to execute (press Plan first)" };
+    const TEM = "move_group.moveit.moveit.ros.trajectory_execution_manager", MA = "move_group.moveit.moveit.ros.move_group.move_action", FJT = "move_group.moveit.moveit.simple_controller_manager.follow_joint_trajectory_controller_handle";
+    const fail = (message) => { this.log("CONTROL_FAILED", "INFO", MA); this.rvizLog("Plan and Execute request aborted", "INFO"); this.rvizLog("MoveGroupInterface::execute() failed or timeout reached", "ERROR"); this.emit({ type: "executed", ok: false, message }); return { ok: false, message }; };
+    if (!r || !r.ok) { this.rvizLog("No motion plan to execute: press Plan first", "WARN", "moveit_ros_visualization.motion_planning_frame"); return { ok: false, message: "No motion plan to execute (press Plan first)" }; }
     const joints = r.trajectory.joint_names;
     const ctl = this.controllers.find((c) => joints.every((j) => c.joints.includes(j))) || this.controllers.find((c) => joints.some((j) => c.joints.includes(j)));
-    if (!ctl) { this.log(`Unable to identify any set of controllers that can actuate the specified joints: [ ${joints.join(" ")} ]`, "ERROR"); return { ok: false, message: "No controller for these joints (moveit_controllers.yaml)" }; }
+    if (!ctl) {
+      this.log(`Unable to identify any set of controllers that can actuate the specified joints: [ ${joints.join(" ")} ]`, "ERROR", TEM);
+      this.log("Known controllers and their joints:", "ERROR", TEM);
+      for (const c of this.controllers) this.log(`${c.name}: ${c.joints.join(" ")}`, "ERROR", TEM);
+      this.log("Apparently trajectory initialization failed", "ERROR", "move_group.moveit.moveit.ros.plan_execution");
+      return fail("No controller for these joints (moveit_controllers.yaml)");
+    }
     const g = this.graph, hit = g.cmModels().find((m) => m.cm.controllers.has(ctl.name));
     const c = hit && hit.cm.controllers.get(ctl.name);
     if (!c || c.state !== "active") {
-      this.log(`Action client not connected to action server: ${ctl.name}/${ctl.action}`, "ERROR");
-      this.log(`Controller '${ctl.name}' is not active (is the robot's driver running?). Execution failed: CONTROL_FAILED`, "ERROR");
-      return { ok: false, message: this.mode === "real" ? `No /${ctl.name}/${ctl.action} action server: start the robot's driver first (see the README of this package).` : `${ctl.name} is not active.` };
+      this.log(`Action client not connected to action server: ${ctl.name}/${ctl.action}`, "ERROR", "move_group.moveit.moveit.simple_controller_manager.ActionBasedController");
+      this.log(`Failed to send trajectory part 1 of 1 to controller ${ctl.name}`, "ERROR", TEM);
+      this.log("Completed trajectory execution with status ABORTED ...", "INFO", TEM);
+      return fail(this.mode === "real" ? `No /${ctl.name}/${ctl.action} action server: start the robot's driver first (see the README of this package).` : `${ctl.name} is not active.`);
     }
     const cur = this.current(), pts = r.trajectory.points;
-    if (Math.max(...joints.map((j, i) => Math.abs((cur[j] ?? 0) - pts[0].positions[i]))) > 0.01) { this.log("Invalid Trajectory: start point deviates from current robot state more than 0.01 (allowed_start_tolerance)", "ERROR"); return { ok: false, message: "The robot is not at the plan's start state any more: plan again." }; }
+    this.log("Validating trajectory with allowed_start_tolerance 0.01", "INFO", TEM);
+    const dev = joints.map((j, i) => [j, Math.abs((cur[j] ?? 0) - pts[0].positions[i])]).find(([, d]) => d > 0.01);
+    if (dev) {
+      this.log(`Invalid Trajectory: start point deviates from current robot state more than 0.01 at joint '${dev[0]}'.`, "ERROR", TEM);
+      this.log("Enable DEBUG for detailed state info.", "ERROR", TEM);
+      return fail("The robot is not at the plan's start state any more: plan again.");
+    }
     const msg = { joint_names: joints, points: pts.map((p) => ({ positions: p.positions, velocities: p.velocities, time_from_start: { sec: Math.floor(p.t), nanosec: Math.round((p.t % 1) * 1e9) } })) };
     const t = g.cmTime();
     const rr = hit.cm.receive(`/${ctl.name}/joint_trajectory`, "trajectory_msgs/msg/JointTrajectory", msg, t);
-    if (!rr.used) { this.log(rr.note || "Controller rejected the trajectory", "ERROR"); return { ok: false, message: rr.note || "rejected" }; }
+    if (!rr.used) { this.log(`Goal was rejected by server: ${rr.note || "rejected"}`, "ERROR", FJT); return fail(rr.note || "rejected"); }
     hit.held = false;
     this.executing = { ctl: ctl.name, cm: hit.cm, until: t + r.duration, result: r };
-    this.log(`Execution request received`); this.log(`${ctl.name} started execution`);
+    this.log("Starting trajectory execution ...", "INFO", TEM);
+    this.log(`sending trajectory to ${ctl.name}`, "INFO", FJT);
+    this.log(`${ctl.name} started execution`, "INFO", FJT);
+    this.log("Goal request accepted!", "INFO", FJT);
+    const cmNode = g.nodes.find((n) => n.cm === hit.cm);
+    if (cmNode) { this.say(cmNode.full, "Received new action goal", "INFO", ctl.name); this.say(cmNode.full, "Accepted new action goal", "INFO", ctl.name); }
     this.emit({ type: "execute", result: r });
     return { ok: true, controller: ctl.name };
   }
   poll() {   // called by the ticker: execution finished?
     const e = this.executing; if (!e) return;
-    if (!e.cm.traj.has(e.ctl)) { this.executing = null; this.log(`Controller '${e.ctl}' successfully finished`); this.log("Completed trajectory execution with status SUCCEEDED ..."); this.emit({ type: "executed", ok: true }); }
+    if (!e.cm.traj.has(e.ctl)) {
+      this.executing = null;
+      const cmNode = this.graph.nodes.find((n) => n.cm === e.cm); if (cmNode) this.say(cmNode.full, "Goal reached, success!", "INFO", e.ctl);
+      this.log(`Controller '${e.ctl}' successfully finished`, "INFO", "move_group.moveit.moveit.simple_controller_manager.follow_joint_trajectory_controller_handle");
+      this.log("Completed trajectory execution with status SUCCEEDED ...", "INFO", "move_group.moveit.moveit.ros.trajectory_execution_manager");
+      this.log("Solution was found and executed.", "INFO", "move_group.moveit.moveit.ros.move_group.move_action");
+      this.emit({ type: "executed", ok: true });
+    }
   }
-  stop() { const e = this.executing; if (!e) return; e.cm.traj.delete(e.ctl); this.executing = null; this.log("Stopped trajectory execution (preempted)"); this.emit({ type: "executed", ok: false, preempted: true }); }
+  stop() {
+    const e = this.executing; if (!e) return;
+    e.cm.traj.delete(e.ctl); this.executing = null;
+    this.log("Stopping execution because the path to execute became invalid or was preempted", "INFO", "move_group.moveit.moveit.ros.trajectory_execution_manager");
+    this.log(`${e.ctl} cancelling execution`, "INFO", "move_group.moveit.moveit.simple_controller_manager.follow_joint_trajectory_controller_handle");
+    this.log("Completed trajectory execution with status PREEMPTED ...", "INFO", "move_group.moveit.moveit.ros.trajectory_execution_manager");
+    this.log("PREEMPTED", "INFO", "move_group.moveit.moveit.ros.move_group.move_action");
+    this.emit({ type: "executed", ok: false, preempted: true });
+  }
   // planning scene
   addObject(o) { this.objects = this.objects.filter((x) => x.id !== o.id).concat([o]); this.sceneVersion++; this.emit({ type: "scene" }); }
   removeObject(id) { this.objects = this.objects.filter((x) => x.id !== id); this.sceneVersion++; this.emit({ type: "scene" }); }
@@ -170,8 +241,27 @@ export class MoveGroup {
   stateValid(values) { if (!this.ready) return true; const CM = new CollisionModel(this.K, this.spheres, { acm: this.acm, group: null }); CM.setObjects(this.objects); return CM.contact(values, { full: true }); }
 }
 
+Object.assign(MoveGroup.prototype, poseMethods);
+
 // ---------------- launch ----------------
 export const moveitMethods = {
+  ...servoGraphMethods,
+  // ros2 run <robot>_moveit_config pose_goal_commander.py [--ros-args -p pipeline:=... -p planner_id:=... -p cartesian:=true]
+  mgPoseGoalNode(pk, extra = []) {
+    if (!this.mg || !this.node(this.mg.node)) return [this.out(`[INFO] [${stampNow()}] [pose_goal_commander]: Waiting for the move_group action server (/move_action) ...`), this.hint("(Nothing serves /move_action: start MoveIt first (demo.launch.py or gazebo.launch.py), then run this again. Press Ctrl+C to stop waiting.)")];
+    const params = { pipeline: "ompl", planner_id: "RRTConnectkConfigDefault", group: "", cartesian: false, execute: true, planning_time: 5.0, velocity_scaling: 0.1, acceleration_scaling: 0.1 };
+    let custom = false;
+    for (let i = 0; i < extra.length; i++) if (extra[i] === "-p" && extra[i + 1]) { const [k, v] = extra[i + 1].split(":="); if (k in params) { params[k] = v === "true" ? true : v === "false" ? false : v !== "" && Number.isFinite(Number(v)) ? Number(v) : v; if (k === "planner_id") custom = true; } i++; }
+    if (params.pipeline !== "ompl" && !custom) params.planner_id = { pilz_industrial_motion_planner: "PTP" }[params.pipeline] || "";
+    const n = this.add("pose_goal", "pose_goal_commander", "", params);
+    n.params = { ...n.params, ...params };
+    const grp = params.group || this.mg.groupNames().find((g) => this.mg.group(g) && this.mg.group(g).tip);
+    const R = this.mg.reach || 0.8;
+    this.lastStarted = [n.full];
+    return [this.out(`[INFO] [${stampNow()}] [pose_goal_commander]: Connected to move_group. Group '${grp}', pipeline '${params.pipeline}'${params.planner_id ? `, planner '${params.planner_id}'` : ""}${params.cartesian ? ", Cartesian path" : ""}`),
+      this.out(`[INFO] [${stampNow()}] [pose_goal_commander]: Listening for geometry_msgs/msg/PoseStamped goals on /goal_pose`),
+      this.hint(`(In a + New terminal, send a goal:\n  ros2 topic pub --once /goal_pose geometry_msgs/msg/PoseStamped "{header: {frame_id: ${this.mg.model.root}}, pose: {position: {x: ${(0.45 * R).toFixed(2)}, y: ${(0.15 * R).toFixed(2)}, z: ${(0.45 * R).toFixed(2)}}, orientation: {x: 1.0, y: 0.0, z: 0.0, w: 0.0}}}"\nThe RViz "Pose Goal" panel on the right sends the same kind of goal with numbers.)`)];
+  },
   isMoveitLaunch(text) { return /moveit_configs_utils/.test(String(text)); },
   cmTime() { return this.gzRunning() ? this.gz.time : (this.mockTime || 0); },
   mockModelList() { return this.mockModels ? [...this.mockModels.values()].filter((m) => this.node(m.cmNode)) : []; },
@@ -184,7 +274,7 @@ export const moveitMethods = {
       for (const [j, q] of Object.entries(o.position)) if (j in m.joints) m.joints[j] = q;
       m.cm.setState(Object.fromEntries(Object.keys(m.joints).map((j) => [j, { position: m.joints[j], velocity: 0 }])));
     }
-    if (this.mg) this.mg.poll();
+    if (this.mg) { this.mg.poll(); this.mg.servoStep(dt); }
     return true;
   },
   launchMoveit(pk, file, cli, text) {
@@ -199,6 +289,7 @@ export const moveitMethods = {
     const cfg = pk.config || {};
     const need = [`${robot}.srdf`, "kinematics.yaml", "joint_limits.yaml", "moveit_controllers.yaml", "ros2_controllers.yaml"];
     for (const f of need) if (cfg[f] === undefined) return fail(`file not found: ${sh.wsPkgs ? `/home/student/ros2_ws/install/${pk.name}/share/${pk.name}/config/${f}` : f}`, "Is the config folder installed (install(DIRECTORY ... config ...) in CMakeLists.txt), and did you colcon build and source install/setup.bash?");
+    if (/servo/.test(file)) return this.launchServo(pk);
     const mode = /gazebo/.test(file) ? "gazebo" : /real/.test(file) ? "real" : /demo/.test(file) ? "demo" : file.replace(/\.launch\.py$/, "");
     if (!["gazebo", "real", "demo", "move_group", "moveit_rviz"].includes(mode)) return fail(`the practice terminal starts demo.launch.py, gazebo.launch.py, real.launch.py, move_group.launch.py and moveit_rviz.launch.py of a MoveIt config (not ${file})`);
     if (this.mg && this.node(this.mg.node)) return fail("a move_group is already running (stop the other launch with Ctrl+C first)");
@@ -327,6 +418,7 @@ export const moveitMethods = {
     return [P("INFO", `planning scene: added ${objs.map((o) => o.id).join(", ")}`)];
   },
   mgEndpoints(n, e) {
+    this.servoEndpoints(n, e);
     if (n.kind !== "move_group") return;
     e.pubs.push(["/display_planned_path", "moveit_msgs/msg/DisplayTrajectory"], ["/monitored_planning_scene", "moveit_msgs/msg/PlanningScene"], ["/display_contacts", "visualization_msgs/msg/MarkerArray"], ["/motion_plan_request", "moveit_msgs/msg/MotionPlanRequest"]);
     e.subs.push(["/joint_states", "sensor_msgs/msg/JointState"], ["/planning_scene", "moveit_msgs/msg/PlanningScene"], ["/collision_object", "moveit_msgs/msg/CollisionObject"], ["/attached_collision_object", "moveit_msgs/msg/AttachedCollisionObject"], ["/trajectory_execution_event", "std_msgs/msg/String"], ["/tf", "tf2_msgs/msg/TFMessage"], ["/tf_static", "tf2_msgs/msg/TFMessage"]);

@@ -12,13 +12,22 @@ const BASE_DIRS = ["/", "/home", HOME, `${HOME}/Desktop`, `${HOME}/Documents`, `
 const BASE_FILES = {
   [`${HOME}/.bashrc`]: "# ~/.bashrc runs every time you open a new terminal\nalias ll='ls -alF'\n",
   [`${HOME}/.profile`]: "# ~/.profile\n",
-  "/opt/ros/jazzy/setup.bash": "# Loads ROS 2 Jazzy into this terminal\n",
+  "/opt/ros/jazzy/setup.bash": "# generated from ros_workspace/env-hooks/setup.bash.in\n# Loads ROS 2 Jazzy into this terminal\n",
+  "/opt/ros/jazzy/setup.sh": "# generated from ros_workspace/env-hooks/setup.sh.in\n",
+  "/opt/ros/jazzy/setup.zsh": "# generated from ros_workspace/env-hooks/setup.zsh.in\n",
+  "/opt/ros/jazzy/local_setup.bash": "# generated from ament_package/template/prefix_level/local_setup.bash.in\n",
+  "/opt/ros/jazzy/local_setup.sh": "# generated from ament_package/template/prefix_level/local_setup.sh.in\n",
+  "/opt/ros/jazzy/local_setup.zsh": "# generated from ament_package/template/prefix_level/local_setup.zsh.in\n",
+  "/etc/cyclonedds/cyclonedds.xml": "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<!-- Cyclone DDS settings: export CYCLONEDDS_URI=file:///etc/cyclonedds/cyclonedds.xml -->\n<CycloneDDS xmlns=\"https://cdds.io/config\">\n  <Domain Id=\"any\">\n    <General>\n      <Interfaces>\n        <NetworkInterface autodetermine=\"true\" priority=\"default\" multicast=\"default\" />\n      </Interfaces>\n      <AllowMulticast>default</AllowMulticast>\n    </General>\n    <Discovery>\n      <ParticipantIndex>auto</ParticipantIndex>\n      <MaxAutoParticipantIndex>120</MaxAutoParticipantIndex>\n    </Discovery>\n  </Domain>\n</CycloneDDS>\n",
   "/etc/hostname": "ros2lab\n",
 };
 const BASE_ENV = { HOME, USER, SHELL: "/bin/bash", LANG: "en_IN.UTF-8", PWD: HOME,
   PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" };
-const ROS_ENV = { ROS_DISTRO: "jazzy", ROS_VERSION: "2", ROS_PYTHON_VERSION: "3", AMENT_PREFIX_PATH: "/opt/ros/jazzy",
-  PYTHONPATH: "/opt/ros/jazzy/lib/python3.12/site-packages" };
+const ROS_ENV = { ROS_DISTRO: "jazzy", ROS_VERSION: "2", ROS_PYTHON_VERSION: "3", ROS_AUTOMATIC_DISCOVERY_RANGE: "SUBNET",
+  AMENT_PREFIX_PATH: "/opt/ros/jazzy", CMAKE_PREFIX_PATH: "/opt/ros/jazzy", LD_LIBRARY_PATH: "/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/lib",
+  PYTHONPATH: "/opt/ros/jazzy/lib/python3.12/site-packages", PKG_CONFIG_PATH: "/opt/ros/jazzy/lib/x86_64-linux-gnu/pkgconfig:/opt/ros/jazzy/lib/pkgconfig" };
+// The ROS 2 middlewares (RMW) of a Jazzy desktop install. Fast DDS is the default; Cyclone DDS and Zenoh are installed too.
+export const RMWS = { rmw_fastrtps_cpp: "Fast DDS (eProsima) 2.14", rmw_fastrtps_dynamic_cpp: "Fast DDS dynamic typesupport", rmw_cyclonedds_cpp: "Eclipse Cyclone DDS 0.10.5", rmw_zenoh_cpp: "Eclipse Zenoh (needs a router: ros2 run rmw_zenoh_cpp rmw_zenohd)" };
 // apt package -> what it provides. "repo" = needs the ROS 2 package source (ros2-apt-source).
 const APT = {
   "locales": { about: "Language and region settings" },
@@ -64,7 +73,10 @@ const APT = {
   "ros-jazzy-ur-description": { repo: true, ros: ["ur_description"], about: "Universal Robots arm models" },
   "ros-jazzy-rmw-cyclonedds-cpp": { repo: true, ros: ["rmw_cyclonedds_cpp"], about: "Cyclone DDS middleware" },
 };
-const DEFAULT_ROS = ["turtlesim", "demo_nodes_py", "demo_nodes_cpp", "rclpy", "std_msgs", "rqt", "rclcpp", "rclcpp_components", "geometry_msgs", "sensor_msgs", "std_srvs", "robot_state_publisher", "joint_state_publisher", "joint_state_publisher_gui", "rviz2", "urdf", "urdf_tutorial", "urdf_launch", "xacro", "tf2_ros", "tf2_tools", "visualization_msgs", "interactive_markers"];
+const DEFAULT_ROS = ["turtlesim", "demo_nodes_py", "demo_nodes_cpp", "rclpy", "std_msgs", "rqt", "rclcpp", "rclcpp_components", "geometry_msgs", "sensor_msgs", "std_srvs", "robot_state_publisher", "joint_state_publisher", "joint_state_publisher_gui", "rviz2", "urdf", "urdf_tutorial", "urdf_launch", "xacro", "tf2_ros", "tf2_tools", "visualization_msgs", "interactive_markers",
+  // the middleware and tools every Jazzy install has (rmw_cyclonedds_cpp and rmw_zenoh_cpp are installed here as well)
+  "rmw_implementation", "rmw_fastrtps_cpp", "rmw_cyclonedds_cpp", "rmw_zenoh_cpp", "ros2cli", "ros2doctor", "ros2launch", "ros2topic", "ros2node", "ros2service", "ros2action", "ros2param", "ros2bag", "rosbag2", "launch", "launch_ros",
+  "builtin_interfaces", "nav_msgs", "tf2_msgs", "trajectory_msgs", "control_msgs", "action_msgs", "shape_msgs", "rcl_interfaces", "lifecycle_msgs", "example_interfaces", "ament_cmake", "ament_cmake_python", "ament_index_python"];
 const HELP = {
   ls: "Usage: ls [OPTION]... [FILE]...\n  -a   show hidden files (names starting with .)\n  -l   long list: permissions, owner, size, date",
   cd: "cd [folder]   go into a folder.  cd ..  goes up.  cd ~  goes home.",
@@ -145,9 +157,21 @@ export class Shell {
     return normPath(this.cwd + "/" + p);
   }
   node(p) { return this.fs.get(p); }
-  isDir(p) { const n = this.fs.get(p); return !!n && n.type === "d"; }
-  isFile(p) { const n = this.fs.get(p); return !!n && n.type === "f"; }
+  isDir(p) { if (p.startsWith("/opt/ros/jazzy/share/")) this.shareSync(); const n = this.fs.get(p); return !!n && n.type === "d"; }
+  isFile(p) { if (p.startsWith("/opt/ros/jazzy/share/")) this.shareSync(); const n = this.fs.get(p); return !!n && n.type === "f"; }
+  // /opt/ros/jazzy/share has one folder per installed package (with its package.xml), like a real install
+  shareSync() {
+    if (!this.rosPkgs || this._shareN === this.rosPkgs.size + (this.wsPkgs ? this.wsPkgs.size * 1000 : 0) || !this.fs.has("/opt/ros/jazzy/share")) return;
+    this._shareN = this.rosPkgs.size + (this.wsPkgs ? this.wsPkgs.size * 1000 : 0);
+    for (const pk of this.rosPkgs) {
+      const d = `/opt/ros/jazzy/share/${pk}`;
+      if (this.fs.has(d) || (this.wsPkgs && this.wsPkgs.has(pk))) continue;
+      this.fs.set(d, { type: "d", mode: "rwxr-xr-x" });
+      this.fs.set(`${d}/package.xml`, { type: "f", mode: "rw-r--r--", content: `<?xml version="1.0"?>\n<package format="3">\n  <name>${pk}</name>\n  <version>jazzy</version>\n  <description>${pk} (ros-jazzy-${pk.replace(/_/g, "-")}, installed from packages.ros.org)</description>\n  <maintainer email="ros@openrobotics.org">Open Robotics</maintainer>\n  <license>Apache License 2.0</license>\n</package>\n` });
+    }
+  }
   children(dir) {
+    if (dir.startsWith("/opt/ros")) this.shareSync();
     const out = [];
     for (const k of this.fs.keys()) if (k !== dir && parentOf(k) === dir) out.push(baseName(k));
     return out.sort(sortNames);
@@ -159,7 +183,14 @@ export class Shell {
     for (const part of parts) { cur += "/" + part; if (!this.fs.has(cur)) this.fs.set(cur, { type: "d", mode: "rwxr-xr-x" }); }
   }
   prettyCwd() { return this.cwd === HOME ? "~" : this.cwd.startsWith(HOME + "/") ? "~" + this.cwd.slice(HOME.length) : this.cwd; }
-  applySource() { this.sourced = true; Object.assign(this.env, ROS_ENV); }
+  applySource() {   // what /opt/ros/jazzy/setup.bash exports; path lists keep an overlay sourced earlier in front
+    this.sourced = true;
+    for (const [k, v] of Object.entries(ROS_ENV)) {
+      if (!/PATH$/.test(k) || !this.env[k]) this.env[k] = v;
+      else if (!this.env[k].split(":").includes(v)) this.env[k] = `${this.env[k]}:${v}`;
+    }
+    if (!this.env.PATH.split(":").includes("/opt/ros/jazzy/bin")) this.env.PATH = `/opt/ros/jazzy/bin:${this.env.PATH}`;
+  }
 
   // Opens a "new terminal": forgets exports and sourcing, then runs ~/.bashrc
   newTerminal() {
@@ -183,8 +214,24 @@ export class Shell {
   // ---------- parsing ----------
   tokenize(line) {
     const tokens = [];
-    let cur = "", mode = null, has = false;
-    const push = () => { if (has) tokens.push(cur); cur = ""; has = false; };
+    let cur = "", mode = null, has = false, glob = false;
+    // pathname expansion (bash): an unquoted * ? or [..] matches existing files; no match leaves the word as it is
+    const globExpand = (w) => {
+      const abs = this.abs(w.replace(/[^/]*[*?[].*$/, "") || "."), parts = w.split("/");
+      let bases = [w.startsWith("/") ? "/" : ""];
+      for (const part of parts) {
+        if (part === "" ) continue;
+        if (!/[*?[]/.test(part)) { bases = bases.map((b) => (b === "" ? part : b === "/" ? `/${part}` : `${b}/${part}`)); continue; }
+        const re = new RegExp(`^${part.replace(/[.+^${}()|\\]/g, "\\$&").replace(/\*/g, ".*").replace(/\?/g, ".")}$`);
+        const next = [];
+        for (const b of bases) { const dir = this.abs(b || "."); if (!this.isDir(dir)) continue; for (const n of this.children(dir)) if (re.test(n) && (part.startsWith(".") || !n.startsWith("."))) next.push(b === "" ? n : b === "/" ? `/${n}` : `${b}/${n}`); }
+        bases = next;
+        if (!bases.length) break;
+      }
+      void abs;
+      return bases.length ? bases.sort() : [w];
+    };
+    const push = () => { if (has) { if (glob && !cur.startsWith("-")) tokens.push(...globExpand(cur)); else tokens.push(cur); } cur = ""; has = false; glob = false; };
     const expand = (s) => s.replace(/\$\{?([A-Za-z_][A-Za-z0-9_]*)\}?/g, (_, n) => this.env[n] ?? "");
     for (let i = 0; i < line.length; i++) {
       const c = line[i];
@@ -203,6 +250,7 @@ export class Shell {
         const m = line.slice(i).match(/^\$\{?([A-Za-z_][A-Za-z0-9_]*)\}?/);
         if (m) { cur += expand(m[0]); i += m[0].length - 1; has = true; continue; }
       }
+      if ((c === "*" || c === "?") && !/^(ros2|grep)$/.test(tokens[0] || "")) glob = true;
       cur += c; has = true;
     }
     push();
@@ -270,11 +318,10 @@ export class Shell {
     const [cmd, ...rest] = args;
     const text = lines.filter((l) => l.cls !== "hint");
     if (cmd === "grep") {
-      const flags = rest.filter((a) => a.startsWith("-")).join("");
-      const pat = rest.find((a) => !a.startsWith("-"));
-      if (!pat) return [this.err("Usage: grep PATTERN")];
-      const ic = flags.includes("i");
-      return text.filter((l) => (ic ? l.text.toLowerCase().includes(pat.toLowerCase()) : l.text.includes(pat)));
+      const m = this.grepMatcher(rest); if (m.err) return [this.err(m.err)];
+      const hits = text.filter((l) => m.test(l.text) !== m.invert);
+      if (m.count) return [this.out(String(hits.length))];
+      return hits;
     }
     if (cmd === "head" || cmd === "tail") {
       const n = this.countArg(rest, 10);
@@ -283,6 +330,16 @@ export class Shell {
     if (cmd === "wc" && rest.includes("-l")) return [this.out(String(text.length))];
     if (cmd === "sort") return text.slice().sort((a, b) => a.text.localeCompare(b.text));
     return [this.err(`${cmd}: in this practice terminal, only grep, head, tail, wc -l and sort can be used after |`)];
+  }
+  // grep PATTERN with -i -v -c -E (extended regex) -F (fixed string) -w; basic patterns understand . * ^ $ [ ]
+  grepMatcher(args) {
+    const flags = args.filter((a) => /^-[A-Za-z]+$/.test(a)).join("");
+    const pat = args.find((a) => !/^-[A-Za-z]+$/.test(a));
+    if (pat === undefined) return { err: "Usage: grep [OPTION]... PATTERNS [FILE]..." };
+    let src = flags.includes("F") ? pat.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") : flags.includes("E") || flags.includes("P") ? pat : pat.replace(/[+?{}()|]/g, "\\$&").replace(/\\\\([+?{}()|])/g, "$1");
+    if (flags.includes("w")) src = `\\b(?:${src})\\b`;
+    let re; try { re = new RegExp(src, flags.includes("i") ? "i" : ""); } catch { return { err: `grep: Invalid regular expression` }; }
+    return { test: (t) => re.test(t), invert: flags.includes("v"), count: flags.includes("c") };
   }
   countArg(args, dflt) {
     const i = args.indexOf("-n");
@@ -486,6 +543,13 @@ export class Shell {
         return { lines: Object.keys(this.env).sort().map((k) => this.out(`${k}=${this.env[k]}`)) };
       case "env": return { lines: Object.keys(this.env).sort().map((k) => this.out(`${k}=${this.env[k]}`)) };
 
+      case "bash": case "sh": {
+        if (!plain.length) return { lines: [this.hint("(This terminal already runs bash. To run a script: bash FILE)")] };
+        const p = this.abs(plain[0]);
+        if (!this.isFile(p)) return { lines: [this.err(`${cmd}: ${plain[0]}: No such file or directory`)] };
+        if (/setup\.(bash|sh)$/.test(p)) return { lines: [this.hint(`(bash ${plain[0]} ran it in a child shell, which exits straight away: nothing changed in this terminal. To load it here use: source ${plain[0]})`)] };
+        return { lines: this.runFile(plain[0], false) };
+      }
       case "source": case ".": {
         if (!plain.length) return { lines: [this.err("bash: source: filename argument required")] };
         return { lines: this.doSource(plain[0], false) };
@@ -538,11 +602,24 @@ export class Shell {
       }
       case "grep": {
         const pat = plain[0], files = plain.slice(1);
-        if (!pat || !files.length) return { lines: [this.err("Usage: grep PATTERN FILE")] };
+        if (!pat || !files.length) return { lines: [this.err("Usage: grep [OPTION]... PATTERNS [FILE]...")] };
+        const m = this.grepMatcher(rest); if (m.err) return { lines: [this.err(m.err)] };
+        const rec = /[rR]/.test(flags), num = flags.includes("n"), list = flags.includes("l");
+        const targets = [];
         for (const f of files) {
           const p = this.abs(f);
-          if (!this.isFile(p)) { L.push(this.err(`grep: ${f}: No such file or directory`)); continue; }
-          for (const t of (this.node(p).content || "").split("\n")) if (t.includes(pat)) L.push(this.out(files.length > 1 ? `${f}:${t}` : t));
+          if (this.isDir(p)) { if (!rec) { L.push(this.err(`grep: ${f}: Is a directory`)); continue; } for (const k of [...this.fs.keys()].sort()) if (k.startsWith(p + "/") && this.isFile(k)) targets.push([f === "." ? k.slice(p.length + 1) : `${f.replace(/\/$/, "")}/${k.slice(p.length + 1)}`, k]); }
+          else if (!this.isFile(p)) L.push(this.err(`grep: ${f}: No such file or directory`));
+          else targets.push([f, p]);
+        }
+        const many = targets.length > 1 || rec;
+        for (const [shown, p] of targets) {
+          const content = String(this.node(p).content || "");
+          if (/^@url:/.test(content)) continue;
+          let c = 0;
+          content.split("\n").forEach((t, i) => { if (m.test(t) !== m.invert) { c++; if (!list && !m.count) L.push(this.out(`${many ? `${shown}:` : ""}${num ? `${i + 1}:` : ""}${t}`)); } });
+          if (list && c) L.push(this.out(shown));
+          if (m.count) L.push(this.out(`${many ? `${shown}:` : ""}${c}`));
         }
         return { lines: L };
       }
@@ -743,8 +820,12 @@ export class Shell {
         else if (!this.isDir(`${this.cwd === "/" ? "" : this.cwd}/src`)) L.push(this.hint("There is no src folder here. Is this your workspace folder?"));
         const ws = this.cwd === "/" ? "" : this.cwd;
         for (const d of ["build", "install", "log"]) this.mkdirP(`${ws}/${d}`);
-        this.fs.set(`${ws}/install/setup.bash`, { type: "f", mode: "rw-r--r--", content: "# workspace overlay\n" });
-        this.fs.set(`${ws}/install/local_setup.bash`, { type: "f", mode: "rw-r--r--", content: "# workspace overlay (this workspace only)\n" });
+        for (const sh of ["bash", "sh", "zsh", "ps1"]) {
+          this.fs.set(`${ws}/install/setup.${sh}`, { type: "f", mode: "rw-r--r--", content: `# generated from colcon_${sh === "ps1" ? "powershell" : sh === "sh" ? "core" : sh}/shell/template/prefix_chain.${sh}.em\n# workspace overlay: sources /opt/ros/jazzy, then this workspace\n` });
+          this.fs.set(`${ws}/install/local_setup.${sh}`, { type: "f", mode: "rw-r--r--", content: `# generated from colcon_${sh === "ps1" ? "powershell" : sh === "sh" ? "core" : sh}/shell/template/prefix.${sh}.em\n# this workspace only\n` });
+        }
+        this.fs.set(`${ws}/install/COLCON_IGNORE`, { type: "f", mode: "rw-r--r--", content: "" });
+        this.fs.set(`${ws}/install/_local_setup_util_sh.py`, { type: "f", mode: "rw-r--r--", content: "# generated from colcon_core/shell/template/prefix_util.py.em\n" });
         let pkgs = findPackages(this, this.cwd);
         const sel = rest.indexOf("--packages-select");
         if (sel >= 0) pkgs = pkgs.filter((p) => rest.slice(sel + 1).includes(p.name));
@@ -865,11 +946,20 @@ export class Shell {
   doSource(arg, quiet) {
     const p = this.abs(arg);
     if (!this.isFile(p)) return quiet ? [] : [this.err(`bash: ${arg}: No such file or directory`)];
-    if (/\/install\/(local_)?setup\.bash$/.test(p)) {
-      for (const pk of this.installs[parentOf(p)] || []) { this.wsPkgs.set(pk.name, pk); this.rosPkgs.add(pk.name); }
-      this.applySource(); return [];
+    if (/\/install\/(local_)?setup\.(bash|sh|zsh)$/.test(p)) {
+      if (/\.zsh$/.test(p) && !quiet) return [this.err(`bash: ${arg}: line 4: syntax error near unexpected token \`('`), this.hint("setup.zsh is for the zsh shell. This terminal runs bash: source install/setup.bash")];
+      const local = /local_setup/.test(p);
+      if (local && !this.sourced && !quiet) { /* local_setup does not load ROS 2 itself: ros2 stays missing */ }
+      const pre = parentOf(p);
+      for (const pk of this.installs[pre] || []) { this.wsPkgs.set(pk.name, pk); this.rosPkgs.add(pk.name); }
+      if (!local || this.sourced) this.applySource(); else this.sourced = false;
+      const add = (k, v) => { const parts = (this.env[k] || "").split(":").filter((x) => x && x !== v); this.env[k] = [v, ...parts].join(":"); };
+      for (const pk of (this.installs[pre] || []).slice().reverse()) { add("AMENT_PREFIX_PATH", `${pre}/${pk.name}`); add("CMAKE_PREFIX_PATH", `${pre}/${pk.name}`); }
+      add("COLCON_PREFIX_PATH", pre);
+      return [];
     }
-    if (p === "/opt/ros/jazzy/setup.bash") { this.applySource(); return []; }
+    if (/^\/opt\/ros\/jazzy\/(local_)?setup\.(bash|sh)$/.test(p)) { this.applySource(); return []; }
+    if (p === "/opt/ros/jazzy/setup.zsh" || p === "/opt/ros/jazzy/local_setup.zsh") return quiet ? [] : [this.err(`bash: ${arg}: line 4: syntax error near unexpected token \`('`), this.hint("That file is for zsh. In bash: source /opt/ros/jazzy/setup.bash")];
     if (p === `${HOME}/.bashrc`) { this.runRcText(this.node(p).content || ""); return []; }
     this.runRcText(this.node(p).content || "");
     return [];
@@ -938,6 +1028,13 @@ export class Shell {
     const [sub, a, b] = args;
     if (!sub || sub === "--help" || sub === "-h") return [this.out(HELP.ros2)];
     if (sub === "pkg" && a === "create") return pkgCreate(this, args.slice(2));
+    const rmw = this.env.RMW_IMPLEMENTATION;
+    if (rmw && !(rmw in RMWS) && ["run", "launch", "topic", "service", "action", "node", "param", "control"].includes(sub))
+      return [this.err(`[ERROR] [rcl]: Error getting RMW implementation identifier / RMW implementation not installed (expected identifier of '${rmw}'), with error message 'failed to load any RMW implementations', exiting with 1., at ./src/functions.cpp:${sub === "launch" ? 171 : 121}`),
+        this.hint(`Installed RMWs: ${Object.keys(RMWS).join(", ")}. Fix it with: export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp   (or unset RMW_IMPLEMENTATION for the default, Fast DDS)`)];
+    const dom = this.env.ROS_DOMAIN_ID;
+    if (dom !== undefined && dom !== "" && !(/^\d+$/.test(dom) && +dom <= 232) && ["run", "launch", "topic", "node"].includes(sub))
+      return [this.err(`[ERROR] [rcl]: Failed to interpret ROS_DOMAIN_ID '${dom}' as an integral number, at ./src/rcl/domain_id.c:43`), this.hint("ROS_DOMAIN_ID must be a number from 0 to 232 (0 to 101 is safe on every computer).")];
     if (sub === "control") return this.graph ? this.graph.ros2Control(args.slice(1)) : [this.err("Could not contact service /controller_manager/list_controllers")];
     if (sub === "pkg" && a === "executables") {
       if (!b) return [this.err("usage: ros2 pkg executables <package_name>")];
@@ -952,6 +1049,7 @@ export class Shell {
         if (ws.notRunnable && b in ws.notRunnable) return [this.err("No executable found"), this.hint(ws.notRunnable[b])];
         if (!(b in ws.exes)) return [this.err("No executable found"), this.hint(`See the programs in this package with: ros2 pkg executables ${a}`)];
         if (this.graph && /^add_scene_objects\.py$/.test(b)) return this.graph.mgSceneScript(ws);   // a MoveIt config's planning scene script
+        if (this.graph && /^pose_goal_commander\.py$/.test(b)) return this.graph.mgPoseGoalNode(ws, args.slice(3));
         const info = ws.infos && ws.infos[b];
         if (info && info.node && this.graph) return this.graph.startCustom(a, b, info, ws.exes[b], args.slice(3));
         return ws.exes[b].length ? ws.exes[b].map((t) => this.out(t)) : [this.hint("(The program ran but printed nothing.)")];
@@ -1135,7 +1233,7 @@ export class Shell {
       if (Object.keys(c).length === 1) return true;
     }
     if (!c) return false;
-    const norm = (s) => String(s).trim().replace(/\s+/g, " ");
+    const norm = (s) => String(s).trim().replace(/\s+/g, " ").replace(/^\. (?=\S)/, "source ").replace(/^source \.\/(?=install\/)/, "source ");
     if (c.cmd && !new RegExp(c.cmd).test(norm(lastCmd))) return false;
     if (c.cwd && this.cwd !== this.abs(c.cwd)) return false;
     for (const p of [].concat(c.exists || [])) if (!this.fs.has(this.abs(p))) return false;
@@ -1315,7 +1413,7 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
     if (!root.isConnected || !g.gzRunning()) { clearInterval(gzTimer); gzTimer = null; paintViz(); return; }
     const now = performance.now(), dt = Math.min(0.1, (now - gzLast) / 1000); gzLast = now;
     const moved = g.gzStep(dt);
-    if (g.mg) g.mg.poll();
+    if (g.mg) { g.mg.poll(); g.mg.servoStep(dt); }
     gzs.sync(g.gz);
     senseAll(false);
     if (gzWin) gzWin.update(g.gz);
@@ -1399,6 +1497,8 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
     taskBox,
     el("div", { class: "term-tabrow tmr-bar" }, tabBar, el("span", { class: "tmr-help", text: "Right-click a terminal for the Terminator menu" }), splitRBtn, splitDBtn, tabNewBtn, addTabBtn),
     ideBox, simPanel, screens, tools, vizPanel, doneBox);
+  // nothing leaves ROS2Lab: no copy, cut or drag of terminal output, file contents or the editor's text
+  for (const ev of ["copy", "cut", "dragstart"]) root.addEventListener(ev, (e) => e.preventDefault(), true);
   container.append(root);
 
   // ---------- terminals (Terminator panes): each has its own folder, settings, history and screen; files and ROS graph are shared ----------
@@ -1584,7 +1684,8 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
     n.ratio = Math.min(0.88, Math.max(0.12, n.ratio + (dir === "right" || dir === "down" ? 0.05 : -0.05))); n.apply();
   }
   const selText = () => { const s = window.getSelection(); return s && root.contains(s.anchorNode) ? s.toString() : ""; };
-  function copySel() { const txt = selText(); if (txt && navigator.clipboard) navigator.clipboard.writeText(txt).catch(() => {}); focusInput(); }
+  // files and output stay inside ROS2Lab: nothing is copied out to the student's computer or devices
+  function copySel() { addLine({ text: "(Copying out of ROS2Lab is turned off: files and output stay in the practice computer.)", cls: "hint" }); scroll(); focusInput(); }
   function pasteClip() {
     if (!active || active.proc) return;
     if (!spec.allowPaste) { addLine({ text: "(Pasting is turned off in this lesson. Type it yourself: typing helps you remember.)", cls: "hint" }); scroll(); return; }
@@ -1873,6 +1974,9 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
     }
   }, 1000);
 
+  // move_group / rviz2 / controller logs show up as they happen (not only when the next command runs)
+  let noticeQueued = false;
+  sh.graph.onNotice = () => { if (noticeQueued) return; noticeQueued = true; setTimeout(() => { noticeQueued = false; flushNotices(); }, 0); };
   function flushNotices() {
     const q = sh.graph.notices || []; sh.graph.notices = [];
     for (const nt of q) { const t = tabs.find((x) => x.proc && x.proc.fulls.includes(nt.node)); if (t) { addLine({ text: nt.text, cls: nt.cls || (/\[(WARN|ERROR)\]/.test(nt.text) ? "warn-line" : "") }, t); scroll(t); } }

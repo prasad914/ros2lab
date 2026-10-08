@@ -736,4 +736,4 @@ export function sampleTrajectory(points, t) {
   let i = 1; while (points[i].t < t) i++; const a = points[i - 1], b = points[i], s = (t - a.t) / (b.t - a.t || 1);
   return a.positions.map((x, k) => x + (b.positions[k] - x) * s);
 }
-export { inv as invTransform, mul as mulTransform, apply as applyTransform };
+export { inv as invTransform, mul as mulTransform, apply as applyTransform, rotErr };

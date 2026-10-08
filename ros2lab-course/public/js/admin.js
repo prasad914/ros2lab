@@ -6,6 +6,7 @@ import { renderCertificate } from "./cert-render.js";
 const main = document.getElementById("main");
 const voidAttempt = call("adminVoidAttempt");
 const decideExtension = call("adminDecideExtension");
+const decideHardware = call("adminDecideHardwareLicense");
 const MAX_EXTENSION_DAYS = 30;
 const gradeProject = call("adminGradeProject");
 const grantProjectAttempt = call("adminGrantProjectAttempt");
@@ -34,7 +35,7 @@ let DATA = null;
 
 (async () => {
   try { await requireMember({ admin: true }); } catch { return; }
-  const tabs = ["Registrations", "Extra time", "Students", "Projects", "Certificates", "Tests", "Course content", "Help"];
+  const tabs = ["Registrations", "Extra time", "Hardware licenses", "Students", "Projects", "Certificates", "Tests", "Course content", "Help"];
   const bar = el("div", { class: "tabs", role: "tablist" });
   const view = el("div");
   tabs.forEach((t, i) => {
@@ -48,6 +49,7 @@ let DATA = null;
     try {
       if (t === "Registrations") view.replaceChildren(await registrationsView());
       else if (t === "Extra time") view.replaceChildren(await extensionsView());
+      else if (t === "Hardware licenses") view.replaceChildren(await hardwareView());
       else if (t === "Students") { await load(); view.replaceChildren(studentsView()); }
       else if (t === "Projects") { await load(); view.replaceChildren(projectsView()); }
       else if (t === "Certificates") view.replaceChildren(await certificatesView());
@@ -772,4 +774,43 @@ async function extensionsView() {
   await paint();
   return el("div", {}, el("div", { class: "toolbar" }, filter, reload, count),
     el("p", { class: "small muted", text: `Students may ask once, in their first registration only, for extra time. You can give 1 to ${MAX_EXTENSION_DAYS} days; they are added to the original end date. If you refuse after the end date has passed, the registration is cancelled at once.` }), list);
+}
+
+// ---------------- real-hardware licenses (connecting a purchased robot from ROS2Lab) ----------------
+async function hardwareView() {
+  const filter = el("select", { "aria-label": "Show" }, ["pending", "approved", "rejected", "revoked"].map((x) => el("option", { value: x, text: x === "pending" ? "Waiting for a decision" : x[0].toUpperCase() + x.slice(1) })));
+  const list = el("div", { class: "stack" });
+  const count = el("span", { class: "muted small" });
+  async function paint() {
+    list.replaceChildren(el("p", { class: "muted", text: "Loading…" }));
+    const snap = await getDocs(query(collection(db, "hardwareLicenses"), where("status", "==", filter.value)));
+    const rows = snap.docs.map((d) => ({ uid: d.id, ...d.data() })).sort((a, b) => ((a.requestedAt && a.requestedAt.toMillis()) || 0) - ((b.requestedAt && b.requestedAt.toMillis()) || 0));
+    count.textContent = `${rows.length} license${rows.length === 1 ? "" : "s"}`;
+    if (!rows.length) { list.replaceChildren(el("p", { class: "notice ok", text: filter.value === "pending" ? "No hardware license requests are waiting." : "None." })); return; }
+    list.replaceChildren(...rows.map((r) => {
+      const days = el("input", { type: "number", min: "1", max: "365", value: "90", style: { width: "5em" }, "aria-label": "Days" });
+      const robots = el("input", { value: (r.robots || []).join(", "), style: { flex: "1 1 200px" }, "aria-label": "Robots (comma separated, or all)" });
+      const note = el("input", { placeholder: "Note to the student (optional)", maxlength: "300", style: { flex: "1 1 220px" } });
+      const box = el("div", { class: "reg-actions" });
+      const act = async (action) => {
+        if (!confirm(action === "approve" ? `Give ${r.fullName || r.email} a hardware license for ${robots.value || "these robots"} for ${days.value} days?` : `${action === "reject" ? "Refuse" : "Revoke"} the hardware license of ${r.fullName || r.email}?`)) return;
+        try {
+          const res = await decideHardware({ uid: r.uid, action, days: Number(days.value), robots: robots.value.split(",").map((x) => x.trim()).filter(Boolean), note: note.value.trim() });
+          box.replaceChildren(el("p", { class: "notice ok", text: action === "approve" ? `Approved. License key ${res.data.key}.` : "Done." }));
+        } catch (e) { toast(friendlyError(e), 6000); }
+      };
+      if (r.status === "pending") box.append(el("label", {}, "Days ", days), robots, note, el("button", { class: "btn btn-small", type: "button", text: "Approve", onclick: () => act("approve") }), el("button", { class: "btn btn-danger btn-small", type: "button", text: "Refuse", onclick: () => act("reject") }));
+      else if (r.status === "approved") box.append(note, el("button", { class: "btn btn-danger btn-small", type: "button", text: "Revoke", onclick: () => act("revoke") }));
+      return el("section", { class: "panel" },
+        el("div", { class: "card-head" }, el("h3", { style: { margin: 0 }, text: r.fullName || r.email || r.uid }), el("span", { class: "muted small", text: r.email || "" })),
+        el("p", { class: "small" }, el("strong", { text: "Robots: " }), (r.robots || []).join(", ") || "–"),
+        el("p", { class: "small" }, el("strong", { text: "Purpose: " }), r.purpose || "–"),
+        el("p", { class: "small muted", text: `Asked ${fmtDate(r.requestedAt)}${r.decidedAt ? ` · decided ${fmtDate(r.decidedAt)} by ${r.decidedBy}` : ""}${r.validUntil ? ` · valid until ${fmtDate(r.validUntil)}` : ""}${r.key ? ` · key ${r.key}` : ""}${r.note ? ` · note: ${r.note}` : ""}` }),
+        box);
+    }));
+  }
+  filter.addEventListener("change", paint);
+  await paint();
+  return el("div", {}, el("div", { class: "toolbar" }, filter, el("button", { class: "btn btn-white btn-small", type: "button", text: "Reload", onclick: paint }), count),
+    el("p", { class: "small muted", text: "Students need a hardware license before ROS2Lab connects to a real robot (rosbridge on the RViz page, or a *_bringup / real.launch.py launch in the practice terminal). Simulation never needs one. Give it for the robots they will use (or all), for 1 to 365 days; you can revoke it at any time." }), list);
 }

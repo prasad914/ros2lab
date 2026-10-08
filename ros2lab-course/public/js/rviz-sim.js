@@ -572,7 +572,7 @@ ${opt.map((x) => `
         Node(package='controller_manager', executable='spawner', output='screen',
              arguments=['joint_state_broadcaster', '${ctrl}',
                         '--controller-manager', '/controller_manager',
-                        '--controller-manager-timeout', '120']),
+                        '--controller-manager-timeout', '120', '--switch-timeout', '30']),
 
 `;
   const py = simLaunchPy(pkg, sim).replace(`'${sim.model}_sim.urdf.xacro'`, `'${sim.model}_control.urdf.xacro'`).replace("'gz_bridge.yaml'", "'gz_bridge_control.yaml'").replace("'sim.rviz'", "'sim_control.rviz'")
@@ -580,7 +580,7 @@ ${opt.map((x) => `
     .replace("        Node(package='rviz2'", spawnPy + "        Node(package='rviz2'");
   const spawnXml = `  <!-- ros2_control: the spawner waits for controller_manager (inside Gazebo), then loads, configures and activates the controllers -->
   <!-- one spawner for both controllers (two spawners at once compete for the spawner lock on Jazzy) -->
-  <node pkg="controller_manager" exec="spawner" output="screen" args="joint_state_broadcaster ${ctrl} --controller-manager /controller_manager --controller-manager-timeout 120"/>
+  <node pkg="controller_manager" exec="spawner" output="screen" args="joint_state_broadcaster ${ctrl} --controller-manager /controller_manager --controller-manager-timeout 120 --switch-timeout 30"/>
 
 `;
   const xml = simLaunchXml(pkg, sim).replace(`/urdf/${sim.model}_sim.urdf.xacro`, `/urdf/${sim.model}_control.urdf.xacro`).replace("/config/gz_bridge.yaml", "/config/gz_bridge_control.yaml").replace("/rviz/sim.rviz", "/rviz/sim_control.rviz")
