@@ -79,7 +79,7 @@ export function attachMotionPlanning(viewer, mg, { onClose } = {}) {
     while (trail.length < want) trail.push(viewer.ghost());
     trail.forEach((tg, i) => { if (i >= want) { tg.hide(); return; } const pts = r.trajectory.points, k = Math.round((i / Math.max(1, want - 1)) * (pts.length - 1)); tg.set(G().values(pts[k].positions, cur), { color: [150 / 255, 50 / 255, 150 / 255], alpha: 0.15 }); });
     paintObjects();
-    viewer.setDisplayStatus("MotionPlanning", [mg.ready ? ["ok", "Planning Scene: OK", "Planning Scene"] : ["warn", mg.status || "Waiting for move_group ...", "Planning Scene"], ["ok", `Robot State: ${mg.model.name}`, "Robot State"], ...(S.ikFail ? [["warn", "No IK solution for the marker pose: the goal state was not changed", "Interactive Marker"]] : [])]);
+    viewer.setDisplayStatus("MotionPlanning", [mg.ready ? ["ok", "Planning Scene: OK", "Planning Scene"] : ["warn", mg.status || "Waiting for move_group ...", "Planning Scene"], ["ok", `Robot State: ${mg.model.name}`, "Robot State"], ...(S.ikFail ? [["warn", "No IK solution for the last marker pose: the goal state stays at the last reachable pose", "Interactive Marker"]] : [])]);
   }
   // ---------------- interactive marker at the tip of the planning group (goal state) ----------------
   let im = null, imKey = "";
@@ -234,7 +234,7 @@ export function attachMotionPlanning(viewer, mg, { onClose } = {}) {
   const removeDock = viewer.addDock("MotionPlanning", body);
   const removeExt = viewer.addExtension(ext);
   showTab("Planning");
-  if (!mg.ready) say(mg.status || "Waiting for move_group ...");
+  if (!mg.ready) say(mg.status || "Waiting for move_group ..."); else say("move_group is ready: drag the orange marker, then Plan.");
   let raf = 0;
   const loop = () => { raf = requestAnimationFrame(loop); if (S.animating) { paint3d(); viewer.draw(); } };
   loop();

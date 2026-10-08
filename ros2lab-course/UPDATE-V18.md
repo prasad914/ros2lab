@@ -30,11 +30,12 @@ Running the packages from the RViz page on a real Ubuntu 24.04 + Jazzy computer 
 | AgileX Scout V2 (new) | skid steering: DiffDrive with 2 wheels per side, or diff_drive_controller | IMU |
 | Unitree Go2, G1, H1 | VelocityControl + OdometryPublisher | L1 / MID-360 lidar, cameras, IMU |
 | Boston Dynamics Spot (new) | VelocityControl + OdometryPublisher | IMU, front depth camera |
-| Bitcraze Crazyflie (new) | VelocityControl in 3-D (it flies: t / b) | IMU |
+| Bitcraze Crazyflie (new) | VelocityControl in 3-D (it flies: t / b); the URDF now has the real mass and inertia | IMU |
 | Kinova Gen3 | JointPositionController, or joint_trajectory_controller | wrist RGB-D camera |
 | The course robots without a hand-written simulation (Chiku, Chiku with meshes, mecanum, Ackermann, quadruped, hexapod, humanoid, quadcopter, mobile and legged manipulators) | read from their URDF: wheel joints → DiffDrive (or MecanumDrive / AckermannSteering), legs → walking body, propellers → flying body | links named lidar/laser/scan, camera and imu get a lidar (LDS-01-like), a camera and an IMU |
 
 - **Scout's wheels:** the Scout's wheel joints are now `continuous`; in the generated description they were `fixed`.
+- **Dobot Magician:** its URDF limits are corrected. The parallel-link mimic joints had `[0, 2π]` with multiplier −1, and the right jaw had `lower > upper`.
 - **RViz:** the displays update while the robot drives (LaserScan, PointCloud2, Image, Imu, Odometry). This was checked with each robot.
 
 **3. MoveIt 2 for every arm (UR5e, Franka FR3, Kinova Gen3, xArm 6, Lite 6, Dobot CR5, Dobot Magician, SO-101, WidowX 250 6DOF, ABB IRB 120, KUKA KR 6, FANUC LR Mate, and the course's 3-DOF and 6-DOF arms)**
@@ -71,9 +72,10 @@ Each arm gets a second package next to its description: **`<robot>_moveit_config
 - **The goal:** drag the orange **interactive marker** at the tool. Inverse kinematics moves the orange goal robot, and colliding links turn red.
 - **The planned path** is animated in purple (Loop Animation, Show Trail).
 - **Execute:** the trajectory goes to `arm_controller` (mock hardware or Gazebo) and the robot moves.
-- **The planners avoid the scene objects:**
-  - OMPL, CHOMP and STOMP go around them.
-  - Pilz does not avoid obstacles, as in real MoveIt: a PTP or LIN motion that would hit something is rejected with *"Found a contact between …"*.
+- **The planners and the scene objects:**
+  - OMPL and STOMP go around them.
+  - CHOMP usually goes around them too. When the obstacle is close to the start, it can fail with *"Chomp path is not collision free!"*, as the real CHOMP does. Then use OMPL.
+  - Pilz does not avoid obstacles, as in real MoveIt: a PTP or LIN motion that would hit something is rejected (FAILURE, *"Found a contact between …"*).
 - **Results checked with the real move_group** for all 12 vendor arms (mock hardware, obstacles added; home ↔ ready with OMPL RRTConnect and RRTstar, Pilz PTP, CHOMP, STOMP, executed on the controller): see "Verification" below.
 
 **4. Real robots over USB, Ethernet, CAN or Wi-Fi**
@@ -119,7 +121,28 @@ Each arm gets a second package next to its description: **`<robot>_moveit_config
 - **Browser:**
   - Teleop and sensors: TurtleBot3, Scout, Go2, G1, H1, Spot, Crazyflie and Chiku in `sim` and `sim_control`.
   - MoveIt: the 12 vendor arms in `demo` and `gazebo`.
+- **An independent check** (a separate test run on both the browser and the real ROS 2 install) confirmed:
+  - teleop and RViz sensor data for TurtleBot3, Scout, Go2, Spot and Crazyflie;
+  - MoveIt plan + execute with all four pipelines in the browser and with the real move_group;
+  - interactive-marker dragging with the mouse.
+
+  The problems it found are fixed in this package:
+  - the Odometry display in ros2_control mode;
+  - STOMP near small obstacles;
+  - the Pilz result code;
+  - Pilz trajectories with too many points;
+  - the CMake version warning;
+  - KR 6 and LR Mate ready poses that were too close to home.
+- **Real move_group, all 12 vendor arms:** OMPL RRTConnect and RRTstar, Pilz PTP, CHOMP and STOMP plan and execute home ↔ ready with the work cell's obstacles in the scene.
+  - Pilz LIN also succeeds where the straight tool path is reachable. Elsewhere it fails, as it should.
+  - This run found, and V18 fixes:
+    - an integer joint limit that crashed move_group;
+    - the Dobot Magician URDF's mimic and jaw limits, which made every start state invalid;
+    - the Crazyflie URDF without inertia, which Gazebo drops.
 - **Lessons:** `node tools/check-content.mjs` gives the same result as V17. No lesson changed behaviour.
+- **Known limits:**
+  - The Unitree robots and Spot move their body with VelocityControl; their legs do not step.
+  - Physics is simplified in the browser: robots stop at obstacles, but they do not fall.
 
 ## Publish
 

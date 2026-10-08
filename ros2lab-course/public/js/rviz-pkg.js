@@ -36,7 +36,7 @@ ${sim ? "  <exec_depend>ros_gz_sim</exec_depend>\n  <exec_depend>ros_gz_bridge</
 </package>
 `;
 
-export const cmakeLists = (pkg, dirs) => `cmake_minimum_required(VERSION 3.8)
+export const cmakeLists = (pkg, dirs) => `cmake_minimum_required(VERSION 3.10)
 project(${pkg})
 
 find_package(ament_cmake REQUIRED)

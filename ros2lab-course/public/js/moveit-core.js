@@ -532,7 +532,7 @@ export function timeParameterize(G, path, { velScale = 0.1, accScale = 0.1, resa
 
 // ---------------------------------------------------------------- Pilz industrial motion planner
 // PTP: every joint starts and stops together; trapezoidal velocity (the slowest joint sets the time)
-function pilzPTP(G, start, goal, { velScale, accScale, dt = 0.02 }) {
+function pilzPTP(G, start, goal, { velScale, accScale, dt = 0.1 }) {   // Pilz samples its trajectories every 0.1 s (sampling_time)
   const d = goal.map((x, i) => x - start[i]);
   const vm = G.vel.map((v) => v * velScale), am = G.acc.map((a) => a * accScale);
   // time of each joint with a trapezoid (or triangle) profile; the leading axis decides, others are scaled
@@ -613,18 +613,24 @@ function stomp(G, start, goal, CM, base, params, deadline, rng, step = 0.01) {
   // smoothing: noise drawn with covariance R^-1 (R = finite-difference acceleration); approximated by a Gaussian
   // kernel smoothing of white noise, which gives the same smooth, zero-at-the-ends rollouts
   const smoothNoise = (sd) => { const w = Array.from({ length: N }, () => gauss(rng) * sd); const out = new Array(N).fill(0); const kw = 6; for (let i = 1; i < N - 1; i++) { let s = 0, z = 0; for (let j = -kw; j <= kw; j++) { const k = i + j; if (k < 0 || k >= N) continue; const g = Math.exp(-(j * j) / (2 * 9)); s += g * w[k]; z += g; } out[i] = (s / z) * Math.sin((Math.PI * i) / (N - 1)); } return out; };
-  const stateCost = (q) => { let c = 0; for (const d of CM.clearances(G.values(q, base))) if (d < 0.05) c += (0.05 - d) * 10; return c; };
+  const margin = 0.1, stateCost = (q) => { let c = 0; for (const d of CM.clearances(G.values(q, base))) if (d < margin) c += (margin - d) * 10 + (d < 0 ? 5 : 0); return c; };
+  // a collision cost spreads to the neighbouring time steps (stomp_moveit smooths its costs), so the update bends the whole region
+  const smoothCost = (S) => S.map((_, i) => { let s = 0, z = 0; for (let j = -3; j <= 3; j++) { const k = i + j; if (k < 0 || k >= S.length) continue; const w = Math.exp(-(j * j) / 4); s += w * S[k]; z += w; } return s / z; });
   const trajValid = (T) => T.every((q, i) => i === 0 || motionValid((x) => CM.valid(G.values(x, base)), T[i - 1], q, step));
   let validIters = 0, it = 0;
   for (; it < P.num_iterations && now() < deadline; it++) {
     if (trajValid(X) && validIters++ >= P.num_iterations_after_valid) return { path: X, iterations: it };
     const roll = [];
     for (let r = 0; r < K; r++) {
-      const eps = Array.from({ length: dof }, (_, k) => smoothNoise(0.15 * (G.upper[k] - G.lower[k] > 10 ? 1 : (G.upper[k] - G.lower[k]) / 4)));
+      const sd = 0.3 + 0.6 * (it / Math.max(1, P.num_iterations));   // explore wider while the trajectory still collides
+      const eps = Array.from({ length: dof }, (_, k) => smoothNoise(sd * (G.upper[k] - G.lower[k] > 10 ? 1 : (G.upper[k] - G.lower[k]) / 4)));
       const T = X.map((q, i) => G.clamp(q.map((x, k) => x + eps[k][i])));
-      const S = T.map(stateCost);
-      roll.push({ eps, S });
+      const S0 = T.map(stateCost), S = smoothCost(S0);
+      roll.push({ eps, S, S0, T });
     }
+    // like stomp_moveit, a rollout that is already collision-free is a solution (the best one by cost is kept)
+    const ok = roll.filter((r) => r.S0.every((c) => c === 0) && trajValid(r.T)).sort((a, b) => a.eps.flat().reduce((x, e) => x + e * e, 0) - b.eps.flat().reduce((x, e) => x + e * e, 0));
+    if (ok.length) return { path: ok[0].T, iterations: it + 1 };
     // per time step: probability-weighted noise (exponentiated, normalized costs)
     const upd = Array.from({ length: dof }, () => new Array(N).fill(0));
     for (let i = 1; i < N - 1; i++) {
@@ -708,7 +714,8 @@ export function plan(req) {
   // ValidateSolution (response adapter): collision check every state of the result, finer than the planner's own check
   for (let i = 1; i < points.length; i++) {
     const seg = densify([points[i - 1].positions, points[i].positions], step);
-    for (const q of seg) { const c = CM.contact(G.values(q, base)); if (c) return fail(ERR.INVALID_MOTION_PLAN, `Computed path is not valid. Invalid states at index locations: [ ${i} ] out of ${points.length}. Explanations follow in command line. ${contactText(c)}`); }
+    // (move_group's action reports a Pilz plan rejected here as FAILURE; the other pipelines as INVALID_MOTION_PLAN)
+    for (const q of seg) { const c = CM.contact(G.values(q, base)); if (c) return fail(pipeline === "pilz_industrial_motion_planner" ? ERR.FAILURE : ERR.INVALID_MOTION_PLAN, `Computed path is not valid. Invalid states at index locations: [ ${i} ] out of ${points.length}. Explanations follow in command line. ${contactText(c)}`); }
   }
   return { ok: true, error_code: ERR.SUCCESS, error: "SUCCESS", planning_time: now() - t0, trajectory: { joint_names: G.joints.slice(), points }, duration: points[points.length - 1].t, ...info };
 }

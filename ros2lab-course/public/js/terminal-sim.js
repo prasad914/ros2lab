@@ -1357,6 +1357,12 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
       else if (s.kind === "imu" && c && c.orientation) m.set(ros, { ...base, frame: s.frame, orientation: c.orientation, angular_velocity: c.angular_velocity, linear_acceleration: c.linear_acceleration });
       else if (s.kind === "odom") { const mm = g.gzModel(s.model), o = g.gzOdom(mm); m.set(ros, { ...base, frame: s.plugin.frame || `${mm.name}/odom`, pose: [o.x, o.y, o.yaw] }); }
     }
+    // ros2_control: diff_drive_controller publishes its own odometry (a ROS topic, no bridge involved)
+    for (const mm of g.cmModels()) for (const c of mm.cm.controllers.values()) {
+      if (c.kind !== "diff" || c.state !== "active") continue;
+      const o = mm.cm.odom, rate = Number(c.params.publish_rate) || 50;
+      m.set(mm.cm.topicOf(c.name, "odom"), { type: "nav_msgs/msg/Odometry", count: Math.max(1, Math.floor(g.cmTime() * rate)), rate: run ? rate : 0, frame: c.params.odom_frame_id || "odom", pose: [o.x, o.y, o.th] });
+    }
     return m;
   }
   function rvizTime() {   // use_sim_time: RViz's ROS Time is the Gazebo clock (if /clock is bridged), else 0
