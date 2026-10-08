@@ -1615,7 +1615,10 @@ export function createRviz(container, opts = {}) {
         for (const [l, h] of built) {
           const T = P[l]; h.visible = !!T; if (T) setPose(h, T);
           const lc = linkColors && linkColors[l];
-          for (const m of h.userData.meshes) m.material = own && !lc ? (alpha < 0.99 ? matFor(`own|${m.uuid}`, [m.userData.orig.color.r, m.userData.orig.color.g, m.userData.orig.color.b], alpha) : m.userData.orig) : matFor(lc ? `lc|${lc.join(",")}` : "c", lc || color, alpha);
+          for (const m of h.userData.meshes) {
+            const o0 = Array.isArray(m.userData.orig) ? m.userData.orig[0] : m.userData.orig, oc = o0 && o0.color ? [o0.color.r, o0.color.g, o0.color.b] : [0.7, 0.7, 0.7];   // COLLADA meshes can carry a material array
+            m.material = own && !lc ? (alpha < 0.99 ? matFor(`own|${m.uuid}`, oc, alpha) : m.userData.orig) : matFor(lc ? `lc|${lc.join(",")}` : "c", lc || color, alpha);
+          }
         }
       },
       hide() { g.visible = false; },
