@@ -5,8 +5,11 @@
 // Binary files (meshes) are stored as "@url:<address>" so RViz can fetch them; text files keep their text.
 
 import { xacro, parseURDF, urdfEdges, framePoses, tMul, qRPY, qRot } from "./urdf-core.js";
-import { simFiles, simFromUrdf } from "./rviz-sim.js";
+import { simFiles, simFromUrdf, autoSimSpec } from "./rviz-sim.js";
 import { urdfGazebo } from "./gz-sdf.js";
+import { moveitModel, moveitConfigFiles, placeScene } from "./moveit-config.js";
+import { meshPointsFrom } from "./moveit-core.js";
+import { realFor, realLaunchPy, realReadme } from "./real-robot.js";
 
 const fetchText = (url) => fetch(url).then((r) => { if (!r.ok) throw new Error(`${url} (${r.status})`); return r.text(); });
 
@@ -257,7 +260,7 @@ function expand(files, pkg, main) {
   catch { return ""; }
 }
 // A gallery robot (public/robots/...) as a package. "../../common/urdf/x.xacro" includes become $(find pkg)/urdf/x.xacro.
-export async function galleryPackage(g) {
+async function gallerySources(g) {
   const top = g.file.split("/")[0];
   const pkg = g.pkg || (/_description$/.test(top) ? top : `${g.id}_description`);
   const main = g.file.split("/").pop();
@@ -279,9 +282,28 @@ export async function galleryPackage(g) {
   const meshes = new Set();
   for (const t of Object.values(files)) for (const m of t.matchAll(/package:\/\/([\w-]+)\/meshes\/([^"']+)/g)) if (m[1] === pkg) meshes.add(m[2]);
   for (const m of meshes) files[`meshes/${m}`] = `@url:/robots/${pkg}/meshes/${m}`;
+  return { pkg, main, files, meshes };
+}
+// the plain URDF of a gallery robot, and a reader for its mesh files (package://pkg/meshes/... -> points)
+export async function galleryUrdf(g, meshPointsFrom) {
+  const { pkg, main, files } = await gallerySources(g);
+  const readMesh = async (fn) => {
+    const m = String(fn).match(/^package:\/\/([\w-]+)\/(.+)$/), c = m && m[1] === pkg ? files[m[2]] : null, u = c && String(c).match(/^@url:(.+)$/);
+    if (!u) return [];
+    const r = await fetch(u[1]); if (!r.ok) return [];
+    const ext = String(fn).split(".").pop().toLowerCase();
+    return meshPointsFrom(ext === "stl" ? await r.arrayBuffer() : await r.text(), ext);
+  };
+  return { pkg, main, files, urdf: expand(files, pkg, main), readMesh };
+}
+export async function galleryPackage(g) {
+  const { pkg, main, files, meshes } = await gallerySources(g);
   const plain = expand(files, pkg, main), view = viewFor(plain);
   let sim = null;
-  if (g.sim) sim = simFiles(pkg, main, g.sim, plain, view);
+  // robots without a hand-written "sim" entry (and that are not arms): a simulation read from their URDF
+  let simSpec = g.sim || null;
+  if (!simSpec && !g.moveit) { try { simSpec = autoSimSpec(parseURDF(plain), plain); } catch { simSpec = null; } }
+  if (simSpec) sim = simFiles(pkg, main, simSpec, plain, view);
   const dirs = ["launch", "urdf", ...(meshes.size ? ["meshes"] : []), "rviz", ...(sim ? ["worlds", "config"] : [])];
   if (g.source && g.source.url) { try { const lic = await fetchText(`/robots/${pkg}/LICENSE`); files.LICENSE = lic; } catch { /* no licence file */ } }
   Object.assign(files, {
@@ -293,8 +315,15 @@ export async function galleryPackage(g) {
   });
   if (sim) { Object.assign(files, sim.files); files["rviz/sim.rviz"] = rvizConfig(sim.fixedFrame || g.fixedFrame || "base_link", sim.fixedFrame === "odom" ? { ...view, distance: Math.max(view ? view.distance : 2, 3), focal: [0, 0, 0] } : view, sim.displays).replace("      Marker Scale: 1\n", "      Marker Scale: 0.3\n"); }
   if (sim && sim.control) { Object.assign(files, sim.control.files); const ff = sim.control.fixedFrame || g.fixedFrame || "base_link"; files["rviz/sim_control.rviz"] = rvizConfig(ff, ff === "odom" ? { ...view, distance: Math.max(view ? view.distance : 2, 3), focal: [0, 0, 0] } : view, sim.control.displays).replace("      Marker Scale: 1\n", "      Marker Scale: 0.3\n"); }
+  // the purchased robot: launch/real.launch.py (the maker's driver + RViz) and REAL_ROBOT.md
+  const real = realFor(g);
+  if (real) { files["launch/real.launch.py"] = realLaunchPy(pkg, g, real, main, files["rviz/sim.rviz"] ? "sim.rviz" : "display.rviz"); files["REAL_ROBOT.md"] = realReadme(pkg, g, real); }
   const launches = ["display.launch.py", "display.launch.xml", ...(sim ? ["sim.launch.py", "sim.launch.xml"] : []), ...(sim && sim.control ? ["sim_control.launch.py", "sim_control.launch.xml"] : [])];
-  return { name: pkg, files, main, launches, sim: sim ? { ...sim.sim, control: sim.control ? { controller: sim.control.controller, arm: sim.control.arm } : null } : null };
+  // arms: a <robot>_moveit_config package next to the description (MoveIt 2 with OMPL, Pilz, CHOMP, STOMP)
+  let moveit = null;
+  if (g.moveit) { try { moveit = await galleryMoveit(g, pkg, main, plain, view); } catch (e) { moveit = { error: e.message }; } }
+  return { name: pkg, files, main, launches, sim: sim ? { ...sim.sim, control: sim.control ? { controller: sim.control.controller, arm: sim.control.arm } : null } : null,
+    moveit: moveit && !moveit.error ? moveit.info : null, extraPackages: moveit && moveit.pkg ? [moveit.pkg] : [], notes: moveit && moveit.error ? [`MoveIt config could not be made: ${moveit.error}`] : [] };
 }
 
 // The student's own files: a package folder (with package.xml) is used as it is; loose .urdf/.xacro files
@@ -372,4 +401,19 @@ export async function folderPackage(list) {
   }
   launches.sort((a, b) => (/display/.test(b) - /display/.test(a)) || (/\.py$/.test(b) - /\.py$/.test(a)));
   return { name, files, main, mainPath, launches, notes };
+}
+
+// The MoveIt config package of a gallery arm. The collision spheres and the SRDF collision matrix come from
+// public/robots/moveit/<id>.json when it exists (tools/moveit-precompute.mjs), else they are computed from the meshes.
+async function galleryMoveit(g, descPkg, descFile, urdfText, view) {
+  let pre = null;
+  try { const r = await fetch(`/robots/moveit/${g.id}.json`); if (r.ok) pre = JSON.parse(await r.text()); } catch { pre = null; }
+  const model = parseURDF(urdfText);
+  const readMesh = pre ? undefined : (await galleryUrdf(g, meshPointsFrom)).readMesh;
+  const mm = await moveitModel(model, g.moveit, { pre, readMesh });
+  const objects = placeScene(mm, g.moveit);
+  const cfg = moveitConfigFiles(g.moveit, { id: g.id, title: g.title, descPkg, descFile, model, urdfText, acm: mm.acm, G: mm.G, objects, view: view && { ...view, focal: [0.35 * mm.reach, 0, 0.3 * mm.reach], distance: Math.max(1, 3.2 * mm.reach) } });
+  return { pkg: { name: cfg.name, files: cfg.files, launches: ["demo.launch.py", "gazebo.launch.py", "real.launch.py"] },
+    info: { pkg: cfg.name, group: cfg.group, gripperGroup: cfg.gripperGroup, arm: cfg.arm, grip: cfg.grip, home: cfg.home, ready: cfg.ready, init: cfg.init, armCtl: cfg.armCtl, gripCtl: cfg.gripCtl,
+      objects, base: mm.G.base, tip: mm.G.tip, spheres: mm.spheres, acm: mm.acm, positionOnly: mm.G.dof < 6 || !!g.moveit.positionOnly, real: g.moveit.real || null, reach: mm.reach } };
 }

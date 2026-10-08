@@ -174,6 +174,9 @@ export const gzMethods = {
         if (p.kind === "diff_drive") out.push({ topic: slash(p.odomTopic) || `/model/${m.name}/odometry`, type: "gz.msgs.Odometry", kind: "odom", model: m.name, plugin: p, rate: p.odomRate || 50 },
           { topic: slash(p.tfTopic) || `/model/${m.name}/tf`, type: "gz.msgs.Pose_V", kind: "tf", model: m.name, plugin: p, rate: p.odomRate || 50 },
           { topic: slash(p.topic) || `/model/${m.name}/cmd_vel`, type: "gz.msgs.Twist", kind: "cmd_vel", model: m.name, plugin: p, sub: true });
+        if (p.kind === "mecanum" || p.kind === "ackermann") out.push({ topic: slash(p.odomTopic) || `/model/${m.name}/odometry`, type: "gz.msgs.Odometry", kind: "odom", model: m.name, plugin: p, rate: p.odomRate || 50 },
+          { topic: slash(p.tfTopic) || `/model/${m.name}/tf`, type: "gz.msgs.Pose_V", kind: "tf", model: m.name, plugin: p, rate: p.odomRate || 50 },
+          { topic: slash(p.topic) || `/model/${m.name}/cmd_vel`, type: "gz.msgs.Twist", kind: "cmd_vel", model: m.name, plugin: p, sub: true });
         if (p.kind === "velocity_control") out.push({ topic: slash(p.topic) || `/model/${m.name}/cmd_vel`, type: "gz.msgs.Twist", kind: "cmd_vel", model: m.name, plugin: p, sub: true });
         if (p.kind === "odometry_publisher") out.push({ topic: slash(p.odomTopic) || `/model/${m.name}/odometry`, type: "gz.msgs.Odometry", kind: "odom", model: m.name, plugin: p, rate: p.odomRate || 50 },
           { topic: slash(p.tfTopic) || `/model/${m.name}/pose`, type: "gz.msgs.Pose_V", kind: "tf", model: m.name, plugin: p, rate: p.odomRate || 50 });
@@ -196,7 +199,7 @@ export const gzMethods = {
     const hit = [];
     for (const e of this.bridges()) {
       if (e.dir === "GZ_TO_ROS" || e.ros !== topic || e.rosType !== "geometry_msgs/msg/Twist") continue;
-      for (const t of this.gzTopicList()) if (t.kind === "cmd_vel" && t.topic === e.gz) { const m = this.gzModel(t.model); m.cmd = { vx: v.lx, wz: v.az }; hit.push(m.name); }
+      for (const t of this.gzTopicList()) if (t.kind === "cmd_vel" && t.topic === e.gz) { const m = this.gzModel(t.model); m.cmd = { vx: v.lx, vy: v.ly || 0, vz: v.lz || 0, wz: v.az }; hit.push(m.name); }
     }
     return hit;
   },
@@ -216,19 +219,57 @@ export const gzMethods = {
     for (const m of this.gz.models.values()) {
       for (const [j, goal] of Object.entries(m.targets || {})) { const d = goal - m.joints[j], stepMax = 1.2 * dt; m.joints[j] += Math.abs(d) < stepMax ? d : Math.sign(d) * stepMax; }   // the PID moves the joint to the goal (about 1.2 rad/s here)
       if (m.cm) { this.cmStep(m, dt); continue; }   // ros2_control: the controllers command the joints
-      const dd = m.gazebo.plugins.find((p) => p.kind === "diff_drive"), vc = m.gazebo.plugins.find((p) => p.kind === "velocity_control");
-      if (!dd && !vc) continue;
-      const { vx, wz } = m.cmd; if (!vx && !wz) continue;
-      m.pose.yaw += wz * dt; m.pose.x += vx * Math.cos(m.pose.yaw) * dt; m.pose.y += vx * Math.sin(m.pose.yaw) * dt;
-      if (!dd) continue;   // VelocityControl moves the whole body, it turns no wheels
-      for (const j of dd.left) if (j in m.joints) m.joints[j] += ((vx - (wz * dd.separation) / 2) / dd.radius) * dt;
-      for (const j of dd.right) if (j in m.joints) m.joints[j] += ((vx + (wz * dd.separation) / 2) / dd.radius) * dt;
+      const dd = m.gazebo.plugins.find((p) => p.kind === "diff_drive"), vc = m.gazebo.plugins.find((p) => p.kind === "velocity_control"), mc = m.gazebo.plugins.find((p) => p.kind === "mecanum"), ak = m.gazebo.plugins.find((p) => p.kind === "ackermann");
+      if (!dd && !vc && !mc && !ak) continue;
+      let { vx = 0, vy = 0, vz = 0, wz = 0 } = m.cmd;
+      if (dd || ak) { vy = 0; vz = 0; }   // wheels cannot strafe or fly
+      if (mc) vz = 0;
+      const flying = !!(vc && vc.flying);
+      if (vc && !flying) vz = 0;
+      if (ak) { const steer = Math.atan2(wz * ak.wheelbase, Math.abs(vx) > 1e-6 ? vx : 1e-6), lim = ak.steerLimit || 0.6; const st = Math.max(-lim, Math.min(lim, steer)); wz = Math.abs(vx) > 1e-6 ? (vx * Math.tan(st)) / ak.wheelbase : 0; for (const j of [ak.leftSteer, ak.rightSteer]) if (j in m.joints) m.joints[j] = st; }
+      if (!vx && !vy && !vz && !wz) continue;
+      const yaw = m.pose.yaw + wz * dt, nx = m.pose.x + (vx * Math.cos(yaw) - vy * Math.sin(yaw)) * dt, ny = m.pose.y + (vx * Math.sin(yaw) + vy * Math.cos(yaw)) * dt;
+      // the world's static objects stop the robot (Gazebo's physics would: no driving through walls and boxes)
+      const blocked = this.gzBlocked(m, nx, ny, m.pose.z + vz * dt);
+      m.pose.yaw = yaw;
+      if (!blocked) { m.pose.x = nx; m.pose.y = ny; m.pose.z = Math.max(flying ? 0.02 : m.pose.z, m.pose.z + vz * dt); }
+      m.bumped = blocked;
+      const wheel = (j, v, r) => { if (j in m.joints) m.joints[j] += (v / r) * dt; };
+      if (dd && !blocked) { for (const j of dd.left) wheel(j, vx - (wz * dd.separation) / 2, dd.radius); for (const j of dd.right) wheel(j, vx + (wz * dd.separation) / 2, dd.radius); }
+      if (mc && !blocked) { const k = (mc.separation + mc.wheelbase) / 2; wheel(mc.fl, vx - vy - k * wz, mc.radius); wheel(mc.fr, vx + vy + k * wz, mc.radius); wheel(mc.rl, vx + vy - k * wz, mc.radius); wheel(mc.rr, vx - vy + k * wz, mc.radius); }
+      if (ak && !blocked) { for (const j of ak.wheels) wheel(j, vx, ak.radius); }
+      if (flying) for (const j of (vc.spin = vc.spin || Object.keys(m.joints).filter((n) => /prop|rotor/i.test(n)))) m.joints[j] += 60 * dt;   // propellers spin while it flies
     }
     return true;
   },
   gzOdom(m) {   // DiffDrive odometry: relative to where the robot was spawned
     const c = Math.cos(-m.start.yaw), s = Math.sin(-m.start.yaw), dx = m.pose.x - m.start.x, dy = m.pose.y - m.start.y;
-    return { x: c * dx - s * dy, y: s * dx + c * dy, yaw: m.pose.yaw - m.start.yaw, vx: m.cmd.vx, wz: m.cmd.wz };
+    const flying = m.gazebo.plugins.some((p) => p.kind === "odometry_publisher" && p.dims === 3);
+    return { x: c * dx - s * dy, y: s * dx + c * dy, z: flying ? m.pose.z - m.start.z : 0, yaw: m.pose.yaw - m.start.yaw, vx: m.bumped ? 0 : m.cmd.vx, vy: m.bumped ? 0 : m.cmd.vy || 0, wz: m.cmd.wz };
+  },
+  // would the robot's footprint (a circle around its base, at its height) hit a static world object at (x, y, z)?
+  gzBlocked(m, x, y, z) {
+    if (!m.footprint) {
+      let r = 0.1, top = 0.3;
+      try { for (const l of Object.values(m.model.links)) for (const c of [...l.collisions, ...l.visuals]) { const g = c.geom, o = c.origin.xyz; const e = g.type === "box" ? Math.hypot(g.size[0], g.size[1]) / 2 : g.type === "cylinder" || g.type === "sphere" ? g.radius : 0.05; r = Math.max(r, Math.min(1.2, Math.hypot(o[0], o[1]) + e)); top = Math.max(top, o[2] + (g.type === "box" ? g.size[2] / 2 : g.type === "cylinder" ? g.length / 2 : 0.1)); } } catch { /* keep the default */ }
+      for (const j of Object.values(m.model.joints)) r = Math.max(r, Math.min(1.2, Math.hypot(j.origin.xyz[0], j.origin.xyz[1]) * 0.9));
+      m.footprint = { r: Math.min(r, 0.9) * 0.85, top };
+    }
+    const F = m.footprint, zlo = z, zhi = z + F.top;
+    for (const w of this.gz.world.models) {
+      if (!w.static || /ground/i.test(w.name)) continue;
+      for (const sh of w.shapes || []) {
+        if (sh.type === "plane") continue;
+        const p = w.pose || [0, 0, 0, 0, 0, 0], lp = sh.linkPose || [0, 0, 0, 0, 0, 0], sp = sh.pose || [0, 0, 0, 0, 0, 0];
+        const cx = p[0] + lp[0] + sp[0], cy = p[1] + lp[1] + sp[1], cz = p[2] + lp[2] + sp[2], yaw = (p[5] || 0) + (lp[5] || 0) + (sp[5] || 0);
+        const hz = sh.type === "box" ? sh.size[2] / 2 : sh.type === "cylinder" ? sh.length / 2 : sh.radius;
+        if (cz + hz < zlo + 0.02 || cz - hz > zhi) continue;   // above or below the robot
+        const dx = x - cx, dy = y - cy;
+        if (sh.type === "box") { const c = Math.cos(-yaw), s = Math.sin(-yaw), lx = c * dx - s * dy, ly = s * dx + c * dy; const qx = Math.max(Math.abs(lx) - sh.size[0] / 2, 0), qy = Math.max(Math.abs(ly) - sh.size[1] / 2, 0); if (Math.hypot(qx, qy) < F.r) return w.name; }
+        else if (Math.hypot(dx, dy) < (sh.radius || 0) + F.r) return w.name;
+      }
+    }
+    return null;
   },
   // TF edges arriving on ROS /tf from bridged DiffDrive tf topics
   gzTfEdges() {
@@ -236,7 +277,7 @@ export const gzMethods = {
     for (const [ros, f] of this.gzFeeds()) {
       if (f.src.kind !== "tf" || !/^\/?tf$/.test(ros.replace(/^\//, "")) && ros !== "/tf") continue;
       const m = this.gzModel(f.src.model), p = f.src.plugin, o = this.gzOdom(m);
-      E.push({ parent: p.frame || `${m.name}/odom`, child: p.child || `${m.name}/${m.model.root}`, t: [o.x, o.y, 0], q: qRPY(0, 0, o.yaw), gz: true });
+      E.push({ parent: p.frame || `${m.name}/odom`, child: p.child || `${m.name}/${m.model.root}`, t: [o.x, o.y, o.z || 0], q: qRPY(0, 0, o.yaw), gz: true });
     }
     return E;
   },

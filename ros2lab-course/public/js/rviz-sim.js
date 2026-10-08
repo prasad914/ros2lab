@@ -125,7 +125,61 @@ ${d.left.map((j) => `      <left_joint>${j}</left_joint>\n`).join("")}${d.right.
       <odom_topic>odom</odom_topic>
       <tf_topic>tf</tf_topic>
       <odom_publish_frequency>30</odom_publish_frequency>
-      <dimensions>2</dimensions>
+      <dimensions>${sim.velocity.fly ? 3 : 2}</dimensions>
+    </plugin>
+  </gazebo>
+${sim.velocity.fly ? `  <!-- a practice drone: no propeller physics, so the body ignores gravity and VelocityControl flies it (t / b in teleop: up / down) -->
+  <gazebo reference="${sim.base}">
+    <gravity>false</gravity>
+  </gazebo>
+` : ""}
+`;
+  }
+  if (sim.mecanum) {
+    const m = sim.mecanum;
+    s += `  <!-- mecanum wheels: /cmd_vel (x forward, y sideways, z turn) in, /odom and odom -> ${sim.base} out -->
+  <gazebo>
+    <plugin filename="gz-sim-mecanum-drive-system" name="gz::sim::systems::MecanumDrive">
+      <front_left_joint>${m.fl}</front_left_joint>
+      <front_right_joint>${m.fr}</front_right_joint>
+      <back_left_joint>${m.rl}</back_left_joint>
+      <back_right_joint>${m.rr}</back_right_joint>
+      <wheel_separation>${m.separation}</wheel_separation>
+      <wheelbase>${m.wheelbase}</wheelbase>
+      <wheel_radius>${m.radius}</wheel_radius>
+      <min_acceleration>-5</min_acceleration>
+      <max_acceleration>5</max_acceleration>
+      <topic>cmd_vel</topic>
+      <odom_topic>odom</odom_topic>
+      <tf_topic>tf</tf_topic>
+      <frame_id>odom</frame_id>
+      <child_frame_id>${sim.base}</child_frame_id>
+      <odom_publish_frequency>30</odom_publish_frequency>
+    </plugin>
+  </gazebo>
+
+`;
+  }
+  if (sim.ackermann) {
+    const a = sim.ackermann;
+    s += `  <!-- car-like steering: /cmd_vel (x speed, z turn rate) in, /odom and odom -> ${sim.base} out -->
+  <gazebo>
+    <plugin filename="gz-sim-ackermann-steering-system" name="gz::sim::systems::AckermannSteering">
+${a.left.map((j) => `      <left_joint>${j}</left_joint>\n`).join("")}${a.right.map((j) => `      <right_joint>${j}</right_joint>\n`).join("")}      <left_steering_joint>${a.leftSteer}</left_steering_joint>
+      <right_steering_joint>${a.rightSteer}</right_steering_joint>
+      <kingpin_width>${a.kingpin || a.separation}</kingpin_width>
+      <steering_limit>${a.steerLimit || 0.6}</steering_limit>
+      <wheel_base>${a.wheelbase}</wheel_base>
+      <wheel_separation>${a.separation}</wheel_separation>
+      <wheel_radius>${a.radius}</wheel_radius>
+      <min_velocity>-2</min_velocity>
+      <max_velocity>2</max_velocity>
+      <topic>cmd_vel</topic>
+      <odom_topic>odom</odom_topic>
+      <tf_topic>tf</tf_topic>
+      <frame_id>odom</frame_id>
+      <child_frame_id>${sim.base}</child_frame_id>
+      <odom_publish_frequency>30</odom_publish_frequency>
     </plugin>
   </gazebo>
 
@@ -229,8 +283,26 @@ export function worldSdf(name, scale = 1) {
     <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"/>
 
     <gravity>0 0 -9.8</gravity>
-    <include><uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Sun</uri></include>
-    <include><uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Ground Plane</uri></include>
+    <!-- the sun and the ground are written out here (not <include>d from fuel.gazebosim.org), so the world
+         also loads on a computer without internet (a robot's own computer, a lab network) -->
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation><range>1000</range><constant>0.9</constant><linear>0.01</linear><quadratic>0.001</quadratic></attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision"><geometry><plane><normal>0 0 1</normal><size>100 100</size></plane></geometry></collision>
+        <visual name="visual">
+          <geometry><plane><normal>0 0 1</normal><size>100 100</size></plane></geometry>
+          <material><ambient>0.8 0.8 0.8 1</ambient><diffuse>0.8 0.8 0.8 1</diffuse><specular>0.8 0.8 0.8 1</specular></material>
+        </visual>
+      </link>
+    </model>
 
 ${box("wall_north", [0, W, H / 2], [2 * W + 0.2, 0.2, H], "0.85 0.85 0.8")}${box("wall_south", [0, -W, H / 2], [2 * W + 0.2, 0.2, H], "0.85 0.85 0.8")}${box("wall_east", [W, 0, H / 2], [0.2, 2 * W, H], "0.8 0.8 0.75")}${box("wall_west", [-W, 0, H / 2], [0.2, 2 * W, H], "0.8 0.8 0.75")}${box("red_box", [k(1.6), k(0.6), k(0.25)], [k(0.5), k(0.5), k(0.5)], "0.85 0.15 0.1", 0.4)}${box("blue_box", [k(-1.4), k(1.5), k(0.3)], [k(0.8), k(0.4), k(0.6)], "0.1 0.3 0.85", -0.3)}${cyl("green_pillar", [k(1.2), k(-1.4), k(0.5)], k(0.2), k(1.0), "0.1 0.7 0.2")}${cyl("yellow_drum", [k(-1.6), k(-1.2), k(0.3)], k(0.3), k(0.6), "0.95 0.8 0.1")}${sph("orange_ball", [k(2.4), k(-0.4), k(0.2)], k(0.2), "1.0 0.5 0.0")}${box("shelf", [k(-2.8), k(0), k(0.45)], [k(0.4), k(1.6), k(0.9)], "0.55 0.35 0.2")}  </world>
 </sdf>
@@ -244,7 +316,7 @@ export function bridgeYaml(sim) {
 # The types must match pairs ros_gz_bridge knows (sensor_msgs/msg/LaserScan <-> gz.msgs.LaserScan ...).
 ${e("/clock", "/clock", "rosgraph_msgs/msg/Clock", "gz.msgs.Clock", "GZ_TO_ROS")}${e("/joint_states", "/joint_states", "sensor_msgs/msg/JointState", "gz.msgs.Model", "GZ_TO_ROS")}`;
   for (const j of sim.positions || []) s += e(`/${j.joint}/cmd_pos`, `/${j.joint}/cmd_pos`, "std_msgs/msg/Float64", "gz.msgs.Double", "ROS_TO_GZ");
-  if (sim.drive || sim.velocity) s += e("/cmd_vel", "/cmd_vel", "geometry_msgs/msg/Twist", "gz.msgs.Twist", "ROS_TO_GZ") + e("/odom", "/odom", "nav_msgs/msg/Odometry", "gz.msgs.Odometry", "GZ_TO_ROS") + e("/tf", "/tf", "tf2_msgs/msg/TFMessage", "gz.msgs.Pose_V", "GZ_TO_ROS");
+  if (sim.drive || sim.velocity || sim.mecanum || sim.ackermann) s += e("/cmd_vel", "/cmd_vel", "geometry_msgs/msg/Twist", "gz.msgs.Twist", "ROS_TO_GZ") + e("/odom", "/odom", "nav_msgs/msg/Odometry", "gz.msgs.Odometry", "GZ_TO_ROS") + e("/tf", "/tf", "tf2_msgs/msg/TFMessage", "gz.msgs.Pose_V", "GZ_TO_ROS");
   for (const x of sim.sensors) {
     const t = "/" + x.topic;
     if (x.type === "gpu_lidar") { s += e(t, t, "sensor_msgs/msg/LaserScan", "gz.msgs.LaserScan", "GZ_TO_ROS"); if ((x.v || [1])[0] > 1) s += e(x.rosCloud ? "/" + x.rosCloud : `${t}/points`, `${t}/points`, "sensor_msgs/msg/PointCloud2", "gz.msgs.PointCloudPacked", "GZ_TO_ROS"); }
@@ -261,7 +333,7 @@ export function simLaunchPy(pkg, sim) {
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import AppendEnvironmentVariable, DeclareLaunchArgument, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import Command, LaunchConfiguration
 from launch_ros.actions import Node
@@ -283,6 +355,10 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument('use_sim_time', default_value='true',
                               description='Use the Gazebo clock (/clock)'),
+
+        # Gazebo finds the meshes (package://${pkg}/meshes/... becomes model://${pkg}/meshes/...)
+        # through GZ_SIM_RESOURCE_PATH: add the folder that holds this package's share directory
+        AppendEnvironmentVariable('GZ_SIM_RESOURCE_PATH', os.path.dirname(pkg_share)),
 
         # Gazebo Harmonic: -r starts the simulation running (without it, press play)
         IncludeLaunchDescription(
@@ -311,6 +387,8 @@ export function simLaunchXml(pkg, sim) {
   return `<launch>
   <arg name="use_sim_time" default="true"/>
   <let name="model" value="$(find-pkg-share ${pkg})/urdf/${sim.model}_sim.urdf.xacro"/>
+  <!-- Gazebo finds the meshes (model://${pkg}/meshes/...) through GZ_SIM_RESOURCE_PATH -->
+  <set_env name="GZ_SIM_RESOURCE_PATH" value="$(dirname)/../..:$(env GZ_SIM_RESOURCE_PATH '')"/>
 
   <!-- Gazebo Harmonic: -r starts the simulation running (without it, press play) -->
   <include file="$(find-pkg-share ros_gz_sim)/launch/gz_sim.launch.py">
@@ -355,7 +433,7 @@ export function simDisplays(sim) {
     }
     if (x.type === "imu") D.push(`    - Acceleration properties:\n        Acc. vector alpha: 1\n        Acc. vector color: 255; 0; 0\n        Acc. vector scale: 0.05\n        Derotate acceleration: true\n        Enable acceleration: false\n      Axes properties:\n        Axes scale: 0.3\n        Enable axes: true\n      Box properties:\n        Box alpha: 1\n        Box color: 255; 0; 0\n        Enable box: false\n        x_scale: 1\n        y_scale: 1\n        z_scale: 1\n      Class: rviz_imu_plugin/Imu\n      Enabled: true\n      Name: Imu\n${topicQ(t)}\n      Value: true\n      fixed_frame_orientation: true`);
   }
-  if (sim.drive || sim.velocity || sim.odomTopic) D.push(`    - Angle Tolerance: 0.1\n      Class: rviz_default_plugins/Odometry\n      Covariance:\n        Orientation:\n          Alpha: 0.5\n          Color: 255; 255; 127\n          Color Style: Unique\n          Frame: Local\n          Offset: 1\n          Scale: 1\n          Value: true\n        Position:\n          Alpha: 0.3\n          Color: 204; 51; 204\n          Scale: 1\n          Value: true\n        Value: false\n      Enabled: true\n      Keep: 50\n      Name: Odometry\n      Position Tolerance: 0.1\n      Shape:\n        Alpha: 1\n        Axes Length: 1\n        Axes Radius: 0.1\n        Color: 255; 25; 0\n        Head Length: 0.06\n        Head Radius: 0.02\n        Shaft Length: 0.2\n        Shaft Radius: 0.01\n        Value: Arrow\n${topicQ(sim.odomTopic || "/odom")}\n      Value: true`);
+  if (sim.drive || sim.velocity || sim.mecanum || sim.ackermann || sim.odomTopic) D.push(`    - Angle Tolerance: 0.1\n      Class: rviz_default_plugins/Odometry\n      Covariance:\n        Orientation:\n          Alpha: 0.5\n          Color: 255; 255; 127\n          Color Style: Unique\n          Frame: Local\n          Offset: 1\n          Scale: 1\n          Value: true\n        Position:\n          Alpha: 0.3\n          Color: 204; 51; 204\n          Scale: 1\n          Value: true\n        Value: false\n      Enabled: true\n      Keep: 50\n      Name: Odometry\n      Position Tolerance: 0.1\n      Shape:\n        Alpha: 1\n        Axes Length: 1\n        Axes Radius: 0.1\n        Color: 255; 25; 0\n        Head Length: 0.06\n        Head Radius: 0.02\n        Shaft Length: 0.2\n        Shaft Radius: 0.01\n        Value: Arrow\n${topicQ(sim.odomTopic || "/odom")}\n      Value: true`);
   return D.join("\n");
 }
 
@@ -385,7 +463,7 @@ export function simFiles(pkg, mainFile, spec, urdfText, view) {
       "launch/sim.launch.xml": simLaunchXml(pkg, sim),
     },
     displays: simDisplays(sim),
-    fixedFrame: sim.drive || sim.velocity ? "odom" : spec.fixedFrame || null,
+    fixedFrame: sim.drive || sim.velocity || sim.mecanum || sim.ackermann ? "odom" : spec.fixedFrame || null,
     control: spec.control ? controlFiles(pkg, mainFile, sim, urdfText) : null,
   };
 }
@@ -487,20 +565,22 @@ ${opt.map((x) => `
 `;
   const yaml = controllersYaml(d ? { wheels: { left: d.left, right: d.right }, separation: d.separation, radius: d.radius, base: sim.base } : { arm });
   const bridge = bridgeYaml({ ...sim, drive: null, velocity: null, positions: [] }).replace(/- ros_topic_name: "\/joint_states"\n[\s\S]*?direction: GZ_TO_ROS\n/, "").replace("# ros_gz_bridge:", "# ros_gz_bridge (ros2_control version): only the clock and the sensors. Commands, odometry and joint states\n# come from ros2_control controllers, which are ROS nodes already.\n# ros_gz_bridge:");
-  const spawnPy = `        # ros2_control: gz_ros2_control started controller_manager inside Gazebo. Each spawner waits for it,
-        # then loads, configures and activates one controller, and exits.
-        Node(package='controller_manager', executable='spawner',
-             arguments=['joint_state_broadcaster']),
-        Node(package='controller_manager', executable='spawner',
-             arguments=['${ctrl}']),
+  const spawnPy = `        # ros2_control: gz_ros2_control starts controller_manager inside Gazebo. The spawner waits for it,
+        # then loads, configures and activates the controllers, and exits.
+        # One spawner for both controllers: on Jazzy, two spawners started together compete for the
+        # spawner lock ("Failed to acquire lock") and one of the controllers is never loaded.
+        Node(package='controller_manager', executable='spawner', output='screen',
+             arguments=['joint_state_broadcaster', '${ctrl}',
+                        '--controller-manager', '/controller_manager',
+                        '--controller-manager-timeout', '120']),
 
 `;
   const py = simLaunchPy(pkg, sim).replace(`'${sim.model}_sim.urdf.xacro'`, `'${sim.model}_control.urdf.xacro'`).replace("'gz_bridge.yaml'", "'gz_bridge_control.yaml'").replace("'sim.rviz'", "'sim_control.rviz'")
     .replace("# Gazebo topics -> ROS 2 topics (and /cmd_vel back), from config/gz_bridge.yaml", "# Gazebo topics -> ROS 2 topics: /clock and the sensors (config/gz_bridge_control.yaml)")
     .replace("        Node(package='rviz2'", spawnPy + "        Node(package='rviz2'");
-  const spawnXml = `  <!-- ros2_control: each spawner waits for controller_manager (inside Gazebo), loads, configures and activates one controller -->
-  <node pkg="controller_manager" exec="spawner" args="joint_state_broadcaster"/>
-  <node pkg="controller_manager" exec="spawner" args="${ctrl}"/>
+  const spawnXml = `  <!-- ros2_control: the spawner waits for controller_manager (inside Gazebo), then loads, configures and activates the controllers -->
+  <!-- one spawner for both controllers (two spawners at once compete for the spawner lock on Jazzy) -->
+  <node pkg="controller_manager" exec="spawner" output="screen" args="joint_state_broadcaster ${ctrl} --controller-manager /controller_manager --controller-manager-timeout 120"/>
 
 `;
   const xml = simLaunchXml(pkg, sim).replace(`/urdf/${sim.model}_sim.urdf.xacro`, `/urdf/${sim.model}_control.urdf.xacro`).replace("/config/gz_bridge.yaml", "/config/gz_bridge_control.yaml").replace("/rviz/sim.rviz", "/rviz/sim_control.rviz")
@@ -516,4 +596,51 @@ ${opt.map((x) => `
     controller: ctrl, arm,
     fixedFrame: d ? "odom" : null,
   };
+}
+
+// ---------------- a simulation for a robot that has no "sim" entry (the course's own models, a student's robot) ----------------
+// Reads the URDF like a person would: wheel joints -> DiffDrive (or MecanumDrive / AckermannSteering), legs -> walking body
+// (VelocityControl), propellers -> a flying body; links called lidar / laser / scan, camera, imu get a sensor with
+// typical datasheet values (a 2D lidar like the LDS-01, a 640x480 camera, a 100 Hz IMU).
+export function autoSimSpec(model, urdfText) {
+  const J = Object.values(model.joints), mov = J.filter((j) => !["fixed", "floating", "planar"].includes(j.type) && !j.mimic);
+  const P = framePoses(urdfEdges(model, {}, true), model.root).poses;
+  const txt = (j) => `${j.name} ${j.child}`.toLowerCase();
+  const wheels = mov.filter((j) => j.type === "continuous" && /wheel/.test(txt(j)));
+  const steer = mov.filter((j) => /steer/.test(txt(j)));
+  const props = mov.filter((j) => /prop|rotor/.test(txt(j)));
+  const legs = mov.filter((j) => /hip|knee|thigh|calf|shin|ankle|coxa|femur|tibia|leg/.test(txt(j)));
+  const yOf = (j) => (P[j.child] ? P[j.child].t[1] : j.origin.xyz[1]), xOf = (j) => (P[j.child] ? P[j.child].t[0] : j.origin.xyz[0]);
+  const side = (j) => (/left|(^|_)l(_|$)/.test(txt(j)) ? "L" : /right|(^|_)r(_|$)/.test(txt(j)) ? "R" : yOf(j) > 0 ? "L" : "R");
+  const radiusOf = (j) => { const l = model.links[j.child]; for (const c of [...(l.collisions || []), ...(l.visuals || [])]) if (c.geom.type === "cylinder" || c.geom.type === "sphere") return c.geom.radius; return 0.05; };
+  const base = model.links.base_footprint ? "base_footprint" : model.root;
+  const sensors = [];
+  for (const l of Object.keys(model.links)) {
+    const n = l.toLowerCase();
+    if (/lidar|laser|scan|lds|rplidar/.test(n) && !sensors.some((x) => x.type === "gpu_lidar")) sensors.push({ name: "lidar", type: "gpu_lidar", link: l, topic: "scan", h: [360, 0, 6.28], v: [1, 0, 0], range: [0.12, 12], rate: 10, noise: 0.01, res: 0.015 });
+    else if (/camera|cam\b|_cam/.test(n) && !/optical/.test(n) && !sensors.some((x) => x.type === "camera")) sensors.push({ name: "camera", type: "camera", link: l, topic: "camera/image_raw", cam: [1.085595, 640, 480, 0.05, 50], rate: 30 });
+    else if (/imu/.test(n) && !sensors.some((x) => x.type === "imu")) sensors.push({ name: "imu", type: "imu", link: l, topic: "imu", rate: 100 });
+  }
+  if (!sensors.some((x) => x.type === "imu") && (wheels.length || legs.length || props.length)) sensors.push({ name: "imu", type: "imu", link: model.root, topic: "imu", rate: 100 });
+  const spec = { model: model.name, base, sensors, auto: true };
+  if (steer.length >= 2 && wheels.length >= 2) {
+    const L = wheels.filter((j) => side(j) === "L"), R = wheels.filter((j) => side(j) === "R"), rear = (a) => a.filter((j) => xOf(j) < 0);
+    const sl = steer.find((j) => side(j) === "L") || steer[0], sr = steer.find((j) => side(j) === "R") || steer[1];
+    const wb = Math.abs(xOf(sl) - Math.min(...wheels.map(xOf))) || 0.3;
+    spec.ackermann = { left: (rear(L).length ? rear(L) : L).map((j) => j.name), right: (rear(R).length ? rear(R) : R).map((j) => j.name), leftSteer: sl.name, rightSteer: sr.name, wheelbase: +wb.toFixed(4), separation: +Math.abs(yOf(L[0] || wheels[0]) - yOf(R[0] || wheels[1])).toFixed(4), radius: radiusOf(wheels[0]), steerLimit: (sl.limit && sl.limit.upper) || 0.6 };
+    return spec;
+  }
+  if (wheels.length === 4 && /mecanum|omni|holonomic/.test(`${model.name} ${wheels.map((j) => j.name).join(" ")} ${urdfText || ""}`.toLowerCase())) {
+    const f = (fr, lr) => wheels.find((j) => (fr ? xOf(j) > 0 : xOf(j) <= 0) && side(j) === lr) || wheels[0];
+    const fl = f(true, "L"), fr = f(true, "R"), rl = f(false, "L"), rr = f(false, "R");
+    spec.mecanum = { fl: fl.name, fr: fr.name, rl: rl.name, rr: rr.name, separation: +Math.abs(yOf(fl) - yOf(fr)).toFixed(4), wheelbase: +Math.abs(xOf(fl) - xOf(rl)).toFixed(4), radius: radiusOf(fl) };
+    return spec;
+  }
+  if (wheels.length >= 2) {
+    const L = wheels.filter((j) => side(j) === "L"), R = wheels.filter((j) => side(j) === "R");
+    if (L.length && R.length) { spec.drive = { left: L.map((j) => j.name), right: R.map((j) => j.name), separation: +Math.abs(yOf(L[0]) - yOf(R[0])).toFixed(4), radius: radiusOf(L[0]) }; spec.control = true; return spec; }
+  }
+  if (props.length || /drone|copter|uav|crazyflie|quadrotor/.test(model.name.toLowerCase())) { spec.velocity = { maxV: 1.0, maxW: 1.5, fly: true, note: "A practice drone: VelocityControl flies the body (no propeller physics)." }; spec.z = 0.5; return spec; }
+  if (legs.length >= 6 || /humanoid|quadruped|hexapod|biped|dog/.test(model.name.toLowerCase())) { spec.velocity = { maxV: 0.5, maxW: 1.0, note: "Walking needs a locomotion controller; here VelocityControl slides the standing robot so you can drive it and test its sensors." }; return spec; }
+  return null;
 }

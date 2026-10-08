@@ -12,7 +12,7 @@ const qYaw = (y) => [0, 0, Math.sin(y / 2), Math.cos(y / 2)];
 export const CONTROL_PKGS = ["controller_manager", "gz_ros2_control", "joint_state_broadcaster", "diff_drive_controller", "joint_trajectory_controller", "forward_command_controller", "position_controllers", "velocity_controllers", "ros2controlcli"];
 
 export const rcMethods = {
-  cmModels() { return this.gzRunning() ? [...this.gz.models.values()].filter((m) => m.cm && !m.cm.dead) : []; },
+  cmModels() { return [...(this.gzRunning() ? [...this.gz.models.values()].filter((m) => m.cm && !m.cm.dead) : []), ...(this.mockModelList ? this.mockModelList() : [])]; },
   cmFind(full) { const f = "/" + String(full || "/controller_manager").replace(/^\/+/, ""); return this.cmModels().find((m) => m.cm.full === f) || null; },
 
   // the gz_ros2_control plugin of a robot that was just spawned: start its controller_manager (lines go to Gazebo's terminal)
@@ -27,6 +27,8 @@ export const rcMethods = {
     cm.robotName = m.name;
     const logs = cm.startupLogs();
     m.cm = cm;
+    // gz_ros2_control starts each joint at its <state_interface name="position"><param name="initial_value">
+    for (const j of Object.keys(m.joints)) { const v = cm.jointPos(j); if (v) m.joints[j] = v; }
     const out = [], err = [];
     for (const l of logs) { const t = fmt(l); if (!t) continue; (/^\[(ERROR|WARN)\]/.test(t) || l.level === "ERROR" ? err : out).push(t); }
     const hint = logs.filter((l) => l.level === "HINT").map((l) => l.text).join(" ");
@@ -56,7 +58,7 @@ export const rcMethods = {
     const svc = `${"/" + String(opt.cm).replace(/^\/+/, "")}/list_controllers`;
     const hit = this.cmFind(opt.cm);
     if (!hit) {
-      const why = !this.gzRunning() ? "Gazebo is not running" : !this.cmModels().length ? "no spawned robot has a <ros2_control> tag with the gz_ros2_control-system plugin, so no controller_manager is running" : `the controller_manager is called ${this.cmModels().map((m) => m.cm.full).join(", ")}, not ${opt.cm}`;
+      const why = !this.gzRunning() && !this.cmModels().length ? "Gazebo is not running" : !this.cmModels().length ? "no spawned robot has a <ros2_control> tag with the gz_ros2_control-system plugin, so no controller_manager is running" : `the controller_manager is called ${this.cmModels().map((m) => m.cm.full).join(", ")}, not ${opt.cm}`;
       return { lines: [this.out(P("INFO", `waiting for service ${svc} to become available...`)), this.err(P("WARN", `Could not contact service ${svc}`)), this.err(P("INFO", `waiting for service ${svc} to become available...`)), this.err(P("ERROR", "Controller manager not available"))],
         fail: true, hint: `Nothing answers ${svc}: ${why}. Start the simulation first (and check that the robot spawned), then run the spawner again.` };
     }
@@ -137,7 +139,7 @@ export const rcMethods = {
   // a message published on ROS: does a controller take it?  type: full ROS type, msg: parsed fields
   cmDeliver(topic, type, msg) {
     const out = [];
-    for (const m of this.cmModels()) { const r = m.cm.receive(topic, type, msg, this.gz.time); if (r.used || r.note) out.push({ model: m, ...r }); }
+    for (const m of this.cmModels()) { const r = m.cm.receive(topic, type, msg, this.cmTime()); if (r.used || r.note) out.push({ model: m, ...r }); }
     return out;
   },
   // one simulation step for robots driven by ros2_control
@@ -177,8 +179,8 @@ export const rcMethods = {
     return null;
   },
   cmSample(topic) {
-    if (!this.gzRunning()) return null;
-    const t = this.gz.time, sec = Math.floor(t), nsec = Math.round((t - sec) * 1e9);
+    if (!this.cmModels().length) return null;
+    const t = this.cmTime(), sec = Math.floor(t), nsec = Math.round((t - sec) * 1e9);
     for (const m of this.cmModels()) for (const c of m.cm.controllers.values()) {
       if (c.state !== "active") continue;
       if (c.kind === "jsb" && topic === "/joint_states") { const J = m.cm.jointStates(); const arr = (a) => a.map((x) => `- ${f6(x)}`).join("\n") || "[]"; return [`header:\n  stamp:\n    sec: ${sec}\n    nanosec: ${nsec}\n  frame_id: ''\nname:\n${J.name.map((x) => `- ${x}`).join("\n")}\nposition:\n${arr(J.position)}\nvelocity:\n${arr(J.velocity)}\neffort:\n${arr(J.name.map(() => 0))}`]; }

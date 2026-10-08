@@ -53,6 +53,8 @@
         <label><input type="radio" name="what" value="display" checked> Robot model (display)</label>
         <label><input type="radio" name="what" value="sim"> Gazebo simulation with sensors (sim)</label>
         <label><input type="radio" name="what" value="control"> Gazebo + ros2_control (sim_control)</label>
+        <label hidden><input type="radio" name="what" value="moveit"> MoveIt 2, mock hardware (demo)</label>
+        <label hidden><input type="radio" name="what" value="moveit_gz"> Gazebo + MoveIt 2 (gazebo)</label>
       </div>
       <div class="rvp-row" role="radiogroup" aria-label="Launch file">
         <label><input type="radio" name="lf" value="py" checked> Python launch file</label>
@@ -63,6 +65,7 @@
       <div class="rvp-row">
         <button type="button" class="btn btn-small" id="go">Type these commands for me</button>
         <span class="small muted">or type them in the terminal below</span>
+        <button type="button" class="btn btn-small btn-white" id="dl" title="Download ~/ros2_ws/src (with your edits and the meshes) as a ROS 2 Jazzy workspace to build on Ubuntu 24.04 and run on the real robot">Download this workspace (.zip)</button>
       </div>
     </div>
   </section>

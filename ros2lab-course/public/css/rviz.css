@@ -339,3 +339,31 @@ span.q-ecin { display: flex; align-items: center; }
 .rviz .q-imgbody { position: relative; background: #000; min-height: 90px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .rviz .q-imgbody canvas { display: block; width: 100%; height: auto; max-height: 240px; object-fit: contain; image-rendering: auto; }
 .rviz .q-imgbody .q-camgl, .rviz .q-imgbody .q-camover { position: absolute; inset: 0; width: 100%; height: 100%; max-height: none; }
+
+/* MoveIt MotionPlanning panel (moveit-rviz.js), Qt Fusion look */
+.rv-extdock { display: flex; flex-direction: column; min-height: 0; }
+.mp-panel { display: flex; flex-direction: column; font: 12px "Ubuntu Sans", "Liberation Sans", sans-serif; color: #000; background: #efefef; min-height: 0; overflow: auto; max-height: 420px; }
+.mp-tabs { display: flex; flex-wrap: wrap; gap: 0; padding: 4px 4px 0; border-bottom: 1px solid #b4b4b4; }
+.mp-tab { font: inherit; padding: 3px 8px; border: 1px solid #b4b4b4; border-bottom: 0; background: #e0e0e0; margin-right: -1px; border-radius: 3px 3px 0 0; cursor: pointer; }
+.mp-tab.on { background: #f7f7f7; font-weight: 600; }
+.mp-pages { padding: 6px; }
+.mp-page[hidden] { display: none; }
+.mp-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 6px; }
+.mp-group { border: 1px solid #c4c4c4; border-radius: 3px; padding: 4px 6px 6px; margin: 0 0 6px; display: flex; flex-direction: column; gap: 4px; }
+.mp-group legend { padding: 0 3px; }
+.mp-row { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.mp-grid { display: grid; grid-template-columns: auto 70px; gap: 3px 6px; align-items: center; }
+.mp-spin { width: 70px; }
+.mp-cmd { width: 100%; }
+.mp-cb { display: flex; align-items: center; gap: 4px; }
+.mp-note { margin: 2px 0 6px; color: #444; font-size: 11px; line-height: 1.35; }
+.mp-status { margin-top: 6px; min-height: 1.4em; padding: 3px 4px; background: #fff; border: 1px solid #c4c4c4; font-size: 11px; white-space: normal; }
+.mp-status.ok { color: #0b6b0b; }
+.mp-status.err { color: #b00020; }
+.mp-joints { display: flex; flex-direction: column; gap: 3px; }
+.mp-jrow { display: grid; grid-template-columns: minmax(80px, 1fr) 2fr 52px; gap: 6px; align-items: center; font-size: 11px; }
+.mp-jrow label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mp-val { font-family: "JetBrains Mono", monospace; text-align: right; }
+.mp-scene { list-style: none; margin: 0 0 6px; padding: 0; display: flex; flex-direction: column; gap: 3px; font-size: 11px; }
+.mp-scene li { display: flex; justify-content: space-between; gap: 6px; align-items: center; }
+.mp-log { max-height: 260px; overflow: auto; font: 11px "JetBrains Mono", monospace; background: #fff; border: 1px solid #c4c4c4; padding: 4px; white-space: pre-wrap; margin: 0; }

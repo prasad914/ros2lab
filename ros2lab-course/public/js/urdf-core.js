@@ -63,7 +63,7 @@ const FUN = { sin: Math.sin, cos: Math.cos, tan: Math.tan, asin: Math.asin, acos
   min: Math.min, max: Math.max, round: Math.round, int: Math.trunc, float: Number, str: String };
 export function evalExpr(src, lookup) {
   const toks = [];
-  const re = /\s*(\d+\.\d*(?:[eE][-+]?\d+)?|\.\d+(?:[eE][-+]?\d+)?|\d+(?:[eE][-+]?\d+)?|[A-Za-z_]\w*|\*\*|==|!=|<=|>=|'[^']*'|"[^"]*"|[-+*/%(),<>])/y;
+  const re = /\s*(\d+\.\d*(?:[eE][-+]?\d+)?|\.\d+(?:[eE][-+]?\d+)?|\d+(?:[eE][-+]?\d+)?|[A-Za-z_]\w*|\*\*|==|!=|<=|>=|'[^']*'|"[^"]*"|[-+*/%(),<>.\[\]])/y;
   let m, k = 0;
   while (k < src.length) {
     re.lastIndex = k; m = re.exec(src);
@@ -97,7 +97,20 @@ export function evalExpr(src, lookup) {
     if (v === undefined) throw new Error(`name '${t}' is not defined`);
     return v;
   };
-  const unary = () => primary();
+  // attribute access and subscripts: xacro.load_yaml(file)['key'], dict['k']['j'], list[0]
+  const postfix = () => {
+    let v = primary();
+    for (;;) {
+      if (peek() === "[") { next(); const k = or(); expect("]"); if (v === null || v === undefined || !(k in Object(v))) throw new Error(`KeyError: ${JSON.stringify(k)} in \${${src}}`); v = v[k]; continue; }
+      if (peek() === ".") {
+        next(); const name = next(); let f = v == null ? undefined : v[name];
+        if (peek() === "(") { next(); const args = []; if (peek() !== ")") { args.push(or()); while (peek() === ",") { next(); args.push(or()); } } expect(")"); if (typeof f !== "function") throw new Error(`'${name}' is not a function in \${${src}}`); v = f(...args); continue; }
+        if (f === undefined) throw new Error(`no attribute '${name}' in \${${src}}`); v = f; continue;
+      }
+      return v;
+    }
+  };
+  const unary = () => postfix();
   const power = () => { let v = unary(); while (peek() === "**") { next(); v = Math.pow(v, unary()); } return v; };
   const term = () => { let v = power(); while (["*", "/", "%"].includes(peek())) { const o = next(), r = power(); v = o === "*" ? v * r : o === "/" ? v / r : v % r; } return v; };
   const sum = () => { let v = term(); while (["+", "-"].includes(peek())) { const o = next(), r = term(); v = o === "+" ? (typeof v === "string" || typeof r === "string" ? `${v}${r}` : v + r) : v - r; } return v; };
@@ -113,11 +126,33 @@ const asValue = (s) => { const t = String(s).trim(); return /^-?(\d+\.?\d*|\.\d+
 
 // ------------------------------------------------------------------ xacro
 export class XacroError extends Error {}
+// a small block-style YAML reader (nested maps, "- item" lists, scalars, [flow, lists]) for xacro.load_yaml
+export function blockYaml(text) {
+  const lines = String(text).split(/\r?\n/).map((l) => l.replace(/\s+#.*$/, "").replace(/^#.*$/, "")).filter((l) => l.trim());
+  const scalar = (v) => { const t = v.trim(); if (/^\[.*\]$/.test(t)) return t.slice(1, -1).split(",").map((x) => x.trim()).filter(Boolean).map(scalar); if (/^['"].*['"]$/.test(t)) return t.slice(1, -1); return asValue(t); };
+  let i = 0;
+  const block = (ind) => {
+    let obj = null;
+    while (i < lines.length) {
+      const l = lines[i], d = l.length - l.trimStart().length; if (d < ind) break;
+      const t = l.trim();
+      if (t.startsWith("- ")) { obj = obj || []; i++; obj.push(scalar(t.slice(2))); continue; }
+      const m = t.match(/^([^:]+):\s*(.*)$/); if (!m) { i++; continue; }
+      obj = obj || {}; i++;
+      if (m[2] !== "") obj[m[1].trim().replace(/^['"]|['"]$/g, "")] = scalar(m[2]);
+      else { const nd = i < lines.length ? lines[i].length - lines[i].trimStart().length : 0; obj[m[1].trim()] = nd > d ? block(nd) : null; }
+    }
+    return obj;
+  };
+  return block(0) || {};
+}
 // files(path) -> text or undefined ; find(pkg) -> share dir path ; args: {name: value}
 export function xacro(text, { args = {}, files = () => undefined, find = () => undefined, path = "" } = {}) {
   const XA = "xacro:";
   const argv = { ...args };
-  const scopeLookup = (scope) => (name) => { for (let s = scope; s; s = s.__parent) if (Object.prototype.hasOwnProperty.call(s, name)) return s[name]; return undefined; };
+  // the xacro module as expressions see it: xacro.load_yaml(file) (MoveIt configs read initial_positions.yaml this way)
+  const xacroMod = { load_yaml: (f) => { const t = files(String(f)); if (t === undefined) throw new XacroError(`No such file or directory: ${f}`); return blockYaml(t); } };
+  const scopeLookup = (scope) => (name) => { for (let s = scope; s; s = s.__parent) if (Object.prototype.hasOwnProperty.call(s, name)) return s[name]; return name === "xacro" ? xacroMod : undefined; };
   const subst = (str, scope, where) => {
     let out = String(str);
     out = out.replace(/\$\(\s*(arg|find|env)\s+([^)\s]+)\s*\)/g, (_, kind, a) => {

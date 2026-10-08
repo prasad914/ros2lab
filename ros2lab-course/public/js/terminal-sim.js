@@ -1241,7 +1241,7 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
       vizLoading = true;
       import("./rviz.js").then((mod) => {
         vizLoading = false; vizMod = mod;
-        viewer = mod.createRviz(rvizHolder, { fixedFrame: sh.viz.fixedFrame, displays: sh.viz.displays, resolve: resolveMesh, onChange: vizChanged, onSave: saveConfig, savePath: spec.rvizSave || "~/my_config.rviz", plugins: () => [...sh.rosPkgs].filter((p) => /^rviz_/.test(p)), onLog: (t) => { const rz = sh.graph.nodes.find((n) => n.kind === "rviz"); if (rz) { (sh.graph.notices = sh.graph.notices || []).push({ node: rz.full, text: t, cls: "warn-line" }); flushNotices(); } },
+        viewer = mod.createRviz(rvizHolder, { fixedFrame: sh.viz.fixedFrame, displays: sh.viz.displays, resolve: resolveMesh, onChange: vizChanged, onSave: saveConfig, savePath: spec.rvizSave || "~/my_config.rviz", plugins: () => [...sh.rosPkgs].filter((p) => /^(rviz_|moveit_rviz_plugin$)/.test(p)), onLog: (t) => { const rz = sh.graph.nodes.find((n) => n.kind === "rviz"); if (rz) { (sh.graph.notices = sh.graph.notices || []).push({ node: rz.full, text: t, cls: "warn-line" }); flushNotices(); } },
           configName: sh.viz.configName || "", topics: () => (sh.graph ? [...sh.graph.topics()].map(([name, t]) => ({ name, type: t.type, pubs: t.by.pubs.length })) : []), onPublish: rvizPublished });
         if (sh.viz.configText) viewer.loadConfig(sh.viz.configText, sh.viz.configName);
         sh.viz.subsFn = () => (viewer ? viewer.subscriptions() : null);
@@ -1268,6 +1268,25 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
     viewer.setJoints(g.jointValues(), g.statesAvailable());
     viewer.setMarkers(sh.viz.markers);
     if (gzOn) viewer.update({ topicData: gzTopicData() });
+    paintMoveit();
+  }
+  // ---------- MoveIt: the MotionPlanning panel in RViz, and the mock hardware's clock (demo.launch.py) ----------
+  let mp = null, mpLoading = false, mpFor = null, mockTimer = null, mockLast = 0;
+  function paintMoveit() {
+    const g = sh.graph, mg = g && g.mg && g.node(g.mg.node) ? g.mg : null;
+    const want = !!(mg && viewer && viewer.displays("MotionPlanning").some((d) => d.enabled));
+    if (mp && (!want || mpFor !== mg)) { mp.destroy(); mp = null; mpFor = null; }
+    if (want && !mp && !mpLoading) { mpLoading = true; import("./moveit-rviz.js").then((m) => { mpLoading = false; if (!viewer || !g.mg || g.mg !== mg) return; mp = m.attachMotionPlanning(viewer, mg); mpFor = mg; window.__ros2labMP = mp; }).catch((e) => { mpLoading = false; console.error(e); }); }
+    const mock = g && g.mockModelList ? g.mockModelList().length > 0 : false;
+    if (mock && !mockTimer) { mockLast = performance.now(); mockTimer = setInterval(mockTick, 50); }
+    if (!mock && mockTimer) { clearInterval(mockTimer); mockTimer = null; }
+  }
+  function mockTick() {
+    const g = sh.graph;
+    if (!root.isConnected || !g.mockModelList().length) { clearInterval(mockTimer); mockTimer = null; paintViz(); return; }
+    const now = performance.now(), dt = Math.min(0.1, (now - mockLast) / 1000); mockLast = now;
+    g.mockStep(dt);
+    if (viewer) viewer.update({ edges: g.extraTfEdges(), joints: g.jointValues(), have: g.statesAvailable() });
   }
 
   // ---------- Gazebo (gz sim): its window, the simulation clock, and the sensor data ros_gz_bridge brings to ROS ----------
@@ -1295,6 +1314,7 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
     if (!root.isConnected || !g.gzRunning()) { clearInterval(gzTimer); gzTimer = null; paintViz(); return; }
     const now = performance.now(), dt = Math.min(0.1, (now - gzLast) / 1000); gzLast = now;
     const moved = g.gzStep(dt);
+    if (g.mg) g.mg.poll();
     gzs.sync(g.gz);
     senseAll(false);
     if (gzWin) gzWin.update(g.gz);
@@ -1773,7 +1793,10 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
     if (kinds.includes("teleop_twist")) {
       const k = (key, txt) => el("button", { type: "button", class: "tk-key", "aria-label": `Key ${key}`, text: txt || key, onclick: () => { twistKey(t, key); } });
       t.keys = el("div", { class: "tele-keys" }, el("span", { class: "small", text: "Press the keys (or type them while this terminal is selected): i forward, , back, j / l turn, k stop, q / z faster / slower" }),
-        el("div", { class: "tk-grid3" }, ...["u", "i", "o", "j", "k", "l", "m", ",", "."].map((x) => k(x))));
+        el("div", { class: "tk-grid3" }, ...["u", "i", "o", "j", "k", "l", "m", ",", "."].map((x) => k(x))),
+        el("span", { class: "small", text: "Holonomic (Shift): U I O / J K L / M < >   ·   t up, b down (drones)" }),
+        el("div", { class: "tk-grid3" }, ...["U", "I", "O", "J", "K", "L", "M", "<", ">"].map((x) => k(x))),
+        el("div", { class: "tk-grid3" }, k("t"), k("b")));
       t.keys.dataset.twist = "1";
       t.procBar.append(t.keys);
     }

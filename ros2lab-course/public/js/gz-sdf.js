@@ -55,12 +55,17 @@ export function urdfGazebo(urdfText) {
       else if (/joint-state-publisher-system|JointStatePublisher/.test(f + (p.a.name || ""))) plugins.push({ kind: "joint_states", topic: tag(body, "topic") });
       else if (/joint-position-controller-system|JointPositionController/.test(f + (p.a.name || ""))) plugins.push({ kind: "joint_position", joint: (tag(body, "joint_name") || "").trim(), topic: tag(body, "topic"), initial: num(body, "initial_position", 0), p: num(body, "p_gain", 1) });
       else if (/velocity-control-system|VelocityControl/.test(f + (p.a.name || "")) && !/Multicopter/.test(f + (p.a.name || ""))) plugins.push({ kind: "velocity_control", topic: tag(body, "topic") });
+      else if (/mecanum-drive-system|MecanumDrive/.test(f + (p.a.name || ""))) plugins.push({ kind: "mecanum", fl: (tag(body, "front_left_joint") || "").trim(), fr: (tag(body, "front_right_joint") || "").trim(), rl: (tag(body, "back_left_joint") || "").trim(), rr: (tag(body, "back_right_joint") || "").trim(),
+        separation: num(body, "wheel_separation", 0.3), wheelbase: num(body, "wheelbase", 0.3), radius: num(body, "wheel_radius", 0.05), topic: tag(body, "topic"), odomTopic: tag(body, "odom_topic"), tfTopic: tag(body, "tf_topic"), frame: tag(body, "frame_id"), child: tag(body, "child_frame_id"), odomRate: num(body, "odom_publish_frequency", 50) });
+      else if (/ackermann-steering-system|AckermannSteering/.test(f + (p.a.name || ""))) plugins.push({ kind: "ackermann", wheels: [...blocks(body, "left_joint"), ...blocks(body, "right_joint")].map((x) => x.body.trim()), leftSteer: (tag(body, "left_steering_joint") || "").trim(), rightSteer: (tag(body, "right_steering_joint") || "").trim(),
+        wheelbase: num(body, "wheel_base", 0.4), separation: num(body, "wheel_separation", 0.3), radius: num(body, "wheel_radius", 0.05), steerLimit: num(body, "steering_limit", 0.6), topic: tag(body, "topic"), odomTopic: tag(body, "odom_topic"), tfTopic: tag(body, "tf_topic"), frame: tag(body, "frame_id"), child: tag(body, "child_frame_id"), odomRate: num(body, "odom_publish_frequency", 50) });
       else if (/odometry-publisher-system|OdometryPublisher/.test(f + (p.a.name || ""))) plugins.push({ kind: "odometry_publisher", odomTopic: tag(body, "odom_topic"), tfTopic: tag(body, "tf_topic"), frame: tag(body, "odom_frame"), child: tag(body, "robot_base_frame"), odomRate: num(body, "odom_publish_frequency", 50), dims: num(body, "dimensions", 2) });
       else if (/gz_ros2_control|ign_ros2_control/.test(f)) plugins.push({ kind: "gz_ros2_control", params: tag(body, "parameters"), cmName: tag(body, "controller_manager_name"), file: f });
       else if (/libgazebo_ros_/.test(f)) classic.push({ sensor: null, file: f, topic: tag(body, "topicName") || null });
       else if (f) plugins.push({ kind: "other", file: f, name: p.a.name || "" });
     }
   }
+  { const vc = plugins.find((x) => x.kind === "velocity_control"), op = plugins.find((x) => x.kind === "odometry_publisher"); if (vc && op && op.dims === 3) vc.flying = true; }   // a drone: VelocityControl in 3D
   if (classic.length) warnings.push(`[Wrn] [SDFormat] Gazebo Classic plugin${classic.length > 1 ? "s" : ""} ${[...new Set(classic.map((c) => c.file))].join(", ")} ignored: gz sim (Harmonic) does not load libgazebo_ros_*.so plugins. Use <topic>, <gz_frame_id> and ros_gz_bridge instead.`);
   return { robot, sensors, plugins, classic, warnings };
 }

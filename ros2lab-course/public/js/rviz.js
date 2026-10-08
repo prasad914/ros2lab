@@ -80,10 +80,16 @@ const DAY_TOOLTIP = { interact: "Interact (I)", move: "Move Camera (M)", select:
     ["fixed_frame_orientation", "bool", true]];
   if (!SCHEMA.LaserScan.some((p) => p[0] === "Use rainbow")) for (const t of ["LaserScan", "PointCloud2"]) SCHEMA[t].push(["Channel Name", "str", "intensity"], ["Use rainbow", "bool", true], ["Invert Rainbow", "bool", false], ["Autocompute Intensity Bounds", "bool", true], ["Axis", "enum", "Z", ["X", "Y", "Z"]], ["Color", "color", "255; 255; 255"]);
   DESC.Imu = { text: "Displays sensor_msgs/Imu messages (orientation as axes or a box, acceleration as an arrow). From the rviz_imu_plugin package (imu_tools).", url: "" };
+  SCHEMA.MotionPlanning = [["Move Group Namespace", "str", ""], ["Robot Description", "str", "robot_description"], ["Planning Scene Topic", "str", "/monitored_planning_scene"],
+    ["Scene Geometry", "cat", null, [["Scene Name", "str", "(noname)+"], ["Show Scene Geometry", "bool", true], ["Scene Alpha", "float", 0.9], ["Scene Color", "color", "50; 230; 50"], ["Scene Display Time", "float", 0.01]]],
+    ["Scene Robot", "cat", null, [["Show Robot Visual", "bool", true], ["Show Robot Collision", "bool", false], ["Robot Alpha", "float", 1], ["Attached Body Color", "color", "150; 50; 150"]]],
+    ["Planning Request", "cat", null, [["Planning Group", "str", ""], ["Show Workspace", "bool", false], ["Query Start State", "bool", false], ["Query Goal State", "bool", true], ["Interactive Marker Size", "float", 0], ["Start State Color", "color", "0; 255; 0"], ["Start State Alpha", "float", 1], ["Goal State Color", "color", "250; 128; 0"], ["Goal State Alpha", "float", 1], ["Colliding Link Color", "color", "255; 0; 0"], ["Joint Violation Color", "color", "255; 0; 255"]]],
+    ["Planned Path", "cat", null, [["Trajectory Topic", "str", "/display_planned_path"], ["Use Sim Time", "bool", false], ["Interrupt Display", "bool", false], ["Loop Animation", "bool", false], ["Show Trail", "bool", false], ["Trail Step Size", "int", 1], ["State Display Time", "str", "3x"]]]];
+  DESC.MotionPlanning = { text: "Displays the planning scene, the robot's start and goal states and planned trajectories, and the MotionPlanning panel to plan and execute with move_group. From the moveit_ros_visualization package (moveit_rviz_plugin).", url: "" };
   TOPIC_TYPES.Imu = "sensor_msgs/msg/Imu";
 }
 // display plugins that are not in rviz_default_plugins: present only when their package is installed
-export const EXTRA_PLUGINS = { Imu: { pkg: "rviz_imu_plugin", msg: "sensor_msgs/msg/Imu", icon: "default_class_icon.png" } };
+export const EXTRA_PLUGINS = { Imu: { pkg: "rviz_imu_plugin", msg: "sensor_msgs/msg/Imu", icon: "default_class_icon.png" }, MotionPlanning: { pkg: "moveit_rviz_plugin", msg: null, icon: "default_class_icon.png" } };
 const pluginPkg = (type) => (type === "Group" ? "rviz_common" : EXTRA_PLUGINS[type] ? EXTRA_PLUGINS[type].pkg : "rviz_default_plugins");
 function defaultsOf(type) {
   const out = {};
@@ -288,7 +294,10 @@ export function createRviz(container, opts = {}) {
   scene.add(light, light.target);
   const world = new THREE.Group(); scene.add(world);
   const gridG = new THREE.Group(), robotG = new THREE.Group(), tfG = new THREE.Group(), markerG = new THREE.Group(), imG = new THREE.Group(), sensorG = new THREE.Group(), axesG = new THREE.Group(), toolG = new THREE.Group();
-  world.add(gridG, robotG, tfG, markerG, imG, sensorG, axesG, toolG);
+  const extG = new THREE.Group();   // drawn by extensions (MoveIt's MotionPlanning display)
+  world.add(gridG, robotG, tfG, markerG, imG, sensorG, axesG, toolG, extG);
+  const exts = new Set();
+  const runExts = () => { for (const e of exts) { try { if (e.update) e.update(); } catch (err) { console.error(err); } } };
   // focal point: yellow sphere, alpha 0.5, flattened to 1/5 in z, shown while dragging (orbit_view_controller.cpp)
   const focal = new THREE.Mesh(new THREE.SphereGeometry(0.5, 20, 14), new THREE.MeshLambertMaterial({ color: new THREE.Color(1, 1, 0), transparent: true, opacity: 0.5, depthWrite: false }));
   focal.visible = false; scene.add(focal);
@@ -755,6 +764,15 @@ export function createRviz(container, opts = {}) {
   }
   function buildIMarkers() {
     imG.clear(); imMsgs = [];
+    for (const e of exts) for (const im of (e.imarkers ? e.imarkers() : [])) {
+      const T = poses[im.frame]; if (!T) continue;
+      const holder = new THREE.Group(); setPose(holder, T); imG.add(holder);
+      const obj = new THREE.Group(); setPose(obj, { t: im.p, q: im.q }); obj.userData.im = im; holder.add(obj);
+      for (const c of im.controls) for (const mk of ((c.markers || []).length ? c.markers : autoMarkers(c, im.scale))) {
+        const o = markerObject({ ...mk, points: mk.points || [], s: mk.s, type: mk.type }); setPose(o, { t: mk.p || [0, 0, 0], q: mk.q || [0, 0, 0, 1] });
+        o.traverse((x) => { if (x.isMesh) { x.material = x.material.clone(); x.userData.control = c; x.userData.imObj = obj; } }); obj.add(o);
+      }
+    }
     const d = first("InteractiveMarkers");
     if (!d) return;
     d.status = [];
@@ -845,6 +863,7 @@ export function createRviz(container, opts = {}) {
   function feedback(im, obj, event, extra = {}) {
     const p = obj.position, q = obj.quaternion;
     im.p = [p.x, p.y, p.z]; im.q = [q.x, q.y, q.z, q.w];
+    if (im.onFeedback) { im.onFeedback({ name: im.name, event, frame: im.frame, p: im.p.slice(), q: im.q.slice(), ...extra }); return; }
     if (opts.onFeedback) opts.onFeedback({ name: im.name, event, frame: im.frame, pose: { position: { x: p.x, y: p.y, z: p.z }, orientation: { x: q.x, y: q.y, z: q.z, w: q.w } }, ...extra });
   }
 
@@ -956,7 +975,7 @@ export function createRviz(container, opts = {}) {
     }
     for (const [id, k] of docks) if (!live.has(id)) { k.el.remove(); if (k.r) { k.r.dispose(); k.r.forceContextLoss && k.r.forceContextLoss(); } docks.delete(id); }
     for (const d of S.displays.filter((x) => x.enabled && x.failed)) d.status = [st("error", `The class required for this display, '${d.failed}', could not be loaded.`, "Plugin")];
-    for (const d of S.displays.filter((x) => x.enabled && !x.failed && !["Grid", "Axes", "RobotModel", "TF", "Marker", "MarkerArray", "InteractiveMarkers", "LaserScan", "PointCloud2", "Path", "Odometry", "Map", "Group", "Image", "Camera", "Imu"].includes(x.type))) {
+    for (const d of S.displays.filter((x) => x.enabled && !x.failed && !["Grid", "Axes", "RobotModel", "TF", "Marker", "MarkerArray", "InteractiveMarkers", "LaserScan", "PointCloud2", "Path", "Odometry", "Map", "Group", "Image", "Camera", "Imu", "MotionPlanning"].includes(x.type))) {
       d.status = d.props.Topic ? [st("ok", "OK", "Topic")] : [st("error", "Error subscribing: Empty topic name", "Topic")];
     }
   }
@@ -1524,6 +1543,7 @@ export function createRviz(container, opts = {}) {
     buildTF();
     buildMarkers();
     if (!light_) { buildIMarkers(); buildSensors(); }
+    runExts();
     renderTree();
     if (S.needFit && ([...linkObjs.values()].some((g) => g.visible) || markerG.children.length || sensorG.children.length || imG.children.length)) { S.needFit = false; fitView(); }
     draw();
@@ -1575,6 +1595,38 @@ export function createRviz(container, opts = {}) {
       S.autoFit = false; S.needFit = false; S.fitOnJoints = false; S.viewFromConfig = true;   // the config's saved view wins over auto-framing
     }
     S.configName = name || S.configName; S.dirty = false; renderTitle(); applyView(); refresh();
+  }
+
+  // ================= robot copies for extensions: MoveIt's scene robot, goal / start states and planned path =================
+  // own: keep the robot's own materials (the planning scene robot); otherwise one colour and alpha (link colours optional)
+  function makeGhost({ own = false } = {}) {
+    const g = new THREE.Group(); g.visible = false; extG.add(g);
+    let built = null, sigBuilt = -1;
+    const mats = new Map(), matFor = (key, rgb, alpha) => { let m = mats.get(key); if (!m) { m = new THREE.MeshLambertMaterial({ transparent: true, depthWrite: alpha >= 0.99 }); m.userData.own = true; mats.set(key, m); } m.color.setRGB(rgb[0], rgb[1], rgb[2]); m.opacity = alpha; m.transparent = alpha < 0.99; m.depthWrite = alpha >= 0.99; return m; };
+    const sig = () => { let n = 0; for (const lg of linkObjs.values()) lg.userData.vis.traverse((o) => { if (o.isMesh) n++; }); return n + linkObjs.size * 1000; };
+    const rebuild = () => { g.clear(); built = new Map(); for (const [name, lg] of linkObjs) { const c = lg.userData.vis.clone(true); const h = new THREE.Group(); h.add(c); h.userData.meshes = []; c.traverse((o) => { if (o.isMesh) { h.userData.meshes.push(o); o.userData.orig = o.material; } }); g.add(h); built.set(name, h); } sigBuilt = sig(); };
+    return {
+      group: g,
+      set(joints, { color = [1, 0.5, 0], alpha = 1, visible = true, linkColors = null } = {}) {
+        if (!S.model || !visible) { g.visible = false; return; }
+        if (!built || sigBuilt !== sig()) rebuild();
+        g.visible = true;
+        const P = framePoses([...urdfEdges(S.model, joints, true), ...S.extraEdges.filter((e) => !S.model.links[e.child])], S.fixedFrame).poses;
+        for (const [l, h] of built) {
+          const T = P[l]; h.visible = !!T; if (T) setPose(h, T);
+          const lc = linkColors && linkColors[l];
+          for (const m of h.userData.meshes) m.material = own && !lc ? (alpha < 0.99 ? matFor(`own|${m.uuid}`, [m.userData.orig.color.r, m.userData.orig.color.g, m.userData.orig.color.b], alpha) : m.userData.orig) : matFor(lc ? `lc|${lc.join(",")}` : "c", lc || color, alpha);
+        }
+      },
+      hide() { g.visible = false; },
+      dispose() { extG.remove(g); for (const m of mats.values()) m.dispose(); },
+    };
+  }
+  // a dock in the left dock area (like the MotionPlanning panel under Displays)
+  function addDock(title, body) {
+    const el = h("section", { class: "q-dock rv-extdock" }, h("div", { class: "q-docktitle" }, h("span", { text: title })), body);
+    left.append(el); layout();
+    return () => { el.remove(); layout(); };
   }
 
   // ================= public API (unchanged for the terminal, lessons, playground and RViz page) =================
@@ -1632,13 +1684,18 @@ export function createRviz(container, opts = {}) {
       if (joints) S.joints = { ...S.joints, ...joints };
       if (have !== undefined) S.haveStates = have;
       if (topicData) S.td = topicData;
-      computeFrames(); placeRobot(); buildTF(); buildMarkers(); buildSensors();
+      computeFrames(); placeRobot(); buildTF(); buildMarkers(); buildSensors(); runExts();
       const now = performance.now(); if (now - (S.treeAt || 0) > 400) { S.treeAt = now; renderTree(); }
       draw();
     },
     setTitle(t) { S.title = t || ""; renderTitle(); },
     state: () => ({ fixedFrame: S.fixedFrame, displays: asMap(), displayList: S.displays.map((d) => ({ type: d.type, name: d.name, enabled: d.enabled, props: { ...d.props } })), joints: { ...S.joints }, status: lastStatus.map((x) => x.join(": ")), frames: Object.keys(poses), tool: S.tool, view: { ...S.view } }),
     fitView, setTool,
+    // extensions (moveit-rviz.js): { group, update(), imarkers() } drawn with the scene; returns a remover
+    addExtension(e) { exts.add(e); if (e.group) extG.add(e.group); refresh(); return () => { exts.delete(e); if (e.group) extG.remove(e.group); refresh(); }; },
+    ghost: makeGhost, addDock, draw: () => draw(), poseOf: (f) => poses[f] || null, fixedFrame: () => S.fixedFrame, model: () => S.model,
+    displays: (type) => S.displays.filter((d) => d.type === type), rebuildIMarkers: () => { if (!imDrag) { buildIMarkers(); draw(); } }, dragging: () => !!imDrag,
+    setDisplayStatus(type, list) { for (const d of S.displays.filter((x) => x.type === type)) d.status = list.map(([lv, t, k]) => st(lv, t, k)); renderTree(); },
     // used by automated tests: the same feedback a real drag or menu click would send
     testFeedback(name, event, xyz, extra = {}) { const o = imG.children.flatMap((hh) => hh.children).find((c) => c.userData.im && c.userData.im.name === name); if (!o) return false; if (xyz) o.position.set(...xyz); feedback(o.userData.im, o, event, extra); return true; },
     testPublishGoal(x, y, yaw) { publish("/goal_pose", "geometry_msgs/msg/PoseStamped", { header: { stamp: stamp(), frame_id: S.fixedFrame }, pose: { position: { x, y, z: 0 }, orientation: yawQuat(yaw) } }); },

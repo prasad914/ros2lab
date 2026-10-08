@@ -1,5 +1,6 @@
 import { parseRvizYaml, rvizDisplays } from "./rviz-yaml.js";
 import { rcMethods, parseCtrlMsg } from "./ros-control-graph.js";
+import { moveitMethods } from "./ros-moveit.js";
 import { gzMethods, GZ_EXES, GZ_NAMES, GZ_PKG_EXES, TELEOP_BANNER, gzIncludePy, gzIncludeXml, gzArgv, nodeArgsPy, takeExpr, pyEval as pyEvalVar } from "./ros-gz.js";
 import { urdfGazebo } from "./gz-sdf.js";
 import { xacro as runXacro, parseURDF, urdfEdges, checkUrdfText, graphviz, jointValue } from "./urdf-core.js";
@@ -133,6 +134,7 @@ export class RosGraph {
     if (n.kind === "teleop_twist") e.pubs.push([p("cmd_vel"), n.params.stamped === true || n.params.stamped === "true" ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist"]);
     if ((n.kind === "cm" || n.kind === "ctrl") && n.cm) { const x = n.cm.endpointsFor(n.kind === "cm" ? null : n.ctrl); e.pubs.push(...x.pubs); e.subs.push(...x.subs); e.srvs.push(...x.srvs); e.acts.push(...x.acts); }
     if (n.kind === "mimic") { e.subs.push([p("input/pose"), "turtlesim/msg/Pose"]); e.pubs.push([p("output/cmd_vel"), "geometry_msgs/msg/Twist"]); }
+    this.mgEndpoints(n, e);
     if (n.remaps && n.remaps.length) {
       const res = (x) => (x.startsWith("/") ? x : `${n.ns}/${x}`);
       for (const k of Object.keys(e)) e[k] = e[k].map(([nm, t]) => { const r = n.remaps.find(([f]) => res(f) === nm); return [r ? res(r[1]) : nm, t]; });
@@ -595,6 +597,7 @@ export class RosGraph {
   // ros2 run in a terminal with a live graph: the node keeps running "in another terminal"
   start(pkg, exe, extra) {
     if (`${pkg} ${exe}` === "tf2_tools view_frames") return this.viewFrames();
+    if (/^add_scene_objects\.py$/.test(exe) && this.sh.wsPkgs && this.sh.wsPkgs.get(pkg)) return this.mgSceneScript(this.sh.wsPkgs.get(pkg));
     if (`${pkg} ${exe}` === "tf2_ros tf2_echo") return this.tfEcho(extra.filter((x) => !x.startsWith("-"))[0], extra.filter((x) => !x.startsWith("-"))[1]);
     const kind = EXES[`${pkg} ${exe}`];
     if (!kind) return null;
@@ -1696,6 +1699,8 @@ RosGraph.prototype.launchUserInner = function (pk, file, extra = []) {
     const decl = kindOf === "xml" ? [...text.matchAll(/<arg\b([^>]*?)\/?>/g)].map((m) => attrs(m[1])) : [...text.matchAll(/DeclareLaunchArgument\(\s*['"]([\w-]+)['"](?:\s*,\s*default_value\s*=\s*['"]([^'"]*)['"])?/g)].map((m) => ({ name: m[1], default: m[2] }));
     return decl.length ? ["Arguments (pass arguments as '<name>:=<value>'):", ""].concat(...decl.map((a) => [`    '${a.name}':`, "        no description given", a.default !== undefined ? `        (default: '${a.default}')` : "", ""])).filter((x, i, arr) => x !== "" || arr[i - 1] !== "").map((t) => this.out(t)) : [this.out("No arguments.")];
   }
+  // a MoveIt config package (MoveItConfigsBuilder / moveit_configs_utils launch files): move_group, RViz MotionPlanning, ros2_control
+  if (kindOf === "py" && this.isMoveitLaunch(text)) return this.launchMoveit(pk, file, cli, text);
   const r = kindOf === "py" ? readLaunchPy(text, cli) : kindOf === "xml" ? readLaunchXml(text, cli) : { error: "the practice terminal reads .launch.xml and .launch.py files" };
   for (const inc of (r.includes || [])) {      // IncludeLaunchDescription: read the other launch file and start its nodes too
     if (inc.file === "gz_sim.launch.py") continue;   // Gazebo itself (r.gz)
@@ -1818,9 +1823,9 @@ RosGraph.prototype.robotModel = function () {
   return n._model;
 };
 RosGraph.prototype.robotModelError = function () { const n = this.nodes.find((x) => x.kind === "rsp" && x.params.robot_description); if (!n) return null; this.robotModel(); return n._modelErr || null; };
-RosGraph.prototype.statesAvailable = function () { return this.nodes.some((n) => n.kind === "jsp" || n.kind === "jsp_gui") || !!(this.sh.viz && this.sh.viz.jsPub) || !!(this.gzRunning() && this.gzJoints()); };
+RosGraph.prototype.statesAvailable = function () { return this.nodes.some((n) => n.kind === "jsp" || n.kind === "jsp_gui") || !!(this.sh.viz && this.sh.viz.jsPub) || !!(this.gzRunning() && this.gzJoints()) || !!(this.mockModelList().length && this.cmJoints()); };
 // /joint_states as robot_state_publisher hears it: the sliders, ros2 topic pub, or Gazebo's JointStatePublisher system
-RosGraph.prototype.jointValues = function () { const J = { ...(this.sh.viz ? this.sh.viz.joints : {}) }; const g = this.gzRunning() && !this.nodes.some((n) => n.kind === "jsp" || n.kind === "jsp_gui") ? this.gzJoints() : null; return g ? { ...J, ...g } : J; };
+RosGraph.prototype.jointValues = function () { const J = { ...(this.sh.viz ? this.sh.viz.joints : {}) }; const g = this.gzRunning() && !this.nodes.some((n) => n.kind === "jsp" || n.kind === "jsp_gui") ? this.gzJoints() : this.mockModelList().length ? this.cmJoints() : null; return g ? { ...J, ...g } : J; };
 RosGraph.prototype.rspMessages = function (n) {
   const txt = String(n.params.robot_description);
   if (/^\s*<\?xml[^>]*>\s*<robot[\s\S]*xmlns:xacro|<xacro:/.test(txt)) return ["[ERROR] [robot_state_publisher]: Failed to parse robot description: it still contains <xacro:...> tags. Run it through xacro first: -p robot_description:=\"$(xacro file.urdf.xacro)\""];
@@ -1964,6 +1969,7 @@ RosGraph.prototype.launchDescription = function (pk, text, n) {
 
 Object.assign(RosGraph.prototype, gzMethods);
 Object.assign(RosGraph.prototype, rcMethods);
+Object.assign(RosGraph.prototype, moveitMethods);
 // teleop_twist_keyboard: one key press publishes one Twist on /cmd_vel
 RosGraph.prototype.teleopTwistKey = function (full, key) {
   const n = this.node(full); if (!n) return null;
@@ -1973,14 +1979,16 @@ RosGraph.prototype.teleopTwistKey = function (full, key) {
     n.speed *= f[0]; n.turn *= f[1];
     return { line: `currently:\tspeed ${+n.speed.toFixed(6)}\tturn ${+n.turn.toFixed(6)} ` };
   }
-  const b = { i: [1, 0], o: [1, -1], j: [0, 1], l: [0, -1], u: [1, 1], ",": [-1, 0], ".": [-1, 1], m: [-1, -1] }[k] || [0, 0];
+  // teleop_twist_keyboard moveBindings (x, y, z, th): lower case drives, Shift (upper case) strafes, t / b go up / down
+  const b = { i: [1, 0, 0, 0], o: [1, 0, 0, -1], j: [0, 0, 0, 1], l: [0, 0, 0, -1], u: [1, 0, 0, 1], ",": [-1, 0, 0, 0], ".": [-1, 0, 0, 1], m: [-1, 0, 0, -1],
+    O: [1, -1, 0, 0], I: [1, 0, 0, 0], J: [0, 1, 0, 0], L: [0, -1, 0, 0], U: [1, 1, 0, 0], "<": [-1, 0, 0, 0], ">": [-1, -1, 0, 0], M: [-1, 1, 0, 0], t: [0, 0, 1, 0], b: [0, 0, -1, 0] }[k] || [0, 0, 0, 0];
   const stamped = n.params.stamped === true || n.params.stamped === "true";
   const type = stamped ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist";
   const topic = (this.endpoints(n).pubs.find(([, t]) => t === type) || [`${n.ns}/cmd_vel`])[0];   // cmd_vel, after --ros-args -r cmd_vel:=...
-  const v = { lx: b[0] * n.speed, ly: 0, az: b[1] * n.turn, topic };
+  const v = { lx: b[0] * n.speed, ly: b[1] * n.speed, lz: b[2] * n.speed, az: b[3] * n.turn, topic };
   this.lastTwist = v; n.lastV = v; n.lastTopic = topic; n.stampedOut = stamped;
   if (stamped) {
-    const got = this.cmDeliver(topic, type, { twist: { linear: { x: v.lx }, angular: { z: v.az } } });
+    const got = this.cmDeliver(topic, type, { twist: { linear: { x: v.lx, y: v.ly, z: v.lz }, angular: { z: v.az } } });
     const used = got.filter((g) => g.used);
     const c = used.length ? used[0].model.cm.controllers.get(used[0].controller) : null;
     return { v, driven: used.map((g) => g.model.name), note: got.find((g) => g.note) ? got.find((g) => g.note).note : null, timeout: c && c.kind === "diff" && !(Number(n.params.repeat_rate) > 0) ? Number(c.params.cmd_vel_timeout) || 0.5 : null, stamped };

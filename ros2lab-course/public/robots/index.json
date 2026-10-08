@@ -15,7 +15,31 @@
     "url": "https://github.com/TheRobotStudio/SO-ARM100"
    }
   ],
-  "group": "Basic robots (ROS2Lab)"
+  "group": "Basic robots (ROS2Lab)",
+  "moveit": {
+   "group": "arm",
+   "base": "base_link",
+   "tip": "gripper_base_link",
+   "gripper": [
+    "left_finger_joint"
+   ],
+   "home": [
+    0,
+    0.5,
+    1.0
+   ],
+   "ready": [
+    0,
+    0,
+    0
+   ],
+   "open": [
+    0.04
+   ],
+   "close": [
+    0.0
+   ]
+  }
  },
  {
   "id": "arm6",
@@ -33,7 +57,28 @@
     "url": "https://github.com/automaticaddison/mycobot_ros2"
    }
   ],
-  "group": "Basic robots (ROS2Lab)"
+  "group": "Basic robots (ROS2Lab)",
+  "moveit": {
+   "group": "arm",
+   "base": "base_link",
+   "tip": "tool0",
+   "home": [
+    0,
+    -1.57,
+    1.57,
+    -1.57,
+    -1.57,
+    0
+   ],
+   "ready": [
+    0,
+    -1.57,
+    0,
+    -1.57,
+    0,
+    0
+   ]
+  }
  },
  {
   "id": "quadcopter",
@@ -175,6 +220,36 @@
   "source": {
    "url": "https://github.com/UniversalRobots/Universal_Robots_ROS2_Description",
    "license": "BSD-3-Clause"
+  },
+  "moveit": {
+   "group": "ur_manipulator",
+   "base": "base_link",
+   "tip": "tool0",
+   "home": [
+    0,
+    -1.57,
+    1.57,
+    -1.57,
+    -1.57,
+    0
+   ],
+   "ready": [
+    0,
+    -1.57,
+    0,
+    -1.57,
+    0,
+    0
+   ],
+   "real": {
+    "driver": "ur_robot_driver",
+    "install": "sudo apt install ros-jazzy-ur",
+    "connection": "Ethernet (set robot_ip; install the External Control URCap and press play on the teach pendant)",
+    "launch": "ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur5e robot_ip:=192.168.56.101 launch_rviz:=false",
+    "controller": "scaled_joint_trajectory_controller",
+    "plugin": "ur_robot_driver/URPositionHardwareInterface",
+    "ip": "192.168.56.101"
+   }
   }
  },
  {
@@ -189,6 +264,47 @@
   "source": {
    "url": "https://github.com/frankarobotics/franka_description",
    "license": "Apache-2.0"
+  },
+  "moveit": {
+   "group": "fr3_arm",
+   "base": "fr3_link0",
+   "tip": "fr3_hand_tcp",
+   "gripper": [
+    "fr3_finger_joint1"
+   ],
+   "home": [
+    0,
+    -0.785398,
+    0,
+    -2.356194,
+    0,
+    1.570796,
+    0.785398
+   ],
+   "ready": [
+    0,
+    -0.3,
+    0,
+    -2.2,
+    0,
+    2.0,
+    0.785398
+   ],
+   "open": [
+    0.04
+   ],
+   "close": [
+    0.0
+   ],
+   "real": {
+    "driver": "franka_ros2 (jazzy branch, source build; PREEMPT_RT kernel, activate FCI in Desk)",
+    "install": "git clone -b jazzy https://github.com/frankarobotics/franka_ros2.git src/franka_ros2 && vcs import src < src/franka_ros2/dependency.repos --recursive --skip-existing && rosdep install --from-paths src --ignore-src --rosdistro jazzy -y && colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release",
+    "connection": "Ethernet to the Control box (default robot_ip 172.16.0.3)",
+    "launch": "ros2 launch franka_bringup franka.launch.py robot_ip:=172.16.0.3",
+    "controller": "fr3_arm_controller",
+    "plugin": "franka_hardware/FrankaHardwareInterface",
+    "ip": "172.16.0.3"
+   }
   }
  },
  {
@@ -240,6 +356,38 @@
     }
    ],
    "control": true
+  },
+  "moveit": {
+   "group": "manipulator",
+   "base": "base_link",
+   "tip": "end_effector_link",
+   "home": [
+    0,
+    0.26,
+    3.14,
+    -2.27,
+    0,
+    0.96,
+    1.57
+   ],
+   "ready": [
+    0,
+    0.5,
+    0,
+    1.5,
+    0,
+    0.35,
+    0
+   ],
+   "real": {
+    "driver": "ros2_kortex (kortex_bringup)",
+    "install": "sudo apt install ros-jazzy-kortex-bringup ros-jazzy-rmw-cyclonedds-cpp",
+    "connection": "Ethernet, factory IP 192.168.1.10 (set the PC to 192.168.1.11/24)",
+    "launch": "ros2 launch kortex_bringup gen3.launch.py robot_ip:=192.168.1.10 dof:=7 launch_rviz:=false",
+    "controller": "joint_trajectory_controller",
+    "plugin": "kortex_driver/KortexMultiInterfaceHardware",
+    "ip": "192.168.1.10"
+   }
   }
  },
  {
@@ -254,6 +402,36 @@
   "source": {
    "url": "https://github.com/xArm-Developer/xarm_ros2",
    "license": "BSD-3-Clause"
+  },
+  "moveit": {
+   "group": "xarm6",
+   "base": "link_base",
+   "tip": "link_eef",
+   "home": [
+    0,
+    -0.5,
+    -0.5,
+    0,
+    1.0,
+    0
+   ],
+   "ready": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "real": {
+    "driver": "xarm_ros2 (jazzy branch, source build with --recursive)",
+    "install": "git clone https://github.com/xArm-Developer/xarm_ros2.git --recursive -b jazzy src/xarm_ros2 && rosdep install --from-paths src --ignore-src --rosdistro jazzy -y && colcon build",
+    "connection": "Ethernet (the IP printed on the control box, e.g. 192.168.1.117)",
+    "launch": "ros2 launch xarm_controller xarm6_control_rviz_display.launch.py robot_ip:=192.168.1.117",
+    "controller": "xarm6_traj_controller",
+    "plugin": "uf_robot_hardware/UFRobotSystemHardware",
+    "ip": "192.168.1.117"
+   }
   }
  },
  {
@@ -268,6 +446,36 @@
   "source": {
    "url": "https://github.com/xArm-Developer/xarm_ros2",
    "license": "BSD-3-Clause"
+  },
+  "moveit": {
+   "group": "lite6",
+   "base": "link_base",
+   "tip": "link_eef",
+   "home": [
+    0,
+    0.3,
+    1.2,
+    0,
+    0.9,
+    0
+   ],
+   "ready": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "real": {
+    "driver": "xarm_ros2 (jazzy branch, source build with --recursive)",
+    "install": "git clone https://github.com/xArm-Developer/xarm_ros2.git --recursive -b jazzy src/xarm_ros2 && rosdep install --from-paths src --ignore-src --rosdistro jazzy -y && colcon build",
+    "connection": "Ethernet (e.g. 192.168.1.161)",
+    "launch": "ros2 launch xarm_controller lite6_control_rviz_display.launch.py robot_ip:=192.168.1.161",
+    "controller": "lite6_traj_controller",
+    "plugin": "uf_robot_hardware/UFRobotSystemHardware",
+    "ip": "192.168.1.161"
+   }
   }
  },
  {
@@ -282,6 +490,37 @@
   "source": {
    "url": "https://github.com/Dobot-Arm/DOBOT_6Axis_ROS2_V4",
    "license": "MIT"
+  },
+  "moveit": {
+   "group": "cr5_group",
+   "base": "base_link",
+   "tip": "Link6",
+   "home": [
+    0,
+    0,
+    1.57,
+    0,
+    -1.57,
+    0
+   ],
+   "ready": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "vel": 3.14,
+   "real": {
+    "driver": "DOBOT_6Axis_ROS2_V4 (jazzy branch; controller in TCP/IP remote mode)",
+    "install": "git clone -b jazzy https://github.com/Dobot-Arm/DOBOT_6Axis_ROS2_V4.git src/DOBOT_6Axis_ROS2_V4 && rosdep install --from-paths src --ignore-src --rosdistro jazzy -y && colcon build",
+    "connection": "Ethernet, default 192.168.5.1 (export DOBOT_TYPE=cr5; export IP_address=192.168.5.1)",
+    "launch": "ros2 launch dobot_bringup_v4 dobot_bringup_ros2.launch.py",
+    "controller": "cr5_group_controller",
+    "plugin": null,
+    "ip": "192.168.5.1"
+   }
   }
  },
  {
@@ -296,6 +535,42 @@
   "source": {
    "url": "https://github.com/jkaniuka/magician_ros2",
    "license": "MIT"
+  },
+  "moveit": {
+   "group": "magician_arm",
+   "base": "magician_base_link",
+   "tip": "magician_link_gripper_core",
+   "gripper": [
+    "magician_joint_prismatic_l"
+   ],
+   "home": [
+    0,
+    0.5,
+    0.4,
+    0
+   ],
+   "ready": [
+    0,
+    0.3,
+    0.3,
+    0
+   ],
+   "open": [
+    0.0075
+   ],
+   "close": [
+    0.0
+   ],
+   "positionOnly": true,
+   "real": {
+    "driver": "magician_ros2 (Humble only upstream: it has no FollowJointTrajectory, so MoveIt plans and you send the result with its /PTP_action)",
+    "install": "git clone https://github.com/jkaniuka/magician_ros2.git src/magician_ros2 && pip install -r src/magician_ros2/requirements.txt && colcon build",
+    "connection": "USB serial /dev/ttyUSB0 (sudo usermod -a -G dialout $USER)",
+    "launch": "MAGICIAN_TOOL=gripper ros2 launch dobot_bringup dobot_magician_control_system.launch.py",
+    "controller": null,
+    "plugin": null,
+    "port": "/dev/ttyUSB0"
+   }
   }
  },
  {
@@ -310,6 +585,52 @@
   "source": {
    "url": "https://github.com/TheRobotStudio/SO-ARM100",
    "license": "Apache-2.0"
+  },
+  "moveit": {
+   "group": "arm",
+   "base": "base_link",
+   "tip": "gripper_frame_link",
+   "gripper": [
+    "gripper"
+   ],
+   "home": [
+    0,
+    -1.0,
+    1.0,
+    0.6,
+    0
+   ],
+   "ready": [
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "open": [
+    1.0
+   ],
+   "close": [
+    0.0
+   ],
+   "positionOnly": true,
+   "real": {
+    "driver": "feetech_ros2_driver (ros2_control hardware for the STS3215 servos)",
+    "install": "sudo apt install ros-jazzy-feetech-ros2-driver",
+    "connection": "USB serial /dev/ttyACM0 (sudo usermod -aG dialout $USER; calibrate the motors with LeRobot first)",
+    "launch": "ros2 launch so101_moveit_config real.launch.py usb_port:=/dev/ttyACM0",
+    "controller": "arm_controller",
+    "plugin": "feetech_ros2_driver/FeetechHardwareInterface",
+    "port": "/dev/ttyACM0",
+    "ids": {
+     "shoulder_pan": 1,
+     "shoulder_lift": 2,
+     "elbow_flex": 3,
+     "wrist_flex": 4,
+     "wrist_roll": 5,
+     "gripper": 6
+    }
+   }
   }
  },
  {
@@ -324,6 +645,45 @@
   "source": {
    "url": "https://github.com/Interbotix/interbotix_ros_manipulators",
    "license": "BSD-3-Clause"
+  },
+  "moveit": {
+   "group": "interbotix_arm",
+   "base": "wx250s/base_link",
+   "tip": "wx250s/ee_gripper_link",
+   "gripper": [
+    "left_finger"
+   ],
+   "home": [
+    0,
+    -0.96,
+    1.16,
+    0,
+    0.5,
+    0
+   ],
+   "ready": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "open": [
+    0.037
+   ],
+   "close": [
+    0.015
+   ],
+   "real": {
+    "driver": "interbotix_ros_manipulators + interbotix_ros_core (jazzy branches, source build; vendor-tested on Humble)",
+    "install": "git clone -b jazzy https://github.com/Interbotix/interbotix_ros_core.git src/interbotix_ros_core && git clone -b jazzy https://github.com/Interbotix/interbotix_ros_manipulators.git src/interbotix_ros_manipulators && git clone -b jazzy https://github.com/Interbotix/interbotix_ros_toolboxes.git src/interbotix_ros_toolboxes && rosdep install --from-paths src --ignore-src --rosdistro jazzy -y && colcon build",
+    "connection": "USB (U2D2) /dev/ttyDXL (copy 99-interbotix-udev.rules to /etc/udev/rules.d/)",
+    "launch": "ros2 launch interbotix_xsarm_control xsarm_control.launch.py robot_model:=wx250s",
+    "controller": "wx250s/arm_controller",
+    "plugin": "interbotix_xs_ros_control/XSHardwareInterface",
+    "port": "/dev/ttyDXL"
+   }
   }
  },
  {
@@ -338,6 +698,36 @@
   "source": {
    "url": "https://github.com/ros-industrial/abb",
    "license": "Apache-2.0"
+  },
+  "moveit": {
+   "group": "manipulator",
+   "base": "base_link",
+   "tip": "tool0",
+   "home": [
+    0,
+    0,
+    0,
+    0,
+    1.57,
+    0
+   ],
+   "ready": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "real": {
+    "driver": "abb_ros2 (rolling branch, source build; the controller needs the EGM option)",
+    "install": "git clone https://github.com/PickNikRobotics/abb_ros2.git src/abb_ros2 && vcs import src < src/abb_ros2/abb.repos && rosdep install --from-paths src --ignore-src --rosdistro jazzy -y && colcon build",
+    "connection": "Ethernet (RWS at the controller IP, EGM UDP port 6511)",
+    "launch": "ros2 launch irb120_moveit_config real.launch.py rws_ip:=192.168.125.1",
+    "controller": "joint_trajectory_controller",
+    "plugin": "abb_hardware_interface/ABBSystemHardware",
+    "ip": "192.168.125.1"
+   }
   }
  },
  {
@@ -352,6 +742,36 @@
   "source": {
    "url": "https://github.com/ros-industrial/kuka_experimental",
    "license": "Apache-2.0"
+  },
+  "moveit": {
+   "group": "manipulator",
+   "base": "base_link",
+   "tip": "tool0",
+   "home": [
+    0,
+    -1.57,
+    1.57,
+    0,
+    1.57,
+    0
+   ],
+   "ready": [
+    0,
+    -1.57,
+    1.57,
+    0,
+    0,
+    0
+   ],
+   "real": {
+    "driver": "kuka_drivers (RSI)",
+    "install": "sudo apt install ros-jazzy-kuka-drivers ros-jazzy-kuka-agilus-support",
+    "connection": "Ethernet, UDP RSI (client_port 59152; KR C4 with the RSI option; RT kernel recommended)",
+    "launch": "ros2 launch kuka_rsi_driver startup.launch.py robot_family:=agilus robot_model:=kr6_r900_2 client_ip:=<PC_IP>   (then: ros2 lifecycle set robot_manager configure && ros2 lifecycle set robot_manager activate)",
+    "controller": "joint_trajectory_controller",
+    "plugin": "kuka_rsi_driver::KukaRSIHardwareInterface",
+    "ip": "<PC_IP>"
+   }
   }
  },
  {
@@ -366,6 +786,36 @@
   "source": {
    "url": "https://github.com/ros-industrial/fanuc",
    "license": "BSD-3-Clause"
+  },
+  "moveit": {
+   "group": "manipulator",
+   "base": "base_link",
+   "tip": "tool0",
+   "home": [
+    0,
+    0,
+    0,
+    0,
+    -1.57,
+    0
+   ],
+   "ready": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "real": {
+    "driver": "FANUC fanuc_driver (main = jazzy; controller options J519 Stream Motion + R912 Remote Motion)",
+    "install": "sudo apt install git-lfs && git lfs install && git clone https://github.com/FANUC-CORPORATION/fanuc_description.git src/fanuc_description && git clone --branch main --recurse-submodules https://github.com/FANUC-CORPORATION/fanuc_driver.git src/fanuc_driver && rosdep install --from-paths src --ignore-src --rosdistro jazzy -y && colcon build",
+    "connection": "Ethernet, default robot_ip 192.168.1.100 (PC 192.168.1.101/24)",
+    "launch": "ros2 launch fanuc_hardware_interface fanuc_physical_control.launch.py robot_series:=lrmate robot_model:=lrmate200id robot_ip:=192.168.1.100",
+    "controller": "joint_trajectory_controller",
+    "plugin": "fanuc_robot_driver/FanucHardwareInterface",
+    "ip": "192.168.1.100"
+   }
   }
  },
  {
@@ -517,6 +967,33 @@
   "source": {
    "url": "https://github.com/agilexrobotics/scout_ros2",
    "license": "Apache-2.0"
+  },
+  "sim": {
+   "model": "scout_v2",
+   "base": "base_link",
+   "drive": {
+    "left": [
+     "front_left_wheel",
+     "rear_left_wheel"
+    ],
+    "right": [
+     "front_right_wheel",
+     "rear_right_wheel"
+    ],
+    "separation": 0.58306,
+    "radius": 0.16459
+   },
+   "sensors": [
+    {
+     "name": "imu",
+     "type": "imu",
+     "link": "base_link",
+     "topic": "imu",
+     "rate": 100
+    }
+   ],
+   "control": true,
+   "note": "AgileX Scout V2: skid steering with four wheels (DiffDrive with two wheels per side). The real base (scout_base over CAN) takes geometry_msgs/Twist on /cmd_vel."
   }
  },
  {
@@ -745,6 +1222,39 @@
   "source": {
    "url": "https://github.com/bdaiinstitute/spot_description",
    "license": "MIT"
+  },
+  "sim": {
+   "model": "spot",
+   "fixedFrame": "body",
+   "base": "body",
+   "sensors": [
+    {
+     "name": "imu",
+     "type": "imu",
+     "link": "body",
+     "topic": "imu",
+     "rate": 200
+    },
+    {
+     "name": "frontleft_depth",
+     "type": "rgbd_camera",
+     "link": "front_rail",
+     "topic": "camera/front",
+     "cam": [
+      1.0,
+      424,
+      240,
+      0.2,
+      5
+     ],
+     "rate": 15
+    }
+   ],
+   "velocity": {
+    "maxV": 1.6,
+    "maxW": 1.0,
+    "note": "Boston Dynamics Spot walks with its own on-board controller; spot_driver sends it geometry_msgs/Twist on cmd_vel. Here VelocityControl moves the standing body the same way."
+   }
   }
  },
  {
@@ -759,6 +1269,27 @@
   "source": {
    "url": "https://github.com/IMRCLab/crazyswarm2",
    "license": "MIT"
+  },
+  "sim": {
+   "model": "crazyflie",
+   "fixedFrame": "cf",
+   "base": "cf",
+   "z": 0.5,
+   "sensors": [
+    {
+     "name": "imu",
+     "type": "imu",
+     "link": "cf",
+     "topic": "imu",
+     "rate": 100
+    }
+   ],
+   "velocity": {
+    "maxV": 1.0,
+    "maxW": 2.0,
+    "fly": true,
+    "note": "Bitcraze Crazyflie 2.1: crazyswarm2 flies the real one (cmd_vel_legacy / cmd_hover / go_to). Here VelocityControl flies the body in 3-D: i , j l move, t / b climb and descend."
+   }
   }
  }
 ]

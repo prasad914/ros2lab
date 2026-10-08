@@ -19,13 +19,18 @@ const term = mountTerminal($("term"), {
   sourced: true, start: WS, cmds: ["colcon", "tree", "gz"], newTerminal: true, ide: true, rvizSave: "~/ros2_ws/my_config.rviz",
   // a ROS 2 Jazzy desktop with Gazebo (ros-jazzy-ros-gz), teleop_twist_keyboard and the RViz IMU plugin installed
   // ... and ros2_control for Gazebo (ros-jazzy-gz-ros2-control, ros-jazzy-ros2-controllers)
-  rosPkgs: ["ros_gz_sim", "ros_gz_bridge", "ros_gz_image", "teleop_twist_keyboard", "rviz_imu_plugin", "controller_manager", "gz_ros2_control", "ros2controlcli", "hardware_interface", "joint_state_broadcaster", "diff_drive_controller", "joint_trajectory_controller", "forward_command_controller", "position_controllers", "velocity_controllers"],
+  rosPkgs: ["ros_gz_sim", "ros_gz_bridge", "ros_gz_image", "teleop_twist_keyboard", "rviz_imu_plugin", "controller_manager", "gz_ros2_control", "ros2controlcli", "hardware_interface", "joint_state_broadcaster", "diff_drive_controller", "joint_trajectory_controller", "forward_command_controller", "position_controllers", "velocity_controllers",
+    // MoveIt 2 (ros-jazzy-moveit + the CHOMP / STOMP / Pilz planners) and the extra ros2_controllers the robots use
+    "moveit_ros_move_group", "moveit_configs_utils", "moveit_rviz_plugin", "moveit_ros_visualization", "moveit_planners_ompl", "moveit_planners_chomp", "moveit_planners_stomp", "pilz_industrial_motion_planner", "moveit_simple_controller_manager", "moveit_kinematics", "mock_components",
+    "mecanum_drive_controller", "ackermann_steering_controller", "tricycle_controller"],
   fs: { dirs: [`${WS}/src`], files: {} },
 });
 const sh = term.shell;
+window.__ros2lab = { term, sh };   // for automated checks (tools/) and the browser console
 let current = null;   // { name, files, main, launches }
 
 function writePackage(p) {
+  for (const x of p.extraPackages || []) writePackage(x);   // e.g. <robot>_moveit_config next to the description
   const dir = sh.abs(`${WS}/src/${p.name}`);
   for (const k of [...sh.fs.keys()]) if (k === dir || k.startsWith(dir + "/")) sh.fs.delete(k);   // a fresh copy of the package sources
   sh.mkdirP(dir);
@@ -43,6 +48,11 @@ function launchFile() {
 }
 function commands() {
   if (!current) return [];
+  const what = document.querySelector("input[name=what]:checked").value;
+  if ((what === "moveit" || what === "moveit_gz") && current.moveit) {
+    const M = current.moveit.pkg;
+    return ["cd ~/ros2_ws", `colcon build --packages-select ${current.name} ${M}`, "source install/setup.bash", `ros2 launch ${M} ${what === "moveit" ? "demo.launch.py" : "gazebo.launch.py"}`];
+  }
   const lf = launchFile();
   return ["cd ~/ros2_ws", `colcon build --packages-select ${current.name}`, "source install/setup.bash",
     lf ? `ros2 launch ${current.name} ${lf}` : current.mainPath ? `ros2 launch urdf_tutorial display.launch.py model:=$PWD/src/${current.name}/${current.mainPath}` : "# no robot file (.urdf / .urdf.xacro) was found in this package"];
@@ -55,13 +65,18 @@ function paintCommands() {
   simRadio.disabled = !hasSim; if (!hasSim && simRadio.checked) document.querySelector("input[name=what][value=display]").checked = true;
   const ctlRadio = document.querySelector("input[name=what][value=control]"), hasCtl = !!(current && current.launches.some((f) => /control/i.test(f)));
   if (ctlRadio) { ctlRadio.disabled = !hasCtl; ctlRadio.closest("label").hidden = !hasCtl; if (!hasCtl && ctlRadio.checked) document.querySelector("input[name=what][value=display]").checked = true; }
+  for (const v of ["moveit", "moveit_gz"]) { const r = document.querySelector(`input[name=what][value=${v}]`); if (!r) continue; const on = !!(current && current.moveit); r.disabled = !on; r.closest("label").hidden = !on; if (!on && r.checked) document.querySelector("input[name=what][value=display]").checked = true; }
   // how to drive / move this robot once it runs (what a real Jazzy setup needs)
   const tip = $("drive-tip"), what = document.querySelector("input[name=what]:checked").value, S = current && current.sim;
   let t = "";
-  if (S && what === "sim") t = S.drive || S.velocity ? "Drive it from a + New terminal: ros2 run teleop_twist_keyboard teleop_twist_keyboard  (Twist on /cmd_vel; ros_gz_bridge carries it to Gazebo's " + (S.drive ? "DiffDrive" : "VelocityControl") + " system)."
+  if (S && what === "sim") t = S.drive || S.velocity || S.mecanum || S.ackermann ? "Drive it from a + New terminal: ros2 run teleop_twist_keyboard teleop_twist_keyboard  (Twist on /cmd_vel; ros_gz_bridge carries it to Gazebo's " + (S.drive ? "DiffDrive" : S.mecanum ? "MecanumDrive" : S.ackermann ? "AckermannSteering" : "VelocityControl") + " system)." + (S.mecanum ? " Hold Shift to strafe (U I O J K L M < >)." : "") + (S.velocity && S.velocity.fly ? " t climbs, b descends." : "")
     : S.positions && S.positions.length ? `Move a joint from a + New terminal: ros2 topic pub --once /${S.positions[0].joint}/cmd_pos std_msgs/msg/Float64 "{data: 1.0}"  (Gazebo's JointPositionController moves it).` : "";
   if (S && what === "control" && S.control) t = S.control.controller === "diff_drive_controller" ? "Drive it from a + New terminal (Jazzy's diff_drive_controller takes TwistStamped on its own topic): ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -p stamped:=true -r cmd_vel:=/diff_drive_controller/cmd_vel   Check the controllers with: ros2 control list_controllers"
     : `Move the arm from a + New terminal: ros2 topic pub --once /joint_trajectory_controller/joint_trajectory trajectory_msgs/msg/JointTrajectory "{joint_names: [${S.control.arm.map((j) => j.name).join(", ")}], points: [{positions: [${S.control.arm.map((j, i) => (i % 2 ? 0.6 : 0.3).toFixed(1)).join(", ")}], time_from_start: {sec: 3}}]}"   Check the controllers with: ros2 control list_controllers`;
+  if (current && current.moveit && (what === "moveit" || what === "moveit_gz")) {
+    const M = current.moveit;
+    t = `In RViz's MotionPlanning panel: drag the orange marker at ${M.tip} (goal state), pick the pipeline in the Context tab (ompl, pilz_industrial_motion_planner, chomp, stomp) and the planner, then Plan and Execute in the Planning tab.${what === "moveit" ? ` The work cell's obstacles: in a + New terminal, cd ~/ros2_ws && source install/setup.bash && ros2 run ${M.pkg} add_scene_objects.py` : " The table, box and post are already in the Gazebo world and the planning scene."}${M.real ? `  Real robot: ${M.real.connection}; see src/${M.pkg}/README.md.` : ""}`;
+  }
   if (tip) { tip.textContent = t; tip.hidden = !t; }
   // the package's files: click one to see it with cat (like on Ubuntu)
   const tree = $("tree"); tree.replaceChildren();
@@ -75,6 +90,14 @@ function paintCommands() {
     tree.append(b);
   }
   if (lf) { const n = document.createElement("span"); n.className = "muted"; n.textContent = `  Launch file: launch/${lf}`; tree.append(n); }
+  for (const x of current.extraPackages || []) {   // the MoveIt config package
+    const head2 = document.createElement("div"); head2.textContent = `~/ros2_ws/src/${x.name}/  `; tree.append(head2);
+    for (const rel of Object.keys(x.files).filter((r) => !String(x.files[r]).startsWith("@url:")).sort((a, b) => (a.split("/").length - b.split("/").length) || a.localeCompare(b))) {
+      const b = document.createElement("button"); b.type = "button"; b.className = "rvp-file"; b.textContent = rel; b.title = `Show it in the terminal: cat src/${x.name}/${rel}`;
+      b.addEventListener("click", () => { if (term.busy()) term.say("(A launch is running in this tab. Open a + New terminal to look at files while it runs, or stop it with Ctrl+C.)"); else term.run(`cat ~/ros2_ws/src/${x.name}/${rel}`); });
+      tree.append(b);
+    }
+  }
 }
 async function usePackage(p, label) {
   current = p;
@@ -142,8 +165,32 @@ async function openOwn(files) {
 $("folder").addEventListener("change", (e) => openOwn([...e.target.files]));
 $("files").addEventListener("change", (e) => openOwn([...e.target.files]));
 
+// ---------------- the workspace as a real ROS 2 Jazzy workspace (.zip): ~/ros2_ws/src as it is now, meshes included
+async function downloadWorkspace() {
+  const btn = $("dl"); btn.disabled = true; const label = btn.textContent; btn.textContent = "Preparing the .zip ...";
+  try {
+    const { makeZip } = await import("./zip.js");
+    const src = sh.abs(`${WS}/src`), entries = [], pkgs = new Set();
+    for (const [path, n] of sh.fs) {
+      if (n.type !== "f" || !path.startsWith(src + "/")) continue;
+      const rel = path.slice(src.length + 1); pkgs.add(rel.split("/")[0]);
+      const m = String(n.content || "").match(/^@url:(.+)$/);
+      let data = n.content || "";
+      if (m) { const r = await fetch(m[1]); if (!r.ok) continue; data = new Uint8Array(await r.arrayBuffer()); }
+      entries.push({ path: `ros2_ws/src/${rel}`, data, executable: /^[\w-]+\/scripts\//.test(rel) || /^#!/.test(String(n.content || "")) });
+    }
+    const list = [...pkgs].sort();
+    entries.push({ path: "ros2_ws/README.md", data: `# ROS 2 Jazzy workspace from ROS2Lab\n\nPackages: ${list.join(", ")}\n\n\`\`\`bash\n# Ubuntu 24.04 with ROS 2 Jazzy (https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html)\nsudo apt install ros-jazzy-desktop ros-jazzy-xacro ros-jazzy-joint-state-publisher-gui ros-jazzy-ros-gz \\\n  ros-jazzy-gz-ros2-control ros-jazzy-ros2-controllers ros-jazzy-teleop-twist-keyboard ros-jazzy-rviz-imu-plugin \\\n  ros-jazzy-moveit ros-jazzy-moveit-planners-chomp ros-jazzy-moveit-planners-stomp ros-jazzy-pilz-industrial-motion-planner ros-jazzy-warehouse-ros-sqlite\ncd ros2_ws\nrosdep install --from-paths src --ignore-src -r -y\ncolcon build\nsource install/setup.bash\n\`\`\`\n\nThen run the same ros2 launch commands as on the ROS2Lab RViz page. For the real robot, read REAL_ROBOT.md in the description package, or README.md in the *_moveit_config package.\n` });
+    const blob = makeZip(entries), a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = `ros2_ws_${list.join("+").slice(0, 60) || "empty"}.zip`; document.body.append(a); a.click(); a.remove();
+    term.say(`(Downloaded ~/ros2_ws/src as a .zip: ${list.join(", ")}. On Ubuntu 24.04 with ROS 2 Jazzy: unzip it, then rosdep install --from-paths src --ignore-src -r -y && colcon build && source install/setup.bash.)`);
+  } catch (e) { term.say(`(Could not make the .zip: ${e.message})`); }
+  btn.disabled = false; btn.textContent = label;
+}
+
 // ---------------- 3. launch
 document.querySelectorAll("input[name=lf], input[name=what]").forEach((r) => r.addEventListener("change", paintCommands));
+if ($("dl")) $("dl").addEventListener("click", downloadWorkspace);
 $("go").addEventListener("click", () => {
   if (!current) return;
   term.stopAll();
