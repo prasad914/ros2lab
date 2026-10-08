@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="author" content="Robotics and ROS2 lab Channel">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ROS2Lab | Learn ROS 2 in your browser, free</title>
+<meta name="description" content="ROS 2 Fundamentals: a free six-week online course from Linux basics to your first ROS 2 nodes in Python and C++, plus an optional three-week introductory experience of URDF, xacro and RViz (not part of the certificate). Practise in your browser with a terminal, TurtleSim, animations and games; no Ubuntu needed to start. Weekly tests, a personal project and a signed, verifiable certificate.">
+<meta name="theme-color" content="#1F242A">
+<meta property="og:title" content="ROS2Lab: learn ROS 2 in your browser">
+<meta property="og:description" content="Free six-week ROS 2 Fundamentals course (plus an introductory URDF and RViz experience) with a practice terminal, TurtleSim, tests, a personal project and a verifiable certificate.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.ros2lab.com/">
+<meta property="og:site_name" content="ROS2Lab">
+<meta property="og:image" content="https://www.ros2lab.com/img/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Learn ROS 2 right in your browser: free 6-week course at www.ros2lab.com">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.ros2lab.com/img/og-card.jpg">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Lexend:wght@500;600;700&family=Cinzel:wght@700&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/certificate.css">
+</head>
+<body class="home">
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img class="brand-logo" src="img/logo-axes.svg" alt="" width="36" height="36"><span>ROS2Lab <small>ROS 2 for beginners</small></span></a>
+  <nav class="top-nav" aria-label="Site">
+    <a href="#route">Course</a>
+    <a href="#certificate">Certificate</a>
+    <a href="#faq">FAQ</a>
+    <a href="playground.html">Playground</a>
+    <a href="rviz.html">RViz</a>
+  </nav>
+  <div class="top-right" id="who"><a class="btn btn-white btn-small" href="signin.html">Log in</a><a class="btn btn-small" href="register.html">Register</a></div>
+</div></header>
+
+<main>
+  <section class="lp-hero">
+    <div class="wrap lp-hero-grid">
+      <div class="lp-copy">
+        <p class="lp-offer" id="offer"><span class="lp-dot" aria-hidden="true"></span><span><b>Free</b> founding batch: register by 31 Dec 2026</span></p>
+        <h1>Learn ROS 2 right in your browser.</h1>
+        <p class="lp-lead">A six-week, hands-on course from Linux basics to your first ROS 2 nodes in Python and C++, then an optional three weeks to describe robots in URDF and see them in RViz. Practise in a terminal, TurtleSim and a 3D RViz that run on this page. No Ubuntu needed to start.</p>
+        <div class="q-actions" id="signin-slot">
+          <a class="btn" href="register.html">Register free</a>
+          <a class="btn lp-btn-ghost" href="#route">See the route</a>
+        </div>
+        <p class="lp-try">Try it now: tap <b>Draw a square</b>, or type <code>help</code> in the terminal.</p>
+        <a class="lp-by" href="#instructor"><img src="img/logo-axes.svg" alt="" width="40" height="40"><span>From the <b>Robotics &amp; ROS 2 Lab</b> YouTube channel</span></a>
+      </div>
+      <div class="lp-demo" id="hero-turtle"><noscript>Turn on JavaScript to drive the turtle.</noscript></div>
+    </div>
+  </section>
+
+  <section class="lp-stats" aria-label="Course at a glance">
+    <div class="wrap">
+      <ul>
+        <li><b>6</b><span>weeks, about an hour a day</span></li>
+        <li><b>95</b><span>short lessons</span></li>
+        <li><b>27</b><span>live animations and 6 games</span></li>
+        <li><b>6</b><span>weekly tests</span></li>
+        <li><b>1</b><span>personal project, just for you</span></li>
+        <li><b>2 yrs</b><span>verifiable certificate</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="wrap section lp-inside">
+    <div class="lp-inside-grid">
+      <div>
+        <h2>See inside a robot's software</h2>
+        <p>A ROS 2 robot is a team of small programs called <b>nodes</b>. They pass <b>messages</b> on named <b>topics</b>: the camera publishes images, the brain decides, the wheels obey. Tap any node or topic in the graph to see the real message flowing through it.</p>
+        <p class="muted">By Week 6 you write nodes like these yourself, in Python and in C++.</p>
+      </div>
+      <figure class="hero-graph">
+        <div id="hero-graph" class="hg"><noscript>Turn on JavaScript to see the live ROS 2 graph.</noscript></div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="wrap section" id="route">
+    <div class="section-head">
+      <h2>Your route: six weeks, then an introductory experience</h2>
+      <p class="muted">Six core lines, thirty stations: about an hour a day, in lessons of about 30 minutes. Each week's test unlocks as soon as you finish that week's lessons. Then three optional lines (Days 31 to 45) for URDF, xacro, TF and RViz.</p>
+    </div>
+    <div class="metro">
+      <ol class="metro-line" data-mod="W1" aria-label="Week 1: talk to the robot's computer">
+        <li class="metro-name"><b>Week 1</b><span>Talk to the robot's computer</span></li>
+        <li class="stn"><b>Day 1</b><span>Meet the terminal and move around</span></li>
+        <li class="stn"><b>Day 2</b><span>Files, permissions, sudo and apt</span></li>
+        <li class="stn"><b>Day 3</b><span>Python from zero</span></li>
+        <li class="stn"><b>Day 4</b><span>Decisions and loops: should the robot stop?</span></li>
+        <li class="stn"><b>Day 5</b><span>Lists, dictionaries and functions</span></li>
+        <li class="stn test"><b>Test</b><span>Week 1 test</span></li>
+      </ol>
+      <ol class="metro-line" data-mod="W2" aria-label="Week 2: build the robot's brain">
+        <li class="metro-name"><b>Week 2</b><span>Build the robot's brain</span></li>
+        <li class="stn"><b>Day 6</b><span>Classes and objects</span></li>
+        <li class="stn"><b>Day 7</b><span>Callbacks and your first ROS 2 node</span></li>
+        <li class="stn"><b>Day 8</b><span>C++ basics</span></li>
+        <li class="stn"><b>Day 9</b><span>Reading a ROS 2 C++ node</span></li>
+        <li class="stn"><b>Day 10</b><span>Install ROS 2 Jazzy and set up the lab</span></li>
+        <li class="stn test"><b>Test</b><span>Week 2 test</span></li>
+      </ol>
+      <ol class="metro-line" data-mod="IN" aria-label="Week 3: introduction to ROS">
+        <li class="metro-name"><b>Week 3</b><span>Introduction to ROS</span></li>
+        <li class="stn"><b>Day 11</b><span>Why robots need ROS</span></li>
+        <li class="stn"><b>Day 12</b><span>Inside ROS and its ecosystem</span></li>
+        <li class="stn"><b>Day 13</b><span>History and versions</span></li>
+        <li class="stn"><b>Day 14</b><span>ROS 1 vs ROS 2 and middleware</span></li>
+        <li class="stn"><b>Day 15</b><span>DDS and Quality of Service</span></li>
+        <li class="stn test"><b>Test</b><span>Week 3 test</span></li>
+      </ol>
+      <ol class="metro-line" data-mod="W3" aria-label="Week 4: speak ROS 2">
+        <li class="metro-name"><b>Week 4</b><span>Speak ROS 2</span></li>
+        <li class="stn"><b>Day 16</b><span>The ROS 2 graph: nodes</span></li>
+        <li class="stn"><b>Day 17</b><span>Topics and messages</span></li>
+        <li class="stn"><b>Day 18</b><span>Services and parameters</span></li>
+        <li class="stn"><b>Day 19</b><span>Actions and launch files</span></li>
+        <li class="stn"><b>Day 20</b><span>Packages, TF2, tools and a mini-project</span></li>
+        <li class="stn test"><b>Test</b><span>Week 4 test</span></li>
+      </ol>
+      <ol class="metro-line" data-mod="PF" aria-label="Week 5: ROS programming fundamentals">
+        <li class="metro-name"><b>Week 5</b><span>ROS programming fundamentals</span></li>
+        <li class="stn"><b>Day 21</b><span>Your first package, node and publisher (Python, then C++)</span></li>
+        <li class="stn"><b>Day 22</b><span>Subscribers and your own messages</span></li>
+        <li class="stn"><b>Day 23</b><span>Service servers and clients</span></li>
+        <li class="stn"><b>Day 24</b><span>Actions and parameters</span></li>
+        <li class="stn"><b>Day 25</b><span>Launch files and a battery-monitor mini-project</span></li>
+        <li class="stn test"><b>Test</b><span>Week 5 test</span></li>
+      </ol>
+      <ol class="metro-line" data-mod="NP" aria-label="Week 6: writing your own ROS 2 nodes">
+        <li class="metro-name"><b>Week 6</b><span>Writing your own ROS 2 nodes</span></li>
+        <li class="stn"><b>Day 26</b><span>Time, logging and driving sequences</span></li>
+        <li class="stn"><b>Day 27</b><span>Closed-loop control, chaining nodes, messages</span></li>
+        <li class="stn"><b>Day 28</b><span>QoS, safe parameters, launch for two robots</span></li>
+        <li class="stn"><b>Day 29</b><span>tf2 frames and executors</span></li>
+        <li class="stn"><b>Day 30</b><span>Lifecycle, components, tests and a patrol robot</span></li>
+        <li class="stn test"><b>Test</b><span>Week 6 test</span></li>
+      </ol>
+      <ol class="metro-line adv" data-mod="UR" aria-label="Week 7 (optional introductory experience, no certificate): describe a robot with URDF">
+        <li class="metro-name"><b>Week 7</b><span>Describe a robot with URDF</span></li>
+        <li class="stn"><b>Day 31</b><span>Links, shapes, origins and colours</span></li>
+        <li class="stn"><b>Day 32</b><span>Joints, limits, mimic and frames</span></li>
+        <li class="stn"><b>Day 33</b><span>Chiku: a 2-wheeled robot</span></li>
+        <li class="stn"><b>Day 34</b><span>3-DOF and 6-DOF arms</span></li>
+        <li class="stn"><b>Day 35</b><span>Collision and inertia</span></li>
+        <li class="stn test"><b>Test</b><span>Week 7 test</span></li>
+      </ol>
+      <ol class="metro-line adv" data-mod="XT" aria-label="Week 8 (optional introductory experience, no certificate): xacro, meshes and TF">
+        <li class="metro-name"><b>Week 8</b><span>Xacro, meshes and TF</span></li>
+        <li class="stn"><b>Day 36</b><span>Xacro properties and macros (a 4-legged robot)</span></li>
+        <li class="stn"><b>Day 37</b><span>Arguments, includes, a 6-legged robot</span></li>
+        <li class="stn"><b>Day 38</b><span>Meshes from CAD</span></li>
+        <li class="stn"><b>Day 39</b><span>Publishing TF from the URDF</span></li>
+        <li class="stn"><b>Day 40</b><span>Description package and launch</span></li>
+        <li class="stn test"><b>Test</b><span>Week 8 test</span></li>
+      </ol>
+      <ol class="metro-line adv" data-mod="RV" aria-label="Week 9 (optional introductory experience, no certificate): RViz, markers and interactive markers">
+        <li class="metro-name"><b>Week 9</b><span>RViz and markers</span></li>
+        <li class="stn"><b>Day 41</b><span>RViz2: displays and Fixed Frame</span></li>
+        <li class="stn"><b>Day 42</b><span>Sensor data: scans, clouds, maps</span></li>
+        <li class="stn"><b>Day 43</b><span>Markers and MarkerArrays</span></li>
+        <li class="stn"><b>Day 44</b><span>Interactive markers</span></li>
+        <li class="stn"><b>Day 45</b><span>Drones, legged and hybrid robots; project</span></li>
+        <li class="stn test"><b>Test</b><span>Week 9 test</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap section">
+      <div class="section-head">
+        <h2>Three ways ROS 2 nodes talk</h2>
+        <p class="muted">Most ROS 2 programs are built from just these three patterns. Here they are, slowed down.</p>
+      </div>
+      <div class="talk">
+        <div class="talk-row">
+          <svg class="talk-svg" viewBox="0 0 320 140" role="img" aria-label="A topic: one publisher sends messages to three subscribers">
+            <g class="tk-lines"><line x1="92" y1="70" x2="232" y2="24"/><line x1="92" y1="70" x2="232" y2="70"/><line x1="92" y1="70" x2="232" y2="116"/></g>
+            <g transform="translate(92 70) rotate(-18.2)"><circle class="tk-dot" r="6" style="--len:147px"/></g>
+            <g transform="translate(92 70)"><circle class="tk-dot" r="6" style="--len:140px"/></g>
+            <g transform="translate(92 70) rotate(18.2)"><circle class="tk-dot" r="6" style="--len:147px"/></g>
+            <g class="tk-box pub"><rect x="8" y="48" width="84" height="44" rx="9"/><text x="50" y="75">Lidar</text></g>
+            <g class="tk-box"><rect x="232" y="8" width="80" height="32" rx="8"/><text x="272" y="29">Detector</text></g>
+            <g class="tk-box"><rect x="232" y="54" width="80" height="32" rx="8"/><text x="272" y="75">Map</text></g>
+            <g class="tk-box"><rect x="232" y="100" width="80" height="32" rx="8"/><text x="272" y="121">Logger</text></g>
+          </svg>
+          <div>
+            <h3>Topic: a radio station</h3>
+            <p>A publisher broadcasts on a named channel such as <code>/scan</code>. Any node tuned to that exact name hears every message. The lidar doesn't know, or care, who is listening.</p>
+            <p class="small muted">Used for streams: sensor data, camera images, speed commands.</p>
+          </div>
+        </div>
+        <div class="talk-row">
+          <svg class="talk-svg" viewBox="0 0 320 140" role="img" aria-label="A service: the client sends one request and waits for one response">
+            <line class="tk-wire" x1="96" y1="58" x2="224" y2="58"/><line class="tk-wire" x1="96" y1="86" x2="224" y2="86"/>
+            <g transform="translate(96 58)"><circle class="sv-req" r="6" style="--len:128px"/></g>
+            <g transform="translate(224 86)"><circle class="sv-res" r="6" style="--len:-128px"/></g>
+            <g class="tk-box pub sv-client"><rect x="8" y="46" width="88" height="52" rx="9"/><text x="52" y="69">You</text><text class="tk-small" x="52" y="87">waiting…</text></g>
+            <g class="tk-box"><rect x="224" y="46" width="88" height="52" rx="9"/><text x="268" y="77">Counter</text></g>
+            <text class="tk-label" x="160" y="48">request</text><text class="tk-label" x="160" y="108">response</text>
+          </svg>
+          <div>
+            <h3>Service: ordering at a counter</h3>
+            <p>A client asks one question and waits for one answer, like "spawn a turtle at (2, 2)" or "what is the battery level?". Quick in, quick out.</p>
+            <p class="small muted">Used for short jobs that finish right away.</p>
+          </div>
+        </div>
+        <div class="talk-row">
+          <svg class="talk-svg" viewBox="0 0 320 140" role="img" aria-label="An action: a goal goes out, feedback comes back while it runs, then a result">
+            <line class="tk-wire" x1="96" y1="50" x2="224" y2="50"/><line class="tk-wire" x1="96" y1="94" x2="224" y2="94"/>
+            <g transform="translate(96 50)"><circle class="ac-goal" r="6" style="--len:128px"/></g>
+            <g transform="translate(224 94)"><circle class="ac-fb f1" r="5" style="--len:-128px"/><circle class="ac-fb f2" r="5" style="--len:-128px"/><circle class="ac-fb f3" r="5" style="--len:-128px"/><circle class="ac-res" r="7" style="--len:-128px"/></g>
+            <g class="tk-box pub"><rect x="8" y="46" width="88" height="52" rx="9"/><text x="52" y="77">You</text></g>
+            <g class="tk-box"><rect x="224" y="46" width="88" height="52" rx="9"/><text x="268" y="69">Pizza</text><text class="tk-small" x="268" y="87">shop</text></g>
+            <text class="tk-label" x="160" y="40">goal</text><text class="tk-label" x="160" y="116">feedback… then result</text>
+          </svg>
+          <div>
+            <h3>Action: a pizza you track on an app</h3>
+            <p>A client sends a goal, gets feedback while the job runs ("in the oven", "on the way"), and finally a result. It can cancel at any time.</p>
+            <p class="small muted">Used for long jobs: navigating to a room, moving a robot arm.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="section-head">
+      <h2>Concept lab: poke the ideas</h2>
+      <p class="muted">Short animations that explain one idea at a time and narrate every step. Press the buttons, break things on purpose, and read what happens. The same animations appear inside the lessons.</p>
+    </div>
+    <div class="lab">
+      <nav class="lab-tabs" id="lab-tabs" aria-label="Choose an animation"></nav>
+      <div id="lab-stage" class="lab-stage"><p class="muted">Loading the animation…</p></div>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="section-head">
+      <h2>Learn it by playing it</h2>
+      <p class="muted">Each lesson has a small game that turns an idea into something you can poke. Try this one now: no sign-in needed.</p>
+    </div>
+    <div class="play-grid">
+      <div id="demo-game" class="demo-game"><p class="muted">Loading the game…</p></div>
+      <aside class="game-list">
+        <h3>More games in the Playground</h3>
+        <ul id="game-links"></ul>
+        <a class="btn btn-white" href="playground.html">Open the Playground</a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap section">
+      <div class="section-head">
+        <h2>How every lesson works</h2>
+        <p class="muted">Short steps, always in the same order, so you always know what comes next.</p>
+      </div>
+      <ol class="flow">
+        <li><b>A story</b><span>Chiku the delivery robot has a problem you are about to solve.</span></li>
+        <li><b>One idea</b><span>Explained in plain English with a real-world comparison.</span></li>
+        <li><b>Watch it work</b><span>An animation or a step-by-step code tracer shows the idea moving.</span></li>
+        <li><b>Try it</b><span>In the practice terminal, the Python playground, a puzzle or a game.</span></li>
+        <li><b>Quick check</b><span>Questions with instant feedback and hints.</span></li>
+        <li><b>Recap</b><span>The few things to remember, plus flashcards.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="lp-cert" id="certificate">
+    <div class="wrap section">
+      <div class="lp-cert-grid">
+        <div>
+          <h2>Finish it, and prove it</h2>
+          <p>Your certificate is earned, not just downloaded. It shows your marks, your project and your instructor's signature, and anyone can scan its QR code to check it is genuine.</p>
+          <ol class="lp-steps">
+            <li><b>Finish every lesson</b><span>95 short lessons over six weeks.</span></li>
+            <li><b>Score 60% or more in every weekly test</b><span>Two attempts each, and every student gets different questions.</span></li>
+            <li><b>Score 80% or more in your personal project</b><span>A small ROS 2 package with a brief made only for you, in Python or C++.</span></li>
+            <li><b>Apply, and your instructor signs it</b><span>Valid for 2 years, verifiable online, and ready to add to LinkedIn.</span></li>
+          </ol>
+          <p class="lp-note"><b>Bonus:</b> finish every lesson and pass every test within your 60 days, and the course stays open for you for life.</p>
+        </div>
+        <div class="lp-cert-frame" id="cert-sample" aria-label="Sample certificate"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="instructor">
+    <div class="lp-instr">
+      <div class="lp-instr-text">
+        <img src="img/logo-axes.svg" alt="Robotics &amp; ROS 2 Lab logo" width="72" height="72">
+        <h2>From the Robotics &amp; ROS 2 Lab channel</h2>
+        <p>This course comes from the <b>Robotics &amp; ROS 2 Lab</b> YouTube channel, where ROS 2 is explained step by step with hands-on demonstrations. The course follows the same style: one idea at a time, tried out straight away. Watch a few videos to see how you will learn.</p>
+        <a class="btn btn-white" id="yt-channel" href="https://youtu.be/-tL0dp7Kloc" target="_blank" rel="noopener">Watch on YouTube</a>
+      </div>
+      <div class="lp-videos" id="yt-videos"></div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap section">
+      <div class="section-head">
+        <h2>Who it is for</h2>
+        <p class="muted">No ROS experience needed. Week 1 starts with the terminal and Python from zero.</p>
+      </div>
+      <ul class="lp-who">
+        <li><b>Engineering students</b><span>BE / BTech, any branch: robotics, mechanical, electronics, computer science</span></li>
+        <li><b>PG and PhD scholars</b><span>Who need ROS 2 for a project, thesis or lab robot</span></li>
+        <li><b>Graduates</b><span>Building skills for robotics and automation jobs</span></li>
+        <li><b>Faculty and engineers</b><span>Who want a structured, practical refresher in ROS 2 Jazzy</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="join">
+      <div>
+        <h2>How to join</h2>
+        <ol class="steps-list">
+          <li><strong>Register</strong> with your email address and a password, and verify your email.</li>
+          <li data-mode="id-card"><strong>Add your college details</strong> and upload a photo of your current college ID card.</li>
+          <li data-mode="manual auto"><strong>Tell us about yourself</strong>: your college, or the institution or company where you work.</li>
+          <li data-mode="id-card manual"><strong>Start learning</strong> as soon as your instructor approves your registration, usually within 1 to 2 working days.</li>
+          <li data-mode="auto"><strong>Start learning</strong> straight away.</li>
+          <li><strong>Keep the course for life</strong> by finishing every lesson and scoring at least 60% in every test within 60 days.</li>
+          <li><strong>Apply for your certificate</strong> after scoring at least 80% in your own personal project. Your instructor signs it; it is valid for 2 years and can be checked online.</li>
+        </ol>
+        <a class="btn" href="register.html">Register free</a>
+      </div>
+      <div class="join-side">
+        <h3>What you need</h3>
+        <ul>
+          <li><b>Days 1 to 9:</b> just a browser, on a laptop or a phone.</li>
+          <li><b>Day 10:</b> Ubuntu 24.04 (WSL2, dual boot, a virtual machine or a lab computer) to install ROS 2 Jazzy.</li>
+          <li><b>Days 11 to 30:</b> everything works in the browser's practice terminal and Python playground, and you can repeat each step on your own Ubuntu.</li>
+          <li><b>Days 31 to 45 (optional introductory experience, no certificate):</b> URDF, xacro, TF and RViz, with a practice 3D RViz in the browser. On your own Ubuntu, add <code>sudo apt install ros-jazzy-urdf-tutorial liburdfdom-tools</code>.</li>
+          <li><b>Final project:</b> best built and tested on Ubuntu with ROS 2 Jazzy. Without Ubuntu, you can still write it carefully using the Week 5 and Week 6 lessons.</li>
+          <li><b>Time:</b> about 1 to 2 hours a day (Weeks 5 and 6 are the longest), around 48 hours in total.</li>
+          <li><b>60 days:</b> finish every lesson and pass every test of Weeks 1 to 6 (60% or more) within 60 days of registering, and your access stays open for life, including Weeks 7 to 9.</li>
+          <li><b>Certificate:</b> pass every test of Weeks 1 to 6 and score 80% or more in the final project. Weeks 7 to 9 are an optional introductory experience and are not part of the certificate.</li>
+        </ul>
+        <p class="small muted">Want to read ahead? See the <a href="resources.html">best free ROS 2 resources</a> we recommend.</p>
+      </div>
+    </div>
+  </section>
+  <section class="wrap section" id="faq">
+    <div class="section-head"><h2>Questions students ask</h2></div>
+    <div class="lp-faq">
+      <details><summary>Is it really free?</summary><p>Yes. Everyone who registers by 31 December 2026 joins the founding batch for free.</p></details>
+      <details><summary>Do I need Ubuntu or a powerful laptop?</summary><p>Not to start. Days 1 to 9 need only a browser, on a laptop or a phone. On Day 10 you install ROS 2 Jazzy on Ubuntu 24.04 (WSL2, dual boot, a virtual machine or a lab computer). After that, every lesson up to Day 30 still works in the browser's practice terminal and Python playground, and you can repeat each step on your own Ubuntu. Ubuntu helps most for the final project, but it is not required. Weeks 7 to 9 (URDF and RViz) also work in the browser, with a practice 3D RViz.</p></details>
+      <details><summary>Can I learn on my phone?</summary><p>Yes. Lessons, animations, games and tests work on a phone. A laptop is more comfortable for typing code in the practice terminal.</p></details>
+      <details><summary>How long can I use the course?</summary><p>Exactly 60 days from the day your registration is approved. If you finish every lesson of Weeks 1 to 6 and score at least 60% in each of their tests within those 60 days, your access stays open for life so you can revise later. In your first registration you can ask once for up to 30 extra days. If the course is not finished in time, the registration is cancelled; you can then ask to register again, afresh, at most two times.</p></details>
+      <details><summary>How do the weekly tests work?</summary><p>Each week ends with a timed test that unlocks when you finish that week's lessons. You get two attempts and your best score counts; you need 60% to pass. Every student gets a different paper.</p></details>
+      <details><summary>What is the personal project?</summary><p>After the last lesson you get your own small ROS 2 project, such as a turtle that patrols waypoints or a safety filter, with names and numbers chosen just for you. You submit your code and a short report in Python or C++, up to two times. Your instructor marks it; 80% passes.</p></details>
+      <details><summary>What does the certificate show, and can employers check it?</summary><p>Your name and details, the modules completed, every test mark, your project score, the issue date and a 2-year validity, signed by the instructor. Its QR code and ID open a page on ros2lab.com that confirms it is genuine.</p></details>
+      <details><summary>Python or C++?</summary><p>Both. From Week 5, every idea comes first in Python and then in C++, so you can follow either or both.</p></details>
+      <details><summary>Who can join?</summary><p>Students (UG, PG or PhD), graduates, faculty, research scholars and engineers. If you are under 18, register with a parent's or guardian's consent.</p></details>
+    </div>
+  </section>
+
+  <section class="lp-final">
+    <div class="wrap">
+      <img src="img/logo-axes.svg" alt="" width="64" height="64">
+      <h2>Your first ROS 2 node is six weeks away.</h2>
+      <p id="final-offer">Join the free founding batch today and start with Day 1: the terminal.</p>
+      <a class="btn" href="register.html">Register free</a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot"><div class="wrap">
+  <span>ROS2Lab: a free ROS 2 course for students and engineers</span>
+  <span class="credit">Developed by the Robotics and ROS2 lab Channel</span>
+  <a href="https://youtu.be/-tL0dp7Kloc" id="yt-foot" target="_blank" rel="noopener">YouTube: Robotics &amp; ROS 2 Lab</a>
+  <a href="playground.html">Playground</a>
+  <a href="resources.html">Free resources</a>
+  <a href="terms.html">Terms of Use</a>
+  <a href="privacy.html">Privacy notice</a>
+</div></footer>
+<script type="module" src="js/modes.js"></script>
+<script type="module" src="js/index.js"></script>
+</body>
+</html>

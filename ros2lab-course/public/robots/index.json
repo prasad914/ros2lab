@@ -1,0 +1,764 @@
+[
+ {
+  "id": "arm3",
+  "title": "3-DOF arm with a gripper",
+  "file": "arm3/urdf/arm3_gripper.urdf.xacro",
+  "fixedFrame": "base_link",
+  "about": "3 revolute joints (yaw, shoulder, elbow) and 2 prismatic fingers. The right finger uses <mimic>, so one slider moves both.",
+  "real": [
+   {
+    "title": "ROBOTIS OpenMANIPULATOR-X (4-DOF + gripper)",
+    "url": "https://github.com/ROBOTIS-GIT/open_manipulator"
+   },
+   {
+    "title": "SO-ARM100 low-cost arm",
+    "url": "https://github.com/TheRobotStudio/SO-ARM100"
+   }
+  ],
+  "group": "Basic robots (ROS2Lab)"
+ },
+ {
+  "id": "arm6",
+  "title": "6-DOF industrial arm",
+  "file": "arm6/urdf/arm6.urdf.xacro",
+  "fixedFrame": "base_link",
+  "about": "Six revolute joints named like a Universal Robots arm, ending in an empty tool0 frame where a gripper would be fixed.",
+  "real": [
+   {
+    "title": "Universal Robots ROS 2 description (UR3 to UR30)",
+    "url": "https://github.com/UniversalRobots/Universal_Robots_ROS2_Description"
+   },
+   {
+    "title": "myCobot 280 for ROS 2 Jazzy (Automatic Addison)",
+    "url": "https://github.com/automaticaddison/mycobot_ros2"
+   }
+  ],
+  "group": "Basic robots (ROS2Lab)"
+ },
+ {
+  "id": "quadcopter",
+  "title": "Quadcopter",
+  "file": "quadcopter/urdf/quadcopter.urdf.xacro",
+  "fixedFrame": "base_link",
+  "about": "One body, four fixed motors and four propellers on continuous joints. In flight, the body's position comes from an odom → base_link transform, not from the URDF.",
+  "real": [
+   {
+    "title": "sjtu_drone ROS 2 quadcopter simulator (GPLv3: link, don't copy)",
+    "url": "https://github.com/NovoG93/sjtu_drone"
+   }
+  ],
+  "group": "Drones"
+ },
+ {
+  "id": "chiku",
+  "title": "Chiku: 2-wheeled mobile robot",
+  "file": "chiku/urdf/chiku.urdf.xacro",
+  "fixedFrame": "base_footprint",
+  "about": "A differential-drive robot: two continuous wheel joints, a fixed caster and an optional lidar (xacro arg use_lidar).",
+  "real": [
+   {
+    "title": "TurtleBot3 description",
+    "url": "https://github.com/ROBOTIS-GIT/turtlebot3"
+   },
+   {
+    "title": "Articulated Robotics: my_bot",
+    "url": "https://github.com/joshnewans/articubot_one"
+   }
+  ],
+  "group": "Basic robots (ROS2Lab)"
+ },
+ {
+  "id": "chiku_mesh",
+  "title": "Chiku with mesh files",
+  "file": "chiku_description/urdf/chiku_mesh.urdf.xacro",
+  "fixedFrame": "base_footprint",
+  "about": "The same robot drawn with STL meshes (in millimetres, so scale 0.001) and simple boxes and cylinders for collision.",
+  "real": [],
+  "group": "Basic robots (ROS2Lab)"
+ },
+ {
+  "id": "quadruped",
+  "title": "4-legged robot",
+  "file": "quadruped/urdf/quadruped.urdf.xacro",
+  "fixedFrame": "base_link",
+  "about": "12 revolute joints: hip, thigh and calf on each leg, written once as a leg macro and used four times.",
+  "real": [
+   {
+    "title": "Unitree Go2 description for ROS 2 (CHAMP)",
+    "url": "https://github.com/anujjain-dev/unitree-go2-ros2"
+   },
+   {
+    "title": "CHAMP legged robots",
+    "url": "https://github.com/chvmp/champ"
+   }
+  ],
+  "group": "Basic robots (ROS2Lab)"
+ },
+ {
+  "id": "hexapod",
+  "title": "6-legged spider robot",
+  "file": "hexapod/urdf/hexapod.urdf.xacro",
+  "fixedFrame": "base_link",
+  "about": "18 revolute joints. Each leg is the same macro; only the yaw angle of its first joint changes (0°, 60° … 300°).",
+  "real": [
+   {
+    "title": "PhantomX hexapod description (ROS 1, good porting exercise)",
+    "url": "https://github.com/HumaRobotics/phantomx_description"
+   }
+  ],
+  "group": "Basic robots (ROS2Lab)"
+ },
+ {
+  "id": "humanoid",
+  "title": "Humanoid",
+  "file": "humanoid/urdf/humanoid.urdf.xacro",
+  "fixedFrame": "pelvis",
+  "about": "21 revolute joints: waist, neck pan and tilt, 3 per arm and 6 per leg. Arms and legs are macros with a left/right sign.",
+  "real": [
+   {
+    "title": "Unitree H1/G1 descriptions",
+    "url": "https://github.com/unitreerobotics/unitree_ros"
+   }
+  ],
+  "group": "Basic robots (ROS2Lab)"
+ },
+ {
+  "id": "mobile_manipulator",
+  "title": "Hybrid: mobile manipulator",
+  "file": "mobile_manipulator/urdf/mobile_manipulator.urdf.xacro",
+  "fixedFrame": "base_footprint",
+  "about": "Chiku's base plus the 3-DOF arm, joined by one fixed joint. The arm comes from the same macro file as the arm robot, with prefix arm_.",
+  "real": [
+   {
+    "title": "PAL TIAGo (mobile manipulator)",
+    "url": "https://github.com/pal-robotics/tiago_robot"
+   }
+  ],
+  "group": "Basic robots (ROS2Lab)"
+ },
+ {
+  "id": "legged_manipulator",
+  "title": "Hybrid: legged manipulator",
+  "file": "legged_manipulator/urdf/legged_manipulator.urdf.xacro",
+  "fixedFrame": "base_link",
+  "about": "The 4-legged robot carrying the arm: 12 leg joints + 3 arm joints + a gripper, all from reused macros.",
+  "real": [],
+  "group": "Basic robots (ROS2Lab)"
+ },
+ {
+  "id": "ackermann",
+  "title": "Car-like (Ackermann) robot",
+  "file": "ackermann/urdf/ackermann.urdf.xacro",
+  "fixedFrame": "base_footprint",
+  "about": "Two front steering joints (revolute, ±0.6 rad) and four wheels (continuous), like a car.",
+  "real": [],
+  "group": "Basic robots (ROS2Lab)"
+ },
+ {
+  "id": "mecanum",
+  "title": "Mecanum (omnidirectional) robot",
+  "file": "mecanum/urdf/mecanum.urdf.xacro",
+  "fixedFrame": "base_footprint",
+  "about": "Four continuous wheels; the tilted bars show the 45° rollers that let it drive sideways.",
+  "real": [],
+  "group": "Basic robots (ROS2Lab)"
+ },
+ {
+  "id": "ur5e",
+  "title": "Universal Robots UR5e",
+  "vendor": "Universal Robots",
+  "group": "Collaborative and desktop arms",
+  "pkg": "ur_description",
+  "file": "ur_description/urdf/ur5e.urdf",
+  "fixedFrame": "world",
+  "about": "6-DOF collaborative arm, 5 kg payload, 850 mm reach. The official ROS 2 description (ur_type:=ur5e) with its DAE meshes.",
+  "source": {
+   "url": "https://github.com/UniversalRobots/Universal_Robots_ROS2_Description",
+   "license": "BSD-3-Clause"
+  }
+ },
+ {
+  "id": "fr3",
+  "title": "Franka Research 3 with Franka Hand",
+  "vendor": "Franka Robotics",
+  "group": "Collaborative and desktop arms",
+  "pkg": "franka_description",
+  "file": "franka_description/urdf/fr3.urdf",
+  "fixedFrame": "base",
+  "about": "7-DOF torque-controlled research arm with the two-finger Franka Hand (hand:=true). The second finger is a mimic joint.",
+  "source": {
+   "url": "https://github.com/frankarobotics/franka_description",
+   "license": "Apache-2.0"
+  }
+ },
+ {
+  "id": "gen3",
+  "title": "Kinova Gen3 7-DOF with vision module",
+  "vendor": "Kinova",
+  "group": "Collaborative and desktop arms",
+  "pkg": "kortex_description",
+  "file": "kortex_description/urdf/gen3.urdf",
+  "fixedFrame": "world",
+  "about": "7-DOF ultra-light arm with the wrist RGB-D vision module (dof:=7 vision:=true). sim.launch.py adds the wrist camera as a Gazebo rgbd_camera and position controllers on joints 2, 4 and 6: move them with ros2 topic pub /joint_2/cmd_pos std_msgs/msg/Float64 \"{data: 1.0}\".",
+  "source": {
+   "url": "https://github.com/Kinovarobotics/ros2_kortex",
+   "license": "BSD-3-Clause"
+  },
+  "sim": {
+   "model": "gen3",
+   "fixedFrame": "world",
+   "z": 0,
+   "sensors": [
+    {
+     "name": "wrist_camera",
+     "type": "rgbd_camera",
+     "link": "camera_color_frame",
+     "opticalLink": true,
+     "topic": "wrist_camera",
+     "cam": [
+      0.932,
+      640,
+      360,
+      0.18,
+      6
+     ],
+     "rate": 30
+    }
+   ],
+   "positions": [
+    {
+     "joint": "joint_2",
+     "initial": 0.5
+    },
+    {
+     "joint": "joint_4",
+     "initial": 1.5
+    },
+    {
+     "joint": "joint_6",
+     "initial": 0.35
+    }
+   ],
+   "control": true
+  }
+ },
+ {
+  "id": "xarm6",
+  "title": "UFACTORY xArm 6",
+  "vendor": "UFACTORY",
+  "group": "Collaborative and desktop arms",
+  "pkg": "xarm_description",
+  "file": "xarm_description/urdf/xarm6.urdf",
+  "fixedFrame": "world",
+  "about": "6-DOF arm from the official xarm_ros2 description (dof:=6 robot_type:=xarm).",
+  "source": {
+   "url": "https://github.com/xArm-Developer/xarm_ros2",
+   "license": "BSD-3-Clause"
+  }
+ },
+ {
+  "id": "lite6",
+  "title": "UFACTORY Lite 6",
+  "vendor": "UFACTORY",
+  "group": "Collaborative and desktop arms",
+  "pkg": "xarm_description",
+  "file": "xarm_description/urdf/lite6.urdf",
+  "fixedFrame": "world",
+  "about": "Low-cost 6-DOF desktop arm (robot_type:=lite).",
+  "source": {
+   "url": "https://github.com/xArm-Developer/xarm_ros2",
+   "license": "BSD-3-Clause"
+  }
+ },
+ {
+  "id": "cr5",
+  "title": "Dobot CR5",
+  "vendor": "Dobot",
+  "group": "Collaborative and desktop arms",
+  "pkg": "cra_description",
+  "file": "cra_description/urdf/cr5_robot.urdf",
+  "fixedFrame": "world",
+  "about": "6-DOF collaborative arm, 5 kg payload, from Dobot's ROS 2 V4 driver package.",
+  "source": {
+   "url": "https://github.com/Dobot-Arm/DOBOT_6Axis_ROS2_V4",
+   "license": "MIT"
+  }
+ },
+ {
+  "id": "magician",
+  "title": "Dobot Magician",
+  "vendor": "Dobot",
+  "group": "Collaborative and desktop arms",
+  "pkg": "dobot_description",
+  "file": "dobot_description/urdf/magician.urdf",
+  "fixedFrame": "magician_root_link",
+  "about": "4-axis desktop arm for education. Its parallel links are modelled with mimic joints, so only the motor joints have sliders.",
+  "source": {
+   "url": "https://github.com/jkaniuka/magician_ros2",
+   "license": "MIT"
+  }
+ },
+ {
+  "id": "so101",
+  "title": "SO-101 (LeRobot arm)",
+  "vendor": "The Robot Studio / Hugging Face",
+  "group": "Collaborative and desktop arms",
+  "pkg": "so101_description",
+  "file": "so101_description/urdf/so101.urdf",
+  "fixedFrame": "base_link",
+  "about": "Open-source 5-DOF + gripper arm used with LeRobot for imitation learning.",
+  "source": {
+   "url": "https://github.com/TheRobotStudio/SO-ARM100",
+   "license": "Apache-2.0"
+  }
+ },
+ {
+  "id": "wx250s",
+  "title": "Trossen WidowX 250 6DOF",
+  "vendor": "Trossen Robotics",
+  "group": "Collaborative and desktop arms",
+  "pkg": "interbotix_xsarm_descriptions",
+  "file": "interbotix_xsarm_descriptions/urdf/wx250s.urdf",
+  "fixedFrame": "wx250s/base_link",
+  "about": "6-DOF research arm with a gripper. Every frame has the robot name as a prefix (wx250s/...), as the Interbotix packages publish them.",
+  "source": {
+   "url": "https://github.com/Interbotix/interbotix_ros_manipulators",
+   "license": "BSD-3-Clause"
+  }
+ },
+ {
+  "id": "irb120",
+  "title": "ABB IRB 120",
+  "vendor": "ABB",
+  "group": "Industrial arms",
+  "pkg": "abb_irb120_support",
+  "file": "abb_irb120_support/urdf/irb120_3_58.urdf",
+  "fixedFrame": "base_link",
+  "about": "ABB's smallest industrial arm (3 kg, 580 mm). ROS-Industrial support package: base_link to tool0 with the joint limits of the controller.",
+  "source": {
+   "url": "https://github.com/ros-industrial/abb",
+   "license": "Apache-2.0"
+  }
+ },
+ {
+  "id": "kr6",
+  "title": "KUKA KR 6 R900 sixx (Agilus)",
+  "vendor": "KUKA",
+  "group": "Industrial arms",
+  "pkg": "kuka_kr6_support",
+  "file": "kuka_kr6_support/urdf/kr6r900sixx.urdf",
+  "fixedFrame": "base_link",
+  "about": "Fast 6 kg industrial arm. ROS-Industrial support package with base_link, flange and tool0 frames.",
+  "source": {
+   "url": "https://github.com/ros-industrial/kuka_experimental",
+   "license": "Apache-2.0"
+  }
+ },
+ {
+  "id": "lrmate",
+  "title": "FANUC LR Mate 200iD",
+  "vendor": "FANUC",
+  "group": "Industrial arms",
+  "pkg": "fanuc_lrmate200id_support",
+  "file": "fanuc_lrmate200id_support/urdf/lrmate200id.urdf",
+  "fixedFrame": "base_link",
+  "about": "Compact 7 kg industrial arm. ROS-Industrial support package (flange and tool0 frames, controller joint limits).",
+  "source": {
+   "url": "https://github.com/ros-industrial/fanuc",
+   "license": "BSD-3-Clause"
+  }
+ },
+ {
+  "id": "tb3_waffle",
+  "title": "TurtleBot3 Waffle",
+  "vendor": "ROBOTIS",
+  "group": "Mobile robots",
+  "pkg": "turtlebot3_description",
+  "file": "turtlebot3_description/urdf/turtlebot3_waffle.urdf",
+  "fixedFrame": "base_footprint",
+  "about": "Differential-drive research robot with an LDS-01 360° lidar, an RGB camera and an IMU. sim.launch.py runs it in Gazebo: scan, camera image, IMU and odometry appear in RViz; drive it with teleop_twist_keyboard.",
+  "source": {
+   "url": "https://github.com/ROBOTIS-GIT/turtlebot3",
+   "license": "Apache-2.0"
+  },
+  "sim": {
+   "model": "turtlebot3_waffle",
+   "base": "base_footprint",
+   "drive": {
+    "left": [
+     "wheel_left_joint"
+    ],
+    "right": [
+     "wheel_right_joint"
+    ],
+    "separation": 0.287,
+    "radius": 0.033
+   },
+   "sensors": [
+    {
+     "name": "lidar",
+     "type": "gpu_lidar",
+     "link": "base_scan",
+     "topic": "scan",
+     "h": [
+      360,
+      0,
+      6.28
+     ],
+     "v": [
+      1,
+      0,
+      0
+     ],
+     "range": [
+      0.12,
+      3.5
+     ],
+     "rate": 5,
+     "noise": 0.01,
+     "res": 0.015
+    },
+    {
+     "name": "camera",
+     "type": "camera",
+     "link": "camera_rgb_frame",
+     "optical": "camera_rgb_optical_frame",
+     "topic": "camera/image_raw",
+     "cam": [
+      1.085595,
+      640,
+      480,
+      0.03,
+      100
+     ],
+     "rate": 30
+    },
+    {
+     "name": "imu",
+     "type": "imu",
+     "link": "imu_link",
+     "topic": "imu",
+     "rate": 200
+    }
+   ],
+   "control": true
+  }
+ },
+ {
+  "id": "tb3_burger",
+  "title": "TurtleBot3 Burger",
+  "vendor": "ROBOTIS",
+  "group": "Mobile robots",
+  "pkg": "turtlebot3_description",
+  "file": "turtlebot3_description/urdf/turtlebot3_burger.urdf",
+  "fixedFrame": "base_footprint",
+  "about": "The small TurtleBot3: two wheels, an LDS-01 lidar and an IMU. sim.launch.py runs it in Gazebo.",
+  "source": {
+   "url": "https://github.com/ROBOTIS-GIT/turtlebot3",
+   "license": "Apache-2.0"
+  },
+  "sim": {
+   "model": "turtlebot3_burger",
+   "base": "base_footprint",
+   "drive": {
+    "left": [
+     "wheel_left_joint"
+    ],
+    "right": [
+     "wheel_right_joint"
+    ],
+    "separation": 0.16,
+    "radius": 0.033
+   },
+   "sensors": [
+    {
+     "name": "lidar",
+     "type": "gpu_lidar",
+     "link": "base_scan",
+     "topic": "scan",
+     "h": [
+      360,
+      0,
+      6.28
+     ],
+     "v": [
+      1,
+      0,
+      0
+     ],
+     "range": [
+      0.12,
+      3.5
+     ],
+     "rate": 5,
+     "noise": 0.01,
+     "res": 0.015
+    },
+    {
+     "name": "imu",
+     "type": "imu",
+     "link": "imu_link",
+     "topic": "imu",
+     "rate": 200
+    }
+   ],
+   "control": true
+  }
+ },
+ {
+  "id": "scout",
+  "title": "AgileX Scout V2",
+  "vendor": "AgileX Robotics",
+  "group": "Mobile robots",
+  "pkg": "scout_description",
+  "file": "scout_description/urdf/scout_v2.urdf",
+  "fixedFrame": "base_link",
+  "about": "Four-wheel skid-steer outdoor platform. In this description the wheel joints are fixed, so there are no sliders.",
+  "source": {
+   "url": "https://github.com/agilexrobotics/scout_ros2",
+   "license": "Apache-2.0"
+  }
+ },
+ {
+  "id": "go2",
+  "title": "Unitree Go2",
+  "vendor": "Unitree Robotics",
+  "group": "Legged robots and humanoids",
+  "pkg": "go2_description",
+  "file": "go2_description/urdf/go2.urdf",
+  "fixedFrame": "base",
+  "about": "12-joint quadruped with the L1 4D lidar, a front camera and an IMU. sim.launch.py adds them as Gazebo sensors. Without a walking controller the robot only stands (here it is held in place).",
+  "source": {
+   "url": "https://github.com/unitreerobotics/unitree_ros",
+   "license": "BSD-3-Clause"
+  },
+  "sim": {
+   "model": "go2",
+   "fixedFrame": "base",
+   "sensors": [
+    {
+     "name": "l1_lidar",
+     "type": "gpu_lidar",
+     "link": "radar",
+     "topic": "utlidar",
+     "h": [
+      180,
+      -3.141593,
+      3.141593
+     ],
+     "v": [
+      11,
+      0,
+      1.570796
+     ],
+     "range": [
+      0.05,
+      30
+     ],
+     "rate": 11,
+     "noise": 0.02,
+     "res": 0.01,
+     "rosCloud": "utlidar/cloud"
+    },
+    {
+     "name": "front_camera",
+     "type": "camera",
+     "link": "front_camera",
+     "topic": "front_camera/image_raw",
+     "cam": [
+      2.0,
+      640,
+      360,
+      0.05,
+      50
+     ],
+     "rate": 15
+    },
+    {
+     "name": "imu",
+     "type": "imu",
+     "link": "imu",
+     "topic": "imu",
+     "rate": 200
+    }
+   ],
+   "velocity": {
+    "maxV": 1.0,
+    "maxW": 1.5,
+    "note": "Unitree Go2 walks with Unitree's own locomotion controller (community Gazebo packages use CHAMP)."
+   },
+   "base": "base"
+  }
+ },
+ {
+  "id": "g1",
+  "title": "Unitree G1 humanoid (29 DOF)",
+  "vendor": "Unitree Robotics",
+  "group": "Legged robots and humanoids",
+  "pkg": "g1_description",
+  "file": "g1_description/urdf/g1_29dof.urdf",
+  "fixedFrame": "pelvis",
+  "about": "1.3 m humanoid with a Livox MID-360 lidar, an Intel RealSense D435 and IMUs. sim.launch.py adds the lidar, the RGB-D camera and the pelvis IMU as Gazebo sensors.",
+  "source": {
+   "url": "https://github.com/unitreerobotics/unitree_ros",
+   "license": "BSD-3-Clause"
+  },
+  "sim": {
+   "model": "g1",
+   "fixedFrame": "pelvis",
+   "sensors": [
+    {
+     "name": "mid360",
+     "type": "gpu_lidar",
+     "link": "mid360_link",
+     "topic": "livox/scan",
+     "h": [
+      360,
+      -3.141593,
+      3.141593
+     ],
+     "v": [
+      24,
+      -0.122173,
+      0.907571
+     ],
+     "range": [
+      0.1,
+      40
+     ],
+     "rate": 10,
+     "noise": 0.02,
+     "res": 0.01,
+     "rosCloud": "livox/lidar"
+    },
+    {
+     "name": "d435",
+     "type": "rgbd_camera",
+     "link": "d435_link",
+     "topic": "d435",
+     "cam": [
+      1.204,
+      640,
+      480,
+      0.105,
+      10
+     ],
+     "rate": 15
+    },
+    {
+     "name": "imu",
+     "type": "imu",
+     "link": "imu_in_pelvis",
+     "topic": "imu",
+     "rate": 200
+    }
+   ],
+   "velocity": {
+    "maxV": 0.5,
+    "maxW": 1.0,
+    "note": "Unitree G1 balances and walks with Unitree's learned locomotion policy."
+   },
+   "base": "pelvis"
+  }
+ },
+ {
+  "id": "h1",
+  "title": "Unitree H1 humanoid",
+  "vendor": "Unitree Robotics",
+  "group": "Legged robots and humanoids",
+  "pkg": "h1_description",
+  "file": "h1_description/urdf/h1.urdf",
+  "fixedFrame": "pelvis",
+  "about": "1.8 m full-size humanoid with a MID-360 lidar and a RealSense D435 in the head.",
+  "source": {
+   "url": "https://github.com/unitreerobotics/unitree_ros",
+   "license": "BSD-3-Clause"
+  },
+  "sim": {
+   "model": "h1",
+   "fixedFrame": "pelvis",
+   "sensors": [
+    {
+     "name": "mid360",
+     "type": "gpu_lidar",
+     "link": "mid360_link",
+     "topic": "livox/scan",
+     "h": [
+      360,
+      -3.141593,
+      3.141593
+     ],
+     "v": [
+      24,
+      -0.122173,
+      0.907571
+     ],
+     "range": [
+      0.1,
+      40
+     ],
+     "rate": 10,
+     "noise": 0.02,
+     "res": 0.01,
+     "rosCloud": "livox/lidar"
+    },
+    {
+     "name": "d435",
+     "type": "rgbd_camera",
+     "link": "d435_rgb_module_link",
+     "opticalLink": true,
+     "topic": "d435",
+     "cam": [
+      1.204,
+      640,
+      480,
+      0.105,
+      10
+     ],
+     "rate": 15
+    },
+    {
+     "name": "imu",
+     "type": "imu",
+     "link": "imu_link",
+     "topic": "imu",
+     "rate": 200
+    }
+   ],
+   "velocity": {
+    "maxV": 0.5,
+    "maxW": 1.0,
+    "note": "Unitree H1 walks with Unitree's own locomotion controller."
+   },
+   "base": "pelvis"
+  }
+ },
+ {
+  "id": "spot",
+  "title": "Boston Dynamics Spot",
+  "vendor": "Boston Dynamics (description by RAI Institute)",
+  "group": "Legged robots and humanoids",
+  "pkg": "spot_description",
+  "file": "spot_description/urdf/spot.urdf",
+  "fixedFrame": "body",
+  "about": "12-joint quadruped with its OBJ meshes and textures (materials come from the .mtl file).",
+  "source": {
+   "url": "https://github.com/bdaiinstitute/spot_description",
+   "license": "MIT"
+  }
+ },
+ {
+  "id": "crazyflie",
+  "title": "Bitcraze Crazyflie 2.1",
+  "vendor": "Bitcraze",
+  "group": "Drones",
+  "pkg": "crazyflie_description",
+  "file": "crazyflie_description/urdf/crazyflie.urdf",
+  "fixedFrame": "cf",
+  "about": "27 g nano quadcopter used in Crazyswarm2 drone swarms. One link with the whole frame as a mesh; in flight its pose comes from TF (world -> cf).",
+  "source": {
+   "url": "https://github.com/IMRCLab/crazyswarm2",
+   "license": "MIT"
+  }
+ }
+]

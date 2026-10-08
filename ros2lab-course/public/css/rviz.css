@@ -1,0 +1,341 @@
+/* ROS2Lab practice RViz2 and joint_state_publisher_gui: the look of RViz2 (ROS 2 Jazzy) on Ubuntu 24.04.
+   Measured from real Qt 5.15.13 renders (Fusion style, GNOME platform theme, Ubuntu Sans 11 pt) of the
+   rviz_common widget tree with its default layout. Widget backgrounds (buttons, checkboxes, combo boxes,
+   arrows, sliders...) are Qt's own pixels, in img/rviz/qt/. Text is drawn by the browser in the same fonts. */
+@font-face { font-family: "RViz Ubuntu Sans"; src: url("../fonts/UbuntuSans-Var.woff2") format("woff2"); font-weight: 100 800; font-display: swap; }
+@font-face { font-family: "RViz Nimbus Sans"; src: url("../fonts/NimbusSans-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Liberation Sans"; src: url("../fonts/LiberationSans-Arimo.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+
+.rviz, .jsp-win, .q-modal {
+  --q-window: #efefef; --q-base: #fff; --q-text: #000; --q-mid: #b8b8b8; --q-dark: #9f9f9f; --q-shadow: #767676; --q-hl: #308cc6; --q-dis: #bebebe;
+  --q-font: "RViz Ubuntu Sans", "Ubuntu Sans", Ubuntu, "DejaVu Sans", sans-serif; --q-fs: 15px; --q-lh: 19px;
+  --q-img: url("../img/rviz/qt/");
+}
+.rviz { position: relative; display: flex; flex-direction: column; height: var(--rv-h, 640px); background: var(--q-window); color: var(--q-text);
+  font: 400 var(--q-fs)/var(--q-lh) var(--q-font); -webkit-font-smoothing: antialiased; user-select: none; -webkit-user-select: none;
+  border-radius: 12px 12px 0 0; box-shadow: 0 0 0 1px rgba(0,0,0,.23), 0 6px 22px rgba(0,0,0,.28); overflow: hidden; text-align: left; letter-spacing: 0; }
+.rviz *, .jsp-win *, .q-modal * { box-sizing: border-box; }
+.rviz button, .rviz input, .rviz select, .jsp-win button, .jsp-win input, .q-modal button, .q-modal input { font: inherit; color: inherit; letter-spacing: 0; }
+.rviz.rv-min .q-window { display: none; }
+.rviz:fullscreen { --rv-h: 100vh; border-radius: 0; }
+.rviz > .rv-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Ubuntu 24.04 (Yaru) window title bar, drawn by the window manager ---------- */
+.rv-titlebar { flex: none; display: flex; align-items: center; height: 37px; padding: 0 6px 0 10px; background: #ebebeb; border-bottom: 1px solid #d6d6d6;
+  font-weight: 700; color: #3d3d3d; cursor: default; touch-action: none; }
+.rv-tbspace { width: 84px; flex: none; }
+.rv-wtitle { flex: 1; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rv-wbtns { display: flex; gap: 12px; flex: none; width: 84px; justify-content: flex-end; }
+.rv-wb { width: 24px; height: 24px; border-radius: 50%; border: 0; padding: 0; background: rgba(0,0,0,.08) center no-repeat; cursor: pointer; }
+.rv-wb:hover { background-color: rgba(0,0,0,.14); }
+.rv-wb.min { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect x='4' y='10' width='8' height='1.6' fill='%233d3d3d'/%3E%3C/svg%3E"); }
+.rv-wb.max { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect x='4.5' y='4.5' width='7' height='7' fill='none' stroke='%233d3d3d' stroke-width='1.3'/%3E%3C/svg%3E"); }
+.rv-wb.close { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M4.5 4.5l7 7M11.5 4.5l-7 7' stroke='%233d3d3d' stroke-width='1.4'/%3E%3C/svg%3E"); }
+.rv-wb.close:hover { background-color: #e95420; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M4.5 4.5l7 7M11.5 4.5l-7 7' stroke='%23fff' stroke-width='1.4'/%3E%3C/svg%3E"); }
+
+/* ---------- QMainWindow ---------- */
+.q-window { flex: 1; min-height: 0; display: flex; flex-direction: column; background: var(--q-window); }
+/* menu bar: 24 px, items 6 px apart, mnemonics underlined (Fusion shows them) */
+.q-menubar { flex: none; height: 24px; display: flex; padding-left: 6px; gap: 6px; background: var(--q-window); }
+.q-mitem { height: 24px; padding: 0 5px; border: 0; background: transparent; line-height: 24px; cursor: default; }
+.q-mitem::first-letter { text-decoration: underline; text-underline-offset: 2px; }
+.q-mitem.open { background: var(--q-hl); color: #fff; }
+/* toolbar: 39 px, Qt's gradient, 9 pt text beside 16 px icons */
+.q-toolbar { flex: none; height: 39px; display: flex; align-items: center; gap: 1px; padding: 4px 2px 4px 0; background: url("../img/rviz/qt/toolbar_bg.png") repeat-x; font-size: 12px; line-height: 15px; overflow: hidden; }
+.q-toolbar[hidden] { display: none; }
+.q-grip { width: 12px; height: 31px; flex: none; background: url("../img/rviz/qt/toolbar_grip.png") 0 -4px no-repeat; }
+/* QToolButton, TextBesideIcon: 3 px margin, icon at its own size, text 4 px later; the width always
+   reserves a 24 px icon (so 16 px icons leave 8 px more space after the text) */
+.q-tool { flex: none; display: flex; align-items: center; height: 31px; padding: 0 0 0 3px; border: 0; background: transparent; cursor: default; white-space: nowrap; position: relative; }
+.q-tool::before { content: ""; position: absolute; inset: 0; pointer-events: none; border: 4px solid transparent; }
+.q-tool img { width: 16px; height: 16px; flex: none; }
+.q-tool.i24 img { width: 24px; height: 24px; }
+.q-tool span { padding: 0 0 0 2px; overflow: hidden; }
+.q-tool.q-plus { width: 42px; }
+.q-tool.q-tbmenu { width: 32px; padding-left: 8px; }
+.q-tool:hover::before { border-image: url("../img/rviz/qt/tool_hover.png") 4 fill / 4px stretch; }
+.q-tool.on::before { border-image: url("../img/rviz/qt/tool_checked.png") 4 fill / 4px stretch; }
+.q-tool:active::before { border-image: url("../img/rviz/qt/tool_pressed.png") 4 fill / 4px stretch; }
+.q-tool > * { position: relative; }
+.q-ddarrow { position: absolute !important; left: 24px; top: 20px; width: 7px; height: 7px; background: url("../img/rviz/qt/arrow_down.png") -1px -1px no-repeat; }
+
+/* central area: left docks | 6px splitter | 16px hide button | 3D view | 16px hide button | 6px splitter | right docks */
+.q-central { flex: 1; min-height: 0; display: flex; }
+.q-dockarea { flex: 0 1 auto; min-width: 140px; display: flex; flex-direction: column; min-height: 0; }
+.q-left { width: var(--rv-left, 342px); }
+.q-right { width: var(--rv-right, 350px); }
+.rviz.no-left .q-left, .rviz.no-left .q-sep.l, .rviz.no-right .q-right, .rviz.no-right .q-sep.r { display: none; }
+.q-dockarea > .q-dock { flex: 1 1 0; min-height: 60px; }
+.q-dockarea > .q-dock[hidden] { display: none; }
+.q-dockarea > .q-dock + .q-dock { margin-top: 6px; }
+.q-sep { flex: none; width: 6px; cursor: col-resize; background: url("../img/rviz/qt/docksep_v.png") center / 6px 60px no-repeat; }
+.q-hide { flex: none; width: 16px; border: 0; padding: 0; background: url("../img/rviz/qt/hide_l_normal.png") center / 16px 80px no-repeat var(--q-window); cursor: default; }
+.q-hide.r { background-image: url("../img/rviz/qt/hide_r_normal.png"); }
+.q-hide:hover { background-image: url("../img/rviz/qt/hide_l_hover.png"); background-size: 16px 100%; }
+.q-hide.r:hover { background-image: url("../img/rviz/qt/hide_r_hover.png"); }
+.q-hide.flip { background-image: url("../img/rviz/qt/hide_r_normal.png"); }
+.q-hide.r.flip { background-image: url("../img/rviz/qt/hide_l_normal.png"); }
+.rv-view { flex: 1; min-width: 160px; position: relative; background: #303030; outline: none; overflow: hidden; touch-action: none; }
+.rv-view canvas { display: block; width: 100%; height: 100%; }
+.rv-nogl { color: #ddd; padding: 1rem; }
+.rv-selbox { position: absolute; border: 1px solid #ffffff; background: rgba(255,255,255,.12); pointer-events: none; }
+
+/* dock widgets (PanelDockWidget): 23 px title bar in palette(Mid), 10 px close icon */
+.q-dock { display: flex; flex-direction: column; min-height: 0; background: var(--q-window); }
+.q-docktitle { flex: none; height: 23px; display: flex; align-items: center; padding: 2px 2px 2px 2px; background: var(--q-mid); }
+.q-docktitle > span { flex: 1; padding-left: 2px; white-space: nowrap; overflow: hidden; }
+.q-dockclose { flex: none; width: 18px; height: 17px; border: 0; padding: 0; background: url("../img/rviz/qt/dclose_normal.png") no-repeat; }
+.q-dockclose:hover { background-image: url("../img/rviz/qt/dclose_hover.png"); }
+.q-dockclose:active { background-image: url("../img/rviz/qt/dclose_pressed.png"); }
+.q-dockclose img { display: none; }
+.q-dockbody { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.rv-ddock .q-dockbody { padding: 0 0 2px; }
+.q-treewrap { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.q-hsplit { flex: none; height: 4px; background: url("../img/rviz/qt/split_h.png") center / 80px 4px no-repeat; cursor: row-resize; }
+.q-help { flex: none; height: 78px; overflow: auto; background: var(--q-base); border: 1px solid var(--q-mid); padding: 4px 5px; user-select: text; }
+.q-help a { color: #0000ff; }
+.q-btnrow { flex: none; display: flex; gap: 6px; padding: 6px 2px 2px; }
+.q-btnrow .q-btn { flex: 1 1 0; min-width: 0; }
+.rv-vdock .q-dockbody { padding-bottom: 0; }
+.q-vtop { flex: none; display: flex; align-items: center; gap: 6px; padding: 6px 2px 2px; }
+.q-vtop .q-combo { flex: none; width: 218px; }
+.q-vtop .q-btn { margin-left: auto; width: 80px; flex: none; }
+.rv-vdock .q-tree { margin-top: 6px; }
+
+/* ---------- property trees (QTreeView: 21 px rows, 20 px indent, no header) ---------- */
+.q-tree { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; background: var(--q-base); border: 1px solid var(--q-mid); outline: none; position: relative; }
+.q-tree::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(var(--ratio, .5) * 100% + 1px); width: 1px; background: rgba(128,128,128,.25); pointer-events: none; z-index: 1; }
+/* uniformRowHeights: the first row decides; trees whose first row has a 16 px icon get 21 px rows, others 19 px */
+.q-row { display: flex; height: 19px; line-height: 19px; white-space: nowrap; cursor: default; position: relative; }
+.q-c0 { flex: none; width: calc(var(--ratio, .5) * 100%); display: flex; align-items: center; overflow: hidden; }
+.q-c1 { flex: 1; min-width: 0; display: flex; align-items: center; overflow: hidden; padding: 0 3px; }
+.q-tree.tall .q-row, .q-picktree .q-row.ic { height: 21px; line-height: 21px; }
+.q-picktree::before { display: none; }
+.q-arrow { flex: none; width: 20px; height: 100%; background-position: 0 50% !important; }
+.q-arrow.open { background: url("../img/rviz/qt/branch_open.png") no-repeat; }
+.q-arrow.closed { background: url("../img/rviz/qt/branch_closed.png") no-repeat; }
+.q-row.sel .q-arrow.open { background-image: url("../img/rviz/qt/branch_open_sel.png"); }
+.q-row.sel .q-arrow.closed { background-image: url("../img/rviz/qt/branch_closed_sel.png"); }
+.q-name { display: flex; align-items: center; min-width: 0; overflow: hidden; padding: 0 3px; }
+.q-name img { width: 16px; height: 16px; flex: none; margin-right: 6px; }
+.q-ntext, .q-vt { overflow: hidden; text-overflow: ellipsis; white-space: pre; min-width: 0; }
+.q-name.bold { font-weight: 700; }
+.q-name.blue { color: rgb(40, 120, 197); }
+.q-name.warn, .q-row .warn { color: rgb(192, 128, 0); }
+.q-name.error, .q-row .error { color: rgb(192, 32, 32); }
+.q-row.bold .q-c1 { font-weight: 700; }
+.q-row.dis, .q-row.dis .q-name { color: var(--q-dis); }
+.q-row.sel { background: var(--q-hl); color: #fff; }
+.q-row.sel .q-name { color: #fff; }
+.q-checkbox { display: inline-block; width: 14px; height: 14px; flex: none; background: url("../img/rviz/qt/chk_view_off.png"); }
+.q-checkbox.on { background-image: url("../img/rviz/qt/chk_view_on.png"); }
+.q-checkbox.dis { background-image: url("../img/rviz/qt/chk_view_off_dis.png"); }
+.q-checkbox.on.dis { background-image: url("../img/rviz/qt/chk_view_on_dis.png"); }
+.q-c1 > .q-checkbox { margin-left: 0; }
+.q-swatch { flex: none; width: 15px; height: 15px; margin: 0 4px 0 3px; border: 1px solid #000; }
+.q-row.dis .q-swatch { background: rgb(200,200,200) !important; border-color: #d3d3d3; }
+.q-editor { width: 100%; height: 21px; margin: 0; padding: 0 2px; border: 1px solid var(--q-hl); border-radius: 0; background: var(--q-base); color: var(--q-text); outline: none; font: inherit; }
+select.q-editor { padding: 0; }
+
+/* ---------- Qt widgets ---------- */
+.q-btn { height: 27px; min-width: 80px; padding: 1px 8px 0; border: 4px solid transparent; border-image: url("../img/rviz/qt/btn_normal.png") 4 fill / 4px stretch; background: transparent; cursor: default; white-space: nowrap; line-height: 19px; }
+.q-btn:hover { border-image-source: url("../img/rviz/qt/btn_hover.png"); }
+.q-btn:active, .q-btn.on { border-image-source: url("../img/rviz/qt/btn_pressed.png"); }
+.q-btn:focus-visible { border-image-source: url("../img/rviz/qt/btn_focus.png"); outline: none; }
+.q-btn:disabled { border-image-source: url("../img/rviz/qt/btn_disabled.png"); color: var(--q-dis); }
+.q-btn.def { border-image-source: url("../img/rviz/qt/btn_default.png"); }
+.q-combo { height: 27px; padding: 2px 0 0; border: solid transparent; border-width: 0 26px 0 6px; border-image: url("../img/rviz/qt/combo_normal.png") 6 26 6 6 fill / 6px 26px 6px 6px stretch; background: transparent; appearance: none; -webkit-appearance: none; outline: none; cursor: default; line-height: 15px; }
+.q-combo:hover { border-image-source: url("../img/rviz/qt/combo_hover.png"); }
+.q-combo:focus { border-image-source: url("../img/rviz/qt/combo_focus.png"); }
+.q-line { height: 27px; padding: 0; border: 4px solid transparent; border-image: url("../img/rviz/qt/edit_normal.png") 4 fill / 4px stretch; background: transparent; outline: none; min-width: 0; line-height: 19px; }
+.q-line:focus { border-image-source: url("../img/rviz/qt/edit_focus.png"); }
+.q-line.wide { width: 100%; }
+.q-check { appearance: none; -webkit-appearance: none; width: 14px; height: 14px; margin: 0 6px 0 0; background: url("../img/rviz/qt/chk_box_off.png"); vertical-align: -2px; flex: none; outline: none; }
+.q-check:checked { background-image: url("../img/rviz/qt/chk_box_on.png"); }
+.q-cbl { display: inline-flex; align-items: center; height: 29px; padding: 0 2px; white-space: nowrap; }
+
+/* time panel (TimePanel): margins 11/5, line edits 27 px */
+.rv-timedock { flex: none; height: 62px; margin-top: 6px; }
+.rv-timedock[hidden] { display: none; }
+.q-timebody { flex-direction: row !important; align-items: center; gap: 6px; padding: 5px 11px; height: 39px; white-space: nowrap; overflow: hidden; }
+.q-timebody > label { flex: none; }
+.q-timebody .q-line { width: 142px; flex: 0 1 142px; min-width: 64px; }   /* QLineEdit shrinks to its minimum size hint, then the panel clips */
+.q-told { display: flex; align-items: center; gap: 6px; padding-right: 20px; flex: 0 1 auto; }
+.q-told > label, .q-told > span { flex: none; }
+.q-exp { display: flex; align-items: center; gap: 6px; padding-right: 20px; flex: none; }
+.q-exp[hidden] { display: none; }
+.q-stretch { flex: 100 1 0; }
+/* status bar: Reset (QToolButton), message, fps */
+.q-statusbar { flex: none; height: 31px; display: flex; align-items: center; gap: 6px; padding: 0 3px 0 2px; background: var(--q-window); white-space: nowrap; overflow: hidden; }
+.q-statusbar > .q-btn { min-width: 0; width: 53px; height: 26px; padding: 1px 0 0; border-image-source: url("../img/rviz/qt/rbtn_normal.png"); }
+.q-statusbar > .q-btn:hover { border-image-source: url("../img/rviz/qt/rbtn_hover.png"); }
+.q-statusbar > .q-btn:active { border-image-source: url("../img/rviz/qt/rbtn_pressed.png"); }
+.q-statustext { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.q-statustext b { font-weight: 700; }
+.q-fps { flex: none; min-width: 40px; text-align: right; padding-right: 16px; }
+
+/* ---------- menus (QMenu, Fusion): 27 px items, label at 28 px, shortcut column 47 px after the widest label ---------- */
+.q-menu { position: absolute; z-index: 60; display: grid; grid-template-columns: 28px max-content 0 max-content 14px; padding: 0; background: var(--q-base); border: 1px solid #959595; }
+.q-menu.keys { grid-template-columns: 28px max-content 44px max-content 13px; }
+.q-menu[hidden] { display: none; }
+.q-mi { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; align-items: center; height: 27px; padding: 0; border: 0; background: transparent; text-align: left; white-space: nowrap; cursor: default; }
+.q-mi > .q-mk { grid-column: 4; }
+.q-mi:hover:not(:disabled) { background: var(--q-hl); color: #fff; }
+.q-mi.dis, .q-mi:disabled { color: var(--q-dis); }
+.q-mchk { display: flex; padding-left: 8px; }
+.q-mchk .q-checkbox { background-image: url("../img/rviz/qt/chk_box_off.png"); }
+.q-mchk .q-checkbox.on { background-image: url("../img/rviz/qt/chk_box_on.png"); }
+.q-mt u, .q-btn u { text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+.q-msub.on { height: 9px; background: url("../img/rviz/qt/arrow_right.png") 0 0 no-repeat; }
+.q-mi:hover .q-msub.on { filter: brightness(10); }
+.q-mi.dis .q-msub.on { opacity: .45; }
+.q-msep { grid-column: 1 / -1; height: 2px; border-top: 1px solid #c3c3c3; margin-top: 0; transform: translateY(1px); }
+
+/* ---------- dialogs (separate windows, centred over RViz) ---------- */
+.q-modal { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; background: transparent; font: 400 var(--q-fs)/var(--q-lh) var(--q-font); color: #000; }
+.q-modal[hidden] { display: none; }
+.q-dlg { display: flex; flex-direction: column; max-width: calc(100vw - 16px); max-height: calc(100vh - 16px); background: var(--q-window); border-radius: 12px 12px 0 0; box-shadow: 0 0 0 1px rgba(0,0,0,.23), 0 8px 26px rgba(0,0,0,.35); overflow: hidden; }
+.q-dlg.q-small { width: 380px; }
+.q-dlg.q-add { width: 500px; height: calc(660px + 37px); }   /* AddDisplayDialog / NewObjectDialog::sizeHint() = 500 x 660 */
+.q-dlg.q-add.q-noname { height: calc(660px + 37px); }
+.q-dlgtitle { height: 37px; flex: none; }
+.q-dlgtitle .rv-tbspace { width: 24px; }
+.q-dlgtitle .rv-wbtns { width: 24px; }
+.q-dlgbody { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 11px; gap: 6px; overflow: auto; }
+.q-dlgbtns { flex: none; display: flex; justify-content: flex-end; gap: 6px; }
+.q-dlgbtns .q-btn { width: 80px; min-width: 80px; }
+.q-ibtn { display: inline-flex; align-items: center; justify-content: center; gap: 4px; }
+.q-bicon { width: 16px; height: 16px; flex: none; background: center no-repeat; }
+.q-bicon.ok { background-image: url("../img/rviz/qt/dlg_ok.png"); }
+.q-bicon.cancel { background-image: url("../img/rviz/qt/dlg_cancel.png"); }
+.q-btn:disabled .q-bicon.ok { background-image: url("../img/rviz/qt/dlg_ok_dis.png"); }
+.q-adddlg { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 6px; }
+/* QGroupBox: title, then the frame 23 px below the group's top, 11 px inner margins */
+.q-group { display: flex; flex-direction: column; min-height: 0; }
+.q-noname .q-group:first-child, .q-group.grow { flex: 1; }
+.q-gtitle { height: 23px; padding: 2px 0 0 1px; line-height: 19px; }
+.q-gframe { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 6px; margin-left: 1px; padding: 10px 11px 11px 10px; border: 1px solid transparent; border-image: url("../img/rviz/qt/groupbox.png") 6 fill / 6px stretch; }
+.q-gframe > .q-tree { flex: 1; min-height: 120px; }
+/* QTabWidget: 31 px tab bar (the selected tab is 2 px taller), pane with a 2 px frame; the tree sits flush in it */
+.q-tabs { flex: none; display: flex; height: 31px; position: relative; z-index: 1; }
+.q-tab { height: 29px; padding: 0 12px; border: 4px solid transparent; border-image: url("../img/rviz/qt/tab.png") 4 fill / 4px stretch; background: transparent; cursor: default; margin-top: 2px; line-height: 19px; }
+.q-tab.on { border-image-source: url("../img/rviz/qt/tab_sel.png"); margin-top: 0; height: 31px; }
+.q-tabpane { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 0; border: solid transparent; border-width: 0 2px 2px; border-image: url("../img/rviz/qt/tabframe.png") 4 fill / 0 2px 2px stretch; margin-top: -6px; }
+.q-tabpane > .q-tree { flex: 1; min-height: 0; }
+.q-tabpane > [hidden] { display: none; }
+.q-lbl { margin: 0; }
+.q-lbl.bold { font-weight: 700; }
+.q-descbox { flex: none; height: 100px; overflow: auto; padding: 4px 5px; background: var(--q-base); border: 1px solid var(--q-mid); user-select: text; }
+.q-descbox a { color: #0000ff; }
+.q-msg { display: flex; gap: 14px; align-items: flex-start; }
+.q-msg p { margin: 0; white-space: pre-line; }
+
+/* the "desktop" the RViz and joint_state_publisher_gui windows sit on (RViz page, lessons, terminal) */
+.rv-desk { position: relative; }
+.desk-rviz { width: 100%; }
+@media (min-width: 900px) { .rv-desk > .jsp-win:not(.floating) { position: absolute; right: 22px; top: 92px; z-index: 25; margin: 0; } }
+@media (max-width: 899px) { .rv-desk > .jsp-win:not(.floating) { margin: 12px auto 0; } }
+/* RViz page: a full-width desk (up to RViz's default 1200 px window) on an Ubuntu-coloured backdrop */
+.rvp .rv-desk { width: min(1240px, calc(100vw - 32px)); margin: 0 0 0 calc(50% - min(1240px, calc(100vw - 32px)) / 2); padding: 20px; border-radius: 10px;
+  background: radial-gradient(circle at 78% 18%, #e95420 0, rgba(233,84,32,0) 42%), linear-gradient(135deg, #77216f 0%, #5e2750 45%, #2c001e 100%); }
+.rvp .rv-desk .rviz { --rv-h: min(883px, calc(100vh - 70px)); }
+@media (max-width: 760px) { .rvp .rv-desk { padding: 10px; } .rvp .rv-desk .rviz { --rv-h: 560px; } }
+/* Fusion scroll bars: 14 px, arrow buttons at both ends (Qt's own pixels) */
+@supports not selector(::-webkit-scrollbar) { .rviz *, .jsp-win * { scrollbar-color: #bdbdbd #e6e6e6; } }
+.rviz ::-webkit-scrollbar, .jsp-win ::-webkit-scrollbar { width: 14px; height: 14px; }
+.rviz ::-webkit-scrollbar-track, .jsp-win ::-webkit-scrollbar-track { background: url("../img/rviz/qt/sb_groove.png") repeat-y; }
+.rviz ::-webkit-scrollbar-thumb, .jsp-win ::-webkit-scrollbar-thumb { border: 4px solid transparent; border-image: url("../img/rviz/qt/sb_handle.png") 4 fill / 4px stretch; min-height: 24px; }
+.rviz ::-webkit-scrollbar-thumb:hover, .jsp-win ::-webkit-scrollbar-thumb:hover { border-image-source: url("../img/rviz/qt/sb_handle_hover.png"); }
+.rviz ::-webkit-scrollbar-button:single-button, .jsp-win ::-webkit-scrollbar-button:single-button { display: block; height: 14px; width: 14px; }
+.rviz ::-webkit-scrollbar-button:single-button:vertical:decrement, .jsp-win ::-webkit-scrollbar-button:single-button:vertical:decrement { background: url("../img/rviz/qt/sb_up.png"); }
+.rviz ::-webkit-scrollbar-button:single-button:vertical:increment, .jsp-win ::-webkit-scrollbar-button:single-button:vertical:increment { background: url("../img/rviz/qt/sb_down.png"); }
+.rviz ::-webkit-scrollbar-button:horizontal, .jsp-win ::-webkit-scrollbar-button:horizontal { display: none; }
+.rviz ::-webkit-scrollbar-corner { background: var(--q-window); }
+
+/* ---------- joint_state_publisher_gui (QMainWindow "Joint State Publisher") ---------- */
+.jsp-win { position: relative; width: 258px; background: var(--q-window); color: #000; font: 400 var(--q-fs)/var(--q-lh) var(--q-font); -webkit-font-smoothing: antialiased;
+  border-radius: 12px 12px 0 0; box-shadow: 0 0 0 1px rgba(0,0,0,.23), 0 6px 22px rgba(0,0,0,.28); overflow: hidden; margin: 10px 0 10px auto; user-select: none; }
+.jsp-win .rv-titlebar { padding: 0 6px 0 8px; }
+.jsp-win .rv-tbspace { width: 8px; }
+.jsp-win .rv-wbtns { width: auto; gap: 8px; }
+.jsp-win.min .jsp-main, .jsp-win.popped .jsp-main { display: none; }
+.jsp-win.floating { position: absolute; z-index: 26; margin: 0; }
+.jsp-main { display: flex; flex-direction: column; gap: 6px; padding: 9px; height: var(--jsp-h, 391px); min-height: 0; }
+.jsp-main > .q-btn { flex: none; width: 100%; }
+.jsp-scroll { flex: 1; min-height: 0; overflow: auto; background: var(--q-window); border: 1px solid var(--q-mid); padding: 0; }
+.jsp-flow { display: flex; flex-wrap: wrap; align-content: flex-start; padding: 9px 0 0 9px; }
+.jsp-joint { width: 218px; height: 61px; margin: 0 6px 6px 0; padding: 9px; }
+.jsp-head { display: flex; align-items: center; height: 22px; gap: 6px; }
+.jsp-head .jsp-name { flex: 1; min-width: 0; font: 700 12px/15px "RViz Nimbus Sans", "Nimbus Sans", Helvetica, Arial, sans-serif; white-space: nowrap; overflow: hidden; }
+.jsp-head .q-line { width: 45px; height: 22px; padding: 0 4px; text-align: right; font: 700 12px/14px "RViz Nimbus Sans", "Nimbus Sans", Helvetica, Arial, sans-serif; border-width: 3px; border-image-width: 3px; user-select: text; }
+.jsp-slider { position: relative; display: block; width: 200px; height: 15px; margin-top: 6px; touch-action: none; outline: none; cursor: default; }
+.jsp-slider .groove { position: absolute; left: 0; right: 0; top: 0; height: 15px; background: url("../img/rviz/qt/slider_0.png") no-repeat; }
+.jsp-slider .fill { position: absolute; left: 0; top: 0; height: 15px; background: url("../img/rviz/qt/slider_10000.png") no-repeat; }
+.jsp-slider .handle { position: absolute; top: 0; width: 15px; height: 15px; background: url("../img/rviz/qt/slider_handle.png") no-repeat; }
+.jsp-slider:hover .handle { background-image: url("../img/rviz/qt/slider_handle_hover.png"); }
+.jsp-slider.drag .handle { background-image: url("../img/rviz/qt/slider_handle_pressed.png"); }
+.jsp-wait { margin: 6px 9px; color: #000; }
+body.jsp-popup { margin: 0; background: #efefef; }
+.jsp-in-popup { width: auto; margin: 0; border-radius: 0; box-shadow: none; }
+.jsp-in-popup .rv-titlebar { display: none; }
+.jsp-in-popup .jsp-main { height: 100vh; }
+
+/* small screens: RViz starts with its side docks hidden (the same as pressing the arrow buttons) */
+@media (max-width: 760px) {
+  .rviz { --rv-left: min(342px, 82vw); --rv-right: min(350px, 82vw); }
+  .rv-tbspace, .jsp-win .rv-tbspace { display: none; }
+  .rv-wbtns { width: auto; }
+}
+
+/* keyboard focus (Fusion draws a highlight-coloured frame on the focused control) */
+.q-tree:focus-visible .q-row.sel, .q-tree:focus-visible:not(:has(.q-row.sel)) { outline: 1px solid var(--q-hl); outline-offset: -1px; }
+.q-checkbox:focus-visible, .q-check:focus-visible { outline: 1px solid var(--q-hl); outline-offset: 1px; }
+.jsp-slider:focus-visible { outline: 1px solid var(--q-hl); outline-offset: 2px; }
+.rv-view:focus-visible { outline: 1px solid var(--q-hl); outline-offset: -1px; }
+.q-tool:focus-visible, .q-hide:focus-visible, .q-mitem:focus-visible { outline: 1px solid var(--q-hl); outline-offset: -2px; }
+/* a window narrower than the toolbar: swipe or scroll the toolbar instead of losing tools at the end */
+.q-toolbar { overflow-x: auto; overflow-y: hidden; scrollbar-width: none; overscroll-behavior-x: contain; }
+.q-toolbar::-webkit-scrollbar { display: none; }
+.q-toolbar > * { flex-shrink: 0; }
+
+/* ---------- property editors: QComboBox (editable and plain) and its popup list, ColorEditor ---------- */
+.q-ecombo { position: relative; display: flex; align-items: stretch; width: 100%; height: 100%; min-height: 19px; box-sizing: border-box; border: solid transparent; border-width: 4px 21px 4px 4px; border-image: url("../img/rviz/qt/ecombo.png") 4 21 4 4 fill / 4px 21px 4px 4px stretch; }
+.q-ecombo.enum { border-width: 4px 20px 4px 6px; border-image: url("../img/rviz/qt/ecombo_enum.png") 4 20 4 6 fill / 4px 20px 4px 6px stretch; cursor: default; }
+.q-ecin { flex: 1; min-width: 0; height: auto; margin: -3px 0; padding: 0; border: 0; outline: none; background: transparent; color: var(--q-text) !important; font: inherit; line-height: 17px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+span.q-ecin { display: flex; align-items: center; }
+.q-ecarrow { position: absolute; top: -4px; bottom: -4px; right: -21px; width: 21px; cursor: default; }
+.q-ecombo.enum .q-ecarrow { right: -20px; width: 20px; }
+.q-ecin::selection { background: var(--q-hl); color: #fff; }
+.q-cpop { font-weight: 400; position: absolute; z-index: 70; box-sizing: border-box; max-height: calc(10 * 19px + 2px); overflow-y: auto; background: var(--q-base); border: 1px solid #959595; font: inherit; color: var(--q-text); scrollbar-width: thin; }
+.q-copt { height: 19px; line-height: 19px; padding: 0 3px; white-space: nowrap; cursor: default; }
+.q-copt.hi { background: url("../img/rviz/qt/popup_sel.png") 0 0 / 100% 100%; color: #fff; }
+.q-copt { color: var(--q-text); }
+.q-cpop .q-copt.hi { color: #fff; }
+.q-copt.empty { height: 19px; }
+.q-cpop.enum { max-height: calc(10 * 27px + 2px); background: var(--q-window); padding: 0; }
+.q-cpop.enum .q-copt { height: 27px; line-height: 27px; padding: 0 12px 0 8px; box-sizing: border-box; }
+.q-cpop.enum .q-copt.hi { background: #308cc6; outline: 1px solid #26709e; outline-offset: -1px; }
+.q-colored { display: flex; align-items: center; width: 100%; height: 100%; gap: 2px; }
+.q-colored .q-ecin { height: 100%; margin: 0; padding: 0 2px; border: 1px solid var(--q-hl); background: var(--q-base); box-sizing: border-box; }
+.q-cdots { color: var(--q-text) !important; flex: none; width: 24px; height: 100%; padding: 0; border: 1px solid #b8b8b8; border-radius: 2px; background: linear-gradient(#fdfdfd, #eeeeee); font: inherit; line-height: 1; cursor: default; }
+.q-colorpick { position: absolute; width: 0; height: 0; opacity: 0; pointer-events: none; border: 0; padding: 0; }
+
+/* TopicDisplayWidget: topic tree, "Show unvisualizable topics", "Filter topics by name:" + line edit (6 px spacing) */
+.q-bytopic { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 6px; }
+.q-bytopic[hidden] { display: none; }
+.q-bytopic > .q-tree { flex: 1; min-height: 0; }
+.q-bytopic > .q-cbl { height: 25px; display: flex; align-items: center; padding-left: 2px; }
+.q-bytopic > .q-lbl { height: 19px; }
+.q-bytopic > .q-line { flex: none; }
+.q-picktree .q-row.dis { color: #bebebe; }
+.q-dlg.q-add .q-adddlg { min-height: 560px; }   /* on a small screen the dialog scrolls instead of squashing its trees */
+.q-dlg.q-add .q-tabpane { flex: none; height: 318px; }   /* QTabWidget page: 349 px with the 31 px tab bar, the same for both tabs */
+/* RViz page: the terminal (and the RViz window under it) get the full desk width */
+.rvp #term { width: min(1240px, calc(100vw - 32px)); margin-left: calc(50% - min(1240px, calc(100vw - 32px)) / 2); }
+.rvp #term .rv-desk { width: auto; margin: 0; }
+
+/* Image / Camera displays: their own render panel, docked under Displays (RViz2 adds them as dock widgets) */
+.rviz .rv-imgdock { flex: 0 0 auto; }
+.rviz .q-imgbody { position: relative; background: #000; min-height: 90px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.rviz .q-imgbody canvas { display: block; width: 100%; height: auto; max-height: 240px; object-fit: contain; image-rendering: auto; }
+.rviz .q-imgbody .q-camgl, .rviz .q-imgbody .q-camover { position: absolute; inset: 0; width: 100%; height: 100%; max-height: none; }

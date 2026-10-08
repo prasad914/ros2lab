@@ -1,0 +1,206 @@
+rules_version = '2';
+
+// ROS2Lab MOOC security rules.
+// Key ideas:
+//  * Anyone may register; only students APPROVED by the instructor (custom claim
+//    status == 'approved', set by server code after checking the college ID) can use the course.
+//  * Students can read and write ONLY their own profile and lesson progress.
+//  * Test questions, answer keys, attempts and scores are written ONLY by Cloud Functions
+//    (server code), which bypasses these rules. Nobody can write them from a browser.
+//  * The instructor ("admin" claim, set by the server) can read everything.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function verified() { return signedIn() && request.auth.token.email_verified == true; }
+    function isAdmin() { return verified() && request.auth.token.get('admin', false) == true; }
+    // Approved students inside their access window (and instructors) may use the course.
+    // accessUntil (milliseconds) is put in the sign-in token by the server when it approves.
+    function accessOpen() { return !('accessUntil' in request.auth.token) || request.auth.token.accessUntil > request.time.toMillis(); }
+    function isMember() { return verified() && ((request.auth.token.get('status', '') == 'approved' && accessOpen()) || request.auth.token.get('admin', false) == true); }
+    function isSelf(uid) { return isMember() && request.auth.uid == uid; }
+    function isOwner(uid) { return verified() && request.auth.uid == uid; }
+
+    function okText(v, lo, hi) { return v is string && v.size() >= lo && v.size() <= hi; }
+    // Students and graduates give their college, programme, branch and year of passing.
+    // Working people (faculty, research scholars, research assistants, industry) give
+    // their institution or company and designation, and no year of passing.
+    function validDetails(d) {
+      return okText(d.fullName, 2, 80) && okText(d.institution, 2, 120)
+        && d.category in ['student', 'graduate', 'working']
+        && (
+          ( d.category in ['student', 'graduate']
+            && okText(d.programme, 2, 40) && okText(d.department, 2, 80)
+            && d.gradYear is int && d.gradYear >= 1970 && d.gradYear <= request.time.year() + 7
+            && (d.category != 'student' || d.gradYear >= request.time.year() - 1)
+            && (d.category != 'graduate' || d.gradYear <= request.time.year() + 1)
+            && !('designation' in d) )
+          ||
+          ( d.category == 'working'
+            && okText(d.designation, 2, 80)
+            && (!('department' in d) || okText(d.department, 2, 80))
+            && !('gradYear' in d) && !('programme' in d) )
+        );
+    }
+
+    // ---------- Student registration and profile ----------
+    // Students create their profile after verifying their email. Fields such as
+    // status, rejectReason and reviewedBy are written only by server code.
+    match /users/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create: if isOwner(uid)
+        && request.resource.data.keys().hasOnly(['fullName','email','category','institution','department','programme','designation','gradYear','termsAccepted','adultDeclared','consentVersion','consentAt','createdAt'])
+        && request.resource.data.keys().hasAll(['fullName','email','category','institution','consentVersion','consentAt','createdAt'])
+        && request.resource.data.email == request.auth.token.email
+        && validDetails(request.resource.data)
+        // The student accepts the Terms of Use and Privacy Notice (older pages sent adultDeclared).
+        && (request.resource.data.get('termsAccepted', false) == true || request.resource.data.get('adultDeclared', false) == true)
+        && okText(request.resource.data.consentVersion, 1, 20)
+        && request.resource.data.consentAt == request.time
+        && request.resource.data.createdAt == request.time;
+      // Details can be corrected while the student has no course access
+      // (before approval, after rejection, or when asking for a new registration).
+      // semester and usn are old fields that may only be removed.
+      allow update: if isOwner(uid)
+        && !(request.auth.token.get('status', '') == 'approved' && accessOpen())
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['fullName','category','institution','department','programme','designation','gradYear','semester','usn'])
+        && !('semester' in request.resource.data) && !('usn' in request.resource.data)
+        && validDetails(request.resource.data);
+      // Accepting a new version of the Terms of Use and Privacy Notice (any time).
+      allow update: if isOwner(uid)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['consentVersion','consentAt','termsAccepted'])
+        && okText(request.resource.data.consentVersion, 1, 20)
+        && request.resource.data.consentAt == request.time
+        && request.resource.data.termsAccepted == true;
+      allow delete: if false;
+    }
+
+    // ---------- Course content (login required; never in the public website files) ----------
+    match /modules/{moduleId} {
+      allow read: if isMember();
+      allow write: if isAdmin();
+    }
+    match /lessons/{lessonId} {
+      allow read: if isMember();
+      allow write: if isAdmin();
+    }
+    match /tests/{testId} {
+      allow read: if isMember();
+      allow write: if isAdmin();
+    }
+
+    // ---------- Lesson progress (students write their own, with limits) ----------
+    match /progress/{uid}/lessonProgress/{lessonId} {
+      allow read: if isSelf(uid) || isAdmin();
+
+      allow create: if isSelf(uid)
+        && request.resource.data.keys().hasOnly(['status','activeSeconds','firstOpenedAt','lastUpdate'])
+        && request.resource.data.keys().hasAll(['status','activeSeconds','firstOpenedAt','lastUpdate'])
+        && request.resource.data.status == 'started'
+        && request.resource.data.activeSeconds == 0
+        && request.resource.data.firstOpenedAt == request.time
+        && request.resource.data.lastUpdate == request.time;
+
+      // Either a time "heartbeat" (at most once per 55 s, adding at most 75 s),
+      // or a one-way change from started -> completed after at least 60 s of activity.
+      allow update: if isSelf(uid)
+        && request.resource.data.lastUpdate == request.time
+        && (
+          ( request.resource.data.diff(resource.data).affectedKeys().hasOnly(['activeSeconds','lastUpdate'])
+            && request.resource.data.activeSeconds is int
+            && request.resource.data.activeSeconds > resource.data.activeSeconds
+            && request.resource.data.activeSeconds - resource.data.activeSeconds <= 75
+            && request.time > resource.data.lastUpdate + duration.value(55, 's') )
+          ||
+          ( request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','completedAt','lastUpdate'])
+            && resource.data.status == 'started'
+            && request.resource.data.status == 'completed'
+            && request.resource.data.completedAt == request.time
+            && resource.data.activeSeconds >= 60 )
+        );
+      allow delete: if false;
+    }
+    // Instructor dashboard reads everyone's progress with a collection-group query.
+    match /{path=**}/lessonProgress/{lessonId} {
+      allow read: if isAdmin();
+    }
+
+    // ---------- Tests: written ONLY by server code ----------
+    match /attempts/{attemptId} {
+      allow read: if isAdmin() || (isMember() && resource.data.uid == request.auth.uid);
+      allow write: if false;
+
+      // Append-only integrity log (tab switches, paste attempts...). Students can add
+      // events to their OWN running attempt, but never edit or delete them.
+      match /integrityEvents/{eventId} {
+        allow create: if isMember()
+          && get(/databases/$(database)/documents/attempts/$(attemptId)).data.uid == request.auth.uid
+          && get(/databases/$(database)/documents/attempts/$(attemptId)).data.status == 'in_progress'
+          && request.resource.data.keys().hasOnly(['type','at','q'])
+          && request.resource.data.keys().hasAll(['type','at','q'])
+          && request.resource.data.type in ['hidden','blur','copy','paste','contextmenu','fullscreen-exit','devtools-key','print','screenshot']
+          && request.resource.data.at == request.time
+          && request.resource.data.q is int;
+        allow read: if isAdmin();
+        allow update, delete: if false;
+      }
+    }
+    match /{path=**}/integrityEvents/{eventId} {
+      allow read: if isAdmin();
+    }
+
+    // Questions with answers for each attempt: instructor only.
+    match /auditLog/{id} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    match /attemptKeys/{attemptId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    // Scores: written only by the server.
+    match /results/{resultId} {
+      allow read: if isAdmin() || (isMember() && resource.data.uid == request.auth.uid);
+      allow write: if false;
+    }
+
+    // Final project: written only by the server (assign, submit, mark).
+    match /projects/{uid} {
+      allow get: if isOwner(uid) || isAdmin();
+      allow list: if isAdmin();
+      allow write: if false;
+    }
+
+    // Certificate applications: created and changed only by the server.
+    match /certRequests/{uid} {
+      allow get: if isOwner(uid) || isAdmin();
+      allow list: if isAdmin();
+      allow write: if false;
+    }
+
+    // The instructor's saved signature (a small image): instructor only.
+    match /settings/signature {
+      allow read: if isAdmin();
+      allow write: if isAdmin()
+        && request.resource.data.keys().hasOnly(['image', 'updatedAt'])
+        && request.resource.data.image is string
+        && request.resource.data.image.size() < 300000
+        && (request.resource.data.image[0:22] == 'data:image/png;base64,' || request.resource.data.image[0:23] == 'data:image/jpeg;base64,')
+        && request.resource.data.updatedAt == request.time;
+    }
+
+    // Signed certificates: anyone with the certificate ID can check it (no listing).
+    match /certificates/{certId} {
+      allow get: if true;
+      allow list: if isAdmin();
+      allow write: if false;
+    }
+
+    // Everything else is closed.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

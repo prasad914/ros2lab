@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RViz in your browser | ROS2Lab</title>
+<meta name="description" content="Free practice RViz2 and Gazebo in the browser, launched the real way: real robots (UR5e, Franka FR3, Kinova Gen3, Unitree Go2 / G1 / H1, TurtleBot3, ABB, KUKA, FANUC, Dobot, Crazyflie...) as ROS 2 description packages, built with colcon and started from Python or XML launch files. Lidar, camera, depth camera and IMU data from Gazebo sensors through ros_gz_bridge into RViz.">
+<meta name="theme-color" content="#14204A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Lexend:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img class="brand-logo" src="img/logo-axes.svg" alt="" width="36" height="36"><span>ROS2Lab <small>ROS 2 for beginners</small></span></a>
+  <nav class="top-nav" aria-label="Site">
+    <a href="index.html">Home</a>
+    <a href="playground.html">Playground</a>
+    <a href="rviz.html" aria-current="page">RViz</a>
+    <a href="resources.html">Free resources</a>
+  </nav>
+  <div class="top-right" id="who"><a class="btn btn-white btn-small" href="signin.html">Log in</a><a class="btn btn-small" href="register.html">Register</a></div>
+</div></header>
+<main class="wrap rvp">
+  <h1>RViz in your browser</h1>
+  <p class="lead">RViz2 started the way it is on Ubuntu: a robot <b>description package</b> is built with <code>colcon</code>, and a <b>launch file</b> (Python or XML) starts <code>robot_state_publisher</code>, <code>joint_state_publisher_gui</code> and <code>rviz2</code> with a saved <code>.rviz</code> config. Move a slider and the robot moves: <code>/joint_states</code> → robot_state_publisher → <code>/tf</code> → RViz.</p>
+  <p>Robots with sensors also have <code>sim.launch.py</code>: <b>Gazebo Harmonic</b> runs the robot's lidar, camera, depth camera and IMU (declared in <code>&lt;gazebo&gt;</code> tags of the URDF), <code>ros_gz_bridge</code> brings their topics to ROS 2, and RViz shows the scan, point cloud, images and IMU. Drive the mobile robots with <code>ros2 run teleop_twist_keyboard teleop_twist_keyboard</code> in a new terminal.</p>
+  <ol class="rvp-flow" aria-label="What the launch file starts">
+    <li><b>xacro</b><span>my_robot.urdf.xacro → URDF text</span></li>
+    <li><b>robot_state_publisher</b><span>robot_description parameter → publishes /robot_description, /tf, /tf_static</span></li>
+    <li><b>joint_state_publisher_gui</b><span>sliders → publishes /joint_states</span></li>
+    <li><b>rviz2 -d display.rviz</b><span>RobotModel reads /robot_description, TF reads /tf</span></li>
+  </ol>
+  <section class="rvp-src" aria-label="Which robot package">
+    <div class="rvp-card">
+      <h2>1. A robot package</h2>
+      <label class="rvp-row">Robot <select id="gal" aria-label="Robot package"></select></label>
+      <p class="small" id="pkg-about"></p>
+    </div>
+    <div class="rvp-card">
+      <h2>2. Your own robot</h2>
+      <p class="small">A package folder (with <code>package.xml</code>, <code>urdf/</code>, <code>meshes/</code>, <code>launch/</code>), or just your <code>.urdf</code>/<code>.urdf.xacro</code> and mesh files: they are put into a package for you. Nothing is uploaded; the files stay on your computer.</p>
+      <div class="rvp-row">
+        <label class="btn btn-small btn-white">Open a package folder…<input id="folder" type="file" webkitdirectory multiple hidden></label>
+        <label class="btn btn-small btn-white">Open files…<input id="files" type="file" multiple accept=".urdf,.xacro,.xml,.py,.rviz,.yaml,.stl,.STL,.dae,.DAE,.obj,.OBJ,.mtl,.png,.jpg" hidden></label>
+      </div>
+    </div>
+    <div class="rvp-card">
+      <h2>3. Launch it</h2>
+      <div class="rvp-row" role="radiogroup" aria-label="What to start">
+        <label><input type="radio" name="what" value="display" checked> Robot model (display)</label>
+        <label><input type="radio" name="what" value="sim"> Gazebo simulation with sensors (sim)</label>
+        <label><input type="radio" name="what" value="control"> Gazebo + ros2_control (sim_control)</label>
+      </div>
+      <div class="rvp-row" role="radiogroup" aria-label="Launch file">
+        <label><input type="radio" name="lf" value="py" checked> Python launch file</label>
+        <label><input type="radio" name="lf" value="xml"> XML launch file</label>
+      </div>
+      <pre class="rvp-cmds" id="cmds" aria-label="Commands"></pre>
+      <p class="small muted" id="drive-tip" hidden></p>
+      <div class="rvp-row">
+        <button type="button" class="btn btn-small" id="go">Type these commands for me</button>
+        <span class="small muted">or type them in the terminal below</span>
+      </div>
+    </div>
+  </section>
+  <div class="rvp-files small" id="tree" aria-label="Package files"></div>
+  <details class="rvp-details" id="details-box"><summary>Robot details: links, joints, sensors, Gazebo plugins</summary><div id="details" class="small"></div></details>
+  <div id="term"></div>
+  <details class="rvp-live">
+    <summary>Connect to ROS 2 on your Ubuntu computer (rosbridge)</summary>
+    <p class="small">On Ubuntu: <code>sudo apt install ros-jazzy-rosbridge-suite</code>, then <code>ros2 launch rosbridge_server rosbridge_websocket_launch.xml</code>, and launch your robot there as usual. Open this page on the same computer. This RViz then shows your real /robot_description, /tf, markers, /scan and /map.</p>
+    <div class="rvp-row">
+      <input id="url" type="text" value="ws://localhost:9090" size="20" aria-label="rosbridge address">
+      <button type="button" class="btn btn-small" id="connect">Connect</button>
+      <label class="small"><input type="checkbox" id="pubjs"> Sliders publish /joint_states</label>
+    </div>
+    <pre id="out" class="rvb-out" hidden></pre>
+    <div id="desk" class="rv-desk" hidden></div>
+  </details>
+  <details class="rvp-help"><summary>How it works, and its limits</summary>
+    <p>The terminal is ROS2Lab's practice terminal: a pretend Ubuntu 24.04 with ROS 2 Jazzy. <code>colcon build</code> installs the package's <code>launch</code>, <code>urdf</code>, <code>meshes</code> and <code>rviz</code> folders only if <code>CMakeLists.txt</code> has the <code>install(DIRECTORY ...)</code> rule; <code>ros2 launch</code> reads your Python or XML launch file, runs xacro, and starts the nodes. Try <code>ros2 node list</code>, <code>ros2 topic list</code>, <code>ros2 topic echo /joint_states</code>, <code>ros2 run tf2_ros tf2_echo base_link &lt;link&gt;</code> or <code>ros2 launch &lt;package&gt; display.launch.py gui:=false</code> in a new terminal tab.</p>
+    <p>The RViz window is ROS2Lab's practice RViz2, built with three.js. It copies RViz2's displays, properties, tools and messages, so the same steps work with the real <code>rviz2</code> on Ubuntu. It is not the real rviz2 program. RViz, ROS and ROS 2 are projects of Open Robotics; ROS2Lab is an independent course and is not affiliated with or endorsed by Open Robotics.</p>
+    <p>Gazebo here is a small stand-in for Gazebo Harmonic: it reads the world SDF and the robot's <code>&lt;gazebo&gt;</code> sensor tags, renders cameras, casts lidar rays and drives DiffDrive robots, but it has no physics (robots do not fall or collide). The rules are the real ones: sensors publish only if the world loads <code>gz-sim-sensors-system</code> (and <code>gz-sim-imu-system</code> for IMUs), ROS 2 sees them only through <code>ros_gz_bridge</code>, the header frame is <code>&lt;gz_frame_id&gt;</code>, and Gazebo Classic plugins (<code>libgazebo_ros_*.so</code>) do nothing in Harmonic. The robot models come from their makers' public ROS repositories (licences are in each package); meshes were simplified to load faster.</p>
+    <p>When connected through rosbridge, it subscribes to <code>/robot_description</code>, <code>/tf</code>, <code>/tf_static</code> and to the topic of every display you add (LaserScan, PointCloud2, Image, Camera, Imu, Odometry, Path, Map, Marker...), and the RViz tools publish <code>/goal_pose</code>, <code>/initialpose</code> and <code>/clicked_point</code>. Browsers only allow a secure page to talk to rosbridge on the same computer (localhost); Chrome may ask you to allow access to apps on this device. For a robot on the network, run this page on the robot's computer or forward the port with <code>ssh -L 9090:localhost:9090 user@robot</code>.</p>
+  </details>
+</main>
+<footer class="site-foot"><div class="wrap"><span>ROS2Lab: a free ROS 2 course for students and engineers</span>
+  <span class="credit">Developed by the Robotics and ROS2 lab Channel</span>
+  <a href="terms.html">Terms of Use</a>
+  <a href="privacy.html">Privacy notice</a></div></footer>
+<script type="module" src="js/rviz-page.js"></script>
+<script type="module" src="js/who.js"></script>
+</body>
+</html>
