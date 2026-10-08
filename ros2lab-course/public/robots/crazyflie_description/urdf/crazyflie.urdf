@@ -7,5 +7,13 @@
           <mesh filename="package://crazyflie_description/meshes/urdf/cf2_assembly_with_props.dae" scale="1.0 1.0 1.0"/>
         </geometry>
     </visual>
+    <!-- Crazyflie 2.1: 27 g; inertia from Bitcraze / Foerster's system identification (needed by Gazebo, which drops links without it) -->
+    <collision>
+      <geometry><box size="0.092 0.092 0.029"/></geometry>
+    </collision>
+    <inertial>
+      <mass value="0.027"/>
+      <inertia ixx="1.395e-05" ixy="0" ixz="0" iyy="1.395e-05" iyz="0" izz="2.173e-05"/>
+    </inertial>
   </link>
 </robot>
