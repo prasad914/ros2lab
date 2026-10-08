@@ -144,10 +144,14 @@ export const poseMethods = {
       if (cmd.kind === "TWIST") {
         const tw = cmd.msg.twist, s = P.command_in_type === "unitless" ? [P.scale.linear, P.scale.rotational] : [1, 1];
         let lin = [tw.linear.x * s[0], tw.linear.y * s[0], tw.linear.z * s[0]], ang = [tw.angular.x * s[1], tw.angular.y * s[1], tw.angular.z * s[1]];
+        if (cmd.msg.frame && cmd.msg.frame !== P.ee_frame && cmd.msg.frame !== P.planning_frame && cmd.msg.frame !== this.model.root && this.K.model.links[cmd.msg.frame]) { const F = this.K.fk(base)[cmd.msg.frame], B = this.K.fk(base)[P.planning_frame]; if (F && B) { const R = (M, x) => [M[0] * x[0] + M[1] * x[1] + M[2] * x[2], M[4] * x[0] + M[5] * x[1] + M[6] * x[2], M[8] * x[0] + M[9] * x[1] + M[10] * x[2]]; const Bi = invTransform(B); lin = R(Bi, R(F, lin)); ang = R(Bi, R(F, ang)); } }
         if (cmd.msg.frame && cmd.msg.frame === P.ee_frame) { const R = (x) => [T[0] * x[0] + T[1] * x[1] + T[2] * x[2], T[4] * x[0] + T[5] * x[1] + T[6] * x[2], T[8] * x[0] + T[9] * x[1] + T[10] * x[2]]; lin = R(lin); ang = R(ang); }
         v = [...lin, ...ang];
-      } else {   // POSE: move towards the target (in the planning frame) at a bounded speed
-        const goal = cmd.msg.T, e = [goal[3] - T[3], goal[7] - T[7], goal[11] - T[11]], er = rotErr(T, goal);
+      } else {   // POSE: move towards the target (given in header.frame_id, here turned into the planning frame) at a bounded speed
+        let goal = cmd.msg.T;
+        if (cmd.msg.frame && cmd.msg.frame !== this.model.root) { const F = this.K.fk(base)[cmd.msg.frame]; if (!F) { if (!sv.badFrame) this.servoLog(`Unknown frame '${cmd.msg.frame}' in the pose command`, "WARN"); sv.badFrame = true; return; } goal = mulTransform(F, goal); }
+        sv.badFrame = false;
+        const e = [goal[3] - T[3], goal[7] - T[7], goal[11] - T[11]], er = rotErr(T, goal);
         const gain = 4, l = Math.hypot(...e), a = Math.hypot(...er);
         if (l < 0.002 && a < 0.01) { if (!sv.reached) this.servoLog("Reached the pose target", "INFO"); sv.reached = true; return; }
         sv.reached = false;
@@ -161,13 +165,13 @@ export const poseMethods = {
     const over = Math.max(1, ...qd.map((x, i) => Math.abs(x) / (G.vel[i] || 1)));
     qd = qd.map((x) => x / over);
     const nq = q.map((x, i) => x + qd[i] * dt);
-    const halt = (why) => { if (sv.halted !== why) this.servoLog(why, "WARN"); sv.halted = why; sv.q = null; };
+    const halt = (why) => { if (sv.halted !== why) this.servoLog(why, "WARN"); sv.halted = why; sv.status = /collision/i.test(why) ? { code: 4, message: "Halting for collision" } : { code: 6, message: "Close to a joint bound (position or velocity), halting" }; sv.q = null; };
     if (nq.some((x, i) => x < G.lower[i] + 0.01 || x > G.upper[i] - 0.01) && nq.some((x, i) => (x < G.lower[i] + 0.01 && qd[i] < 0) || (x > G.upper[i] - 0.01 && qd[i] > 0))) {
       const k = nq.findIndex((x, i) => (x < G.lower[i] + 0.01 && qd[i] < 0) || (x > G.upper[i] - 0.01 && qd[i] > 0));
       return halt(`Joint position limit reached on joint '${G.joints[k]}'. Halting.`);
     }
     if (P.check_collisions && this.ready) { const CM = new CollisionModel(this.K, this.spheres, { acm: this.acm, group: G }); CM.setObjects(this.objects); const c = CM.contact(G.values(nq, base), { full: true }); if (c) return halt(`Halting for collision! ${contactText(c)}`); }
-    sv.halted = "";
+    sv.halted = ""; sv.status = { code: 0, message: "No warnings" };
     sv.q = nq;
     // command_out: one point of trajectory_msgs/JointTrajectory to the arm controller
     const hit = this.graph.cmModels().find((m) => m.cm.controllers.has(P.command_out_topic.split("/")[1]));
@@ -181,7 +185,7 @@ export const poseMethods = {
 // ---------------- added to RosGraph.prototype ----------------
 export const servoGraphMethods = {
   // ros2 launch <robot>_moveit_config servo.launch.py
-  launchServo(pk) {
+  launchServo(pk, extra = []) {
     const L = [];
     if (!this.mg || !this.node(this.mg.node)) return [this.err("[ERROR] [launch]: Caught exception in launch (see debug for traceback): servo_node needs the robot running: start demo.launch.py or gazebo.launch.py first"), this.hint("(Start MoveIt in one terminal, then servo.launch.py in a + New terminal.)")];
     if (this.nodes.some((n) => n.kind === "servo")) return [this.err("[ERROR] [launch]: a servo_node is already running (Ctrl+C the other one first)")];
@@ -189,6 +193,8 @@ export const servoGraphMethods = {
     const params = {};
     if (yaml) for (const [k, re] of Object.entries({ command_in_type: /command_in_type:\s*"?(\w+)"?/, move_group_name: /move_group_name:\s*(\w+)/, planning_frame: /planning_frame:\s*(\w+)/, ee_frame: /ee_frame:\s*(\w+)/, command_out_topic: /command_out_topic:\s*([\w/]+)/ })) { const m = String(yaml).match(re); if (m) params[k] = m[1]; }
     for (const [k, re] of Object.entries({ incoming_command_timeout: /incoming_command_timeout:\s*([\d.]+)/, publish_period: /publish_period:\s*([\d.]+)/ })) { const m = String(yaml || "").match(re); if (m) params[k] = Number(m[1]); }
+    const cli = {}; for (const x of extra) { const m = String(x).match(/^([\w-]+):=(.*)$/); if (m) cli[m[1]] = m[2]; }
+    if (cli.command_out_topic) params.command_out_topic = cli.command_out_topic;
     const sv = this.mg.servoStart(params);
     const n = this.add("servo", "servo_node", "", { "moveit_servo.move_group_name": sv.params.move_group_name, "moveit_servo.command_in_type": sv.params.command_in_type, "moveit_servo.command_out_topic": sv.params.command_out_topic, "moveit_servo.planning_frame": sv.params.planning_frame, "moveit_servo.ee_frame": sv.params.ee_frame, "moveit_servo.check_collisions": true });
     n.procName = "servo_node-1"; n.mg = this.mg;
@@ -223,6 +229,8 @@ export const servoGraphMethods = {
       // servo_node drops a command whose header.stamp is older than incoming_command_timeout (a zero stamp is from 1970)
       const stamped = /stamp:\s*now/.test(String(yaml)) || /stamp:\s*\{[^}]*sec:\s*[1-9]/.test(String(yaml));
       if (!stamped) return { servo: null, msg, note: `servo_node ignored it: the header.stamp is 0 (the year 1970), so the command is older than incoming_command_timeout (${sv.params.incoming_command_timeout} s) and is dropped as stale, without a warning. Give it the current time: "{header: {stamp: now, frame_id: ${sv.params.planning_frame}}, ...}"` };
+      if (want === "TWIST" && msg.frame && !mg.K.model.links[msg.frame]) return { servo: null, msg, note: `servo_node: unknown frame '${msg.frame}' in header.frame_id: the command is ignored. Use a robot link such as ${sv.params.planning_frame} (the base) or ${sv.params.ee_frame} (the tool).` };
+      if (want === "JOINT_JOG") { const bad = msg.joint_names.filter((j) => !sv.G.joints.includes(j)); if (bad.length || !msg.joint_names.length) return { servo: null, msg, note: `servo_node: ${bad.length ? `unknown joint name${bad.length > 1 ? "s" : ""} ${bad.join(", ")}` : "no joint_names"}: the joint jog is ignored. The ${sv.params.move_group_name} joints are: ${sv.G.joints.join(", ")}` }; }
       mg.servoCommand(want, msg);
       const mismatch = SERVO_TYPES[sv.type] !== want;
       return { servo: want, msg, note: mismatch ? `servo_node is in ${SERVO_TYPES[sv.type]} mode, so it ignores this ${want === "TWIST" ? "twist" : want === "POSE" ? "pose" : "joint jog"}. Switch first: ros2 service call /servo_node/switch_command_type moveit_msgs/srv/ServoCommandType "{command_type: ${SERVO_TYPES.indexOf(want)}}"`

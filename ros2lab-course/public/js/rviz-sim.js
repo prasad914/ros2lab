@@ -563,7 +563,7 @@ ${opt.map((x) => `
   </joint>
 `).join("")}</robot>
 `;
-  const yaml = controllersYaml(d ? { wheels: { left: d.left, right: d.right }, separation: d.separation, radius: d.radius, base: sim.base } : { arm });
+  const yaml = controllersYaml(d ? { wheels: { left: d.left, right: d.right }, separation: d.separation, radius: d.radius, base: sim.base, ...(sim.maxLinear ? { maxLinear: sim.maxLinear } : {}), ...(sim.maxAngular ? { maxAngular: sim.maxAngular } : {}) } : { arm });
   const bridge = bridgeYaml({ ...sim, drive: null, velocity: null, positions: [] }).replace(/- ros_topic_name: "\/joint_states"\n[\s\S]*?direction: GZ_TO_ROS\n/, "").replace("# ros_gz_bridge:", "# ros_gz_bridge (ros2_control version): only the clock and the sensors. Commands, odometry and joint states\n# come from ros2_control controllers, which are ROS nodes already.\n# ros_gz_bridge:");
   const spawnPy = `        # ros2_control: gz_ros2_control starts controller_manager inside Gazebo. The spawner waits for it,
         # then loads, configures and activates the controllers, and exits.

@@ -289,7 +289,7 @@ export const moveitMethods = {
     const cfg = pk.config || {};
     const need = [`${robot}.srdf`, "kinematics.yaml", "joint_limits.yaml", "moveit_controllers.yaml", "ros2_controllers.yaml"];
     for (const f of need) if (cfg[f] === undefined) return fail(`file not found: ${sh.wsPkgs ? `/home/student/ros2_ws/install/${pk.name}/share/${pk.name}/config/${f}` : f}`, "Is the config folder installed (install(DIRECTORY ... config ...) in CMakeLists.txt), and did you colcon build and source install/setup.bash?");
-    if (/servo/.test(file)) return this.launchServo(pk);
+    if (/servo/.test(file)) return this.launchServo(pk, Object.entries(cli).map(([k, v]) => `${k}:=${v}`));
     const mode = /gazebo/.test(file) ? "gazebo" : /real/.test(file) ? "real" : /demo/.test(file) ? "demo" : file.replace(/\.launch\.py$/, "");
     if (!["gazebo", "real", "demo", "move_group", "moveit_rviz"].includes(mode)) return fail(`the practice terminal starts demo.launch.py, gazebo.launch.py, real.launch.py, move_group.launch.py and moveit_rviz.launch.py of a MoveIt config (not ${file})`);
     if (this.mg && this.node(this.mg.node)) return fail("a move_group is already running (stop the other launch with Ctrl+C first)");

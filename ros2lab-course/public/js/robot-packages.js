@@ -111,16 +111,17 @@ def generate_launch_description():
 export function gazeboPackage(g, descPkg, { sim, moveitPkg }) {
   const name = `${g.id}_gazebo`;
   const target = moveitPkg ? { pkg: moveitPkg, file: "gazebo.launch.py", what: "Gazebo + gz_ros2_control + MoveIt 2 (move_group, RViz MotionPlanning) and the work cell" }
-    : sim && sim.control ? { pkg: descPkg, file: "sim_control.launch.py", what: `Gazebo + gz_ros2_control (${sim.control.controller || "controllers"}), sensors through ros_gz_bridge, RViz` }
-      : sim ? { pkg: descPkg, file: "sim.launch.py", what: "Gazebo with the robot's Gazebo systems and sensors, ros_gz_bridge, RViz" } : null;
+    : sim ? { pkg: descPkg, file: "sim.launch.py", what: "Gazebo with the robot's Gazebo systems and sensors, ros_gz_bridge (the same /cmd_vel, /odom and sensor topics as the real robot), RViz" } : null;
+  const ctl = !moveitPkg && sim && sim.control ? { pkg: descPkg, file: "sim_control.launch.py", what: `Gazebo + gz_ros2_control (${sim.control.controller || "controllers"}): drive it on /${sim.control.controller || "diff_drive_controller"}/cmd_vel (TwistStamped)` } : null;
   if (!target) return null;
   const files = {
     "package.xml": pkgXml(name, `${g.title}: Gazebo (Harmonic) simulation bringup: ${target.what}`, [descPkg, ...(moveitPkg ? [moveitPkg] : []), "ros_gz_sim", "ros_gz_bridge", "gz_ros2_control", "controller_manager", "robot_state_publisher", "rviz2"]),
     "CMakeLists.txt": cmake(name, ["launch"]),
     "launch/gazebo.launch.py": `# ${g.title} in Gazebo: ${target.what}.
 # ros2 launch ${name} gazebo.launch.py
-# It starts ${target.pkg}/launch/${target.file}: the same nodes, controllers and topics as the real robot's bringup.
+# It starts ${target.pkg}/launch/${target.file}.
 ` + includeLaunch(target.pkg, target.file),
+    ...(ctl ? { "launch/gazebo_control.launch.py": `# ${g.title} in Gazebo with ros2_control: ${ctl.what}.\n# ros2 launch ${name} gazebo_control.launch.py\n` + includeLaunch(ctl.pkg, ctl.file) } : {}),
     "README.md": `# ${name}
 
 \`ros2 launch ${name} gazebo.launch.py\` starts ${g.title} in Gazebo Harmonic: ${target.what}.
@@ -132,7 +133,7 @@ export function gazeboPackage(g, descPkg, { sim, moveitPkg }) {
 ${moveitPkg ? `| \`${moveitPkg}\` | MoveIt 2 (OMPL, Pilz, CHOMP, STOMP), Servo, pose goals |\n` : ""}| \`${g.id}_bringup\` | the real robot (driver, hardware config, udev rules); needs a hardware license |
 `,
   };
-  return { name, files, launches: ["gazebo.launch.py"] };
+  return { name, files, launches: ["gazebo.launch.py", ...(ctl ? ["gazebo_control.launch.py"] : [])] };
 }
 
 // ---------------- <id>_bringup ----------------
@@ -172,7 +173,8 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, SetEnvironmentVariable
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
@@ -182,7 +184,7 @@ ${moveitPkg && !ownMoveit ? "        DeclareLaunchArgument('use_moveit', default
     actions = []
 ${mob && mob.include && mob.include.env ? Object.entries(mob.include.env(g)).map(([k, v]) => `    actions.append(SetEnvironmentVariable('${k}', os.environ.get('${k}', '${v}')))\n`).join("") : ""}${driver ? `    # the maker's driver (fails with "package '${driver.pkg}' not found" until it is installed: scripts/install_driver.sh)
     actions.append(IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(get_package_share_directory('${driver.pkg}'), 'launch', '${driver.file}')),
+        PythonLaunchDescriptionSource(PathJoinSubstitution([FindPackageShare('${driver.pkg}'), 'launch', '${driver.file}'])),
         launch_arguments={${drvArgs.map(([k]) => `'${k}': LaunchConfiguration('${k}')`).join(", ")}}.items()))
 ` : `    # this robot has no driver launch file: it publishes its own topics once the network is set up (see config/hardware.yaml)
     actions.append(IncludeLaunchDescription(
@@ -193,7 +195,7 @@ ${mob && mob.include && mob.include.env ? Object.entries(mob.include.env(g)).map
         condition=IfCondition(LaunchConfiguration('use_moveit'))))
 ` : ""}    return LaunchDescription(args + actions)
 `;
-  const simTarget = moveitPkg ? [moveitPkg, "gazebo.launch.py"] : sim && sim.control ? [descPkg, "sim_control.launch.py"] : sim ? [descPkg, "sim.launch.py"] : null;
+  const simTarget = moveitPkg ? [moveitPkg, "gazebo.launch.py"] : sim ? [descPkg, "sim.launch.py"] : null;   // mobile robots: gz DiffDrive & co on /cmd_vel, /odom like the real driver
   const files = {
     "package.xml": pkgXml(name, `${g.title}: bringup for the real robot (${drvName}) and for its simulation`, [descPkg, ...(moveitPkg ? [moveitPkg] : []), ...(driver && driver.pkg !== moveitPkg ? [driver.pkg] : []), "robot_state_publisher", "rviz2"]),
     "CMakeLists.txt": cmake(name, ["launch", "config", ...(udev ? ["udev"] : [])], ["scripts/install_driver.sh"]),
@@ -202,12 +204,18 @@ ${mob && mob.include && mob.include.env ? Object.entries(mob.include.env(g)).map
     "config/hardware.yaml": hwYaml,
     ...(udev ? { [`udev/99-${g.id.replace(/_/g, "-")}.rules`]: udev } : {}),
     "scripts/install_driver.sh": `#!/usr/bin/env bash
-# Install the driver for the real ${g.title} on Ubuntu 24.04 + ROS 2 Jazzy (run from your workspace folder).
+# Install the driver for the real ${g.title} on Ubuntu 24.04 + ROS 2 Jazzy.
+# Source-built drivers go into their own workspace (an underlay, ~/${g.id}_driver_ws), so their packages do not clash
+# with the packages of your course workspace. Then: source ~/${g.id}_driver_ws/install/setup.bash, and build/source
+# your course workspace on top of it. If the maker's driver needs files from its own description package, stop the
+# course copy from shadowing it: touch ~/ros2_ws/src/${descPkg}/COLCON_IGNORE && rm -rf ~/ros2_ws/build/${descPkg} ~/ros2_ws/install/${descPkg}
 set -e
-${install.replace(/ && /g, "\n")}
+source /opt/ros/jazzy/setup.bash
+${/git clone[^&]*\ssrc\//.test(install) ? `mkdir -p ~/${g.id}_driver_ws/src && cd ~/${g.id}_driver_ws\n` : ""}${install.replace(/ && /g, "\n")}
+${/git clone[^&]*\ssrc\//.test(install) ? `echo "source ~/${g.id}_driver_ws/install/setup.bash" >> ~/.bashrc\n` : ""}
 ${udev ? `sudo cp "$(ros2 pkg prefix ${name})/share/${name}/udev/99-${g.id.replace(/_/g, "-")}.rules" /etc/udev/rules.d/
 sudo udevadm control --reload-rules && sudo udevadm trigger
-` : ""}${/USB|serial|tty/i.test(conn) ? "sudo usermod -aG dialout $USER   # log out and in once\n" : ""}echo "Driver installed. Ask your course administrator for the ROS2Lab hardware license before connecting the robot."
+` : ""}${/USB|serial|tty/i.test(conn) ? `sudo usermod -aG ${udev && /GROUP="plugdev"/.test(udev) ? "plugdev" : "dialout"} $USER   # log out and in once\n` : ""}echo "Driver installed. Ask your course administrator for the ROS2Lab hardware license before connecting the robot."
 `,
     "HARDWARE_LICENSE.md": `# Hardware license
 

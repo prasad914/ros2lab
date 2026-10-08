@@ -247,7 +247,7 @@ ${grip.map((n, i) => `        <joint name="${n}" value="${n4(clampJ(n, (spec.clo
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="hand" parent_link="${G.tip}" group="${ggroup}" parent_group="${group}"/>
-` : ""}${Object.values(model.joints).filter((j) => j.mimic && all.includes(j.mimic.joint)).map((j) => `    <passive_joint name="${j.name}"/>\n`).join("")}    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+` : ""}${Object.values(model.joints).filter((j) => (j.mimic && all.includes(j.mimic.joint)) || (!j.mimic && ["revolute", "continuous", "prismatic"].includes(j.type) && !all.includes(j.name))).map((j) => `    <passive_joint name="${j.name}"/>\n`).join("")}    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
 ${pairs.map((p) => `    <disable_collisions link1="${p.link1}" link2="${p.link2}" reason="${p.reason}"/>`).join("\n")}
 </robot>
 `;
@@ -435,11 +435,11 @@ def generate_launch_description():
   files["launch/static_virtual_joint_tfs.launch.py"] = simple("generate_static_virtual_joint_tfs_launch");
   files["launch/warehouse_db.launch.py"] = simple("generate_warehouse_db_launch");
   files["launch/gazebo.launch.py"] = gazeboLaunch(pkg, robot, builder, pipelines, armCtl, grip.length ? gripCtl : null, descPkg);
-  files["launch/real.launch.py"] = realLaunch(pkg, robot, builder, pipelines, real, hw, armCtl, grip.length ? gripCtl : null);
+  files["launch/real.launch.py"] = `# ros2lab-robot: ${id}\n` + realLaunch(pkg, robot, builder, pipelines, real, hw, armCtl, grip.length ? gripCtl : null);
   files[`worlds/${robot}_moveit.sdf`] = moveitWorld(`${robot}_moveit`, objects);
   files["scripts/add_scene_objects.py"] = sceneScript(objects);
-  files["config/servo.yaml"] = servoYaml(group, G, armCtl);
-  files["launch/servo.launch.py"] = servoLaunch(pkg, builder, pipelines, group);
+  files["config/servo.yaml"] = servoYaml(group, G, armCtl, spec.servoSingularity || (/^(wx250s|so101|lite6|magician|arm3)$/.test(id) ? [100, 200] : [17, 30]));
+  files["launch/servo.launch.py"] = servoLaunch(pkg, builder, pipelines, group, armCtl, real && real.controller ? real.controller : null);
   files["scripts/pose_goal_commander.py"] = poseGoalScript(pkg, group, G.tip, objects.length ? "world" : model.root);
   files["README.md"] = readme(pkg, robot, title, descPkg, real, hw, group, grip.length ? ggroup : null);
   return { name: pkg, files, group, gripperGroup: grip.length ? ggroup : null, arm, grip, home, ready, init, armCtl, gripCtl: grip.length ? gripCtl : null, objects };
@@ -938,10 +938,11 @@ export function placeScene(mm, spec) {
 }
 
 // ---------------- MoveIt Servo (moveit_servo, MoveIt 2.12 / Jazzy) ----------------
-function servoYaml(group, G, armCtl) {
+function servoYaml(group, G, armCtl, sing = [17, 30]) {
   return `###############################################
 # MoveIt Servo for the ${group} group (moveit_servo, ROS 2 Jazzy)
 # Start it after MoveIt (demo.launch.py, gazebo.launch.py or real.launch.py): ros2 launch <this package> servo.launch.py
+# (command_out_topic below is the simulation's controller; for the real arm pass command_out_topic:=/<driver's controller>/joint_trajectory)
 # Then choose the command type: 0 JOINT_JOG, 1 TWIST, 2 POSE
 #   ros2 service call /servo_node/switch_command_type moveit_msgs/srv/ServoCommandType "{command_type: 1}"
 #   ros2 topic pub -r 30 /servo_node/delta_twist_cmds geometry_msgs/msg/TwistStamped "{header: {stamp: now, frame_id: ${G.base}}, twist: {linear: {z: 0.05}}}"
@@ -977,8 +978,8 @@ check_octomap_collisions: false
 move_group_name: ${group}
 
 ## Configure handling of singularities and joint limits
-lower_singularity_threshold: 17.0  # Start decelerating when the condition number hits this (close to singularity)
-hard_stop_singularity_threshold: 30.0  # Stop when the condition number hits this
+lower_singularity_threshold: ${fl(sing[0])}  # Start decelerating when the condition number hits this (close to singularity)
+hard_stop_singularity_threshold: ${fl(sing[1])}  # Stop when the condition number hits this (small arms start near a singular pose: higher values)
 leaving_singularity_threshold_multiplier: 2.0
 joint_limit_margins: [${G.joints.map(() => "0.1").join(", ")}]  # buffer to the joint limits [rad], one per joint of ${group}
 
@@ -1001,13 +1002,14 @@ joint_topic: /joint_states
 incoming_command_timeout: 0.1  # Stop servoing if X seconds elapse without a new command
 `;
 }
-function servoLaunch(pkg, builder, pipelines, group) {
+function servoLaunch(pkg, builder, pipelines, group, armCtl, realCtl) {
   return `# MoveIt Servo: real-time Cartesian (twist), joint jog and pose commands for the ${group} group.
 # Start MoveIt first (demo.launch.py, gazebo.launch.py use_sim_time:=true, or real.launch.py), then:
 #   ros2 launch ${pkg} servo.launch.py
 #   ros2 service call /servo_node/switch_command_type moveit_msgs/srv/ServoCommandType "{command_type: 1}"
 #   ros2 topic pub -r 30 /servo_node/delta_twist_cmds geometry_msgs/msg/TwistStamped "{header: {stamp: now, frame_id: <base link>}, twist: {linear: {x: 0.05}}}"
 # (Servo ignores commands whose header.stamp is older than incoming_command_timeout: give stamp: now)
+# The real arm: ros2 launch ${pkg} servo.launch.py command_out_topic:=/${realCtl || armCtl}/joint_trajectory   (its driver's trajectory controller)
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
@@ -1032,11 +1034,14 @@ def generate_launch_description():
             moveit_config.robot_description_kinematics,
             moveit_config.joint_limits,
             {"use_sim_time": LaunchConfiguration("use_sim_time")},
+            {"moveit_servo.command_out_topic": LaunchConfiguration("command_out_topic")},
         ],
         output="screen",
     )
     return LaunchDescription([
         DeclareLaunchArgument("use_sim_time", default_value="false", description="true with gazebo.launch.py"),
+        DeclareLaunchArgument("command_out_topic", default_value="/${armCtl}/joint_trajectory",
+                              description="the trajectory controller's topic (real arm: /${realCtl || armCtl}/joint_trajectory)"),
         servo_node,
     ])
 `;

@@ -16,7 +16,7 @@ export const REAL = {
     topics: "/scan (LaserScan), /imu, /odom, /joint_states, /tf, /battery_state",
   },
   scout: {
-    driver: "scout_ros2 (AgileX, branch origin/jazzy) + ugv_sdk", install: "cd ~/ros2_ws/src && git clone https://github.com/agilexrobotics/ugv_sdk.git && git clone -b origin/jazzy https://github.com/agilexrobotics/scout_ros2.git && cd .. && colcon build",
+    driver: "scout_ros2 (AgileX, branch origin/jazzy) + ugv_sdk", install: "git clone https://github.com/agilexrobotics/ugv_sdk.git src/ugv_sdk && git clone -b origin/jazzy https://github.com/agilexrobotics/scout_ros2.git src/scout_ros2 && rosdep install --from-paths src --ignore-src --rosdistro jazzy -y && colcon build",
     connection: "CAN bus through a USB-to-CAN adapter (gs_usb): sudo modprobe gs_usb && sudo ip link set can0 up type can bitrate 500000 (check with: candump can0, from sudo apt install can-utils).",
     setup: ["sudo modprobe gs_usb", "sudo ip link set can0 up type can bitrate 500000"],
     launch: "ros2 launch scout_base scout_base.launch.py port_name:=can0",
@@ -43,7 +43,7 @@ export const REAL = {
     topics: "/odometry, /depth/frontleft/image, /camera/frontleft/image, /joint_states, /tf",
   },
   crazyflie: {
-    driver: "crazyswarm2 (IMRCLab, Jazzy)", install: "sudo apt install ros-jazzy-crazyflie ros-jazzy-crazyflie-interfaces ros-jazzy-crazyflie-py ros-jazzy-motion-capture-tracking && pip3 install rowan cflib transforms3d",
+    driver: "crazyswarm2 (IMRCLab, Jazzy)", install: "sudo apt install ros-jazzy-crazyflie ros-jazzy-crazyflie-interfaces ros-jazzy-crazyflie-py ros-jazzy-motion-capture-tracking && pip3 install --break-system-packages rowan cflib transforms3d",
     connection: "Crazyradio PA on USB (URI like radio://0/80/2M/E7E7E7E7E7, set in crazyflie/config/crazyflies.yaml). USB rules: SUBSYSTEM==\"usb\", ATTRS{idVendor}==\"1915\", ATTRS{idProduct}==\"7777\", MODE=\"0664\", GROUP=\"plugdev\" in /etc/udev/rules.d/99-bitcraze.rules, and sudo usermod -aG plugdev $USER.",
     setup: ["sudo groupadd plugdev; sudo usermod -aG plugdev $USER", "write /etc/udev/rules.d/99-bitcraze.rules (see the connection line), then: sudo udevadm control --reload-rules && sudo udevadm trigger"],
     launch: "ros2 launch crazyflie launch.py backend:=cflib mocap:=False",
@@ -63,7 +63,8 @@ export function realFor(g) {
 
 export function realLaunchPy(pkg, g, r, urdfFile, rvizFile) {
   const inc = r.include;
-  return `# The REAL ${g.title}.
+  return `# ros2lab-robot: ${g.id}
+# The REAL ${g.title}.
 # Driver: ${r.driver}
 # Install once: ${r.install}
 # Connection: ${r.connection}

@@ -300,7 +300,7 @@
     "driver": "franka_ros2 (jazzy branch, source build; PREEMPT_RT kernel, activate FCI in Desk)",
     "install": "git clone -b jazzy https://github.com/frankarobotics/franka_ros2.git src/franka_ros2 && vcs import src < src/franka_ros2/dependency.repos --recursive --skip-existing && rosdep install --from-paths src --ignore-src --rosdistro jazzy -y && colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release",
     "connection": "Ethernet to the Control box (default robot_ip 172.16.0.3)",
-    "launch": "ros2 launch franka_bringup franka.launch.py robot_ip:=172.16.0.3",
+    "launch": "ros2 launch franka_bringup franka.launch.py robot_type:=fr3 robot_ip:=172.16.0.3 load_gripper:=true",
     "controller": "fr3_arm_controller",
     "plugin": "franka_hardware/FrankaHardwareInterface",
     "ip": "172.16.0.3"
@@ -678,7 +678,7 @@
    "real": {
     "driver": "interbotix_ros_manipulators + interbotix_ros_core (jazzy branches, source build; vendor-tested on Humble)",
     "install": "git clone -b jazzy https://github.com/Interbotix/interbotix_ros_core.git src/interbotix_ros_core && git clone -b jazzy https://github.com/Interbotix/interbotix_ros_manipulators.git src/interbotix_ros_manipulators && git clone -b jazzy https://github.com/Interbotix/interbotix_ros_toolboxes.git src/interbotix_ros_toolboxes && rosdep install --from-paths src --ignore-src --rosdistro jazzy -y && colcon build",
-    "connection": "USB (U2D2) /dev/ttyDXL (copy 99-interbotix-udev.rules to /etc/udev/rules.d/)",
+    "connection": "USB (U2D2) /dev/ttyDXL (copy udev/99-wx250s.rules from wx250s_bringup to /etc/udev/rules.d/, or run its scripts/install_driver.sh)",
     "launch": "ros2 launch interbotix_xsarm_control xsarm_control.launch.py robot_model:=wx250s",
     "controller": "wx250s/arm_controller",
     "plugin": "interbotix_xs_ros_control/XSHardwareInterface",
@@ -832,6 +832,8 @@
    "license": "Apache-2.0"
   },
   "sim": {
+    "maxLinear": 0.26,
+    "maxAngular": 1.82,
    "model": "turtlebot3_waffle",
    "base": "base_footprint",
    "drive": {
@@ -908,6 +910,8 @@
    "license": "Apache-2.0"
   },
   "sim": {
+    "maxLinear": 0.22,
+    "maxAngular": 2.84,
    "model": "turtlebot3_burger",
    "base": "base_footprint",
    "drive": {
@@ -969,6 +973,8 @@
    "license": "Apache-2.0"
   },
   "sim": {
+    "maxLinear": 1.5,
+    "maxAngular": 1.0,
    "model": "scout_v2",
    "base": "base_link",
    "drive": {

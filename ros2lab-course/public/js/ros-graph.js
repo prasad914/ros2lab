@@ -40,6 +40,8 @@ const IFACES = {
   "control_msgs/msg/JointJog": "# Used in time-stamping the message.\nstd_msgs/Header header\n\n# Name list of the joints. You don't need to specify all joint of the\n# robot. Joint names are case-sensitive.\nstring[] joint_names\n\n# A position command to the joints relative to the current position.\n# The units depend on the type of joint.\nfloat64[] displacements\n\n# A velocity command to the joints. The units depend on the type of joint.\nfloat64[] velocities\n\n# The desired time duration to make the movement.\nfloat64 duration",
   "moveit_msgs/srv/ServoCommandType": "# The different types of commands that MoveIt Servo accepts.\nint8 JOINT_JOG = 0\nint8 TWIST = 1\nint8 POSE = 2\n\nint8 command_type\n---\nbool success",
   "moveit_msgs/action/MoveGroup": "# Motion planning request to pass to planner\nMotionPlanRequest request\n\n# Planning options\nPlanningOptions planning_options\n---\n# An error code reflecting what went wrong\nMoveItErrorCodes error_code\n...\n---\n# The internal state that the move group action currently is in\nstring state",
+  "moveit_msgs/msg/ServoStatus": "int8 code\nstring message",
+  "moveit_msgs/action/ExecuteTrajectory": "# The trajectory to execute\nRobotTrajectory trajectory\n\n---\n\n# Error code - encodes the overall reason for failure\nMoveItErrorCodes error_code\n\n---\n\n# The internal state that the move group action currently is in\nstring state",
   "rcl_interfaces/msg/Log": "##\n## Severity level constants\n##\nuint8 DEBUG=10\nuint8 INFO=20\nuint8 WARN=30\nuint8 ERROR=40\nuint8 FATAL=50\n\nbuiltin_interfaces/Time stamp\nuint8 level\nstring name\nstring msg\nstring file\nstring function\nuint32 line",
 };
 const PARAM_SRVS = [["describe_parameters", "rcl_interfaces/srv/DescribeParameters"], ["get_parameter_types", "rcl_interfaces/srv/GetParameterTypes"], ["get_parameters", "rcl_interfaces/srv/GetParameters"],
@@ -99,7 +101,7 @@ export class RosGraph {
     if (kind === "turtlesim" || kind === "teleop") QOS.forEach((q, i) => { n.params[q] = [1000, "volatile", "keep_last", "reliable"][i]; });
     n.params.start_type_description_service = true;   // every Jazzy node has these two
     n.params.use_sim_time = false;
-    for (const [k, v] of Object.entries(params)) if (k in n.params || kind === "custom" || (kind === "rsp" && k === "robot_description")) n.params[k] = v;
+    for (const [k, v] of Object.entries(params)) if (k in n.params || kind === "custom" || kind === "servo" || kind === "pose_goal" || kind === "move_group" || (kind === "rsp" && k === "robot_description")) n.params[k] = v;
     if (!dup) this.nodes = this.nodes.filter((x) => x.full !== n.full);
     this.nodes.push(n);
     return n;
@@ -222,7 +224,7 @@ export class RosGraph {
   cmdNode(a, rest) {
     if (a === "list") return this.nodes.some((n) => !this.unseen(n)) ? (() => { const L = this.nodes.filter((n) => !this.unseen(n)).map((n) => n.full).sort(); return new Set(L).size < L.length ? ["WARNING: Be aware that there are nodes in the graph that share an exact name, which can have unintended side effects.", ...L] : L; })().map((t) => this.out(t)) : this.noNodes();
     if (a === "info") {
-      const n = this.node(rest[0] || "");
+      const n0 = this.node(rest[0] || ""), n = n0 && !this.unseen(n0) ? n0 : null;
       if (!rest[0]) return [this.err("usage: ros2 node info <node_name>")];
       if (!n) return [this.err(`Unable to find node '${rest[0]}'`), this.hint("Node names start with /. See them with: ros2 node list")];
       const e = this.endpoints(n);
@@ -297,6 +299,7 @@ export class RosGraph {
   samples(name, t) {
     if (t.type === "turtlesim/msg/Pose") { const hit = this.turtle(name.replace(/\/pose$/, "")); if (!hit) return null; const p = hit.t; return [0, 1, 2].map(() => `x: ${fnum(p.x)}\ny: ${fnum(p.y)}\ntheta: ${fnum(p.theta)}\nlinear_velocity: 0.0\nangular_velocity: 0.0`); }
     if (t.type === "turtlesim/msg/Color") { const hit = this.turtle(name.replace(/\/color_sensor$/, "")); const P = hit ? hit.n.params : { background_r: 69, background_g: 86, background_b: 255 }; return [0, 1, 2].map(() => `r: ${P.background_r}\ng: ${P.background_g}\nb: ${P.background_b}`); }
+    if (name === "/servo_node/status" && this.mg && this.mg.servo) { const st = this.mg.servo.status || { code: 0, message: "No warnings" }; return [0, 1, 2].map(() => `code: ${st.code}\nmessage: ${st.message}`); }
     const cms = this.gzRunning() ? this.cmSample(name) : null; if (cms) return cms;
     const gzs = this.gzRunning() ? this.gzSample(name) : null; if (gzs) return gzs;
     const ur = this.urdfSample(name, t); if (ur) return ur;
@@ -492,7 +495,7 @@ export class RosGraph {
     const pos = rest.filter((x) => !x.startsWith("--"));
     const fmtVal = (v) => (Array.isArray(v) && v.some((x) => typeof x === "string") ? ["String array", `[${v.map((x) => `'${x}'`).join(", ")}]`] : Array.isArray(v) ? ["Double array", `array('d', [${v.map(fnum).join(", ")}])`] : typeof v === "boolean" ? ["Boolean", v ? "True" : "False"] : typeof v === "string" ? ["String", v] : Number.isInteger(v) ? ["Integer", v] : ["Double", fnum(v)]);
     if (a === "list") {
-      const list = pos[0] ? [this.node(pos[0])].filter(Boolean) : this.nodes.slice().sort((x, y) => x.full.localeCompare(y.full));
+      const list = pos[0] ? [this.node(pos[0])].filter((n) => n && !this.unseen(n)) : this.nodes.filter((n) => !this.unseen(n)).sort((x, y) => x.full.localeCompare(y.full));
       if (pos[0] && !list.length) return [this.err(`Node not found`)];
       if (!list.length) return this.noNodes();
       return list.flatMap((n) => [this.out(`${n.full}:`), ...Object.keys(n.params).sort().map((k) => this.out(`  ${k}`))]);
@@ -1738,6 +1741,7 @@ export function readLaunchPy(text, cli) {
   for (const m of text.matchAll(/^\s*(\w+)\s*=\s*get_package_share_directory\(\s*['"](\w+)['"]\s*\)/gm)) shareVar[m[1]] = m[2];
   const includes = [];
   for (const m of text.matchAll(/IncludeLaunchDescription\(\s*(?:Python|XML|AnyLaunch)?\w*LaunchDescriptionSource\(\s*os\.path\.join\(\s*(\w+|get_package_share_directory\(\s*['"](\w+)['"]\s*\))\s*,\s*['"]launch['"]\s*,\s*['"]([\w.]+)['"]\s*\)/g)) includes.push({ pkg: m[2] || shareVar[m[1]], file: m[3] });
+  for (const m of text.matchAll(/IncludeLaunchDescription\(\s*(?:Python|XML|AnyLaunch)?\w*LaunchDescriptionSource\(\s*PathJoinSubstitution\(\s*\[\s*FindPackageShare\(\s*['"](\w+)['"]\s*\)\s*,\s*['"]launch['"]\s*,\s*['"]([\w.]+)['"]\s*\]/g)) includes.push({ pkg: m[1], file: m[2] });
   return { nodes, vals, includes, gz: gzIncludePy(text, vals) };
 }
 
@@ -1745,7 +1749,25 @@ export function readLaunchPy(text, cli) {
 // like ros2 launch: if the launch fails part-way, every process it already started is shut down again
 // A maker's real-robot driver started from a launch file: it tries to reach the robot over USB, Ethernet, CAN or Wi-Fi.
 // The practice computer has no robot attached, so it reports what the real driver prints when the robot is not there.
+const DRIVER_PKGS = { ur_robot_driver: "ur5e", kortex_bringup: "gen3", franka_bringup: "fr3", xarm_controller: "xarm6", dobot_bringup_v4: "cr5", dobot_bringup: "magician", interbotix_xsarm_control: "wx250s", abb_bringup: "irb120", kuka_rsi_driver: "kr6", fanuc_hardware_interface: "lrmate", turtlebot3_bringup: "tb3_burger", scout_base: "scout", spot_driver: "spot", crazyflie: "crazyflie", feetech_ros2_driver: "so101" };
+RosGraph.prototype.isDriverPkg = function (pkg) { return pkg in DRIVER_PKGS; };
+// the hardware license check for any path that starts a maker's driver
+RosGraph.prototype.hwGate = function (robots) {
+  const sh = this.sh; if (!sh.spec || !sh.spec.hardwareGate) return { ok: true };
+  return sh.spec.hardwareGate(robots.filter(Boolean));
+};
+RosGraph.prototype.hwLocked = function (msg) {
+  return [this.out("[INFO] [launch]: Default logging verbosity is set to INFO"), this.err(`[ERROR] [ros2lab_hardware_license]: ${msg}`), this.err("[ERROR] [launch]: real hardware is locked: nothing was started"),
+    this.hint("(Simulation needs no license: use sim.launch.py / gazebo.launch.py / demo.launch.py. For the real robot, ask your course administrator for a hardware license: RViz page → Connect to ROS 2 → Ask for a hardware license.)")];
+};
+// ros2 launch <driver package> <file> straight from the terminal
+RosGraph.prototype.driverDirect = function (pkg, file, extra = []) {
+  const cli = {}; for (const x of extra) { const m = String(x).match(/^([\w-]+):=(.*)$/); if (m) cli[m[1]] = m[2]; }
+  return this.driverLaunch({ pkg, file }, "", cli);
+};
 RosGraph.prototype.driverLaunch = function (inc, text, cli) {
+  const gate = this.hwGate([(String(text).match(/# ros2lab-robot:\s*([\w-]+)/) || [])[1], DRIVER_PKGS[inc.pkg]]);
+  if (!gate.ok) return this.hwLocked(gate.message);
   const arg = (k, d) => cli[k] || (String(text).match(new RegExp(`DeclareLaunchArgument\\(\\s*['"]${k}['"]\\s*,\\s*default_value\\s*=\\s*['"]([^'"]*)['"]`)) || [])[1] || d;
   const ip = arg("robot_ip", arg("rws_ip", arg("client_ip", ""))), port = arg("usb_port", arg("port_name", "")), now = () => (Date.now() / 1000).toFixed(9);
   const L = [this.out("[INFO] [launch]: All log files can be found below /home/student/.ros/log"), this.out("[INFO] [launch]: Default logging verbosity is set to INFO")];
@@ -1780,16 +1802,15 @@ RosGraph.prototype.launchUserInner = function (pk, file, extra = []) {
   const cli = {}; for (const x of extra) { const m = String(x).match(/^([\w-]+):=(.*)$/); if (m) cli[m[1]] = m[2]; }
   const kindOf = /\.py$/.test(file) ? "py" : /\.xml$/.test(file) ? "xml" : null;
   // real hardware: a robot's bringup / real.launch.py talks to the purchased robot, which needs the administrator's license
-  const realHw = (/_bringup$/.test(pk.name) && /^(real|bringup|driver|hardware)/.test(file)) || /^real\.launch\.(py|xml)$/.test(file) || (/_bringup$/.test(pk.name) && /mode:=real|use_sim:=false/.test(extra.join(" ")));
-  if (realHw && !extra.includes("--show-args") && sh.spec && sh.spec.hardwareGate) {
-    const base = pk.name.replace(/_(bringup|moveit_config|description|gazebo)$/, ""), robot = (text.match(/# ros2lab-robot:\s*([\w-]+)/) || [])[1];
-    const gate = sh.spec.hardwareGate([robot, base].filter(Boolean));
-    if (!gate.ok) return [this.out("[INFO] [launch]: Default logging verbosity is set to INFO"), this.err(`[ERROR] [ros2lab_hardware_license]: ${gate.message}`), this.err("[ERROR] [launch]: real hardware is locked: nothing was started"),
-      this.hint("(Simulation needs no license: use sim.launch.py / gazebo.launch.py / demo.launch.py. For the real robot, ask your course administrator for a hardware license: RViz page → Connect to ROS 2 → Ask for a hardware license.)")];
+  const marker = (text.match(/# ros2lab-robot:\s*([\w-]+)/) || [])[1];
+  const realHw = !!marker || (/_bringup$/.test(pk.name) && /^(real|bringup|driver|hardware)/.test(file)) || /^real\.launch\.(py|xml)$/.test(file) || (/_bringup$/.test(pk.name) && /mode:=real|use_sim:=false/.test(extra.join(" ")));
+  if (realHw && !extra.includes("--show-args")) {
+    const gate = this.hwGate([marker, pk.name.replace(/_(bringup|moveit_config|description|gazebo)$/, "")]);
+    if (!gate.ok) return this.hwLocked(gate.message);
   }
   if (extra.includes("--show-args")) {
-    const decl = kindOf === "xml" ? [...text.matchAll(/<arg\b([^>]*?)\/?>/g)].map((m) => attrs(m[1])) : [...text.matchAll(/DeclareLaunchArgument\(\s*['"]([\w-]+)['"](?:\s*,\s*default_value\s*=\s*['"]([^'"]*)['"])?/g)].map((m) => ({ name: m[1], default: m[2] }));
-    return decl.length ? ["Arguments (pass arguments as '<name>:=<value>'):", ""].concat(...decl.map((a) => [`    '${a.name}':`, "        no description given", a.default !== undefined ? `        (default: '${a.default}')` : "", ""])).filter((x, i, arr) => x !== "" || arr[i - 1] !== "").map((t) => this.out(t)) : [this.out("No arguments.")];
+    const decl = kindOf === "xml" ? [...text.matchAll(/<arg\b([^>]*?)\/?>/g)].map((m) => attrs(m[1])) : [...text.matchAll(/DeclareLaunchArgument\(\s*['"]([\w-]+)['"](?:\s*,\s*default_value\s*=\s*['"]([^'"]*)['"])?([^)]*)/g)].map((m) => ({ name: m[1], default: m[2], description: (m[3].match(/description\s*=\s*['"]([^'"]*)['"]/) || [])[1] }));
+    return decl.length ? ["Arguments (pass arguments as '<name>:=<value>'):", ""].concat(...decl.map((a) => [`    '${a.name}':`, `        ${a.description || "no description given"}`, a.default !== undefined ? `        (default: '${a.default}')` : "", ""])).filter((x, i, arr) => x !== "" || arr[i - 1] !== "").map((t) => this.out(t)) : [this.out("No arguments.")];
   }
   // a MoveIt config package (MoveItConfigsBuilder / moveit_configs_utils launch files): move_group, RViz MotionPlanning, ros2_control
   if (kindOf === "py" && this.isMoveitLaunch(text)) return this.launchMoveit(pk, file, cli, text);

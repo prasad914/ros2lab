@@ -377,6 +377,7 @@ export class ControllerManager {
     if (!points.length) return { used: true, controller: c.name, note: "Empty trajectory: the controller holds the current position." };
     const missing = joints.filter((j) => !want.includes(j));
     if (missing.length) return { used: false, note: `[ERROR] [${c.name}]: Joints on incoming trajectory don't match the controller joints.`, log: true };
+    if (joints.length !== want.length && !(c.params.allow_partial_joints_goal === true || c.params.allow_partial_joints_goal === "true")) return { used: false, note: `[ERROR] [${c.name}]: Joints on incoming trajectory don't match the controller joints (all ${want.length} joints are needed: ${want.join(", ")}; or set allow_partial_joints_goal: true).`, log: true };
     const pts = points.map((p) => ({ q: arr(p.positions).map(Number), t: num(p.time_from_start && (p.time_from_start.sec || 0) + (p.time_from_start.nanosec || 0) * 1e-9, 0) }));
     if (pts.some((p) => p.q.length !== joints.length)) return { used: false, note: `[ERROR] [${c.name}]: Mismatch between joint_names size (${joints.length}) and positions (${pts[0].q.length}) at point #0.`, log: true };
     const start = Object.fromEntries(want.map((j) => [j, this.jointPos(j)]));
@@ -439,11 +440,11 @@ export function ros2ControlXacro({ wheels, arm, ns }) {
   L.push("  </ros2_control>", "", "  <gazebo>", '    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">', `      <parameters>$(find ${ns || "my_robot_sim"})/config/controllers.yaml</parameters>`, "    </plugin>", "  </gazebo>");
   return L.join("\n");
 }
-export function controllersYaml({ wheels, separation, radius, base, arm, rate = 100 }) {
+export function controllersYaml({ wheels, separation, radius, base, arm, rate = 100, maxLinear = 0.26, maxAngular = 1.82 }) {
   const L = ["controller_manager:", "  ros__parameters:", `    update_rate: ${rate}  # Hz`, "", "    joint_state_broadcaster:", "      type: joint_state_broadcaster/JointStateBroadcaster", ""];
   if (wheels) L.push("    diff_drive_controller:", "      type: diff_drive_controller/DiffDriveController", "");
   if (arm && arm.length) L.push("    joint_trajectory_controller:", "      type: joint_trajectory_controller/JointTrajectoryController", "");
-  if (wheels) L.push("diff_drive_controller:", "  ros__parameters:", `    left_wheel_names: ["${wheels.left.join('", "')}"]`, `    right_wheel_names: ["${wheels.right.join('", "')}"]`, `    wheel_separation: ${separation}`, `    wheel_radius: ${radius}`, `    base_frame_id: ${base || "base_footprint"}`, "    odom_frame_id: odom", "    publish_rate: 50.0", "    enable_odom_tf: true", "    cmd_vel_timeout: 0.5", "    linear.x.max_velocity: 0.26", "    angular.z.max_velocity: 1.82", "");
+  if (wheels) L.push("diff_drive_controller:", "  ros__parameters:", `    left_wheel_names: ["${wheels.left.join('", "')}"]`, `    right_wheel_names: ["${wheels.right.join('", "')}"]`, `    wheel_separation: ${separation}`, `    wheel_radius: ${radius}`, `    base_frame_id: ${base || "base_footprint"}`, "    odom_frame_id: odom", "    publish_rate: 50.0", "    enable_odom_tf: true", "    cmd_vel_timeout: 0.5", `    linear.x.max_velocity: ${maxLinear}`, `    angular.z.max_velocity: ${maxAngular}`, "");
   if (arm && arm.length) L.push("joint_trajectory_controller:", "  ros__parameters:", "    joints:", ...arm.map((j) => `      - ${j.name}`), "    command_interfaces:", "      - position", "    state_interfaces:", "      - position", "      - velocity", "    allow_partial_joints_goal: true", "");
   return L.join("\n");
 }
