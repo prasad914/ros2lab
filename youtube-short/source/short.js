@@ -621,8 +621,9 @@ export function frame(t) {
       orbit(tgt, lerp(1.25, 6.1, Math.pow(k, 1.3)), lerp(-58, -90, k), lerp(10, 13, k));
       aimSun(new THREE.Vector3(0, 0, 0), L * 0.65);
       const hk = $("hook").children;
-      enter(hk[0], t, 0.0, 60); enter(hk[1], t, 0.35); enter(hk[2], t, 0.7);
-      hk[0].style.transform += ` scale(${1 + 0.035 * Math.sin(t * 4)})`; hk[0].style.transformOrigin = "left center";
+      // the headline is on screen from frame one (it pops in scale), the other lines follow
+      hk[0].style.opacity = 1; enter(hk[1], t, 0.15); enter(hk[2], t, 0.4);
+      hk[0].style.transform = `scale(${1 + 0.12 * (1 - easeOut(t / 0.4)) + 0.035 * Math.sin(t * 4)})`; hk[0].style.transformOrigin = "left center";
     } else {          // outro: pull back to show every robot
       const k = smooth(u / OUTRO_LEN);
       const tgt = new THREE.Vector3(0.1, -0.1, 0.55);
