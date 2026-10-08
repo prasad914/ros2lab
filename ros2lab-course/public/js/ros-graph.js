@@ -1484,6 +1484,8 @@ export function findPackages(sh, ws) {
         const code = lib ? (sh.fs.get(`${dir}/${lib[1]}`) || {}).content : undefined;
         if (code !== undefined) components[m[2]] = parseNodeCode(code, "cpp");
       }
+      // scripts installed as programs: install(PROGRAMS scripts/x.py DESTINATION lib/${PROJECT_NAME})
+      for (const m of cm.matchAll(/install\s*\(\s*PROGRAMS([^)]*?)DESTINATION\s+lib\/\$\{PROJECT_NAME\}/g)) for (const f of m[1].trim().split(/\s+/)) if (sh.fs.has(`${dir}/${f}`)) exes[baseName(f)] = [];
       if (!adds.length) for (const [q, f] of sh.fs) if (q.startsWith(`${dir}/src/`) && q.endsWith(".cpp") && !/RCLCPP_COMPONENTS_REGISTER_NODE/.test(f.content || "")) { const m = (f.content || "").match(/printf\("([^"\\]*)/); exes[baseName(q).replace(/\.cpp$/, "")] = m ? [m[1]] : []; }
     }
     pk.push({ name, type, exes, infos, notRunnable, components, dir, ...packageExtras(sh, dir, name, type, xml) });

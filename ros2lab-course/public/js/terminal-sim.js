@@ -951,6 +951,7 @@ export class Shell {
       if (ws) {
         if (ws.notRunnable && b in ws.notRunnable) return [this.err("No executable found"), this.hint(ws.notRunnable[b])];
         if (!(b in ws.exes)) return [this.err("No executable found"), this.hint(`See the programs in this package with: ros2 pkg executables ${a}`)];
+        if (this.graph && /^add_scene_objects\.py$/.test(b)) return this.graph.mgSceneScript(ws);   // a MoveIt config's planning scene script
         const info = ws.infos && ws.infos[b];
         if (info && info.node && this.graph) return this.graph.startCustom(a, b, info, ws.exes[b], args.slice(3));
         return ws.exes[b].length ? ws.exes[b].map((t) => this.out(t)) : [this.hint("(The program ran but printed nothing.)")];

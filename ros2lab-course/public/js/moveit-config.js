@@ -17,6 +17,8 @@
 import { OMPL_PLANNERS } from "./moveit-core.js";
 
 const n4 = (v) => String(Math.round(v * 1e4) / 1e4);
+// a YAML float that ROS 2 reads as a double: 1 -> "1.0" (an integer here makes move_group abort: "expected [double] got [integer]")
+const fl = (v) => { const s = n4(v); return /[.eE]/.test(s) ? s : `${s}.0`; };
 const yamlList = (a) => `[${a.join(", ")}]`;
 
 // The obstacles around an arm, scaled to its reach: a table in front, a box on it, a post at the side.
@@ -49,7 +51,8 @@ export function moveitConfigFiles(spec, ctx) {
   const ready = arm.map((_, i) => (spec.ready && spec.ready[i] !== undefined ? spec.ready[i] : 0));
   const clampJ = (n, v) => { const j = model.joints[n]; return j.limit && j.type !== "continuous" ? Math.min(j.limit.upper, Math.max(j.limit.lower, v)) : v; };
   const init = Object.fromEntries([...arm.map((n, i) => [n, clampJ(n, home[i])]), ...grip.map((n) => [n, clampJ(n, (spec.close || [0])[0])])]);
-  const vel = (n) => { const j = model.joints[n]; const v = j.limit && j.limit.velocity > 0 ? j.limit.velocity : spec.vel || 1.0; return Math.min(v, spec.vel || v); };
+  const armMax = Math.max(0, ...arm.map((n) => (model.joints[n].limit && model.joints[n].limit.velocity) || 0));
+  const vel = (n) => { const j = model.joints[n]; const v = j.limit && j.limit.velocity > 0 ? j.limit.velocity : spec.vel || armMax || 1.0; return Math.min(v, spec.vel || v); };
   const own = /<ros2_control\b/.test(ctx.urdfText || "");   // the maker's URDF already has <ros2_control> for its own driver
   const descRef = own ? `$(find ${pkg})/config/${robot}_description.urdf` : `$(find ${descPkg})/urdf/${ctx.descFile}`;
   const needWorld = model.root !== "world";
@@ -209,7 +212,7 @@ ${needWorld ? `
 `;
   if (own) files[`config/${robot}_description.urdf`] = String(ctx.urdfText).replace(/<ros2_control\b[\s\S]*?<\/ros2_control>\s*/g, "").replace(/<gazebo>\s*<plugin[^>]*ros2_control[\s\S]*?<\/gazebo>\s*/g, "");
 
-  files["config/initial_positions.yaml"] = `# Default initial positions for ${robot}'s ros2_control fake system\n\ninitial_positions:\n${Object.entries(init).map(([n, v]) => `  ${n}: ${n4(v)}`).join("\n")}\n`;
+  files["config/initial_positions.yaml"] = `# Default initial positions for ${robot}'s ros2_control fake system\n\ninitial_positions:\n${Object.entries(init).map(([n, v]) => `  ${n}: ${fl(v)}`).join("\n")}\n`;
 
   // ---------------- SRDF
   const pairs = (ctx.acm || []).slice().sort((a, b) => (a.link1 + a.link2).localeCompare(b.link1 + b.link2));
@@ -263,7 +266,7 @@ default_acceleration_scaling_factor: 0.1
 # Joint limits can be turned off with [has_velocity_limits, has_acceleration_limits]
 # Pilz (PTP, LIN, CIRC) and the time parameterization need acceleration limits, so they are set for every joint.
 joint_limits:
-${all.map((n) => `  ${n}:\n    has_velocity_limits: true\n    max_velocity: ${n4(vel(n))}\n    has_acceleration_limits: true\n    max_acceleration: ${n4(Math.min(vel(n) * 2, 15))}`).join("\n")}
+${all.map((n) => `  ${n}:\n    has_velocity_limits: true\n    max_velocity: ${fl(vel(n))}\n    has_acceleration_limits: true\n    max_acceleration: ${fl(Math.min(vel(n) * 2, 15))}`).join("\n")}
 `;
   files["config/pilz_cartesian_limits.yaml"] = `# Limits for the Pilz planner (LIN and CIRC: the tool's Cartesian speed)
 cartesian_limits:
