@@ -1,0 +1,9 @@
+# Request: where the arm's tip should go (metres, in the arm's base frame)
+float64 x
+float64 y
+---
+# Response: the joint angles the IK found (radians)
+bool success
+float64 shoulder
+float64 elbow
+string message

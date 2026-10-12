@@ -1,0 +1,9 @@
+# Goal: how far to drive straight ahead, and how fast
+float64 distance     # metres
+float64 speed        # metres per second
+---
+# Result: how far Chiku really drove
+float64 distance_driven
+---
+# Feedback: how much is left
+float64 remaining

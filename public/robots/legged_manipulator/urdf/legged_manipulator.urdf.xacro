@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!-- Hybrid robot 2: a 4-legged robot carrying the 3-DOF arm (like a robot dog with an arm) -->
+<robot name="legged_manipulator" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="../../common/urdf/macros.xacro"/>
+  <xacro:include filename="../../common/urdf/leg_macro.xacro"/>
+  <xacro:include filename="../../common/urdf/arm3_macro.xacro"/>
+  <link name="base_link">
+    <visual><geometry><box size="0.45 0.20 0.10"/></geometry><material name="orange"/></visual>
+    <collision><geometry><box size="0.45 0.20 0.10"/></geometry></collision>
+    <xacro:box_inertia m="6.0" x="0.45" y="0.20" z="0.10"/>
+  </link>
+  <xacro:quad_leg prefix="front_left" parent="base_link" x="0.18" y_sign="1"/>
+  <xacro:quad_leg prefix="front_right" parent="base_link" x="0.18" y_sign="-1"/>
+  <xacro:quad_leg prefix="rear_left" parent="base_link" x="-0.18" y_sign="1"/>
+  <xacro:quad_leg prefix="rear_right" parent="base_link" x="-0.18" y_sign="-1"/>
+  <xacro:arm3 prefix="arm_" parent="base_link" xyz="0.08 0 0.05"/>
+</robot>

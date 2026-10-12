@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!-- A 6-DOF industrial-style arm (joint names follow the UR convention) -->
+<robot name="arm6" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="../../common/urdf/macros.xacro"/>
+  <link name="base_link">
+    <visual><origin xyz="0 0 0.04"/><geometry><cylinder radius="0.07" length="0.08"/></geometry><material name="dark_grey"/></visual>
+    <collision><origin xyz="0 0 0.04"/><geometry><cylinder radius="0.07" length="0.08"/></geometry></collision>
+    <xacro:cylinder_inertia m="4.0" r="0.07" h="0.08" xyz="0 0 0.04"/>
+  </link>
+  <joint name="shoulder_pan_joint" type="revolute">
+    <parent link="base_link"/><child link="shoulder_link"/><origin xyz="0 0 0.08"/><axis xyz="0 0 1"/>
+    <limit lower="-3.14" upper="3.14" effort="50" velocity="2.0"/>
+  </joint>
+  <link name="shoulder_link">
+    <visual><origin xyz="0 0 0.05"/><geometry><cylinder radius="0.06" length="0.1"/></geometry><material name="dark_grey"/></visual>
+    <collision><origin xyz="0 0 0.05"/><geometry><cylinder radius="0.06" length="0.1"/></geometry></collision>
+    <xacro:cylinder_inertia m="3.0" r="0.06" h="0.1" xyz="0 0 0.05"/>
+  </link>
+  <joint name="shoulder_lift_joint" type="revolute">
+    <parent link="shoulder_link"/><child link="upper_arm_link"/><origin xyz="0 0 0.10"/><axis xyz="0 1 0"/>
+    <limit lower="-3.14" upper="3.14" effort="50" velocity="2.0"/>
+  </joint>
+  <link name="upper_arm_link">
+    <visual><origin xyz="0 0 0.20"/><geometry><cylinder radius="0.045" length="0.4"/></geometry><material name="sky_blue"/></visual>
+    <collision><origin xyz="0 0 0.20"/><geometry><cylinder radius="0.045" length="0.4"/></geometry></collision>
+    <xacro:cylinder_inertia m="3.0" r="0.045" h="0.4" xyz="0 0 0.20"/>
+  </link>
+  <joint name="elbow_joint" type="revolute">
+    <parent link="upper_arm_link"/><child link="forearm_link"/><origin xyz="0 0 0.40"/><axis xyz="0 1 0"/>
+    <limit lower="-2.8" upper="2.8" effort="50" velocity="2.0"/>
+  </joint>
+  <link name="forearm_link">
+    <visual><origin xyz="0 0 0.175"/><geometry><cylinder radius="0.04" length="0.35"/></geometry><material name="sky_blue"/></visual>
+    <collision><origin xyz="0 0 0.175"/><geometry><cylinder radius="0.04" length="0.35"/></geometry></collision>
+    <xacro:cylinder_inertia m="2.0" r="0.04" h="0.35" xyz="0 0 0.175"/>
+  </link>
+  <joint name="wrist_1_joint" type="revolute">
+    <parent link="forearm_link"/><child link="wrist_1_link"/><origin xyz="0 0 0.35"/><axis xyz="0 1 0"/>
+    <limit lower="-3.14" upper="3.14" effort="50" velocity="2.0"/>
+  </joint>
+  <link name="wrist_1_link">
+    <visual><origin xyz="0 0 0.04"/><geometry><cylinder radius="0.035" length="0.08"/></geometry><material name="dark_grey"/></visual>
+    <collision><origin xyz="0 0 0.04"/><geometry><cylinder radius="0.035" length="0.08"/></geometry></collision>
+    <xacro:cylinder_inertia m="0.6" r="0.035" h="0.08" xyz="0 0 0.04"/>
+  </link>
+  <joint name="wrist_2_joint" type="revolute">
+    <parent link="wrist_1_link"/><child link="wrist_2_link"/><origin xyz="0 0 0.08"/><axis xyz="0 0 1"/>
+    <limit lower="-3.14" upper="3.14" effort="50" velocity="2.0"/>
+  </joint>
+  <link name="wrist_2_link">
+    <visual><origin xyz="0 0 0.04"/><geometry><cylinder radius="0.035" length="0.08"/></geometry><material name="dark_grey"/></visual>
+    <collision><origin xyz="0 0 0.04"/><geometry><cylinder radius="0.035" length="0.08"/></geometry></collision>
+    <xacro:cylinder_inertia m="0.6" r="0.035" h="0.08" xyz="0 0 0.04"/>
+  </link>
+  <joint name="wrist_3_joint" type="revolute">
+    <parent link="wrist_2_link"/><child link="wrist_3_link"/><origin xyz="0 0 0.08"/><axis xyz="0 1 0"/>
+    <limit lower="-3.14" upper="3.14" effort="50" velocity="2.0"/>
+  </joint>
+  <link name="wrist_3_link">
+    <visual><origin xyz="0 0 0.02"/><geometry><cylinder radius="0.03" length="0.04"/></geometry><material name="light_grey"/></visual>
+    <collision><origin xyz="0 0 0.02"/><geometry><cylinder radius="0.03" length="0.04"/></geometry></collision>
+    <xacro:cylinder_inertia m="0.3" r="0.03" h="0.04" xyz="0 0 0.02"/>
+  </link>
+  <joint name="tool0_joint" type="fixed">
+    <parent link="wrist_3_link"/><child link="tool0"/><origin xyz="0 0 0.04"/>
+  </joint>
+  <link name="tool0"/>
+</robot>

@@ -1,0 +1,50 @@
+/* The frame around every mini-game (Playground, lessons and the home page).
+   A quiet white sheet with a hairline edge; the game's own ink colour (--g-ink, set by shell.js) runs along the
+   top edge and the goal, and comes back as the colour of the rubber stamp the player earns. Everything with
+   character lives inside the stage, in css/games/<id>.css. */
+.game { --g-ink: var(--ink); border: 1px solid var(--line, #B9C3D0); border-top: 3px solid var(--g-ink); border-radius: 12px; background: #fff; box-shadow: 0 1px 2px rgba(23, 33, 47, .05); overflow: hidden; }
+.game .game-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 14px 18px 6px; background: none; color: var(--ink); border: 0; }
+.game .game-head > div { display: grid; gap: 0; min-width: 0; }
+.game .game-head h3 { margin: 0; font-size: 1.22rem; font-weight: 700; letter-spacing: -0.015em; color: var(--ink); }
+.game .game-concept { font-family: var(--font-body); font-size: .92rem; color: var(--ink-soft); overflow-wrap: anywhere; }
+.game .game-head .btn { flex: none; margin-top: 2px; }
+.game .game-goal { margin: 0; padding: 4px 18px 14px; background: none; border-bottom: 1px solid var(--line-soft); font-size: 1rem; line-height: 1.5; color: var(--ink); max-width: none; }
+.game .game-goal strong { color: var(--g-ink); }
+.game .game-stage { padding: 18px; display: grid; gap: 14px; }
+
+/* feedback: a margin note, green when right and red when not */
+.game .game-fb { margin: 0 18px; }
+.game .game-fb:not(:empty) { margin-bottom: 16px; padding: 9px 14px; border: 0; border-left: 3px solid var(--line); border-radius: 0 6px 6px 0; background: var(--paper); line-height: 1.45; }
+.game .game-fb.ok { border-left-color: var(--axis-y); background: #E7F5EC; }
+.game .game-fb.no { border-left-color: var(--axis-x); background: #FCEBE8; }
+.game .game-fb.info { border-left-color: var(--axis-z); background: #EAF1FC; }
+
+/* the win: a rubber stamp pressed onto the sheet */
+.game .game-win { display: grid; grid-template-columns: 108px minmax(0, 1fr); gap: 16px; align-items: center; margin: 0 18px 18px; padding: 14px 16px; border: 1px dashed var(--line); border-radius: 10px; background: #FBFCFD; }
+.game .game-win strong { font-size: 1.05rem; }
+.game .game-win p { margin: 2px 0 8px; }
+.game .game-stamp { width: 108px; height: 108px; border: 0; border-radius: 0; background: none; box-shadow: none; display: block; animation: g-stamp .42s cubic-bezier(.2, .9, .3, 1.2) both; }
+.game .game-stamp svg { display: block; width: 100%; height: 100%; font-family: var(--font-head); mix-blend-mode: multiply; opacity: .92; }
+@keyframes g-stamp { 0% { transform: scale(1.6) rotate(-14deg); opacity: 0; } 60% { opacity: 1; } 100% { transform: none; opacity: 1; } }
+.game .game-cmd { margin-top: 4px; font-size: .86rem; border-radius: 8px; }
+
+/* shared mission list: a short checklist whose boxes get a hand-drawn tick */
+.game .pz-missions { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; counter-reset: none; }
+.game .pz-missions li { display: flex; gap: 10px; align-items: baseline; font-size: .98rem; line-height: 1.4; }
+.game .pz-missions .box { flex: none; width: 18px; height: 18px; border: 1.5px solid var(--ink-soft); border-radius: 4px; background: #fff; font-size: 0; position: relative; top: 3px; }
+.game .pz-missions li.done { color: var(--ink-soft); }
+.game .pz-missions li.done .box { background: #fff; border-color: var(--axis-y); }
+.game .pz-missions li.done .box::after { content: ""; position: absolute; left: 4px; top: -3px; width: 6px; height: 12px; border: solid var(--axis-y); border-width: 0 2.5px 2.5px 0; transform: rotate(40deg); }
+
+/* small headings inside games */
+.game .rd-label { font-family: var(--font-body); font-weight: 600; font-size: .88rem; color: var(--ink-soft); }
+
+@media (max-width: 560px) {
+  .game .game-head { padding: 12px 14px 4px; }
+  .game .game-goal { padding: 4px 14px 12px; }
+  .game .game-stage { padding: 14px; }
+  .game .game-fb { margin: 0 14px; }
+  .game .game-win { grid-template-columns: 76px minmax(0, 1fr); margin: 0 14px 14px; padding: 12px; gap: 12px; }
+  .game .game-stamp { width: 76px; height: 76px; }
+}
+@media (prefers-reduced-motion: reduce) { .game .game-stamp { animation: none; } }

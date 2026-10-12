@@ -1,0 +1,8 @@
+<library path="ros2lab_hardware">
+  <class name="ros2lab_hardware/BridgeSystem" type="ros2lab_hardware::BridgeSystem" base_class_type="hardware_interface::SystemInterface">
+    <description>
+      ROS2Lab course robots: joints and IMU of an ESP32 / Arduino board running the ROS2Lab bridge firmware,
+      over USB serial or Wi-Fi (UDP).
+    </description>
+  </class>
+</library>

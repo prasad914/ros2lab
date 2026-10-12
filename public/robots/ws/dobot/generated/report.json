@@ -1,0 +1,18 @@
+{
+ "cr5": {
+  "cmd": "xacro $(ros2 pkg prefix cra_description)/share/cra_description/urdf/cr5_robot.xacro",
+  "urdf": "robots/ws/dobot/generated/cr5.urdf",
+  "robot_name": "cr5_robot",
+  "links": 9,
+  "joints": 8,
+  "site": {
+   "file": "robots/cra_description/urdf/cr5_robot.urdf",
+   "links": 9,
+   "joints": 8
+  },
+  "links_only_in_ws": [],
+  "links_only_on_site": [],
+  "joints_only_in_ws": [],
+  "joints_only_on_site": []
+ }
+}

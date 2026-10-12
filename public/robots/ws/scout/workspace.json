@@ -1,0 +1,186 @@
+{
+ "id": "scout",
+ "title": "AgileX Scout - ROS 2 Jazzy",
+ "distro": "jazzy",
+ "robots": [
+  "scout"
+ ],
+ "env": {},
+ "repos": [
+  {
+   "name": "scout_ros2",
+   "url": "https://github.com/agilexrobotics/scout_ros2",
+   "branch": "origin/jazzy",
+   "commit": "48f70cbefa74b94d4442ed1a4ac9237a088abbb7",
+   "license": "Apache-2.0 (LICENSE file; package.xml says BSD)",
+   "path": "src/scout_ros2"
+  }
+ ],
+ "extra_repos": [
+  {
+   "name": "ugv_sdk",
+   "url": "https://github.com/agilexrobotics/ugv_sdk",
+   "version": "main",
+   "why": "CAN SDK needed by scout_base (real Scout); from scout_ros2 README",
+   "shipped": false
+  }
+ ],
+ "packages": [
+  {
+   "name": "scout_base",
+   "path": "src/scout_ros2/scout_base",
+   "build_type": "ament_cmake",
+   "version": "0.1.0",
+   "exes": [
+    "scout_base_node"
+   ],
+   "deps": [
+    "ament_cmake",
+    "geometry_msgs",
+    "nav_msgs",
+    "rclcpp",
+    "scout_msgs",
+    "sensor_msgs",
+    "std_msgs",
+    "tf2",
+    "tf2_ros",
+    "ugv_sdk"
+   ]
+  },
+  {
+   "name": "scout_description",
+   "path": "src/scout_ros2/scout_description",
+   "build_type": "ament_cmake",
+   "version": "0.1.0",
+   "exes": [],
+   "deps": [
+    "ament_cmake"
+   ]
+  },
+  {
+   "name": "scout_msgs",
+   "path": "src/scout_ros2/scout_msgs",
+   "build_type": "ament_cmake",
+   "version": "0.1.0",
+   "exes": [],
+   "deps": [
+    "ament_cmake",
+    "rosidl_default_generators",
+    "rosidl_default_runtime",
+    "std_msgs"
+   ]
+  }
+ ],
+ "gallery": {
+  "scout": {
+   "package": "scout_description",
+   "file": "urdf/scout_v2.xacro",
+   "args": [],
+   "cmd": "xacro $(ros2 pkg prefix scout_description)/share/scout_description/urdf/scout_v2.xacro",
+   "src": "src/scout_ros2/scout_description/urdf/scout_v2.xacro",
+   "urdf": "generated/scout.urdf"
+  }
+ },
+ "entry": {
+  "sim": [],
+  "sim_note": "The official jazzy branch has no Gazebo package.",
+  "rviz": {
+   "title": "Robot model (robot_state_publisher)",
+   "cmd": "ros2 launch scout_description scout_base_description.launch.py"
+  },
+  "real": {
+   "title": "Real Scout (CAN)",
+   "cmd": "ros2 launch scout_base scout_base.launch.py",
+   "then": "ros2 run teleop_twist_keyboard teleop_twist_keyboard",
+   "needs": "an AgileX Scout connected with a CAN adapter (can0 up at 500k)",
+   "notes": "Needs ugv_sdk in the workspace (included in scout.repos)."
+  }
+ },
+ "known_issues": [
+  "Upstream bug on the jazzy branch: scout_v2.xacro refers to package://scout_description/meshes/scout_v2/*.dae and scout_v2.urdf to package://robot_description/meshes/scout_v2/*.dae, but the meshes are in scout_description/meshes/ (no scout_v2/ folder). RViz on a real machine shows no meshes either, so the 20 MB of unreferenced meshes are not shipped."
+ ],
+ "ubuntu": {
+  "repos_file": "scout.repos",
+  "steps": [
+   "sudo apt install python3-vcstool python3-colcon-common-extensions python3-rosdep",
+   "mkdir -p ~/ros2_ws/src && cd ~/ros2_ws",
+   "vcs import --recursive src < scout.repos",
+   "source /opt/ros/jazzy/setup.bash",
+   "sudo rosdep init 2>/dev/null; rosdep update",
+   "rosdep install --from-paths src --ignore-src -r -y --rosdistro jazzy",
+   "sudo ip link set can0 up type can bitrate 500000   # on the robot computer",
+   "colcon build --symlink-install",
+   "source install/setup.bash"
+  ]
+ },
+ "honesty": "The site runs these real launch files, YAML, URDF/xacro and SDF files in the browser and models the programs they start (gz sim, controller_manager, move_group, Nav2 servers ...) in JavaScript. It cannot run the compiled C++ nodes. On a real Ubuntu 24.04 + ROS 2 Jazzy machine the same workspace builds and runs with the steps below.",
+ "pruned": "Only the mesh/texture files used by the robots and worlds listed in 'gallery' and the entries are shipped (vcs import gets the complete repositories).",
+ "alias": {},
+ "files": [
+  "src/scout_ros2/LICENSE",
+  "src/scout_ros2/README.md",
+  "src/scout_ros2/scout_base/CMakeLists.txt",
+  "src/scout_ros2/scout_base/README.md",
+  "src/scout_ros2/scout_base/include/scout_base/scout_base_ros.hpp",
+  "src/scout_ros2/scout_base/include/scout_base/scout_messenger.hpp",
+  "src/scout_ros2/scout_base/launch/scout_base.launch.py",
+  "src/scout_ros2/scout_base/launch/scout_mini_base.launch.py",
+  "src/scout_ros2/scout_base/launch/scout_mini_omni_base.launch.py",
+  "src/scout_ros2/scout_base/package.xml",
+  "src/scout_ros2/scout_base/src/scout_base_node.cpp",
+  "src/scout_ros2/scout_base/src/scout_base_ros.cpp",
+  "src/scout_ros2/scout_description/CMakeLists.txt",
+  "src/scout_ros2/scout_description/launch/scout_base_description.launch.py",
+  "src/scout_ros2/scout_description/package.xml",
+  "src/scout_ros2/scout_description/urdf/generate_urdf.sh",
+  "src/scout_ros2/scout_description/urdf/scout_v2.urdf",
+  "src/scout_ros2/scout_description/urdf/scout_v2.xacro",
+  "src/scout_ros2/scout_description/urdf/scout_wheel_type1.xacro",
+  "src/scout_ros2/scout_description/urdf/scout_wheel_type2.xacro",
+  "src/scout_ros2/scout_msgs/CMakeLists.txt",
+  "src/scout_ros2/scout_msgs/msg/ScoutActuatorState.msg",
+  "src/scout_ros2/scout_msgs/msg/ScoutLightCmd.msg",
+  "src/scout_ros2/scout_msgs/msg/ScoutLightState.msg",
+  "src/scout_ros2/scout_msgs/msg/ScoutRCState.msg",
+  "src/scout_ros2/scout_msgs/msg/ScoutStatus.msg",
+  "src/scout_ros2/scout_msgs/package.xml"
+ ],
+ "text": [
+  "src/scout_ros2/LICENSE",
+  "src/scout_ros2/README.md",
+  "src/scout_ros2/scout_base/CMakeLists.txt",
+  "src/scout_ros2/scout_base/README.md",
+  "src/scout_ros2/scout_base/include/scout_base/scout_base_ros.hpp",
+  "src/scout_ros2/scout_base/include/scout_base/scout_messenger.hpp",
+  "src/scout_ros2/scout_base/launch/scout_base.launch.py",
+  "src/scout_ros2/scout_base/launch/scout_mini_base.launch.py",
+  "src/scout_ros2/scout_base/launch/scout_mini_omni_base.launch.py",
+  "src/scout_ros2/scout_base/package.xml",
+  "src/scout_ros2/scout_base/src/scout_base_node.cpp",
+  "src/scout_ros2/scout_base/src/scout_base_ros.cpp",
+  "src/scout_ros2/scout_description/CMakeLists.txt",
+  "src/scout_ros2/scout_description/launch/scout_base_description.launch.py",
+  "src/scout_ros2/scout_description/package.xml",
+  "src/scout_ros2/scout_description/urdf/generate_urdf.sh",
+  "src/scout_ros2/scout_description/urdf/scout_v2.urdf",
+  "src/scout_ros2/scout_description/urdf/scout_v2.xacro",
+  "src/scout_ros2/scout_description/urdf/scout_wheel_type1.xacro",
+  "src/scout_ros2/scout_description/urdf/scout_wheel_type2.xacro",
+  "src/scout_ros2/scout_msgs/CMakeLists.txt",
+  "src/scout_ros2/scout_msgs/msg/ScoutActuatorState.msg",
+  "src/scout_ros2/scout_msgs/msg/ScoutLightCmd.msg",
+  "src/scout_ros2/scout_msgs/msg/ScoutLightState.msg",
+  "src/scout_ros2/scout_msgs/msg/ScoutRCState.msg",
+  "src/scout_ros2/scout_msgs/msg/ScoutStatus.msg",
+  "src/scout_ros2/scout_msgs/package.xml"
+ ],
+ "stats": {
+  "files": 27,
+  "bytes": 64117,
+  "asset_bytes": 0,
+  "aliased": 0,
+  "unused_assets_not_shipped": 5,
+  "skipped_large_or_binary": []
+ },
+ "generated": "2026-10-11"
+}

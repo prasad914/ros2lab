@@ -1,0 +1,18 @@
+{
+ "wx250s": {
+  "cmd": "xacro $(ros2 pkg prefix interbotix_xsarm_descriptions)/share/interbotix_xsarm_descriptions/urdf/wx250s.urdf.xacro",
+  "urdf": "robots/ws/interbotix/generated/wx250s.urdf",
+  "robot_name": "wx250s",
+  "links": 14,
+  "joints": 13,
+  "site": {
+   "file": "robots/interbotix_xsarm_descriptions/urdf/wx250s.urdf",
+   "links": 14,
+   "joints": 13
+  },
+  "links_only_in_ws": [],
+  "links_only_on_site": [],
+  "joints_only_in_ws": [],
+  "joints_only_on_site": []
+ }
+}

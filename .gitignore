@@ -1,0 +1,11 @@
+node_modules/
+test-results/
+playwright-report/
+.firebase/
+*.log
+__pycache__/
+*.pyc
+.pytest_cache/
+node_modules
+tests/out/
+ground-truth/

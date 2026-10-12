@@ -1,0 +1,22 @@
+# ROS2Lab bridge boards: a stable name /dev/ros2lab_mcu for the USB-serial chip of the ESP32 / Arduino board.
+# Install:  sudo cp 99-ros2lab-mcu.rules /etc/udev/rules.d/ && sudo udevadm control --reload-rules && sudo udevadm trigger
+# Access: members of the dialout group (sudo usermod -aG dialout $USER, then log in again).
+#
+# Chips that lidars use too (Silicon Labs CP210x: RPLIDAR A1/C1, LDROBOT adapters; FTDI) must be matched by their serial
+# number, or /dev/ros2lab_mcu could point at the lidar. Find the board's serial with the board plugged in:
+#   udevadm info -a -n /dev/ttyUSB0 | grep '{serial}' | head -1
+# then remove the # in front of the matching line below and put the serial in.
+#
+# Silicon Labs CP2102 / CP2104 (many ESP32 DevKitC boards): by serial only
+#SUBSYSTEM=="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", ATTRS{serial}=="PUT_THE_SERIAL_HERE", SYMLINK+="ros2lab_mcu", GROUP="dialout", MODE="0660", ENV{ID_MM_DEVICE_IGNORE}="1"
+# FTDI FT232R: by serial only
+#SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6001", ATTRS{serial}=="PUT_THE_SERIAL_HERE", SYMLINK+="ros2lab_mcu", GROUP="dialout", MODE="0660", ENV{ID_MM_DEVICE_IGNORE}="1"
+# WCH CH340 / CH341 (cheap ESP32 and Arduino clones)
+SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", SYMLINK+="ros2lab_mcu", GROUP="dialout", MODE="0660", ENV{ID_MM_DEVICE_IGNORE}="1"
+# WCH CH9102 (newer ESP32 boards)
+SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55d4", SYMLINK+="ros2lab_mcu", GROUP="dialout", MODE="0660", ENV{ID_MM_DEVICE_IGNORE}="1"
+# Espressif native USB (ESP32-S3 / ESP32-C3 USB-Serial/JTAG)
+SUBSYSTEM=="tty", ATTRS{idVendor}=="303a", ATTRS{idProduct}=="1001", SYMLINK+="ros2lab_mcu", GROUP="dialout", MODE="0660", ENV{ID_MM_DEVICE_IGNORE}="1"
+# Arduino Mega 2560 / Uno R3 (ATmega16U2)
+SUBSYSTEM=="tty", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0042", SYMLINK+="ros2lab_mcu", GROUP="dialout", MODE="0660", ENV{ID_MM_DEVICE_IGNORE}="1"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0043", SYMLINK+="ros2lab_mcu", GROUP="dialout", MODE="0660", ENV{ID_MM_DEVICE_IGNORE}="1"

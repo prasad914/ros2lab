@@ -1,0 +1,10 @@
+import { chromium } from "@playwright/test";
+const b = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium-1194/chrome-linux/chrome" }).catch(async () => chromium.launch());
+const p = await b.newPage({ viewport: { width: 1400, height: 1000 } });
+const errs = []; p.on("pageerror", (e) => errs.push(e.message)); p.on("console", (m) => { if (m.type() === "error") errs.push(m.text()); });
+await p.goto("http://localhost:8080/rviz.html"); await p.waitForTimeout(3000);
+const opts = await p.$$eval("#gal option", (o) => o.map((x) => x.value + "|" + x.textContent));
+console.log(opts.length, opts.slice(0, 40).join("\n"));
+console.log("ERRS", errs.join("\n"));
+await p.screenshot({ path: "/tmp/claude-0/-home-claude/09d5e0b6-60f2-5e77-bc97-cd22ce95dfea/scratchpad/rviz0.png", fullPage: false });
+await b.close();

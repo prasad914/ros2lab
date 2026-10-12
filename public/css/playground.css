@@ -1,0 +1,97 @@
+/* Playground: one small collection of games.
+   The intro sits beside a badge card (one slot per game; an earned badge is a rubber stamp in the game's ink).
+   Below it, the six games as drawn specimen tiles on graph paper, in course order; then the open game with a
+   one-line fact bar; then the Concept lab, grouped by course week. The games' own frames live in
+   css/games/shell.css and css/games/<id>.css. */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* intro + badge card */
+.pg-intro { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 28px 48px; align-items: center; padding-top: 40px; padding-bottom: 8px; }
+.pg-intro h1 { margin: 0 0 .25em; font-size: clamp(2.2rem, 5vw, 3.2rem); letter-spacing: -0.03em; }
+.pg-intro .lead { max-width: 58ch; margin: 0 0 .7em; font-size: 1.12rem; line-height: 1.55; color: var(--ink); }
+.pg-later { margin: 0; font-size: .95rem; color: var(--ink-soft); }
+
+.pg-card { position: relative; padding: 14px 16px 12px; background: #fff; border: 1px solid var(--line); border-radius: 12px; transform: rotate(1.2deg); box-shadow: 0 1px 0 rgba(23, 33, 47, .05), 0 16px 30px -22px rgba(23, 33, 47, .5); }
+.pg-card::before { content: ""; position: absolute; inset: 6px; border: 1px dashed var(--line-soft); border-radius: 8px; pointer-events: none; }
+.pg-card-head { position: relative; display: flex; justify-content: space-between; align-items: baseline; padding: 0 4px 6px; }
+.pg-card-head b { font-size: 1rem; }
+.pg-card-head span { font-family: var(--font-mono); font-size: .86rem; color: var(--ink-soft); }
+.pg-slots { position: relative; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px 8px; }
+.pg-slot { display: grid; justify-items: center; gap: 2px; min-width: 0; }
+.pg-slot > svg, .pg-slot-empty { width: 66px; height: 66px; }
+.pg-slot > svg { mix-blend-mode: multiply; opacity: .9; font-family: var(--font-head); }
+.pg-slot-empty { display: grid; place-items: center; border: 1.5px dashed #C3CCD8; border-radius: 50%; color: #AEB8C6; }
+.pg-slot-empty svg { width: 26px; height: 26px; }
+.pg-slot-name { max-width: 100%; font-size: .74rem; line-height: 1.2; color: var(--ink-soft); text-align: center; overflow-wrap: anywhere; }
+.pg-slot.got .pg-slot-name { color: var(--ink); font-weight: 600; }
+.pg-card-note { position: relative; margin: 8px 4px 0; font-size: .8rem; line-height: 1.35; color: var(--ink-soft); }
+
+/* the collection */
+.pg-shelf { padding-top: 26px; }
+.pg-pick { position: static; display: block; max-height: none; overflow: visible; padding: 0; }
+.pg-row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
+.pg-row > li { min-width: 0; display: grid; }
+.pg-tile { --g-ink: var(--ink); position: relative; display: grid; grid-template-columns: none; grid-template-rows: auto 1fr; gap: 8px; align-items: start; min-width: 0; padding: 7px 7px 11px; border: 1px solid var(--line-soft); border-radius: 10px; background: #fff; color: var(--ink); text-decoration: none; box-shadow: none; transition: border-color .15s, box-shadow .15s; }
+.pg-tile:hover { color: var(--ink); background: #fff; border-color: var(--line); }
+.pg-tile:hover .pg-art svg { transform: translateY(-2px); }
+.pg-tile:focus-visible { outline: 2px solid var(--axis-z); outline-offset: 3px; }
+.pg-tile.on { background: #fff; border-color: var(--g-ink); box-shadow: 0 0 0 1px var(--g-ink); }
+.pg-art { display: block; border-radius: 6px; background-color: #F6F8FB; background-image: linear-gradient(#E7ECF2 1px, transparent 1px), linear-gradient(90deg, #E7ECF2 1px, transparent 1px); background-size: 12px 12px; background-position: -1px -1px; overflow: hidden; }
+.pg-tile.on .pg-art { background-color: color-mix(in srgb, var(--g-ink) 7%, #fff); }
+.pg-art svg { display: block; width: 100%; height: auto; aspect-ratio: 160 / 96; transition: transform .2s ease; }
+.pg-text { display: grid; gap: 1px; padding: 0 3px; line-height: 1.25; min-width: 0; }
+.pg-text b { font-size: .98rem; font-weight: 700; letter-spacing: -0.01em; overflow-wrap: anywhere; }
+.pg-concept { font-size: .84rem; color: var(--ink-soft); overflow-wrap: anywhere; }
+.pg-where { margin-top: 5px; font-size: .76rem; color: var(--ink-soft); }
+.pg-tile.on .pg-where { color: var(--g-ink); font-weight: 600; }
+/* a small round stamp in the corner once the badge is earned */
+.pg-done { position: absolute; right: 12px; top: 12px; width: 30px; height: 30px; display: grid; place-items: center; border: 2px solid var(--g-ink); border-radius: 50%; color: var(--g-ink); background: rgba(255, 255, 255, .85); transform: rotate(-12deg); }
+.pg-done svg { width: 17px; height: 17px; }
+
+/* the open game */
+.pg-main { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding-top: 22px; }
+.pg-meta { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 20px; padding: 0 2px; border: 0; background: none; scroll-margin-top: 80px; }
+.pg-meta:empty { display: none; }
+.pg-facts { display: flex; flex-wrap: wrap; gap: 4px 22px; margin: 0; }
+.pg-facts > div { display: flex; gap: 6px; align-items: baseline; }
+.pg-facts dt { font-size: .84rem; color: var(--ink-soft); }
+.pg-facts dt::after { content: ":"; }
+.pg-facts dd { margin: 0; font-size: .92rem; font-weight: 600; }
+.pg-meta-nav { display: flex; flex-wrap: wrap; gap: 8px; }
+.pg-meta-nav .btn { white-space: nowrap; }
+.pg-stage { min-width: 0; scroll-margin-top: 80px; }
+
+/* Concept lab */
+.pg-sec { margin: 54px auto 10px; }
+.pg-lab-head { max-width: 70ch; margin-bottom: 14px; }
+.pg-lab-head h2 { margin-bottom: .2em; }
+.pg-lab-head p { margin: 0; }
+.pg-lab { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 22px; align-items: start; }
+.anim-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; margin: 0; position: sticky; top: 76px; max-height: calc(100vh - 96px); overflow-y: auto; overscroll-behavior: contain; padding: 2px 6px 8px 2px; scrollbar-width: thin; }
+.lab-week h3 { margin: 0 0 4px; padding-left: 10px; font-size: .84rem; font-weight: 700; color: var(--ink-soft); letter-spacing: 0; }
+.lab-week ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; }
+.lab-link { display: grid; gap: 0; padding: 6px 10px; border-left: 2px solid var(--line-soft); color: var(--ink); text-decoration: none; line-height: 1.25; }
+.lab-link b { font-size: .92rem; font-weight: 600; }
+.lab-link span { font-size: .8rem; color: var(--ink-soft); }
+.lab-link:hover { color: var(--ink); border-left-color: var(--ink-soft); background: rgba(255, 255, 255, .6); }
+.lab-link.on { border-left: 3px solid var(--axis-z); padding-left: 9px; background: #fff; }
+.lab-link:focus-visible { outline: 2px solid var(--axis-z); outline-offset: 0; }
+
+@media (max-width: 1060px) { .pg-row { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 860px) {
+  .pg-intro { grid-template-columns: minmax(0, 1fr); padding-top: 28px; }
+  .pg-card { max-width: 380px; transform: rotate(.8deg); }
+  .pg-lab { grid-template-columns: minmax(0, 1fr); }
+  .anim-grid { position: static; max-height: 300px; border: 1px solid var(--line-soft); border-radius: 10px; background: rgba(255, 255, 255, .5); padding: 10px 6px; }
+}
+@media (max-width: 560px) {
+  .pg-row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .pg-intro .lead { font-size: 1.02rem; }
+  .pg-text b { font-size: .92rem; }
+  .pg-concept { font-size: .8rem; }
+  .pg-meta-nav { width: 100%; }
+  .pg-meta-nav .btn { flex: 1 1 0; min-width: 0; white-space: normal; text-align: center; }
+  .pg-slot > svg, .pg-slot-empty { width: 58px; height: 58px; }
+  .pg-done { width: 26px; height: 26px; right: 10px; top: 10px; }
+}
+@media (prefers-reduced-motion: reduce) { .pg-tile, .pg-art svg { transition: none; } .pg-tile:hover .pg-art svg { transform: none; } }

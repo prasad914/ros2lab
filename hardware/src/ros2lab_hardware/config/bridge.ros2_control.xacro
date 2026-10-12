@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!-- One <ros2_control> block for a ROS2Lab course robot, with the hardware chosen by hardware_type:
+       mock  mock_components/GenericSystem (fake hardware: commands are echoed as states)
+       gz    gz_ros2_control/GazeboSimSystem (Gazebo Harmonic)
+       real  ros2lab_hardware/BridgeSystem (the ESP32 / Arduino board over USB serial or Wi-Fi)
+     Use it from the robot's URDF:
+       <xacro:include filename="$(find ros2lab_hardware)/config/bridge.ros2_control.xacro"/>
+       <xacro:ros2lab_system name="arm6" hardware_type="$(arg hardware_type)" transport="serial" device="/dev/ros2lab_mcu">
+         <interfaces>   (one wrapper element: its content becomes the <ros2_control> joints and sensors)
+           <joint name="joint1"><command_interface name="position"/><state_interface name="position"/><state_interface name="velocity"/></joint>
+           ...
+         </interfaces>
+       </xacro:ros2lab_system>   -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="ros2lab_system" params="name hardware_type:=mock transport:=serial device:=/dev/ros2lab_mcu baud:=115200 host:=192.168.4.1 port:=8888 robot_id:='' **interfaces">
+    <ros2_control name="${name}_system" type="system">
+      <hardware>
+        <xacro:if value="${hardware_type == 'mock'}">
+          <plugin>mock_components/GenericSystem</plugin>
+          <param name="calculate_dynamics">true</param>
+        </xacro:if>
+        <xacro:if value="${hardware_type == 'gz'}">
+          <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+        </xacro:if>
+        <xacro:if value="${hardware_type == 'real'}">
+          <plugin>ros2lab_hardware/BridgeSystem</plugin>
+          <param name="transport">${transport}</param>
+          <param name="device">${device}</param>
+          <param name="baud">${baud}</param>
+          <param name="host">${host}</param>
+          <param name="port">${port}</param>
+          <param name="robot_id">${robot_id if robot_id else name}</param>
+        </xacro:if>
+      </hardware>
+      <xacro:insert_block name="interfaces"/>
+    </ros2_control>
+  </xacro:macro>
+</robot>

@@ -1,0 +1,13 @@
+repositories:
+  Universal_Robots_ROS2_Description:
+    type: git
+    url: https://github.com/UniversalRobots/Universal_Robots_ROS2_Description.git
+    version: 6b639c2efd9f4f12da858a72cf1a9e40da365ed8   # jazzy
+  Universal_Robots_ROS2_GZ_Simulation:
+    type: git
+    url: https://github.com/UniversalRobots/Universal_Robots_ROS2_GZ_Simulation.git
+    version: 3600c68c5fd658a2cfc4aff20a0c3bd83a10f1b8   # jazzy
+  Universal_Robots_ROS2_Driver:
+    type: git
+    url: https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver.git
+    version: f6997bd4a0eee8d58198b696caf034009ab4de1e   # jazzy

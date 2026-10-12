@@ -1,0 +1,10 @@
+# pose_follower parameters (ros2 run goal_pose_gui pose_follower --ros-args --params-file ...)
+pose_follower:
+  ros__parameters:
+    rate: 20.0            # control loop (Hz)
+    xy_tolerance: 0.05    # m: close enough to the goal position
+    yaw_tolerance: 0.05   # rad: close enough to the goal heading
+    k_linear: 0.8         # proportional gain, distance -> speed
+    k_angular: 2.0        # proportional gain, heading error -> turn rate
+    timeout: 120.0        # s: give up on a goal after this long
+    # max_linear and max_angular default from robot_type (diff 0.22 m/s, 1.5 rad/s: a TurtleBot3 Burger)

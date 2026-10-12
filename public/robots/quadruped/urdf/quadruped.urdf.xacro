@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!-- A 4-legged robot: 12 revolute joints (hip, thigh, calf on each leg), built with ONE leg macro used 4 times -->
+<robot name="quadruped" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="../../common/urdf/macros.xacro"/>
+  <xacro:include filename="../../common/urdf/leg_macro.xacro"/>
+  <link name="base_link">
+    <visual><geometry><box size="0.45 0.20 0.10"/></geometry><material name="orange"/></visual>
+    <visual><origin xyz="0.25 0 0.03"/><geometry><box size="0.06 0.12 0.06"/></geometry><material name="dark_grey"/></visual>
+    <collision><geometry><box size="0.45 0.20 0.10"/></geometry></collision>
+    <xacro:box_inertia m="6.0" x="0.45" y="0.20" z="0.10"/>
+  </link>
+  <xacro:quad_leg prefix="front_left" parent="base_link" x="0.18" y_sign="1"/>
+  <xacro:quad_leg prefix="front_right" parent="base_link" x="0.18" y_sign="-1"/>
+  <xacro:quad_leg prefix="rear_left" parent="base_link" x="-0.18" y_sign="1"/>
+  <xacro:quad_leg prefix="rear_right" parent="base_link" x="-0.18" y_sign="-1"/>
+</robot>

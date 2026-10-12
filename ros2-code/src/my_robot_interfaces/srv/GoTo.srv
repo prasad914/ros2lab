@@ -1,0 +1,7 @@
+# Request: where Chiku should drive to (metres)
+float64 x
+float64 y
+---
+# Response: was the goal accepted?
+bool success
+string message

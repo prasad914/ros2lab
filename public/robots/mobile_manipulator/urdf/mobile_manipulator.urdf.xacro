@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!-- Hybrid robot 1: Chiku's wheeled base + the 3-DOF arm macro (reused with xacro:include) -->
+<robot name="mobile_manipulator" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="use_lidar" default="false"/>
+  <xacro:include filename="../../common/urdf/macros.xacro"/>
+  <xacro:include filename="../../common/urdf/arm3_macro.xacro"/>
+  <xacro:property name="base_l" value="0.5"/>
+  <xacro:property name="base_w" value="0.3"/>
+  <xacro:property name="base_h" value="0.15"/>
+  <xacro:property name="wheel_r" value="0.08"/>
+  <xacro:property name="wheel_len" value="0.04"/>
+  <xacro:property name="caster_r" value="${wheel_r/2}"/>
+
+  <link name="base_footprint"/>
+  <link name="base_link">
+    <visual><origin xyz="0 0 ${base_h/2}"/><geometry><box size="${base_l} ${base_w} ${base_h}"/></geometry><material name="orange"/></visual>
+    <collision><origin xyz="0 0 ${base_h/2}"/><geometry><box size="${base_l} ${base_w} ${base_h}"/></geometry></collision>
+    <xacro:box_inertia m="4.0" x="${base_l}" y="${base_w}" z="${base_h}" xyz="0 0 ${base_h/2}"/>
+  </link>
+  <joint name="base_joint" type="fixed">
+    <parent link="base_footprint"/><child link="base_link"/><origin xyz="0 0 ${wheel_r}"/>
+  </joint>
+
+  <xacro:macro name="wheel" params="side y_sign">
+    <link name="${side}_wheel_link">
+      <visual><origin rpy="${pi/2} 0 0"/><geometry><cylinder radius="${wheel_r}" length="${wheel_len}"/></geometry><material name="dark_grey"/></visual>
+      <collision><origin rpy="${pi/2} 0 0"/><geometry><cylinder radius="${wheel_r}" length="${wheel_len}"/></geometry></collision>
+      <xacro:cylinder_inertia m="0.4" r="${wheel_r}" h="${wheel_len}" rpy="${pi/2} 0 0"/>
+    </link>
+    <joint name="${side}_wheel_joint" type="continuous">
+      <parent link="base_link"/><child link="${side}_wheel_link"/>
+      <origin xyz="-0.1 ${y_sign*(base_w/2 + wheel_len/2)} 0"/><axis xyz="0 1 0"/>
+    </joint>
+  </xacro:macro>
+  <xacro:wheel side="left" y_sign="1"/>
+  <xacro:wheel side="right" y_sign="-1"/>
+
+  <link name="caster_link">
+    <visual><geometry><sphere radius="${caster_r}"/></geometry><material name="sky_blue"/></visual>
+    <collision><geometry><sphere radius="${caster_r}"/></geometry></collision>
+    <xacro:sphere_inertia m="0.1" r="${caster_r}"/>
+  </link>
+  <joint name="caster_joint" type="fixed">
+    <parent link="base_link"/><child link="caster_link"/><origin xyz="0.18 0 ${caster_r - wheel_r}"/>
+  </joint>
+  <xacro:if value="$(arg use_lidar)">
+    <link name="lidar_link">
+      <visual><geometry><cylinder radius="0.04" length="0.04"/></geometry><material name="dark_grey"/></visual>
+      <collision><geometry><cylinder radius="0.04" length="0.04"/></geometry></collision>
+      <xacro:cylinder_inertia m="0.1" r="0.04" h="0.04"/>
+    </link>
+    <joint name="lidar_joint" type="fixed">
+      <parent link="base_link"/><child link="lidar_link"/><origin xyz="0.1 0 ${base_h + 0.02}"/>
+    </joint>
+  </xacro:if>
+  <xacro:arm3 prefix="arm_" parent="base_link" xyz="-0.05 0 ${base_h}"/>
+</robot>

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>goal_pose_gui</name>
+  <version>1.0.0</version>
+  <description>
+    A separate window (like joint_state_publisher_gui) to type goal positions and orientations for any robot:
+    tool poses and joint values for arms (MoveIt move_group or a joint_trajectory_controller), goal poses and
+    velocities for mobile, legged and flying robots. Also pose_follower: drives a base to /goal_pose or a
+    /navigate_to_pose goal without Nav2.
+  </description>
+  <maintainer email="prasadprabhu@nitte.edu.in">ROS2Lab</maintainer>
+  <license>Apache-2.0</license>
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>python_qt_binding</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>nav2_msgs</exec_depend>
+  <exec_depend>moveit_msgs</exec_depend>
+  <exec_depend>control_msgs</exec_depend>
+  <exec_depend>trajectory_msgs</exec_depend>
+  <exec_depend>action_msgs</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>urdfdom_py</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

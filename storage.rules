@@ -1,0 +1,31 @@
+rules_version = '2';
+
+// ROS2Lab file storage: ONLY college ID card photos, one per student (only used when
+// REGISTRATION_MODE is "id-card"). Default deny for everything else.
+//  * Path ownership: a student can write only idcards/<their own uid>/idcard.jpg, so nobody
+//    can overwrite or read another student's file.
+//  * Upload only while the registration is pending or rejected, JPEG only, 1 KB to 2 MB.
+//  * Only the instructor (admin claim) can view or delete a photo; students cannot read
+//    back or list anything (not even their own upload).
+//  * The server (submitForReview) re-checks size and the real file type from the first
+//    bytes (JPEG magic number), and deletes a file that is not really a JPEG.
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /idcards/{uid}/{fileName} {
+      allow create, update: if request.auth != null
+        && request.auth.uid == uid
+        && request.auth.token.email_verified == true
+        && request.auth.token.get('status', '') in ['pending', 'rejected']
+        && fileName == 'idcard.jpg'
+        && request.resource.size > 1024
+        && request.resource.size < 2 * 1024 * 1024
+        && request.resource.contentType == 'image/jpeg';
+      allow read, delete: if request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.get('admin', false) == true;
+    }
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

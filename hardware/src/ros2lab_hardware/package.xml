@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>ros2lab_hardware</name>
+  <version>1.0.0</version>
+  <description>
+    ros2_control hardware for the ROS2Lab course robots (arm3, arm6, chiku, mecanum, ackermann, quadruped, hexapod,
+    humanoid, mobile and legged manipulators): a C++ SystemInterface that talks to an ESP32 or Arduino board running
+    the ROS2Lab bridge firmware over USB serial or Wi-Fi (UDP). The board drives the servos and DC motors and reads
+    the encoders and the IMU.
+  </description>
+  <maintainer email="prasadprabhu@nitte.edu.in">ROS2Lab</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>hardware_interface</depend>
+  <depend>pluginlib</depend>
+  <depend>rclcpp</depend>
+  <depend>rclcpp_lifecycle</depend>
+
+  <exec_depend>controller_manager</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>joint_state_broadcaster</exec_depend>
+  <exec_depend>joint_trajectory_controller</exec_depend>
+  <exec_depend>diff_drive_controller</exec_depend>
+  <exec_depend>imu_sensor_broadcaster</exec_depend>
+
+  <test_depend>ament_cmake_gtest</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

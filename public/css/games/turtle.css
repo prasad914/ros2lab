@@ -1,0 +1,45 @@
+/* Turtle Commander: the turtlesim window as it opens on Ubuntu (a dark title bar, the round close button, the
+   blue water) beside a notebook page: ruled lines, a red margin, binder holes, the missions ticked off in pencil
+   green. The terminal underneath is an Ubuntu terminal; the fill-in buttons are typed slips. */
+.game[data-game="turtle"] { --aub: #300A24; }
+.game[data-game="turtle"] .tt-grid { display: grid; grid-template-columns: minmax(0, 440px) minmax(0, 1fr); gap: 18px; align-items: start; }
+.game[data-game="turtle"] .tt-win { border: 0; border-radius: 10px; overflow: hidden; background: #242424; box-shadow: 0 1px 0 rgba(0, 0, 0, .15), 0 14px 28px -16px rgba(23, 33, 47, .6); }
+.game[data-game="turtle"] .tt-title { position: relative; display: flex; justify-content: center; align-items: center; height: 34px; padding: 0 40px; border: 0; background: #2C2C2C; color: #F2F2F2; font-family: var(--font-body); font-size: .86rem; font-weight: 700; }
+.game[data-game="turtle"] .tt-close { position: absolute; right: 9px; top: 7px; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: #474747; color: #EDEDED; font-size: .9rem; line-height: 1; font-weight: 400; }
+.game[data-game="turtle"] .tt-canvas { display: block; width: 100%; height: auto; aspect-ratio: 1; }
+
+/* the notebook page */
+.game[data-game="turtle"] .tt-notebook { position: relative; padding: 14px 14px 18px 46px; background: #fff;
+  background-image: linear-gradient(90deg, transparent 36px, #F2A7A0 36px, #F2A7A0 37.5px, transparent 37.5px), repeating-linear-gradient(transparent 0 29px, #DCE6F3 29px 30px);
+  background-position: 0 0, 0 9px; border: 1px solid var(--line); border-radius: 4px; box-shadow: 0 1px 0 rgba(23, 33, 47, .05); min-height: 100%; }
+.game[data-game="turtle"] .tt-notebook::before { content: ""; position: absolute; left: 11px; top: 18px; bottom: 18px; width: 12px; background: radial-gradient(circle at 6px 6px, var(--paper) 4.5px, var(--line) 5px, transparent 5.5px) 0 0 / 12px 60px repeat-y; }
+.game[data-game="turtle"] .tt-nb-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; height: 30px; }
+.game[data-game="turtle"] .tt-nb-head b { font-size: 1.05rem; }
+.game[data-game="turtle"] .tt-nb-count { font-size: .82rem; color: var(--ink-soft); }
+.game[data-game="turtle"] .tt-missions { gap: 0; }
+.game[data-game="turtle"] .tt-missions li { min-height: 30px; padding: 0; line-height: 30px; font-size: .95rem; align-items: flex-start; }
+.game[data-game="turtle"] .tt-missions li .box { top: 6px; }
+.game[data-game="turtle"] .tt-missions li.done > span:last-child { text-decoration: line-through; text-decoration-color: rgba(46, 155, 87, .7); text-decoration-thickness: 1.5px; }
+
+/* the terminal */
+.game[data-game="turtle"] .tt-term { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: end; background: var(--aub); border: 0; border-radius: 10px; padding: 10px; }
+.game[data-game="turtle"] .tt-out { grid-column: 1 / -1; max-height: 200px; min-height: 96px; overflow-y: auto; font-family: var(--font-mono); font-size: .8rem; color: #D3D7CF; padding: 2px 4px; line-height: 1.45; scrollbar-color: #6b4a60 var(--aub); }
+.game[data-game="turtle"] .tt-l.cmd { color: #8AE234; }
+.game[data-game="turtle"] .tt-l.err { color: #FF9B9B; }
+.game[data-game="turtle"] .tt-l.warn, .game[data-game="turtle"] .tt-l.hint { color: #FCE94F; }
+.game[data-game="turtle"] .tt-line { display: flex; align-items: baseline; min-width: 0; padding: 0 4px; font-family: var(--font-mono); font-size: .92rem; color: #EEEEEC; }
+.game[data-game="turtle"] .pf-prompt { color: #EEEEEC; white-space: nowrap; }
+.game[data-game="turtle"] .tt-u { color: #8AE234; font-weight: 600; }
+.game[data-game="turtle"] .tt-p { color: #8FB4E6; font-weight: 600; }
+.game[data-game="turtle"] .pf-input { flex: 1; min-width: 60px; background: transparent; border: 0; outline: none; color: #fff; font: inherit; caret-color: var(--sun); padding: 4px 0; }
+.game[data-game="turtle"] .tt-term:focus-within { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--axis-z); }
+
+/* the crib sheet: fill-in slips on the same page */
+.game[data-game="turtle"] .tt-crib { margin-top: 30px; }
+.game[data-game="turtle"] .so-chips { display: flex; flex-wrap: wrap; gap: 6px 8px; padding-top: 4px; }
+.game[data-game="turtle"] .tt-chip { font-family: var(--font-body); font-size: .9rem; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--ink); box-shadow: inset 0 -2px 0 #DCE2EA; cursor: pointer; }
+.game[data-game="turtle"] .tt-chip:hover { border-color: #4556FF; color: #2C39C9; }
+.game[data-game="turtle"] .tt-chip:active { transform: translateY(1px); box-shadow: none; }
+
+@media (max-width: 760px) { .game[data-game="turtle"] .tt-grid { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 520px) { .game[data-game="turtle"] .tt-line { flex-wrap: wrap; } .game[data-game="turtle"] .pf-input { width: 100%; } .game[data-game="turtle"] .tt-notebook { padding-left: 40px; background-position: -6px 0, 0 9px; } .game[data-game="turtle"] .tt-notebook::before { left: 7px; } }

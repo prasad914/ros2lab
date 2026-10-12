@@ -1,0 +1,73 @@
+/* Lesson puzzles (js/puzzles.js): the same quiet sheet as the games, each kind with its own ink and drawing.
+   trace: an editor, a memory table and the program's output, the running line lit like a highlighter.
+   match: two columns of tiles; a found pair gets the same number. sort: tags dropped into trays.
+   bug: an editor whose lines you tap. think: a folded answer. cards: ruled index cards that flip. */
+.pzl { --pz: var(--ink); border: 1px solid var(--line); border-top: 3px solid var(--pz); border-radius: 12px; background: #fff; overflow: hidden; }
+.pzl-trace { --pz: #6C4FE0; } .pzl-match { --pz: var(--axis-z); } .pzl-sort { --pz: var(--axis-y); }
+.pzl-bug { --pz: var(--axis-x); } .pzl-think { --pz: #C7781A; } .pzl-cards { --pz: #0E8C83; }
+.pzl .pzl-head { display: flex; justify-content: space-between; align-items: center; gap: 4px 12px; flex-wrap: wrap; padding: 12px 18px 0; border: 0; background: none; font-size: .92rem; }
+.pzl .pzl-kind { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-head); font-weight: 700; font-size: 1rem; color: var(--ink); }
+.pzl .pzl-kind::before { content: none; }
+.pzl .pzl-glyph { width: 22px; height: 22px; color: var(--pz); flex: none; }
+.pzl .pzl-sub { font-size: .85rem; }
+.pzl .pzl-body { padding: 12px 18px 18px; }
+.pzl .check-q { margin-bottom: 12px; font-weight: 600; line-height: 1.45; }
+.pzl .fb { border: 0; border-left: 3px solid var(--line); border-radius: 0 6px 6px 0; margin-top: 12px; padding: 9px 14px; }
+.pzl .fb.ok { border-left-color: var(--axis-y); background: #E7F5EC; }
+.pzl .fb.no { border-left-color: var(--axis-x); background: #FCEBE8; }
+
+/* trace */
+.pzl .tr-code { background: #1E1E1E; border: 0; border-radius: 8px; }
+.pzl .tr-code li { color: #9DA5B4; border-left-width: 3px; }
+.pzl .tr-code li::before { color: #6E7681; }
+.pzl .tr-code li.ran { color: #E6E6E6; }
+.pzl .tr-code li.now { background: rgba(255, 200, 61, .22); border-left-color: var(--sun); color: #fff; }
+.pzl .tr-label { font-family: var(--font-body); font-size: .84rem; font-weight: 600; color: var(--ink-soft); }
+.pzl .tr-vars { border-collapse: separate; border-spacing: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.pzl .tr-vars th, .pzl .tr-vars td { border: 0; border-bottom: 1px solid var(--line-soft); padding: 5px 10px; }
+.pzl .tr-vars tr:last-child td { border-bottom: 0; }
+.pzl .tr-vars th { background: #F6F8FB; font-family: var(--font-body); font-size: .8rem; color: var(--ink-soft); }
+.pzl .tr-vars td + td, .pzl .tr-vars th + th { border-left: 1px solid var(--line-soft); }
+.pzl .tr-vars code { border: 0; background: none; padding: 0; }
+.pzl .tr-out { background: #300A24; color: #EEEEEC; border: 0; border-radius: 8px; }
+.pzl .tr-note { border: 0; border-left: 3px solid var(--sun-edge); border-radius: 0 6px 6px 0; background: var(--sun-tint); }
+
+/* match */
+.pzl .mt-item { border: 1px solid var(--line); border-radius: 8px; box-shadow: inset 0 -2px 0 #E3E8EF; transition: border-color .15s, background-color .15s; }
+.pzl .mt-item:hover:not([disabled]) { border-color: var(--ink-soft); background: #fff; }
+.pzl .mt-item.sel { border-color: var(--axis-z); background: #EAF1FC; box-shadow: 0 0 0 1px var(--axis-z); }
+.pzl .mt-item.ok { border-color: var(--axis-y); background: #F1FAF4; box-shadow: none; }
+.pzl .mt-item.ok::after { background: var(--axis-y); }
+.pzl .mt-item.bad { background: #FCEBE8; border-color: var(--axis-x); }
+
+/* sort */
+.pzl .st-pool { border: 1.5px dashed var(--line); border-radius: 10px; background: #FAFBFC; }
+.pzl .st-chip { border: 1px solid var(--line); border-radius: 6px; box-shadow: inset 0 -2px 0 #E3E8EF; background: #fff; }
+.pzl .st-chip.sel { background: var(--sun-tint); border-color: var(--sun-edge); box-shadow: 0 0 0 1px var(--sun-edge); }
+.pzl .st-chip.ok { background: #F1FAF4; border-color: var(--axis-y); box-shadow: none; }
+.pzl .st-chip:focus-visible { outline: 2px solid var(--axis-z); outline-offset: 2px; }
+.pzl .st-bin { min-height: 110px; background: #fff; border: 2px solid var(--axis-y); border-top-width: 6px; border-radius: 4px 4px 12px 12px; }
+.pzl .st-bin:nth-child(2) { border-color: var(--axis-z); } .pzl .st-bin:nth-child(3) { border-color: #C7781A; } .pzl .st-bin:nth-child(4) { border-color: #6C4FE0; }
+.pzl .st-bin.over { background: #F6F8FB; }
+.pzl .st-bin.bad { background: #FCEBE8; }
+
+/* bug */
+.pzl .bg-code { background: #1E1E1E; border: 0; border-radius: 8px; }
+.pzl .bg-code li::before { color: #6E7681; }
+.pzl .bg-code button { color: #E6E6E6; border-left-width: 3px; }
+.pzl .bg-code button:focus-visible { outline: 2px solid #8FB4E6; outline-offset: -2px; }
+.pzl .bg-code li.bad button { text-decoration: underline wavy #FF8F8F; text-underline-offset: 4px; }
+
+/* think: the answer unfolds like a folded note */
+.pzl .th-ans { border: 0; border-left: 3px solid #C7781A; border-radius: 0 6px 6px 0; background: #FDF4E6; }
+
+/* cards: ruled index cards */
+.pzl .fc { border: 1px solid var(--line); border-radius: 4px; box-shadow: 0 6px 14px -10px rgba(23, 33, 47, .45); }
+.pzl .fc:nth-child(3n+1) { transform: rotate(-.8deg); } .pzl .fc:nth-child(3n+2) { transform: rotate(.6deg); }
+.pzl .fc span { border-radius: 4px; }
+.pzl .fc-front { background: #fff; background-image: linear-gradient(var(--axis-x), var(--axis-x)), repeating-linear-gradient(transparent 0 23px, #DDE6F2 23px 24px); background-size: 100% 1.5px, 100% 100%; background-position: 0 22px, 0 22px; background-repeat: no-repeat, repeat; font-size: 1rem; }
+.pzl .fc-back { background: #F1FAF8; }
+.pzl .fc:focus-visible { outline: 2px solid var(--axis-z); outline-offset: 3px; }
+
+@media (max-width: 560px) { .pzl .pzl-head { padding: 10px 14px 0; } .pzl .pzl-body { padding: 10px 14px 14px; } }
+@media (prefers-reduced-motion: reduce) { .pzl .fc span { transition: none; } .pzl .mt-item { transition: none; } }

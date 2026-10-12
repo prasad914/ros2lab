@@ -1,0 +1,23 @@
+# Start the robot when the Jetson boots:
+#   sudo cp ros2lab-bringup.service /etc/systemd/system/ && sudo systemctl daemon-reload
+#   sudo systemctl enable --now ros2lab-bringup      (logs: journalctl -u ros2lab-bringup -f)
+# Edit User, ROBOT and the launch arguments first.
+[Unit]
+Description=ROS2Lab robot bringup (ros2_control + bridge board)
+After=network-online.target dev-ros2lab_mcu.device
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=robot
+Environment=ROBOT=chiku
+Environment=RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+Environment=ROS_DOMAIN_ID=7
+ExecStart=/bin/bash -lc 'source /opt/ros/jazzy/setup.bash && source $HOME/ros2_ws/install/setup.bash && exec ros2 launch ${ROBOT}_bringup bringup.launch.py hardware_type:=real'
+Restart=on-failure
+RestartSec=5
+KillSignal=SIGINT
+TimeoutStopSec=15
+
+[Install]
+WantedBy=multi-user.target

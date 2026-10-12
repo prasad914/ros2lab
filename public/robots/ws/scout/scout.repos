@@ -1,0 +1,9 @@
+repositories:
+  scout_ros2:
+    type: git
+    url: https://github.com/agilexrobotics/scout_ros2.git
+    version: 48f70cbefa74b94d4442ed1a4ac9237a088abbb7   # origin/jazzy
+  ugv_sdk:
+    type: git
+    url: https://github.com/agilexrobotics/ugv_sdk.git
+    version: main   # CAN SDK needed by scout_base (real Scout); from scout_ros2 README

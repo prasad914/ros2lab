@@ -1,0 +1,17 @@
+<launch>
+  <arg name="with_monitor" default="true"/>
+
+  <node pkg="turtlesim" exec="turtlesim_node" name="sim" namespace="robot1"/>
+  <node pkg="chiku_control" exec="go_to_goal" name="go_to_goal" namespace="robot1">
+    <param from="$(find-pkg-share chiku_control)/config/goals.yaml"/>
+  </node>
+
+  <node pkg="turtlesim" exec="turtlesim_node" name="sim" namespace="robot2"/>
+  <node pkg="chiku_control" exec="go_to_goal" name="go_to_goal" namespace="robot2">
+    <param from="$(find-pkg-share chiku_control)/config/goals.yaml"/>
+  </node>
+
+  <node pkg="chiku_control" exec="pose_monitor" name="pose_monitor" if="$(var with_monitor)">
+    <remap from="/turtle1/pose" to="/robot1/turtle1/pose"/>
+  </node>
+</launch>

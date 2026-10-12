@@ -1,0 +1,72 @@
+# The makers' ROS 2 Jazzy drivers that are built from source (Ubuntu 24.04 / JetPack 7).
+#   cd ~/ros2_ws && vcs import src < vendor.repos && rosdep install --from-paths src --ignore-src --rosdistro jazzy -y
+#   colcon build --symlink-install --packages-up-to <the driver you need>
+# Only import what your robot needs (delete the other entries), and check each repository's README first: some need
+# extra steps (Franka: dependency.repos and a PREEMPT_RT kernel; FANUC: git-lfs and submodules; ABB: abb.repos).
+# Branches checked against each repository on 2026-10-09.
+#
+# Drivers that install from apt instead (no source build):
+#   UR (ur_robot_driver):          sudo apt install ros-jazzy-ur
+#   Kinova Gen3 (kortex_bringup):  sudo apt install ros-jazzy-kortex-bringup
+#   KUKA (RSI):                    sudo apt install ros-jazzy-kuka-drivers ros-jazzy-kuka-agilus-support
+#   SO-101 (Feetech STS3215):      sudo apt install ros-jazzy-feetech-ros2-driver
+#   TurtleBot3:                    sudo apt install ros-jazzy-turtlebot3 ros-jazzy-hls-lfcd-lds-driver ros-jazzy-ld08-driver
+#   Crazyflie (crazyswarm2):       sudo apt install ros-jazzy-crazyflie ros-jazzy-crazyflie-interfaces ros-jazzy-crazyflie-py
+#   RealSense:                     sudo apt install ros-jazzy-realsense2-camera
+#   OAK-D (DepthAI):               sudo apt install ros-jazzy-depthai-ros
+repositories:
+  # ---- arms ----
+  franka_ros2:
+    type: git
+    url: https://github.com/frankarobotics/franka_ros2.git
+    version: jazzy
+  xarm_ros2:                       # clone with submodules: vcs import --recursive
+    type: git
+    url: https://github.com/xArm-Developer/xarm_ros2.git
+    version: jazzy
+  DOBOT_6Axis_ROS2_V4:
+    type: git
+    url: https://github.com/Dobot-Arm/DOBOT_6Axis_ROS2_V4.git
+    version: jazzy
+  interbotix_ros_core:
+    type: git
+    url: https://github.com/Interbotix/interbotix_ros_core.git
+    version: jazzy
+  interbotix_ros_manipulators:
+    type: git
+    url: https://github.com/Interbotix/interbotix_ros_manipulators.git
+    version: jazzy
+  interbotix_ros_toolboxes:
+    type: git
+    url: https://github.com/Interbotix/interbotix_ros_toolboxes.git
+    version: jazzy
+  abb_ros2:                        # rolling branch builds on Jazzy; the controller needs the EGM option
+    type: git
+    url: https://github.com/PickNikRobotics/abb_ros2.git
+    version: rolling
+  fanuc_description:               # needs git-lfs
+    type: git
+    url: https://github.com/FANUC-CORPORATION/fanuc_description.git
+    version: main
+  fanuc_driver:                    # recursive (submodules); controller options J519 + R912
+    type: git
+    url: https://github.com/FANUC-CORPORATION/fanuc_driver.git
+    version: main
+  # ---- mobile robots ----
+  scout_ros2:                      # CAN bus (gs_usb adapter)
+    type: git
+    url: https://github.com/agilexrobotics/scout_ros2.git
+    version: origin/jazzy
+  ugv_sdk:
+    type: git
+    url: https://github.com/agilexrobotics/ugv_sdk.git
+    version: main
+  # ---- lidars for the course robots ----
+  sllidar_ros2:                    # Slamtec RPLIDAR A1 / A2 / C1 / S2
+    type: git
+    url: https://github.com/Slamtec/sllidar_ros2.git
+    version: main
+  ldlidar_stl_ros2:                # LDROBOT LD06 / LD19
+    type: git
+    url: https://github.com/ldrobotSensorTeam/ldlidar_stl_ros2.git
+    version: master

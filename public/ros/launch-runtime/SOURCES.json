@@ -1,0 +1,297 @@
+{
+  "description": "Pure-Python ROS 2 Jazzy launch system run by public/js/launch-worker.js in Pyodide. Built by tools/build-launch-runtime.mjs.",
+  "pyodide": "314.0.7",
+  "zip": {
+    "file": "py.zip",
+    "bytes": 783609,
+    "sha256": "1ff23a7ecf579d11ecc70be29981a5147b8bb97d9a96dafb4c4574085563ef1d",
+    "files": 410
+  },
+  "glue": {
+    "dir": "tools/launch-runtime-py",
+    "files": [
+      "r2l_launch.py",
+      "r2l_stubs.py"
+    ],
+    "license": "same as the ROS2Lab site"
+  },
+  "sources": [
+    {
+      "name": "launch",
+      "repo": "https://github.com/ros2/launch",
+      "ref": "jazzy",
+      "commit": "ba5f5b3ad457592364f442e0bdf61bf2f38fc5c6",
+      "license": "Apache-2.0",
+      "licenseFiles": [
+        "LICENSE"
+      ],
+      "dists": [
+        {
+          "module": "launch",
+          "dist": "launch",
+          "version": "3.4.12",
+          "path": "launch/launch",
+          "files": 120
+        },
+        {
+          "module": "launch_xml",
+          "dist": "launch_xml",
+          "version": "3.4.12",
+          "path": "launch_xml/launch_xml",
+          "files": 5
+        },
+        {
+          "module": "launch_yaml",
+          "dist": "launch_yaml",
+          "version": "3.4.12",
+          "path": "launch_yaml/launch_yaml",
+          "files": 5
+        }
+      ]
+    },
+    {
+      "name": "launch_ros",
+      "repo": "https://github.com/ros2/launch_ros",
+      "ref": "jazzy",
+      "commit": "97b758478d8bf343a1e83ab419210d790da53d80",
+      "license": "Apache-2.0",
+      "licenseFiles": [
+        "LICENSE"
+      ],
+      "dists": [
+        {
+          "module": "launch_ros",
+          "dist": "launch_ros",
+          "version": "0.26.13",
+          "path": "launch_ros/launch_ros",
+          "files": 43
+        },
+        {
+          "module": "ros2launch",
+          "dist": "ros2launch",
+          "version": "0.26.13",
+          "path": "ros2launch/ros2launch",
+          "files": 6
+        }
+      ]
+    },
+    {
+      "name": "ament_index",
+      "repo": "https://github.com/ament/ament_index",
+      "ref": "jazzy",
+      "commit": "2ccdcb8fd19a364fc793273b5793459207a440b9",
+      "license": "Apache-2.0",
+      "licenseFiles": [
+        "LICENSE"
+      ],
+      "dists": [
+        {
+          "module": "ament_index_python",
+          "dist": "ament_index_python",
+          "version": "1.8.4",
+          "path": "ament_index_python/ament_index_python",
+          "files": 6
+        }
+      ]
+    },
+    {
+      "name": "ros2cli",
+      "repo": "https://github.com/ros2/ros2cli",
+      "ref": "jazzy",
+      "commit": "9ac47fae6c09d230eca4644bd474a608382364e3",
+      "license": "Apache-2.0",
+      "licenseFiles": [
+        "LICENSE"
+      ],
+      "dists": [
+        {
+          "module": "ros2cli",
+          "dist": "ros2cli",
+          "version": "0.32.13",
+          "path": "ros2cli/ros2cli",
+          "files": 9
+        },
+        {
+          "module": "ros2pkg",
+          "dist": "ros2pkg",
+          "version": "0.32.13",
+          "path": "ros2pkg/ros2pkg",
+          "files": 9
+        }
+      ]
+    },
+    {
+      "name": "xacro",
+      "repo": "https://github.com/ros/xacro",
+      "ref": "ros2",
+      "commit": "da4b3849f8320903d625250089f67f0632be86f2",
+      "license": "BSD-3-Clause",
+      "licenseFiles": [
+        "LICENSE"
+      ],
+      "dists": [
+        {
+          "module": "xacro",
+          "dist": "xacro",
+          "version": "2.1.1",
+          "path": "xacro",
+          "files": 5
+        }
+      ]
+    },
+    {
+      "name": "osrf_pycommon",
+      "repo": "https://github.com/osrf/osrf_pycommon",
+      "ref": "2.1.6",
+      "commit": "d3acec6fa61ee078b583a38ecfc41f4075454544",
+      "license": "Apache-2.0",
+      "licenseFiles": [
+        "LICENSE"
+      ],
+      "dists": [
+        {
+          "module": "osrf_pycommon",
+          "dist": "osrf_pycommon",
+          "version": "2.1.6",
+          "path": "osrf_pycommon",
+          "files": 17
+        }
+      ]
+    },
+    {
+      "name": "srdfdom",
+      "repo": "https://github.com/moveit/srdfdom",
+      "ref": "ros2",
+      "commit": "2c820aa46847fa4309e4dbfe432eaf7ebdbacd85",
+      "license": "BSD-3-Clause",
+      "licenseFiles": [
+        "LICENSE.txt"
+      ],
+      "dists": [
+        {
+          "module": "srdfdom",
+          "dist": "srdfdom",
+          "version": "2.0.9",
+          "path": "srdfdom",
+          "files": 2
+        }
+      ]
+    },
+    {
+      "name": "urdf_parser_py",
+      "repo": "https://github.com/ros/urdf_parser_py",
+      "ref": "ros2",
+      "commit": "a0e5291577f1431fa6daafb236ffea34267cf704",
+      "license": "BSD-3-Clause",
+      "licenseFiles": [
+        "LICENSE"
+      ],
+      "dists": [
+        {
+          "module": "urdf_parser_py",
+          "dist": "urdf_parser_py",
+          "version": "1.2.1",
+          "path": "src/urdf_parser_py",
+          "files": 6
+        }
+      ]
+    },
+    {
+      "name": "catkin_pkg",
+      "repo": "https://github.com/ros-infrastructure/catkin_pkg",
+      "ref": "1.1.1",
+      "commit": "de8b53fad247540f7c3112ff0c4478d847372c54",
+      "license": "BSD-3-Clause",
+      "licenseFiles": [
+        "LICENSE"
+      ],
+      "dists": [
+        {
+          "module": "catkin_pkg",
+          "dist": "catkin_pkg",
+          "version": "1.1.1",
+          "path": "src/catkin_pkg",
+          "files": 15
+        }
+      ]
+    },
+    {
+      "name": "pyparsing",
+      "repo": "https://github.com/pyparsing/pyparsing",
+      "ref": "3.2.0",
+      "commit": "36fc04b780bf4bc41b8ad60a2cfd89528545c38c",
+      "license": "MIT",
+      "licenseFiles": [
+        "LICENSE"
+      ],
+      "dists": [
+        {
+          "module": "pyparsing",
+          "dist": "pyparsing",
+          "version": "3.2.0",
+          "path": "pyparsing",
+          "files": 10
+        }
+      ]
+    },
+    {
+      "name": "lark",
+      "repo": "https://github.com/lark-parser/lark",
+      "ref": "1.2.2",
+      "commit": "acfe33d943a1310f3ca26145eb2896bc5c4955c9",
+      "license": "MIT",
+      "licenseFiles": [
+        "LICENSE"
+      ],
+      "dists": [
+        {
+          "module": "lark",
+          "dist": "lark",
+          "version": "1.2.2",
+          "path": "lark",
+          "files": 33
+        }
+      ]
+    },
+    {
+      "name": "pyyaml",
+      "repo": "https://github.com/yaml/pyyaml",
+      "ref": "6.0.2",
+      "commit": "41309b0bcb4559edb1d691d47199035ef539d785",
+      "license": "MIT",
+      "licenseFiles": [
+        "LICENSE"
+      ],
+      "dists": [
+        {
+          "module": "yaml",
+          "dist": "PyYAML",
+          "version": "6.0.2",
+          "path": "lib/yaml",
+          "files": 17
+        }
+      ]
+    },
+    {
+      "name": "packaging",
+      "repo": "https://github.com/pypa/packaging",
+      "ref": "24.2",
+      "commit": "d8e3b31b734926ebbcaff654279f6855a73e052f",
+      "license": "Apache-2.0 OR BSD-2-Clause",
+      "licenseFiles": [
+        "LICENSE",
+        "LICENSE.APACHE",
+        "LICENSE.BSD"
+      ],
+      "dists": [
+        {
+          "module": "packaging",
+          "dist": "packaging",
+          "version": "24.2",
+          "path": "src/packaging",
+          "files": 16
+        }
+      ]
+    }
+  ]
+}

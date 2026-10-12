@@ -1,0 +1,26 @@
+{
+ "gen3": {
+  "cmd": "xacro $(ros2 pkg prefix kortex_description)/share/kortex_description/robots/kinova.urdf.xacro robot_ip:=xxx.yyy.zzz.www name:=gen3 arm:=gen3 dof:=7 vision:=false prefix:= sim_gazebo:=false gripper:=",
+  "urdf": "robots/ws/kortex/generated/gen3.urdf",
+  "robot_name": "gen3",
+  "links": 11,
+  "joints": 10,
+  "site": {
+   "file": "robots/kortex_description/urdf/gen3.urdf",
+   "links": 14,
+   "joints": 13
+  },
+  "links_only_in_ws": [],
+  "links_only_on_site": [
+   "camera_link",
+   "camera_depth_frame",
+   "camera_color_frame"
+  ],
+  "joints_only_in_ws": [],
+  "joints_only_on_site": [
+   "camera_module",
+   "depth_module",
+   "color_module"
+  ]
+ }
+}

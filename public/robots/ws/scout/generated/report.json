@@ -1,0 +1,18 @@
+{
+ "scout": {
+  "cmd": "xacro $(ros2 pkg prefix scout_description)/share/scout_description/urdf/scout_v2.xacro",
+  "urdf": "robots/ws/scout/generated/scout.urdf",
+  "robot_name": "scout_v2",
+  "links": 7,
+  "joints": 6,
+  "site": {
+   "file": "robots/scout_description/urdf/scout_v2.urdf",
+   "links": 7,
+   "joints": 6
+  },
+  "links_only_in_ws": [],
+  "links_only_on_site": [],
+  "joints_only_in_ws": [],
+  "joints_only_on_site": []
+ }
+}

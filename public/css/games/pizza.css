@@ -1,0 +1,41 @@
+/* Pizza Tracker: a kitchen pass. A steel rail runs across the stage and three order tickets hang from it on
+   clips: thermal-paper white, a torn zigzag bottom, a typed header. The app ticket has a six-stop tracker that
+   fills while the action's feedback is printed below it, one line at a time. */
+.game[data-game="pizza"] { --pz-paper: #FFFEFA; --pz-ink: #B5650F; }
+.game[data-game="pizza"] .pz-board { display: grid; gap: 6px; }
+.game[data-game="pizza"] .pz-board-k { font-weight: 700; font-size: .95rem; }
+
+.game[data-game="pizza"] .pz-pass { position: relative; padding-top: 10px; }
+.game[data-game="pizza"] .pz-rail { position: absolute; left: -6px; right: -6px; top: 4px; height: 9px; border-radius: 5px; background: linear-gradient(#E4E9EF, #A9B4C2 55%, #8794A5); box-shadow: 0 1px 0 rgba(23, 33, 47, .2); }
+.game[data-game="pizza"] .pz-grid { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: start; filter: drop-shadow(0 0 .6px rgba(23, 33, 47, .55)) drop-shadow(0 3px 4px rgba(23, 33, 47, .08)); }
+.game[data-game="pizza"] .pz-ticket { --z: 7px; position: relative; display: grid; gap: 8px; align-content: start; padding: 22px 14px calc(16px + var(--z)); border: 0; border-radius: 0; background: var(--pz-paper);
+  -webkit-mask: linear-gradient(#000 0 0) top / 100% calc(100% - var(--z)) no-repeat, conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / calc(2 * var(--z)) var(--z) repeat-x;
+  mask: linear-gradient(#000 0 0) top / 100% calc(100% - var(--z)) no-repeat, conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / calc(2 * var(--z)) var(--z) repeat-x; }
+.game[data-game="pizza"] .pz-ticket:nth-child(1) { transform: rotate(-.6deg); }
+.game[data-game="pizza"] .pz-ticket:nth-child(3) { transform: rotate(.5deg); }
+.game[data-game="pizza"] .pz-clip { position: absolute; left: 50%; top: 0; width: 34px; height: 12px; margin-left: -17px; border-radius: 0 0 4px 4px; background: linear-gradient(#C9D1DB, #9AA6B6); }
+.game[data-game="pizza"] .pz-thead { display: flex; justify-content: space-between; gap: 8px; padding-bottom: 6px; border-bottom: 1.5px dashed #CDD4DE; font-family: var(--font-mono); font-size: .8rem; color: var(--ink-soft); }
+.game[data-game="pizza"] .pz-kind { color: var(--pz-ink); font-weight: 600; }
+.game[data-game="pizza"] .pz-friend .pz-kind { color: var(--ink-soft); }
+.game[data-game="pizza"] .pz-ticket h4 { margin: 2px 0 0; font-size: 1.08rem; font-weight: 700; }
+.game[data-game="pizza"] .pz-ticket p { margin: 0; }
+.game[data-game="pizza"] .pz-ticket .btn { justify-self: start; }
+.game[data-game="pizza"] .pz-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.game[data-game="pizza"] .pz-out { min-height: 1.5em; font-family: var(--font-mono); font-size: .86rem; font-weight: 600; line-height: 1.45; }
+.game[data-game="pizza"] .pz-out.small { font-weight: 400; font-family: var(--font-body); font-size: .92rem; }
+
+/* six stops: accepted, dough, oven, packed, on the way, delivered */
+.game[data-game="pizza"] .pz-track { position: relative; display: flex; justify-content: space-between; align-items: center; height: 16px; margin: 4px 2px 0; }
+.game[data-game="pizza"] .pz-line { position: absolute; left: 6px; right: 6px; top: 7px; height: 2px; background: #DCE2EA; }
+.game[data-game="pizza"] .pz-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--pz-ink); transition: width .5s ease; }
+.game[data-game="pizza"] .pz-track i { position: relative; width: 12px; height: 12px; border-radius: 50%; border: 2px solid #C3CCD8; background: var(--pz-paper); transition: background-color .3s, border-color .3s; }
+.game[data-game="pizza"] .pz-track i.on { border-color: var(--pz-ink); background: var(--pz-ink); }
+.game[data-game="pizza"] .pz-track i:last-child.on { box-shadow: 0 0 0 3px #FBE3C2; }
+.game[data-game="pizza"] .pz-feed { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; font-family: var(--font-mono); font-size: .82rem; line-height: 1.4; }
+.game[data-game="pizza"] .pz-feed li { padding: 2px 0; border-bottom: 1px dotted #DCE2EA; animation: pz-print .3s ease-out; }
+.game[data-game="pizza"] .pz-feed li:last-child { border-bottom: 0; font-weight: 600; }
+@keyframes pz-print { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0); } }
+.game[data-game="pizza"] .pz-cancel { color: var(--axis-x); }
+
+@media (max-width: 820px) { .game[data-game="pizza"] .pz-grid { grid-template-columns: minmax(0, 1fr); gap: 18px; } .game[data-game="pizza"] .pz-ticket { transform: none !important; } }
+@media (prefers-reduced-motion: reduce) { .game[data-game="pizza"] .pz-fill, .game[data-game="pizza"] .pz-track i { transition: none; } .game[data-game="pizza"] .pz-feed li { animation: none; } }

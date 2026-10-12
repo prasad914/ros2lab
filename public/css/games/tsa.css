@@ -1,0 +1,57 @@
+/* Topic, Service or Action? A sorting desk. The situation is a ruled index card, tilted a little differently
+   each time; below it sit three trays (blue for topics, green for services, amber for actions). Each answer
+   drops a slip into the tray you chose: solid when right, a red outline when not. Pips above count the round. */
+.game[data-game="tsa"] { --t-topic: var(--axis-z); --t-service: var(--axis-y); --t-action: #C7781A; }
+.game[data-game="tsa"] .ts-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 14px; }
+.game[data-game="tsa"] .ts-top { font-family: var(--font-body); font-weight: 600; font-size: .92rem; color: var(--ink-soft); }
+.game[data-game="tsa"] .ts-pips { display: flex; gap: 5px; }
+.game[data-game="tsa"] .ts-pips i { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--line); background: #fff; }
+.game[data-game="tsa"] .ts-pips i.now { border-color: var(--ink); box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--ink); }
+.game[data-game="tsa"] .ts-pips i.ok { background: var(--axis-y); border-color: var(--axis-y); }
+.game[data-game="tsa"] .ts-pips i.no { background: #fff; border-color: var(--axis-x); border-width: 2.5px; }
+
+/* the card */
+.game[data-game="tsa"] .ts-desk { padding: 8px 4px 4px; }
+.game[data-game="tsa"] .ts-index { --tilt: -1deg; position: relative; max-width: 560px; margin: 0 auto; padding: 18px 22px 16px 22px; background: #fff;
+  background-image: linear-gradient(var(--axis-x), var(--axis-x)), repeating-linear-gradient(transparent 0 27px, #DDE6F2 27px 28px);
+  background-size: 100% 2px, 100% 100%; background-position: 0 34px, 0 34px; background-repeat: no-repeat, repeat;
+  border: 1px solid var(--line); border-radius: 3px; box-shadow: 0 1px 0 rgba(23, 33, 47, .06), 0 8px 18px -10px rgba(23, 33, 47, .35);
+  transform: rotate(var(--tilt)); transition: transform .35s cubic-bezier(.3, .7, .3, 1), box-shadow .35s; }
+.game[data-game="tsa"] .ts-index.sorted { transform: rotate(0deg) translateY(4px); box-shadow: 0 1px 0 rgba(23, 33, 47, .06); }
+.game[data-game="tsa"] .ts-no { position: absolute; right: 12px; top: 8px; font-family: var(--font-mono); font-size: .8rem; color: var(--ink-soft); }
+.game[data-game="tsa"] .ts-card { min-height: 4.4em; display: block; padding: 22px 0 0; border: 0; background: none; font-size: 1.16rem; font-weight: 600; line-height: 28px; color: var(--ink); }
+
+/* the trays */
+.game[data-game="tsa"] .ts-btns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.game[data-game="tsa"] .ts-opt { --c: var(--ink); position: relative; display: grid; gap: 2px; align-content: start; justify-content: stretch; justify-items: start; min-height: 112px; padding: 10px 12px 34px; border: 2px solid var(--c); border-top-width: 6px; border-radius: 4px 4px 12px 12px; background: #fff; color: var(--ink); font-family: var(--font-body); text-align: left; transition: background-color .15s, transform .08s; }
+.game[data-game="tsa"] .ts-opt[data-k="topic"] { --c: var(--t-topic); }
+.game[data-game="tsa"] .ts-opt[data-k="service"] { --c: var(--t-service); }
+.game[data-game="tsa"] .ts-opt[data-k="action"] { --c: var(--t-action); }
+.game[data-game="tsa"] .ts-opt:not([disabled]):hover { background: color-mix(in srgb, var(--c) 8%, #fff); }
+.game[data-game="tsa"] .ts-opt:not([disabled]):active { transform: translateY(2px); }
+.game[data-game="tsa"] .ts-opt:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.game[data-game="tsa"] .ts-tray-top { display: flex; align-items: center; gap: 6px; color: var(--c); }
+.game[data-game="tsa"] .ts-tray-top svg { width: 22px; height: 22px; flex: none; }
+.game[data-game="tsa"] .ts-tray-top b { font-size: 1.1rem; font-weight: 700; color: var(--ink); }
+.game[data-game="tsa"] .ts-tray-sub { font-size: .86rem; line-height: 1.3; color: var(--ink-soft); }
+.game[data-game="tsa"] .ts-opt.right { background: color-mix(in srgb, var(--c) 10%, #fff); border-color: var(--c); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 30%, transparent); }
+.game[data-game="tsa"] .ts-opt.wrong { background: #FCEBE8; border-color: var(--axis-x); }
+.game[data-game="tsa"] .ts-opt[disabled] { opacity: 1; cursor: default; }
+/* the slips that pile up in each tray */
+.game[data-game="tsa"] .ts-stack { position: absolute; left: 10px; right: 10px; bottom: 8px; display: flex; flex-direction: column-reverse; gap: 2px; }
+.game[data-game="tsa"] .ts-stack i { height: 4px; border-radius: 1px; background: var(--c); animation: ts-drop .3s ease-out; }
+.game[data-game="tsa"] .ts-stack i.no { background: #fff; border: 1.5px solid var(--axis-x); height: 5px; }
+.game[data-game="tsa"] .ts-stack i:nth-child(odd) { margin-right: 6px; } .game[data-game="tsa"] .ts-stack i:nth-child(3n) { margin-left: 4px; }
+@keyframes ts-drop { from { transform: translateY(-26px); opacity: 0; } to { transform: none; opacity: 1; } }
+.game[data-game="tsa"] .ts-btns + .btn { justify-self: start; }
+
+@media (max-width: 560px) {
+  .game[data-game="tsa"] .ts-btns { gap: 8px; }
+  .game[data-game="tsa"] .ts-opt { min-height: 96px; padding: 8px 8px 30px; }
+  .game[data-game="tsa"] .ts-tray-sub { font-size: .78rem; }
+  .game[data-game="tsa"] .ts-tray-top b { font-size: 1rem; }
+  .game[data-game="tsa"] .ts-tray-top svg { display: none; }
+  .game[data-game="tsa"] .ts-card { font-size: 1.05rem; }
+  .game[data-game="tsa"] .ts-index { padding: 16px 16px 14px; }
+}
+@media (prefers-reduced-motion: reduce) { .game[data-game="tsa"] .ts-index { transition: none; } .game[data-game="tsa"] .ts-stack i { animation: none; } }

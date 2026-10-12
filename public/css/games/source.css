@@ -1,0 +1,62 @@
+/* Source It! An Ubuntu terminal: aubergine background, tabs in the header bar, the Tango prompt colours.
+   Beside it, what this terminal has loaded is a stack of sheets: Ubuntu at the bottom, the ROS 2 Jazzy underlay
+   on it, your workspace overlay on top; a sheet that is not loaded is only a dashed outline. Under the stack,
+   the end of ~/.bashrc on a paper scroll gains a highlighted line when you append to it. */
+.game[data-game="source"] { --aub: #300A24; --aub-bar: #2A2A2A; --so-ubuntu: #E95420; --so-jazzy: var(--axis-z); --so-ws: #2E8A52; }
+.game[data-game="source"] .so-wrap { display: grid; grid-template-columns: minmax(0, 1fr) 236px; gap: 16px; align-items: start; }
+
+.game[data-game="source"] .so-term { border: 0; border-radius: 10px; overflow: hidden; background: var(--aub); box-shadow: 0 10px 24px -14px rgba(48, 10, 36, .7); }
+.game[data-game="source"] .so-bar { display: flex; gap: 4px; align-items: center; padding: 6px; background: var(--aub-bar); border: 0; flex-wrap: wrap; }
+.game[data-game="source"] .so-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.game[data-game="source"] .so-tab, .game[data-game="source"] .so-new { font-family: var(--font-body); font-size: .84rem; border-radius: 6px; padding: 4px 12px; cursor: pointer; border: 0; background: transparent; color: #BDBDBD; }
+.game[data-game="source"] .so-tab:hover, .game[data-game="source"] .so-new:hover { background: #3A3A3A; color: #fff; }
+.game[data-game="source"] .so-tab[aria-selected="true"] { background: #464646; color: #fff; }
+.game[data-game="source"] .so-new { margin-left: auto; border: 1px dashed #6A6A6A; }
+.game[data-game="source"] .so-tab:focus-visible, .game[data-game="source"] .so-new:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
+.game[data-game="source"] .so-screen { height: 250px; overflow-y: auto; padding: 10px 12px; font-family: var(--font-mono); font-size: .86rem; line-height: 1.5; color: #EEEEEC; scrollbar-color: #6b4a60 var(--aub); }
+.game[data-game="source"] .so-line.err { color: #FF9B9B; }
+.game[data-game="source"] .so-line.out { color: #D3D7CF; }
+.game[data-game="source"] .so-pr { color: #EEEEEC; }
+.game[data-game="source"] .so-u { color: #8AE234; font-weight: 600; }
+.game[data-game="source"] .so-p { color: #8FB4E6; font-weight: 600; }
+
+/* the stack of loaded layers, overlay on top */
+.game[data-game="source"] .so-side { display: grid; gap: 8px; min-width: 0; }
+.game[data-game="source"] .so-belt { display: flex; flex-direction: column-reverse; gap: 0; margin: 0; padding: 0 8px; }
+.game[data-game="source"] .so-layer { position: relative; display: grid; gap: 0; line-height: 1.25; padding: 8px 12px; margin-top: -4px; border: 1.5px dashed #AEB8C6; border-radius: 6px; background: rgba(255, 255, 255, .7); color: #7B8798; box-shadow: none; transition: background-color .25s, color .25s, transform .25s; }
+.game[data-game="source"] .so-layer b { font-size: .95rem; }
+.game[data-game="source"] .so-layer span { font-size: .8rem; }
+.game[data-game="source"] .so-layer.base { margin: 0 -8px; }
+.game[data-game="source"] .so-layer.jazzy { margin-left: -4px; margin-right: -4px; }
+.game[data-game="source"] .so-layer.on { border-style: solid; color: #fff; box-shadow: 0 2px 0 rgba(23, 33, 47, .18); }
+.game[data-game="source"] .so-layer.base.on { background: var(--so-ubuntu); border-color: var(--so-ubuntu); }
+.game[data-game="source"] .so-layer.jazzy.on { background: var(--so-jazzy); border-color: var(--so-jazzy); }
+.game[data-game="source"] .so-layer.ws.on { background: var(--so-ws); border-color: var(--so-ws); }
+.game[data-game="source"] .so-layer:not(.on) { transform: translateY(-3px); }
+
+/* the end of ~/.bashrc, on a paper scroll */
+.game[data-game="source"] .so-scroll { position: relative; margin-top: 6px; padding: 12px 12px 10px; background: #FFFEF8; border: 1px solid var(--line); border-radius: 3px; box-shadow: inset 0 6px 6px -6px rgba(23, 33, 47, .2), inset 0 -6px 6px -6px rgba(23, 33, 47, .2); }
+.game[data-game="source"] .so-scroll::before, .game[data-game="source"] .so-scroll::after { content: ""; position: absolute; left: -5px; right: -5px; height: 9px; border-radius: 5px; background: linear-gradient(#F6EFD9, #E2D6B4); border: 1px solid #C9BC98; }
+.game[data-game="source"] .so-scroll::before { top: -6px; } .game[data-game="source"] .so-scroll::after { bottom: -6px; }
+.game[data-game="source"] .so-rc-name { font-family: var(--font-mono); font-size: .8rem; margin-bottom: 4px; }
+.game[data-game="source"] .so-rc { margin: 0; padding: 0; background: none; border: 0; font-family: var(--font-mono); font-size: .72rem; line-height: 1.5; color: #6B7686; white-space: pre-wrap; overflow-wrap: anywhere; display: grid; }
+.game[data-game="source"] .so-rcl.new { margin: 2px -4px 0; padding: 1px 4px; border-radius: 3px; background: var(--sun-tint); color: var(--ink); font-weight: 600; box-shadow: inset 2px 0 0 var(--sun-edge); animation: so-ink .6s ease-out; }
+@keyframes so-ink { from { background: var(--sun); } }
+
+/* commands: history slips with a $ in the margin */
+.game[data-game="source"] .so-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.game[data-game="source"] .so-chip { display: inline-flex; gap: 8px; align-items: baseline; font-family: var(--font-mono); font-size: .84rem; text-align: left; padding: 7px 11px; border: 1px solid var(--line); border-radius: 7px; background: #fff; color: var(--ink); box-shadow: inset 0 -2px 0 #DCE2EA; cursor: pointer; overflow-wrap: anywhere; }
+.game[data-game="source"] .so-chip:hover { border-color: var(--ink-soft); background: #fff; }
+.game[data-game="source"] .so-chip:active { transform: translateY(1px); box-shadow: none; }
+.game[data-game="source"] .so-dollar { color: #8AA0B8; font-weight: 600; }
+
+/* narrow: terminal, then the commands right under it, then the layers and ~/.bashrc */
+@media (max-width: 680px) {
+  .game[data-game="source"] .so-wrap { display: contents; }
+  .game[data-game="source"] .so-term { order: 1; }
+  .game[data-game="source"] .so-wrap ~ .rd-label { order: 2; margin-bottom: -6px; }
+  .game[data-game="source"] .so-chips { order: 3; }
+  .game[data-game="source"] .so-side { order: 4; }
+  .game[data-game="source"] .so-screen { height: 220px; }
+}
+@media (prefers-reduced-motion: reduce) { .game[data-game="source"] .so-layer { transition: none; } .game[data-game="source"] .so-rcl.new { animation: none; } }

@@ -1,0 +1,34 @@
+{
+ "tb3_burger": {
+  "cmd": "xacro $(ros2 pkg prefix turtlebot3_description)/share/turtlebot3_description/urdf/turtlebot3_burger.urdf",
+  "urdf": "robots/ws/turtlebot3/generated/tb3_burger.urdf",
+  "robot_name": "turtlebot3_burger",
+  "links": 7,
+  "joints": 6,
+  "site": {
+   "file": "robots/turtlebot3_description/urdf/turtlebot3_burger.urdf",
+   "links": 7,
+   "joints": 6
+  },
+  "links_only_in_ws": [],
+  "links_only_on_site": [],
+  "joints_only_in_ws": [],
+  "joints_only_on_site": []
+ },
+ "tb3_waffle": {
+  "cmd": "xacro $(ros2 pkg prefix turtlebot3_description)/share/turtlebot3_description/urdf/turtlebot3_waffle.urdf",
+  "urdf": "robots/ws/turtlebot3/generated/tb3_waffle.urdf",
+  "robot_name": "turtlebot3_waffle",
+  "links": 13,
+  "joints": 12,
+  "site": {
+   "file": "robots/turtlebot3_description/urdf/turtlebot3_waffle.urdf",
+   "links": 13,
+   "joints": 12
+  },
+  "links_only_in_ws": [],
+  "links_only_on_site": [],
+  "joints_only_in_ws": [],
+  "joints_only_on_site": []
+ }
+}

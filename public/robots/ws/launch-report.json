@@ -1,0 +1,625 @@
+{
+ "generated": "2026-10-11T01:50:19.989Z",
+ "results": [
+  {
+   "wsid": "crazyswarm2",
+   "robot": "crazyflie",
+   "kind": "sim",
+   "cmd": "ros2 launch crazyflie launch.py backend:=sim",
+   "status": "PASS",
+   "procs": 3,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "crazyswarm2",
+   "robot": "crazyflie",
+   "kind": "teleop",
+   "cmd": "ros2 launch crazyflie_examples keyboard_velmux_launch.py",
+   "status": "PASS",
+   "procs": 2,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "crazyswarm2",
+   "robot": "crazyflie",
+   "kind": "real",
+   "cmd": "ros2 launch crazyflie launch.py",
+   "status": "PASS",
+   "procs": 4,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "dobot",
+   "robot": "cr5",
+   "kind": "sim",
+   "cmd": "ros2 launch dobot_gazebo dobot_gazebo.launch.py",
+   "status": "PASS",
+   "procs": 5,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "dobot",
+   "robot": "cr5",
+   "kind": "moveit",
+   "cmd": "ros2 launch dobot_gazebo sim.launch.py",
+   "status": "PASS",
+   "procs": 7,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "dobot",
+   "robot": "cr5",
+   "kind": "moveit",
+   "cmd": "ros2 launch dobot_moveit moveit_demo.launch.py",
+   "status": "PASS",
+   "procs": 4,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "dobot",
+   "robot": "cr5",
+   "kind": "rviz",
+   "cmd": "ros2 launch dobot_rviz dobot_rviz.launch.py",
+   "status": "PASS",
+   "procs": 3,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "dobot",
+   "robot": "cr5",
+   "kind": "real",
+   "cmd": "ros2 launch dobot_bringup_v4 dobot_bringup_ros2.launch.py",
+   "status": "PASS",
+   "procs": 1,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "dobot",
+   "robot": "cr5",
+   "kind": "real",
+   "cmd": "ros2 launch dobot_moveit dobot_moveit.launch.py",
+   "status": "PASS",
+   "procs": 5,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "franka",
+   "robot": "fr3",
+   "kind": "sim",
+   "cmd": "ros2 launch franka_gazebo_bringup visualize_franka_robot.launch.py",
+   "status": "PASS",
+   "procs": 7,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "franka",
+   "robot": "fr3",
+   "kind": "sim",
+   "cmd": "ros2 launch franka_gazebo_bringup gazebo_franka_arm_example_controller.launch.py load_gripper:=true franka_hand:='franka_hand' controller:='joint_impedance_example_controller'",
+   "status": "PASS",
+   "procs": 6,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "franka",
+   "robot": "fr3",
+   "kind": "moveit",
+   "cmd": "ros2 launch franka_fr3_moveit_config moveit.launch.py robot_ip:=dont-care use_fake_hardware:=true",
+   "status": "PASS",
+   "procs": 8,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "franka",
+   "robot": "fr3",
+   "kind": "rviz",
+   "cmd": "ros2 launch franka_description visualize_franka.launch.py robot_type:=fr3",
+   "status": "PASS",
+   "procs": 3,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "franka",
+   "robot": "fr3",
+   "kind": "real",
+   "cmd": "ros2 launch franka_fr3_moveit_config moveit.launch.py robot_ip:=<fci-ip>",
+   "status": "PASS",
+   "procs": 9,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "franka",
+   "robot": "fr3",
+   "kind": "real",
+   "cmd": "ros2 launch franka_bringup example.launch.py controller_names:=move_to_start_example_controller",
+   "status": "PASS",
+   "procs": 8,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "interbotix",
+   "robot": "wx250s",
+   "kind": "moveit",
+   "cmd": "ros2 launch interbotix_xsarm_moveit xsarm_moveit.launch.py robot_model:=wx250s hardware_type:=fake",
+   "status": "PASS",
+   "procs": 7,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "interbotix",
+   "robot": "wx250s",
+   "kind": "rviz",
+   "cmd": "ros2 launch interbotix_xsarm_descriptions xsarm_description.launch.py robot_model:=wx250s use_joint_pub_gui:=true",
+   "status": "PASS",
+   "procs": 3,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "interbotix",
+   "robot": "wx250s",
+   "kind": "fake",
+   "cmd": "ros2 launch interbotix_xsarm_control xsarm_control.launch.py robot_model:=wx250s hardware_type:=fake",
+   "status": "PASS",
+   "procs": 3,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "interbotix",
+   "robot": "wx250s",
+   "kind": "real",
+   "cmd": "ros2 launch interbotix_xsarm_control xsarm_control.launch.py robot_model:=wx250s",
+   "status": "PASS",
+   "procs": 3,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "interbotix",
+   "robot": "wx250s",
+   "kind": "real",
+   "cmd": "ros2 launch interbotix_xsarm_moveit xsarm_moveit.launch.py robot_model:=wx250s hardware_type:=actual",
+   "status": "PASS",
+   "procs": 7,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "kortex",
+   "robot": "gen3",
+   "kind": "sim",
+   "cmd": "ros2 launch kortex_bringup kortex_sim_control.launch.py use_sim_time:=true launch_rviz:=false",
+   "status": "PASS",
+   "procs": 10,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "kortex",
+   "robot": "gen3",
+   "kind": "moveit",
+   "cmd": "ros2 launch kinova_gen3_7dof_robotiq_2f_85_moveit_config sim.launch.py use_sim_time:=true",
+   "status": "PASS",
+   "procs": 2,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "kortex",
+   "robot": "gen3",
+   "kind": "moveit",
+   "cmd": "ros2 launch kinova_gen3_7dof_robotiq_2f_85_moveit_config robot.launch.py robot_ip:=yyy.yyy.yyy.yyy use_fake_hardware:=true",
+   "status": "PASS",
+   "procs": 9,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "kortex",
+   "robot": "gen3",
+   "kind": "rviz",
+   "cmd": "ros2 launch kortex_description view_robot.launch.py",
+   "status": "PASS",
+   "procs": 3,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "kortex",
+   "robot": "gen3",
+   "kind": "fake",
+   "cmd": "ros2 launch kortex_bringup gen3.launch.py robot_ip:=yyy.yyy.yyy.yyy use_fake_hardware:=true",
+   "status": "PASS",
+   "procs": 7,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "kortex",
+   "robot": "gen3",
+   "kind": "real",
+   "cmd": "ros2 launch kortex_bringup gen3.launch.py robot_ip:=192.168.1.10",
+   "status": "PASS",
+   "procs": 8,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "kortex",
+   "robot": "gen3",
+   "kind": "real",
+   "cmd": "ros2 launch kinova_gen3_7dof_robotiq_2f_85_moveit_config robot.launch.py robot_ip:=192.168.1.10",
+   "status": "PASS",
+   "procs": 10,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "scout",
+   "robot": "scout",
+   "kind": "rviz",
+   "cmd": "ros2 launch scout_description scout_base_description.launch.py",
+   "status": "PASS",
+   "procs": 1,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "scout",
+   "robot": "scout",
+   "kind": "real",
+   "cmd": "ros2 launch scout_base scout_base.launch.py",
+   "status": "PASS",
+   "procs": 1,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "turtlebot3",
+   "robot": "tb3_burger",
+   "kind": "sim",
+   "cmd": "ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py",
+   "status": "PASS",
+   "procs": 5,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "turtlebot3",
+   "robot": "tb3_waffle",
+   "kind": "sim",
+   "cmd": "ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py",
+   "status": "PASS",
+   "procs": 6,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "turtlebot3",
+   "robot": "tb3_burger",
+   "kind": "sim",
+   "cmd": "ros2 launch turtlebot3_gazebo empty_world.launch.py",
+   "status": "PASS",
+   "procs": 5,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "turtlebot3",
+   "robot": "tb3_waffle",
+   "kind": "sim",
+   "cmd": "ros2 launch turtlebot3_gazebo empty_world.launch.py",
+   "status": "PASS",
+   "procs": 6,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "turtlebot3",
+   "robot": "tb3_burger",
+   "kind": "sim",
+   "cmd": "ros2 launch turtlebot3_gazebo turtlebot3_house.launch.py",
+   "status": "PASS",
+   "procs": 5,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "turtlebot3",
+   "robot": "tb3_waffle",
+   "kind": "sim",
+   "cmd": "ros2 launch turtlebot3_gazebo turtlebot3_house.launch.py",
+   "status": "PASS",
+   "procs": 6,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "turtlebot3",
+   "robot": "tb3_burger",
+   "kind": "slam",
+   "cmd": "ros2 launch turtlebot3_cartographer cartographer.launch.py use_sim_time:=True",
+   "status": "PASS",
+   "procs": 3,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "turtlebot3",
+   "robot": "tb3_waffle",
+   "kind": "slam",
+   "cmd": "ros2 launch turtlebot3_cartographer cartographer.launch.py use_sim_time:=True",
+   "status": "PASS",
+   "procs": 3,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "turtlebot3",
+   "robot": "tb3_burger",
+   "kind": "nav",
+   "cmd": "ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True map:=$HOME/map.yaml",
+   "status": "LIMIT",
+   "procs": 1,
+   "rc": 1,
+   "error": "[ERROR] [launch]: Caught exception in launch (see debug for traceback): invalid parameter value True"
+  },
+  {
+   "wsid": "turtlebot3",
+   "robot": "tb3_waffle",
+   "kind": "nav",
+   "cmd": "ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True map:=$HOME/map.yaml",
+   "status": "LIMIT",
+   "procs": 1,
+   "rc": 1,
+   "error": "[ERROR] [launch]: Caught exception in launch (see debug for traceback): invalid parameter value True"
+  },
+  {
+   "wsid": "turtlebot3",
+   "robot": "tb3_burger",
+   "kind": "rviz",
+   "cmd": "ros2 launch turtlebot3_bringup rviz2.launch.py",
+   "status": "PASS",
+   "procs": 1,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "turtlebot3",
+   "robot": "tb3_waffle",
+   "kind": "rviz",
+   "cmd": "ros2 launch turtlebot3_bringup rviz2.launch.py",
+   "status": "PASS",
+   "procs": 1,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "turtlebot3",
+   "robot": "tb3_burger",
+   "kind": "fake",
+   "cmd": "ros2 launch turtlebot3_fake_node turtlebot3_fake_node.launch.py",
+   "status": "PASS",
+   "procs": 3,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "turtlebot3",
+   "robot": "tb3_waffle",
+   "kind": "fake",
+   "cmd": "ros2 launch turtlebot3_fake_node turtlebot3_fake_node.launch.py",
+   "status": "PASS",
+   "procs": 3,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "turtlebot3",
+   "robot": "tb3_burger",
+   "kind": "real",
+   "cmd": "ros2 launch turtlebot3_bringup robot.launch.py",
+   "status": "PASS",
+   "procs": 3,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "turtlebot3",
+   "robot": "tb3_waffle",
+   "kind": "real",
+   "cmd": "ros2 launch turtlebot3_bringup robot.launch.py",
+   "status": "PASS",
+   "procs": 3,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "ur",
+   "robot": "ur5e",
+   "kind": "sim",
+   "cmd": "ros2 launch ur_simulation_gz ur_sim_control.launch.py ur_type:=ur5e",
+   "status": "PASS",
+   "procs": 7,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "ur",
+   "robot": "ur5e",
+   "kind": "moveit",
+   "cmd": "ros2 launch ur_simulation_gz ur_sim_moveit.launch.py ur_type:=ur5e",
+   "status": "PASS",
+   "procs": 9,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "ur",
+   "robot": "ur5e",
+   "kind": "moveit",
+   "cmd": "ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur5e robot_ip:=yyy.yyy.yyy.yyy use_mock_hardware:=true launch_rviz:=false",
+   "status": "PASS",
+   "procs": 5,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "ur",
+   "robot": "ur5e",
+   "kind": "moveit",
+   "cmd": "ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur5e launch_rviz:=true",
+   "status": "PASS",
+   "procs": 3,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "ur",
+   "robot": "ur5e",
+   "kind": "rviz",
+   "cmd": "ros2 launch ur_description view_ur.launch.py ur_type:=ur5e",
+   "status": "PASS",
+   "procs": 3,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "ur",
+   "robot": "ur5e",
+   "kind": "real",
+   "cmd": "ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur5e robot_ip:=192.168.56.101 launch_rviz:=true",
+   "status": "PASS",
+   "procs": 10,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "ur",
+   "robot": "ur5e",
+   "kind": "real",
+   "cmd": "ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur5e launch_rviz:=true",
+   "status": "PASS",
+   "procs": 3,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "xarm",
+   "robot": "xarm6",
+   "kind": "sim",
+   "cmd": "ros2 launch xarm_gazebo xarm6_beside_table_gazebo.launch.py",
+   "status": "PASS",
+   "procs": 4,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "xarm",
+   "robot": "lite6",
+   "kind": "sim",
+   "cmd": "ros2 launch xarm_gazebo lite6_beside_table_gazebo.launch.py",
+   "status": "PASS",
+   "procs": 4,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "xarm",
+   "robot": "xarm6",
+   "kind": "moveit",
+   "cmd": "ros2 launch xarm_moveit_config xarm6_moveit_fake.launch.py",
+   "status": "PASS",
+   "procs": 7,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "xarm",
+   "robot": "xarm6",
+   "kind": "moveit",
+   "cmd": "ros2 launch xarm_moveit_config xarm6_moveit_gazebo.launch.py",
+   "status": "PASS",
+   "procs": 9,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "xarm",
+   "robot": "lite6",
+   "kind": "moveit",
+   "cmd": "ros2 launch xarm_moveit_config lite6_moveit_fake.launch.py",
+   "status": "PASS",
+   "procs": 7,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "xarm",
+   "robot": "lite6",
+   "kind": "moveit",
+   "cmd": "ros2 launch xarm_moveit_config lite6_moveit_gazebo.launch.py",
+   "status": "PASS",
+   "procs": 9,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "xarm",
+   "robot": "xarm6",
+   "kind": "rviz",
+   "cmd": "ros2 launch xarm_description xarm6_rviz_display.launch.py",
+   "status": "PASS",
+   "procs": 3,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "xarm",
+   "robot": "lite6",
+   "kind": "rviz",
+   "cmd": "ros2 launch xarm_description lite6_rviz_display.launch.py",
+   "status": "PASS",
+   "procs": 3,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "xarm",
+   "robot": "xarm6",
+   "kind": "real",
+   "cmd": "ros2 launch xarm_moveit_config xarm6_moveit_realmove.launch.py robot_ip:=192.168.1.117",
+   "status": "PASS",
+   "procs": 7,
+   "rc": 0,
+   "error": null
+  },
+  {
+   "wsid": "xarm",
+   "robot": "lite6",
+   "kind": "real",
+   "cmd": "ros2 launch xarm_moveit_config lite6_moveit_realmove.launch.py robot_ip:=192.168.1.161",
+   "status": "PASS",
+   "procs": 7,
+   "rc": 0,
+   "error": null
+  }
+ ]
+}

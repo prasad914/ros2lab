@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!-- Chiku with MESH visuals (STL files drawn in millimetres) and simple collision shapes -->
+<robot name="chiku_mesh" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="../../common/urdf/macros.xacro"/>
+  <xacro:property name="mm" value="0.001"/>
+  <link name="base_footprint"/>
+  <joint name="base_joint" type="fixed"><parent link="base_footprint"/><child link="base_link"/><origin xyz="0 0 0.08"/></joint>
+  <link name="base_link">
+    <visual>
+      <geometry><mesh filename="package://chiku_description/meshes/chiku_body.stl" scale="${mm} ${mm} ${mm}"/></geometry>
+      <material name="orange"/>
+    </visual>
+    <collision><origin xyz="0 0 0.075"/><geometry><box size="0.5 0.3 0.15"/></geometry></collision>
+    <xacro:box_inertia m="4.0" x="0.5" y="0.3" z="0.15" xyz="0 0 0.075"/>
+  </link>
+  <xacro:macro name="wheel" params="side y_sign">
+    <joint name="${side}_wheel_joint" type="continuous">
+      <parent link="base_link"/><child link="${side}_wheel_link"/><origin xyz="-0.1 ${y_sign*0.17} 0"/><axis xyz="0 1 0"/>
+    </joint>
+    <link name="${side}_wheel_link">
+      <visual>
+        <geometry><mesh filename="package://chiku_description/meshes/chiku_wheel.stl" scale="${mm} ${mm} ${mm}"/></geometry>
+        <material name="dark_grey"/>
+      </visual>
+      <collision><origin rpy="${pi/2} 0 0"/><geometry><cylinder radius="0.08" length="0.04"/></geometry></collision>
+      <xacro:cylinder_inertia m="0.4" r="0.08" h="0.04" rpy="${pi/2} 0 0"/>
+    </link>
+  </xacro:macro>
+  <xacro:wheel side="left" y_sign="1"/>
+  <xacro:wheel side="right" y_sign="-1"/>
+  <joint name="caster_joint" type="fixed"><parent link="base_link"/><child link="caster_link"/><origin xyz="0.18 0 -0.04"/></joint>
+  <link name="caster_link">
+    <visual><geometry><sphere radius="0.04"/></geometry><material name="sky_blue"/></visual>
+    <collision><geometry><sphere radius="0.04"/></geometry></collision>
+    <xacro:sphere_inertia m="0.1" r="0.04"/>
+  </link>
+</robot>

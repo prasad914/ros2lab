@@ -1,0 +1,78 @@
+{
+ "wsid": "dobot",
+ "robot": "cr5",
+ "cmd": "ros2 launch dobot_gazebo dobot_gazebo.launch.py",
+ "procs": [
+  {
+   "pid": 4300,
+   "cmd": [
+    "ruby /bin/gz sim",
+    "-r empty.sdf",
+    "--force-version",
+    "8"
+   ],
+   "env": {
+    "AMENT_PREFIX_PATH": "/home/student/ros2_ws/install:/opt/ros/jazzy",
+    "GZ_SIM_SYSTEM_PLUGIN_PATH": "::",
+    "GZ_SIM_RESOURCE_PATH": ":"
+   },
+   "files": {}
+  },
+  {
+   "pid": 4301,
+   "cmd": [
+    "/opt/ros/jazzy/lib/ros_gz_bridge/parameter_bridge",
+    "/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock",
+    "--ros-args"
+   ],
+   "env": {
+    "AMENT_PREFIX_PATH": "/home/student/ros2_ws/install:/opt/ros/jazzy"
+   },
+   "files": {}
+  },
+  {
+   "pid": 4302,
+   "cmd": [
+    "/opt/ros/jazzy/lib/robot_state_publisher/robot_state_publisher",
+    "--ros-args",
+    "--params-file",
+    "/tmp/launch_params_h2en3tox"
+   ],
+   "env": {
+    "AMENT_PREFIX_PATH": "/home/student/ros2_ws/install:/opt/ros/jazzy"
+   },
+   "files": {
+    "/tmp/launch_params_h2en3tox": "/**:\n  ros__parameters:\n    robot_description: \"<?xml version=\\\"1.0\\\" ?><robot name=\\\"cr5_robot\\\"><link name=\\\"\\\n      dummy_link\\\"/><link name=\\\"base_link\\\"><inertial><origin rpy=\\\"0 0 0\\\" xyz=\\\"\\\n      -7.94481692926771E-06 0.00312979848669993 0.0289305341801692\\\"/><mass value=\\\"\\\n      0.921803441591401\\\"/><inertia ixx=\\\"0.00155218443258025\\\" ixy=\\\"4.57972945608826E-08\\\"\\\n      \\ ixz=\\\"-1.88985548171397E-07\\\" iyy=\\\"0.0013468290665964\\\" iyz=\\\"-1.49049888586631E-06\\\"\\\n      \\ izz=\\\"0.00225259728822295\\\"/></inertial><visual><origin rpy=\\\"0 0 0\\\" xyz=\\\"\\\n      0 0 0\\\"/><geometry><mesh filename=\\\"file:///home/student/ros2_ws/install/share/cra_description/meshes/cr5/base_link.STL\\\"\\\n      /></geometry><material name=\\\"\\\"><color rgba=\\\"0.792156862745098 0.819607843137255\\\n      \\ 0.933333333333333 1\\\"/></material></visual><collision><origin rpy=\\\"0 0 0\\\"\\\n      \\ xyz=\\\"0 0 0\\\"/><geometry><mesh filename=\\\"file:///home/student/ros2_ws/install/share/cra_description/meshes/cr5/base_link.STL\\\"\\\n      /></geometry></collision></link><link name=\\\"world\\\"/><joint name=\\\"world_joint\\\"\\\n      \\ type=\\\"fixed\\\"><origin rpy=\\\"0 0 0\\\" xyz=\\\"0 0 0.03\\\"/><parent link=\\\"world\\\"\\\n      /><child link=\\\"dummy_link\\\"/></joint><joint name=\\\"dummy_joint\\\" type=\\\"fixed\\\"\\\n      ><parent link=\\\"dummy_link\\\"/><child link=\\\"base_link\\\"/></joint><link name=\\\"\\\n      Link1\\\"><inertial><origin rpy=\\\"0 0 0\\\" xyz=\\\"1.73246183103459E-07 -0.00325457191611467\\\n      \\ -0.00763347019440543\\\"/><mass value=\\\"1.61309076753593\\\"/><inertia ixx=\\\"\\\n      0.00546783618974324\\\" ixy=\\\"1.55105105896333E-09\\\" ixz=\\\"-7.41656921043421E-08\\\"\\\n      \\ iyy=\\\"0.00525034621721433\\\" iyz=\\\"-9.78846785618848E-05\\\" izz=\\\"0.00340956817185818\\\"\\\n      /></inertial><visual><origin rpy=\\\"0 0 0\\\" xyz=\\\"0 0 0\\\"/><geometry><mesh filename=\\\"\\\n      file:///home/student/ros2_ws/install/share/cra_description/meshes/cr5/J1.STL\\\"\\\n      /></geometry><material name=\\\"\\\"><color rgba=\\\"0.792156862745098 0.819607843137255\\\n      \\ 0.933333333333333 1\\\"/></material></visual><collision><origin rpy=\\\"0 0 0\\\"\\\n      \\ xyz=\\\"0 0 0\\\"/><geometry><mesh filename=\\\"file:///home/student/ros2_ws/install/share/cra_description/meshes/cr5/J1.STL\\\"\\\n      /></geometry></collision></link><joint name=\\\"joint1\\\" type=\\\"revolute\\\"><origin\\\n      \\ rpy=\\\"0 0 0\\\" xyz=\\\"0 0 0.147\\\"/><parent link=\\\"base_link\\\"/><child link=\\\"\\\n      Link1\\\"/><axis xyz=\\\"0 0 1\\\"/><limit effort=\\\"300\\\" lower=\\\"-6.28\\\" upper=\\\"\\\n      6.28\\\" velocity=\\\"3.14\\\"/></joint><link name=\\\"Link2\\\"><inertial><origin rpy=\\\"\\\n      0 0 0\\\" xyz=\\\"-0.213514541447242 -0.000174145825908622 0.142532293229243\\\"/><mass\\\n      \\ value=\\\"5.52502766431306\\\"/><inertia ixx=\\\"0.0135390102321012\\\" ixy=\\\"-0.000132792191512557\\\"\\\n      \\ ixz=\\\"1.08942594671362E-06\\\" iyy=\\\"0.175351190928579\\\" iyz=\\\"-1.55761894405212E-07\\\"\\\n      \\ izz=\\\"0.171155665794094\\\"/></inertial><visual><origin rpy=\\\"0 0 0\\\" xyz=\\\"\\\n      0 0 0\\\"/><geometry><mesh filename=\\\"file:///home/student/ros2_ws/install/share/cra_description/meshes/cr5/J2.STL\\\"\\\n      /></geometry><material name=\\\"\\\"><color rgba=\\\"0.792156862745098 0.819607843137255\\\n      \\ 0.933333333333333 1\\\"/></material></visual><collision><origin rpy=\\\"0 0 0\\\"\\\n      \\ xyz=\\\"0 0 0\\\"/><geometry><mesh filename=\\\"file:///home/student/ros2_ws/install/share/cra_description/meshes/cr5/J2.STL\\\"\\\n      /></geometry></collision></link><joint name=\\\"joint2\\\" type=\\\"revolute\\\"><origin\\\n      \\ rpy=\\\"1.5708 1.5708 0\\\" xyz=\\\"0 0 0\\\"/><parent link=\\\"Link1\\\"/><child link=\\\"\\\n      Link2\\\"/><axis xyz=\\\"0 0 1\\\"/><limit effort=\\\"300\\\" lower=\\\"-6.28\\\" upper=\\\"\\\n      6.28\\\" velocity=\\\"3.14\\\"/></joint><link name=\\\"Link3\\\"><inertial><origin rpy=\\\"\\\n      0 0 0\\\" xyz=\\\"-0.152341668261688 0.000149359452503151 0.0226831470311876\\\"/><mass\\\n      \\ value=\\\"2.85389421082174\\\"/><inertia ixx=\\\"0.00426233866492008\\\" ixy=\\\"5.97680353890416E-05\\\"\\\n      \\ ixz=\\\"0.00145366515031237\\\" iyy=\\\"0.0651295114823361\\\" iyz=\\\"-1.39806459057094E-06\\\"\\\n      \\ izz=\\\"0.0643864464792015\\\"/></inertial><visual><origin rpy=\\\"0 0 0\\\" xyz=\\\"\\\n      0 0 0\\\"/><geometry><mesh filename=\\\"file:///home/student/ros2_ws/install/share/cra_description/meshes/cr5/J3.STL\\\"\\\n      /></geometry><material name=\\\"\\\"><color rgba=\\\"0.792156862745098 0.819607843137255\\\n      \\ 0.933333333333333 1\\\"/></material></visual><collision><origin rpy=\\\"0 0 0\\\"\\\n      \\ xyz=\\\"0 0 0\\\"/><geometry><mesh filename=\\\"file:///home/student/ros2_ws/install/share/cra_description/meshes/cr5/J3.STL\\\"\\\n      /></geometry></collision></link><joint name=\\\"joint3\\\" type=\\\"revolute\\\"><origin\\\n      \\ rpy=\\\"0 0 0\\\" xyz=\\\"-0.427 -0.00034866 0\\\"/><parent link=\\\"Link2\\\"/><child\\\n      \\ link=\\\"Link3\\\"/><axis xyz=\\\"0 0 1\\\"/><limit effort=\\\"300\\\" lower=\\\"-2.792\\\"\\\n      \\ upper=\\\"2.792\\\" velocity=\\\"3.14\\\"/></joint><link name=\\\"Link4\\\"><inertial><origin\\\n      \\ rpy=\\\"0 0 0\\\" xyz=\\\"5.59497173461253E-08 -0.00203370549966442 -0.00155327517554493\\\"\\\n      /><mass value=\\\"0.670967728058518\\\"/><inertia ixx=\\\"0.00165215048696393\\\" ixy=\\\"\\\n      6.99884063757388E-10\\\" ixz=\\\"-2.82735061927927E-09\\\" iyy=\\\"0.000679018426564622\\\"\\\n      \\ iyz=\\\"-3.9331196747873E-05\\\" izz=\\\"0.00161207334026771\\\"/></inertial><visual><origin\\\n      \\ rpy=\\\"0 0 0\\\" xyz=\\\"0 0 0\\\"/><geometry><mesh filename=\\\"file:///home/student/ros2_ws/install/share/cra_description/meshes/cr5/J4.STL\\\"\\\n      /></geometry><material name=\\\"\\\"><color rgba=\\\"0.792156862745098 0.819607843137255\\\n      \\ 0.933333333333333 1\\\"/></material></visual><collision><origin rpy=\\\"0 0 0\\\"\\\n      \\ xyz=\\\"0 0 0\\\"/><geometry><mesh filename=\\\"file:///home/student/ros2_ws/install/share/cra_description/meshes/cr5/J4.STL\\\"\\\n      /></geometry></collision></link><joint name=\\\"joint4\\\" type=\\\"revolute\\\"><origin\\\n      \\ rpy=\\\"0 0 -1.5708\\\" xyz=\\\"-0.357 0.00034866 0.141\\\"/><parent link=\\\"Link3\\\"\\\n      /><child link=\\\"Link4\\\"/><axis xyz=\\\"0 0 1\\\"/><limit effort=\\\"300\\\" lower=\\\"\\\n      -6.28\\\" upper=\\\"6.28\\\" velocity=\\\"3.14\\\"/></joint><link name=\\\"Link5\\\"><inertial><origin\\\n      \\ rpy=\\\"0 0 0\\\" xyz=\\\"1.66839344582068E-08 -0.00612503200433553 -0.00127182253467861\\\"\\\n      /><mass value=\\\"0.741136954745254\\\"/><inertia ixx=\\\"0.00212858333782698\\\" ixy=\\\"\\\n      -3.05114118302956E-08\\\" ixz=\\\"1.84587334372261E-08\\\" iyy=\\\"0.000739514141641333\\\"\\\n      \\ iyz=\\\"5.38479498016834E-05\\\" izz=\\\"0.00208815449047131\\\"/></inertial><visual><origin\\\n      \\ rpy=\\\"0 0 0\\\" xyz=\\\"0 0 0\\\"/><geometry><mesh filename=\\\"file:///home/student/ros2_ws/install/share/cra_description/meshes/cr5/J5.STL\\\"\\\n      /></geometry><material name=\\\"\\\"><color rgba=\\\"0.792156862745098 0.819607843137255\\\n      \\ 0.933333333333333 1\\\"/></material></visual><collision><origin rpy=\\\"0 0 0\\\"\\\n      \\ xyz=\\\"0 0 0\\\"/><geometry><mesh filename=\\\"file:///home/student/ros2_ws/install/share/cra_description/meshes/cr5/J5.STL\\\"\\\n      /></geometry></collision></link><joint name=\\\"joint5\\\" type=\\\"revolute\\\"><origin\\\n      \\ rpy=\\\"1.5708 0 0\\\" xyz=\\\"0 -0.116 0\\\"/><parent link=\\\"Link4\\\"/><child link=\\\"\\\n      Link5\\\"/><axis xyz=\\\"0 0 1\\\"/><limit effort=\\\"300\\\" lower=\\\"-6.28\\\" upper=\\\"\\\n      6.28\\\" velocity=\\\"3.14\\\"/></joint><link name=\\\"Link6\\\"><inertial><origin rpy=\\\"\\\n      0 0 0\\\" xyz=\\\"4.94396980619616E-11 9.3763228635857E-05 -0.019285436425589\\\"\\\n      /><mass value=\\\"0.157885369717385\\\"/><inertia ixx=\\\"7.94006759268348E-05\\\" ixy=\\\"\\\n      4.6621042011945E-15\\\" ixz=\\\"2.94413450080265E-14\\\" iyy=\\\"7.91691792019657E-05\\\"\\\n      \\ iyz=\\\"-9.61313747365424E-08\\\" izz=\\\"0.000130860179835048\\\"/></inertial><visual><origin\\\n      \\ rpy=\\\"0 0 0\\\" xyz=\\\"0 0 0\\\"/><geometry><mesh filename=\\\"file:///home/student/ros2_ws/install/share/cra_description/meshes/cr5/J6.STL\\\"\\\n      /></geometry><material name=\\\"\\\"><color rgba=\\\"0.792156862745098 0.819607843137255\\\n      \\ 0.933333333333333 1\\\"/></material></visual><collision><origin rpy=\\\"0 0 0\\\"\\\n      \\ xyz=\\\"0 0 0\\\"/><geometry><mesh filename=\\\"file:///home/student/ros2_ws/install/share/cra_description/meshes/cr5/J6.STL\\\"\\\n      /></geometry></collision></link><joint name=\\\"joint6\\\" type=\\\"revolute\\\"><origin\\\n      \\ rpy=\\\"-1.5708 0 0\\\" xyz=\\\"0 0.105 0\\\"/><parent link=\\\"Link5\\\"/><child link=\\\"\\\n      Link6\\\"/><axis xyz=\\\"0 0 1\\\"/><limit effort=\\\"300\\\" lower=\\\"-6.28\\\" upper=\\\"\\\n      6.28\\\" velocity=\\\"3.14\\\"/></joint><gazebo reference=\\\"base_link\\\"><gravity>false</gravity><selfCollide>true</selfCollide></gazebo><gazebo\\\n      \\ reference=\\\"Link1\\\"><gravity>false</gravity><selfCollide>true</selfCollide></gazebo><gazebo\\\n      \\ reference=\\\"Link2\\\"><gravity>false</gravity><selfCollide>true</selfCollide></gazebo><gazebo\\\n      \\ reference=\\\"Link3\\\"><gravity>false</gravity><selfCollide>true</selfCollide></gazebo><gazebo\\\n      \\ reference=\\\"Link4\\\"><gravity>false</gravity><selfCollide>true</selfCollide></gazebo><gazebo\\\n      \\ reference=\\\"Link5\\\"><gravity>false</gravity><selfCollide>true</selfCollide></gazebo><gazebo\\\n      \\ reference=\\\"Link6\\\"><gravity>false</gravity><selfCollide>true</selfCollide></gazebo><!--\\\n      \\ \\u5728\\u8FD0\\u884Cdemo.launch.py\\u65F6\\uFF0C\\u9700\\u8981\\u6CE8\\u91CA\\u8FD9\\\n      \\u4E2Aros2_control\\u8282\\u70B9\\uFF0C\\u56E0\\u4E3A\\u5B83\\u4F7F\\u7528\\u4E86xxx.ros2_control.xacro\\u6765\\\n      \\u751F\\u6210\\u4E86ros2_control\\u8282\\u70B9--><ros2_control name=\\\"GazeboSystem\\\"\\\n      \\ type=\\\"system\\\"><hardware><plugin>gz_ros2_control/GazeboSimSystem</plugin></hardware><joint\\\n      \\ name=\\\"joint1\\\"><command_interface name=\\\"position\\\"><param name=\\\"min\\\">-1</param><param\\\n      \\ name=\\\"max\\\">1</param></command_interface><state_interface name=\\\"position\\\"\\\n      ><param name=\\\"initial_value\\\">0.0</param></state_interface><state_interface\\\n      \\ name=\\\"velocity\\\"/></joint><joint name=\\\"joint2\\\"><command_interface name=\\\"\\\n      position\\\"><param name=\\\"min\\\">-1</param><param name=\\\"max\\\">1</param></command_interface><state_interface\\\n      \\ name=\\\"position\\\"><param name=\\\"initial_value\\\">0.0</param></state_interface><state_interface\\\n      \\ name=\\\"velocity\\\"/></joint><joint name=\\\"joint3\\\"><command_interface name=\\\"\\\n      position\\\"><param name=\\\"min\\\">-1</param><param name=\\\"max\\\">1</param></command_interface><state_interface\\\n      \\ name=\\\"position\\\"><param name=\\\"initial_value\\\">0.0</param></state_interface><state_interface\\\n      \\ name=\\\"velocity\\\"/></joint><joint name=\\\"joint4\\\"><command_interface name=\\\"\\\n      position\\\"><param name=\\\"min\\\">-1</param><param name=\\\"max\\\">1</param></command_interface><state_interface\\\n      \\ name=\\\"position\\\"><param name=\\\"initial_value\\\">0.0</param></state_interface><state_interface\\\n      \\ name=\\\"velocity\\\"/></joint><joint name=\\\"joint5\\\"><command_interface name=\\\"\\\n      position\\\"><param name=\\\"min\\\">-1</param><param name=\\\"max\\\">1</param></command_interface><state_interface\\\n      \\ name=\\\"position\\\"><param name=\\\"initial_value\\\">0.0</param></state_interface><state_interface\\\n      \\ name=\\\"velocity\\\"/></joint><joint name=\\\"joint6\\\"><command_interface name=\\\"\\\n      position\\\"><param name=\\\"min\\\">-1</param><param name=\\\"max\\\">1</param></command_interface><state_interface\\\n      \\ name=\\\"position\\\"><param name=\\\"initial_value\\\">0.0</param></state_interface><state_interface\\\n      \\ name=\\\"velocity\\\"/></joint></ros2_control><gazebo><plugin filename=\\\"gz_ros2_control-system\\\"\\\n      \\ name=\\\"gz_ros2_control::GazeboSimROS2ControlPlugin\\\"><parameters> /home/student/ros2_ws/install/share/cr5_moveit/config/ros2_controllers.yaml</parameters><robot_param_node>robot_state_publisher</robot_param_node></plugin></gazebo></robot>\"\n    use_sim_time: true\n"
+   }
+  },
+  {
+   "pid": 4303,
+   "cmd": [
+    "/opt/ros/jazzy/lib/ros_gz_sim/create",
+    "-topic",
+    "robot_description",
+    "-name",
+    "cr5_robot",
+    "--ros-args"
+   ],
+   "env": {
+    "AMENT_PREFIX_PATH": "/home/student/ros2_ws/install:/opt/ros/jazzy"
+   },
+   "files": {}
+  },
+  {
+   "pid": 4304,
+   "cmd": [
+    "ros2",
+    "run",
+    "dobot_gazebo",
+    "controller_loader.py",
+    "cr5"
+   ],
+   "env": {
+    "AMENT_PREFIX_PATH": "/home/student/ros2_ws/install:/opt/ros/jazzy"
+   },
+   "files": {}
+  }
+ ]
+}

@@ -1,0 +1,19 @@
+/* Concept animations (js/anims/frame.js): a figure on a lab bench. The same quiet sheet as the games, with a
+   blue top edge; the picture sits on faint graph paper; the narration reads like a figure caption with a
+   yellow highlighter rule; the buttons and the terminal log follow. Only the frame is styled here. */
+.anim { border: 1px solid var(--line); border-top: 3px solid var(--axis-z); border-radius: 12px; background: #fff; box-shadow: 0 1px 2px rgba(23, 33, 47, .05); }
+.anim .anim-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; padding: 12px 18px 10px; background: none; color: var(--ink); border-bottom: 1px solid var(--line-soft); }
+.anim .anim-head h3 { margin: 0; font-size: 1.12rem; font-weight: 700; color: var(--ink); }
+.anim .anim-tag { display: none; }
+.anim .anim-concept { margin-left: auto; font-size: .88rem; color: var(--ink-soft); }
+.anim .anim-stage { background-color: #FAFBFD; background-image: linear-gradient(#EDF1F6 1px, transparent 1px), linear-gradient(90deg, #EDF1F6 1px, transparent 1px); background-size: 24px 24px; border-bottom: 1px solid var(--line-soft); }
+.anim .anim-cap { margin: 14px 18px 0; padding: 8px 14px; min-height: 3em; border: 0; border-left: 3px solid var(--sun-edge); border-radius: 0 6px 6px 0; background: var(--sun-tint); line-height: 1.5; }
+.anim .anim-cap.ok { border-left-color: var(--axis-y); background: #E7F5EC; }
+.anim .anim-cap.no { border-left-color: var(--axis-x); background: #FCEBE8; }
+.anim .anim-extra:not(:empty) { padding: 12px 18px 0; }
+.anim .anim-ctrl { padding: 12px 18px 16px; }
+.anim .anim-field input[type=number], .anim .anim-field input[type=text], .anim .anim-row input[type=text] { border: 1px solid var(--line); border-radius: 6px; }
+.anim .anim-field input:focus-visible, .anim .anim-row input:focus-visible { outline: 2px solid var(--axis-z); outline-offset: 1px; }
+.anim .anim-log { margin: 0 18px 18px; background: #300A24; color: #EEEEEC; border: 0; border-radius: 8px; }
+.anim .anim-log .ok { color: #8AE234; } .anim .anim-log .warn { color: #FCE94F; } .anim .anim-log .err { color: #FF9B9B; }
+@media (max-width: 560px) { .anim .anim-head { padding: 10px 14px 8px; } .anim .anim-cap { margin: 12px 14px 0; } .anim .anim-ctrl { padding: 10px 14px 14px; } .anim .anim-extra:not(:empty) { padding: 10px 14px 0; } .anim .anim-log { margin: 0 14px 14px; } .anim .anim-concept { margin-left: 0; width: 100%; } }

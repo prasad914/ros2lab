@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Playground | ROS2Lab</title>
+<meta name="description" content="Six free browser games for the first ideas of ROS 2 Jazzy (cd and paths, topics, services and actions, source and overlays, turtlesim) and 27 interactive concept animations.">
+<meta name="theme-color" content="#14204A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Lexend:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/playground.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img class="brand-logo" src="img/logo-axes.svg" alt="" width="36" height="36"><span>ROS2Lab <small>ROS 2 for beginners</small></span></a>
+  <nav class="top-nav" aria-label="Site">
+    <a href="index.html">Home</a>
+    <a href="playground.html" aria-current="page">Playground</a>
+    <a href="rviz.html">Simulator</a>
+    <a href="resources.html">Free resources</a>
+  </nav>
+  <div class="top-right" id="who"><a class="btn btn-white btn-small" href="signin.html">Log in</a><a class="btn btn-small" href="register.html">Register</a></div>
+</div></header>
+<main class="pg">
+  <section class="wrap pg-intro">
+    <div class="pg-intro-text">
+      <h1>Playground</h1>
+      <p class="lead">Six small games for the first ideas of ROS 2: finding your way in the terminal, topics, services and actions, sourcing a workspace, and your first turtlesim session. Each takes a few minutes and uses the same commands and messages you will type on Ubuntu with ROS 2 Jazzy.</p>
+      <p class="pg-later">Missions with real robots will join this page later.</p>
+    </div>
+    <aside class="pg-card" id="shelf" aria-label="Your badges"></aside>
+  </section>
+  <section class="wrap pg-shelf">
+    <nav class="pg-pick" id="pick" aria-label="Choose a game"></nav>
+  </section>
+  <section class="wrap pg-main">
+    <div id="game-meta" class="pg-meta"></div>
+    <div id="stage" class="pg-stage"></div>
+  </section>
+  <section class="wrap pg-sec" id="lab">
+    <div class="pg-lab-head">
+      <h2>Concept lab</h2>
+      <p class="muted">Twenty-seven short animations, grouped by course week. Pick one, press its buttons and read the caption under the picture. The lessons use the same animations.</p>
+    </div>
+    <div class="pg-lab">
+      <nav class="anim-grid" id="anim-pick" aria-label="Choose an animation"></nav>
+      <div id="anim-stage" class="pg-stage"></div>
+    </div>
+  </section>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <span>ROS2Lab: a free ROS 2 course for students and engineers</span>
+  <span class="credit">Developed by the Robotics and ROS2 lab Channel</span>
+  <a href="index.html">Home</a>
+  <a href="rviz.html">Simulator</a>
+  <a href="resources.html">Free resources</a>
+  <a href="terms.html">Terms of Use</a>
+  <a href="privacy.html">Privacy notice</a>
+</div></footer>
+<script type="module" src="js/playground.js"></script>
+<script type="module" src="js/who.js"></script>
+</body>
+</html>

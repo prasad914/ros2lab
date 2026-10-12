@@ -1,0 +1,18 @@
+{
+ "ur5e": {
+  "cmd": "xacro $(ros2 pkg prefix ur_description)/share/ur_description/urdf/ur.urdf.xacro ur_type:=ur5e name:=ur5e",
+  "urdf": "robots/ws/ur/generated/ur5e.urdf",
+  "robot_name": "ur5e",
+  "links": 13,
+  "joints": 12,
+  "site": {
+   "file": "robots/ur_description/urdf/ur5e.urdf",
+   "links": 13,
+   "joints": 12
+  },
+  "links_only_in_ws": [],
+  "links_only_on_site": [],
+  "joints_only_in_ws": [],
+  "joints_only_on_site": []
+ }
+}

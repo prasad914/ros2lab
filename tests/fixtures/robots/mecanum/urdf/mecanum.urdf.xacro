@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!-- TEST FIXTURE (stand-in for the course robot mecanum) -->
+<robot name="mecanum">
+<link name="base_footprint"/>
+<link name="base_link"><visual><geometry><box size="0.3 0.25 0.06"/></geometry><material name="m_base_link"><color rgba="0.2 0.2 0.2 1"/></material></visual><collision><geometry><box size="0.3 0.25 0.06"/></geometry></collision><inertial><mass value="0.5"/><inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/></inertial></link>
+<joint name="base_joint" type="fixed"><parent link="base_footprint"/><child link="base_link"/><origin xyz="0 0 0.05"/></joint>
+<link name="front_left_wheel"><visual><geometry><cylinder radius="0.04" length="0.03"/></geometry><material name="m_front_left_wheel"><color rgba="0.2 0.2 0.2 1"/></material></visual><collision><geometry><cylinder radius="0.04" length="0.03"/></geometry></collision><inertial><mass value="0.5"/><inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/></inertial></link>
+<joint name="front_left_wheel_joint" type="continuous"><parent link="base_link"/><child link="front_left_wheel"/><origin xyz="0.12 0.15 -0.01" rpy="-1.5708 0 0"/><axis xyz="0 0 1"/></joint>
+<link name="front_right_wheel"><visual><geometry><cylinder radius="0.04" length="0.03"/></geometry><material name="m_front_right_wheel"><color rgba="0.2 0.2 0.2 1"/></material></visual><collision><geometry><cylinder radius="0.04" length="0.03"/></geometry></collision><inertial><mass value="0.5"/><inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/></inertial></link>
+<joint name="front_right_wheel_joint" type="continuous"><parent link="base_link"/><child link="front_right_wheel"/><origin xyz="0.12 -0.15 -0.01" rpy="-1.5708 0 0"/><axis xyz="0 0 1"/></joint>
+<link name="rear_left_wheel"><visual><geometry><cylinder radius="0.04" length="0.03"/></geometry><material name="m_rear_left_wheel"><color rgba="0.2 0.2 0.2 1"/></material></visual><collision><geometry><cylinder radius="0.04" length="0.03"/></geometry></collision><inertial><mass value="0.5"/><inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/></inertial></link>
+<joint name="rear_left_wheel_joint" type="continuous"><parent link="base_link"/><child link="rear_left_wheel"/><origin xyz="-0.12 0.15 -0.01" rpy="-1.5708 0 0"/><axis xyz="0 0 1"/></joint>
+<link name="rear_right_wheel"><visual><geometry><cylinder radius="0.04" length="0.03"/></geometry><material name="m_rear_right_wheel"><color rgba="0.2 0.2 0.2 1"/></material></visual><collision><geometry><cylinder radius="0.04" length="0.03"/></geometry></collision><inertial><mass value="0.5"/><inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/></inertial></link>
+<joint name="rear_right_wheel_joint" type="continuous"><parent link="base_link"/><child link="rear_right_wheel"/><origin xyz="-0.12 -0.15 -0.01" rpy="-1.5708 0 0"/><axis xyz="0 0 1"/></joint>
+</robot>

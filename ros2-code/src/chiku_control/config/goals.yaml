@@ -1,0 +1,11 @@
+# one block per node: the full name, with its namespace
+/robot1/go_to_goal:
+  ros__parameters:
+    goal_x: 2.0
+    goal_y: 9.0
+    kv: 0.8
+/robot2/go_to_goal:
+  ros__parameters:
+    goal_x: 9.0
+    goal_y: 2.0
+    kw: 6.0

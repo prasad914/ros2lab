@@ -1,0 +1,10 @@
+<launch>
+  <arg name="goal_x" default="8.0" description="Goal x in metres"/>
+  <arg name="goal_y" default="8.0" description="Goal y in metres"/>
+
+  <node pkg="turtlesim" exec="turtlesim_node" name="sim"/>
+  <node pkg="chiku_control" exec="go_to_goal" name="go_to_goal" output="screen">
+    <param name="goal_x" value="$(var goal_x)"/>
+    <param name="goal_y" value="$(var goal_y)"/>
+  </node>
+</launch>

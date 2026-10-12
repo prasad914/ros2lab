@@ -1,0 +1,20 @@
+# Drivers whose makers support ROS 2 Humble (Ubuntu 22.04) only. On the Jetson (Ubuntu 24.04 + Jazzy), run them in a
+# ros:humble container on the host network with the SAME RMW_IMPLEMENTATION and ROS_DOMAIN_ID, so the topics meet:
+#   docker run -it --network host --ipc host -e RMW_IMPLEMENTATION=rmw_cyclonedds_cpp -e ROS_DOMAIN_ID=7 \
+#     -v $HOME/humble_ws:/root/humble_ws ros:humble-ros-base bash
+#   cd /root/humble_ws && vcs import src < humble.repos && rosdep install --from-paths src --ignore-src -y && colcon build
+# Message types that changed between Humble and Jazzy (for example geometry_msgs/TwistStamped on /cmd_vel in Jazzy's
+# controllers) must match on both sides; check with: ros2 topic info -v <topic>
+repositories:
+  spot_ros2:                       # Boston Dynamics AI Institute; run install_spot_ros2.sh inside the container
+    type: git
+    url: https://github.com/bdaiinstitute/spot_ros2.git
+    version: main
+  unitree_ros2:                    # Go2 / G1 / H1, CycloneDDS; Unitree tests Foxy and Humble (it also builds on Jazzy)
+    type: git
+    url: https://github.com/unitreerobotics/unitree_ros2.git
+    version: master
+  magician_ros2:                   # Dobot Magician
+    type: git
+    url: https://github.com/jkaniuka/magician_ros2.git
+    version: main

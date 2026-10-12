@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!-- A quadcopter: one body, four motors and four spinning propellers (continuous joints) -->
+<robot name="quadcopter" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="../../common/urdf/macros.xacro"/>
+  <xacro:property name="arm" value="0.15"/>
+  <link name="base_link">
+    <visual><geometry><box size="0.20 0.20 0.05"/></geometry><material name="dark_grey"/></visual>
+    <visual><origin rpy="0 0 ${pi/4}"/><geometry><box size="0.44 0.03 0.02"/></geometry><material name="light_grey"/></visual>
+    <visual><origin rpy="0 0 ${-pi/4}"/><geometry><box size="0.44 0.03 0.02"/></geometry><material name="light_grey"/></visual>
+    <visual><origin xyz="0 0.06 -0.05"/><geometry><box size="0.20 0.01 0.01"/></geometry><material name="dark_grey"/></visual>
+    <visual><origin xyz="0 -0.06 -0.05"/><geometry><box size="0.20 0.01 0.01"/></geometry><material name="dark_grey"/></visual>
+    <collision><geometry><box size="0.44 0.44 0.06"/></geometry></collision>
+    <xacro:box_inertia m="1.2" x="0.20" y="0.20" z="0.05"/>
+  </link>
+  <xacro:macro name="rotor" params="name x y color">
+    <joint name="motor_${name}_joint" type="fixed">
+      <parent link="base_link"/><child link="motor_${name}_link"/><origin xyz="${x*arm} ${y*arm} 0.02"/>
+    </joint>
+    <link name="motor_${name}_link">
+      <visual><geometry><cylinder radius="0.02" length="0.04"/></geometry><material name="${color}"/></visual>
+      <collision><geometry><cylinder radius="0.02" length="0.04"/></geometry></collision>
+      <xacro:cylinder_inertia m="0.05" r="0.02" h="0.04"/>
+    </link>
+    <joint name="prop_${name}_joint" type="continuous">
+      <parent link="motor_${name}_link"/><child link="prop_${name}_link"/><origin xyz="0 0 0.025"/><axis xyz="0 0 1"/>
+    </joint>
+    <link name="prop_${name}_link">
+      <visual><geometry><cylinder radius="0.10" length="0.005"/></geometry><material name="prop_blue"/></visual>
+      <visual><geometry><box size="0.20 0.02 0.006"/></geometry><material name="dark_grey"/></visual>
+      <collision><geometry><cylinder radius="0.10" length="0.005"/></geometry></collision>
+      <xacro:cylinder_inertia m="0.01" r="0.10" h="0.005"/>
+    </link>
+  </xacro:macro>
+  <xacro:rotor name="front_left" x="1" y="1" color="red"/>
+  <xacro:rotor name="front_right" x="1" y="-1" color="red"/>
+  <xacro:rotor name="back_left" x="-1" y="1" color="dark_grey"/>
+  <xacro:rotor name="back_right" x="-1" y="-1" color="dark_grey"/>
+  <joint name="camera_joint" type="fixed">
+    <parent link="base_link"/><child link="camera_link"/><origin xyz="0.11 0 -0.02" rpy="0 0.3 0"/>
+  </joint>
+  <link name="camera_link">
+    <visual><geometry><box size="0.03 0.05 0.03"/></geometry><material name="sky_blue"/></visual>
+    <collision><geometry><box size="0.03 0.05 0.03"/></geometry></collision>
+  </link>
+</robot>

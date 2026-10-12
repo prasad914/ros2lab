@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Robotics &amp; ROS 2 Lab logo">
+  <defs><radialGradient id="bg" cx="50%" cy="45%" r="70%"><stop offset="0" stop-color="#2E333D"/><stop offset="1" stop-color="#1F242A"/></radialGradient></defs>
+  <rect width="600" height="600" rx="96" fill="url(#bg)"/>
+  <g transform="translate(300 370)">
+    <g fill="#4A8DF8"><rect x="-20" y="-154" width="40" height="154"/><polygon points="-44,-150 44,-150 0,-222"/></g>
+    <g fill="#46B35A" transform="rotate(-109.8) scale(0.96)"><rect x="-20" y="-154" width="40" height="154"/><polygon points="-44,-150 44,-150 0,-222"/></g>
+    <g fill="#E5494D" transform="rotate(109.8) scale(0.96)"><rect x="-20" y="-154" width="40" height="154"/><polygon points="-44,-150 44,-150 0,-222"/></g>
+    <circle r="29" fill="#EFF0F4"/>
+  </g>
+</svg>

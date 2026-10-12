@@ -1,0 +1,13 @@
+repositories:
+  interbotix_ros_manipulators:
+    type: git
+    url: https://github.com/Interbotix/interbotix_ros_manipulators.git
+    version: 01c557d65f781697c3a05bffebafbd3404e03eab   # jazzy
+  interbotix_ros_core:
+    type: git
+    url: https://github.com/Interbotix/interbotix_ros_core.git
+    version: 41ca7357935bb06b3f21f518ad5b0a88529ba395   # jazzy
+  interbotix_ros_toolboxes:
+    type: git
+    url: https://github.com/Interbotix/interbotix_ros_toolboxes.git
+    version: 27f7628eb4116e1b5179e6b5a1c44a0f95d0389f   # jazzy

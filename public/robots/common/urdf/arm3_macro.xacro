@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!-- A 3-DOF arm (yaw, shoulder, elbow) with a 2-finger gripper. The right finger MIMICS the left one. -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="arm3" params="prefix parent xyz:='0 0 0'">
+    <joint name="${prefix}mount_joint" type="fixed">
+      <parent link="${parent}"/><child link="${prefix}arm_base_link"/><origin xyz="${xyz}"/>
+    </joint>
+    <link name="${prefix}arm_base_link">
+      <visual><origin xyz="0 0 0.025"/><geometry><cylinder radius="0.08" length="0.05"/></geometry><material name="dark_grey"/></visual>
+      <collision><origin xyz="0 0 0.025"/><geometry><cylinder radius="0.08" length="0.05"/></geometry></collision>
+      <xacro:cylinder_inertia m="1.0" r="0.08" h="0.05" xyz="0 0 0.025"/>
+    </link>
+    <joint name="${prefix}base_yaw_joint" type="revolute">
+      <parent link="${prefix}arm_base_link"/><child link="${prefix}turret_link"/>
+      <origin xyz="0 0 0.05"/><axis xyz="0 0 1"/><limit lower="-3.14" upper="3.14" effort="10" velocity="1.0"/>
+    </joint>
+    <link name="${prefix}turret_link">
+      <visual><origin xyz="0 0 0.05"/><geometry><cylinder radius="0.04" length="0.10"/></geometry><material name="orange"/></visual>
+      <collision><origin xyz="0 0 0.05"/><geometry><cylinder radius="0.04" length="0.10"/></geometry></collision>
+      <xacro:cylinder_inertia m="0.3" r="0.04" h="0.10" xyz="0 0 0.05"/>
+    </link>
+    <joint name="${prefix}shoulder_joint" type="revolute">
+      <parent link="${prefix}turret_link"/><child link="${prefix}upper_arm_link"/>
+      <origin xyz="0 0 0.10"/><axis xyz="0 1 0"/><limit lower="-1.57" upper="1.57" effort="10" velocity="1.0"/>
+    </joint>
+    <link name="${prefix}upper_arm_link">
+      <visual><origin xyz="0 0 0.15"/><geometry><box size="0.04 0.04 0.30"/></geometry><material name="orange"/></visual>
+      <collision><origin xyz="0 0 0.15"/><geometry><box size="0.04 0.04 0.30"/></geometry></collision>
+      <xacro:box_inertia m="0.4" x="0.04" y="0.04" z="0.30" xyz="0 0 0.15"/>
+    </link>
+    <joint name="${prefix}elbow_joint" type="revolute">
+      <parent link="${prefix}upper_arm_link"/><child link="${prefix}forearm_link"/>
+      <origin xyz="0 0 0.30"/><axis xyz="0 1 0"/><limit lower="-2.0" upper="2.0" effort="8" velocity="1.0"/>
+    </joint>
+    <link name="${prefix}forearm_link">
+      <visual><origin xyz="0 0 0.125"/><geometry><box size="0.035 0.035 0.25"/></geometry><material name="orange"/></visual>
+      <collision><origin xyz="0 0 0.125"/><geometry><box size="0.035 0.035 0.25"/></geometry></collision>
+      <xacro:box_inertia m="0.3" x="0.035" y="0.035" z="0.25" xyz="0 0 0.125"/>
+    </link>
+    <joint name="${prefix}gripper_mount_joint" type="fixed">
+      <parent link="${prefix}forearm_link"/><child link="${prefix}gripper_base_link"/><origin xyz="0 0 0.25"/>
+    </joint>
+    <link name="${prefix}gripper_base_link">
+      <visual><origin xyz="0 0 0.015"/><geometry><box size="0.04 0.12 0.03"/></geometry><material name="dark_grey"/></visual>
+      <collision><origin xyz="0 0 0.015"/><geometry><box size="0.04 0.12 0.03"/></geometry></collision>
+      <xacro:box_inertia m="0.1" x="0.04" y="0.12" z="0.03" xyz="0 0 0.015"/>
+    </link>
+    <xacro:macro name="finger" params="side sign">
+      <joint name="${prefix}${side}_finger_joint" type="prismatic">
+        <parent link="${prefix}gripper_base_link"/><child link="${prefix}${side}_finger_link"/>
+        <origin xyz="0 ${sign*0.01} 0.03"/><axis xyz="0 ${sign} 0"/><limit lower="0" upper="0.04" effort="5" velocity="0.05"/>
+        <xacro:if value="${sign &lt; 0}"><mimic joint="${prefix}left_finger_joint" multiplier="1" offset="0"/></xacro:if>
+      </joint>
+      <link name="${prefix}${side}_finger_link">
+        <visual><origin xyz="0 0 0.03"/><geometry><box size="0.02 0.01 0.06"/></geometry><material name="light_grey"/></visual>
+        <collision><origin xyz="0 0 0.03"/><geometry><box size="0.02 0.01 0.06"/></geometry></collision>
+        <xacro:box_inertia m="0.02" x="0.02" y="0.01" z="0.06" xyz="0 0 0.03"/>
+      </link>
+    </xacro:macro>
+    <xacro:finger side="left" sign="1"/>
+    <xacro:finger side="right" sign="-1"/>
+  </xacro:macro>
+</robot>

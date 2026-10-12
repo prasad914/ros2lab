@@ -1,0 +1,22 @@
+{
+ "crazyflie": {
+  "cmd": "xacro $(ros2 pkg prefix crazyflie_description)/share/crazyflie_description/urdf/crazyflie_description.urdf",
+  "urdf": "robots/ws/crazyswarm2/generated/crazyflie.urdf",
+  "robot_name": "$NAME",
+  "links": 1,
+  "joints": 0,
+  "site": {
+   "file": "robots/crazyflie_description/urdf/crazyflie.urdf",
+   "links": 1,
+   "joints": 0
+  },
+  "links_only_in_ws": [
+   "$NAME"
+  ],
+  "links_only_on_site": [
+   "cf"
+  ],
+  "joints_only_in_ws": [],
+  "joints_only_on_site": []
+ }
+}

@@ -1,0 +1,9 @@
+repositories:
+  ros2_kortex:
+    type: git
+    url: https://github.com/Kinovarobotics/ros2_kortex.git
+    version: 462dab9aa4732d733be55e1846530dd920c7c7d3   # jazzy
+  ros2_robotiq_gripper:
+    type: git
+    url: https://github.com/PickNikRobotics/ros2_robotiq_gripper.git
+    version: a74d007d8f2f06dc6a503ad21038ba869d4999a6   # main

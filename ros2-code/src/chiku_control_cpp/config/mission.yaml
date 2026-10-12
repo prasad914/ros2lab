@@ -1,0 +1,9 @@
+# Mini-project: settings for both nodes, in one file
+speed_driver:
+  ros__parameters:
+    speed: 2.0
+    turn: 1.0
+battery_monitor:
+  ros__parameters:
+    drain_per_metre: 2.0
+    low_level: 30.0

@@ -1,0 +1,13 @@
+repositories:
+  franka_description:
+    type: git
+    url: https://github.com/frankarobotics/franka_description.git
+    version: 72baf5bf4e88eaec27f0eb61be1b20a001abf2ab   # jazzy
+  franka_ros2:
+    type: git
+    url: https://github.com/frankarobotics/franka_ros2.git
+    version: 4acc05c01ebfcdf916ee6b3df966df0ad7b2f9ec   # jazzy
+  libfranka:
+    type: git
+    url: https://github.com/frankarobotics/libfranka.git
+    version: 0.20.5   # C++ client library for franka_hardware (real FR3); from franka_ros2/dependency.repos

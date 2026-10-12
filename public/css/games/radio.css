@@ -1,0 +1,67 @@
+/* Tune the Radio: the publishers are dark transmitters whose mast rings pulse when a message goes out; every
+   subscriber is a small receiver: a cream dial window with the station scale and a red needle, two round knobs,
+   a four-bar signal meter, and the last message under a speaker grille. The window's lamp warms up when the
+   receiver is tuned to the right station and messages are arriving. */
+.game[data-game="radio"] { --rd-cream: #FFF6DF; --rd-lamp: #FFE39A; }
+.game[data-game="radio"] .rd-pubs { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+.game[data-game="radio"] .rd-pub { position: relative; display: flex; gap: 10px; align-items: center; padding: 10px 12px; border: 0; border-radius: 10px; background: var(--night); color: #fff; overflow: hidden; }
+.game[data-game="radio"] .rd-pub b { font-weight: 600; font-size: .98rem; }
+.game[data-game="radio"] .rd-pub code { display: block; padding: 0; border: 0; background: none; color: var(--rd-lamp); font-size: .9rem; }
+.game[data-game="radio"] .rd-mast { flex: none; width: 34px; height: 34px; color: #C9D4E8; }
+.game[data-game="radio"] .rd-rings path { opacity: .25; }
+.game[data-game="radio"] .rd-pub.tx .rd-rings path { animation: rd-ring .8s ease-out; }
+.game[data-game="radio"] .rd-pub.tx .rd-rings path:nth-child(n+3) { animation-delay: .12s; }
+@keyframes rd-ring { 0% { opacity: 1; stroke: var(--sun); } 100% { opacity: .25; } }
+.game[data-game="radio"] .rd-wave { display: none; }
+
+/* the air between: faint sine waves */
+.game[data-game="radio"] .rd-air { position: relative; height: 18px; border-radius: 0; background:
+  radial-gradient(circle at 10px -4px, transparent 9px, var(--line) 9.5px, var(--line) 10.5px, transparent 11px) 0 0 / 20px 10px repeat-x,
+  radial-gradient(circle at 10px 14px, transparent 9px, var(--line) 9.5px, var(--line) 10.5px, transparent 11px) 10px 0 / 20px 10px repeat-x;
+  background-position: 0 4px, 10px 4px; }
+.game[data-game="radio"] .rd-air span { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 0 8px; background: #fff; font-size: .78rem; color: var(--ink-soft); }
+
+/* receivers */
+.game[data-game="radio"] .rd-subs { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.game[data-game="radio"] .rd-sub { display: grid; gap: 10px; align-content: start; padding: 12px; border: 1px solid var(--line); border-radius: 14px 14px 10px 10px; background: linear-gradient(#fff, #F6F8FB); transition: border-color .3s; }
+.game[data-game="radio"] .rd-sub.ok { background: linear-gradient(#fff, #F6F8FB); border-color: var(--axis-y); }
+.game[data-game="radio"] .rd-sub.rx { animation: none; }
+.game[data-game="radio"] .rd-sub-top { display: flex; gap: 8px; align-items: flex-start; }
+.game[data-game="radio"] .rd-sub-top > div { display: grid; line-height: 1.25; flex: 1; min-width: 0; }
+.game[data-game="radio"] .rd-sub-top b { font-weight: 700; }
+.game[data-game="radio"] .rd-count { font-size: .78rem; color: var(--ink-soft); white-space: nowrap; }
+.game[data-game="radio"] .rd-sub.ok .rd-count { color: var(--axis-y); font-weight: 700; }
+
+.game[data-game="radio"] .rd-window { position: relative; height: 58px; border: 2px solid var(--ink); border-radius: 8px; background: var(--rd-cream); box-shadow: inset 0 2px 6px rgba(23, 33, 47, .12); overflow: hidden; transition: background-color .4s; }
+.game[data-game="radio"] .rd-sub.ok .rd-window { background: var(--rd-lamp); box-shadow: inset 0 2px 6px rgba(23, 33, 47, .1), inset 0 0 18px rgba(255, 190, 40, .55); }
+.game[data-game="radio"] .rd-sub.rx .rd-window { animation: rd-glow .6s ease-out; }
+@keyframes rd-glow { 0% { filter: brightness(1.08); } 100% { filter: none; } }
+.game[data-game="radio"] .rd-name { position: absolute; left: 6px; right: 6px; top: 6px; display: block; padding: 0 !important; border: 0 !important; background: none !important; color: var(--ink); font-size: .92rem !important; font-weight: 600; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.game[data-game="radio"] .rd-scale { position: absolute; left: 8%; right: 8%; bottom: 7px; height: 14px; display: flex; justify-content: space-between; align-items: flex-end; }
+.game[data-game="radio"] .rd-scale::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1.5px; background: var(--ink); opacity: .6; }
+.game[data-game="radio"] .rd-scale i { width: 1.5px; height: 12px; background: var(--ink); opacity: .7; }
+.game[data-game="radio"] .rd-scale i:nth-child(even) { height: 7px; }
+.game[data-game="radio"] .rd-scale i.off { background: none; border-left: 1.5px dotted var(--ink); width: 0; }
+.game[data-game="radio"] .rd-needle { position: absolute; top: 27px; bottom: 3px; width: 2.5px; margin-left: -1.25px; border-radius: 2px; background: var(--axis-x); box-shadow: 0 0 0 1px rgba(255, 255, 255, .6); transition: left .35s cubic-bezier(.4, 0, .2, 1.3); }
+
+.game[data-game="radio"] .rd-dial { display: grid; grid-template-columns: 40px 1fr 40px; gap: 8px; align-items: center; }
+.game[data-game="radio"] .rd-knob { width: 40px; height: 40px; padding: 0; border: 2px solid var(--ink); border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff, #D9DFE8); color: var(--ink); font-size: .8rem; line-height: 1; cursor: pointer; box-shadow: 0 2px 0 var(--ink); transition: transform .08s; }
+.game[data-game="radio"] .rd-knob:hover { background: radial-gradient(circle at 35% 30%, #fff, var(--rd-lamp)); }
+.game[data-game="radio"] .rd-knob:active { transform: translateY(2px) rotate(-20deg); box-shadow: 0 0 0 var(--ink); }
+.game[data-game="radio"] .rd-knob:focus-visible { outline: 2px solid var(--axis-z); outline-offset: 3px; }
+.game[data-game="radio"] .rd-bars { justify-self: center; display: flex; gap: 3px; align-items: flex-end; height: 20px; }
+.game[data-game="radio"] .rd-bars i { width: 6px; border-radius: 1.5px; background: var(--line-soft); }
+.game[data-game="radio"] .rd-bars i:nth-child(1) { height: 6px; } .game[data-game="radio"] .rd-bars i:nth-child(2) { height: 10px; }
+.game[data-game="radio"] .rd-bars i:nth-child(3) { height: 15px; } .game[data-game="radio"] .rd-bars i:nth-child(4) { height: 20px; }
+.game[data-game="radio"] [data-signal="wait"] .rd-bars i:nth-child(1) { background: var(--sun-edge); }
+.game[data-game="radio"] [data-signal="strong"] .rd-bars i { background: var(--axis-y); }
+
+/* the speaker: a grille strip beside the last message */
+.game[data-game="radio"] .rd-last { position: relative; min-height: 2.9em; padding: 4px 0 0 30px; font-family: var(--font-mono); font-size: .8rem; line-height: 1.4; color: var(--ink-soft); overflow-wrap: anywhere; }
+.game[data-game="radio"] .rd-last::before { content: ""; position: absolute; left: 0; top: 6px; width: 20px; height: 30px; border-radius: 4px; background: radial-gradient(circle, #9AA6B6 1.2px, transparent 1.6px) 0 0 / 5px 5px, #EEF1F5; }
+.game[data-game="radio"] .rd-sub.ok .rd-last { color: var(--ink); }
+
+.game[data-game="radio"] .rd-details summary { cursor: pointer; font-weight: 600; font-size: .95rem; }
+.game[data-game="radio"] .rd-list { margin: 8px 0 0; background: #300A24; color: #E6E6E6; border-radius: 8px; padding: 10px 14px; font-size: .86rem; }
+@media (max-width: 560px) { .game[data-game="radio"] .rd-subs { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; } .game[data-game="radio"] .rd-sub { padding: 10px; } .game[data-game="radio"] .rd-dial { grid-template-columns: 36px 1fr 36px; } .game[data-game="radio"] .rd-knob { width: 36px; height: 36px; } .game[data-game="radio"] .rd-last { padding-left: 0; min-height: 4.2em; } .game[data-game="radio"] .rd-last::before { display: none; } .game[data-game="radio"] .rd-pub { padding: 8px 10px; } .game[data-game="radio"] .rd-pubs { gap: 6px; } }
+@media (prefers-reduced-motion: reduce) { .game[data-game="radio"] .rd-needle, .game[data-game="radio"] .rd-window { transition: none; } .game[data-game="radio"] .rd-pub.tx .rd-rings path, .game[data-game="radio"] .rd-sub.rx .rd-window { animation: none; } }

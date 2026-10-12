@@ -1,0 +1,29 @@
+repositories:
+  turtlebot3:
+    type: git
+    url: https://github.com/ROBOTIS-GIT/turtlebot3.git
+    version: 0c0be84e3f5c3194fb2adea8426a58a96060eab5   # jazzy
+  turtlebot3_msgs:
+    type: git
+    url: https://github.com/ROBOTIS-GIT/turtlebot3_msgs.git
+    version: 9209e01b4708cf3ca5610b01dfc9586d3c7889d8   # jazzy
+  turtlebot3_simulations:
+    type: git
+    url: https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
+    version: 45633014a14e8f438495b532a723e4ad45cbbd31   # jazzy
+  DynamixelSDK:
+    type: git
+    url: https://github.com/ROBOTIS-GIT/DynamixelSDK.git
+    version: 516ae8632c593d7c84afd2bdee2a2fac965305cc   # jazzy
+  hls_lfcd_lds_driver:
+    type: git
+    url: https://github.com/ROBOTIS-GIT/hls_lfcd_lds_driver.git
+    version: 6a80b3f1535d1cc05b860085c3d55bff1f7e90bd   # jazzy
+  ld08_driver:
+    type: git
+    url: https://github.com/ROBOTIS-GIT/ld08_driver.git
+    version: 00dba810a0fe5579b5062c71030c1e3c79a4c5f4   # jazzy
+  coin_d4_driver:
+    type: git
+    url: https://github.com/ROBOTIS-GIT/coin_d4_driver.git
+    version: 79d183324729f0c1881f11ef431b6384c1aef957   # jazzy

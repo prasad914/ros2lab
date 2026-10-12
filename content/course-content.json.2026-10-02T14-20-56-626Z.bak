@@ -1,0 +1,3813 @@
+{
+ "version": "2026-10-03",
+ "course": "ROS 2 from zero, in two weeks",
+ "modules": [
+  {
+   "id": "W1",
+   "order": 1,
+   "short": "Week 1",
+   "title": "Week 1: Talk to the robot's computer",
+   "description": "The Ubuntu terminal and Python from zero: move around, manage files, install software, and write your first programs.",
+   "lessons": [
+    {
+     "id": "A1",
+     "title": "Meet the terminal",
+     "minutes": 15,
+     "summary": "What the terminal is, how to read the prompt, and your first commands.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "Meet **Chiku**, the delivery robot you will program in this course. Chiku's brain is a small Linux computer. Today you learn to talk to it the way robot engineers do: by typing commands."
+      },
+      {
+       "t": "p",
+       "text": "Robots that run ROS 2 almost always use **Ubuntu**, a free version of Linux. On Ubuntu, engineers control the computer by typing short commands in a window called the **terminal**. ROS 2 is used the same way, so the terminal is the first tool you need."
+      },
+      {
+       "t": "analogy",
+       "text": "The terminal is like chatting with a very obedient assistant. You type an instruction and press Enter. The assistant does exactly that, nothing more and nothing less. It never guesses what you meant, so spelling matters."
+      },
+      {
+       "t": "h",
+       "text": "Opening the terminal"
+      },
+      {
+       "t": "p",
+       "text": "On a real Ubuntu computer, press `Ctrl` + `Alt` + `T`. A window opens with a line like this:"
+      },
+      {
+       "t": "code",
+       "lang": "bash",
+       "text": "student@ros2lab:~$"
+      },
+      {
+       "t": "words",
+       "label": "Reading the prompt",
+       "items": [
+        [
+         "student",
+         "the user name (who is logged in)"
+        ],
+        [
+         "ros2lab",
+         "the computer's name"
+        ],
+        [
+         "~",
+         "short for your home folder, `/home/student`"
+        ],
+        [
+         "$",
+         "the computer is ready for your command"
+        ]
+       ]
+      },
+      {
+       "t": "h",
+       "text": "Your first commands"
+      },
+      {
+       "t": "p",
+       "text": "Type a command after the `$` and press **Enter**. Try these in the practice terminal below:"
+      },
+      {
+       "t": "list",
+       "items": [
+        "`whoami` prints who you are logged in as.",
+        "`pwd` (print working directory) prints the folder you are in now.",
+        "`ls` (list) shows what is inside the current folder."
+       ]
+      },
+      {
+       "t": "term",
+       "title": "Practice terminal: your first commands",
+       "intro": "This is a practice terminal. It behaves like Ubuntu, but nothing you type here can harm anything.",
+       "tasks": [
+        {
+         "do": "Type `whoami` and press Enter.",
+         "check": {
+          "cmd": "^whoami$"
+         },
+         "hint": "Type the letters w h o a m i, then press Enter.",
+         "sol": "whoami"
+        },
+        {
+         "do": "Type `pwd` to see which folder you are in.",
+         "check": {
+          "cmd": "^pwd$"
+         },
+         "hint": "pwd stands for print working directory.",
+         "sol": "pwd"
+        },
+        {
+         "do": "Type `ls` to list what is inside your home folder.",
+         "check": {
+          "cmd": "^ls$"
+         },
+         "hint": "A small L and a small S.",
+         "sol": "ls"
+        },
+        {
+         "do": "Type `ls -a` to also see hidden files (their names start with a dot).",
+         "check": {
+          "cmd": "^ls -a$"
+         },
+         "hint": "Put a space between ls and -a.",
+         "sol": "ls -a"
+        }
+       ]
+      },
+      {
+       "t": "tip",
+       "text": "Commands are **case-sensitive**: `ls` works, but `LS` or `Ls` does not. Use small letters unless a lesson shows capitals."
+      },
+      {
+       "t": "mcq",
+       "q": "In the prompt `student@ros2lab:~$`, what does `~` mean?",
+       "options": [
+        "Your home folder, /home/student",
+        "The computer's name",
+        "An error",
+        "The ROS 2 version"
+       ],
+       "answer": 0,
+       "why": "`~` is a short way of writing your home folder.",
+       "hint": "Look at the \"Reading the prompt\" box above."
+      },
+      {
+       "t": "mcq",
+       "q": "Which command shows the folder you are in right now?",
+       "options": [
+        "ls",
+        "pwd",
+        "whoami",
+        "clear"
+       ],
+       "answer": 1,
+       "why": "`pwd` means print working directory.",
+       "hint": "Which command name means print working directory?"
+      },
+      {
+       "t": "fill",
+       "q": "Type the command that lists what is inside the current folder.",
+       "accept": [
+        "ls"
+       ],
+       "why": "`ls` means list.",
+       "hint": "Two small letters."
+      },
+      {
+       "t": "recap",
+       "items": [
+        "The terminal is a window where you type commands and press Enter.",
+        "`whoami` tells you who you are, `pwd` tells you where you are, and `ls` shows what is there.",
+        "Spelling and capital letters matter."
+       ]
+      }
+     ],
+     "day": 1,
+     "dayTitle": "Meet the terminal"
+    },
+    {
+     "id": "A2",
+     "title": "Folders and paths: moving around",
+     "minutes": 20,
+     "summary": "Move between folders with `cd`, and learn absolute and relative paths.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "Chiku must find the file with today's delivery list. Files live in folders inside folders, so first you learn to move around."
+      },
+      {
+       "t": "p",
+       "text": "Your files live inside **folders**, which Linux also calls **directories**. Folders can contain other folders, like rooms inside a building."
+      },
+      {
+       "t": "analogy",
+       "text": "Think of the computer as a college campus. `/` is the main gate: the top of everything. `/home` is the hostel block, `/home/student` is your room, and `/home/student/Documents` is a cupboard in your room. A **path** is the address that tells the computer how to reach a place."
+      },
+      {
+       "t": "h",
+       "text": "Two kinds of paths"
+      },
+      {
+       "t": "list",
+       "items": [
+        "An **absolute path** starts from the main gate `/`. It works from anywhere, for example `/home/student/Documents`.",
+        "A **relative path** starts from where you are now. If you are in `/home/student`, then `Documents` points to the same place."
+       ]
+      },
+      {
+       "t": "words",
+       "label": "Special short names",
+       "items": [
+        [
+         "~",
+         "your home folder"
+        ],
+        [
+         ".",
+         "this folder"
+        ],
+        [
+         "..",
+         "the folder one level up (the parent)"
+        ],
+        [
+         "/",
+         "the top folder of the whole computer"
+        ]
+       ]
+      },
+      {
+       "t": "h",
+       "text": "Moving with cd"
+      },
+      {
+       "t": "code",
+       "lang": "bash",
+       "text": "cd Documents        # go into Documents\ncd ..               # go up one level\ncd ~                # go back home from anywhere\ncd /opt/ros/jazzy   # jump using an absolute path"
+      },
+      {
+       "t": "tip",
+       "text": "Press the **Tab** key after typing the first few letters of a folder name. The terminal completes the name for you and avoids spelling mistakes. On a phone, use the **Tab** button under the practice terminal."
+      },
+      {
+       "t": "term",
+       "title": "Practice: walk around the computer",
+       "fs": {
+        "dirs": [
+         "~/robot_ws/src/my_robot"
+        ]
+       },
+       "tasks": [
+        {
+         "do": "Go into the `robot_ws` folder: `cd robot_ws`",
+         "check": {
+          "cwd": "~/robot_ws"
+         },
+         "hint": "Type: cd robot_ws  (try pressing Tab after cd ro)",
+         "sol": "cd robot_ws"
+        },
+        {
+         "do": "Go one level deeper, into `src`.",
+         "check": {
+          "cwd": "~/robot_ws/src"
+         },
+         "hint": "Type: cd src",
+         "sol": "cd src"
+        },
+        {
+         "do": "Check where you are with `pwd`.",
+         "check": {
+          "cmd": "^pwd$",
+          "cwd": "~/robot_ws/src"
+         },
+         "hint": "Type: pwd",
+         "sol": "pwd"
+        },
+        {
+         "do": "Go up two levels in one command, back home: `cd ../..`",
+         "check": {
+          "cwd": "~"
+         },
+         "hint": "Each .. goes up one level. Type: cd ../..",
+         "sol": "cd ../.."
+        },
+        {
+         "do": "Jump to the ROS 2 folder with an absolute path: `cd /opt/ros/jazzy`",
+         "check": {
+          "cwd": "/opt/ros/jazzy"
+         },
+         "hint": "Type: cd /opt/ros/jazzy",
+         "sol": "cd /opt/ros/jazzy"
+        },
+        {
+         "do": "Come back home with `cd ~`",
+         "check": {
+          "cwd": "~"
+         },
+         "hint": "Type: cd ~  (cd on its own also works)",
+         "sol": "cd ~"
+        }
+       ]
+      },
+      {
+       "t": "mcq",
+       "q": "You are in `/home/student`. Which command takes you into `/home/student/robot_ws/src`?",
+       "options": [
+        "cd robot_ws/src",
+        "cd /robot_ws/src",
+        "cd src/robot_ws",
+        "cd robot_ws src"
+       ],
+       "answer": 0,
+       "why": "From your home folder, `robot_ws/src` means: into robot_ws, then into src.",
+       "hint": "Start from where you are, and go in the order robot_ws, then src."
+      },
+      {
+       "t": "mcq",
+       "q": "Which of these is an **absolute** path?",
+       "options": [
+        "/home/student/robot_ws",
+        "robot_ws/src",
+        "../src",
+        "./notes.txt"
+       ],
+       "answer": 0,
+       "why": "Absolute paths always start with `/`, the top folder.",
+       "hint": "Which one starts from the main gate?"
+      },
+      {
+       "t": "fill",
+       "q": "You are in `/home/student/robot_ws/src`. Type one command to go up **one** level.",
+       "accept": [
+        "cd .."
+       ],
+       "why": "`cd ..` moves to the parent folder, `/home/student/robot_ws`.",
+       "hint": "Two dots mean one level up. Remember the space after cd."
+      },
+      {
+       "t": "warn",
+       "text": "`cd..` without a space does not work on Ubuntu. Always put a space after `cd`."
+      },
+      {
+       "t": "recap",
+       "items": [
+        "`cd folder` goes in, `cd ..` goes up, `cd ~` goes home.",
+        "Absolute paths start with `/`. Relative paths start from where you are.",
+        "Press Tab to complete names."
+       ]
+      }
+     ],
+     "day": 1,
+     "dayTitle": "Meet the terminal"
+    },
+    {
+     "id": "A3",
+     "title": "Making, copying and deleting",
+     "minutes": 20,
+     "summary": "Create folders and files, then copy, move, rename and delete them safely.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "Before Chiku can learn new skills, it needs a tidy workspace: folders for code, notes and backups."
+      },
+      {
+       "t": "p",
+       "text": "Every ROS 2 project lives in a folder called a **workspace**. In this lesson you build one with these commands:"
+      },
+      {
+       "t": "code",
+       "lang": "bash",
+       "text": "mkdir robot_ws             # make one folder\nmkdir -p robot_ws/src      # make folders inside folders (-p = parents)\ntouch notes.txt            # make an empty file\ncp notes.txt copy.txt      # copy a file\ncp -r robot_ws backup_ws   # copy a folder with everything inside (-r)\nmv copy.txt ideas.txt      # rename (or move) a file\nrm ideas.txt               # delete a file\nrm -r backup_ws            # delete a folder and everything inside"
+      },
+      {
+       "t": "analogy",
+       "text": "`-p`, `-r` and `-a` are **options**. They adjust what a command does, like asking for tea \"with less sugar\": it is still tea, the option changes how it is made."
+      },
+      {
+       "t": "warn",
+       "text": "Linux has **no recycle bin**. `rm` deletes immediately and forever. Read the command twice before pressing Enter, especially with `rm -r`."
+      },
+      {
+       "t": "term",
+       "title": "Practice: build a ROS 2 workspace",
+       "tasks": [
+        {
+         "do": "Create the folders `ros2_ws/src` in one command: `mkdir -p ros2_ws/src`",
+         "check": {
+          "dir": "~/ros2_ws/src"
+         },
+         "hint": "Type: mkdir -p ros2_ws/src",
+         "sol": "mkdir -p ros2_ws/src"
+        },
+        {
+         "do": "Go into `ros2_ws`.",
+         "check": {
+          "cwd": "~/ros2_ws"
+         },
+         "hint": "Type: cd ros2_ws",
+         "sol": "cd ros2_ws"
+        },
+        {
+         "do": "Create an empty file called `README.md`.",
+         "check": {
+          "file": "~/ros2_ws/README.md"
+         },
+         "hint": "Type: touch README.md",
+         "sol": "touch README.md"
+        },
+        {
+         "do": "List the folder with `ls` to see both items.",
+         "check": {
+          "cmd": "^ls$",
+          "cwd": "~/ros2_ws"
+         },
+         "hint": "Type: ls",
+         "sol": "ls"
+        },
+        {
+         "do": "Copy the whole `src` folder to `src_backup`.",
+         "check": {
+          "dir": "~/ros2_ws/src_backup"
+         },
+         "hint": "Folders need -r. Type: cp -r src src_backup",
+         "sol": "cp -r src src_backup"
+        },
+        {
+         "do": "Rename `README.md` to `notes.md`.",
+         "check": {
+          "file": "~/ros2_ws/notes.md",
+          "missing": "~/ros2_ws/README.md"
+         },
+         "hint": "Type: mv README.md notes.md",
+         "sol": "mv README.md notes.md"
+        },
+        {
+         "do": "Delete the `src_backup` folder.",
+         "check": {
+          "missing": "~/ros2_ws/src_backup",
+          "dir": "~/ros2_ws/src"
+         },
+         "hint": "Type: rm -r src_backup  (check the name first!)",
+         "sol": "rm -r src_backup"
+        }
+       ]
+      },
+      {
+       "t": "mcq",
+       "q": "Why does `mkdir robot_ws/src` fail when `robot_ws` does not exist yet?",
+       "options": [
+        "mkdir needs -p to also create the missing parent folder",
+        "Folder names cannot contain /",
+        "You need sudo",
+        "src is a reserved word"
+       ],
+       "answer": 0,
+       "why": "`-p` tells mkdir to create every missing folder on the path.",
+       "hint": "Which option creates parent folders?"
+      },
+      {
+       "t": "mcq",
+       "q": "Which command copies the folder `maps` with everything inside it to `maps_old`?",
+       "options": [
+        "cp -r maps maps_old",
+        "cp maps maps_old",
+        "mv -r maps maps_old",
+        "copy maps maps_old"
+       ],
+       "answer": 0,
+       "why": "Folders need `cp -r`. `mv` would move the folder instead of copying it.",
+       "hint": "Copying a folder needs one extra option."
+      },
+      {
+       "t": "order",
+       "q": "Put these commands in order: create a workspace, go into it, make a file there, and check.",
+       "items": [
+        "mkdir -p lab_ws/src",
+        "cd lab_ws",
+        "touch notes.txt",
+        "ls"
+       ],
+       "why": "Create the folder first, go into it, create the file, then check with `ls`.",
+       "hint": "You cannot go into a folder before it exists."
+      },
+      {
+       "t": "recap",
+       "items": [
+        "`mkdir -p` makes folders (and missing parents). `touch` makes an empty file.",
+        "`cp -r` copies folders. `mv` moves or renames.",
+        "`rm` deletes forever, so check twice."
+       ]
+      }
+     ],
+     "day": 2,
+     "dayTitle": "Files, permissions and installing"
+    },
+    {
+     "id": "A4",
+     "title": "Reading and editing files",
+     "minutes": 20,
+     "summary": "Look inside files with `cat`, `head` and `tail`, and edit them with `nano`.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "Chiku kept a diary (a log file) of its last trip, and something went wrong near the end. Let's read it."
+      },
+      {
+       "t": "p",
+       "text": "Robots write **log files** that record what happened, and ROS 2 packages are described by small text files. You will often need to look inside a file or change one line."
+      },
+      {
+       "t": "code",
+       "lang": "bash",
+       "text": "cat notes.txt         # show the whole file\nhead -n 5 log.txt     # show the first 5 lines\ntail -n 5 log.txt     # show the last 5 lines\nless log.txt          # scroll through a long file (press q to quit)\nnano notes.txt        # edit a file"
+      },
+      {
+       "t": "analogy",
+       "text": "`head` is like reading only the first page of a long notebook, and `tail` is like reading only the last page. Robot logs add new messages at the end, so `tail` shows you the newest news."
+      },
+      {
+       "t": "h",
+       "text": "Editing with nano"
+      },
+      {
+       "t": "steps",
+       "items": [
+        "Type `nano filename` and press Enter. The file opens inside the terminal.",
+        "Move with the arrow keys and type your changes.",
+        "Press `Ctrl` + `O` to save (O for output), then Enter.",
+        "Press `Ctrl` + `X` to exit nano."
+       ]
+      },
+      {
+       "t": "tip",
+       "text": "In the practice terminal you can also use the **^O Save** and **^X Exit** buttons. The `^` symbol means the Ctrl key."
+      },
+      {
+       "t": "term",
+       "title": "Practice: read a robot log and edit a file",
+       "fs": {
+        "files": {
+         "~/robot.log": "boot: ok\nmotors: ok\ncamera: ok\nlidar: ok\nbattery: 86%\nwifi: connected\nmission: start\nobstacle: detected\nmission: paused\nbattery: 84%\n",
+         "~/hello.py": "print(\"Hello from the robot\")\n"
+        }
+       },
+       "tasks": [
+        {
+         "do": "Show the whole log: `cat robot.log`",
+         "check": {
+          "cmd": "^cat robot\\.log$"
+         },
+         "hint": "Type: cat robot.log",
+         "sol": "cat robot.log"
+        },
+        {
+         "do": "Show only the first 3 lines: `head -n 3 robot.log`",
+         "check": {
+          "cmd": "^head (-n ?3|-3) robot\\.log$"
+         },
+         "hint": "Type: head -n 3 robot.log",
+         "sol": "head -n 3 robot.log"
+        },
+        {
+         "do": "Show only the last 2 lines, the newest messages.",
+         "check": {
+          "cmd": "^tail (-n ?2|-2) robot\\.log$"
+         },
+         "hint": "Type: tail -n 2 robot.log",
+         "sol": "tail -n 2 robot.log"
+        },
+        {
+         "do": "Open `hello.py` in nano. Change `robot` to `ROS 2 robot`, save with Ctrl+O, and exit with Ctrl+X.",
+         "check": {
+          "fileHas": {
+           "path": "~/hello.py",
+           "text": "ROS 2 robot"
+          }
+         },
+         "hint": "Type: nano hello.py  then edit the text, press the ^O Save button, then ^X Exit.",
+         "sol": {
+          "nano": "hello.py",
+          "replace": [
+           "robot",
+           "ROS 2 robot"
+          ]
+         }
+        },
+        {
+         "do": "Check your change: `cat hello.py`",
+         "check": {
+          "cmd": "^cat hello\\.py$",
+          "fileHas": {
+           "path": "~/hello.py",
+           "text": "ROS 2 robot"
+          }
+         },
+         "hint": "Type: cat hello.py",
+         "sol": "cat hello.py"
+        }
+       ]
+      },
+      {
+       "t": "mcq",
+       "q": "A log file has 500 lines. Which command shows the newest 10 messages at the end?",
+       "options": [
+        "tail -n 10 robot.log",
+        "head -n 10 robot.log",
+        "cat -10 robot.log",
+        "ls robot.log"
+       ],
+       "answer": 0,
+       "why": "`tail` shows the end of a file, where new log lines are added.",
+       "hint": "New messages are at the end of the file."
+      },
+      {
+       "t": "mcq",
+       "q": "In nano, how do you save the file?",
+       "options": [
+        "Ctrl + O, then Enter",
+        "Ctrl + S",
+        "Ctrl + X only",
+        "Type save and press Enter"
+       ],
+       "answer": 0,
+       "why": "`Ctrl` + `O` writes (saves) the file. `Ctrl` + `X` exits.",
+       "hint": "O for output."
+      },
+      {
+       "t": "recap",
+       "items": [
+        "`cat` shows a whole file. `head -n N` and `tail -n N` show the start or the end.",
+        "`nano file` edits a file: Ctrl+O saves, Ctrl+X exits.",
+        "In robot logs, the newest lines are at the end."
+       ]
+      }
+     ],
+     "day": 2,
+     "dayTitle": "Files, permissions and installing"
+    },
+    {
+     "id": "A5",
+     "title": "Permissions and sudo",
+     "minutes": 20,
+     "summary": "Read rwx permissions, make a program runnable with `chmod +x`, and use `sudo` safely.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "Chiku's new program refuses to start: Permission denied! Time to learn who is allowed to do what."
+      },
+      {
+       "t": "p",
+       "text": "Every file has **permissions** that say who may read it, change it or run it. When you see `Permission denied`, permissions are usually the reason."
+      },
+      {
+       "t": "code",
+       "lang": "bash",
+       "text": "ls -l\n-rw-r--r-- 1 student student   31 Oct  2 10:15 notes.txt\n-rwxr-xr-x 1 student student   64 Oct  2 10:15 move.py\ndrwxr-xr-x 2 student student 4096 Oct  2 10:15 maps"
+      },
+      {
+       "t": "words",
+       "label": "Reading the first column",
+       "items": [
+        [
+         "first letter",
+         "`d` means a folder, `-` means a file"
+        ],
+        [
+         "r",
+         "read: look inside"
+        ],
+        [
+         "w",
+         "write: change it"
+        ],
+        [
+         "x",
+         "execute: run it as a program"
+        ],
+        [
+         "three groups",
+         "after the first letter: owner (you), group, everyone else"
+        ]
+       ]
+      },
+      {
+       "t": "analogy",
+       "text": "Permissions are like keys to a hostel room. `rwxr-xr-x` means the owner can enter, rearrange and use everything, while others may look in and use things but not change them."
+      },
+      {
+       "t": "h",
+       "text": "Making a program runnable"
+      },
+      {
+       "t": "code",
+       "lang": "bash",
+       "text": "./move.py           # bash: ./move.py: Permission denied\nchmod +x move.py    # add execute (x) permission\n./move.py           # now it runs"
+      },
+      {
+       "t": "h",
+       "text": "sudo: administrator power for one command"
+      },
+      {
+       "t": "p",
+       "text": "Some actions change the whole system, such as installing software. They need administrator rights. Put `sudo` in front of the command; Ubuntu asks for **your** password. Nothing appears on screen while you type the password. That is normal."
+      },
+      {
+       "t": "warn",
+       "text": "`sudo` means \"I know exactly what I am doing.\" Never put `sudo` in front of a command you do not understand, and never use `sudo rm -r`."
+      },
+      {
+       "t": "term",
+       "title": "Practice: fix a Permission denied",
+       "fs": {
+        "files": {
+         "~/move.py": "#!/usr/bin/env python3\nprint(\"Robot moving forward\")\n"
+        }
+       },
+       "tasks": [
+        {
+         "do": "Look at the permissions with `ls -l`",
+         "check": {
+          "cmd": "^ls -l$"
+         },
+         "hint": "Type: ls -l  (small L)",
+         "sol": "ls -l"
+        },
+        {
+         "do": "Try to run the program: `./move.py`. Read the error.",
+         "check": {
+          "cmd": "^\\./move\\.py$"
+         },
+         "hint": "Type: ./move.py",
+         "sol": "./move.py"
+        },
+        {
+         "do": "Make it executable: `chmod +x move.py`",
+         "check": {
+          "exec": "~/move.py"
+         },
+         "hint": "Type: chmod +x move.py",
+         "sol": "chmod +x move.py"
+        },
+        {
+         "do": "Run it again with `./move.py`",
+         "check": {
+          "cmd": "^\\./move\\.py$",
+          "outputHas": "Robot moving forward"
+         },
+         "hint": "Type: ./move.py",
+         "sol": "./move.py"
+        },
+        {
+         "do": "Try `apt install tree` without sudo, and read the error.",
+         "check": {
+          "cmd": "^apt(-get)? install tree$"
+         },
+         "hint": "Type: apt install tree",
+         "sol": "apt install tree"
+        },
+        {
+         "do": "Now install it the right way, with sudo.",
+         "check": {
+          "cmd": "^sudo apt(-get)? install tree$"
+         },
+         "hint": "Type: sudo apt install tree",
+         "sol": "sudo apt install tree"
+        },
+        {
+         "do": "Run `tree` to see your folders drawn as a tree.",
+         "check": {
+          "cmd": "^tree",
+          "ok": true
+         },
+         "hint": "Type: tree",
+         "sol": "tree"
+        }
+       ]
+      },
+      {
+       "t": "mcq",
+       "q": "`ls -l` shows `-rw-r--r--` for `start.py`. Why does `./start.py` say Permission denied?",
+       "options": [
+        "The owner part rw- has no x, so the file cannot be run",
+        "The file is a folder",
+        "The file is too big",
+        "Programs only run from /opt"
+       ],
+       "answer": 0,
+       "why": "The execute permission `x` is missing. Fix it with `chmod +x start.py`.",
+       "hint": "Which letter means execute?"
+      },
+      {
+       "t": "fill",
+       "q": "Type the command that makes `patrol.py` executable.",
+       "accept": [
+        "chmod +x patrol.py",
+        "chmod u+x patrol.py",
+        "chmod a+x patrol.py",
+        "chmod 755 patrol.py"
+       ],
+       "why": "`chmod +x` adds the execute permission.",
+       "hint": "chmod, then +x, then the file name."
+      },
+      {
+       "t": "mcq",
+       "q": "Which of these commands needs `sudo`?",
+       "options": [
+        "apt install ros-jazzy-turtlesim",
+        "ls -l",
+        "cd ~",
+        "cat notes.txt"
+       ],
+       "answer": 0,
+       "why": "Installing software changes the system, so it needs administrator rights.",
+       "hint": "Which one changes the whole computer?"
+      },
+      {
+       "t": "recap",
+       "items": [
+        "`ls -l` shows permissions: d or -, then rwx for owner, group and others.",
+        "`chmod +x file` makes a program runnable. Run it with `./file`.",
+        "`sudo` gives administrator power for one command. Use it only when needed."
+       ]
+      }
+     ],
+     "day": 2,
+     "dayTitle": "Files, permissions and installing"
+    },
+    {
+     "id": "A6",
+     "title": "Installing software with apt",
+     "minutes": 20,
+     "summary": "Refresh the software list, search for packages, and install ROS 2 tools.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "Chiku needs a new tool, the turtle simulator. Installing software on Ubuntu works like an app store."
+      },
+      {
+       "t": "p",
+       "text": "On Ubuntu you install software with **apt**, the package manager. It downloads programs from trusted online stores called **repositories**. ROS 2 itself is installed with apt."
+      },
+      {
+       "t": "analogy",
+       "text": "apt works like the app store on your phone. `apt update` refreshes the store's catalogue but installs nothing. `apt install` downloads and installs an app. `apt search` looks for apps by name."
+      },
+      {
+       "t": "code",
+       "lang": "bash",
+       "text": "sudo apt update                        # refresh the list of software\napt search turtlesim                   # find packages by name\nsudo apt install ros-jazzy-turtlesim   # install a package"
+      },
+      {
+       "t": "words",
+       "label": "How ROS 2 package names work",
+       "items": [
+        [
+         "ros-jazzy-",
+         "apt names of ROS 2 Jazzy packages start like this"
+        ],
+        [
+         "dashes",
+         "apt names use dashes: `ros-jazzy-demo-nodes-py`"
+        ],
+        [
+         "underscores",
+         "inside ROS 2 the same package is called `demo_nodes_py`"
+        ]
+       ]
+      },
+      {
+       "t": "tip",
+       "text": "On a real computer apt may ask `Do you want to continue? [Y/n]`. Type `y` and press Enter. Adding `-y` at the end answers yes automatically."
+      },
+      {
+       "t": "term",
+       "title": "Practice: install turtlesim",
+       "bareRos": true,
+       "tasks": [
+        {
+         "do": "Refresh the software list: `sudo apt update`",
+         "check": {
+          "aptUpdated": true
+         },
+         "hint": "Type: sudo apt update",
+         "sol": "sudo apt update"
+        },
+        {
+         "do": "Search for turtlesim: `apt search turtlesim`",
+         "check": {
+          "cmd": "^apt search turtlesim"
+         },
+         "hint": "Type: apt search turtlesim",
+         "sol": "apt search turtlesim"
+        },
+        {
+         "do": "Install it: `sudo apt install ros-jazzy-turtlesim`",
+         "check": {
+          "rosPkg": "turtlesim"
+         },
+         "hint": "Type: sudo apt install ros-jazzy-turtlesim",
+         "sol": "sudo apt install ros-jazzy-turtlesim"
+        },
+        {
+         "do": "Load ROS 2 into this terminal: `source /opt/ros/jazzy/setup.bash` (Day 10 explains why).",
+         "check": {
+          "sourced": true
+         },
+         "hint": "Type: source /opt/ros/jazzy/setup.bash",
+         "sol": "source /opt/ros/jazzy/setup.bash"
+        },
+        {
+         "do": "Start the turtle simulator: `ros2 run turtlesim turtlesim_node`",
+         "check": {
+          "cmd": "^ros2 run turtlesim turtlesim_node$",
+          "outputHas": "Spawning turtle"
+         },
+         "hint": "Type: ros2 run turtlesim turtlesim_node",
+         "sol": "ros2 run turtlesim turtlesim_node"
+        }
+       ]
+      },
+      {
+       "t": "order",
+       "q": "Put the steps to install and run a ROS 2 package in order.",
+       "items": [
+        "sudo apt update",
+        "sudo apt install ros-jazzy-demo-nodes-py",
+        "source /opt/ros/jazzy/setup.bash",
+        "ros2 run demo_nodes_py talker"
+       ],
+       "why": "Refresh the list, install, load ROS 2 into the terminal, then run.",
+       "hint": "You cannot run something before it is installed and loaded."
+      },
+      {
+       "t": "mcq",
+       "q": "What does `sudo apt update` do?",
+       "options": [
+        "Refreshes the list of available software; it installs nothing",
+        "Installs every ROS 2 package",
+        "Updates the Python code in your workspace",
+        "Restarts the computer"
+       ],
+       "answer": 0,
+       "why": "`update` only refreshes the catalogue. `install` actually adds software.",
+       "hint": "Think of the app store catalogue."
+      },
+      {
+       "t": "mcq",
+       "q": "`sudo apt install ros-jazzy-demo_nodes_py` says Unable to locate package. Why?",
+       "options": [
+        "apt names use dashes: ros-jazzy-demo-nodes-py",
+        "You must not use sudo",
+        "The internet is too fast",
+        "Package names must be in capitals"
+       ],
+       "answer": 0,
+       "why": "apt names use dashes; inside ROS 2 the same package uses underscores.",
+       "hint": "Look closely at the symbols between the words."
+      },
+      {
+       "t": "recap",
+       "items": [
+        "`sudo apt update` refreshes, `sudo apt install name` installs, and `apt search word` finds packages.",
+        "ROS 2 apt packages look like `ros-jazzy-...` with dashes.",
+        "Inside ROS 2, names use underscores, like `demo_nodes_py`."
+       ]
+      }
+     ],
+     "day": 2,
+     "dayTitle": "Files, permissions and installing"
+    },
+    {
+     "id": "P1",
+     "title": "Python 1: the robot's notebook",
+     "minutes": 25,
+     "summary": "Print messages, store values in variables, tell numbers from text, and ask questions with `input()`.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "Chiku keeps a notebook: its name, its battery level, how far it has travelled. In Python, each line of that notebook is a **variable**. Today you write Chiku's first notebook."
+      },
+      {
+       "t": "goal",
+       "items": [
+        "Print messages with `print()`",
+        "Store values in variables",
+        "Tell numbers and text apart",
+        "Ask the user a question with `input()`"
+       ]
+      },
+      {
+       "t": "h",
+       "text": "Your first line of Python"
+      },
+      {
+       "t": "p",
+       "text": "`print()` shows something on the screen. Text goes inside quotes; numbers don't need quotes."
+      },
+      {
+       "t": "py",
+       "title": "Try it: press Run",
+       "code": "print(\"Hello, I am Chiku!\")\nprint(2 + 3)\nprint(\"2 + 3\")\n"
+      },
+      {
+       "t": "tip",
+       "text": "Look at the last two lines: `2 + 3` without quotes is maths (5), but `\"2 + 3\"` in quotes is just text."
+      },
+      {
+       "t": "h",
+       "text": "Variables: labelled boxes"
+      },
+      {
+       "t": "analogy",
+       "text": "A variable is a labelled box in Chiku's notebook. `battery = 80` puts 80 into a box labelled battery. Later you can read the box, or put something new in it."
+      },
+      {
+       "t": "code",
+       "lang": "python",
+       "text": "name = \"Chiku\"        # text (str)\nbattery = 80          # whole number (int)\nspeed = 0.5           # decimal number (float)\nis_charging = False   # True or False (bool)\nprint(name, battery, speed, is_charging)",
+       "out": "Chiku 80 0.5 False"
+      },
+      {
+       "t": "words",
+       "label": "Four kinds of values",
+       "items": [
+        [
+         "int",
+         "whole numbers: 80, -3, 0"
+        ],
+        [
+         "float",
+         "numbers with a decimal point: 0.5, 3.14"
+        ],
+        [
+         "str",
+         "text in quotes: \"Chiku\""
+        ],
+        [
+         "bool",
+         "True or False (capital T and F)"
+        ]
+       ]
+      },
+      {
+       "t": "warn",
+       "text": "In Python, `=` means **store**, not \"is equal to\". `battery = battery - 10` means: take the old battery value, subtract 10, and store the result back in the box."
+      },
+      {
+       "t": "h",
+       "text": "Nice messages with f-strings"
+      },
+      {
+       "t": "code",
+       "lang": "python",
+       "text": "name = \"Chiku\"\nbattery = 80\nprint(f\"{name} has {battery}% battery\")",
+       "out": "Chiku has 80% battery"
+      },
+      {
+       "t": "tip",
+       "text": "Put the letter `f` before the quotes, then write variable names inside `{ }`. Python fills in their values."
+      },
+      {
+       "t": "h",
+       "text": "Asking questions with input()"
+      },
+      {
+       "t": "p",
+       "text": "`input()` waits for the user to type something and gives it back as **text**. To do maths with it, turn it into a number with `int()` (whole numbers) or `float()` (decimals)."
+      },
+      {
+       "t": "py",
+       "title": "Try it: trip calculator",
+       "inputs": [
+        "Chiku",
+        "80"
+       ],
+       "goal": "Run it once as it is. Then change the program so that the trip uses **20%** battery instead of 10%. With the answers shown, the last line must be `Chiku will be at 60% after the trip`.",
+       "code": "name = input(\"Robot name: \")\nlevel = int(input(\"Battery %: \"))\nprint(f\"{name} will be at {level - 10}% after the trip\")\n",
+       "contains": [
+        "Chiku will be at 60% after the trip"
+       ],
+       "retryHint": "Inside the f-string, change level - 10 to level - 20.",
+       "solution": "name = input(\"Robot name: \")\nlevel = int(input(\"Battery %: \"))\nprint(f\"{name} will be at {level - 20}% after the trip\")\n"
+      },
+      {
+       "t": "mcq",
+       "q": "What is the type of `\"80\"` (with quotes)?",
+       "options": [
+        "str (text)",
+        "int (whole number)",
+        "float (decimal)",
+        "bool"
+       ],
+       "answer": 0,
+       "why": "Anything inside quotes is text, even if it looks like a number.",
+       "hint": "Look at the quotes."
+      },
+      {
+       "t": "mcq",
+       "q": "What does this print?",
+       "options": [
+        "53",
+        "8",
+        "x3",
+        "An error"
+       ],
+       "answer": 0,
+       "why": "Both values are text, so `+` joins them. To add numbers, write `int(x) + 3`.",
+       "hint": "Is x a number or text?",
+       "code": "x = \"5\"\nprint(x + \"3\")"
+      },
+      {
+       "t": "fill",
+       "q": "What does this print?",
+       "accept": [
+        "35"
+       ],
+       "why": "50 - 15 = 35 is stored back in battery, then printed.",
+       "hint": "Do the subtraction, then print.",
+       "code": "battery = 50\nbattery = battery - 15\nprint(battery)"
+      },
+      {
+       "t": "recap",
+       "items": [
+        "`print()` shows things on the screen; text goes in quotes.",
+        "Variables store values: int, float, str, bool.",
+        "f-strings fill in values: `f\"{name} has {battery}%\"`.",
+        "`input()` gives text; use `int()` or `float()` to get a number."
+       ]
+      }
+     ],
+     "day": 3,
+     "dayTitle": "Python from zero"
+    },
+    {
+     "id": "P2",
+     "title": "Python 2: should the robot stop?",
+     "minutes": 30,
+     "summary": "Make decisions with `if`, `elif` and `else`, and repeat actions with `for`, `while` and `break`.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "Chiku is driving down the corridor. Its distance sensor says how far the nearest wall is. Chiku must **decide**: go, slow down or stop. And it must **repeat** that check again and again."
+      },
+      {
+       "t": "goal",
+       "items": [
+        "Compare values with `<`, `>` and `==`",
+        "Make decisions with `if`, `elif` and `else`",
+        "Repeat with `for` and `while`",
+        "Stop a loop early with `break`"
+       ]
+      },
+      {
+       "t": "h",
+       "text": "Comparisons give True or False"
+      },
+      {
+       "t": "code",
+       "lang": "python",
+       "text": "distance = 0.4\nprint(distance < 0.5)    # True\nprint(distance == 1.0)   # False",
+       "out": "True\nFalse"
+      },
+      {
+       "t": "words",
+       "label": "Comparison signs",
+       "items": [
+        [
+         "<  >",
+         "less than, greater than"
+        ],
+        [
+         "<=  >=",
+         "less or equal, greater or equal"
+        ],
+        [
+         "==",
+         "is equal to (two equals signs)"
+        ],
+        [
+         "!=",
+         "is not equal to"
+        ]
+       ]
+      },
+      {
+       "t": "h",
+       "text": "if, elif and else"
+      },
+      {
+       "t": "analogy",
+       "text": "`if` works like a traffic signal at a junction: red means stop, yellow means slow down, green means go. Python checks the signals from top to bottom and follows the **first** one that is True."
+      },
+      {
+       "t": "code",
+       "lang": "python",
+       "text": "distance = 0.8\nif distance < 0.5:\n    print(\"STOP\")\nelif distance < 1.0:\n    print(\"SLOW\")\nelse:\n    print(\"GO\")",
+       "out": "SLOW"
+      },
+      {
+       "t": "warn",
+       "label": "Colons and spaces",
+       "text": "Each `if`, `elif` and `else` line ends with a colon `:`. The lines inside are pushed right by 4 spaces. Python uses those spaces to know what belongs inside."
+      },
+      {
+       "t": "py",
+       "title": "Your turn: the robot's traffic signal",
+       "goal": "Change `distance` so that the program prints `STOP`.",
+       "code": "distance = 0.8\nif distance < 0.5:\n    print(\"STOP\")\nelif distance < 1.0:\n    print(\"SLOW\")\nelse:\n    print(\"GO\")\n",
+       "expect": "STOP",
+       "retryHint": "STOP appears only when distance is less than 0.5. Try distance = 0.3.",
+       "solution": "distance = 0.3\nif distance < 0.5:\n    print(\"STOP\")\nelif distance < 1.0:\n    print(\"SLOW\")\nelse:\n    print(\"GO\")\n"
+      },
+      {
+       "t": "h",
+       "text": "Repeating with for and while"
+      },
+      {
+       "t": "code",
+       "lang": "python",
+       "text": "for i in range(3):        # i = 0, then 1, then 2\n    print(\"Beep\", i)\n\ncount = 3\nwhile count > 0:          # repeat while this is True\n    print(count)\n    count = count - 1\nprint(\"Lift-off!\")",
+       "out": "Beep 0\nBeep 1\nBeep 2\n3\n2\n1\nLift-off!"
+      },
+      {
+       "t": "tip",
+       "text": "`range(3)` gives 0, 1, 2. Python starts counting at 0, so `range(3)` means three times."
+      },
+      {
+       "t": "h",
+       "text": "Stopping early with break"
+      },
+      {
+       "t": "code",
+       "lang": "python",
+       "text": "readings = [1.2, 0.9, 0.4, 1.5]\nfor d in readings:\n    if d < 0.5:\n        print(\"Obstacle at\", d)\n        break             # leave the loop now\n    print(\"Clear:\", d)",
+       "out": "Clear: 1.2\nClear: 0.9\nObstacle at 0.4"
+      },
+      {
+       "t": "py",
+       "title": "Mini-challenge: patrol with a battery check",
+       "goal": "Each trip uses 30% battery. Add `break` so Chiku goes home as soon as the battery is below 20, and does not try to reach the Hostel.",
+       "code": "battery = 100\nfor place in [\"Lab\", \"Library\", \"Canteen\", \"Hostel\"]:\n    battery = battery - 30\n    print(\"Reached\", place, \"battery\", battery)\n    if battery < 20:\n        print(\"Low battery, going home\")\n        # add break on the next line\n",
+       "expect": "Reached Lab battery 70\nReached Library battery 40\nReached Canteen battery 10\nLow battery, going home",
+       "retryHint": "Under the print(\"Low battery, going home\") line, add a line with break, indented the same way.",
+       "solution": "battery = 100\nfor place in [\"Lab\", \"Library\", \"Canteen\", \"Hostel\"]:\n    battery = battery - 30\n    print(\"Reached\", place, \"battery\", battery)\n    if battery < 20:\n        print(\"Low battery, going home\")\n        break\n"
+      },
+      {
+       "t": "mcq",
+       "q": "Which sign means \"is equal to\" when you compare two values?",
+       "options": [
+        "==",
+        "=",
+        "=>",
+        "!="
+       ],
+       "answer": 0,
+       "why": "`=` stores a value; `==` compares two values.",
+       "hint": "Comparing needs two signs."
+      },
+      {
+       "t": "mcq",
+       "q": "How many times does this print Beep?",
+       "options": [
+        "4",
+        "3",
+        "5",
+        "0"
+       ],
+       "answer": 0,
+       "why": "`range(4)` gives 0, 1, 2, 3: four numbers.",
+       "hint": "Count the numbers range(4) gives.",
+       "code": "for i in range(4):\n    print(\"Beep\")"
+      },
+      {
+       "t": "order",
+       "q": "Put the lines in order: count down from 3, then print Go!",
+       "items": [
+        "count = 3",
+        "while count > 0:",
+        "    print(count)",
+        "    count = count - 1",
+        "print(\"Go!\")"
+       ],
+       "why": "Set the start value, loop while it is above zero, print and reduce inside the loop, then print Go! after the loop.",
+       "hint": "The indented lines belong inside the loop."
+      },
+      {
+       "t": "recap",
+       "items": [
+        "Comparisons (`<`, `>`, `==`, `!=`) give True or False.",
+        "`if` / `elif` / `else` run the first matching choice.",
+        "`for i in range(n)` repeats n times; `while` repeats while a test is True.",
+        "`break` leaves a loop early."
+       ]
+      }
+     ],
+     "day": 4,
+     "dayTitle": "Decisions and loops"
+    },
+    {
+     "id": "P3",
+     "title": "Python 3: memory and skills",
+     "minutes": 30,
+     "summary": "Keep many values in lists and dictionaries, and write your own functions.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "Chiku must remember a list of places to visit and the readings of its three distance sensors. It also needs reusable **skills**, like checking whether the way is safe."
+      },
+      {
+       "t": "goal",
+       "items": [
+        "Store many values in a list",
+        "Look up values by name in a dictionary",
+        "Write and use your own functions"
+       ]
+      },
+      {
+       "t": "h",
+       "text": "Lists: many values in order"
+      },
+      {
+       "t": "code",
+       "lang": "python",
+       "text": "places = [\"Lab\", \"Library\", \"Canteen\"]\nprint(places[0])       # first item: Lab\nprint(len(places))     # how many: 3\nplaces.append(\"Hostel\")\nfor p in places:\n    print(\"Going to\", p)"
+      },
+      {
+       "t": "analogy",
+       "text": "A list is like a train: coaches in a fixed order, numbered from 0. `append` adds a new coach at the end, and `len` counts the coaches."
+      },
+      {
+       "t": "h",
+       "text": "Dictionaries: values with names"
+      },
+      {
+       "t": "code",
+       "lang": "python",
+       "text": "sensor = {\"front\": 0.8, \"left\": 0.3, \"right\": 1.2}\nprint(sensor[\"left\"])         # 0.3\nsensor[\"front\"] = 0.5         # change a value\nfor side in sensor:\n    print(side, sensor[side])"
+      },
+      {
+       "t": "tip",
+       "text": "ROS 2 messages work a lot like dictionaries: a laser scan message has named fields such as `ranges` and `angle_min`."
+      },
+      {
+       "t": "h",
+       "text": "Functions: reusable skills"
+      },
+      {
+       "t": "code",
+       "lang": "python",
+       "text": "def is_safe(distance):\n    return distance > 0.5\n\nprint(is_safe(0.8))   # True\nprint(is_safe(0.2))   # False",
+       "out": "True\nFalse"
+      },
+      {
+       "t": "words",
+       "items": [
+        [
+         "def",
+         "starts a function"
+        ],
+        [
+         "parameter",
+         "the value the function receives, here `distance`"
+        ],
+        [
+         "return",
+         "sends the answer back to the line that called the function"
+        ]
+       ]
+      },
+      {
+       "t": "py",
+       "title": "Mini-challenge: find the safest side",
+       "goal": "Complete `safest_side` so it returns the side with the **largest** distance. The program must print `right`.",
+       "code": "def safest_side(sensor):\n    best = \"front\"\n    for side in sensor:\n        # if this side is bigger than the best so far, remember it\n        pass\n    return best\n\nsensor = {\"front\": 0.8, \"left\": 0.3, \"right\": 1.2}\nprint(safest_side(sensor))\n",
+       "expect": "right",
+       "retryHint": "Replace pass with: if sensor[side] > sensor[best]: and on the next line, indented, best = side",
+       "solution": "def safest_side(sensor):\n    best = \"front\"\n    for side in sensor:\n        if sensor[side] > sensor[best]:\n            best = side\n    return best\n\nsensor = {\"front\": 0.8, \"left\": 0.3, \"right\": 1.2}\nprint(safest_side(sensor))\n"
+      },
+      {
+       "t": "mcq",
+       "q": "What does this print?",
+       "options": [
+        "Nova",
+        "Bolt",
+        "Chiku",
+        "An error"
+       ],
+       "answer": 0,
+       "why": "Positions start at 0, so position 2 is the third item.",
+       "hint": "Count from 0.",
+       "code": "robots = [\"Chiku\", \"Bolt\", \"Nova\"]\nprint(robots[2])"
+      },
+      {
+       "t": "mcq",
+       "q": "In `sensor = {\"front\": 0.8}`, how do you get the value 0.8?",
+       "options": [
+        "sensor[\"front\"]",
+        "sensor[0]",
+        "sensor.front()",
+        "front[sensor]"
+       ],
+       "answer": 0,
+       "why": "Dictionaries use the key (the name) in square brackets.",
+       "hint": "Use the name, not a number."
+      },
+      {
+       "t": "fill",
+       "q": "What does this print?",
+       "accept": [
+        "12"
+       ],
+       "why": "double(6) returns 6 * 2 = 12.",
+       "hint": "Follow the value 6 into the function.",
+       "code": "def double(n):\n    return n * 2\n\nprint(double(6))"
+      },
+      {
+       "t": "tip",
+       "label": "Week 1 test",
+       "text": "When you finish this lesson, the **Week 1 test** unlocks on your course page. It mixes terminal and Python questions, and every student gets different questions."
+      },
+      {
+       "t": "recap",
+       "items": [
+        "Lists keep values in order: `places[0]`, `len(places)`, `places.append(...)`.",
+        "Dictionaries look up values by name: `sensor[\"left\"]`.",
+        "`def` creates a function; `return` sends back its answer."
+       ]
+      }
+     ],
+     "day": 5,
+     "dayTitle": "Lists, dictionaries and functions"
+    }
+   ]
+  },
+  {
+   "id": "W2",
+   "order": 2,
+   "short": "Week 2",
+   "title": "Week 2: Build the robot's brain",
+   "description": "Python objects, C++ from the basics, your first ROS 2 nodes, then installing ROS 2 Jazzy and setting up the robotics lab.",
+   "lessons": [
+    {
+     "id": "B2",
+     "title": "Classes and objects",
+     "minutes": 20,
+     "summary": "A class is a blueprint; an object is a robot built from it.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "One blueprint, many robots: today Chiku gets brothers and sisters."
+      },
+      {
+       "t": "p",
+       "text": "ROS 2 programs are built from **classes**. The word sounds difficult, but the idea is simple, and you already know it from real life."
+      },
+      {
+       "t": "analogy",
+       "text": "A **class** is like the blueprint (design drawing) of a robot. One blueprint can build many robots. Each robot built from it is an **object**. All the robots have the same parts, but each one can have its own name and battery level."
+      },
+      {
+       "t": "code",
+       "lang": "python",
+       "text": "class Robot:          # the blueprint\n    pass              # (empty for now)\n\nr1 = Robot()          # build robot 1 (an object)\nr2 = Robot()          # build robot 2 (another object)\nr1.name = \"Chiku\"\nr2.name = \"Bolt\"\nprint(r1.name)        # Chiku\nprint(r2.name)        # Bolt"
+      },
+      {
+       "t": "words",
+       "items": [
+        [
+         "class",
+         "a blueprint: what every robot of this kind has and can do"
+        ],
+        [
+         "object",
+         "one thing built from the blueprint (also called an instance)"
+        ],
+        [
+         "attribute",
+         "a value stored inside an object, like `r1.name`"
+        ],
+        [
+         "Robot()",
+         "calling the class builds a new object"
+        ]
+       ]
+      },
+      {
+       "t": "tip",
+       "text": "By tradition, class names start with a capital letter (`Robot`, `MinimalPublisher`), and variable names use small letters (`r1`, `my_node`)."
+      },
+      {
+       "t": "py",
+       "title": "Two robots, one blueprint",
+       "goal": "Build a third robot `r3` named `Nova`, and print its name too.",
+       "code": "class Robot:\n    pass\n\nr1 = Robot()\nr1.name = \"Chiku\"\nr2 = Robot()\nr2.name = \"Bolt\"\n\n# build r3 here\n\nprint(r1.name)\nprint(r2.name)\n",
+       "contains": [
+        "Chiku",
+        "Bolt",
+        "Nova"
+       ],
+       "mustInclude": [
+        "r3"
+       ],
+       "retryHint": "Add r3 = Robot() and r3.name = \"Nova\", then print(r3.name).",
+       "solution": "class Robot:\n    pass\n\nr1 = Robot()\nr1.name = \"Chiku\"\nr2 = Robot()\nr2.name = \"Bolt\"\n\nr3 = Robot()\nr3.name = \"Nova\"\n\nprint(r1.name)\nprint(r2.name)\nprint(r3.name)\n"
+      },
+      {
+       "t": "mcq",
+       "q": "In `my_bot = Robot()`, which part is the **object**?",
+       "options": [
+        "my_bot",
+        "Robot",
+        "()",
+        "="
+       ],
+       "answer": 0,
+       "why": "`Robot` is the class (blueprint). `my_bot` is the object that was built.",
+       "hint": "The object is the thing that was built and given a name."
+      },
+      {
+       "t": "mcq",
+       "q": "How many objects can one class create?",
+       "options": [
+        "As many as you want",
+        "Only one",
+        "Exactly two",
+        "None; classes cannot create objects"
+       ],
+       "answer": 0,
+       "why": "One blueprint can build many robots.",
+       "hint": "Think of one blueprint in a factory."
+      },
+      {
+       "t": "mcq",
+       "q": "What does this print?",
+       "code": "class Car:\n    pass\n\na = Car()\nb = Car()\na.speed = 10\nb.speed = 20\nprint(a.speed)",
+       "options": [
+        "10",
+        "20",
+        "30",
+        "speed"
+       ],
+       "answer": 0,
+       "why": "`a` and `b` are separate objects, and `a.speed` is 10.",
+       "hint": "Which object is printed?"
+      },
+      {
+       "t": "recap",
+       "items": [
+        "A class is a blueprint. An object is one thing built from it.",
+        "`Robot()` builds a new object.",
+        "Each object keeps its own attributes, like `r1.name`."
+       ]
+      }
+     ],
+     "day": 6,
+     "dayTitle": "Python classes and objects"
+    },
+    {
+     "id": "B3",
+     "title": "Attributes and __init__",
+     "minutes": 20,
+     "summary": "Give every new object its starting values automatically, with `__init__` and `self`.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "Every robot that leaves Chiku's factory should get its name and a full battery automatically."
+      },
+      {
+       "t": "p",
+       "text": "In the last lesson we added a name after building each robot. That is easy to forget. Python has a special setup step that runs **automatically** whenever an object is built: `__init__`."
+      },
+      {
+       "t": "analogy",
+       "text": "`__init__` is like the factory's final checklist. Every robot that leaves the factory gets its name painted on and its battery charged, before anyone uses it."
+      },
+      {
+       "t": "code",
+       "lang": "python",
+       "out": "Chiku 90\nBolt 40",
+       "text": "class Robot:\n    def __init__(self, name, battery):\n        self.name = name          # store the name inside this robot\n        self.battery = battery    # store the battery inside this robot\n\nr1 = Robot(\"Chiku\", 90)\nr2 = Robot(\"Bolt\", 40)\nprint(r1.name, r1.battery)\nprint(r2.name, r2.battery)"
+      },
+      {
+       "t": "words",
+       "items": [
+        [
+         "__init__",
+         "two underscores, init, two underscores: the setup step"
+        ],
+        [
+         "self",
+         "the object being built right now"
+        ],
+        [
+         "self.name = name",
+         "store the value inside this object"
+        ]
+       ]
+      },
+      {
+       "t": "p",
+       "text": "When you write `Robot(\"Chiku\", 90)`, Python builds an empty robot, then runs `__init__` with `self` as the new robot, `name` as \"Chiku\" and `battery` as 90. You never pass `self` yourself: Python does it for you."
+      },
+      {
+       "t": "warn",
+       "text": "`self` must be the **first** parameter: `def __init__(self, name):`. Forgetting it causes a `TypeError`."
+      },
+      {
+       "t": "py",
+       "title": "Add a speed attribute",
+       "goal": "Give every robot a `speed` attribute that starts at `0`. The program prints `r1.speed`, so the output should be `0`.",
+       "code": "class Robot:\n    def __init__(self, name):\n        self.name = name\n        # add self.speed here\n\nr1 = Robot(\"Chiku\")\nprint(r1.speed)\n",
+       "expect": "0",
+       "retryHint": "Inside __init__, add the line self.speed = 0 with the same indent as self.name.",
+       "solution": "class Robot:\n    def __init__(self, name):\n        self.name = name\n        self.speed = 0\n\nr1 = Robot(\"Chiku\")\nprint(r1.speed)\n"
+      },
+      {
+       "t": "mcq",
+       "q": "Find the bug.",
+       "code": "class Drone:\n    def __init__(name):\n        self.name = name\n\nd = Drone(\"Sky\")",
+       "options": [
+        "self is missing: it should be def __init__(self, name):",
+        "Drone must be written drone",
+        "__init__ must be called init",
+        "Objects cannot store a name"
+       ],
+       "answer": 0,
+       "why": "Every method needs `self` as its first parameter.",
+       "hint": "Compare it with the example above."
+      },
+      {
+       "t": "fill",
+       "q": "Type what goes in the blank so each robot stores its colour.",
+       "code": "def __init__(self, colour):\n    ____ = colour",
+       "accept": [
+        "self.colour"
+       ],
+       "why": "Attributes inside a class are written `self.name_of_attribute`.",
+       "hint": "It starts with self and a dot."
+      },
+      {
+       "t": "mcq",
+       "q": "What does this print?",
+       "code": "class Robot:\n    def __init__(self, name):\n        self.name = name\n\na = Robot(\"Mitra\")\nb = Robot(\"Spark\")\nprint(b.name)",
+       "options": [
+        "Spark",
+        "Mitra",
+        "name",
+        "b"
+       ],
+       "answer": 0,
+       "why": "`b` was built with the name Spark.",
+       "hint": "Which name went into b?"
+      },
+      {
+       "t": "recap",
+       "items": [
+        "`__init__` runs automatically when an object is built.",
+        "`self` is the object being built, and `self.x = ...` stores x inside it.",
+        "`self` is always the first parameter."
+       ]
+      }
+     ],
+     "day": 6,
+     "dayTitle": "Python classes and objects"
+    },
+    {
+     "id": "B4",
+     "title": "Methods: what an object can do",
+     "minutes": 20,
+     "summary": "Write methods that use and change an object's attributes.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "A robot is more than its data: it can move, charge and report. These skills are called methods."
+      },
+      {
+       "t": "p",
+       "text": "Attributes are what an object **has**. Methods are what an object **can do**. A method is simply a function written inside a class."
+      },
+      {
+       "t": "code",
+       "lang": "python",
+       "out": "Chiku moved 3 steps\nChiku moved 2 steps\nChiku total distance: 5",
+       "text": "class Robot:\n    def __init__(self, name):\n        self.name = name\n        self.distance = 0\n\n    def move(self, steps):\n        self.distance = self.distance + steps\n        print(self.name, \"moved\", steps, \"steps\")\n\n    def report(self):\n        print(self.name, \"total distance:\", self.distance)\n\nr = Robot(\"Chiku\")\nr.move(3)\nr.move(2)\nr.report()"
+      },
+      {
+       "t": "analogy",
+       "text": "Calling `r.move(3)` is like pressing the move button on that particular robot. Inside the method, `self` means \"this robot\", so Chiku's distance changes and no other robot's does."
+      },
+      {
+       "t": "tip",
+       "text": "You call `r.move(3)` with one value, but the method is written `def move(self, steps)` with two. Python fills in `self` with `r` automatically."
+      },
+      {
+       "t": "py",
+       "title": "Add a charge method",
+       "goal": "Write a method `charge(self)` that sets `self.battery` to `100`. The program should print `100`.",
+       "code": "class Robot:\n    def __init__(self):\n        self.battery = 20\n\n    # write def charge(self): here\n\nr = Robot()\nr.charge()\nprint(r.battery)\n",
+       "expect": "100",
+       "retryHint": "Inside the class, add def charge(self): and on the next line, indented 8 spaces, self.battery = 100.",
+       "solution": "class Robot:\n    def __init__(self):\n        self.battery = 20\n\n    def charge(self):\n        self.battery = 100\n\nr = Robot()\nr.charge()\nprint(r.battery)\n"
+      },
+      {
+       "t": "mcq",
+       "q": "What does this print?",
+       "code": "class Counter:\n    def __init__(self):\n        self.count = 0\n\n    def add(self):\n        self.count = self.count + 1\n\nc = Counter()\nc.add()\nc.add()\nc.add()\nprint(c.count)",
+       "options": [
+        "3",
+        "0",
+        "1",
+        "add"
+       ],
+       "answer": 0,
+       "why": "count starts at 0, and add() runs three times.",
+       "hint": "Count the add() calls."
+      },
+      {
+       "t": "mcq",
+       "q": "Inside a method, what does `self` refer to?",
+       "options": [
+        "The object the method was called on",
+        "The class itself",
+        "The Python file",
+        "The last object that was created"
+       ],
+       "answer": 0,
+       "why": "In `r.move(3)`, self is `r`.",
+       "hint": "Which robot's button was pressed?"
+      },
+      {
+       "t": "fill",
+       "q": "`bot` is a Robot object with a method `def stop(self):`. Type the line that calls it.",
+       "accept": [
+        "bot.stop()"
+       ],
+       "why": "`object.method()` calls a method.",
+       "hint": "The object name, a dot, the method name, and brackets."
+      },
+      {
+       "t": "recap",
+       "items": [
+        "Methods are functions inside a class: what an object can do.",
+        "Call them with `object.method(...)`. Python passes `self` for you.",
+        "Methods can read and change attributes through `self`."
+       ]
+      }
+     ],
+     "day": 6,
+     "dayTitle": "Python classes and objects"
+    },
+    {
+     "id": "B5",
+     "title": "Objects inside objects",
+     "minutes": 20,
+     "summary": "Build bigger objects from smaller ones, the way a ROS 2 node owns publishers and timers.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "Chiku is built from parts: two motors, a battery and a horn. Objects can contain other objects."
+      },
+      {
+       "t": "p",
+       "text": "Real robots are made of parts: motors, sensors, a battery. In Python, an object can keep other objects as attributes. This is exactly how a ROS 2 node keeps its publishers, subscribers and timers."
+      },
+      {
+       "t": "code",
+       "lang": "python",
+       "out": "left motor spinning\nright motor spinning",
+       "text": "class Motor:\n    def __init__(self, side):\n        self.side = side\n\n    def spin(self):\n        print(self.side, \"motor spinning\")\n\nclass Robot:\n    def __init__(self):\n        self.left = Motor(\"left\")      # a Motor object inside the robot\n        self.right = Motor(\"right\")\n\n    def forward(self):\n        self.left.spin()\n        self.right.spin()\n\nr = Robot()\nr.forward()"
+      },
+      {
+       "t": "analogy",
+       "text": "Read `self.left.spin()` from left to right like an address: in **this robot**, take the **left motor**, and **spin** it."
+      },
+      {
+       "t": "tip",
+       "text": "Later you will see `self.publisher_.publish(msg)`. It is the same pattern: in this node, take the publisher object, and call its publish method."
+      },
+      {
+       "t": "py",
+       "title": "Add a horn",
+       "goal": "In class `Horn`, write a method `beep(self)` that prints `Beep beep!`. The robot already uses it.",
+       "code": "class Horn:\n    # write def beep(self): here\n    pass\n\nclass Robot:\n    def __init__(self):\n        self.horn = Horn()\n\n    def greet(self):\n        self.horn.beep()\n\nr = Robot()\nr.greet()\n",
+       "expect": "Beep beep!",
+       "retryHint": "Replace pass with def beep(self): and on the next line, indented, print(\"Beep beep!\").",
+       "solution": "class Horn:\n    def beep(self):\n        print(\"Beep beep!\")\n\nclass Robot:\n    def __init__(self):\n        self.horn = Horn()\n\n    def greet(self):\n        self.horn.beep()\n\nr = Robot()\nr.greet()\n"
+      },
+      {
+       "t": "mcq",
+       "q": "In `self.camera.take_photo()`, what is `camera`?",
+       "options": [
+        "An object stored as an attribute of this object",
+        "A ROS 2 topic",
+        "A Python keyword",
+        "The class name"
+       ],
+       "answer": 0,
+       "why": "`camera` is an attribute that holds another object, and `take_photo` is that object's method.",
+       "hint": "Read it like an address."
+      },
+      {
+       "t": "mcq",
+       "q": "What does this print?",
+       "code": "class Battery:\n    def __init__(self):\n        self.level = 50\n\nclass Robot:\n    def __init__(self):\n        self.battery = Battery()\n\nr = Robot()\nprint(r.battery.level)",
+       "options": [
+        "50",
+        "Battery",
+        "r.battery",
+        "An error"
+       ],
+       "answer": 0,
+       "why": "In robot r, take the battery object, and read its level.",
+       "hint": "Follow the dots."
+      },
+      {
+       "t": "recap",
+       "items": [
+        "An attribute can hold another object: `self.left = Motor(\"left\")`.",
+        "Chain with dots: `self.left.spin()`.",
+        "ROS 2 nodes keep publishers and timers as attributes like this."
+       ]
+      }
+     ],
+     "day": 6,
+     "dayTitle": "Python classes and objects"
+    },
+    {
+     "id": "B6",
+     "title": "Inheritance and super()",
+     "minutes": 25,
+     "summary": "Build a new class on top of an existing one, which is exactly how every ROS 2 node is written.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "Chiku's cousin Raju is a delivery robot with a basket. Raju should get everything Chiku has, plus the basket."
+      },
+      {
+       "t": "p",
+       "text": "Writing every class from zero would be slow. **Inheritance** lets a new class start with everything an existing class already has, and then add more."
+      },
+      {
+       "t": "analogy",
+       "text": "Car makers build a new model on an existing **platform**: the wheels, engine and brakes come from the platform, and the new model adds its own features. The platform is the **parent class**, and the new model is the **child class**."
+      },
+      {
+       "t": "code",
+       "lang": "python",
+       "out": "Pragyan engine started\nPragyan exploring on 6 wheels",
+       "text": "class Vehicle:                   # parent class\n    def __init__(self, name):\n        self.name = name\n\n    def start(self):\n        print(self.name, \"engine started\")\n\nclass Rover(Vehicle):            # child class: a Rover is a Vehicle\n    def __init__(self, name):\n        super().__init__(name)   # run the parent's setup first\n        self.wheels = 6\n\n    def explore(self):\n        print(self.name, \"exploring on\", self.wheels, \"wheels\")\n\nr = Rover(\"Pragyan\")\nr.start()     # inherited from Vehicle\nr.explore()   # Rover's own method"
+      },
+      {
+       "t": "words",
+       "items": [
+        [
+         "class Rover(Vehicle)",
+         "Rover inherits from Vehicle; the class in brackets is the parent"
+        ],
+        [
+         "super().__init__(...)",
+         "run the parent's `__init__`, so its setup happens too"
+        ],
+        [
+         "override",
+         "a child can write its own version of a parent's method"
+        ]
+       ]
+      },
+      {
+       "t": "h",
+       "text": "This is exactly a ROS 2 node"
+      },
+      {
+       "t": "code",
+       "lang": "python",
+       "text": "from rclpy.node import Node\n\nclass MyFirstNode(Node):                    # inherit from ROS 2's Node class\n    def __init__(self):\n        super().__init__('my_first_node')   # set up the node and name it\n        self.get_logger().info('Hello from my node!')"
+      },
+      {
+       "t": "p",
+       "text": "`Node` is a parent class written by the ROS 2 team. Your class inherits from it, so your node can do everything a node can do: log messages, publish, subscribe and use timers. `super().__init__('my_first_node')` runs Node's setup and gives your node its name."
+      },
+      {
+       "t": "py",
+       "title": "Run your first node (practice simulator)",
+       "goal": "Change the node name to `chiku_node` and the message to `Chiku is ready`. The output should be `[INFO] [chiku_node]: Chiku is ready`.",
+       "code": "import rclpy\nfrom rclpy.node import Node\n\nclass MyFirstNode(Node):\n    def __init__(self):\n        super().__init__('my_first_node')\n        self.get_logger().info('Hello from my node!')\n\nrclpy.init()\nnode = MyFirstNode()\nnode.destroy_node()\nrclpy.shutdown()\n",
+       "expect": "[INFO] [chiku_node]: Chiku is ready",
+       "retryHint": "Change the text inside super().__init__('...') and inside info('...').",
+       "solution": "import rclpy\nfrom rclpy.node import Node\n\nclass MyFirstNode(Node):\n    def __init__(self):\n        super().__init__('chiku_node')\n        self.get_logger().info('Chiku is ready')\n\nrclpy.init()\nnode = MyFirstNode()\nnode.destroy_node()\nrclpy.shutdown()\n"
+      },
+      {
+       "t": "tip",
+       "label": "About this playground",
+       "text": "This playground uses a small **practice version** of ROS 2's Python library that runs in your browser. Real ROS 2 also prints a timestamp, like `[INFO] [1727850000.123456789] [chiku_node]: Chiku is ready`. In the lab you will run the real thing on Ubuntu."
+      },
+      {
+       "t": "mcq",
+       "q": "In `class LineFollower(Node):`, which is the parent class?",
+       "options": [
+        "Node",
+        "LineFollower",
+        "self",
+        "rclpy"
+       ],
+       "answer": 0,
+       "why": "The class in brackets is the parent.",
+       "hint": "Look inside the brackets."
+      },
+      {
+       "t": "mcq",
+       "q": "What happens if you forget `super().__init__('name')` in a ROS 2 node?",
+       "options": [
+        "Node's setup never runs, so things like get_logger() and create_publisher() fail",
+        "Nothing; Python adds it for you",
+        "The node gets the name 'name'",
+        "The node runs twice as fast"
+       ],
+       "answer": 0,
+       "why": "The parent's setup is skipped. Try it: delete that line in the playground and press Run.",
+       "hint": "What does super().__init__ run?"
+      },
+      {
+       "t": "order",
+       "q": "Put the lines of this node class in order.",
+       "items": [
+        "class Greeter(Node):",
+        "    def __init__(self):",
+        "        super().__init__('greeter')",
+        "        self.get_logger().info('Hi!')"
+       ],
+       "why": "The class line, then `def __init__`, then `super()` first, then the node's own setup.",
+       "hint": "super() must come before using the node."
+      },
+      {
+       "t": "recap",
+       "items": [
+        "`class Child(Parent):` inherits everything from Parent.",
+        "`super().__init__(...)` runs the parent's setup. Call it first.",
+        "Every ROS 2 Python node is written as `class Something(Node):`."
+       ]
+      }
+     ],
+     "day": 7,
+     "dayTitle": "Inheritance, callbacks and your first node"
+    },
+    {
+     "id": "B7",
+     "title": "Callbacks and timers",
+     "minutes": 25,
+     "summary": "Hand a function over to be called later: the heartbeat of every ROS 2 program.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "Chiku must blink its light every second without anyone pressing a button. Timers and callbacks make it happen."
+      },
+      {
+       "t": "p",
+       "text": "In ROS 2 you rarely call your own methods directly. Instead you tell ROS 2: \"**call this method for me** every half second\", or \"when a message arrives\". A function handed over to be called later is a **callback**."
+      },
+      {
+       "t": "analogy",
+       "text": "It is like giving the college office your phone number and saying \"call me when my certificate is ready.\" You hand over your number; you do not start talking right away. In Python, you hand over the function's name **without brackets**."
+      },
+      {
+       "t": "code",
+       "lang": "python",
+       "out": "Waving!",
+       "text": "def wave():\n    print(\"Waving!\")\n\nmy_callback = wave      # no brackets: the function itself, not run yet\nmy_callback()           # now it runs"
+      },
+      {
+       "t": "warn",
+       "text": "`wave` (no brackets) means the function itself. `wave()` means \"run it **now**\". Writing `self.timer_callback()` inside `create_timer(...)` is a very common beginner mistake."
+      },
+      {
+       "t": "h",
+       "text": "Timers in ROS 2"
+      },
+      {
+       "t": "code",
+       "lang": "python",
+       "text": "class Blinker(Node):\n    def __init__(self):\n        super().__init__('blinker')\n        self.count = 0\n        self.timer = self.create_timer(1.0, self.blink)   # call blink every 1.0 s\n\n    def blink(self):\n        self.count += 1\n        self.get_logger().info(f'Blink {self.count}')"
+      },
+      {
+       "t": "p",
+       "text": "`self.create_timer(1.0, self.blink)` means: every 1.0 seconds, call `self.blink`. `rclpy.spin(node)` keeps the program alive so the timer can keep firing. (`self.count += 1` is a short way to write `self.count = self.count + 1`.)"
+      },
+      {
+       "t": "py",
+       "title": "A blinking node (the practice simulator runs for 3 seconds)",
+       "goal": "Make the timer fire every `0.5` seconds. In 3 seconds it should blink 6 times, so the output contains `Blink 6`.",
+       "code": "import rclpy\nfrom rclpy.node import Node\n\nclass Blinker(Node):\n    def __init__(self):\n        super().__init__('blinker')\n        self.count = 0\n        self.timer = self.create_timer(1.0, self.blink)\n\n    def blink(self):\n        self.count += 1\n        self.get_logger().info(f'Blink {self.count}')\n\nrclpy.init()\nnode = Blinker()\nrclpy.spin(node)\nnode.destroy_node()\nrclpy.shutdown()\n",
+       "contains": [
+        "Blink 6"
+       ],
+       "retryHint": "Change 1.0 to 0.5 inside create_timer(...).",
+       "solution": "import rclpy\nfrom rclpy.node import Node\n\nclass Blinker(Node):\n    def __init__(self):\n        super().__init__('blinker')\n        self.count = 0\n        self.timer = self.create_timer(0.5, self.blink)\n\n    def blink(self):\n        self.count += 1\n        self.get_logger().info(f'Blink {self.count}')\n\nrclpy.init()\nnode = Blinker()\nrclpy.spin(node)\nnode.destroy_node()\nrclpy.shutdown()\n"
+      },
+      {
+       "t": "mcq",
+       "q": "Which line makes ROS 2 call `self.send_status` every 2 seconds?",
+       "options": [
+        "self.create_timer(2.0, self.send_status)",
+        "self.create_timer(2.0, self.send_status())",
+        "self.create_timer(self.send_status, 2.0)",
+        "self.send_status(2.0)"
+       ],
+       "answer": 0,
+       "why": "The period comes first, then the method itself, without brackets.",
+       "hint": "Two things to check: the order, and the brackets."
+      },
+      {
+       "t": "mcq",
+       "q": "A timer fires every 0.5 seconds. How many times does its callback run in 2 seconds?",
+       "options": [
+        "4",
+        "2",
+        "1",
+        "0.5"
+       ],
+       "answer": 0,
+       "why": "Two calls every second, for 2 seconds: 4 calls.",
+       "hint": "How many half-seconds fit in 2 seconds?"
+      },
+      {
+       "t": "fill",
+       "q": "Inside a class, what do you write in the blank of `self.create_timer(1.0, ____)` to use this method as the callback?",
+       "code": "def check_battery(self):\n    ...",
+       "accept": [
+        "self.check_battery"
+       ],
+       "why": "`self.check_battery` hands over the method without running it.",
+       "hint": "self, a dot, the name, and no brackets."
+      },
+      {
+       "t": "recap",
+       "items": [
+        "A callback is a function you hand over to be called later.",
+        "Hand it over without brackets: `self.blink`, not `self.blink()`.",
+        "`create_timer(period, callback)` calls it again and again, and `rclpy.spin` keeps the program alive."
+       ]
+      }
+     ],
+     "day": 7,
+     "dayTitle": "Inheritance, callbacks and your first node"
+    },
+    {
+     "id": "B8",
+     "title": "Reading a real ROS 2 node",
+     "minutes": 30,
+     "summary": "Read a real ROS 2 publisher line by line, then add a listener.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "Time to read real ROS 2 code. You already know every idea in it."
+      },
+      {
+       "t": "p",
+       "text": "You now know every idea used in a real ROS 2 Python node: classes, `__init__`, `self`, methods, objects inside objects, inheritance, `super()` and callbacks. Here is the minimal publisher from the official ROS 2 Jazzy tutorial (Apache 2.0 licence):"
+      },
+      {
+       "t": "code",
+       "lang": "python",
+       "text": "import rclpy\nfrom rclpy.node import Node\nfrom std_msgs.msg import String\n\n\nclass MinimalPublisher(Node):\n\n    def __init__(self):\n        super().__init__('minimal_publisher')\n        self.publisher_ = self.create_publisher(String, 'topic', 10)\n        timer_period = 0.5  # seconds\n        self.timer = self.create_timer(timer_period, self.timer_callback)\n        self.i = 0\n\n    def timer_callback(self):\n        msg = String()\n        msg.data = 'Hello World: %d' % self.i\n        self.publisher_.publish(msg)\n        self.get_logger().info('Publishing: \"%s\"' % msg.data)\n        self.i += 1\n\n\ndef main(args=None):\n    rclpy.init(args=args)\n    minimal_publisher = MinimalPublisher()\n    rclpy.spin(minimal_publisher)\n    minimal_publisher.destroy_node()\n    rclpy.shutdown()\n\n\nif __name__ == '__main__':\n    main()"
+      },
+      {
+       "t": "h",
+       "text": "Line by line"
+      },
+      {
+       "t": "steps",
+       "items": [
+        "`import rclpy` brings in ROS 2's Python library.",
+        "`from std_msgs.msg import String` gets the String message type: a box with one text field called `data`.",
+        "`class MinimalPublisher(Node)`: our node **inherits** from Node (Day 7).",
+        "`super().__init__('minimal_publisher')` runs Node's setup and names the node.",
+        "`self.publisher_ = self.create_publisher(String, 'topic', 10)` stores a publisher **object inside our object** (Day 6). It sends String messages on the topic named `topic`. The 10 is the queue size: how many messages may wait if the network is slow.",
+        "`self.create_timer(timer_period, self.timer_callback)` calls `timer_callback` every 0.5 seconds (Day 7). Notice: no brackets.",
+        "`self.i = 0` is a counter attribute (Day 6).",
+        "`timer_callback` makes a message, fills `msg.data`, publishes it, logs it, and adds 1 to the counter.",
+        "`main()` starts ROS 2, builds the node, spins to keep it running, then cleans up and shuts down."
+       ]
+      },
+      {
+       "t": "tip",
+       "text": "`'Hello World: %d' % self.i` puts the number `self.i` where `%d` is. Modern Python also writes this as `f'Hello World: {self.i}'`."
+      },
+      {
+       "t": "py",
+       "title": "Run the publisher (practice simulator, 3 seconds)",
+       "goal": "Change the message so it says `Hello NMAMIT` instead of `Hello World`. The output should contain `Publishing: \"Hello NMAMIT: 5\"`.",
+       "code": "import rclpy\nfrom rclpy.node import Node\nfrom std_msgs.msg import String\n\n\nclass MinimalPublisher(Node):\n\n    def __init__(self):\n        super().__init__('minimal_publisher')\n        self.publisher_ = self.create_publisher(String, 'topic', 10)\n        timer_period = 0.5  # seconds\n        self.timer = self.create_timer(timer_period, self.timer_callback)\n        self.i = 0\n\n    def timer_callback(self):\n        msg = String()\n        msg.data = 'Hello World: %d' % self.i\n        self.publisher_.publish(msg)\n        self.get_logger().info('Publishing: \"%s\"' % msg.data)\n        self.i += 1\n\n\ndef main(args=None):\n    rclpy.init(args=args)\n    minimal_publisher = MinimalPublisher()\n    rclpy.spin(minimal_publisher)\n    minimal_publisher.destroy_node()\n    rclpy.shutdown()\n\n\nif __name__ == '__main__':\n    main()\n",
+       "contains": [
+        "Publishing: \"Hello NMAMIT: 5\""
+       ],
+       "retryHint": "Change the text inside msg.data = '...' in timer_callback.",
+       "solution": "import rclpy\nfrom rclpy.node import Node\nfrom std_msgs.msg import String\n\n\nclass MinimalPublisher(Node):\n\n    def __init__(self):\n        super().__init__('minimal_publisher')\n        self.publisher_ = self.create_publisher(String, 'topic', 10)\n        timer_period = 0.5  # seconds\n        self.timer = self.create_timer(timer_period, self.timer_callback)\n        self.i = 0\n\n    def timer_callback(self):\n        msg = String()\n        msg.data = 'Hello NMAMIT: %d' % self.i\n        self.publisher_.publish(msg)\n        self.get_logger().info('Publishing: \"%s\"' % msg.data)\n        self.i += 1\n\n\ndef main(args=None):\n    rclpy.init(args=args)\n    minimal_publisher = MinimalPublisher()\n    rclpy.spin(minimal_publisher)\n    minimal_publisher.destroy_node()\n    rclpy.shutdown()\n\n\nif __name__ == '__main__':\n    main()\n"
+      },
+      {
+       "t": "h",
+       "text": "Adding a listener"
+      },
+      {
+       "t": "p",
+       "text": "A **subscriber** receives messages. Its callback runs once for every message that arrives on its topic. In this playground the talker and the listener run together, so you can see both sides."
+      },
+      {
+       "t": "py",
+       "title": "Talker and listener together",
+       "goal": "Complete `listener_callback` so it logs `I heard: ` followed by the message text. The output should contain `I heard: Hello World: 2`.",
+       "code": "import rclpy\nfrom rclpy.node import Node\nfrom std_msgs.msg import String\n\n\nclass Talker(Node):\n    def __init__(self):\n        super().__init__('talker')\n        self.publisher_ = self.create_publisher(String, 'chatter', 10)\n        self.timer = self.create_timer(1.0, self.timer_callback)\n        self.i = 0\n\n    def timer_callback(self):\n        msg = String()\n        msg.data = f'Hello World: {self.i}'\n        self.publisher_.publish(msg)\n        self.i += 1\n\n\nclass Listener(Node):\n    def __init__(self):\n        super().__init__('listener')\n        self.subscription = self.create_subscription(String, 'chatter', self.listener_callback, 10)\n\n    def listener_callback(self, msg):\n        # log the received text here, using msg.data\n        pass\n\n\nrclpy.init()\nlistener = Listener()\ntalker = Talker()\nrclpy.spin(talker)\nrclpy.shutdown()\n",
+       "contains": [
+        "I heard: Hello World: 2"
+       ],
+       "retryHint": "Replace pass with self.get_logger().info(f'I heard: {msg.data}')",
+       "solution": "import rclpy\nfrom rclpy.node import Node\nfrom std_msgs.msg import String\n\n\nclass Talker(Node):\n    def __init__(self):\n        super().__init__('talker')\n        self.publisher_ = self.create_publisher(String, 'chatter', 10)\n        self.timer = self.create_timer(1.0, self.timer_callback)\n        self.i = 0\n\n    def timer_callback(self):\n        msg = String()\n        msg.data = f'Hello World: {self.i}'\n        self.publisher_.publish(msg)\n        self.i += 1\n\n\nclass Listener(Node):\n    def __init__(self):\n        super().__init__('listener')\n        self.subscription = self.create_subscription(String, 'chatter', self.listener_callback, 10)\n\n    def listener_callback(self, msg):\n        self.get_logger().info(f'I heard: {msg.data}')\n\n\nrclpy.init()\nlistener = Listener()\ntalker = Talker()\nrclpy.spin(talker)\nrclpy.shutdown()\n"
+      },
+      {
+       "t": "mcq",
+       "q": "In `self.create_publisher(String, 'chatter', 10)`, what is `'chatter'`?",
+       "options": [
+        "The topic name the messages are sent on",
+        "The node name",
+        "The message text",
+        "The queue size"
+       ],
+       "answer": 0,
+       "why": "The second value is the topic name.",
+       "hint": "message type, topic name, queue size."
+      },
+      {
+       "t": "mcq",
+       "q": "When does `listener_callback` run?",
+       "options": [
+        "Automatically, once for every message that arrives on its topic",
+        "Only when you call it yourself",
+        "Once, when the node starts",
+        "Every 10 seconds"
+       ],
+       "answer": 0,
+       "why": "ROS 2 calls the subscription's callback for every new message.",
+       "hint": "It is a callback."
+      },
+      {
+       "t": "order",
+       "q": "Put the lines of `main()` in the correct order.",
+       "items": [
+        "rclpy.init(args=args)",
+        "node = MinimalPublisher()",
+        "rclpy.spin(node)",
+        "node.destroy_node()",
+        "rclpy.shutdown()"
+       ],
+       "why": "Start ROS 2, build the node, keep it running, then clean up and shut down.",
+       "hint": "Start, build, run, clean up, stop."
+      },
+      {
+       "t": "recap",
+       "items": [
+        "A ROS 2 Python node is a class that inherits from `Node`.",
+        "Publishers and timers are objects stored with `self.`, and callbacks are passed without brackets.",
+        "`main()` runs init, creates the node, spins, then destroys the node and shuts down.",
+        "Next step: run these real nodes on Ubuntu in the lab."
+       ]
+      }
+     ],
+     "day": 7,
+     "dayTitle": "Inheritance, callbacks and your first node"
+    },
+    {
+     "id": "C1",
+     "title": "Hello, C++: compile and run",
+     "minutes": 30,
+     "summary": "Write, compile and run your first C++ program, and fix the most common error.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "Chiku's motors need very fast decisions, hundreds every second. For speed-critical parts, robot engineers often use **C++**, and many ROS 2 drivers and controllers are written in it. Good news: the ideas are the same as in Python; only the spelling is stricter."
+      },
+      {
+       "t": "goal",
+       "items": [
+        "Write, compile and run a C++ program",
+        "Print with `std::cout`",
+        "Create variables with a type",
+        "Fix the most common error: a missing semicolon"
+       ]
+      },
+      {
+       "t": "analogy",
+       "text": "Python reads your recipe and cooks line by line as it reads. C++ first translates the **whole** recipe into machine language (this is called **compiling**), and only then cooks. Translating takes a moment, but the cooking is then very fast."
+      },
+      {
+       "t": "h",
+       "text": "Your first C++ program"
+      },
+      {
+       "t": "code",
+       "lang": "cpp",
+       "text": "#include <iostream>       // lets us use std::cout\n\nint main() {             // every C++ program starts here\n  std::cout << \"Hello, I am Chiku!\" << std::endl;\n  return 0;              // 0 means: finished without problems\n}"
+      },
+      {
+       "t": "steps",
+       "items": [
+        "Write the code in a file ending in `.cpp`, for example with `nano hello.cpp`.",
+        "Compile it: `g++ hello.cpp -o hello`. This makes a program called hello.",
+        "Run the program: `./hello`."
+       ]
+      },
+      {
+       "t": "term",
+       "title": "Practice: compile and run C++",
+       "fs": {
+        "files": {
+         "~/hello.cpp": "#include <iostream>       // lets us use std::cout\n\nint main() {             // every C++ program starts here\n  std::cout << \"Hello, I am Chiku!\" << std::endl;\n  return 0;              // 0 means: finished without problems\n}\n"
+        }
+       },
+       "tasks": [
+        {
+         "do": "Look at the code: `cat hello.cpp`",
+         "check": {
+          "cmd": "^cat hello\\.cpp$"
+         },
+         "hint": "Type: cat hello.cpp",
+         "sol": "cat hello.cpp"
+        },
+        {
+         "do": "Compile it: `g++ hello.cpp -o hello`",
+         "check": {
+          "exec": "~/hello"
+         },
+         "hint": "Type: g++ hello.cpp -o hello",
+         "sol": "g++ hello.cpp -o hello"
+        },
+        {
+         "do": "Run your program: `./hello`",
+         "check": {
+          "cmd": "^\\./hello$",
+          "outputHas": "Hello, I am Chiku!"
+         },
+         "hint": "Type: ./hello",
+         "sol": "./hello"
+        },
+        {
+         "do": "Open `hello.cpp` in nano and change the message to `Hello, ROS 2!`. Save with Ctrl+O and exit with Ctrl+X.",
+         "check": {
+          "fileHas": {
+           "path": "~/hello.cpp",
+           "text": "Hello, ROS 2!"
+          }
+         },
+         "hint": "Type: nano hello.cpp, change the text between the quotes, then press the ^O Save and ^X Exit buttons.",
+         "sol": {
+          "nano": "hello.cpp",
+          "replace": [
+           "Hello, I am Chiku!",
+           "Hello, ROS 2!"
+          ]
+         }
+        },
+        {
+         "do": "Run `./hello` again. Is the message new? Then compile again with g++ and run once more.",
+         "check": {
+          "cmd": "^\\./hello$",
+          "outputHas": "Hello, ROS 2!"
+         },
+         "hint": "The program changes only after you compile again: g++ hello.cpp -o hello, then ./hello",
+         "sol": [
+          "./hello",
+          "g++ hello.cpp -o hello",
+          "./hello"
+         ]
+        }
+       ]
+      },
+      {
+       "t": "tip",
+       "text": "Did you notice? After editing, `./hello` still printed the old message until you compiled again. In C++, you must **compile after every change**."
+      },
+      {
+       "t": "h",
+       "text": "Variables have a type"
+      },
+      {
+       "t": "twin",
+       "left": {
+        "label": "Python",
+        "code": "name = \"Chiku\"\nwheels = 4\nspeed = 0.5\nis_charging = False\nprint(name, wheels, speed)",
+        "lang": "python"
+       },
+       "right": {
+        "label": "C++",
+        "code": "std::string name = \"Chiku\";\nint wheels = 4;\ndouble speed = 0.5;\nbool is_charging = false;\nstd::cout << name << \" \" << wheels << \" \" << speed << std::endl;",
+        "lang": "cpp"
+       }
+      },
+      {
+       "t": "words",
+       "label": "C++ rules that Python doesn't have",
+       "items": [
+        [
+         "type first",
+         "write the type before the name: `int wheels = 4;`"
+        ],
+        [
+         ";",
+         "every statement ends with a semicolon"
+        ],
+        [
+         "{ }",
+         "curly brackets group lines (Python uses indentation)"
+        ],
+        [
+         "std::",
+         "the name tag of C++'s standard tools, as in `std::cout` and `std::string`"
+        ]
+       ]
+      },
+      {
+       "t": "term",
+       "title": "Practice: fix the missing semicolon",
+       "fs": {
+        "files": {
+         "~/speed.cpp": "#include <iostream>\n\nint main() {\n  double speed = 0.5;\n  std::cout << \"Speed: \" << speed << std::endl\n  return 0;\n}\n"
+        }
+       },
+       "tasks": [
+        {
+         "do": "Compile it: `g++ speed.cpp -o speed`. Read the error: which line is it about?",
+         "check": {
+          "cmd": "^g\\+\\+ speed\\.cpp -o speed$"
+         },
+         "hint": "Type: g++ speed.cpp -o speed",
+         "sol": "g++ speed.cpp -o speed"
+        },
+        {
+         "do": "Open `speed.cpp` in nano and add `;` at the end of line 5. Save and exit.",
+         "check": {
+          "fileHas": {
+           "path": "~/speed.cpp",
+           "text": "std::endl;"
+          }
+         },
+         "hint": "Type: nano speed.cpp, go to the end of the std::cout line, type ; then save and exit.",
+         "sol": {
+          "nano": "speed.cpp",
+          "replace": [
+           "std::endl\n",
+           "std::endl;\n"
+          ]
+         }
+        },
+        {
+         "do": "Compile again, then run `./speed`.",
+         "check": {
+          "cmd": "^\\./speed$",
+          "outputHas": "Speed: 0.5"
+         },
+         "hint": "Type: g++ speed.cpp -o speed  then  ./speed",
+         "sol": [
+          "g++ speed.cpp -o speed",
+          "./speed"
+         ]
+        }
+       ]
+      },
+      {
+       "t": "mcq",
+       "q": "What does `g++ robot.cpp -o robot` do?",
+       "options": [
+        "Translates robot.cpp into a program called robot",
+        "Runs robot.cpp line by line",
+        "Deletes robot.cpp",
+        "Installs the g++ compiler"
+       ],
+       "answer": 0,
+       "why": "g++ compiles: it translates the source code into a program you can run with ./robot.",
+       "hint": "Think of the recipe translation."
+      },
+      {
+       "t": "mcq",
+       "q": "Which line is correct C++?",
+       "options": [
+        "int wheels = 4;",
+        "wheels = 4",
+        "int wheels = 4",
+        "int: wheels = 4;"
+       ],
+       "answer": 0,
+       "why": "Type, name, value, and a semicolon at the end.",
+       "hint": "Check the type and the end of the line."
+      },
+      {
+       "t": "fill",
+       "q": "What does this C++ line print?",
+       "accept": [
+        "Battery: 75%"
+       ],
+       "why": "Each piece after `<<` is printed in order.",
+       "hint": "Join the three pieces together.",
+       "code": "std::cout << \"Battery: \" << 75 << \"%\" << std::endl;"
+      },
+      {
+       "t": "recap",
+       "items": [
+        "C++ is compiled: write `file.cpp`, run `g++ file.cpp -o name`, then `./name`.",
+        "Compile again after every change.",
+        "Every variable has a type: `int`, `double`, `bool`, `std::string`.",
+        "Statements end with `;` and blocks use `{ }`."
+       ]
+      }
+     ],
+     "day": 8,
+     "dayTitle": "C++ basics"
+    },
+    {
+     "id": "C2",
+     "title": "C++ decisions, loops, functions and vectors",
+     "minutes": 30,
+     "summary": "The Python skills you know, in C++: `if`, `for`, functions with types, and `std::vector`.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "Chiku's C++ brain needs the same skills you learned in Python: decide, repeat and reuse. Let's put Python and C++ side by side."
+      },
+      {
+       "t": "goal",
+       "items": [
+        "Write `if`/`else` and `for` loops in C++",
+        "Write a C++ function with types",
+        "Keep many values in a `std::vector`"
+       ]
+      },
+      {
+       "t": "h",
+       "text": "Decisions"
+      },
+      {
+       "t": "twin",
+       "left": {
+        "label": "Python",
+        "code": "if distance < 0.5:\n    print(\"STOP\")\nelse:\n    print(\"GO\")",
+        "lang": "python"
+       },
+       "right": {
+        "label": "C++",
+        "code": "if (distance < 0.5) {\n  std::cout << \"STOP\" << std::endl;\n} else {\n  std::cout << \"GO\" << std::endl;\n}",
+        "lang": "cpp"
+       }
+      },
+      {
+       "t": "p",
+       "text": "In C++ the test goes inside round brackets `( )`, and the lines to run go inside curly brackets `{ }`."
+      },
+      {
+       "t": "h",
+       "text": "Loops"
+      },
+      {
+       "t": "twin",
+       "left": {
+        "label": "Python",
+        "code": "for i in range(3):\n    print(\"Step\", i)",
+        "lang": "python"
+       },
+       "right": {
+        "label": "C++",
+        "code": "for (int i = 0; i < 3; i++) {\n  std::cout << \"Step \" << i << std::endl;\n}",
+        "lang": "cpp"
+       }
+      },
+      {
+       "t": "words",
+       "label": "Reading a C++ for loop",
+       "items": [
+        [
+         "int i = 0",
+         "start: i begins at 0"
+        ],
+        [
+         "i < 3",
+         "keep going while this is true"
+        ],
+        [
+         "i++",
+         "after each round, add 1 to i"
+        ]
+       ]
+      },
+      {
+       "t": "term",
+       "title": "Practice: a counting loop in C++",
+       "fs": {
+        "files": {
+         "~/count.cpp": "#include <iostream>\n\nint main() {\n  int steps = 3;\n  for (int i = 1; i <= steps; i++) {\n    std::cout << \"Step \" << i << std::endl;\n  }\n  std::cout << \"Arrived!\" << std::endl;\n  return 0;\n}\n"
+        }
+       },
+       "tasks": [
+        {
+         "do": "Compile and run it: `g++ count.cpp -o count`, then `./count`",
+         "check": {
+          "cmd": "^\\./count$",
+          "outputHas": "Arrived!"
+         },
+         "hint": "Type: g++ count.cpp -o count  then  ./count",
+         "sol": [
+          "g++ count.cpp -o count",
+          "./count"
+         ]
+        },
+        {
+         "do": "In nano, change `int steps = 3;` to `int steps = 5;`. Compile and run again: Chiku should take 5 steps.",
+         "check": {
+          "cmd": "^\\./count$",
+          "outputHas": "Step 5"
+         },
+         "hint": "nano count.cpp, change 3 to 5, save, exit, then g++ count.cpp -o count and ./count",
+         "sol": [
+          {
+           "nano": "count.cpp",
+           "replace": [
+            "int steps = 3;",
+            "int steps = 5;"
+           ]
+          },
+          "g++ count.cpp -o count",
+          "./count"
+         ]
+        }
+       ]
+      },
+      {
+       "t": "h",
+       "text": "Functions with types"
+      },
+      {
+       "t": "twin",
+       "left": {
+        "label": "Python",
+        "code": "def is_safe(distance):\n    return distance > 0.5",
+        "lang": "python"
+       },
+       "right": {
+        "label": "C++",
+        "code": "bool is_safe(double distance) {\n  return distance > 0.5;\n}",
+        "lang": "cpp"
+       }
+      },
+      {
+       "t": "p",
+       "text": "A C++ function says the **type of its answer** (`bool`) and the **type of each input** (`double distance`)."
+      },
+      {
+       "t": "h",
+       "text": "Lists in C++: std::vector"
+      },
+      {
+       "t": "twin",
+       "left": {
+        "label": "Python",
+        "code": "readings = [1.2, 0.9, 0.4]\nreadings.append(2.0)\nprint(len(readings))",
+        "lang": "python"
+       },
+       "right": {
+        "label": "C++",
+        "code": "std::vector<double> readings = {1.2, 0.9, 0.4};\nreadings.push_back(2.0);\nstd::cout << readings.size() << std::endl;",
+        "lang": "cpp"
+       }
+      },
+      {
+       "t": "tip",
+       "text": "`std::vector` is C++'s list (add `#include <vector>` at the top). In ROS 2 C++ code, a laser scanner's distance readings arrive as a `std::vector<float>`."
+      },
+      {
+       "t": "mcq",
+       "q": "How many times does this loop run?",
+       "options": [
+        "4",
+        "3",
+        "5",
+        "Forever"
+       ],
+       "answer": 0,
+       "why": "i takes the values 0, 1, 2 and 3.",
+       "hint": "Write down the values of i.",
+       "code": "for (int i = 0; i < 4; i++) {\n  std::cout << i << std::endl;\n}"
+      },
+      {
+       "t": "mcq",
+       "q": "Which line adds 2.5 to the end of `std::vector<double> d`?",
+       "options": [
+        "d.push_back(2.5);",
+        "d.append(2.5);",
+        "d += 2.5;",
+        "push(d, 2.5);"
+       ],
+       "answer": 0,
+       "why": "C++ vectors use `push_back`; Python lists use `append`.",
+       "hint": "It is not the Python word."
+      },
+      {
+       "t": "order",
+       "q": "Put this C++ program in order.",
+       "items": [
+        "#include <iostream>",
+        "int main() {",
+        "  std::cout << \"Hi\" << std::endl;",
+        "  return 0;",
+        "}"
+       ],
+       "why": "Includes first, then main with its body inside curly brackets.",
+       "hint": "Every program starts with its #include lines."
+      },
+      {
+       "t": "recap",
+       "items": [
+        "`if (test) { ... } else { ... }`",
+        "`for (int i = 0; i < n; i++) { ... }` repeats n times.",
+        "Functions declare types: `bool is_safe(double d)`.",
+        "`std::vector` is C++'s list: `push_back`, `size()`."
+       ]
+      }
+     ],
+     "day": 8,
+     "dayTitle": "C++ basics"
+    },
+    {
+     "id": "C3",
+     "title": "C++ classes: same blueprint, stricter rules",
+     "minutes": 30,
+     "summary": "Write a C++ class with a constructor, member functions, `public` and `private`, and inheritance.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "Remember the Python Robot blueprint from Day 6? Today you build the same blueprint in C++. The ideas are the same; the rules are stricter."
+      },
+      {
+       "t": "goal",
+       "items": [
+        "Read and write a C++ class with a constructor and member functions",
+        "Use `public` and `private`",
+        "Recognise inheritance in C++"
+       ]
+      },
+      {
+       "t": "twin",
+       "left": {
+        "label": "Python",
+        "code": "class Robot:\n    def __init__(self, name):\n        self.name = name\n        self.battery = 100\n\n    def move(self, metres):\n        self.battery -= metres * 2\n        print(self.name, \"battery\", self.battery)\n\nr = Robot(\"Chiku\")\nr.move(5)",
+        "lang": "python"
+       },
+       "right": {
+        "label": "C++",
+        "code": "class Robot {\npublic:\n  Robot(std::string name) : name_(name), battery_(100) {}\n\n  void move(int metres) {\n    battery_ -= metres * 2;\n    std::cout << name_ << \" battery \" << battery_ << std::endl;\n  }\n\nprivate:\n  std::string name_;\n  int battery_;\n};\n\nRobot r(\"Chiku\");\nr.move(5);",
+        "lang": "cpp"
+       }
+      },
+      {
+       "t": "words",
+       "label": "Python and C++ classes compared",
+       "items": [
+        [
+         "__init__",
+         "the **constructor**: a function with the class's name, `Robot(...)`"
+        ],
+        [
+         "self.name",
+         "`name_`: C++ code often ends member names with `_`, and doesn't write `self`"
+        ],
+        [
+         ": name_(name)",
+         "the initialiser list: sets members before the constructor's body runs"
+        ],
+        [
+         "public: / private:",
+         "who may use it: everyone / only the class itself"
+        ],
+        [
+         "};",
+         "a C++ class ends with a semicolon"
+        ]
+       ]
+      },
+      {
+       "t": "analogy",
+       "text": "`public` and `private` are like a robot's control panel and its insides. Anyone may press the buttons on the panel (public functions like `move`). Only the robot itself touches its insides (private data like `battery_`), so nobody can set the battery to -50 by mistake."
+      },
+      {
+       "t": "h",
+       "text": "Inheritance in C++"
+      },
+      {
+       "t": "twin",
+       "left": {
+        "label": "Python",
+        "code": "class DeliveryRobot(Robot):\n    def __init__(self, name, item):\n        super().__init__(name)\n        self.item = item",
+        "lang": "python"
+       },
+       "right": {
+        "label": "C++",
+        "code": "class DeliveryRobot : public Robot {\npublic:\n  DeliveryRobot(std::string name, std::string item)\n    : Robot(name), item_(item) {}\nprivate:\n  std::string item_;\n};",
+        "lang": "cpp"
+       }
+      },
+      {
+       "t": "p",
+       "text": "`: public Robot` means DeliveryRobot inherits from Robot. Calling `Robot(name)` in the initialiser list does the job of Python's `super().__init__(name)`."
+      },
+      {
+       "t": "mcq",
+       "q": "In C++, which part does the job of Python's `__init__`?",
+       "options": [
+        "The constructor: a function with the same name as the class",
+        "main()",
+        "#include",
+        "The semicolon after the class"
+       ],
+       "answer": 0,
+       "why": "The constructor runs automatically when an object is created, like `__init__`.",
+       "hint": "Which function has the class's name?"
+      },
+      {
+       "t": "mcq",
+       "q": "`battery_` is private. Which line gives a compile error?",
+       "options": [
+        "r.battery_ = 500;",
+        "Robot r(\"Chiku\");",
+        "r.move(5);",
+        "None of them"
+       ],
+       "answer": 0,
+       "why": "Private members can only be used inside the class's own functions.",
+       "hint": "Which line touches the robot's insides from outside?",
+       "code": "Robot r(\"Chiku\");\nr.move(5);\nr.battery_ = 500;"
+      },
+      {
+       "t": "mcq",
+       "q": "What is the parent class in `class Rover : public Robot`?",
+       "options": [
+        "Robot",
+        "Rover",
+        "public",
+        "class"
+       ],
+       "answer": 0,
+       "why": "The class after `: public` is the parent.",
+       "hint": "Look after the colon."
+      },
+      {
+       "t": "fill",
+       "q": "Complete the line so that Rover inherits from Robot: `class Rover : ______ Robot {`",
+       "accept": [
+        "public"
+       ],
+       "why": "`class Child : public Parent` is how C++ writes inheritance.",
+       "hint": "It is the same word as the control-panel section."
+      },
+      {
+       "t": "recap",
+       "items": [
+        "A C++ class has a constructor (like `__init__`), member functions and member variables.",
+        "`public` is the control panel; `private` is the robot's insides.",
+        "`class Child : public Parent` inherits; call `Parent(...)` in the initialiser list."
+       ]
+      }
+     ],
+     "day": 9,
+     "dayTitle": "C++ classes and ROS 2 C++ nodes"
+    },
+    {
+     "id": "C4",
+     "title": "Reading a real ROS 2 C++ node",
+     "minutes": 30,
+     "summary": "Find the class, constructor, publisher, timer and callback inside the official C++ publisher.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "You can already read a Python ROS 2 node. A C++ node has exactly the same parts. Today you find each Python idea inside a real C++ node."
+      },
+      {
+       "t": "goal",
+       "items": [
+        "Find the class, constructor, publisher, timer and callback in an rclcpp node",
+        "Read `std::make_shared` and lambdas without fear",
+        "Match each C++ line with its Python twin"
+       ]
+      },
+      {
+       "t": "p",
+       "text": "This is the minimal publisher from the official ROS 2 Jazzy C++ tutorial (Apache 2.0 licence). It sends a message twice per second."
+      },
+      {
+       "t": "code",
+       "lang": "cpp",
+       "text": "#include <chrono>\n#include <memory>\n#include <string>\n\n#include \"rclcpp/rclcpp.hpp\"\n#include \"std_msgs/msg/string.hpp\"\n\nusing namespace std::chrono_literals;\n\nclass MinimalPublisher : public rclcpp::Node\n{\npublic:\n  MinimalPublisher()\n  : Node(\"minimal_publisher\"), count_(0)\n  {\n    publisher_ = this->create_publisher<std_msgs::msg::String>(\"topic\", 10);\n    auto timer_callback =\n      [this]() -> void {\n        auto message = std_msgs::msg::String();\n        message.data = \"Hello, world! \" + std::to_string(this->count_++);\n        RCLCPP_INFO(this->get_logger(), \"Publishing: '%s'\", message.data.c_str());\n        this->publisher_->publish(message);\n      };\n    timer_ = this->create_wall_timer(500ms, timer_callback);\n  }\n\nprivate:\n  rclcpp::TimerBase::SharedPtr timer_;\n  rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;\n  size_t count_;\n};\n\nint main(int argc, char * argv[])\n{\n  rclcpp::init(argc, argv);\n  rclcpp::spin(std::make_shared<MinimalPublisher>());\n  rclcpp::shutdown();\n  return 0;\n}"
+      },
+      {
+       "t": "h",
+       "text": "Line by line"
+      },
+      {
+       "t": "steps",
+       "items": [
+        "`class MinimalPublisher : public rclcpp::Node` inherits from Node, like Python's `class MinimalPublisher(Node)`.",
+        "`MinimalPublisher() : Node(\"minimal_publisher\"), count_(0)` is the constructor. It names the node, like `super().__init__('minimal_publisher')`, and sets the counter to 0.",
+        "`create_publisher<std_msgs::msg::String>(\"topic\", 10)`: the message type goes inside `< >`, then the topic name and the queue size.",
+        "`auto timer_callback = [this]() -> void { ... };` is a **lambda**: a small function without a name, written right where it is needed.",
+        "`create_wall_timer(500ms, timer_callback)` calls the lambda every 500 milliseconds, like `create_timer(0.5, self.timer_callback)`.",
+        "`RCLCPP_INFO(...)` prints a log message, like `self.get_logger().info(...)`.",
+        "The `SharedPtr` members hold the timer and the publisher. They are smart pointers that clean up by themselves.",
+        "`main()` starts ROS 2 (`rclcpp::init`), builds the node and keeps it running (`rclcpp::spin`), then stops (`rclcpp::shutdown`)."
+       ]
+      },
+      {
+       "t": "words",
+       "label": "Two new C++ words",
+       "items": [
+        [
+         "std::make_shared<T>()",
+         "builds an object of type T and gives back a smart pointer to it"
+        ],
+        [
+         "[this]() { ... }",
+         "a lambda: a tiny function without a name; `[this]` lets it use the node's members"
+        ]
+       ]
+      },
+      {
+       "t": "twin",
+       "left": {
+        "label": "Python callback",
+        "code": "def timer_callback(self):\n    msg = String()\n    msg.data = f'Hello, world! {self.i}'\n    self.publisher_.publish(msg)\n    self.i += 1",
+        "lang": "python"
+       },
+       "right": {
+        "label": "C++ lambda",
+        "code": "auto timer_callback = [this]() -> void {\n  auto message = std_msgs::msg::String();\n  message.data = \"Hello, world! \" + std::to_string(this->count_++);\n  this->publisher_->publish(message);\n};",
+        "lang": "cpp"
+       }
+      },
+      {
+       "t": "mcq",
+       "q": "Which C++ line does the job of Python's `super().__init__('minimal_publisher')`?",
+       "options": [
+        "MinimalPublisher() : Node(\"minimal_publisher\"), count_(0)",
+        "rclcpp::init(argc, argv);",
+        "auto message = std_msgs::msg::String();",
+        "rclcpp::shutdown();"
+       ],
+       "answer": 0,
+       "why": "The constructor's initialiser list calls the parent `Node(...)` with the node's name.",
+       "hint": "Look for the node's name."
+      },
+      {
+       "t": "mcq",
+       "q": "In `create_wall_timer(500ms, timer_callback)`, how often is the callback called?",
+       "options": [
+        "Twice per second",
+        "Every 500 seconds",
+        "Only once",
+        "500 times per second"
+       ],
+       "answer": 0,
+       "why": "500 ms is 0.5 seconds, so twice per second.",
+       "hint": "1000 ms make one second."
+      },
+      {
+       "t": "mcq",
+       "q": "What is `[this]() -> void { ... }`?",
+       "options": [
+        "A lambda: a small function without a name",
+        "A Python list",
+        "A class",
+        "A topic name"
+       ],
+       "answer": 0,
+       "why": "Lambdas let you write a callback right where you need it.",
+       "hint": "It is a kind of function."
+      },
+      {
+       "t": "fill",
+       "q": "Which rclcpp function keeps the node running, like `rclpy.spin`? Type it with its namespace.",
+       "accept": [
+        "rclcpp::spin",
+        "rclcpp::spin()"
+       ],
+       "why": "`rclcpp::spin(...)` keeps calling the node's callbacks until you press Ctrl+C.",
+       "hint": "rclcpp:: followed by the same word as in Python."
+      },
+      {
+       "t": "recap",
+       "items": [
+        "An rclcpp node is a class that inherits from `rclcpp::Node`.",
+        "The constructor names the node and creates the publisher and timer.",
+        "Callbacks are often lambdas: `[this]() { ... }`.",
+        "`main()`: init, spin, shutdown."
+       ]
+      }
+     ],
+     "day": 9,
+     "dayTitle": "C++ classes and ROS 2 C++ nodes"
+    },
+    {
+     "id": "R1",
+     "title": "Get Ubuntu 24.04 ready",
+     "minutes": 20,
+     "summary": "Choose WSL2, dual boot, a virtual machine or the college lab, and check your computer.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "Today Chiku's brain moves from the practice terminal to a real computer. ROS 2 Jazzy runs on **Ubuntu 24.04**, so first you need Ubuntu."
+      },
+      {
+       "t": "goal",
+       "items": [
+        "Choose how to get Ubuntu 24.04",
+        "Check that your computer is ready",
+        "Update Ubuntu before installing ROS 2"
+       ]
+      },
+      {
+       "t": "tip",
+       "label": "Start early",
+       "text": "Read this lesson a few days before Day 10. Downloads and restarts take time, and it is easier to ask for help early."
+      },
+      {
+       "t": "h",
+       "text": "Four ways to get Ubuntu 24.04"
+      },
+      {
+       "t": "list",
+       "items": [
+        "**WSL2 on Windows 11 (recommended for most students):** Ubuntu runs inside Windows. No partitioning, and graphical apps such as RViz work. Open PowerShell as administrator, type the command below, restart, then open Ubuntu from the Start menu.",
+        "**Dual boot:** Ubuntu installed next to Windows. Fastest, exactly like the lab, but partitioning can lose data if done wrong. Do it only with a backup and with help.",
+        "**Virtual machine (VMware Workstation Player or VirtualBox):** safe and easy to reset, but slower, and 3D tools like Gazebo and RViz can misbehave (especially in VirtualBox).",
+        "**College lab PCs:** already set up. Use them if your laptop is old or has less than 8 GB of memory."
+       ]
+      },
+      {
+       "t": "code",
+       "lang": "bash",
+       "text": "wsl --install -d Ubuntu-24.04",
+       "copy": true
+      },
+      {
+       "t": "checklist",
+       "title": "Is my computer ready?",
+       "items": [
+        "I checked my memory (RAM): **8 GB or more** is best. If I have less, I will use the lab PCs for Gazebo.",
+        "I have about **50 GB of free disk space**.",
+        "I checked that **virtualization is enabled** (Task Manager, Performance, CPU shows *Virtualization: Enabled*).",
+        "I have a good internet connection for about **3 to 5 GB** of downloads, and my charger is plugged in."
+       ]
+      },
+      {
+       "t": "h",
+       "text": "After Ubuntu starts"
+      },
+      {
+       "t": "code",
+       "lang": "bash",
+       "text": "lsb_release -a                       # should say Ubuntu 24.04\nsudo apt update && sudo apt upgrade -y",
+       "copy": true
+      },
+      {
+       "t": "tip",
+       "text": "Ubuntu asks for **your** password whenever you use `sudo`. Nothing appears while you type it. That is normal: type it and press Enter."
+      },
+      {
+       "t": "mcq",
+       "q": "Which Ubuntu version does ROS 2 Jazzy need?",
+       "options": [
+        "Ubuntu 24.04 (Noble)",
+        "Ubuntu 22.04",
+        "Ubuntu 20.04",
+        "Any version"
+       ],
+       "answer": 0,
+       "why": "Jazzy's ready-made packages are built for Ubuntu 24.04.",
+       "hint": "Look at the lesson title."
+      },
+      {
+       "t": "mcq",
+       "q": "Your laptop has 4 GB of RAM. What is the best plan for the Gazebo lessons?",
+       "options": [
+        "Use the college lab PCs for the simulations",
+        "Run three virtual machines",
+        "Skip Day 10",
+        "Turn off the internet"
+       ],
+       "answer": 0,
+       "why": "Gazebo needs more memory; the lab PCs are ready for it.",
+       "hint": "Which option is realistic?"
+      },
+      {
+       "t": "recap",
+       "items": [
+        "ROS 2 Jazzy needs Ubuntu 24.04.",
+        "WSL2 on Windows 11 is the easiest start; the lab PCs are always an option.",
+        "Update Ubuntu before installing ROS 2."
+       ]
+      }
+     ],
+     "day": 10,
+     "dayTitle": "Install ROS 2 and set up the lab"
+    },
+    {
+     "id": "R2",
+     "title": "Install ROS 2 Jazzy",
+     "minutes": 45,
+     "summary": "Rehearse the official installation in the practice terminal, then install on your own Ubuntu.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "This is the big moment: installing ROS 2 Jazzy. First you do a full **dress rehearsal** in the practice terminal, so the real installation has no surprises."
+      },
+      {
+       "t": "goal",
+       "items": [
+        "Follow the official ROS 2 Jazzy installation steps",
+        "Understand what each step does",
+        "Test the installation with a talker and a listener"
+       ]
+      },
+      {
+       "t": "h",
+       "text": "The official steps, explained"
+      },
+      {
+       "t": "steps",
+       "items": [
+        "**Language settings (locale):** make sure Ubuntu uses UTF-8 text.",
+        "**Universe:** switch on Ubuntu's community software collection, which ROS 2 needs.",
+        "**ROS 2 package source:** install a small package called `ros2-apt-source`. It tells apt where ROS 2 packages live and adds their security key.",
+        "**apt update:** refresh the catalogue so apt can see the ROS 2 packages.",
+        "**Install:** `ros-dev-tools` (build tools) and `ros-jazzy-desktop` (ROS 2 with RViz, rqt and demos).",
+        "**Source:** load ROS 2 into the terminal, and add that line to `~/.bashrc`.",
+        "**Test:** a talker in one terminal and a listener in another."
+       ]
+      },
+      {
+       "t": "p",
+       "text": "Two of the commands are very long. In the rehearsal you may copy them with the **Copy** buttons and paste them into the practice terminal (Ctrl+V)."
+      },
+      {
+       "t": "code",
+       "lang": "bash",
+       "text": "export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F \"tag_name\" | awk -F\\\" '{print $4}')",
+       "copy": true
+      },
+      {
+       "t": "code",
+       "lang": "bash",
+       "text": "curl -L -o /tmp/ros2-apt-source.deb \"https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb\"",
+       "copy": true
+      },
+      {
+       "t": "term",
+       "title": "Dress rehearsal: install ROS 2 Jazzy on a fresh Ubuntu",
+       "fresh": true,
+       "allowPaste": true,
+       "intro": "This practice terminal is a brand-new Ubuntu 24.04 without ROS 2. Follow the steps. Mistakes are safe here!",
+       "tasks": [
+        {
+         "do": "Check the language settings: `locale`",
+         "check": {
+          "cmd": "^locale$"
+         },
+         "hint": "Type: locale",
+         "sol": "locale"
+        },
+        {
+         "do": "Install the locale tools: `sudo apt update && sudo apt install locales`",
+         "check": {
+          "cmd": "install locales"
+         },
+         "hint": "Type: sudo apt update && sudo apt install locales",
+         "sol": "sudo apt update && sudo apt install locales"
+        },
+        {
+         "do": "Generate UTF-8: `sudo locale-gen en_US en_US.UTF-8`",
+         "check": {
+          "cmd": "^sudo locale-gen en_US en_US\\.UTF-8$"
+         },
+         "hint": "Type: sudo locale-gen en_US en_US.UTF-8",
+         "sol": "sudo locale-gen en_US en_US.UTF-8"
+        },
+        {
+         "do": "Make it the default: `sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8`",
+         "check": {
+          "cmd": "^sudo update-locale LC_ALL=en_US\\.UTF-8 LANG=en_US\\.UTF-8$"
+         },
+         "hint": "Type it exactly, with sudo at the start.",
+         "sol": "sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8"
+        },
+        {
+         "do": "Use it in this terminal: `export LANG=en_US.UTF-8`",
+         "check": {
+          "env": {
+           "LANG": "en_US.UTF-8"
+          }
+         },
+         "hint": "Type: export LANG=en_US.UTF-8",
+         "sol": "export LANG=en_US.UTF-8"
+        },
+        {
+         "do": "Install the repository tool: `sudo apt install software-properties-common`",
+         "check": {
+          "hasCmd": "add-apt-repository"
+         },
+         "hint": "Type: sudo apt install software-properties-common",
+         "sol": "sudo apt install software-properties-common"
+        },
+        {
+         "do": "Switch on universe: `sudo add-apt-repository universe`",
+         "check": {
+          "cmd": "^sudo add-apt-repository universe$",
+          "ok": true
+         },
+         "hint": "Type: sudo add-apt-repository universe",
+         "sol": "sudo add-apt-repository universe"
+        },
+        {
+         "do": "Install curl: `sudo apt update && sudo apt install curl -y`",
+         "check": {
+          "hasCmd": "curl"
+         },
+         "hint": "Type: sudo apt update && sudo apt install curl -y",
+         "sol": "sudo apt update && sudo apt install curl -y"
+        },
+        {
+         "do": "Look up the newest ros2-apt-source version: copy the **first** long command above and paste it here.",
+         "check": {
+          "env": {
+           "ROS_APT_SOURCE_VERSION": "1.1.0"
+          }
+         },
+         "hint": "Click Copy on the first long command box, click in the terminal, press Ctrl+V, then Enter.",
+         "sol": "export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F \"tag_name\" | awk -F\\\" '{print $4}')"
+        },
+        {
+         "do": "Download the package: copy the **second** long command and paste it here.",
+         "check": {
+          "file": "/tmp/ros2-apt-source.deb"
+         },
+         "hint": "Click Copy on the second long command box, paste with Ctrl+V, press Enter.",
+         "sol": "curl -L -o /tmp/ros2-apt-source.deb \"https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb\""
+        },
+        {
+         "do": "Install it: `sudo dpkg -i /tmp/ros2-apt-source.deb`",
+         "check": {
+          "rosRepo": true
+         },
+         "hint": "Type: sudo dpkg -i /tmp/ros2-apt-source.deb",
+         "sol": "sudo dpkg -i /tmp/ros2-apt-source.deb"
+        },
+        {
+         "do": "Refresh, then install the developer tools: `sudo apt update && sudo apt install ros-dev-tools`",
+         "check": {
+          "hasCmd": "colcon"
+         },
+         "hint": "Type: sudo apt update && sudo apt install ros-dev-tools",
+         "sol": "sudo apt update && sudo apt install ros-dev-tools"
+        },
+        {
+         "do": "Install ROS 2 Jazzy Desktop: `sudo apt install ros-jazzy-desktop`",
+         "check": {
+          "rosInstalled": true
+         },
+         "hint": "Type: sudo apt install ros-jazzy-desktop",
+         "sol": "sudo apt install ros-jazzy-desktop"
+        },
+        {
+         "do": "Load ROS 2: `source /opt/ros/jazzy/setup.bash`",
+         "check": {
+          "sourced": true
+         },
+         "hint": "Type: source /opt/ros/jazzy/setup.bash",
+         "sol": "source /opt/ros/jazzy/setup.bash"
+        },
+        {
+         "do": "Test it: `ros2 run demo_nodes_cpp talker`",
+         "check": {
+          "cmd": "^ros2 run demo_nodes_cpp talker$",
+          "outputHas": "Hello World"
+         },
+         "hint": "Type: ros2 run demo_nodes_cpp talker",
+         "sol": "ros2 run demo_nodes_cpp talker"
+        }
+       ]
+      },
+      {
+       "t": "h",
+       "text": "Now on your real computer"
+      },
+      {
+       "t": "p",
+       "text": "When the rehearsal works, open the terminal on your real Ubuntu 24.04 and run the same commands, one by one. The **Copy** button copies everything below; you can also copy and paste one line at a time."
+      },
+      {
+       "t": "code",
+       "lang": "bash",
+       "text": "# 1. Language settings (UTF-8)\nlocale\nsudo apt update && sudo apt install locales\nsudo locale-gen en_US en_US.UTF-8\nsudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8\nexport LANG=en_US.UTF-8\n\n# 2. Ubuntu universe repository\nsudo apt install software-properties-common\nsudo add-apt-repository universe\n\n# 3. ROS 2 package source (ros2-apt-source)\nsudo apt update && sudo apt install curl -y\nexport ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F \"tag_name\" | awk -F\\\" '{print $4}')\ncurl -L -o /tmp/ros2-apt-source.deb \"https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb\"\nsudo dpkg -i /tmp/ros2-apt-source.deb\n\n# 4. Install ROS 2 Jazzy\nsudo apt update && sudo apt install ros-dev-tools\nsudo apt upgrade\nsudo apt install ros-jazzy-desktop\n\n# 5. Load ROS 2 now and in every new terminal\nsource /opt/ros/jazzy/setup.bash\necho \"source /opt/ros/jazzy/setup.bash\" >> ~/.bashrc",
+       "copy": true
+      },
+      {
+       "t": "tip",
+       "text": "The big install downloads a few gigabytes and can take 10 to 40 minutes. Keep your laptop plugged in, and don't close the terminal until you see the prompt again."
+      },
+      {
+       "t": "h",
+       "text": "Test with two terminals"
+      },
+      {
+       "t": "steps",
+       "items": [
+        "Terminal 1: `ros2 run demo_nodes_cpp talker`",
+        "Open a second terminal (Ctrl+Alt+T): `ros2 run demo_nodes_py listener`",
+        "You should see `I heard: [Hello World: 1]`, then 2, 3 and so on. Press Ctrl+C in both terminals to stop."
+       ]
+      },
+      {
+       "t": "h",
+       "text": "If something goes wrong"
+      },
+      {
+       "t": "list",
+       "items": [
+        "**NO_PUBKEY or 'not signed' errors:** an old setup is in the way. Run `sudo rm /etc/apt/sources.list.d/ros2.list`, repeat step 3, then `sudo apt update`.",
+        "**Unmet dependencies:** run `sudo apt update && sudo apt upgrade` first, then install again.",
+        "**Could not get lock /var/lib/dpkg/lock-frontend:** Ubuntu is updating in the background. Wait 10 minutes or restart. Never delete lock files.",
+        "**ros2: command not found:** run `source /opt/ros/jazzy/setup.bash`, and check that the line is in `~/.bashrc`.",
+        "**The listener hears nothing:** both terminals need the same `ROS_DOMAIN_ID` (see the next lesson)."
+       ]
+      },
+      {
+       "t": "mcq",
+       "q": "What does the `ros2-apt-source` package do?",
+       "options": [
+        "Tells apt where to find ROS 2 packages and adds their security key",
+        "Installs all of ROS 2",
+        "Starts the talker",
+        "Upgrades Ubuntu to a new version"
+       ],
+       "answer": 0,
+       "why": "It only sets up the package source; the actual install comes after `apt update`.",
+       "hint": "It is about where packages come from."
+      },
+      {
+       "t": "mcq",
+       "q": "Right after installing ros2-apt-source, `sudo apt install ros-jazzy-desktop` says `Unable to locate package`. What did you forget?",
+       "options": [
+        "sudo apt update",
+        "Restarting the computer",
+        "source ~/.bashrc",
+        "sudo rosdep init"
+       ],
+       "answer": 0,
+       "why": "apt must refresh its catalogue before it can see the new ROS 2 packages.",
+       "hint": "The catalogue is old."
+      },
+      {
+       "t": "order",
+       "q": "Put the main installation steps in order.",
+       "items": [
+        "Set up the UTF-8 locale",
+        "Enable the universe repository",
+        "Install ros2-apt-source",
+        "sudo apt update",
+        "sudo apt install ros-jazzy-desktop",
+        "source /opt/ros/jazzy/setup.bash"
+       ],
+       "why": "Prepare Ubuntu, add the ROS 2 package source, refresh, install, then load ROS 2.",
+       "hint": "Preparation comes first; loading ROS 2 comes last."
+      },
+      {
+       "t": "recap",
+       "items": [
+        "The official order: locale, universe, ros2-apt-source, update, install, source.",
+        "Run `sudo apt update` after adding a new package source.",
+        "Test with talker and listener in two terminals."
+       ]
+      }
+     ],
+     "day": 10,
+     "dayTitle": "Install ROS 2 and set up the lab"
+    },
+    {
+     "id": "A7",
+     "title": "Environment variables, source and ~/.bashrc",
+     "minutes": 25,
+     "summary": "Why a new terminal forgets ROS 2, and how `source` and `~/.bashrc` fix it.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "Chiku forgets ROS 2 every time you open a new terminal. Let's fix that for good."
+      },
+      {
+       "t": "p",
+       "text": "Every terminal keeps a small set of settings called **environment variables**. Programs read them to learn things like your home folder or which ROS 2 version to use."
+      },
+      {
+       "t": "code",
+       "lang": "bash",
+       "text": "echo $HOME                # /home/student\necho $ROS_DISTRO          # empty until ROS 2 is loaded\nexport ROBOT_NAME=chiku   # create a variable in this terminal\necho $ROBOT_NAME          # chiku\nprintenv | grep ROS       # show only variables containing ROS"
+      },
+      {
+       "t": "analogy",
+       "text": "A terminal is like a classroom whiteboard. `export` writes something on the board. Opening a **new** terminal is like walking into a new classroom with a clean board: everything written before is gone."
+      },
+      {
+       "t": "h",
+       "text": "Loading ROS 2 with source"
+      },
+      {
+       "t": "p",
+       "text": "ROS 2 is installed in `/opt/ros/jazzy`, but a new terminal does not know that. The command `source /opt/ros/jazzy/setup.bash` writes all the ROS 2 settings on the board. Without it you get `ros2: command not found`."
+      },
+      {
+       "t": "h",
+       "text": "Making it automatic with ~/.bashrc"
+      },
+      {
+       "t": "p",
+       "text": "`~/.bashrc` is a hidden file that runs **every time** a new terminal opens. Add the source line to it once, and every new terminal loads ROS 2 by itself:"
+      },
+      {
+       "t": "code",
+       "lang": "bash",
+       "text": "echo \"source /opt/ros/jazzy/setup.bash\" >> ~/.bashrc"
+      },
+      {
+       "t": "warn",
+       "text": "Use **two** arrows, `>>`, which add a line at the end of the file. A single `>` replaces the whole file and erases your old settings."
+      },
+      {
+       "t": "term",
+       "title": "Practice: make ROS 2 load automatically",
+       "newTerminal": true,
+       "tasks": [
+        {
+         "do": "Try `ros2 topic list`. It fails, because ROS 2 is not loaded yet.",
+         "check": {
+          "cmd": "^ros2 topic list$"
+         },
+         "hint": "Type: ros2 topic list",
+         "sol": "ros2 topic list"
+        },
+        {
+         "do": "Load ROS 2 into this terminal: `source /opt/ros/jazzy/setup.bash`",
+         "check": {
+          "sourced": true
+         },
+         "hint": "Type: source /opt/ros/jazzy/setup.bash",
+         "sol": "source /opt/ros/jazzy/setup.bash"
+        },
+        {
+         "do": "Check it: `echo $ROS_DISTRO` should print jazzy.",
+         "check": {
+          "cmd": "^echo \\$ROS_DISTRO$",
+          "outputHas": "jazzy"
+         },
+         "hint": "Type: echo $ROS_DISTRO",
+         "sol": "echo $ROS_DISTRO"
+        },
+        {
+         "do": "Press **Open a new terminal** below, then type `echo $ROS_DISTRO` again. It is empty: the new terminal forgot.",
+         "check": {
+          "cmd": "^echo \\$ROS_DISTRO$",
+          "sourced": false
+         },
+         "hint": "Click the \"Open a new terminal\" button, then type: echo $ROS_DISTRO",
+         "sol": [
+          {
+           "newTerminal": true
+          },
+          "echo $ROS_DISTRO"
+         ]
+        },
+        {
+         "do": "Add the source line to `~/.bashrc`: `echo \"source /opt/ros/jazzy/setup.bash\" >> ~/.bashrc`",
+         "check": {
+          "fileHas": {
+           "path": "~/.bashrc",
+           "text": "source /opt/ros/jazzy/setup.bash"
+          }
+         },
+         "hint": "Type it exactly, with the quotes and two arrows >>",
+         "sol": "echo \"source /opt/ros/jazzy/setup.bash\" >> ~/.bashrc"
+        },
+        {
+         "do": "Open a new terminal again, then type `ros2 topic list`. It works now!",
+         "check": {
+          "cmd": "^ros2 topic list$",
+          "sourced": true
+         },
+         "hint": "Click \"Open a new terminal\", then type: ros2 topic list",
+         "sol": [
+          {
+           "newTerminal": true
+          },
+          "ros2 topic list"
+         ]
+        }
+       ]
+      },
+      {
+       "t": "mcq",
+       "q": "You opened a new terminal, and `ros2 run demo_nodes_py talker` says `ros2: command not found`. What do you type?",
+       "options": [
+        "source /opt/ros/jazzy/setup.bash",
+        "sudo ros2 run demo_nodes_py talker",
+        "chmod +x ros2",
+        "sudo apt update"
+       ],
+       "answer": 0,
+       "why": "`source` loads ROS 2 into this terminal.",
+       "hint": "The new terminal forgot ROS 2. Which command loads it?"
+      },
+      {
+       "t": "mcq",
+       "q": "Why do we add the source line to `~/.bashrc`?",
+       "options": [
+        "Because ~/.bashrc runs automatically every time a new terminal opens",
+        "Because it makes the computer faster",
+        "Because ROS 2 cannot be installed without it",
+        "Because it deletes old settings"
+       ],
+       "answer": 0,
+       "why": "Then every new terminal loads ROS 2 by itself.",
+       "hint": "When does ~/.bashrc run?"
+      },
+      {
+       "t": "fill",
+       "q": "Type a command that prints the value of the variable `ROS_DISTRO`.",
+       "accept": [
+        "echo $ROS_DISTRO",
+        "printenv ROS_DISTRO",
+        "echo ${ROS_DISTRO}"
+       ],
+       "why": "`echo $NAME` prints a variable's value.",
+       "hint": "echo, a space, then $ and the variable name."
+      },
+      {
+       "t": "recap",
+       "items": [
+        "Environment variables are settings of one terminal. `export` creates one.",
+        "New terminals start fresh. `source /opt/ros/jazzy/setup.bash` loads ROS 2.",
+        "Put the source line in `~/.bashrc` using `>>` to make it automatic."
+       ]
+      }
+     ],
+     "day": 10,
+     "dayTitle": "Install ROS 2 and set up the lab"
+    },
+    {
+     "id": "R4",
+     "title": "Set up the ROS 2 robotics lab",
+     "minutes": 45,
+     "summary": "Install Gazebo, ros2_control, Nav2, SLAM, TurtleBot3 and MoveIt, prepare rosdep and a workspace, and check everything.",
+     "blocks": [
+      {
+       "t": "story",
+       "text": "Chiku is ready to graduate from the turtle simulator to real robot tools: **Gazebo** to simulate robots, **Nav2** to drive around a map, and **MoveIt** to move robot arms."
+      },
+      {
+       "t": "goal",
+       "items": [
+        "Install the lab packages for mobile robots and robot arms",
+        "Prepare rosdep and a colcon workspace",
+        "Check everything with the lab checklist"
+       ]
+      },
+      {
+       "t": "words",
+       "label": "What each tool is for",
+       "items": [
+        [
+         "Gazebo Harmonic (ros-jazzy-ros-gz)",
+         "the robot simulator, connected to ROS 2"
+        ],
+        [
+         "ros2_control",
+         "the standard way to drive motors and joints"
+        ],
+        [
+         "Nav2",
+         "lets a mobile robot plan a path and drive to a goal on a map"
+        ],
+        [
+         "slam_toolbox / Cartographer",
+         "build a map while the robot drives (SLAM)"
+        ],
+        [
+         "TurtleBot3",
+         "a small, popular teaching robot with ready-made simulations"
+        ],
+        [
+         "MoveIt 2",
+         "plans movements for robot arms without hitting things"
+        ],
+        [
+         "colcon / rosdep",
+         "build your own packages / install what they need"
+        ]
+       ]
+      },
+      {
+       "t": "warn",
+       "text": "ROS 2 Jazzy uses the **new Gazebo (Harmonic)**. Old tutorials that mention `gazebo_ros_pkgs`, Gazebo 11 or Gazebo Classic do not work on Jazzy."
+      },
+      {
+       "t": "term",
+       "title": "Dress rehearsal: set up the lab",
+       "intro": "ROS 2 Jazzy is already installed in this practice terminal. Now add the lab tools.",
+       "tasks": [
+        {
+         "do": "Install the build tools: `sudo apt install python3-colcon-common-extensions python3-rosdep`",
+         "check": {
+          "hasCmd": [
+           "colcon",
+           "rosdep"
+          ]
+         },
+         "hint": "Type both package names after sudo apt install",
+         "sol": "sudo apt install python3-colcon-common-extensions python3-rosdep"
+        },
+        {
+         "do": "Set up rosdep once per computer: `sudo rosdep init`",
+         "check": {
+          "cmd": "^sudo rosdep init$"
+         },
+         "hint": "Type: sudo rosdep init",
+         "sol": "sudo rosdep init"
+        },
+        {
+         "do": "Update rosdep, **without** sudo: `rosdep update`",
+         "check": {
+          "rosdepUpdated": true
+         },
+         "hint": "Type: rosdep update",
+         "sol": "rosdep update"
+        },
+        {
+         "do": "Install Gazebo for ROS 2: `sudo apt install ros-jazzy-ros-gz`",
+         "check": {
+          "hasCmd": "gz"
+         },
+         "hint": "Type: sudo apt install ros-jazzy-ros-gz",
+         "sol": "sudo apt install ros-jazzy-ros-gz"
+        },
+        {
+         "do": "Install TurtleBot3: `sudo apt install 'ros-jazzy-turtlebot3*'` (with the quotes)",
+         "check": {
+          "rosPkg": "turtlebot3_gazebo"
+         },
+         "hint": "Type: sudo apt install 'ros-jazzy-turtlebot3*'",
+         "sol": "sudo apt install 'ros-jazzy-turtlebot3*'"
+        },
+        {
+         "do": "Install Nav2: `sudo apt install ros-jazzy-navigation2 ros-jazzy-nav2-bringup ros-jazzy-nav2-minimal-tb3-sim`",
+         "check": {
+          "rosPkg": [
+           "nav2_bringup",
+           "nav2_minimal_tb3_sim"
+          ]
+         },
+         "hint": "Type the three package names after sudo apt install",
+         "sol": "sudo apt install ros-jazzy-navigation2 ros-jazzy-nav2-bringup ros-jazzy-nav2-minimal-tb3-sim"
+        },
+        {
+         "do": "Install MoveIt with the Panda arm demo: `sudo apt install ros-jazzy-moveit ros-jazzy-moveit-resources-panda-moveit-config`",
+         "check": {
+          "rosPkg": "moveit_resources_panda_moveit_config"
+         },
+         "hint": "Type both package names after sudo apt install",
+         "sol": "sudo apt install ros-jazzy-moveit ros-jazzy-moveit-resources-panda-moveit-config"
+        },
+        {
+         "do": "Load ROS 2 and choose the TurtleBot3 model: `source /opt/ros/jazzy/setup.bash`, then `export TURTLEBOT3_MODEL=burger`",
+         "check": {
+          "sourced": true,
+          "env": {
+           "TURTLEBOT3_MODEL": "burger"
+          }
+         },
+         "hint": "Two commands: source /opt/ros/jazzy/setup.bash  then  export TURTLEBOT3_MODEL=burger",
+         "sol": [
+          "source /opt/ros/jazzy/setup.bash",
+          "export TURTLEBOT3_MODEL=burger"
+         ]
+        },
+        {
+         "do": "Start TurtleBot3 in Gazebo: `ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py`",
+         "check": {
+          "cmd": "^ros2 launch turtlebot3_gazebo turtlebot3_world\\.launch\\.py$",
+          "outputHas": "process started"
+         },
+         "hint": "Type: ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py",
+         "sol": "ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py"
+        },
+        {
+         "do": "Start the robot-arm demo: `ros2 launch moveit_resources_panda_moveit_config demo.launch.py`",
+         "check": {
+          "cmd": "^ros2 launch moveit_resources_panda_moveit_config demo\\.launch\\.py$",
+          "outputHas": "move_group"
+         },
+         "hint": "Type: ros2 launch moveit_resources_panda_moveit_config demo.launch.py",
+         "sol": "ros2 launch moveit_resources_panda_moveit_config demo.launch.py"
+        },
+        {
+         "do": "Make and build a workspace: `mkdir -p ~/ros2_ws/src`, `cd ~/ros2_ws`, then `colcon build`",
+         "check": {
+          "dir": "~/ros2_ws/install"
+         },
+         "hint": "Three commands: mkdir -p ~/ros2_ws/src, cd ~/ros2_ws, colcon build",
+         "sol": [
+          "mkdir -p ~/ros2_ws/src",
+          "cd ~/ros2_ws",
+          "colcon build"
+         ]
+        }
+       ]
+      },
+      {
+       "t": "h",
+       "text": "Now on your real computer"
+      },
+      {
+       "t": "p",
+       "text": "Run these commands one by one on your Ubuntu 24.04 with ROS 2 Jazzy installed. Together they download a few gigabytes."
+      },
+      {
+       "t": "code",
+       "lang": "bash",
+       "text": "sudo apt update && sudo apt upgrade -y\nsudo apt install -y python3-colcon-common-extensions python3-rosdep python3-vcstool\nsudo rosdep init\nrosdep update\nsudo apt install -y ros-jazzy-robot-state-publisher ros-jazzy-joint-state-publisher-gui ros-jazzy-xacro ros-jazzy-tf2-tools ros-jazzy-teleop-twist-keyboard 'ros-jazzy-rqt*'\nsudo apt install -y ros-jazzy-ros-gz\nsudo apt install -y ros-jazzy-ros2-control ros-jazzy-ros2-controllers ros-jazzy-gz-ros2-control ros-jazzy-gz-ros2-control-demos\nsudo apt install -y ros-jazzy-navigation2 ros-jazzy-nav2-bringup 'ros-jazzy-nav2-minimal-tb*' ros-jazzy-slam-toolbox ros-jazzy-robot-localization ros-jazzy-cartographer-ros 'ros-jazzy-turtlebot3*'\nsudo apt install -y ros-jazzy-moveit ros-jazzy-moveit-resources-panda-moveit-config ros-jazzy-ur-description",
+       "copy": true
+      },
+      {
+       "t": "p",
+       "text": "Then add your lab settings to `~/.bashrc`, so every new terminal is ready:"
+      },
+      {
+       "t": "code",
+       "lang": "bash",
+       "text": "echo \"source /opt/ros/jazzy/setup.bash\" >> ~/.bashrc\necho \"export TURTLEBOT3_MODEL=burger\" >> ~/.bashrc\necho \"export ROS_DOMAIN_ID=7\" >> ~/.bashrc\nsource ~/.bashrc",
+       "copy": true
+      },
+      {
+       "t": "tip",
+       "text": "In the lab, every student uses a **different** `ROS_DOMAIN_ID` (a number from 0 to 101, given by your instructor), so your robot doesn't listen to your neighbour's commands. Real TurtleBot3 robots in the lab are set up by the instructor following the ROBOTIS e-Manual for Jazzy."
+      },
+      {
+       "t": "checklist",
+       "title": "Lab-ready checklist (on your real computer)",
+       "items": [
+        "`printenv ROS_DISTRO` prints `jazzy`",
+        "Talker and listener talk: `ros2 run demo_nodes_cpp talker` and, in a second terminal, `ros2 run demo_nodes_py listener`",
+        "Turtlesim moves: `ros2 run turtlesim turtlesim_node` and `ros2 run turtlesim turtle_teleop_key`",
+        "Gazebo opens: `gz sim shapes.sdf`",
+        "TurtleBot3 drives in Gazebo: `ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py`, then `ros2 run teleop_twist_keyboard teleop_twist_keyboard` in a second terminal",
+        "Nav2 reaches a goal: `ros2 launch nav2_bringup tb3_simulation_launch.py headless:=False`, then 2D Pose Estimate and Nav2 Goal in RViz",
+        "MoveIt plans a motion: `ros2 launch moveit_resources_panda_moveit_config demo.launch.py`, then Plan & Execute in RViz",
+        "My workspace builds: `cd ~/ros2_ws && colcon build`"
+       ]
+      },
+      {
+       "t": "h",
+       "text": "Reading errors calmly"
+      },
+      {
+       "t": "list",
+       "items": [
+        "`Package '...' not found`: install it with apt (the apt name uses dashes: `ros-jazzy-...`), then source again.",
+        "`KeyError: 'TURTLEBOT3_MODEL'` or `Caught exception ... 'TURTLEBOT3_MODEL'`: run `export TURTLEBOT3_MODEL=burger`.",
+        "`ros2: command not found`: run `source /opt/ros/jazzy/setup.bash`.",
+        "Your robot moves when your neighbour presses keys: set a different `ROS_DOMAIN_ID`.",
+        "Read the **last line** of an error first. It usually says what is wrong in plain words."
+       ]
+      },
+      {
+       "t": "mcq",
+       "q": "Which package connects ROS 2 Jazzy to the Gazebo Harmonic simulator?",
+       "options": [
+        "ros-jazzy-ros-gz",
+        "ros-jazzy-gazebo-ros-pkgs",
+        "gazebo11",
+        "ros-jazzy-turtlesim"
+       ],
+       "answer": 0,
+       "why": "Jazzy uses the new Gazebo through ros_gz; Gazebo Classic packages don't exist for Jazzy.",
+       "hint": "Look for gz."
+      },
+      {
+       "t": "mcq",
+       "q": "A TurtleBot3 launch file stops with an error about `'TURTLEBOT3_MODEL'`. What is the fix?",
+       "options": [
+        "export TURTLEBOT3_MODEL=burger",
+        "sudo apt update",
+        "sudo rosdep init",
+        "chmod +x the launch file"
+       ],
+       "answer": 0,
+       "why": "The TurtleBot3 launch files read the robot model from that variable.",
+       "hint": "The error names a variable."
+      },
+      {
+       "t": "mcq",
+       "q": "Where do you run `colcon build`?",
+       "options": [
+        "In the workspace folder, for example ~/ros2_ws",
+        "Inside ~/ros2_ws/src",
+        "In /opt/ros/jazzy",
+        "In the Desktop folder"
+       ],
+       "answer": 0,
+       "why": "colcon build runs in the workspace folder and creates build, install and log next to src.",
+       "hint": "Not inside src."
+      },
+      {
+       "t": "tip",
+       "label": "Week 2 test",
+       "text": "When you have finished all Week 2 lessons, the **Week 2 test** unlocks on your course page."
+      },
+      {
+       "t": "recap",
+       "items": [
+        "Jazzy + Gazebo Harmonic: install `ros-jazzy-ros-gz`, not Gazebo Classic.",
+        "Mobile robots: Nav2, slam_toolbox, TurtleBot3. Robot arms: MoveIt 2 and ros2_control.",
+        "`sudo rosdep init` once, `rosdep update` without sudo.",
+        "Build your workspace with `colcon build` in its main folder."
+       ]
+      }
+     ],
+     "day": 10,
+     "dayTitle": "Install ROS 2 and set up the lab"
+    }
+   ]
+  }
+ ],
+ "tests": [
+  {
+   "id": "testW1",
+   "moduleId": "W1",
+   "order": 1,
+   "title": "Week 1 test: terminal and Python basics",
+   "description": "15 questions about the Ubuntu terminal and Python basics from Week 1. Every student gets different questions.",
+   "topics": [
+    {
+     "topic": "nav",
+     "count": 3
+    },
+    {
+     "topic": "files",
+     "count": 3
+    },
+    {
+     "topic": "perm",
+     "count": 2
+    },
+    {
+     "topic": "apt",
+     "count": 1
+    },
+    {
+     "topic": "py1",
+     "count": 2
+    },
+    {
+     "topic": "py2",
+     "count": 2
+    },
+    {
+     "topic": "py3",
+     "count": 2
+    }
+   ],
+   "totalMinutes": 35,
+   "maxAttempts": 2,
+   "review": "afterClose",
+   "showScore": true,
+   "requireLessons": true
+  },
+  {
+   "id": "testW2",
+   "moduleId": "W2",
+   "order": 2,
+   "title": "Week 2 test: objects, C++ and ROS 2 setup",
+   "description": "15 questions about Python objects, C++, ROS 2 code, the environment and the lab setup from Week 2. Every student gets different questions.",
+   "topics": [
+    {
+     "topic": "oop1",
+     "count": 3
+    },
+    {
+     "topic": "oop2",
+     "count": 3
+    },
+    {
+     "topic": "rosread",
+     "count": 2
+    },
+    {
+     "topic": "cpp",
+     "count": 3
+    },
+    {
+     "topic": "env",
+     "count": 2
+    },
+    {
+     "topic": "lab",
+     "count": 2
+    }
+   ],
+   "totalMinutes": 35,
+   "maxAttempts": 2,
+   "review": "afterClose",
+   "showScore": true,
+   "requireLessons": true
+  }
+ ]
+}

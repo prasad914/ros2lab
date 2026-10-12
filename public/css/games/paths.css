@@ -1,0 +1,49 @@
+/* Path Finder: the folder tree as a transit map. "/" is the central station; home, opt and tmp are lines in the
+   TF colours; Chiku is the yellow token that rides to the dashed ring. The trip is a punched transit ticket and
+   the command goes into a real-looking bash prompt. */
+.game[data-game="paths"] .game-stage { container-type: inline-size; }
+.game[data-game="paths"] .pf-wrap { display: grid; gap: 14px; align-items: start; }
+@container (min-width: 600px) { .game[data-game="paths"] .pf-wrap { grid-template-columns: minmax(0, 1fr) minmax(220px, 260px); } }
+
+.game[data-game="paths"] .pf-map { position: relative; max-height: none; overflow: visible; padding: 0; border: 0; border-radius: 0; background: none; font-family: var(--font-mono); font-size: .92rem; }
+.game[data-game="paths"] .pf-lines { position: absolute; left: 0; top: 0; pointer-events: none; overflow: visible; }
+.game[data-game="paths"] .pf-track { fill: none; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.game[data-game="paths"] .pf-stop { fill: #fff; stroke-width: 2.2; }
+.game[data-game="paths"] .pf-rows { position: relative; }
+.game[data-game="paths"] .pf-row { display: flex; align-items: center; gap: 8px; height: 30px; padding-top: 0; padding-bottom: 0; border-radius: 0; background: none; white-space: nowrap; min-width: 0; }
+.game[data-game="paths"] .pf-name { color: var(--ink); }
+.game[data-game="paths"] .pf-note { font-family: var(--font-body); font-size: .8rem; color: var(--ink-soft); }
+.game[data-game="paths"] .pf-row.here .pf-name, .game[data-game="paths"] .pf-row.target .pf-name { font-weight: 600; }
+.game[data-game="paths"] .pf-row.here, .game[data-game="paths"] .pf-row.target { background: none; }
+.game[data-game="paths"] .pf-tag { font-family: var(--font-body); font-size: .76rem; font-weight: 700; line-height: 1; padding: 4px 7px; border-radius: 4px; border: 0; }
+.game[data-game="paths"] .pf-tag.me { background: var(--sun); color: var(--ink); }
+.game[data-game="paths"] .pf-tag.goal { background: var(--ink); color: #fff; }
+/* Chiku's token and the goal ring sit on the stations (positioned by translate from paths.js) */
+.game[data-game="paths"] .pf-me, .game[data-game="paths"] .pf-flag { position: absolute; left: 0; top: 0; pointer-events: none; border-radius: 50%; }
+.game[data-game="paths"] .pf-me { z-index: 2; width: 18px; height: 18px; margin: -9px 0 0 -9px; background: var(--sun); border: 2px solid var(--ink); box-shadow: 0 0 0 3px #fff; transition: transform .55s cubic-bezier(.5, 0, .2, 1); }
+.game[data-game="paths"] .pf-flag { z-index: 1; width: 24px; height: 24px; margin: -12px 0 0 -12px; border: 2px dashed var(--ink); }
+
+/* the ticket: a blue stub with the trip number and five punch holes, perforated from the fare */
+.game[data-game="paths"] .pf-ticket { display: grid; grid-template-columns: auto minmax(0, 1fr); border: 1px solid var(--line); border-radius: 8px; background: #fff; overflow: hidden; font-family: var(--font-body); font-weight: 400; }
+.game[data-game="paths"] .pf-stub { display: grid; align-content: space-between; gap: 10px; padding: 10px 12px; background: var(--axis-z); color: #fff; border-right: 2px dashed #fff; min-width: 84px; }
+.game[data-game="paths"] .pf-tripn { font-size: .86rem; line-height: 1.2; font-weight: 700; }
+.game[data-game="paths"] .pf-holes { display: flex; gap: 4px; }
+.game[data-game="paths"] .pf-holes i { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, .85); }
+.game[data-game="paths"] .pf-holes i.punched { background: #fff; border-color: #fff; box-shadow: inset 0 0 0 2px var(--axis-z); }
+.game[data-game="paths"] .pf-fare { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 10px; align-items: baseline; padding: 10px 12px; }
+.game[data-game="paths"] .pf-k { font-size: .78rem; color: var(--ink-soft); }
+.game[data-game="paths"] .pf-fare code { padding: 0; border: 0; background: none; font-size: .95rem; font-weight: 600; color: var(--ink); overflow-wrap: anywhere; }
+.game[data-game="paths"] .pf-legend { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 4px; font-size: .88rem; color: var(--ink-soft); }
+.game[data-game="paths"] .pf-legend code { display: inline-block; min-width: 2.2em; text-align: center; }
+
+/* bash, the way Ubuntu colours its prompt: user@host green, the folder blue */
+.game[data-game="paths"] .pf-term { display: flex; gap: 8px; align-items: center; background: #300A24; border: 0; border-radius: 8px; padding: 8px 8px 8px 12px; }
+.game[data-game="paths"] .pf-line { flex: 1; display: flex; align-items: baseline; min-width: 0; font-family: var(--font-mono); font-size: .95rem; color: #E6E6E6; }
+.game[data-game="paths"] .pf-prompt { color: #E6E6E6; white-space: nowrap; }
+.game[data-game="paths"] .pf-u { color: #8AE234; font-weight: 600; }
+.game[data-game="paths"] .pf-p { color: #729FCF; font-weight: 600; }
+.game[data-game="paths"] .pf-input { color: #fff; caret-color: var(--sun); }
+.game[data-game="paths"] .pf-input:focus-visible { outline: none; }
+.game[data-game="paths"] .pf-term:focus-within { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--axis-z); }
+@media (max-width: 520px) { .game[data-game="paths"] .pf-line { flex-wrap: wrap; } .game[data-game="paths"] .pf-input { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .game[data-game="paths"] .pf-me { transition: none; } }

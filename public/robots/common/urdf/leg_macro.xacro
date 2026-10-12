@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!-- One leg of a 4-legged robot: hip (roll about X), thigh (pitch about Y), calf (pitch about Y), foot. -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="quad_leg" params="prefix parent x y_sign">
+    <joint name="${prefix}_hip_joint" type="revolute">
+      <parent link="${parent}"/><child link="${prefix}_hip_link"/>
+      <origin xyz="${x} ${y_sign*0.08} 0"/><axis xyz="1 0 0"/><limit lower="-0.8" upper="0.8" effort="20" velocity="10"/>
+    </joint>
+    <link name="${prefix}_hip_link">
+      <visual><origin rpy="${pi/2} 0 0"/><geometry><cylinder radius="0.035" length="0.05"/></geometry><material name="dark_grey"/></visual>
+      <collision><origin rpy="${pi/2} 0 0"/><geometry><cylinder radius="0.035" length="0.05"/></geometry></collision>
+      <xacro:cylinder_inertia m="0.5" r="0.035" h="0.05" rpy="${pi/2} 0 0"/>
+    </link>
+    <joint name="${prefix}_thigh_joint" type="revolute">
+      <parent link="${prefix}_hip_link"/><child link="${prefix}_thigh_link"/>
+      <origin xyz="0 ${y_sign*0.06} 0"/><axis xyz="0 1 0"/><limit lower="-1.0" upper="2.0" effort="20" velocity="10"/>
+    </joint>
+    <link name="${prefix}_thigh_link">
+      <visual><origin xyz="0 0 -0.10"/><geometry><box size="0.04 0.03 0.20"/></geometry><material name="orange"/></visual>
+      <collision><origin xyz="0 0 -0.10"/><geometry><box size="0.04 0.03 0.20"/></geometry></collision>
+      <xacro:box_inertia m="0.6" x="0.04" y="0.03" z="0.20" xyz="0 0 -0.10"/>
+    </link>
+    <joint name="${prefix}_calf_joint" type="revolute">
+      <parent link="${prefix}_thigh_link"/><child link="${prefix}_calf_link"/>
+      <origin xyz="0 0 -0.20"/><axis xyz="0 1 0"/><limit lower="-2.6" upper="-0.6" effort="25" velocity="10"/>
+    </joint>
+    <link name="${prefix}_calf_link">
+      <visual><origin xyz="0 0 -0.10"/><geometry><box size="0.03 0.025 0.20"/></geometry><material name="light_grey"/></visual>
+      <collision><origin xyz="0 0 -0.10"/><geometry><box size="0.03 0.025 0.20"/></geometry></collision>
+      <xacro:box_inertia m="0.2" x="0.03" y="0.025" z="0.20" xyz="0 0 -0.10"/>
+    </link>
+    <joint name="${prefix}_foot_joint" type="fixed">
+      <parent link="${prefix}_calf_link"/><child link="${prefix}_foot_link"/><origin xyz="0 0 -0.20"/>
+    </joint>
+    <link name="${prefix}_foot_link">
+      <visual><geometry><sphere radius="0.025"/></geometry><material name="dark_grey"/></visual>
+      <collision><geometry><sphere radius="0.025"/></geometry></collision>
+      <xacro:sphere_inertia m="0.05" r="0.025"/>
+    </link>
+  </xacro:macro>
+</robot>

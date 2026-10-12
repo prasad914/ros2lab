@@ -1,0 +1,6 @@
+# Parameters for speed_driver. The first line is the NODE name.
+speed_driver:
+  ros__parameters:
+    robot_name: "chiku"
+    speed: 1.5
+    turn: 1.0

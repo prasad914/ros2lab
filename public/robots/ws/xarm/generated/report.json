@@ -1,0 +1,34 @@
+{
+ "xarm6": {
+  "cmd": "xacro $(ros2 pkg prefix xarm_description)/share/xarm_description/urdf/xarm_device.urdf.xacro dof:=6 robot_type:=xarm",
+  "urdf": "robots/ws/xarm/generated/xarm6.urdf",
+  "robot_name": "UF_ROBOT",
+  "links": 9,
+  "joints": 8,
+  "site": {
+   "file": "robots/xarm_description/urdf/xarm6.urdf",
+   "links": 9,
+   "joints": 8
+  },
+  "links_only_in_ws": [],
+  "links_only_on_site": [],
+  "joints_only_in_ws": [],
+  "joints_only_on_site": []
+ },
+ "lite6": {
+  "cmd": "xacro $(ros2 pkg prefix xarm_description)/share/xarm_description/urdf/xarm_device.urdf.xacro dof:=6 robot_type:=lite",
+  "urdf": "robots/ws/xarm/generated/lite6.urdf",
+  "robot_name": "UF_ROBOT",
+  "links": 9,
+  "joints": 8,
+  "site": {
+   "file": "robots/xarm_description/urdf/lite6.urdf",
+   "links": 9,
+   "joints": 8
+  },
+  "links_only_in_ws": [],
+  "links_only_on_site": [],
+  "joints_only_in_ws": [],
+  "joints_only_on_site": []
+ }
+}

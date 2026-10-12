@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<robot name="chiku_arm">
+  <!-- links are the solid parts, joints connect a parent link to a child link -->
+  <link name="base_link">
+    <visual>
+      <geometry><cylinder radius="0.08" length="0.05"/></geometry>
+    </visual>
+  </link>
+
+  <link name="link1">
+    <visual>
+      <origin xyz="0.5 0 0" rpy="0 0 0"/>
+      <geometry><box size="1.0 0.05 0.05"/></geometry>
+    </visual>
+  </link>
+
+  <link name="link2">
+    <visual>
+      <origin xyz="0.4 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.8 0.04 0.04"/></geometry>
+    </visual>
+  </link>
+
+  <link name="tool"/>
+
+  <joint name="shoulder_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="link1"/>
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-3.14" upper="3.14" effort="10" velocity="1.0"/>
+  </joint>
+
+  <joint name="elbow_joint" type="revolute">
+    <parent link="link1"/>
+    <child link="link2"/>
+    <origin xyz="1.0 0 0" rpy="0 0 0"/>      <!-- link1 is 1.0 m long -->
+    <axis xyz="0 0 1"/>
+    <limit lower="-2.8" upper="2.8" effort="10" velocity="1.0"/>
+  </joint>
+
+  <joint name="tool_joint" type="fixed">
+    <parent link="link2"/>
+    <child link="tool"/>
+    <origin xyz="0.8 0 0" rpy="0 0 0"/>      <!-- link2 is 0.8 m long -->
+  </joint>
+</robot>
