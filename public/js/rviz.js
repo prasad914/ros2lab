@@ -1442,6 +1442,14 @@ export function createRviz(container, opts = {}) {
     ];
   }
   let lastStatus = [];
+  // periodic refreshes (sim updates, MoveIt status) only rebuild when the rows changed: a rebuild detaches the check
+  // boxes under the mouse, so a click on one (MotionPlanning's checkbox) would land on a dead node
+  function renderTreeIfChanged() {
+    const rows = [...globalRows(), ...S.displays.flatMap(displayRows)];
+    const sig = JSON.stringify(rows.map((r) => [r.path, r.name, r.depth, r.cls, r.disabled, r.value && r.value.k, r.value && r.value.text, r.value && r.value.checked, r.value && r.value.cls, !!r.kids, r.help, r.icon]));
+    if (sig === S.treeSig) return;
+    S.treeSig = sig; renderTree();
+  }
   function renderTree() {
     const rows = [...globalRows(), ...S.displays.flatMap(displayRows)];
     tree(dTree, rows, { sel: S.sel, open: S.open, onSel: (p, keep, soft) => { S.sel = p; if (soft) updateHelp(rows); else renderTree(); } });
@@ -1838,7 +1846,9 @@ export function createRviz(container, opts = {}) {
       if (have !== undefined) S.haveStates = have;
       if (topicData) S.td = topicData;
       computeFrames(); placeRobot(); buildTF(); buildMarkers(); buildSensors(); runExts(); refreshPanels();
-      const now = performance.now(); if (now - (S.treeAt || 0) > 400) { S.treeAt = now; renderTree(); }
+      // rebuild the Displays tree at most every 400 ms, and only when its content changed: a rebuild detaches the
+      // check boxes under the mouse, so a click on one (MotionPlanning's checkbox) would land on a dead node
+      const now = performance.now(); if (now - (S.treeAt || 0) > 400) { S.treeAt = now; renderTreeIfChanged(); }
       draw();
     },
     setTitle(t) { S.title = t || ""; renderTitle(); },
@@ -1848,7 +1858,7 @@ export function createRviz(container, opts = {}) {
     addExtension(e) { exts.add(e); if (e.group) extG.add(e.group); refresh(); return () => { exts.delete(e); if (e.group) extG.remove(e.group); refresh(); }; },
     ghost: makeGhost, addDock, draw: () => draw(), poseOf: (f) => poses[f] || null, fixedFrame: () => S.fixedFrame, model: () => S.model,
     displays: (type) => S.displays.filter((d) => d.type === type), rebuildIMarkers: () => { if (!imDrag) { buildIMarkers(); draw(); } }, dragging: () => !!imDrag,
-    setDisplayStatus(type, list) { for (const d of S.displays.filter((x) => x.type === type)) d.status = list.map(([lv, t, k]) => st(lv, t, k)); renderTree(); },
+    setDisplayStatus(type, list) { for (const d of S.displays.filter((x) => x.type === type)) d.status = list.map(([lv, t, k]) => st(lv, t, k)); renderTreeIfChanged(); },
     // used by automated tests: the same feedback a real drag or menu click would send
     testFeedback(name, event, xyz, extra = {}) { const o = imG.children.flatMap((hh) => hh.children).find((c) => c.userData.im && c.userData.im.name === name); if (!o) return false; if (xyz) o.position.set(...xyz); feedback(o.userData.im, o, event, extra); return true; },
     testNav2Goal(x, y, yaw) { nav2Goal({ x, y, yaw }, { position: { x, y, z: 0 }, orientation: yawQuat(yaw) }); },

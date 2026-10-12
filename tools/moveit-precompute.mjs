@@ -14,12 +14,32 @@ const { moveitModel } = await import("../public/js/moveit-config.js");
 const { galleryUrdf } = await import("../public/js/rviz-pkg.js");
 const list = JSON.parse(fs.readFileSync(path.join(pub, "robots/index.json"), "utf8"));
 const ids = process.argv.slice(2);
+// per robot: links whose spheres are fitted in height bands (see below)
+const REFIT = { xarm6: ["link_base"] };
+// a sphere per height band of the link's points: centre and radius from the band's own points
+function bandSpheres(points, n) {
+  const P = points.filter((p) => Array.isArray(p)); if (!P.length) return [];
+  const z0 = Math.min(...P.map((p) => p[2])), z1 = Math.max(...P.map((p) => p[2])), out = [];
+  for (let i = 0; i < n; i++) {
+    const a = z0 + (z1 - z0) * i / n, b = z0 + (z1 - z0) * (i + 1) / n;
+    const Q = P.filter((p) => p[2] >= a && (i === n - 1 ? p[2] <= b : p[2] < b));
+    if (!Q.length) continue;
+    const c = [0, 1, 2].map((k) => Q.reduce((s, p) => s + p[k], 0) / Q.length);
+    out.push({ c, r: Math.max(0.005, ...Q.map((p) => Math.hypot(p[0] - c[0], p[1] - c[1], p[2] - c[2]))) });
+  }
+  return out;
+}
 fs.mkdirSync(path.join(pub, "robots/moveit"), { recursive: true });
 let seed = 12345; const rng = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648);
 Math.random = rng;   // deterministic sampling: the same SRDF on every run
 for (const g of list.filter((x) => x.moveit && (ids.length ? ids.includes(x.id) : x.source))) {
   const { urdf, readMesh } = await galleryUrdf(g, meshPointsFrom);
   const m = await moveitModel(parseURDF(urdf), g.moveit, { readMesh, samples: 3000 });
+  // a short, wide column (xArm's link_base) is covered by one or two big k-means spheres that reach over the arm's
+  // own link6: real MoveIt checks the meshes and finds no contact there. REFIT links get spheres in height bands
+  // instead, each as wide as the mesh really is (the same mesh points, so only the fit changes).
+  const parsed = parseURDF(urdf), pts = await (await import("../public/js/moveit-core.js")).linkPoints(parsed, readMesh);
+  for (const link of REFIT[g.id] || []) if (pts[link]) m.spheres[link] = bandSpheres(pts[link], 3);
   const r6 = (x) => Math.round(x * 1e5) / 1e5;
   const out = { robot: g.id, note: "collision spheres (link frame) and SRDF disable_collisions, from tools/moveit-precompute.mjs", spheres: Object.fromEntries(Object.entries(m.spheres).filter(([, s]) => s.length).map(([l, s]) => [l, s.map((x) => ({ c: x.c.map(r6), r: r6(x.r) }))])), acm: m.acm };
   fs.writeFileSync(path.join(pub, `robots/moveit/${g.id}.json`), JSON.stringify(out));

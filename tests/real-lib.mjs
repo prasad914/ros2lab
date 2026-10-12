@@ -11,7 +11,7 @@ export async function openRobot(id, { webgl = false } = {}) {
     return r.fulfill({ body: readFileSync(p), contentType: p.endsWith(".wasm") ? "application/wasm" : /js$/.test(p) ? "text/javascript" : "application/octet-stream", headers: { "access-control-allow-origin": "*" } }); });
   const p = await ctx.newPage(); const errs = [];
   p.on("pageerror", (e) => errs.push("PAGEERROR " + e.message));
-  p.on("console", (m) => { if (process.env.CONSOLE) console.log("[console]", m.type(), m.text().slice(0, 300)); if (m.type() === "error" && !/ERR_TUNNEL|Failed to load resource/.test(m.text())) errs.push(m.text()); });
+  p.on("console", (m) => { if (process.env.CONSOLE) console.log("[console]", m.type(), m.text().slice(0, 300)); if (m.type() === "error" && !/ERR_TUNNEL|Failed to load resource/.test(m.text()) && !/cloudfunctions\.net\/heartbeat/.test(m.text())) errs.push(m.text()); });   // the visitor counter: blocked by CORS on localhost (the deployed function allows only the live origins)
   await p.goto(`http://localhost:8080/rviz.html?robot=${id}`);
   await p.waitForFunction(() => window.__ros2lab && window.__ros2lab.sh && window.__ros2lab.sh.realWs, null, { timeout: 60000 });
   return { b, p, errs };
