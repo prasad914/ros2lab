@@ -356,7 +356,7 @@ function makeContext(sh, ui, getJob) {
       const remaps = []; for (let i = 0; i < info.cmd.length; i++) if ((info.cmd[i] === "-r" || info.cmd[i] === "--remap") && info.cmd[i + 1] && !/^__/.test(info.cmd[i + 1])) { const [a, b] = info.cmd[i + 1].split(":="); remaps.push([a, b]); }
       const ns = ros.namespace && ros.namespace !== "/" ? ros.namespace : "";
       // the node name a program gives itself when the launch file sets none
-      const DEFAULT_NODE = { ros2_control_node: "controller_manager", parameter_bridge: "ros_gz_bridge", image_bridge: "image_bridge", create: "ros_gz_sim", move_group: "move_group", rviz2: "rviz2" };
+      const DEFAULT_NODE = { ros2_control_node: "controller_manager", parameter_bridge: "ros_gz_bridge", image_bridge: "ros_gz_image", create: "ros_gz_sim", move_group: "move_group", rviz2: "rviz2" };
       const nodeRemap = ((info.cmd.find((x) => /^__node:=/.test(x)) || "").split(":=")[1]) || null;   // Node(name=...) is passed as -r __node:=<name>
       const nodeName = String((ros.name && ros.name !== exe ? ros.name : null) || nodeRemap || DEFAULT_NODE[exe] || ros.name || exe).split("/").pop();   // (Node(namespace='') reports "/rviz2")
       const T = prefix ? tag : undefined;
@@ -447,9 +447,11 @@ function makeContext(sh, ui, getJob) {
         }
         case "robot_state_publisher robot_state_publisher": {
           // robot_state_publisher <urdf file> (positional argument, still accepted on Jazzy) instead of the parameter
-          if (!params.robot_description && args[0] && !args[0].startsWith("-")) { const t = fs.read(args[0]); if (t != null) params.robot_description = String(t); }
+          const positional = !params.robot_description && !!args[0] && !args[0].startsWith("-");
+          if (positional) { const t = fs.read(args[0]); if (t != null) params.robot_description = String(t); }
           const n = g.add("rsp", nodeName, ns, params, remaps);
           n.pid = pid; n.procName = tag;
+          if (positional) lines([P(`[WARN] [${stamp()}] [${nodeName}]: No robot_description parameter, but command-line argument available.  Assuming argument is name of URDF file.  This backwards compatibility fallback will be removed in the future.`)]);
           if (!params.robot_description) lines([P(`[ERROR] [${stamp()}] [${nodeName}]: robot_description parameter must not be empty`)]);
           else lines(g.rspMessages(n).map((s) => P(s.replace(/^\[(INFO|WARN|ERROR)\] \[robot_state_publisher\]/, `[$1] [${stamp()}] [${nodeName}]`))));
           track(pid, n.full); ui.paint(); return;

@@ -153,6 +153,7 @@ export function jspDefault(j) {   // joint_state_publisher: 0, unless 0 is outsi
 export function createRviz(container, opts = {}) {
   loadRvizCss();
   THREE.ColorManagement.enabled = false;   // Ogre has no sRGB conversion: colours go to the screen as they are
+  let toolTopics = {};   // the pose tools' topics from the loaded .rviz file (SetGoal / SetInitialPose); defaults otherwise
   const S = {
     model: null, modelError: null, joints: {}, haveStates: false, extraEdges: [], externalTf: !!opts.externalTf, fixedFrame: opts.fixedFrame || "map",
     background: "48; 48; 48", frameRate: 30,
@@ -1153,8 +1154,8 @@ export function createRviz(container, opts = {}) {
     const p = ground(ev) || poseStart, yaw = p.distanceTo(poseStart) < 1e-3 ? 0 : Math.atan2(p.y - poseStart.y, p.x - poseStart.x);
     const pose = { position: { x: poseStart.x, y: poseStart.y, z: 0 }, orientation: yawQuat(yaw) };
     if (S.tool === "nav2goal") nav2Goal({ x: poseStart.x, y: poseStart.y, yaw }, pose);
-    else if (S.tool === "goal") publish("/goal_pose", "geometry_msgs/msg/PoseStamped", { header: { stamp: stamp(), frame_id: S.fixedFrame }, pose });
-    else publish("/initialpose", "geometry_msgs/msg/PoseWithCovarianceStamped", { header: { stamp: stamp(), frame_id: S.fixedFrame }, pose: { pose, covariance: [0.25, 0, 0, 0, 0, 0, 0, 0.25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.06853891909122467] } });
+    else if (S.tool === "goal") publish(toolTopics.goal || "/goal_pose", "geometry_msgs/msg/PoseStamped", { header: { stamp: stamp(), frame_id: S.fixedFrame }, pose });
+    else publish(toolTopics.pose || "/initialpose", "geometry_msgs/msg/PoseWithCovarianceStamped", { header: { stamp: stamp(), frame_id: S.fixedFrame }, pose: { pose, covariance: [0.25, 0, 0, 0, 0, 0, 0, 0.25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.06853891909122467] } });
     poseStart = null; if (poseArrow) poseArrow.visible = false; draw();
     setTool("interact");   // the pose tools finish after one use and RViz goes back to the default tool
   }
@@ -1708,6 +1709,14 @@ export function createRviz(container, opts = {}) {
   function loadConfig(text, name) {
     const cfg = parseRvizYaml(text), vm = (cfg && cfg["Visualization Manager"]) || {};
     const go = vm["Global Options"] || {};
+    // the topics of the pose tools as the file sets them (SetGoal / SetInitialPose "Topic" Value), used when published
+    toolTopics = { classes: new Set() };
+    for (const t of Array.isArray(vm.Tools) ? vm.Tools : []) {
+      const v = t && t.Topic && t.Topic.Value, cls = String((t && t.Class) || "");
+      toolTopics.classes.add(cls);
+      if (typeof v === "string" && v) { if (cls === TOOL_CLASS.goal) toolTopics.goal = v; else if (cls === TOOL_CLASS.pose) toolTopics.pose = v; }
+    }
+    if (!Array.isArray(vm.Tools)) toolTopics.classes = null;   // no Tools list: keep RViz's default tool set
     const META = new Set(["Class", "Name", "Enabled", "Value"]);
     const ds = [];
     for (const { cls, item } of rvizDisplays(cfg)) {
@@ -1793,6 +1802,15 @@ export function createRviz(container, opts = {}) {
   // ================= public API (unchanged for the terminal, lessons, playground and RViz page) =================
   let dead = false;
   const api = {
+    // the topics of the pose tools (the loaded .rviz file's, else RViz's defaults): what the RViz node publishes.
+    // a tool that the loaded file does not list has no publisher (RViz creates it when the tool is loaded)
+    publications() {
+      const has = (cls) => !toolTopics.classes || toolTopics.classes.has(cls), out = [];
+      if (has(TOOL_CLASS.point)) out.push(["/clicked_point", "geometry_msgs/msg/PointStamped"]);
+      if (has(TOOL_CLASS.goal)) out.push([toolTopics.goal || "/goal_pose", "geometry_msgs/msg/PoseStamped"]);
+      if (has(TOOL_CLASS.pose)) out.push([toolTopics.pose || "/initialpose", "geometry_msgs/msg/PoseWithCovarianceStamped"]);
+      return out;
+    },
     // the topics this RViz subscribes to: the TF listener, plus each enabled display's topic
     subscriptions() {
       const out = [["/tf", "tf2_msgs/msg/TFMessage"], ["/tf_static", "tf2_msgs/msg/TFMessage"]], abs = (t) => (t.startsWith("/") ? t : "/" + t);

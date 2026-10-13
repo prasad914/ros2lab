@@ -1517,6 +1517,7 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
           configName: sh.viz.configName || "", topics: () => (sh.graph ? [...sh.graph.topics()].map(([name, t]) => ({ name, type: t.type, pubs: t.by.pubs.length })) : []), onPublish: rvizPublished });
         if (sh.viz.configText) viewer.loadConfig(sh.viz.configText, sh.viz.configName);
         sh.viz.subsFn = () => (viewer ? viewer.subscriptions() : null);
+        sh.viz.pubsFn = () => (viewer ? viewer.publications() : null);
         deliverPending();
         paintViz();
       }).catch((e) => { vizLoading = false; rvizHolder.replaceChildren(el("p", { class: "notice err", text: "The 3D viewer could not load: " + e.message })); });

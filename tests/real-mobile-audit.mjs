@@ -43,7 +43,8 @@ async function world(model) {
   for (const [t, ty] of Object.entries(want)) ok(tl.includes(`${t} [${ty}]`), `${T} ros2 topic list -t: ${t} [${ty}]`);
   ok(!/^\s*[a-z][\w/]* \[/m.test(tl), `${T} every topic name is absolute (the bridge yaml's relative names resolve in /)`);
   const nodes = await cmd(p, "ros2 node list");
-  ok(/\/robot_state_publisher/.test(nodes) && /\/ros_gz_bridge/.test(nodes) && (model !== "waffle" || /\/image_bridge/.test(nodes)), `${T} ros2 node list: robot_state_publisher, ros_gz_bridge${model === "waffle" ? ", image_bridge" : ""}`);
+  // the image_bridge executable names its node ros_gz_image (ground-truth/real/tb3_waffle_world/nodes.txt)
+  ok(/\/robot_state_publisher/.test(nodes) && /\/ros_gz_bridge/.test(nodes) && (model !== "waffle" || /\/ros_gz_image/.test(nodes)), `${T} ros2 node list: robot_state_publisher, ros_gz_bridge${model === "waffle" ? ", ros_gz_image" : ""}`);
   const bp = await cmd(p, "ros2 param list /ros_gz_bridge");
   ok(/config_file/.test(bp) && /subscription_heartbeat/.test(bp) && /use_sim_time/.test(bp), `${T} ros2 param list /ros_gz_bridge shows the bridge's declared parameters`);
   // rates

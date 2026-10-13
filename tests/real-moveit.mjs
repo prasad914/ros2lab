@@ -1,5 +1,7 @@
 // An arm from its official workspace: Gazebo + MoveIt through the REAL launch file, then plan and execute a joint goal.
 //   node tests/real-moveit.mjs [robot] ["launch command"] [group]
+//   NO_CONTROLLERS=1 node tests/real-moveit.mjs ...  for a launch that starts move_group without any controller (upstream
+//   gen3 sim.launch.py): Plan must succeed, Execute must fail with the real "not active" error, and the arm must not move.
 import { openRobot, run, screens, waitText } from "./real-lib.mjs";
 const [robot = "ur5e", cmd = "ros2 launch ur_simulation_gz ur_sim_moveit.launch.py ur_type:=ur5e", group = ""] = process.argv.slice(2);
 const { b, p, errs } = await openRobot(robot);
@@ -27,6 +29,8 @@ const r = await p.evaluate(async (want) => {
 }, group);
 console.log(JSON.stringify(r));
 ok(!r.err, "planned with " + (r.grp || "?"));
-if (!r.err) ok(Object.keys(r.goal).every((j) => Math.abs(r.goal[j] - r.now[j]) < 0.05), "the arm in Gazebo reached the planned goal");
+if (process.env.NO_CONTROLLERS) {
+  ok(!r.err && r.ex === false && /not active/.test(r.exr), "execute fails: no controller is active (" + (r.exr || "").slice(0, 120) + ")");
+} else if (!r.err) ok(Object.keys(r.goal).every((j) => Math.abs(r.goal[j] - r.now[j]) < 0.05), "the arm in Gazebo reached the planned goal");
 console.log("ERRS", errs.slice(0, 5)); console.log(fails ? `${fails} failed` : "all passed");
 await b.close(); process.exit(fails ? 1 : 0);
