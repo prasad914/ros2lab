@@ -48,6 +48,8 @@ const slash = (t) => (t ? (t.startsWith("/") ? t : "/" + t) : t);
 const f6 = (x) => (Number.isInteger(x) ? `${x}.0` : String(+Number(x).toFixed(6)));
 const ROS_FROM_GZ = Object.fromEntries(Object.entries(BRIDGE_TYPES).map(([r, g]) => [g, r]));
 
+// the image_transport plugins a ros_gz_image node loads next to /<image> (the real topics, their types)
+export const IMAGE_TRANSPORTS = [["compressed", "sensor_msgs/msg/CompressedImage"], ["compressedDepth", "sensor_msgs/msg/CompressedImage"], ["theora", "theora_image_transport/msg/Packet"], ["zstd", "sensor_msgs/msg/CompressedImage"]];
 export const GZ_EXES = { "ros_gz_sim create": "gz_create", "ros_gz_bridge parameter_bridge": "gz_bridge", "ros_gz_image image_bridge": "gz_image", "teleop_twist_keyboard teleop_twist_keyboard": "teleop_twist" };
 export const GZ_NAMES = { gz_create: "ros_gz_sim", gz_bridge: "ros_gz_bridge", gz_image: "image_bridge", teleop_twist: "teleop_twist_keyboard", gz_sim: "gz_sim" };
 export const GZ_PKG_EXES = { ros_gz_sim: ["create", "gzserver", "remove"], ros_gz_bridge: ["parameter_bridge", "static_bridge"], ros_gz_image: ["image_bridge"], teleop_twist_keyboard: ["teleop_twist_keyboard"] };

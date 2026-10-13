@@ -5,7 +5,7 @@ import { goalMethods } from "./goal-pose.js";
 import { fakeMethods } from "./tb3-fake.js";
 import { cfMethods } from "./cf-sim.js";
 import { moveitServiceMethods } from "./moveit-services.js";
-import { gzMethods, GZ_EXES, GZ_NAMES, GZ_PKG_EXES, TELEOP_BANNER, gzIncludePy, gzIncludeXml, gzArgv, nodeArgsPy, takeExpr, pyEval as pyEvalVar } from "./ros-gz.js";
+import { gzMethods, GZ_EXES, GZ_NAMES, GZ_PKG_EXES, IMAGE_TRANSPORTS, TELEOP_BANNER, gzIncludePy, gzIncludeXml, gzArgv, nodeArgsPy, takeExpr, pyEval as pyEvalVar } from "./ros-gz.js";
 import { urdfGazebo } from "./gz-sdf.js";
 import { xacro as runXacro, parseURDF, urdfEdges, checkUrdfText, graphviz, jointValue } from "./urdf-core.js";
 import { ifacesReady, hasIface, parseYaml, buildMessage, pyRepr, showLines, protoBlock, allIfaces as realIfaces, ifacePackages, normType as normIface, sectionType, echoLines, noArrYaml } from "./ros-iface.js";
@@ -163,6 +163,7 @@ export class RosGraph {
     if (n.kind === "rsp") { e.subs.push([p("joint_states"), "sensor_msgs/msg/JointState", "BEST_EFFORT/VOLATILE"]); e.pubs.push(["/tf", "tf2_msgs/msg/TFMessage"], ["/tf_static", "tf2_msgs/msg/TFMessage"], [p("robot_description"), "std_msgs/msg/String", "RELIABLE/TRANSIENT_LOCAL"]); }
     if (n.kind === "container") e.srvs.push([`${n.full}/_container/load_node`, "composition_interfaces/srv/LoadNode"], [`${n.full}/_container/unload_node`, "composition_interfaces/srv/UnloadNode"], [`${n.full}/_container/list_nodes`, "composition_interfaces/srv/ListNodes"]);
     if (n.kind === "gz_bridge" || n.kind === "gz_image") for (const b of n.bridge || []) { if (b.broken) continue; const rn = b.ros.startsWith("/") ? b.ros : p(b.ros); if (b.dir !== "ROS_TO_GZ") e.pubs.push([rn, b.rosType]); if (b.dir !== "GZ_TO_ROS") e.subs.push([rn, b.rosType]); }
+    if (n.kind === "gz_image") for (const b of n.bridge || []) { if (b.broken) continue; const rn = b.ros.startsWith("/") ? b.ros : p(b.ros); for (const [tr, ty] of IMAGE_TRANSPORTS) e.pubs.push([`${rn}/${tr}`, ty]); }   // image_transport adds these to each image (published by ros_gz_image)
     if (n.kind === "cf_sim") this.cfEndpoints(n, e);
     if (n.kind === "tb3_fake") { e.subs.push([p("cmd_vel"), "geometry_msgs/msg/Twist"]); e.pubs.push([p("odom"), "nav_msgs/msg/Odometry"], [p("joint_states"), "sensor_msgs/msg/JointState"], [p("tf"), "tf2_msgs/msg/TFMessage"]); }
     if (n.kind === "pubcli" && n.pub) e.pubs.push([n.pub.topic, n.pub.type]);

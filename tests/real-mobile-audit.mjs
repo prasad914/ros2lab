@@ -39,7 +39,8 @@ async function world(model) {
   await p.waitForTimeout(2000);
   const tl = await cmd(p, "ros2 topic list -t");
   const want = { "/scan": "sensor_msgs/msg/LaserScan", "/imu": "sensor_msgs/msg/Imu", "/odom": "nav_msgs/msg/Odometry", "/joint_states": "sensor_msgs/msg/JointState", "/tf": "tf2_msgs/msg/TFMessage", "/tf_static": "tf2_msgs/msg/TFMessage", "/clock": "rosgraph_msgs/msg/Clock", "/cmd_vel": "geometry_msgs/msg/TwistStamped", "/robot_description": "std_msgs/msg/String" };
-  if (model === "waffle") Object.assign(want, { "/camera/image_raw": "sensor_msgs/msg/Image", "/camera/camera_info": "sensor_msgs/msg/CameraInfo" });
+  // the image_transport topics, as ground-truth/real/tb3_waffle_world/topic/camera__image_raw__*.info.txt records them
+  if (model === "waffle") Object.assign(want, { "/camera/image_raw": "sensor_msgs/msg/Image", "/camera/camera_info": "sensor_msgs/msg/CameraInfo", "/camera/image_raw/compressed": "sensor_msgs/msg/CompressedImage", "/camera/image_raw/compressedDepth": "sensor_msgs/msg/CompressedImage", "/camera/image_raw/theora": "theora_image_transport/msg/Packet", "/camera/image_raw/zstd": "sensor_msgs/msg/CompressedImage" });
   for (const [t, ty] of Object.entries(want)) ok(tl.includes(`${t} [${ty}]`), `${T} ros2 topic list -t: ${t} [${ty}]`);
   ok(!/^\s*[a-z][\w/]* \[/m.test(tl), `${T} every topic name is absolute (the bridge yaml's relative names resolve in /)`);
   const nodes = await cmd(p, "ros2 node list");
