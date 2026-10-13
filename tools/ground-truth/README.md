@@ -62,6 +62,9 @@ These are not bugs in the site. Each line is `<scenario id or *> <regex>`, match
 # MoveIt internal nodes with random names (moveit_<random>, move_group_private_<pointer>)
 * ^nodes: only real: /moveit_[0-9a-f]+$
 * ^nodes: only real: /move_group_private_\d+$
+# /tf has several publishers (robot_state_publisher, the diff-drive plugin's bridge): `topic echo --once` shows
+# whichever message comes first, so its frame ids differ between runs. /tf_static and the TF tree are still compared.
+* ^topic /tf frame: only (real|site):
 # the site's honest notes for programs it does not model (CLAUDE.md rule 2)
 * ^launch log: only site: .*ROS2Lab:
 # graphics-driver and desktop messages of the real Gazebo / RViz windows

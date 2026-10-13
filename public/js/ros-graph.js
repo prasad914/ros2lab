@@ -160,7 +160,7 @@ export class RosGraph {
     if (n.kind === "jsp" || n.kind === "jsp_gui") { e.pubs.push([p("joint_states"), "sensor_msgs/msg/JointState"]); e.subs.push([p("robot_description"), "std_msgs/msg/String"]); }
     if (n.kind === "rviz" && this.sh.viz && this.sh.viz.subsFn && this.sh.viz.subsFn()) { const seen = new Set(); for (const x of this.sh.viz.subsFn()) if (!seen.has(x[0])) { seen.add(x[0]); e.subs.push(x); } e.pubs.push(["/clicked_point", "geometry_msgs/msg/PointStamped"], ["/goal_pose", "geometry_msgs/msg/PoseStamped"], ["/initialpose", "geometry_msgs/msg/PoseWithCovarianceStamped"]); }
     else if (n.kind === "rviz") { e.subs.push(["/tf", "tf2_msgs/msg/TFMessage"], ["/tf_static", "tf2_msgs/msg/TFMessage"], ["/robot_description", "std_msgs/msg/String"]); if (this.sh.viz) { if (this.sh.viz.displays.Marker) e.subs.push(["/visualization_marker", "visualization_msgs/msg/Marker"]); if (this.sh.viz.displays.MarkerArray) e.subs.push(["/visualization_marker_array", "visualization_msgs/msg/MarkerArray"]); } e.pubs.push(["/clicked_point", "geometry_msgs/msg/PointStamped"], ["/goal_pose", "geometry_msgs/msg/PoseStamped"], ["/initialpose", "geometry_msgs/msg/PoseWithCovarianceStamped"]); }
-    if (n.kind === "rsp") { e.subs.push([p("joint_states"), "sensor_msgs/msg/JointState"]); e.pubs.push(["/tf", "tf2_msgs/msg/TFMessage"], ["/tf_static", "tf2_msgs/msg/TFMessage"], [p("robot_description"), "std_msgs/msg/String"]); }
+    if (n.kind === "rsp") { e.subs.push([p("joint_states"), "sensor_msgs/msg/JointState", "BEST_EFFORT/VOLATILE"]); e.pubs.push(["/tf", "tf2_msgs/msg/TFMessage"], ["/tf_static", "tf2_msgs/msg/TFMessage"], [p("robot_description"), "std_msgs/msg/String", "RELIABLE/TRANSIENT_LOCAL"]); }
     if (n.kind === "container") e.srvs.push([`${n.full}/_container/load_node`, "composition_interfaces/srv/LoadNode"], [`${n.full}/_container/unload_node`, "composition_interfaces/srv/UnloadNode"], [`${n.full}/_container/list_nodes`, "composition_interfaces/srv/ListNodes"]);
     if (n.kind === "gz_bridge" || n.kind === "gz_image") for (const b of n.bridge || []) { if (b.broken) continue; const rn = b.ros.startsWith("/") ? b.ros : p(b.ros); if (b.dir !== "ROS_TO_GZ") e.pubs.push([rn, b.rosType]); if (b.dir !== "GZ_TO_ROS") e.subs.push([rn, b.rosType]); }
     if (n.kind === "cf_sim") this.cfEndpoints(n, e);
@@ -172,16 +172,21 @@ export class RosGraph {
     if (n.kind === "mimic") { e.subs.push([p("input/pose"), "turtlesim/msg/Pose"]); e.pubs.push([p("output/cmd_vel"), "geometry_msgs/msg/Twist"]); }
     this.mgEndpoints(n, e);
     this.followerEndpoints(n, e);
+    // QoS where the real profile is not the default RELIABLE/VOLATILE: with use_sim_time every node's time source
+    // subscribes /clock best effort (rclcpp ClockQoS, rclpy time_source.py); tf2's static broadcaster and listener
+    // are transient_local (tf2_ros/qos.hpp)
+    if ([true, "true", "True"].includes(n.params && n.params.use_sim_time) && !e.subs.some(([nm]) => nm === "/clock")) e.subs.push(["/clock", "rosgraph_msgs/msg/Clock", "BEST_EFFORT/VOLATILE"]);
+    for (const k of ["pubs", "subs"]) e[k] = e[k].map((x) => (x[0] === "/tf_static" && !x[2] ? [x[0], x[1], "RELIABLE/TRANSIENT_LOCAL"] : x));
     if (n.remaps && n.remaps.length) {
       const res = (x) => (x.startsWith("/") ? x : `${n.ns}/${x}`);
-      for (const k of Object.keys(e)) e[k] = e[k].map(([nm, t]) => { const r = n.remaps.find(([f]) => res(f) === nm); return [r ? res(r[1]) : nm, t]; });
+      for (const k of Object.keys(e)) e[k] = e[k].map(([nm, t, q]) => { const r = n.remaps.find(([f]) => res(f) === nm); return [r ? res(r[1]) : nm, t, q]; });
     }
     for (const k of Object.keys(e)) e[k].sort((a, b) => a[0].localeCompare(b[0]));
     return e;
   }
   collect(kinds) {
     const m = new Map();
-    for (const n of this.nodes) { if (this.unseen(n)) continue; const e = this.endpoints(n); for (const k of kinds) for (const [name, type] of e[k]) { if (!m.has(name)) m.set(name, { type, by: { pubs: [], subs: [], srvs: [], cli: [], acts: [], actc: [] } }); else if (k === "acts") m.get(name).type = type; m.get(name).by[k].push(n.full); } }
+    for (const n of this.nodes) { if (this.unseen(n)) continue; const e = this.endpoints(n); for (const k of kinds) for (const [name, type, q] of e[k]) { if (!m.has(name)) m.set(name, { type, by: { pubs: [], subs: [], srvs: [], cli: [], acts: [], actc: [] }, qos: {} }); else if (k === "acts") m.get(name).type = type; m.get(name).by[k].push(n.full); if (q) m.get(name).qos[`${k}|${n.full}`] = q; } }
     return new Map([...m.entries()].sort((a, b) => a[0].localeCompare(b[0])));
   }
   topics() { const t = this.collect(["pubs", "subs"]); if (this.lastPub && !t.has(this.lastPub.topic)) t.set(this.lastPub.topic, { type: this.lastPub.type, by: { pubs: [], subs: [] } }); return t; }
@@ -268,8 +273,9 @@ export class RosGraph {
     if (a === "info" && (flags.includes("-v") || flags.includes("--verbose"))) {
       const L = [`Type: ${t.type}`, "", `Publisher count: ${t.by.pubs.length}`, ""];
       const ep = (who, kind) => { const nm = who.split("/").pop(), ns = who.slice(0, who.length - nm.length - 1) || "/";
+        const [rel, dur] = ((t.qos || {})[`${kind === "PUBLISHER" ? "pubs" : "subs"}|${who}`] || "RELIABLE/VOLATILE").split("/");
         L.push(`Node name: ${nm}`, `Node namespace: ${ns}`, `Topic type: ${t.type}`, "Topic type hash: RIHS01_…", `Endpoint type: ${kind}`, `GID: ${hex().match(/../g).slice(0, 16).join(".")}`,
-          "QoS profile:", "  Reliability: RELIABLE", "  History (Depth): UNKNOWN", "  Durability: VOLATILE", "  Lifespan: Infinite", "  Deadline: Infinite", "  Liveliness: AUTOMATIC", "  Liveliness lease duration: Infinite", ""); };
+          "QoS profile:", `  Reliability: ${rel}`, "  History (Depth): UNKNOWN", `  Durability: ${dur}`, "  Lifespan: Infinite", "  Deadline: Infinite", "  Liveliness: AUTOMATIC", "  Liveliness lease duration: Infinite", ""); };
       t.by.pubs.forEach((w) => ep(w, "PUBLISHER"));
       L.push(`Subscription count: ${t.by.subs.length}`, "");
       t.by.subs.forEach((w) => ep(w, "SUBSCRIPTION"));
@@ -1044,8 +1050,10 @@ RosGraph.prototype.urdfSample = function (name, t) {
     const stat = name === "/tf_static", edges = urdfEdges(model, values, this.statesAvailable()).filter((e) => e.static === stat).sort((x, y) => (x.joint < y.joint ? -1 : x.joint > y.joint ? 1 : 0));
     if (!edges.length) return null;
     // /tf_static is sent once, from the constructor: with use_sim_time no /clock has arrived yet, so now() is 0
+    // frame_prefix goes in front of both frame ids (TurtleBot3's launch sets it to "/"); tf2 strips it again, so the TF tree is unchanged
+    const pre = String(rsp.params.frame_prefix || "");
     const simT = [true, "true", "True"].includes(rsp.params.use_sim_time), st0 = stat && simT ? "  stamp:\n    sec: 0\n    nanosec: 0" : stamp();
-    const tr = (e) => `- header:\n  ${st0.replace(/\n/g, "\n  ")}\n    frame_id: ${e.parent}\n  child_frame_id: ${e.child}\n  transform:\n    translation:\n      x: ${f(e.t[0])}\n      y: ${f(e.t[1])}\n      z: ${f(e.t[2])}\n    rotation:\n      x: ${f(e.q[0])}\n      y: ${f(e.q[1])}\n      z: ${f(e.q[2])}\n      w: ${f(e.q[3])}`;
+    const tr = (e) => `- header:\n  ${st0.replace(/\n/g, "\n  ")}\n    frame_id: ${pre}${e.parent}\n  child_frame_id: ${pre}${e.child}\n  transform:\n    translation:\n      x: ${f(e.t[0])}\n      y: ${f(e.t[1])}\n      z: ${f(e.t[2])}\n    rotation:\n      x: ${f(e.q[0])}\n      y: ${f(e.q[1])}\n      z: ${f(e.q[2])}\n      w: ${f(e.q[3])}`;
     const msg = `transforms:\n${edges.map(tr).join("\n")}`;
     return stat ? [msg] : [msg, msg];
   }

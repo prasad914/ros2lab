@@ -91,9 +91,12 @@ async function world(model) {
   ok(near(vx, 0.15, 0.03), `${T} /odom twist.linear.x ~ 0.15`);
   const wv = (js1.split("velocity:")[1] || "").split("effort:")[0].split("\n").filter((l) => /^- /.test(l)).map((l) => Number(l.slice(2)));
   ok(wv.length === 2 && wv[1] > wv[0] && wv[0] > 0, `${T} /joint_states wheel velocities while turning left (${wv.join(", ")})`);
+  // stop first: the robot drives a 0.5 m circle, and /odom and tf2_echo are read seconds apart
+  await cmd(p, `ros2 topic pub --once /cmd_vel geometry_msgs/msg/TwistStamped "{twist: {linear: {x: 0.0}, angular: {z: 0.0}}}"`, 2);
+  const od2 = await cmd(p, "ros2 topic echo --once /odom", 3), x2 = num(od2, /position:\n\s+x: ([-\d.e]+)/);
   const tf1 = await cmd(p, "ros2 run tf2_ros tf2_echo odom base_footprint", 3);
   const tx = num(tf1, /Translation: \[([-\d.]+),/);
-  ok(near(tx, x1, 0.15), `${T} tf odom -> base_footprint follows /odom (${tx} vs ${x1})`);
+  ok(near(tx, x2, 0.02), `${T} tf odom -> base_footprint follows /odom (${tx} vs ${x2})`);
   await cmd(p, `ros2 topic pub --once /cmd_vel geometry_msgs/msg/TwistStamped "{twist: {linear: {x: 0.0}, angular: {z: 0.0}}}"`, 1);
   console.log(`${T} page errors`, errs.slice(0, 5)); ok(!errs.length, `${T} no page errors`);
   return { b, p, errs, term };
