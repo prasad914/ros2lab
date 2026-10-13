@@ -27,3 +27,4 @@ xarm6_moveit_fake | xarm       | xarm6  | - | bg:ros2 launch xarm_moveit_config 
 lite6_moveit_gz   | xarm       | lite6  | - | bg:ros2 launch xarm_moveit_config lite6_moveit_gazebo.launch.py | 40
 wx250s_moveit     | interbotix | wx250s | - | bg:ros2 launch interbotix_xsarm_moveit xsarm_moveit.launch.py robot_model:=wx250s hardware_type:=fake | 30
 cr5_sim_moveit    | dobot      | cr5    | - | bg:ros2 launch dobot_gazebo sim.launch.py | 40
+cr5_demo_moveit   | dobot      | cr5    | - | bg:ros2 launch dobot_moveit moveit_demo.launch.py | 40

@@ -114,7 +114,7 @@ export class RosGraph {
     if (kind === "turtlesim" || kind === "teleop") QOS.forEach((q, i) => { n.params[q] = [1000, "volatile", "keep_last", "reliable"][i]; });
     n.params.start_type_description_service = true;   // every Jazzy node has these two
     n.params.use_sim_time = false;
-    for (const [k, v] of Object.entries(params)) if (k in n.params || kind === "custom" || kind === "servo" || kind === "pose_goal" || kind === "move_group" || (kind === "rsp" && k === "robot_description")) n.params[k] = v;
+    for (const [k, v] of Object.entries(params)) if (k in n.params || kind === "custom" || kind === "servo" || kind === "pose_goal" || kind === "move_group" || kind === "fake_demo" || (kind === "rsp" && k === "robot_description")) n.params[k] = v;
     if (!dup) this.nodes = this.nodes.filter((x) => x.full !== n.full);
     this.nodes.push(n);
     return n;
