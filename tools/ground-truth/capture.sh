@@ -54,8 +54,9 @@ build_ws() {
   if grep -qE "^Summary: .* packages? finished" "$dir/build.log" && ! grep -qE "packages? failed" "$dir/build.log"; then
     touch "$dir/.built"; echo "   built: $(grep '^Summary:' "$dir/build.log" | tail -1)"
   else
-    echo "   BUILD PROBLEM in $ws. Last lines of $dir/build.log:"; tail -n 15 "$dir/build.log" | sed 's/^/   | /'
-    echo "   (scenarios of $ws still run with what was built)"
+    echo "   BUILD PROBLEM in $ws (the scenarios below run against a partial workspace; their recordings may be empty)."
+    grep -E "^[[:space:]]*[0-9]+ packages? failed:" "$dir/build.log" | sed 's/^/   | /'
+    echo "   Full log: $dir/build.log. Install the missing system packages (see the log), then: rm $dir/.built and re-run."
   fi
 }
 for ws in $(printf '%s\n' "${WSS[@]}" | awk '!seen[$0]++'); do build_ws "$ws"; done
@@ -77,7 +78,9 @@ run_scenario() {
   exports=$(node -e 'const w = require(process.argv[1]); const e = (w.env || {})[process.argv[2]] || {};
     console.log(Object.entries(e).map(([k, v]) => `export ${k}=${v}`).join("; "))' "$ROOT/public/robots/ws/$ws/workspace.json" "$robot")
   [ "$env" != "-" ] && exports="$exports; $(echo "$env" | tr ',' '\n' | sed 's/^ */export /' | paste -sd';')"
-  local pre="source /opt/ros/jazzy/setup.bash; source '$dir/install/setup.bash'; ${exports#; }; cd ~"
+  # no separator when the scenario sets no environment ("; ;" is a bash syntax error that stops the launch)
+  local envpart=${exports#; }; envpart=${envpart:+$envpart; }
+  local pre="source /opt/ros/jazzy/setup.bash; source '$dir/install/setup.bash'; ${envpart}cd ~"
   ros2 daemon stop >/dev/null 2>&1
   local groups=() k=0 step cmd
   while IFS= read -r step; do
