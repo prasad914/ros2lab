@@ -301,6 +301,8 @@ export const rcMethods = {
   // ROS interfaces of programs modelled here that are not controller_manager nodes
   rcEndpoints(n, e) {
     if (n.kind === "fake_gripper") e.pubs.push([`${n.full}/joint_states`, "sensor_msgs/msg/JointState"]);
+    // controller_manager's own topics (ground-truth/real/xarm6_moveit_fake: activity is published next to the statistics ones)
+    if (n.kind === "cm") e.pubs.push(["/controller_manager/activity", "controller_manager_msgs/msg/ControllerManagerActivity"]);
     if (n.kind === "fake_demo") {   // fake_demo_server.py: /joint_states (absolute) and the namespaced FollowJointTrajectory action
       e.pubs.push(["/joint_states", "sensor_msgs/msg/JointState"]);
       e.acts.push([`${n.ns || ""}/${n.params.robot_type}_group_controller/follow_joint_trajectory`, "control_msgs/action/FollowJointTrajectory"]);
