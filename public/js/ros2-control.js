@@ -81,7 +81,10 @@ export function parseRos2Control(urdf) {
       // <sensor> (force-torque, IMU) and <gpio> blocks of a ros2_control tag export interfaces too
       ({ joint: joints, sensor: sensors, gpio: gpios })[j[1]].push({ name: attr(j[2], "name"), command: cmd, state: st, component: j[1] });
     }
-    systems.push({ name: attr(m[1], "name") || "GazeboSimSystem", type: attr(m[1], "type") || "system", plugin, joints, sensors, gpios });
+    // <ros2_control rw_rate=".." is_async=".."> and GenericSystem's mock_*_commands flags (list_hardware_components shows them)
+    const hwFlag = (n) => /^(true|1)$/i.test(((body.match(new RegExp(`<hardware>[\\s\\S]*?<param\\s+name="${n}"\\s*>\\s*([^<]*?)\\s*<\\/param>`)) || [])[1]) || "");
+    systems.push({ name: attr(m[1], "name") || "GazeboSimSystem", type: attr(m[1], "type") || "system", plugin, joints, sensors, gpios,
+      rwRate: Number(attr(m[1], "rw_rate")) || 0, isAsync: /^(true|1)$/i.test(attr(m[1], "is_async") || ""), mockSensorCommands: hwFlag("mock_sensor_commands"), mockGpioCommands: hwFlag("mock_gpio_commands") });
   }
   // the Gazebo plugin that starts controller_manager inside the simulator
   let gzPlugin = null;
@@ -386,11 +389,21 @@ export class ControllerManager {
     const st = [...this.iface.entries()].filter(([, v]) => v.kind === "state").sort((a, b) => (a[0] < b[0] ? -1 : 1));
     return ["command interfaces", ...cmd.map(([k, v]) => `\t${k} [available] [${v.claimedBy ? "claimed" : "unclaimed"}]`), "state interfaces", ...st.map(([k]) => `\t${k.replace(/:state$/, "")}`)];
   }
-  listHardwareComponents() {
+  // ros2controlcli 4.49 list_hardware_components: rw_rate 0 (or above update_rate) is clamped to the controller_manager
+  // update_rate (resource_manager.cpp); command interfaces are every exported one (joints, gpios, and with GenericSystem
+  // mock_sensor_commands / mock_gpio_commands the sensor / gpio states too); -v adds data types and the state interfaces
+  listHardwareComponents(verbose = false) {
     const out = [];
     this.systems.forEach((s, i) => {
-      out.push(`Hardware Component ${i + 1}`, `\tname: ${s.name}`, `\ttype: ${s.type}`, `\tplugin name: ${s.plugin}`, `\tstate: id=3 label=${this.hwState}`, "\tcommand interfaces");
-      for (const j of s.joints) for (const c of j.command) { const it = this.iface.get(`${j.name}/${c.name}`); out.push(`\t\t${j.name}/${c.name} [available] [${it && it.claimedBy ? "claimed" : "unclaimed"}]`); }
+      const rw = !s.rwRate || s.rwRate > this.updateRate ? this.updateRate : s.rwRate;
+      out.push(`Hardware Component ${i + 1}`, `\tname: ${s.name}`, `\ttype: ${s.type}`, `\tplugin name: ${s.plugin}`, `\tstate: id=3 label=${this.hwState}`, `\tread/write rate: ${rw} Hz`, `\tis_async: ${s.isAsync ? "True" : "False"}`, "\tcommand interfaces");
+      const dt = verbose ? " [double]" : "";
+      const cmds = [];
+      if (s.mockSensorCommands) for (const j of s.sensors || []) for (const c of j.state) cmds.push(`${j.name}/${c.name}`);
+      if (s.mockGpioCommands) for (const j of s.gpios || []) for (const c of j.state) cmds.push(`${j.name}/${c.name}`);
+      for (const j of [...s.joints, ...(s.gpios || [])]) for (const c of j.command) if (!cmds.includes(`${j.name}/${c.name}`)) cmds.push(`${j.name}/${c.name}`);
+      for (const k of cmds) { const it = this.iface.get(k); out.push(`\t\t${k}${dt} [available] [${it && it.claimedBy ? "claimed" : "unclaimed"}]`); }
+      if (verbose) { out.push("\tstate interfaces"); for (const j of [...s.joints, ...(s.sensors || []), ...(s.gpios || [])]) for (const c of j.state) out.push(`\t\t${j.name}/${c.name} [double] [available]`); }
     });
     return out;
   }

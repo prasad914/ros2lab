@@ -1062,7 +1062,9 @@ export function createRviz(container, opts = {}) {
     }
     for (const [id, k] of docks) if (!live.has(id)) { k.el.remove(); if (k.r) { k.r.dispose(); k.r.forceContextLoss && k.r.forceContextLoss(); } docks.delete(id); }
     for (const d of S.displays.filter((x) => x.enabled && x.failed)) d.status = [st("error", `The class required for this display, '${d.failed}', could not be loaded.`, "Plugin")];
-    for (const d of S.displays.filter((x) => x.enabled && !x.failed && !["Grid", "Axes", "RobotModel", "TF", "Marker", "MarkerArray", "InteractiveMarkers", "LaserScan", "PointCloud2", "Path", "Odometry", "Map", "Group", "Image", "Camera", "Imu", "MotionPlanning", "PoseArray", "ParticleCloud", "Polygon", "PoseWithCovariance", "Pose"].includes(x.type))) {
+    // (not the displays an extension reports on, e.g. MoveIt's PlanningScene / Trajectory: two writers would flip the
+    // status every frame and rebuild the Displays tree under the mouse)
+    for (const d of S.displays.filter((x) => x.enabled && !x.failed && !x.extStatus && !["Grid", "Axes", "RobotModel", "TF", "Marker", "MarkerArray", "InteractiveMarkers", "LaserScan", "PointCloud2", "Path", "Odometry", "Map", "Group", "Image", "Camera", "Imu", "MotionPlanning", "PoseArray", "ParticleCloud", "Polygon", "PoseWithCovariance", "Pose"].includes(x.type))) {
       d.status = d.props.Topic ? [st("ok", "OK", "Topic")] : [st("error", "Error subscribing: Empty topic name", "Topic")];
     }
   }
@@ -1858,7 +1860,7 @@ export function createRviz(container, opts = {}) {
     addExtension(e) { exts.add(e); if (e.group) extG.add(e.group); refresh(); return () => { exts.delete(e); if (e.group) extG.remove(e.group); refresh(); }; },
     ghost: makeGhost, addDock, draw: () => draw(), poseOf: (f) => poses[f] || null, fixedFrame: () => S.fixedFrame, model: () => S.model,
     displays: (type) => S.displays.filter((d) => d.type === type), rebuildIMarkers: () => { if (!imDrag) { buildIMarkers(); draw(); } }, dragging: () => !!imDrag,
-    setDisplayStatus(type, list) { for (const d of S.displays.filter((x) => x.type === type)) d.status = list.map(([lv, t, k]) => st(lv, t, k)); renderTreeIfChanged(); },
+    setDisplayStatus(type, list) { for (const d of S.displays.filter((x) => x.type === type)) { d.status = list.map(([lv, t, k]) => st(lv, t, k)); d.extStatus = true; } renderTreeIfChanged(); },
     // used by automated tests: the same feedback a real drag or menu click would send
     testFeedback(name, event, xyz, extra = {}) { const o = imG.children.flatMap((hh) => hh.children).find((c) => c.userData.im && c.userData.im.name === name); if (!o) return false; if (xyz) o.position.set(...xyz); feedback(o.userData.im, o, event, extra); return true; },
     testNav2Goal(x, y, yaw) { nav2Goal({ x, y, yaw }, { position: { x, y, z: 0 }, orientation: yawQuat(yaw) }); },

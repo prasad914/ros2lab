@@ -8,7 +8,7 @@ import { moveitServiceMethods } from "./moveit-services.js";
 import { gzMethods, GZ_EXES, GZ_NAMES, GZ_PKG_EXES, TELEOP_BANNER, gzIncludePy, gzIncludeXml, gzArgv, nodeArgsPy, takeExpr, pyEval as pyEvalVar } from "./ros-gz.js";
 import { urdfGazebo } from "./gz-sdf.js";
 import { xacro as runXacro, parseURDF, urdfEdges, checkUrdfText, graphviz, jointValue } from "./urdf-core.js";
-import { ifacesReady, hasIface, parseYaml, buildMessage, pyRepr, showLines, protoBlock, allIfaces as realIfaces, ifacePackages, normType as normIface, sectionType, echoLines } from "./ros-iface.js";
+import { ifacesReady, hasIface, parseYaml, buildMessage, pyRepr, showLines, protoBlock, allIfaces as realIfaces, ifacePackages, normType as normIface, sectionType, echoLines, noArrYaml } from "./ros-iface.js";
 // A pretend running ROS 2 system for the practice terminal: nodes, topics, services,
 // parameters, actions, bags and workspace packages. Outputs follow the official ROS 2 Jazzy tutorials.
 // Used by terminal-sim.js when a lesson's terminal block has "running": [...] (or "graph": true).
@@ -279,7 +279,8 @@ export class RosGraph {
     if (a === "hz") {
       if (!t.by.pubs.length) return [this.out(`WARNING: topic [${name}] does not appear to be published yet`)];
       const paused = this.gzRunning() && this.gz.paused;
-      const gr = paused ? null : (this.gzRunning() ? this.gzRate(name) : null) || this.cmRate(name) || this.fakeRate(name) || this.cfRate(name);
+      const gr = paused ? null : (this.gzRunning() ? this.gzRate(name) : null) || this.cmRate(name) || this.fakeRate(name) || this.cfRate(name)
+        || (() => { const g = this.nav2 && this.nav2.models.find((m) => m.role === "slam_carto_grid" && !m.dead && m.count && m.resolve("map") === name); return g ? 1 / g.period : null; })();   // cartographer_occupancy_grid_node: one /map per -publish_period_sec
       const kinds = t.by.pubs.map((f) => (this.node(f) || {}).kind);
       // the default rates of the real nodes: joint_state_publisher(_gui) 10 Hz, robot_state_publisher sends /tf when joints change,
       // servo_node 100 Hz status, a ros2 topic pub -r N publisher N Hz
@@ -313,6 +314,7 @@ export class RosGraph {
         msgs = got.map((g) => g.join("\n"));
       }
       if (!msgs) return [this.hint(`(Nobody is publishing on ${name} right now, so echo just waits. ${name.endsWith("cmd_vel") ? "Drive the turtle: press arrow keys in the teleop window, or publish with ros2 topic pub." : ""})`), this.out("^C")];
+      if (rest.includes("--no-arr") && fi < 0) msgs = msgs.map((m) => noArrYaml(t.type, m));   // rosidl_runtime_py no_arr
       const n = once ? 1 : msgs.length;
       return [...msgs.slice(0, n).flatMap((m) => this.lines(m + "\n---")), ...(once ? [] : [this.out("^C"), this.hint("Practice terminal stopped echo for you. On a real computer it keeps printing until you press Ctrl+C.")])];
     }
@@ -1038,9 +1040,12 @@ RosGraph.prototype.urdfSample = function (name, t) {
     return [0, 1].map((i) => `header:\n${stamp(i)}\n  frame_id: ''\nname:\n${js.map((j) => `- ${j.name}`).join("\n")}\nposition:\n${js.map((j) => `- ${f(jointValue(model, values, j))}`).join("\n")}\nvelocity: []\neffort: []`);
   }
   if (t.type === "tf2_msgs/msg/TFMessage" && by("rsp") && model) {
-    const stat = name === "/tf_static", edges = urdfEdges(model, values, this.statesAvailable()).filter((e) => e.static === stat);
+    // robot_state_publisher keeps its segments in std::maps keyed by joint name, so the transforms come sorted by joint name
+    const stat = name === "/tf_static", edges = urdfEdges(model, values, this.statesAvailable()).filter((e) => e.static === stat).sort((x, y) => (x.joint < y.joint ? -1 : x.joint > y.joint ? 1 : 0));
     if (!edges.length) return null;
-    const tr = (e) => `- header:\n  ${stamp().replace(/\n/g, "\n  ")}\n    frame_id: ${e.parent}\n  child_frame_id: ${e.child}\n  transform:\n    translation:\n      x: ${f(e.t[0])}\n      y: ${f(e.t[1])}\n      z: ${f(e.t[2])}\n    rotation:\n      x: ${f(e.q[0])}\n      y: ${f(e.q[1])}\n      z: ${f(e.q[2])}\n      w: ${f(e.q[3])}`;
+    // /tf_static is sent once, from the constructor: with use_sim_time no /clock has arrived yet, so now() is 0
+    const simT = [true, "true", "True"].includes(rsp.params.use_sim_time), st0 = stat && simT ? "  stamp:\n    sec: 0\n    nanosec: 0" : stamp();
+    const tr = (e) => `- header:\n  ${st0.replace(/\n/g, "\n  ")}\n    frame_id: ${e.parent}\n  child_frame_id: ${e.child}\n  transform:\n    translation:\n      x: ${f(e.t[0])}\n      y: ${f(e.t[1])}\n      z: ${f(e.t[2])}\n    rotation:\n      x: ${f(e.q[0])}\n      y: ${f(e.q[1])}\n      z: ${f(e.q[2])}\n      w: ${f(e.q[3])}`;
     const msg = `transforms:\n${edges.map(tr).join("\n")}`;
     return stat ? [msg] : [msg, msg];
   }

@@ -271,3 +271,49 @@ export function echoLines(t, v) {
   walk(t, v, "");
   return out;
 }
+
+// ros2 topic echo --no-arr: rosidl_runtime_py's message_to_ordereddict(no_arr=True) prints every array / sequence
+// field as '<sequence type: T, length: N>' or '<array type: T[N]>', with T the IDL type name (float32 -> float,
+// float64 -> double, bool -> boolean, byte -> octet, messages pkg/msg/Name). Works on the block-YAML text of a
+// message; the length of a sequence the sample truncated ("- '...'", truncate_length 128) comes from the message's
+// own size fields where the type has them.
+const IDL = { float32: "float", float64: "double", bool: "boolean", byte: "octet", char: "uint8" };
+const SIZE = {
+  "sensor_msgs/msg/Image": { data: (v) => v.step * v.height },
+  "sensor_msgs/msg/CompressedImage": {},
+  "sensor_msgs/msg/PointCloud2": { data: (v) => v.row_step * v.height },
+  "sensor_msgs/msg/LaserScan": { ranges: (v) => Math.round((v.angle_max - v.angle_min) / v.angle_increment) + 1 },
+  "nav_msgs/msg/OccupancyGrid": { data: (v) => v["info.width"] * v["info.height"] },
+  "map_msgs/msg/OccupancyGridUpdate": { data: (v) => v.width * v.height },
+};
+export function noArrYaml(t, text) {
+  const lines = String(text).split("\n"), out = [];
+  const typeName = (f) => (PRIM.has(f.type) ? (/string/.test(f.type) ? f.type : IDL[f.type] || f.type) : f.type);
+  const walk = (tt, from, to, ind, path, vals) => {   // lines [from, to) are the fields of one message at indent ind
+    const d = definition(tt); if (!d) { out.push(...lines.slice(from, to)); return; }
+    const fields = d.sections[0].fields;
+    for (let i = from; i < to;) {
+      const l = lines[i], m = l.startsWith(ind) ? l.slice(ind.length).match(/^(\w+):(?: (.*))?$/) : null;
+      let j = i + 1; while (j < to && (lines[j].startsWith(ind + " ") || lines[j].startsWith(ind + "- "))) j++;
+      const f = m && fields.find((x) => x.name === m[1]);
+      if (!f) { out.push(...lines.slice(i, j)); i = j; continue; }
+      if (!f.array) {
+        if (m[2] !== undefined) { vals[path + f.name] = Number(m[2]); out.push(l); }
+        else { out.push(l); const sub = {}; walk(f.type, i + 1, j, ind + "  ", "", sub); for (const [k, v] of Object.entries(sub)) vals[`${f.name}.${k}`] = v; }
+        i = j; continue;
+      }
+      let n;
+      if (m[2] !== undefined) { const s = m[2].trim(); n = s === "[]" ? 0 : s.startsWith("[") ? s.slice(1, -1).split(",").length : 1; }
+      else {
+        const items = lines.slice(i + 1, j).filter((x) => x.startsWith(ind + "- "));
+        const cut = items.length && items[items.length - 1] === `${ind}- '...'`;
+        n = items.length - (cut ? 1 : 0);
+        if (cut) { const g = (SIZE[tt] || {})[f.name] || (f.name === "intensities" && SIZE[tt] && SIZE[tt].ranges); const v = g ? g(vals) : NaN; if (Number.isFinite(v)) n = v; }
+      }
+      out.push(`${ind}${f.name}: '${f.fixed ? `<array type: ${typeName(f)}[${f.fixed}]>` : `<sequence type: ${typeName(f)}, length: ${n}>`}'`);
+      i = j;
+    }
+  };
+  walk(t, 0, lines.length, "", "", {});
+  return out.join("\n");
+}

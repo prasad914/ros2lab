@@ -123,6 +123,10 @@ if (ONLY.includes("burger") || ONLY.includes("slam") || ONLY.includes("nav")) {
     ok(/"map" -> "odom"/.test(gv) || /map/.test(vf), "[slam] view_frames includes map -> odom");
   }
   if (ONLY.includes("nav")) {
+    if (ONLY.includes("slam")) {   // like on Ubuntu (and real-tb3-nav.mjs): stop cartographer (Ctrl+C) before Nav2, or both publish /map and map -> odom
+      await p.evaluate(() => { const b = [...document.querySelectorAll("button")].filter((x) => /^Ctrl\+C/.test(x.textContent)); if (b[1]) b[1].click(); });
+      await p.waitForTimeout(3000);
+    }
     await term();
     await run(p, "ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True");
     await p.waitForTimeout(Number(process.env.NAVWAIT || 40000));

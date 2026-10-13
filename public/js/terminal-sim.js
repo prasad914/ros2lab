@@ -273,6 +273,7 @@ export class Shell {
         const m = line.slice(i).match(/^\$\{?([A-Za-z_][A-Za-z0-9_]*)\}?/);
         if (m) { cur += expand(m[0]); i += m[0].length - 1; has = true; continue; }
       }
+      if (c === "~" && !has && /^(\/|\s|$)/.test(line.slice(i + 1, i + 2))) { cur += HOME; has = true; continue; }   // bash tilde expansion (unquoted ~ or ~/ at the start of a word)
       if ((c === "*" || c === "?") && !(tokens[0] === "grep" && tokens.slice(1).every((t) => typeof t === "string" && t.startsWith("-"))) && tokens[0] !== "ros2") glob = true;
       cur += c; has = true;
     }

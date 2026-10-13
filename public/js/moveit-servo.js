@@ -171,7 +171,7 @@ export const poseMethods = {
       const k = nq.findIndex((x, i) => (x < G.lower[i] + 0.01 && qd[i] < 0) || (x > G.upper[i] - 0.01 && qd[i] > 0));
       return halt(`Joint position limit reached on joint '${G.joints[k]}'. Halting.`);
     }
-    if (P.check_collisions && this.ready) { const CM = new CollisionModel(this.K, this.spheres, { acm: this.acm, group: G }); CM.setObjects(this.objects); const c = CM.contact(G.values(nq, base), { full: true }); if (c) return halt(`Halting for collision! ${contactText(c)}`); }
+    if (P.check_collisions && this.ready) { const CM = new CollisionModel(this.K, this.spheres, { acm: this.acm, group: G, surface: this.surface }); CM.setObjects(this.objects); const c = CM.contact(G.values(nq, base), { full: true }); if (c) return halt(`Halting for collision! ${contactText(c)}`); }
     sv.halted = ""; sv.status = { code: 0, message: "No warnings" };
     sv.q = nq;
     // command_out: one point of trajectory_msgs/JointTrajectory to the arm controller

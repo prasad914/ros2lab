@@ -100,10 +100,15 @@ for (const C of todo) {
     const rvErr = await p.evaluate(() => (window.__ros2lab.sh.graph.nodes.some((n) => n.kind === "rviz") ? [...document.querySelectorAll(".rv-st.error")].map((e) => e.textContent) : null));
     if (rvErr) ok(!rvErr.length, "RViz displays: none in Status: Error", rvErr.join(" | "));
     // 5. FollowJointTrajectory goal in the terminal
+    // (with MoveIt: a goal where the arm does not hit itself, e.g. Lite 6's wrist folds onto its base when joint2 goes +0.3;
+    // MoveIt would then rightly refuse to plan from there with START_STATE_IN_COLLISION)
+    if (C.moveit) await p.waitForFunction(() => { const mg = window.__ros2lab.sh.graph.mg; return mg && mg.ready; }, null, { timeout: 60000 }).catch(() => {});
     const goal = await p.evaluate(async ({ cm, jtc }) => {
       const { parseURDF } = await import("/js/urdf-core.js");
-      const m = window.__ros2lab.sh.graph.cmFind(cm), joints = m.cm.controllers.get(jtc).params.joints, model = parseURDF(m.cm.urdf);
-      return joints.map((j, i) => { const J = model.joints[j], lo = J && J.limit ? +J.limit.lower : -3, hi = J && J.limit ? +J.limit.upper : 3, c = m.cm.jointPos(j); if (i > 1) return c; const d = c + 0.3 < hi - 0.05 ? 0.3 : -0.3; return Math.max(lo + 0.05, Math.min(hi - 0.05, c + d)); });
+      const m = window.__ros2lab.sh.graph.cmFind(cm), joints = m.cm.controllers.get(jtc).params.joints, model = parseURDF(m.cm.urdf), mg = window.__ros2lab.sh.graph.mg;
+      const make = (sgn) => joints.map((j, i) => { const J = model.joints[j], lo = J && J.limit ? +J.limit.lower : -3, hi = J && J.limit ? +J.limit.upper : 3, c = m.cm.jointPos(j); if (i > 1) return c; const d = sgn * 0.3, dd = c + d < hi - 0.05 && c + d > lo + 0.05 ? d : -d; return Math.max(lo + 0.05, Math.min(hi - 0.05, c + dd)); });
+      const free = (q) => !(mg && mg.ready) || !mg.stateValid({ ...mg.current(), ...Object.fromEntries(joints.map((j, i) => [j, q[i]])) });
+      return [make(1), make(-1)].find(free) || make(1);
     }, { cm, jtc: C.jtc });
     await newTerm(p);
     for (const c of ["source install/setup.bash"]) await run(p, c);

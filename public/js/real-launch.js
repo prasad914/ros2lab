@@ -357,7 +357,8 @@ function makeContext(sh, ui, getJob) {
       const ns = ros.namespace && ros.namespace !== "/" ? ros.namespace : "";
       // the node name a program gives itself when the launch file sets none
       const DEFAULT_NODE = { ros2_control_node: "controller_manager", parameter_bridge: "ros_gz_bridge", image_bridge: "image_bridge", create: "ros_gz_sim", move_group: "move_group", rviz2: "rviz2" };
-      const nodeName = String((ros.name && ros.name !== exe ? ros.name : null) || (info.cmd.includes(`__node:=${ros.name}`) ? ros.name : null) || DEFAULT_NODE[exe] || ros.name || exe).split("/").pop();   // (Node(namespace='') reports "/rviz2")
+      const nodeRemap = ((info.cmd.find((x) => /^__node:=/.test(x)) || "").split(":=")[1]) || null;   // Node(name=...) is passed as -r __node:=<name>
+      const nodeName = String((ros.name && ros.name !== exe ? ros.name : null) || nodeRemap || DEFAULT_NODE[exe] || ros.name || exe).split("/").pop();   // (Node(namespace='') reports "/rviz2")
       const T = prefix ? tag : undefined;
       // ---- Gazebo (gz sim, started through a shell by ros_gz_sim's gz_sim.launch.py)
       if (info.shell && /\bgz\b.*\bsim\b/.test(cmdline)) {
@@ -402,9 +403,24 @@ function makeContext(sh, ui, getJob) {
       if (nav) { trackNav2(pid, nav.full); ui.paint(); return; }
       const key = `${pkg} ${exe}`;
       (g.procInfos || (g.procInfos = {}))[key] = info;   // what the launch system started (for debugging and tests)
-      if (exe === "wait_for_robot_description") {   // ur_robot_driver / moveit helpers: exits once /robot_description is published
-        await waitFor(() => g.nodes.some((x) => x.kind === "rsp" && x.params.robot_description), 30000, 300);
+      if (exe === "wait_for_robot_description") {   // ur_robot_driver/scripts/wait_for_robot_description: logs, waits for /robot_description, exits
+        const topic = `${ns ? "/" + ns.replace(/^\/|\/$/g, "") : ""}/robot_description`;
+        const n = g.add("custom", "wait_for_robot_description", ns, {}, remaps); n.pid = pid; n.procName = tag;
+        n.info = { pubs: [], subs: [[topic, "std_msgs/msg/String"]], srvs: [], cli: [], acts: [], actc: [] };
+        track(pid, n.full); ui.paint();
+        const L = (t) => emit(P(`[INFO] [${stamp()}] [wait_for_robot_description]: ${t}`));
+        L(`Waiting for message on ${topic}.`);
+        const ok = await waitFor(() => g.nodes.some((x) => x.kind === "rsp" && x.params.robot_description), 30000, 300);
+        if (ok) L(`Received message on ${topic}. Shutting down.`);
         exit(0); return;
+      }
+      if (key === "ur_robot_driver trajectory_until_node") {   // ur_robot_driver/src/trajectory_until_node.cpp: ~/execute server, client of <motion_controller>/follow_joint_trajectory
+        const mc = String(params.motion_controller || "scaled_joint_trajectory_controller");
+        const n = g.add("custom", nodeName, ns, { motion_controller: mc, ...params }, remaps); n.pid = pid; n.procName = tag; n.unmodelled = key;
+        n.info = { pubs: [], subs: [], srvs: [], cli: [], acts: [["~/execute", "ur_msgs/action/FollowJointTrajectoryUntil"]], actc: [[`${ns ? "/" + ns.replace(/^\/|\/$/g, "") : ""}/${mc.replace(/^\//, "")}/follow_joint_trajectory`, "control_msgs/action/FollowJointTrajectory"]] };
+        track(pid, n.full);
+        emit(`(ROS2Lab: ${pkg}/${exe} is running and its action server and parameters are listed, but the practice computer has no model of how it handles goals.)`, "hint");
+        ui.paint(); return;
       }
       const gzTag = () => (g.gz && (g.node(g.gz.node) || {}).procName) || "gazebo";
       switch (key) {
@@ -486,6 +502,7 @@ function makeContext(sh, ui, getJob) {
         case "moveit_ros_move_group move_group": {
           if (typeof g.moveGroupFromParams === "function") {
             // MoveIt (Jazzy) reads robot_description from the /robot_description topic when the parameter is not set
+            const fromTopic = ["robot_description", "robot_description_semantic"].filter((k) => !params[k]);
             if (!params.robot_description) {
               await waitFor(() => g.nodes.some((x) => x.kind === "rsp" && x.params.robot_description), 30000, 300);
               const rsp = g.nodes.find((x) => x.kind === "rsp" && x.params.robot_description);
@@ -495,7 +512,7 @@ function makeContext(sh, ui, getJob) {
               const other = g.nodes.find((x) => x.params && x.params.robot_description_semantic);
               if (other) params.robot_description_semantic = other.params.robot_description_semantic;
             }
-            const res = g.moveGroupFromParams({ name: nodeName, ns, params, tag: T });
+            const res = g.moveGroupFromParams({ name: nodeName, ns, params, tag: T, fromTopic });
             lines(res.lines); if (res.node) { res.node.pid = pid; track(pid, res.node.full); }
             ui.paint(); if (res.died) exit(1); return;
           }

@@ -179,7 +179,7 @@ export const rcMethods = {
     switch (verb) {
       case "list_controllers": return L(cm.listControllers(rest.includes("-v") || rest.includes("--verbose")));
       case "list_controller_types": return L(cm.listControllerTypes());
-      case "list_hardware_components": return L(cm.listHardwareComponents());
+      case "list_hardware_components": return L(cm.listHardwareComponents(rest.includes("-v") || rest.includes("--verbose")));
       case "list_hardware_interfaces": return L(cm.listHardwareInterfaces());
       case "view_controller_chains": return [this.out("Successfully generated controller_diagram.gv and controller_diagram.gv.pdf")];
       case "reload_controller_libraries": return [this.out("Reload successful")];

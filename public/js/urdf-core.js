@@ -402,7 +402,7 @@ export function urdfEdges(model, values, haveStates) {
     const moving = j.type !== "fixed" && j.type !== "floating" && j.type !== "planar";
     if (moving && !haveStates) continue;
     const T = jointTransform(model, j, values);
-    E.push({ parent: j.parent, child: j.child, t: T.t, q: T.q, static: !moving });
+    E.push({ parent: j.parent, child: j.child, t: T.t, q: T.q, static: !moving, joint: j.name });
   }
   return E;
 }

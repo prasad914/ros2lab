@@ -80,14 +80,17 @@ export class MoveGroup {
   }
   async init(readMesh, pre) {
     try {
-      this.spheres = pre && pre.spheres ? pre.spheres : linkSpheres(await linkPoints(this.model, readMesh));
+      const pts = pre && pre.spheres ? null : await linkPoints(this.model, readMesh);
+      this.spheres = pts ? linkSpheres(pts) : pre.spheres;
+      this.surface = pts ? pts.surface : null;   // mesh surface points: a sphere contact is confirmed on the meshes
       // ROS2Lab checks collisions with spheres fitted to the meshes (bigger than the meshes): pairs of links that are
       // adjacent, or touch at the start state (where the robot really is, so they are not colliding), are left out of the
       // check, as the MoveIt Setup Assistant does for adjacent and "Default" pairs
       try {
         const extra = computeACM(this.K, this.spheres, { samples: 0, defaults: [this.current()] });
         let n = 0;
-        for (const d of extra) if (d.reason === "Adjacent" || d.reason === "Default") { const k1 = `${d.link1}|${d.link2}`, k2 = `${d.link2}|${d.link1}`; if (!this.acm.has(k1) && !this.acm.has(k2)) { this.acm.add(k1); n++; } }
+        const CM0 = new CollisionModel(this.K, this.spheres, { surface: this.surface }), P0 = this.K.fk(this.current()), W0 = CM0.worldSpheres(P0, CM0.links);
+        for (const d of extra) if (d.reason === "Adjacent" || (d.reason === "Default" && CM0.meshContact(d.link1, d.link2, P0, W0[d.link1] || [], W0[d.link2] || []))) { const k1 = `${d.link1}|${d.link2}`, k2 = `${d.link2}|${d.link1}`; if (!this.acm.has(k1) && !this.acm.has(k2)) { this.acm.add(k1); n++; } }
         if (n) this.log(`(ROS2Lab) ${n} link pairs that the sphere collision model would wrongly report as touching are not checked (adjacent links, and links that touch only in the sphere model at the start state).`, "INFO", "move_group");
       } catch { /* keep the SRDF's matrix only */ }
       const g = this.groupNames().map((n) => this.group(n)).find((x) => x && x.tip); this.reach = g ? armReach(this.K, g) : 1;
@@ -109,7 +112,7 @@ export class MoveGroup {
     return G;
   }
   collision(G) {
-    const CM = new CollisionModel(this.K, this.spheres || {}, { acm: this.acm, group: G });
+    const CM = new CollisionModel(this.K, this.spheres || {}, { acm: this.acm, group: G, surface: this.surface });
     CM.setObjects(this.objects);
     return CM;
   }
@@ -262,7 +265,7 @@ export class MoveGroup {
     return solveIK(G, poseT, { seed: G.vec(base), base, positionOnly: G.positionOnly, attempts: 12, iterations: 80, valid: CM ? (q) => !CM.contact(G.values(q, base), { full: true }) : null });
   }
   tipPose(groupName, values) { const G = this.group(groupName); if (!G || !G.tip) return null; const P = this.K.fk({ ...this.current(), ...values }); return P[G.tip]; }
-  stateValid(values) { if (!this.ready) return true; const CM = new CollisionModel(this.K, this.spheres, { acm: this.acm, group: null }); CM.setObjects(this.objects); return CM.contact(values, { full: true }); }
+  stateValid(values) { if (!this.ready) return true; const CM = new CollisionModel(this.K, this.spheres, { acm: this.acm, group: null, surface: this.surface }); CM.setObjects(this.objects); return CM.contact(values, { full: true }); }
 }
 
 Object.assign(MoveGroup.prototype, poseMethods);
@@ -432,7 +435,7 @@ export const moveitMethods = {
   // move_group started by the REAL launch system (MoveItConfigsBuilder parameters: robot_description(_semantic),
   // robot_description_kinematics, robot_description_planning, planning_pipelines + one dict per pipeline,
   // moveit_simple_controller_manager); real-launch.js calls this for moveit_ros_move_group/move_group.
-  moveGroupFromParams({ name = "move_group", ns = "", params = {}, tag } = {}) {
+  moveGroupFromParams({ name = "move_group", ns = "", params = {}, tag, fromTopic = [] } = {}) {
     // ROS parameters are flat ("planning_pipelines.pipeline_names"): nest them like the YAML they came from
     const P = {};
     for (const [k, v] of Object.entries(params)) {
@@ -445,18 +448,21 @@ export const moveitMethods = {
     const say = (lvl, src, t) => L.push(`${tag ? `[${tag}] ` : ""}[${lvl}] [${stampNow()}] [${src}]: ${t}`);
     if (this.mg && this.node(this.mg.node)) { say("ERROR", "move_group", "a move_group is already running (stop the other launch with Ctrl+C first)"); return { lines: L, died: true }; }
     const urdf = String(P.robot_description || ""), srdfText = String(P.robot_description_semantic || "");
-    say("INFO", "moveit_rdf_loader.rdf_loader", "Loaded robot model in 0.04 seconds");
-    if (!urdf) { say("ERROR", "moveit_rdf_loader.rdf_loader", "Robot model parameter not found! Did you remap 'robot_description'?"); return { lines: L, died: true }; }
-    let model; try { model = parseURDF(urdf); } catch (e) { say("ERROR", "moveit_rdf_loader.rdf_loader", `Unable to parse URDF: ${e.message}`); return { lines: L, died: true }; }
-    if (!srdfText) { say("ERROR", "moveit_rdf_loader.rdf_loader", "Robot semantic description not found. Did you forget to define or remap 'robot_description_semantic'?"); return { lines: L, died: true }; }
+    if (!urdf) { say("ERROR", "move_group.moveit.moveit.ros.rdf_loader", "Robot model parameter not found! Did you remap 'robot_description'?"); return { lines: L, died: true }; }
+    let model; try { model = parseURDF(urdf); } catch (e) { say("ERROR", "move_group.moveit.moveit.ros.rdf_loader", `Unable to parse URDF: ${e.message}`); return { lines: L, died: true }; }
+    if (!srdfText) { say("ERROR", "move_group.moveit.moveit.ros.rdf_loader", "Robot semantic description not found. Did you forget to define or remap 'robot_description_semantic'?"); return { lines: L, died: true }; }
     const srdf = parseSrdf(srdfText);
+    say("INFO", "move_group.moveit.moveit.ros.rdf_loader", "Loaded robot model in 0.04 seconds");   // rdf_loader.cpp: after URDF + SRDF load
     const planning = P.robot_description_planning || {};
     const msc = P.moveit_simple_controller_manager || {};
     const controllers = (msc.controller_names || []).map((c) => ({ name: c, joints: (msc[c] && msc[c].joints) || [], def: !!(msc[c] && msc[c].default), action: (msc[c] && msc[c].action_ns) || "follow_joint_trajectory", type: (msc[c] && msc[c].type) || "FollowJointTrajectory" }));
     const pipes = (P.planning_pipelines && P.planning_pipelines.pipeline_names) || P["planning_pipelines.pipeline_names"] || ["ompl"];
     const config = {}, pipelineData = {};
     for (const id of pipes) { config[`${id}_planning.yaml`] = ""; pipelineData[id] = P[id] || {}; }
-    const n = this.add("move_group", name, ns, { use_sim_time: !!P.use_sim_time, "planning_pipelines.pipeline_names": pipes, default_planning_pipeline: P.default_planning_pipeline || pipes[0], robot_description_semantic: srdfText });
+    // move_group declares every launch parameter (automatically_declare_parameters_from_overrides, move_group.cpp);
+    // a description read from the /robot_description(_semantic) topic is not one of them
+    const declared = {}; for (const [k, v] of Object.entries(params)) if (!fromTopic.includes(k)) declared[k] = v;
+    const n = this.add("move_group", name, ns, { ...declared, use_sim_time: !!P.use_sim_time, "planning_pipelines.pipeline_names": pipes, default_planning_pipeline: P.default_planning_pipeline || pipes[0], ...(fromTopic.includes("robot_description_semantic") ? {} : { robot_description_semantic: srdfText }) });
     n.procName = tag;
     const mg = new MoveGroup(this, { pkg: null, robot: model.name, mode: P.use_sim_time ? "gazebo" : "demo", urdf, model, srdf, config, controllers, limits: planning.joint_limits || {}, kinematics: P.robot_description_kinematics || {}, cart: planning.cartesian_limits || null, node: n.full, pipelineData });
     this.mg = mg; n.mg = mg;
@@ -509,6 +515,8 @@ export const moveitMethods = {
     e.subs.push(["/joint_states", "sensor_msgs/msg/JointState"], ["/planning_scene", "moveit_msgs/msg/PlanningScene"], ["/collision_object", "moveit_msgs/msg/CollisionObject"], ["/attached_collision_object", "moveit_msgs/msg/AttachedCollisionObject"], ["/planning_scene_world", "moveit_msgs/msg/PlanningSceneWorld"], ["/trajectory_execution_event", "std_msgs/msg/String"], ["/tf", "tf2_msgs/msg/TFMessage"], ["/tf_static", "tf2_msgs/msg/TFMessage"]);
     e.srvs.push(["/apply_planning_scene", "moveit_msgs/srv/ApplyPlanningScene"], ["/get_planning_scene", "moveit_msgs/srv/GetPlanningScene"], ["/compute_ik", "moveit_msgs/srv/GetPositionIK"], ["/compute_fk", "moveit_msgs/srv/GetPositionFK"], ["/plan_kinematic_path", "moveit_msgs/srv/GetMotionPlan"], ["/compute_cartesian_path", "moveit_msgs/srv/GetCartesianPath"], ["/check_state_validity", "moveit_msgs/srv/GetStateValidity"], ["/query_planner_interface", "moveit_msgs/srv/QueryPlannerInterfaces"], ["/get_planner_params", "moveit_msgs/srv/GetPlannerParams"], ["/set_planner_params", "moveit_msgs/srv/SetPlannerParams"], ["/clear_octomap", "std_srvs/srv/Empty"]);
     e.acts.push(["/move_action", "moveit_msgs/action/MoveGroup"], ["/execute_trajectory", "moveit_msgs/action/ExecuteTrajectory"]);
+    // synchronized_string_parameter.cpp: publish_robot_description(_semantic) re-publishes the loaded string (transient local)
+    for (const k of ["robot_description", "robot_description_semantic"]) if (n.params[k] && /^(true|1)$/i.test(String(n.params[`publish_${k}`]))) e.pubs.push([`/${k}`, "std_msgs/msg/String"]);
     if (n.mg) for (const c of n.mg.controllers) e.actc.push([`/${String(c.name).replace(/^\/+/, "")}/${c.action}`, c.type === "GripperCommand" ? "control_msgs/action/GripperCommand" : c.type === "ParallelGripperCommand" ? "control_msgs/action/ParallelGripperCommand" : "control_msgs/action/FollowJointTrajectory"]);
     if (n.mg && n.mg.pipelines().some((p) => p.id === "pilz_industrial_motion_planner")) { e.acts.push(["/sequence_move_group", "moveit_msgs/action/MoveGroupSequence"]); e.srvs.push(["/plan_sequence_path", "moveit_msgs/srv/GetMotionSequence"]); }
   },

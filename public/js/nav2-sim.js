@@ -1043,7 +1043,8 @@ export function nav2Lifecycle(graph, full, transition) {
   return { success: r === true, pending: r === "pending" };
 }
 
-// ros2 topic echo of the topics the Nav2 models publish; returns [text, ...] or null
+// ros2 topic echo of the topics the Nav2 models publish; returns [text, ...] or null. Sequences are cut after 128 items
+// with "- '...'", like ros2 topic echo (truncate_length 128)
 const arr = (a, f = String) => { const v = Array.from(a.slice(0, 128), (x) => `- ${f(x)}`); if (a.length > 128) v.push("- '...'"); return v.join("\n"); };
 export function nav2Sample(graph, topic) {
   const sys = graph.nav2; if (!sys) return null;
@@ -1054,9 +1055,9 @@ export function nav2Sample(graph, topic) {
     if (x.dead) continue;
     if (x.costmap && x.costmap.grid && topic === x.costmap.resolve("costmap")) return [gridMsg(C.costmapToGrid(x.costmap.grid, x.costmap.frame))];
     if (x.costmap && topic === x.costmap.resolve("published_footprint")) { const p = x.costmap.pose || sys.basePose(x.costmap.frame); if (!p) return null; return [`${hdr(x.costmap.frame)}\npolygon:\n  points:\n${x.costmap.footprintAt(p).map(([a, b]) => `  - x: ${pyFloat(Math.fround(a))}\n    y: ${pyFloat(Math.fround(b))}\n    z: 0.0`).join("\n")}`]; }
-    if (x.role === "planner" && x.plan && topic === x.resolve("plan")) return [`${hdr(x.plan.frame)}\nposes:\n${x.plan.poses.slice(0, 40).map((p) => `- header:\n    stamp:\n      sec: ${st.sec}\n      nanosec: ${st.nanosec}\n    frame_id: ${x.plan.frame}\n  pose:\n    position:\n      x: ${pyFloat(p.x)}\n      y: ${pyFloat(p.y)}\n      z: 0.0\n    orientation:\n      x: 0.0\n      y: 0.0\n      z: ${pyFloat(Math.sin(p.yaw / 2))}\n      w: ${pyFloat(Math.cos(p.yaw / 2))}`).join("\n")}${x.plan.poses.length > 40 ? "\n- '...'" : ""}`];
+    if (x.role === "planner" && x.plan && topic === x.resolve("plan")) return [`${hdr(x.plan.frame)}\nposes:\n${x.plan.poses.slice(0, 128).map((p) => `- header:\n    stamp:\n      sec: ${st.sec}\n      nanosec: ${st.nanosec}\n    frame_id: ${x.plan.frame}\n  pose:\n    position:\n      x: ${pyFloat(p.x)}\n      y: ${pyFloat(p.y)}\n      z: 0.0\n    orientation:\n      x: 0.0\n      y: 0.0\n      z: ${pyFloat(Math.sin(p.yaw / 2))}\n      w: ${pyFloat(Math.cos(p.yaw / 2))}`).join("\n")}${x.plan.poses.length > 128 ? "\n- '...'" : ""}`];
     if (x.role === "amcl" && x.pose() && topic === x.resolve("amcl_pose")) { const p = x.pose(), c = x.pf.cov; return [`${hdr("map")}\npose:\n  pose:\n    position:\n      x: ${pyFloat(p.x)}\n      y: ${pyFloat(p.y)}\n      z: 0.0\n    orientation:\n      x: 0.0\n      y: 0.0\n      z: ${pyFloat(Math.sin(p.yaw / 2))}\n      w: ${pyFloat(Math.cos(p.yaw / 2))}\n  covariance:\n${c.map((v) => `  - ${pyFloat(v)}`).join("\n")}`]; }
-    if (x.role === "amcl" && x.pose() && topic === x.resolve("particle_cloud")) return [`${hdr("map")}\nparticles:\n${x.pf.ps.slice(0, 20).map((p) => `- pose:\n    position:\n      x: ${pyFloat(p.x)}\n      y: ${pyFloat(p.y)}\n      z: 0.0\n    orientation:\n      x: 0.0\n      y: 0.0\n      z: ${pyFloat(Math.sin(p.yaw / 2))}\n      w: ${pyFloat(Math.cos(p.yaw / 2))}\n  weight: ${pyFloat(p.w)}`).join("\n")}\n- '...'`];
+    if (x.role === "amcl" && x.pose() && topic === x.resolve("particle_cloud")) return [`${hdr("map")}\nparticles:\n${x.pf.ps.slice(0, 128).map((p) => `- pose:\n    position:\n      x: ${pyFloat(p.x)}\n      y: ${pyFloat(p.y)}\n      z: 0.0\n    orientation:\n      x: 0.0\n      y: 0.0\n      z: ${pyFloat(Math.sin(p.yaw / 2))}\n      w: ${pyFloat(Math.cos(p.yaw / 2))}\n  weight: ${pyFloat(p.w)}`).join("\n")}${x.pf.ps.length > 128 ? "\n- '...'" : ""}`];
     if (x.sample) { const r = x.sample(topic, hdr); if (r) return r; }
   }
   const c = sys.cmd.get(topic);

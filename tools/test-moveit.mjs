@@ -22,7 +22,7 @@ for (const g of list.filter((x) => (ids.length ? ids.includes(x.id) : x.moveit))
   const model = parseURDF(text);
   const readMesh = async (fn) => { const m = String(fn).match(/^package:\/\/([\w-]+)\/(.+)$/); const c = m && p.files[m[2]]; const u = c && String(c).match(/^@url:(.+)$/); if (!u) return []; const r = await fetch(u[1]); const ext = fn.split(".").pop(); return M.meshPointsFrom(ext.toLowerCase() === "stl" ? await r.arrayBuffer() : await r.text(), ext); };
   const t0 = Date.now();
-  const spheres = M.linkSpheres(await M.linkPoints(model, readMesh));
+  const pts = await M.linkPoints(model, readMesh), spheres = M.linkSpheres(pts);   // as move_group in ros-moveit.js: spheres + mesh-surface confirmation
   const K = new M.KinematicModel(model);
   const spec = g.moveit || {};
   const base = spec.base || model.root, tip = spec.tip;
@@ -31,7 +31,7 @@ for (const g of list.filter((x) => (ids.length ? ids.includes(x.id) : x.moveit))
   const named = (v) => (v ? G.values(G.clamp(v)) : {});
   const acmList = M.computeACM(K, spheres, { samples: 1500, defaults: [{}, named(spec.home), named(spec.ready)] });
   const acm = new Set(acmList.map((x) => `${x.link1}|${x.link2}`));
-  const CM = new M.CollisionModel(K, spheres, { acm, group: G });
+  const CM = new M.CollisionModel(K, spheres, { acm, group: G, surface: pts.surface });
   if (process.env.SPHERES) for (const [l, ss] of Object.entries(spheres)) if (ss.length) console.log(`   ${l}: ${ss.map((x) => x.r.toFixed(3)).join(' ')}`);
   const nS = Object.values(spheres).reduce((s, x) => s + x.length, 0);
   console.log(`\n${g.id}: ${G.dof} DOF chain ${base}->${tip}, ${nS} spheres, ACM ${acmList.length} pairs, prep ${Date.now() - t0} ms`);

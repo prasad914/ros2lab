@@ -270,8 +270,9 @@ export const gzMethods = {
       if (text === undefined) return { err: `[ERROR] [readFromYamlFile]: Could not parse config: failed to open file [${this.sharePath(params.config_file)}]`, entries, bad, L };
       const y = parseBridgeConfigYaml(text, { file: this.sharePath(params.config_file) });
       L.push(...y.errors);
-      // gz-transport makes relative topic names absolute ("odom" is /odom); the ROS name is resolved in the node's namespace
-      entries.push(...y.entries.map((e) => ({ ...e, gz: gzTopic(e.gz) })));
+      // gz-transport makes relative topic names absolute ("odom" is /odom); the ROS name is resolved in the node's namespace.
+      // RosGzBridge::add_bridge logs the names as the yaml gives them (gzName), see gz-cli.js bridgeCreateLines
+      entries.push(...y.entries.map((e) => ({ ...e, gz: gzTopic(e.gz), gzName: e.gz })));
     }
     return { entries, bad, L };
   },
@@ -281,9 +282,9 @@ export const gzMethods = {
     const L = [...(n.bridgeLog || [])].map((t) => (tag ? `[${tag}] ${t}` : t));
     for (const x of n.bridgeBad || []) L.push(P("ERROR", `Failed to parse argument [${x}]. Expected <topic>@<ros_type>[<gz_type> (or ] or @)`));
     for (const e of n.bridge) {
-      if (!bridgeTypesOk(e.rosType, e.gzType)) { L.push(P("WARN", `Failed to create a bridge for topic [${e.ros}] with ROS2 type [${e.rosType}] to topic [${e.gz}] with Gazebo Transport type [${e.gzType}]: No template specialization for the pair`)); e.broken = true; continue; }
-      if (e.dir !== "ROS_TO_GZ") L.push(P("INFO", `Creating GZ->ROS Bridge: [${e.gz} (${e.gzType}) -> ${e.ros} (${e.rosType})] (Lazy ${e.lazy ? 1 : 0})`));
-      if (e.dir !== "GZ_TO_ROS") L.push(P("INFO", `Creating ROS->GZ Bridge: [${e.ros} (${e.rosType}) -> ${e.gz} (${e.gzType})] (Lazy ${e.lazy ? 1 : 0})`));
+      if (!bridgeTypesOk(e.rosType, e.gzType)) { L.push(P("WARN", `Failed to create a bridge for topic [${e.ros}] with ROS2 type [${e.rosType}] to topic [${e.gzName ?? e.gz}] with Gazebo Transport type [${e.gzType}]: No template specialization for the pair`)); e.broken = true; continue; }
+      if (e.dir !== "ROS_TO_GZ") L.push(P("INFO", `Creating GZ->ROS Bridge: [${e.gzName ?? e.gz} (${e.gzType}) -> ${e.ros} (${e.rosType})] (Lazy ${e.lazy ? 1 : 0})`));
+      if (e.dir !== "GZ_TO_ROS") L.push(P("INFO", `Creating ROS->GZ Bridge: [${e.ros} (${e.rosType}) -> ${e.gzName ?? e.gz} (${e.gzType})] (Lazy ${e.lazy ? 1 : 0})`));
     }
     if (!n.bridge.length && !(n.bridgeBad || []).length) L.push(P("WARN", "No bridges were created: give topics as arguments (/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan) or -p config_file:=bridge.yaml"));
     return L;
@@ -577,7 +578,7 @@ export const gzMethods = {
   gzSample(ros) {
     const f = this.gzFeeds().get(ros); if (!f) return null;
     const s = f.src, t = this.gz.time, tn = Math.round(t * 1e9), sec = Math.floor(tn / 1e9), nsec = tn % 1e9;
-    const stamp = `header:\n  stamp:\n    sec: ${sec}\n    nanosec: ${nsec}\n  frame_id: ${s.kind === "odom" ? (s.plugin.frame || `${s.model}/odom`) : s.kind === "joints" ? "" : s.frame}`;
+    const stamp = `header:\n  stamp:\n    sec: ${sec}\n    nanosec: ${nsec}\n  frame_id: ${s.kind === "odom" ? (s.plugin.frame || `${s.model}/odom`) : s.kind === "joints" ? "''" : s.frame || "''"}`;   // an empty string is '' in YAML
     const arr = (a) => { const v = a.slice(0, 128).map((x) => `- ${Number.isFinite(x) ? f6(x) : x > 0 ? ".inf" : "-.inf"}`); if (a.length > 128) v.push("- '...'"); return v.join("\n"); };
     if (s.sensor && this.gz.paused) return null;   // a paused simulation renders no sensor data: echo just waits
     const probe = this.sh.gzProbe ? this.sh.gzProbe(s) : s.kind === "scan" ? this.gzScan(s.model, s.sensor) : null;

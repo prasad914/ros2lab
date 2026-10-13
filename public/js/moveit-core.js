@@ -191,22 +191,57 @@ function solveLin(A, b) {   // Gaussian elimination with partial pivoting
 
 // ---------------------------------------------------------------- link geometry -> spheres
 // Points (in the link frame) on a link's collision shapes; meshes are read with readMesh(filename) -> [[x,y,z]...]
+// The result also carries (not enumerable) .surface: link -> points spread over the mesh surfaces (triangles filled in,
+// thinned to one per SURFACE_CELL) for links made only of meshes, or { prims: [{ type, dims, pose }] } for links made only
+// of boxes, cylinders and spheres (checked exactly, like world objects); CollisionModel uses them to confirm a sphere contact.
+export const SURFACE_CELL = 0.006;
 export async function linkPoints(model, readMesh, { useVisual = "fallback" } = {}) {
-  const out = {};
+  const out = {}, surface = {};
+  Object.defineProperty(out, "surface", { value: surface, enumerable: false });
   for (const l of Object.values(model.links)) {
     const shapes = l.collisions.length && useVisual !== "always" ? l.collisions : l.visuals;
-    const pts = [];
+    const pts = [], surf = [];
+    let meshOnly = shapes.length > 0, primOnly = shapes.length > 0; const prims = [];
     for (const s of shapes) {
       const M = fromRPY(s.origin.xyz, s.origin.rpy), g = s.geom;
       let local = [];
+      if (g.type !== "mesh") meshOnly = false;
+      if (g.type === "box") prims.push({ type: "box", dims: g.size.slice(), pose: M });
+      else if (g.type === "cylinder") prims.push({ type: "cylinder", dims: [g.length, g.radius], pose: M });
+      else if (g.type === "sphere") prims.push({ type: "sphere", dims: [g.radius], pose: M });
+      else primOnly = false;
       if (g.type === "box") { const [a, b, c] = g.size.map((x) => x / 2); for (let i = 0; i < 300; i++) { const p = [(Math.random() * 2 - 1) * a, (Math.random() * 2 - 1) * b, (Math.random() * 2 - 1) * c]; const k = Math.floor(Math.random() * 3); p[k] = Math.sign(p[k] || 1) * [a, b, c][k]; local.push(p); } }
       else if (g.type === "cylinder") { for (let i = 0; i < 300; i++) { const t = Math.random() * 2 * Math.PI, z = (Math.random() * 2 - 1) * g.length / 2, rr = i % 3 ? g.radius : g.radius * Math.sqrt(Math.random()); local.push([rr * Math.cos(t), rr * Math.sin(t), i % 3 ? z : Math.sign(z || 1) * g.length / 2]); } }
       else if (g.type === "sphere") local.push({ sphere: g.radius });
-      else if (g.type === "mesh") { try { const raw = await readMesh(g.filename); const sc = g.scale || [1, 1, 1]; local = (raw || []).map((p) => [p[0] * sc[0], p[1] * sc[1], p[2] * sc[2]]); } catch { local = []; } }
+      else if (g.type === "mesh") {
+        try {
+          const raw = await readMesh(g.filename); const sc = g.scale || [1, 1, 1]; local = (raw || []).map((p) => [p[0] * sc[0], p[1] * sc[1], p[2] * sc[2]]);
+          if (!local.length) meshOnly = false;
+          else for (const p of raw && raw.tris ? fillTriangles(local, SURFACE_CELL) : local) surf.push(apply(M, p));
+        } catch { local = []; meshOnly = false; }
+      }
       for (const p of local) pts.push(p.sphere ? { c: apply(M, [0, 0, 0]), r: p.sphere } : apply(M, p));
     }
     out[l.name] = pts;
+    surface[l.name] = meshOnly ? thinPoints(surf, SURFACE_CELL) : primOnly ? { prims } : null;
   }
+  return out;
+}
+// points inside every triangle of a triangle soup (p0 p1 p2, p3 p4 p5 ...), no farther apart than `cell`
+function fillTriangles(P, cell) {
+  const out = [];
+  for (let i = 0; i + 2 < P.length; i += 3) {
+    const a = P[i], b = P[i + 1], c = P[i + 2];
+    const e = Math.max(Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]), Math.hypot(b[0] - c[0], b[1] - c[1], b[2] - c[2]), Math.hypot(a[0] - c[0], a[1] - c[1], a[2] - c[2]));
+    const n = Math.min(60, Math.max(1, Math.ceil(e / cell)));
+    for (let u = 0; u <= n; u++) for (let v = 0; u + v <= n; v++) { const w = n - u - v; out.push([0, 1, 2].map((k) => (a[k] * w + b[k] * u + c[k] * v) / n)); }
+  }
+  return out;
+}
+// one point per cubic cell
+function thinPoints(P, cell) {
+  const seen = new Set(), out = [];
+  for (const p of P) { const k = `${Math.floor(p[0] / cell)},${Math.floor(p[1] / cell)},${Math.floor(p[2] / cell)}`; if (!seen.has(k)) { seen.add(k); out.push(p); } }
   return out;
 }
 // A few spheres that cover a point cloud (k-means; each radius reaches its farthest point). Small padding like MoveIt's
@@ -218,20 +253,28 @@ export function fitSpheres(points, { maxSpheres = 8, minRadius = 0.005 } = {}) {
   let pts = P; if (pts.length > 3000) { const step = pts.length / 3000; pts = Array.from({ length: 3000 }, (_, i) => P[Math.floor(i * step)]); }
   const lo = [0, 1, 2].map((k) => Math.min(...pts.map((p) => p[k]))), hi = [0, 1, 2].map((k) => Math.max(...pts.map((p) => p[k])));
   const ext = hi.map((h, k) => h - lo[k]).sort((a, b) => b - a), thick = Math.max(ext[1], 1e-3);
-  const k = Math.max(1, Math.min(maxSpheres, Math.round(ext[0] / thick * 2.2) + (ext[1] > 2.2 * ext[2] ? 1 : 0)));
-  // init: spread along the longest axis
+  const k0 = Math.max(1, Math.min(maxSpheres, Math.round(ext[0] / thick * 2.2) + (ext[1] > 2.2 * ext[2] ? 1 : 0)));
   const ax = [0, 1, 2].reduce((b, i) => (hi[i] - lo[i] > hi[b] - lo[b] ? i : b), 0);
-  let C = Array.from({ length: k }, (_, i) => { const c = lo.map((v, j) => (v + hi[j]) / 2); c[ax] = lo[ax] + ((i + 0.5) / k) * (hi[ax] - lo[ax]); return c; });
-  let assign = new Array(pts.length).fill(0);
-  for (let it = 0; it < 12; it++) {
-    for (let i = 0; i < pts.length; i++) { let b = 0, bd = Infinity; for (let c = 0; c < k; c++) { const d = (pts[i][0] - C[c][0]) ** 2 + (pts[i][1] - C[c][1]) ** 2 + (pts[i][2] - C[c][2]) ** 2; if (d < bd) { bd = d; b = c; } } assign[i] = b; }
-    const S = C.map(() => [0, 0, 0, 0]);
-    pts.forEach((p, i) => { const s = S[assign[i]]; s[0] += p[0]; s[1] += p[1]; s[2] += p[2]; s[3]++; });
-    C = C.map((c, i) => (S[i][3] ? [S[i][0] / S[i][3], S[i][1] / S[i][3], S[i][2] / S[i][3]] : c));
-  }
-  const R = C.map(() => 0);
-  pts.forEach((p, i) => { const c = C[assign[i]]; R[assign[i]] = Math.max(R[assign[i]], Math.hypot(p[0] - c[0], p[1] - c[1], p[2] - c[2])); });
-  C.forEach((c, i) => { if (R[i] > 0 || pts.some((_, j) => assign[j] === i)) out.push({ c, r: Math.max(minRadius, R[i]) }); });
+  const kmeans = (k) => {
+    // init: spread along the longest axis
+    let C = Array.from({ length: k }, (_, i) => { const c = lo.map((v, j) => (v + hi[j]) / 2); c[ax] = lo[ax] + ((i + 0.5) / k) * (hi[ax] - lo[ax]); return c; });
+    const assign = new Array(pts.length).fill(0);
+    for (let it = 0; it < 12; it++) {
+      for (let i = 0; i < pts.length; i++) { let b = 0, bd = Infinity; for (let c = 0; c < k; c++) { const d = (pts[i][0] - C[c][0]) ** 2 + (pts[i][1] - C[c][1]) ** 2 + (pts[i][2] - C[c][2]) ** 2; if (d < bd) { bd = d; b = c; } } assign[i] = b; }
+      const S = C.map(() => [0, 0, 0, 0]);
+      pts.forEach((p, i) => { const s = S[assign[i]]; s[0] += p[0]; s[1] += p[1]; s[2] += p[2]; s[3]++; });
+      C = C.map((c, i) => (S[i][3] ? [S[i][0] / S[i][3], S[i][1] / S[i][3], S[i][2] / S[i][3]] : c));
+    }
+    const R = C.map(() => 0), used = C.map(() => false);
+    pts.forEach((p, i) => { const a = assign[i], c = C[a]; used[a] = true; R[a] = Math.max(R[a], Math.hypot(p[0] - c[0], p[1] - c[1], p[2] - c[2])); });
+    return C.map((c, i) => (used[i] ? { c, r: Math.max(minRadius, R[i]) } : null)).filter(Boolean);
+  };
+  // a compact, blocky link (a short wide column such as xArm's link_base) gets one or two spheres far wider than the
+  // mesh from the count above, which then "touch" links that are centimetres away. Add spheres (each still reaching its
+  // farthest point, so the mesh stays covered) until none is wider than ~0.6 of the link's thickness.
+  let best = kmeans(k0), bestR = Math.max(...best.map((s) => s.r));
+  for (let k = k0 + 1; k <= maxSpheres && bestR > 0.6 * thick; k++) { const f = kmeans(k), r = Math.max(...f.map((s) => s.r)); if (r < bestR) { best = f; bestR = r; } }
+  out.push(...best);
   return out;
 }
 export function linkSpheres(points, opts) { return Object.fromEntries(Object.entries(points).map(([l, p]) => [l, fitSpheres(p, opts)])); }
@@ -252,11 +295,14 @@ function stlPoints(data) {
     if (84 + n * 50 === buf.byteLength) {
       const out = []; const step = Math.max(1, Math.floor(n / 4000));
       for (let i = 0; i < n; i += step) for (let v = 0; v < 3; v++) { const o = 84 + i * 50 + 12 + v * 12; out.push([dv.getFloat32(o, true), dv.getFloat32(o + 4, true), dv.getFloat32(o + 8, true)]); }
+      out.tris = true;   // triangles, three corners each (linkPoints fills them in)
       return out;
     }
   }
   const t = typeof data === "string" ? data : new TextDecoder().decode(buf || data);
-  return [...t.matchAll(/vertex\s+(\S+)\s+(\S+)\s+(\S+)/g)].map((m) => [+m[1], +m[2], +m[3]]);
+  const out = [...t.matchAll(/vertex\s+(\S+)\s+(\S+)\s+(\S+)/g)].map((m) => [+m[1], +m[2], +m[3]]);
+  out.tris = out.length % 3 === 0;
+  return out;
 }
 function daePoints(text) {
   const unit = Number((text.match(/<unit\b[^>]*meter="([^"]+)"/) || [, 1])[1]) || 1;
@@ -324,8 +370,11 @@ export function objectDistance(o, p) {   // signed distance from point p to the 
 }
 export class CollisionModel {
   // spheres: link -> [{c, r}] in the link frame; acm: Set of "a|b" pairs whose collisions are ignored (SRDF disable_collisions)
-  constructor(K, spheres, { acm = new Set(), padding = 0.0, group = null } = {}) {
-    this.K = K; this.spheres = spheres; this.acm = acm; this.padding = padding; this.objects = []; this.attached = {};
+  // surface: link -> points on the link's meshes (linkPoints(...).surface). The spheres are wider than the meshes, so a
+  // contact of two links' spheres is confirmed on these points (closer than SURFACE_CELL + 2 mm), as MoveIt checks
+  // the meshes themselves (FCL); links without them are judged by their spheres alone
+  constructor(K, spheres, { acm = new Set(), padding = 0.0, group = null, surface = null } = {}) {
+    this.K = K; this.spheres = spheres; this.acm = acm; this.padding = padding; this.objects = []; this.attached = {}; this.surface = surface;
     this.links = Object.keys(spheres).filter((l) => spheres[l] && spheres[l].length);
     this.setGroup(group);
   }
@@ -359,9 +408,58 @@ export class CollisionModel {
     }
     for (const [a, b] of this.pairs) {
       const A = W[a], B = W[b]; if (!A || !B) continue;
-      for (const s of A) for (const t of B) { const d = Math.hypot(s.c[0] - t.c[0], s.c[1] - t.c[1], s.c[2] - t.c[2]); if (d < s.r + t.r) return { a, b, typeB: "Robot link" }; }
+      let hit = false;
+      const pa = this.prims(a, P), pb = this.prims(b, P);
+      if (pa && !pb) hit = B.some((s) => pa.some((o) => objectDistance(o, s.c) < s.r));       // a box / cylinder link: exact shape
+      else if (pb && !pa) hit = A.some((s) => pb.some((o) => objectDistance(o, s.c) < s.r));
+      else for (const s of A) { for (const t of B) { if ((s.c[0] - t.c[0]) ** 2 + (s.c[1] - t.c[1]) ** 2 + (s.c[2] - t.c[2]) ** 2 < (s.r + t.r) ** 2) { hit = true; break; } } if (hit) break; }
+      if (hit && this.meshContact(a, b, P, A, B)) return { a, b, typeB: "Robot link" };
     }
     return null;
+  }
+  // a link made only of boxes / cylinders / spheres: its shapes in the world, or null
+  prims(l, P) {
+    const S = this.surface && this.surface[l];
+    return S && S.prims && P[l] ? S.prims.map((o) => ({ type: o.type, dims: o.dims, pose: mul(P[l], o.pose) })) : null;
+  }
+  // do the mesh surfaces (or primitive shapes) of links a and b (whose spheres A, B overlap) come closer than the tolerance?
+  // Each link's points are grouped in 3 cm cells (centre c, radius R = farthest point) with a bound for the whole link,
+  // so only cells whose bounds come within the tolerance are compared point by point.
+  buckets(l) {
+    const C = this._buckets || (this._buckets = new Map()); if (C.has(l)) return C.get(l);
+    const pts = this.surface && this.surface[l], cells = new Map(), g = 0.03;
+    if (Array.isArray(pts)) for (const p of pts) { const k = `${Math.floor(p[0] / g)},${Math.floor(p[1] / g)},${Math.floor(p[2] / g)}`; const v = cells.get(k); if (v) v.push(p); else cells.set(k, [p]); }
+    const mid = (P) => { const c = [0, 0, 0]; for (const p of P) { c[0] += p[0]; c[1] += p[1]; c[2] += p[2]; } return c.map((x) => x / P.length); };
+    const far = (P, c) => P.reduce((m, p) => Math.max(m, Math.hypot(p[0] - c[0], p[1] - c[1], p[2] - c[2])), 0);
+    const list = [...cells.values()].map((P) => { const c = mid(P); return { c, R: far(P, c), pts: P }; });
+    const all = Array.isArray(pts) && pts.length ? mid(pts) : [0, 0, 0];
+    const res = { list, c: all, R: Array.isArray(pts) ? far(pts, all) : 0 }; C.set(l, res); return res;
+  }
+  meshContact(a, b, P, A, B) {
+    let Sa = this.surface && this.surface[a], Sb = this.surface && this.surface[b];
+    const tol = SURFACE_CELL + 0.002 + this.padding * 2, d3 = (p, q) => Math.sqrt((p[0] - q[0]) ** 2 + (p[1] - q[1]) ** 2 + (p[2] - q[2]) ** 2);
+    if (Sa && Sa.prims && Array.isArray(Sb)) { [a, b, Sa, Sb] = [b, a, Sb, Sa]; }
+    if (Array.isArray(Sa) && Sb && Sb.prims) {   // mesh points against exact shapes
+      const O = this.prims(b, P), T = P[a];
+      for (const k of this.buckets(a).list) {
+        const c = apply(T, k.c); if (!O.some((o) => objectDistance(o, c) < k.R + tol)) continue;
+        for (const p of k.pts) { const q = apply(T, p); for (const o of O) if (objectDistance(o, q) < tol) return true; }
+      }
+      return false;
+    }
+    if (!Array.isArray(Sa) || !Array.isArray(Sb) || !Sa.length || !Sb.length) return true;
+    const Ta = P[a], Tb = P[b], Ka = this.buckets(a), Kb = this.buckets(b), ga = apply(Ta, Ka.c), gb = apply(Tb, Kb.c);
+    // cells of each link that reach the other link's bound, in world coordinates
+    const cand = (K, T, g, R) => { const out = []; for (const k of K.list) { const c = apply(T, k.c); if (d3(c, g) < k.R + R + tol) out.push({ c, R: k.R, k, w: null }); } return out; };
+    const CA = cand(Ka, Ta, gb, Kb.R); if (!CA.length) return false;
+    const CB = cand(Kb, Tb, ga, Ka.R); if (!CB.length) return false;
+    const t2 = tol * tol, world = (x, T) => x.w || (x.w = x.k.pts.map((p) => apply(T, p)));
+    for (const x of CA) for (const y of CB) {
+      if (d3(x.c, y.c) >= x.R + y.R + tol) continue;
+      const QA = world(x, Ta), QB = world(y, Tb);
+      for (const q of QA) { if (d3(q, y.c) >= y.R + tol) continue; for (const r of QB) if ((q[0] - r[0]) ** 2 + (q[1] - r[1]) ** 2 + (q[2] - r[2]) ** 2 < t2) return true; }
+    }
+    return false;
   }
   valid(values) { return !this.contact(values); }
   // obstacle clearance (signed) of every moving sphere; for CHOMP / STOMP costs
