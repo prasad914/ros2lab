@@ -79,7 +79,7 @@ export async function tb3World(mods, io, fixture = "tb3_burger-1") {
   const name = G.gz.models.keys().next().value, m = G.gzModel(name);
   ok("robot spawned at -2,-0.5 from model.sdf", m && Math.abs(m.pose.x + 2) < 1e-9 && Math.abs(m.pose.y + 0.5) < 1e-9 && m.native, m && JSON.stringify(m.pose));
   ok("create printed Entity creation successful", /Entity creation successful/.test(L.lines.create.lines.join("\n")), L.lines.create.lines.join("\n"));
-  ok("bridge created 7 bridges from the real yaml (TwistStamped cmd_vel)", /Creating ROS->GZ Bridge: \[cmd_vel \(geometry_msgs\/msg\/TwistStamped\) -> \/cmd_vel \(gz.msgs.Twist\)\]/.test(L.lines.bridge.join("\n")) && (L.lines.bridge.join("\n").match(/Creating/g) || []).length === 7, L.lines.bridge.join("\n"));
+  ok("bridge created 7 bridges from the real yaml (TwistStamped cmd_vel)", /Creating ROS->GZ Bridge: \[cmd_vel \(geometry_msgs\/msg\/TwistStamped\) -> cmd_vel \(gz.msgs.Twist\)\]/.test(L.lines.bridge.join("\n")) && (L.lines.bridge.join("\n").match(/Creating/g) || []).length === 7, L.lines.bridge.join("\n"));
   // physics: the mesh colliders arrive (refresh) and the robot settles on its wheels
   G.gzPhys.refreshMeshes();
   step(G, 0.5);

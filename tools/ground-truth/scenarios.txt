@@ -1,0 +1,29 @@
+# Ground-truth scenarios: recorded on real Ubuntu 24.04 + ROS 2 Jazzy by capture.sh, and on the site by
+# tests/sim-capture.mjs. One scenario per line:
+#   id | workspace | site robot id | env (KEY=VAL,KEY=VAL or -) | steps | settle seconds
+# steps are separated by " ;; ". Each command step runs in its own terminal:
+#   bg:<cmd>   start and leave running (a launch)
+#   fg:<cmd>   run to the end (e.g. ros2 topic pub -t N)
+#   sleep:<s>  wait
+# After the last step, wait <settle> seconds, then record nodes, topics, services, actions, controllers, TF and
+# every topic's info / hz / one message.
+
+# TurtleBot3
+tb3_burger_world  | turtlebot3 | tb3_burger | - | bg:ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py | 25
+tb3_waffle_world  | turtlebot3 | tb3_waffle | - | bg:ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py | 25
+tb3_burger_empty  | turtlebot3 | tb3_burger | - | bg:ros2 launch turtlebot3_gazebo empty_world.launch.py | 20
+tb3_burger_drive  | turtlebot3 | tb3_burger | - | bg:ros2 launch turtlebot3_gazebo empty_world.launch.py ;; sleep:20 ;; fg:ros2 topic pub -t 20 -r 10 /cmd_vel geometry_msgs/msg/TwistStamped "{twist: {linear: {x: 0.1}, angular: {z: 0.2}}}" | 5
+tb3_burger_slam   | turtlebot3 | tb3_burger | - | bg:ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py ;; sleep:20 ;; bg:ros2 launch turtlebot3_cartographer cartographer.launch.py use_sim_time:=True | 20
+tb3_burger_fake   | turtlebot3 | tb3_burger | - | bg:ros2 launch turtlebot3_fake_node turtlebot3_fake_node.launch.py | 15
+
+# Arms
+ur5e_sim_control  | ur         | ur5e   | - | bg:ros2 launch ur_simulation_gz ur_sim_control.launch.py ur_type:=ur5e | 30
+ur5e_sim_moveit   | ur         | ur5e   | - | bg:ros2 launch ur_simulation_gz ur_sim_moveit.launch.py ur_type:=ur5e | 40
+ur5e_mock         | ur         | ur5e   | - | bg:ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur5e robot_ip:=yyy.yyy.yyy.yyy use_mock_hardware:=true launch_rviz:=false ;; sleep:15 ;; bg:ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur5e launch_rviz:=true | 25
+fr3_moveit_fake   | franka     | fr3    | - | bg:ros2 launch franka_fr3_moveit_config moveit.launch.py robot_ip:=dont-care use_fake_hardware:=true | 30
+gen3_sim_control  | kortex     | gen3   | - | bg:ros2 launch kortex_bringup kortex_sim_control.launch.py use_sim_time:=true launch_rviz:=false | 30
+gen3_moveit_fake  | kortex     | gen3   | - | bg:ros2 launch kinova_gen3_7dof_robotiq_2f_85_moveit_config robot.launch.py robot_ip:=yyy.yyy.yyy.yyy use_fake_hardware:=true | 30
+xarm6_moveit_fake | xarm       | xarm6  | - | bg:ros2 launch xarm_moveit_config xarm6_moveit_fake.launch.py | 30
+lite6_moveit_gz   | xarm       | lite6  | - | bg:ros2 launch xarm_moveit_config lite6_moveit_gazebo.launch.py | 40
+wx250s_moveit     | interbotix | wx250s | - | bg:ros2 launch interbotix_xsarm_moveit xsarm_moveit.launch.py robot_model:=wx250s hardware_type:=fake | 30
+cr5_sim_moveit    | dobot      | cr5    | - | bg:ros2 launch dobot_gazebo sim.launch.py | 40
