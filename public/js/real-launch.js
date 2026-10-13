@@ -560,6 +560,11 @@ function makeContext(sh, ui, getJob) {
       if (key === "franka_gripper fake_gripper_state_publisher.py") {   // franka's fake gripper: ~/joint_states at 10 Hz, both fingers at 0.035
         const n = g.add("fake_gripper", nodeName, ns, params, remaps); n.pid = pid; n.procName = tag; track(pid, n.full); ui.paint(); return;
       }
+      if (key === "dobot_moveit fake_demo_server") {   // dobot_moveit/fake_demo_server.py: /joint_states + <robot_type>_group_controller/follow_joint_trajectory, no ros2_control
+        const r = g.fakeDemoInit(nodeName, ns, params, remaps);
+        r.node.pid = pid; r.node.procName = tag;
+        lines(r.lines.map(P)); track(pid, r.node.full); ui.paint(); return;
+      }
       const driver = REAL_DRIVERS[key];
       if (driver) { lines(driver().map(P)); exit(1); return; }
       const n = g.add("custom", nodeName, ns, params, remaps); n.pid = pid; n.procName = tag; n.unmodelled = key;

@@ -223,6 +223,38 @@ export const rcMethods = {
     if (c) walk(c.params, "");
     return { P, T };
   },
+  // dobot_moveit's fake_demo_server (fake_demo_server.py): a plain node. It publishes /joint_states itself at
+  // publish_frequency and serves <robot_type>_group_controller/follow_joint_trajectory (a goal moves the joints to its
+  // last point). It has no ros2_control, no controller_manager and no spawner: MoveIt's execute finds the action, and
+  // the joint values come from this node. The model is the same ControllerManager the MoveIt demo uses, holding only
+  // the joint_trajectory controller (the action), so the trajectory path is the one the mock hardware runs.
+  fakeDemoInit(nodeName, ns, params, remaps) {
+    const robotType = String(params.robot_type || "cr5"), ctl = `${robotType}_group_controller`;
+    const joints = Array.isArray(params.joint_names) ? params.joint_names.map(String) : ["joint1", "joint2", "joint3", "joint4", "joint5", "joint6"];
+    const init = joints.map((_, i) => (Array.isArray(params.initial_positions) && Number.isFinite(Number(params.initial_positions[i])) ? Number(params.initial_positions[i]) : 0));
+    const freq = Number(params.publish_frequency) || 50;
+    const n = this.add("fake_demo", nodeName, ns, { robot_type: robotType, joint_names: joints, initial_positions: init, publish_frequency: freq, use_sim_time: !!params.use_sim_time }, remaps);
+    n.ptypes = { robot_type: "string", publish_frequency: "double", use_sim_time: "bool" };
+    const L = (lv, t) => `[${lv}] [${stampNow()}] [${nodeName}]: ${t}`;
+    const lines = [L("INFO", `FakeDemoServer ready on /${ctl}/follow_joint_trajectory`)];
+    // the description the node was launched next to (robot_state_publisher); the joints it moves come from the model
+    const rsp = this.nodes.find((x) => x.kind === "rsp" && x.params.robot_description);
+    let model = null; try { model = rsp ? parseURDF(String(rsp.params.robot_description)) : null; } catch { model = null; }
+    const cm = new ControllerManager({ urdf: rsp ? String(rsp.params.robot_description) : "", yaml: null, joints, name: "fake_demo_server", ns: "" });
+    cm.updateRate = freq;
+    for (const j of joints) {
+      cm.iface.set(`${j}/position`, { kind: "command", joint: j, name: "position", value: 0, claimedBy: ctl, system: "fake_demo" });
+      cm.iface.set(`${j}/position:state`, { kind: "state", joint: j, name: "position", value: 0, system: "fake_demo" });
+      cm.iface.set(`${j}/velocity:state`, { kind: "state", joint: j, name: "velocity", value: 0, system: "fake_demo" });
+    }
+    cm.params[ctl] = { joints, command_interfaces: ["position"], state_interfaces: ["position", "velocity"] };
+    cm.controllers.set(ctl, { name: ctl, type: "joint_trajectory_controller/JointTrajectoryController", kind: "jtc", state: "active", params: cm.params[ctl], claimed: joints.map((j) => `${j}/position`) });
+    cm.setState(Object.fromEntries(joints.map((j, i) => [j, { position: init[i], velocity: 0 }])));
+    init.forEach((q, i) => { cm.iface.get(`${joints[i]}/position`).value = q; });
+    this.mockModels = this.mockModels || new Map();
+    this.mockModels.set(robotType, { name: robotType, urdf: cm.urdf, model, joints: Object.fromEntries(joints.map((j, i) => [j, init[i]])), cm, mock: true, cmNode: n.full, cmTag: nodeName, pose: { x: 0, y: 0, yaw: 0 }, fakeDemo: true });
+    return { node: n, lines };
+  },
   cmNode(hit, name) { const cm = hit.cm; if (!this.nodes.some((x) => x.kind === "ctrl" && x.ctrl === name && x.cm === cm)) { const c = this.add("ctrl", name, cm.ns || "", {}); const { P, T } = this.ctrlParamsOf(cm, name); Object.assign(c.params, P); c.ptypes = T; c.cm = cm; c.ctrl = name; c.model = hit.name; } },
 
   // a message published on ROS: does a controller take it?  type: full ROS type, msg: parsed fields
@@ -258,7 +290,7 @@ export const rcMethods = {
     return E;
   },
   cmJoints() {
-    for (const m of this.cmModels()) if (m.cm.hasActive("jsb") || [...m.cm.controllers.values()].some((c) => c.kind === "jsb" && c.state !== "unconfigured")) {
+    for (const m of this.cmModels()) if (m.fakeDemo || m.cm.hasActive("jsb") || [...m.cm.controllers.values()].some((c) => c.kind === "jsb" && c.state !== "unconfigured")) {
       const J = { ...m.joints };
       for (const fg of this.nodes.filter((n) => n.kind === "fake_gripper")) for (const j of this.fakeGripperJoints(fg)) J[j] = 0.035;   // franka's fake gripper (merged by joint_state_publisher)
       return J;
@@ -269,6 +301,10 @@ export const rcMethods = {
   // ROS interfaces of programs modelled here that are not controller_manager nodes
   rcEndpoints(n, e) {
     if (n.kind === "fake_gripper") e.pubs.push([`${n.full}/joint_states`, "sensor_msgs/msg/JointState"]);
+    if (n.kind === "fake_demo") {   // fake_demo_server.py: /joint_states (absolute) and the namespaced FollowJointTrajectory action
+      e.pubs.push(["/joint_states", "sensor_msgs/msg/JointState"]);
+      e.acts.push([`${n.ns || ""}/${n.params.robot_type}_group_controller/follow_joint_trajectory`, "control_msgs/action/FollowJointTrajectory"]);
+    }
     if (n.kind === "jsp" && Array.isArray(n.params.source_list)) for (const s of n.params.source_list) e.subs.push([String(s).startsWith("/") ? String(s) : `${n.ns || ""}/${s}`, "sensor_msgs/msg/JointState"]);
   },
   cmRate(topic) {
@@ -287,6 +323,8 @@ export const rcMethods = {
     if (jsp) return Number(jsp.params.rate) || 10;
     const fg = this.nodes.find((n) => n.kind === "fake_gripper" && `${n.full}/joint_states` === topic);
     if (fg) return 10;
+    const fd = this.nodes.find((n) => n.kind === "fake_demo" && topic === "/joint_states");
+    if (fd) return Number(fd.params.publish_frequency) || 50;
     // robot_state_publisher sends /tf for the moving joints on every /joint_states message it gets (arms: no
     // odometry TF from a drive controller)
     if (topic === "/tf" && !this.cmModels().some((m) => [...m.cm.controllers.values()].some((c) => c.state === "active" && ["diff", "mecanum", "ackermann"].includes(c.kind)))) {
@@ -303,6 +341,9 @@ export const rcMethods = {
     // franka's fake gripper node: ~/joint_states with both fingers at 0.035 m (fake_gripper_state_publisher.py)
     const fg = this.nodes.find((n) => n.kind === "fake_gripper" && `${n.full}/joint_states` === topic);
     if (fg) { const jn = this.fakeGripperJoints(fg); return [jsLines({ name: jn, position: jn.map(() => 0.035), velocity: jn.map(() => 0), effort: jn.map(() => 0) })]; }
+    // fake_demo_server: /joint_states from the node itself, zero velocity and effort (fake_demo_server.py)
+    const fd = this.nodes.find((n) => n.kind === "fake_demo" && topic === "/joint_states");
+    if (fd) { const jn = (fd.params.joint_names || []).map(String), m = this.cmModels().find((x) => x.fakeDemo); if (m) return [jsLines({ name: jn, position: jn.map((j) => m.joints[j] || 0), velocity: jn.map(() => 0), effort: jn.map(() => 0) })]; }
     // joint_state_publisher with source_list (franka): /joint_states = every movable URDF joint, values from the sources
     const jsp = this.nodes.find((n) => n.kind === "jsp" && Array.isArray(n.params.source_list) && n.params.source_list.length && `${n.ns || ""}/joint_states` === topic);
     if (jsp) {
