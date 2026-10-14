@@ -1,4 +1,4 @@
-# ROS2Lab update V24: ground-truth parity, SDF odometry rates, and Jazzy controller manager activity
+# ROS2Lab update V24: ground-truth parity, arm audits, and Jazzy controller manager activity
 
 V24 builds on V23 with rigorous ground-truth parity fixes against real ROS 2 Jazzy on Ubuntu 24.04, verified across all supported mobile robots and arms.
 
@@ -6,7 +6,7 @@ V24 builds on V23 with rigorous ground-truth parity fixes against real ROS 2 Jaz
 
 ### Ground-truth parity and simulator fidelity
 
-- **SDF Diff-Drive Odometry Rate:** Parsed `odom_publisher_frequency` (30 Hz) directly from upstream SDF plugin configurations (`gz-sdf.js` and `gz-sdformat.js`), aligning simulated mobile robot odometry rates with real Jazzy behaviour.
+- **SDF Diff-Drive Odometry Rate:** Preserved upstream Gazebo `DiffDrive` parameter handling (`odom_publish_frequency`, default 50 Hz), adhering to upstream `gz-sim8` source behaviour and mobile audit tests.
 - **Controller Manager Activity:** Modelled and published `/controller_manager/activity` (`controller_manager_msgs/msg/ControllerManagerActivity`) from the `controller_manager` node with `RELIABLE/TRANSIENT_LOCAL` QoS matching real Jazzy introspection.
 - **Dobot CR5 Fake Demo & Actions:** Fixed parameter propagation in `fake_demo_server` (`ros-graph.js`) so that `robot_type` correctly configures action names (`/cr5_group_controller/follow_joint_trajectory`).
 - **Waffle Camera Image Transport:** Exported and bridged `image_transport` topics (`compressed`, `theora`, `zstd`) from `ros_gz_image` in `ros-gz.js` and `ros-graph.js`.

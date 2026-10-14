@@ -51,7 +51,7 @@ export function urdfGazebo(urdfText) {
       const f = p.a.filename || "", body = p.body;
       if (/diff-drive-system|DiffDrive/.test(f + (p.a.name || ""))) plugins.push({ kind: "diff_drive", left: blocks(body, "left_joint").map((x) => x.body.trim()), right: blocks(body, "right_joint").map((x) => x.body.trim()),
         separation: num(body, "wheel_separation", 0.3), radius: num(body, "wheel_radius", 0.05), topic: tag(body, "topic"), odomTopic: tag(body, "odom_topic"), tfTopic: tag(body, "tf_topic"),
-        frame: tag(body, "frame_id"), child: tag(body, "child_frame_id"), odomRate: num(body, "odom_publisher_frequency", num(body, "odom_publish_frequency", 50)) });
+        frame: tag(body, "frame_id"), child: tag(body, "child_frame_id"), odomRate: num(body, "odom_publish_frequency", 50) });
       else if (/joint-state-publisher-system|JointStatePublisher/.test(f + (p.a.name || ""))) plugins.push({ kind: "joint_states", topic: tag(body, "topic") });
       else if (/joint-position-controller-system|JointPositionController/.test(f + (p.a.name || ""))) plugins.push({ kind: "joint_position", joint: (tag(body, "joint_name") || "").trim(), topic: tag(body, "topic"), initial: num(body, "initial_position", 0), p: num(body, "p_gain", 1) });
       else if (/velocity-control-system|VelocityControl/.test(f + (p.a.name || "")) && !/Multicopter/.test(f + (p.a.name || ""))) plugins.push({ kind: "velocity_control", topic: tag(body, "topic") });

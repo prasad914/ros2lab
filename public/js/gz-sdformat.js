@@ -81,7 +81,7 @@ export function pluginFromSdf(filename, name, el) {
   const f = normPluginFile(filename), id = f + " " + (name || "");
   const all = (tag) => kids(el, tag).map((x) => text(x)).filter(Boolean);
   const s = (tag) => val(el, tag), n = (tag, d) => num(el, tag, d);
-  const drive = () => ({ topic: s("topic"), odomTopic: s("odom_topic"), tfTopic: s("tf_topic"), frame: s("frame_id"), child: s("child_frame_id"), odomRate: n("odom_publisher_frequency", n("odom_publish_frequency", 50)) });
+  const drive = () => ({ topic: s("topic"), odomTopic: s("odom_topic"), tfTopic: s("tf_topic"), frame: s("frame_id"), child: s("child_frame_id"), odomRate: n("odom_publish_frequency", 50) });
   const lim = () => ({ maxLinVel: n("max_linear_velocity", n("max_velocity", null)), maxAngVel: n("max_angular_velocity", n("max_velocity", null)), maxLinAcc: n("max_linear_acceleration", n("max_acceleration", null)), maxAngAcc: n("max_angular_acceleration", n("max_acceleration", null)), minLinVel: n("min_linear_velocity", n("min_velocity", null)), minAngVel: n("min_angular_velocity", n("min_velocity", null)) });
   const base = { file: f, filename, name: name || "" };
   if (/diff-drive-system|DiffDrive\b/.test(id)) return { ...base, kind: "diff_drive", left: all("left_joint"), right: all("right_joint"), separation: n("wheel_separation", 1.0), radius: n("wheel_radius", 0.2), ...drive(), ...lim() };
