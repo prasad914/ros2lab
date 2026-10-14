@@ -134,8 +134,6 @@ export const CONTROLLER_TYPES = {
   "franka_example_controllers/JointPositionExampleController": "other",
   "franka_example_controllers/JointVelocityExampleController": "other",
   "franka_example_controllers/MoveToStartExampleController": "other",
-  "picknik_twist_controller/PicknikTwistController": "other",
-  "picknik_reset_fault_controller/PicknikResetFaultController": "other",
   "robotiq_controllers/RobotiqActivationController": "other",
   "pose_broadcaster/PoseBroadcaster": "other",
   "range_sensor_broadcaster/RangeSensorBroadcaster": "other",
@@ -329,6 +327,9 @@ export class ControllerManager {
       for (const k of want) {
         const it = this.iface.get(k);
         if (!it) {
+          // real controller_manager (ground-truth/real/gen3_sim_control): WARN "Unable to activate ... is not available."
+          // then the spawner's "Failed to activate controller : <name>"
+          if (c.kind === "gripper") { L.push({ level: "WARN", src: this.name, text: `Unable to activate controller '${n}' since the command interface '${k}' is not available.` }); L.push({ level: "ERROR", src: `spawner_${n}`, text: `Failed to activate controller : ${n}` }); return { ok: false, logs: L, why: `"${k}" is not a command interface of the hardware.` }; }
           L.push({ level: "ERROR", src: this.name, text: `Can't activate controller '${n}': Command interface with '${k}' does not exist` });
           if (c.kind === "diff") L.push({ level: "ERROR", src: n, text: `Unable to obtain joint command handle for ${k.split("/")[0]}` });
           return { ok: false, logs: L, why: `Your <ros2_control> tag has no joint "${k.split("/")[0]}" with <command_interface name="${k.split("/")[1]}"/>, or the name in controllers.yaml is spelled differently.` };

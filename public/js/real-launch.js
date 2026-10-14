@@ -22,6 +22,9 @@ const BINARY = /\.(png|jpe?g|gif|bmp|tga|webp|glb|pgm|so|a|bin|zip|pdf|ttf)$/i;
 
 // ---------------------------------------------------------------- /opt/ros/jazzy (index + real share files)
 let jazzyP = null;
+// `ros2 run <pkg> <file>` programs whose upstream file is committed without the exec bit (git mode 100644) and that
+// install(PROGRAMS) copies as they are: real `ros2 run` says "No executable found" for them.
+const NOT_EXECUTABLE_PROGRAMS = new Set(["dobot_gazebo controller_loader.py"]);
 export function loadJazzy() {
   if (!jazzyP) jazzyP = (async () => {
     const [index, zipBuf] = await Promise.all([fetch("/ros/jazzy/index.json").then((r) => r.json()), fetch("/ros/jazzy/share.zip").then((r) => r.arrayBuffer())]);
@@ -373,6 +376,12 @@ function makeContext(sh, ui, getJob) {
         // Dobot's controller_loader.py (dobot_gazebo): waits for controller_manager, then loads and activates
         // <robot>_group_controller and joint_state_broadcaster (its workaround for the spawner)
         if (info.cmd[1] === "run" && /controller_loader\.py$/.test(info.cmd[3] || "")) {
+          // upstream dobot_gazebo/controller_loader.py is committed as mode 100644 (not executable) and installed with
+          // install(PROGRAMS ...), so the real `ros2 run` refuses it: "No executable found" and no controller is loaded
+          if (NOT_EXECUTABLE_PROGRAMS.has(`${info.cmd[2]} ${info.cmd[3]}`)) {
+            emit(P("No executable found"), "err");
+            exit(1); return;
+          }
           const robot = info.cmd[4] || "cr5", L = (lv, t) => emit(P(`[${lv}] [${stamp()}] [controller_loader]: ${t}`), lv === "ERROR" || lv === "FATAL" ? "err" : "");
           L("INFO", "Waiting for controller_manager...");
           const okCm = await waitFor(() => !!(g.cmFind && g.cmFind("/controller_manager")), 60000, 500);
