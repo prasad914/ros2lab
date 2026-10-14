@@ -135,6 +135,8 @@ export const CONTROLLER_TYPES = {
   "franka_example_controllers/JointVelocityExampleController": "other",
   "franka_example_controllers/MoveToStartExampleController": "other",
   "robotiq_controllers/RobotiqActivationController": "other",
+  "picknik_twist_controller/PicknikTwistController": "other",
+  "picknik_reset_fault_controller/PicknikResetFaultController": "other",
   "pose_broadcaster/PoseBroadcaster": "other",
   "range_sensor_broadcaster/RangeSensorBroadcaster": "other",
   "pid_controller/PidController": "other",
