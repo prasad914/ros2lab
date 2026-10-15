@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ros2 *)",
+      "Bash(gz *)",
+      "Bash(./scripts/*)",
+      "Bash(bash scripts/*)",
+      "Bash(source /opt/ros/jazzy/setup.bash*)",
+      "Bash(python3 tests/parity/*)",
+      "Bash(npm run *)",
+      "Bash(npm test*)",
+      "Bash(npx playwright *)",
+      "Bash(npx vitest *)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(xvfb-run *)"
+    ],
+    "deny": [
+      "Bash(sudo *)",
+      "Bash(apt *)",
+      "Bash(apt-get *)",
+      "Bash(rm -rf /*)",
+      "Bash(git push *)"
+    ]
+  },
+  "env": {
+    "CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS": "4"
+  }
+}

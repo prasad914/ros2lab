@@ -1,51 +1,63 @@
-# ROS2Lab: "ROS 2 from zero, in six weeks" (www.ros2lab.com)
+# ROS2Lab parity kit for Claude Code
 
-A free online course for engineering students. Anyone with a valid college ID card can register; the instructor approves each registration.
-**Start with SETUP-GUIDE.md.** Updating an existing site? Read the newest **UPDATE-V*.md** (now **UPDATE-V12.md**, which includes v9 to v11; on top of v8).
+Lets Claude Code, running in a terminal on your Ubuntu 24.04 + ROS 2 Jazzy machine, compare every ROS2Lab website feature with real ROS 2 Jazzy using subagents, rebuild what is missing, and fix what does not match. `REQUIREMENTS.md` maps every request from our conversation to the file or prompt that handles it.
 
-## What is in this folder
+## How it works
 
-| Path | What it is |
+```
+real ROS 2 Jazzy (headless Gazebo, Nav2, SLAM)      ROS2Lab website (Playwright, headless Chromium)
+        │  ros-reference agent                              │  web-tester agent
+        ▼                                                   ▼
+ tests/fixtures/<robot>/<scenario>/   ──►  parity-judge  ◄──  tests/browser_out/<robot>/<scenario>/
+ tests/fixtures/_installed/ (configs)        │
+                                   docs/parity/*.md (PASS / FAIL / PENDING)
+                                              │
+                    emulator-fixer (one FAIL each, in its own git worktree)
+ student-persona agents make course mistakes on both sides · course-ui-reviewer checks each robot page
+```
+
+## What is in the kit
+
+| Path | Purpose |
 |---|---|
-| `public/` | The website: landing page, registration, sign-in, course, lessons, tests, instructor dashboard, Playground and concept lab. Contains no lessons and no answers. |
-| `public/js/anims/` | 27 interactive concept animations (topics, services, actions, parameters, launch, TF2, spin, P-control, quaternions...). |
-| `public/js/puzzles.js` | Lesson puzzle blocks: step-through code tracer, match, sort, spot-the-bug, order, think-first and flashcards. |
-| `public/js/terminal-sim.js`, `public/js/ros-graph.js` | The practice Ubuntu terminal (tabs, nano, colcon, ros2 pkg create) and the pretend running ROS 2 system behind it. It runs the students' own Python and C++ node code (publishers, subscribers, services, clients, actions, parameters, launch files, tf2, lifecycle, components) and shows TurtleSim windows. |
-| `content/course-content.json` | The 6-week course: 95 lessons (Days 1 to 30) and 6 weekly tests. Uploaded from the Instructor page. |
-| `functions/` | Server code: sign-up checks, ID card review, per-student test papers and grading, automatic clean-up. `functions/questions/` holds 188 question templates. |
-| `ros2-code/` | The real ROS 2 Jazzy packages behind Weeks 5 and 6 (Python and C++), built and tested on a real system. See `ros2-code/README.md`. |
-| `firestore.rules`, `storage.rules` | Security rules for the database and for ID card photos. |
-| `firebase.json` | Hosting settings and security headers. |
-| `tools/preview.html` | Preview lessons on your laptop before uploading. |
-| `tools/check-content.mjs` | Checks every practice terminal and Python exercise in the course file: `node tools/check-content.mjs` |
-| `COURSE-OUTLINE.md` | Every lesson, day by day. |
+| CLAUDE.md | Rules Claude Code reads every session (real Jazzy is truth, no invented numbers, faithful errors) |
+| KICKOFF_PROMPT.md | Prompts P0–P13, pasted one at a time |
+| REQUIREMENTS.md | Checklist: each of your requests → where it is handled |
+| docs/reference/nav2_jazzy_spec.md | Everything the site must match (architecture, TF, Fixed Frame, tools, Nav2, costmaps, AMCL, SLAM, sensors, RViz, tool inventory, UI hierarchy, robot combos, metrics) with [VERIFY] marks |
+| docs/reference/concepts.md | Short student concept cards |
+| docs/reference/papers.md | Papers from the research, with gaps |
+| tests/mistakes.yaml | 27 student mistakes with persona, level, how to reproduce, what the browser must do |
+| docs/parity/playground.md | 15 games with learning goals, readiness checks, scoring |
+| docs/parity/thresholds.yaml | Your pass limits (fill in before P9) |
+| .claude/agents/ | ros-reference, web-tester, parity-judge, student-persona, course-ui-reviewer, emulator-fixer |
+| .claude/settings.json | Pre-approved commands; blocks sudo, apt, git push |
+| scripts/ | check_env, capture_installed, verify_facts, start/stop_reference, capture_reference, record_bag |
 
-## The course
+## One-time setup (you, not Claude)
 
-- **Week 1, Talk to the robot's computer:** Days 1–5: terminal basics, files, permissions and apt, Python from zero.
-- **Week 2, Build the robot's brain:** Days 6–10: Python objects and first ROS 2 nodes, C++ basics, classes and an rclcpp node, Ubuntu and ROS 2 Jazzy installation.
-- **Week 3, Introduction to ROS:** Days 11–15: why robots need a software platform, ROS parts and ecosystem, versions, ROS 1 vs ROS 2, DDS, domains and QoS.
-- **Week 4, Speak ROS 2:** Days 16–20: nodes, topics, services, parameters, actions, launch files, workspaces, TF2 and debugging, hands-on in the practice terminal.
-- **Week 5, ROS Programming Fundamentals:** Days 21–25. There are 20 chapters, each idea first in a **Python chapter** and then in a **separate C++ chapter**:
-  - your first package and node;
-  - a timer and a publisher that drive the turtle;
-  - a subscriber;
-  - your own message;
-  - a service server and a service client;
-  - an action server and client;
-  - parameters and YAML files;
-  - launch files;
-  - a battery-monitor mini-project.
-- **Week 6, Writing your own ROS 2 nodes:** Days 26–30. New ideas only (nothing from Week 5 is taught again), in Python and C++, with nodes that really control a robot:
-  - time and logging;
-  - a square driven with a state machine;
-  - closed-loop go-to-goal, a safety filter that chains nodes, and messages in code;
-  - QoS, and safe parameters (descriptors, ranges, callbacks);
-  - launch files for two robots;
-  - a tf2 broadcaster and listener;
-  - executors, lifecycle nodes and components;
-  - tests, and a patrol-robot project.
+1. Install Claude Code on the Ubuntu machine: `curl -fsSL https://claude.ai/install.sh | bash`, open a new terminal, run `claude --version`. Needs a Pro, Max, Team, Enterprise or Console account.
+2. Install the reference stack. Start with:
+   `sudo apt install ros-jazzy-desktop ros-jazzy-ros-gz ros-jazzy-navigation2 ros-jazzy-nav2-bringup ros-jazzy-nav2-minimal-tb* ros-jazzy-slam-toolbox ros-jazzy-turtlebot3* ros-jazzy-rosbag2-storage-mcap xvfb`
+   then run `bash scripts/check_env.sh` – it prints the exact command for anything still missing (required and optional, e.g. TurtleBot4, docking, cartographer).
+   If you build TurtleBot3 from source as the ROBOTIS guide does, `export TB3_WS=~/turtlebot3_ws` before starting `claude`; every script then sources it.
+3. Copy this kit's `CLAUDE.md`, `REQUIREMENTS.md`, `KICKOFF_PROMPT.md`, `.claude/`, `scripts/`, `tests/` and `docs/` into the root of the website repo. Merge with any existing `CLAUDE.md` or `.claude/settings.json` instead of overwriting.
+4. `chmod +x scripts/*.sh`; in the website repo `npm install` and `npx playwright install chromium`.
+5. Make sure the repo is a git repository with a clean working tree (the fixer uses git worktrees).
+6. Before P9, fill in `docs/parity/thresholds.yaml` (leave `null` to get raw numbers only).
 
-Every lesson takes up to 30 minutes. Week 7 will be planned later.
+## Run
 
-Keep this folder private: it contains the question templates.
+```
+cd ~/ros2lab-website
+export TB3_WS=~/turtlebot3_ws   # only if TurtleBot3 is built from source
+claude
+```
+Paste P0 from `KICKOFF_PROMPT.md`, read its report, then continue with P1, P2, …
+
+## Things to know
+
+- **Text, not pictures:** comparisons use topics, types, QoS, TF, params, error text, paths, trajectories, costmaps and AMCL data from files. Screen-only RViz messages are marked UNVERIFIED.
+- **One real simulation at a time** by default, to avoid CPU/GPU contention skewing timings. Separate `ROS_DOMAIN_ID`/`GZ_PARTITION` values keep runs apart.
+- **Stochastic parts (AMCL, MPPI)** are repeated (default 10 runs) and reported as mean ± sd.
+- **Usage:** every subagent uses your Claude plan's usage; P2, P6, P9–P11 use the most. Run them when the machine can work unattended.
+- **Not confirmed by me:** the scripts have been syntax-checked but not run on a real Jazzy machine. Launch arguments for the ROBOTIS packages, whether Gazebo starts paused for TB4, and the [VERIFY] items in the spec are checked by P0 on your machine.
