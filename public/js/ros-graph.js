@@ -1428,21 +1428,33 @@ export function urdfLinks(text) { return [...String(text).matchAll(/<link\s+name
 RosGraph.prototype.tfTree = function () {
   const E = [];
   for (const n of this.nodes) {
-    if (n.kind === "static_tf" && n.tf) E.push({ ...n.tf });
+    if (n.kind === "static_tf" && n.tf) E.push({ ...n.tf, authority: n.full });
     const vk = this.vkind(n);
-    if (vk === "diffbot" && n.base) E.push({ parent: "odom", child: "base_link", t: [n.base.x, n.base.y, 0], q: qRPY(0, 0, n.base.theta) });
-    if (n.kind === "custom" && n.info && n.info.broadcaster) { const nm = String(n.params.turtlename || "turtle1"), h = this.turtle(nm); if (h) E.push({ parent: "world", child: nm, t: [h.t.x, h.t.y, 0], q: qRPY(0, 0, h.t.theta) }); }
+    if (vk === "diffbot" && n.base) E.push({ parent: "odom", child: "base_link", t: [n.base.x, n.base.y, 0], q: qRPY(0, 0, n.base.theta), authority: n.full });
+    if (n.kind === "custom" && n.info && n.info.broadcaster) { const nm = String(n.params.turtlename || "turtle1"), h = this.turtle(nm); if (h) E.push({ parent: "world", child: nm, t: [h.t.x, h.t.y, 0], q: qRPY(0, 0, h.t.theta), authority: n.full }); }
   }
-  if (this.gzRunning()) E.push(...this.gzTfEdges(), ...this.cmTfEdges());
-  else if (this.mockModelList().length) E.push(...this.cmTfEdges());   // mock hardware: the drive controller's odom -> base
-  E.push(...this.fakeTfEdges(), ...this.cfTfEdges());   // turtlebot3_fake_node: odom -> base_footprint; crazyflie_sim: world -> cf
-  if (this.nav2Api && this.nav2) E.push(...this.nav2Api.nav2TfEdges(this));   // map -> odom (amcl, slam_toolbox, cartographer): tf2_echo / view_frames see it too
+  if (this.gzRunning()) {
+    const gzEdges = this.gzTfEdges().map((e) => ({ ...e, authority: e.authority || "/diff_drive_controller" }));
+    const cmEdges = this.cmTfEdges().map((e) => ({ ...e, authority: e.authority || "/controller_manager" }));
+    E.push(...gzEdges, ...cmEdges);
+  } else if (this.mockModelList().length) {
+    E.push(...this.cmTfEdges().map((e) => ({ ...e, authority: e.authority || "/controller_manager" })));   // mock hardware: the drive controller's odom -> base
+  }
+  E.push(...this.fakeTfEdges().map((e) => ({ ...e, authority: "/turtlebot3_fake_node" })), ...this.cfTfEdges().map((e) => ({ ...e, authority: "/crazyflie_server" })));   // turtlebot3_fake_node: odom -> base_footprint; crazyflie_sim: world -> cf
+  if (this.nav2Api && this.nav2) {
+    const navEdges = this.nav2Api.nav2TfEdges(this).map((e) => ({ ...e, authority: this.nav2.mapOdomBy || (this.nav2.models.find((m) => m.role === "amcl") ? "/amcl" : "/slam_toolbox") }));
+    E.push(...navEdges);   // map -> odom (amcl, slam_toolbox, cartographer): tf2_echo / view_frames see it too
+  }
   const rsp = this.nodes.find((n) => n.kind === "rsp" && n.params.robot_description), arm = this.nodes.find((n) => this.vkind(n) === "arm");
   const model = rsp && !arm ? this.robotModel() : null;
-  if (model) { E.push(...urdfEdges(model, this.jointValues(), this.statesAvailable()).map((e) => ({ parent: e.parent, child: e.child, t: e.t, q: e.q }))); return E; }
+  if (model) { E.push(...urdfEdges(model, this.jointValues(), this.statesAvailable()).map((e) => ({ parent: e.parent, child: e.child, t: e.t, q: e.q, authority: "/robot_state_publisher" }))); return E; }
   if (rsp) {
     const q = arm ? arm.q : [0, 0], L1 = arm ? arm.params.link1_length : 1, L2 = arm ? arm.params.link2_length : 0.8;
-    E.push({ parent: "base_link", child: "link1", t: [0, 0, 0.05], q: qRPY(0, 0, q[0]) }, { parent: "link1", child: "link2", t: [L1, 0, 0], q: qRPY(0, 0, q[1]) }, { parent: "link2", child: "tool", t: [L2, 0, 0], q: [0, 0, 0, 1] });
+    E.push(
+      { parent: "base_link", child: "link1", t: [0, 0, 0.05], q: qRPY(0, 0, q[0]), authority: "/robot_state_publisher" },
+      { parent: "link1", child: "link2", t: [L1, 0, 0], q: qRPY(0, 0, q[1]), authority: "/robot_state_publisher" },
+      { parent: "link2", child: "tool", t: [L2, 0, 0], q: [0, 0, 0, 1], authority: "/robot_state_publisher" }
+    );
   }
   return E;
 };

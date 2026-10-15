@@ -39,7 +39,413 @@ const term = mountTerminal($("term"), {
   fs: { dirs: [`${WS}/src`], files: {} },
 });
 const sh = term.shell;
-window.__ros2lab = { term, sh };   // for automated checks (tools/) and the browser console
+
+// Continuous background sampling for robot pose and AMCL pose history
+let lastPoseSample = 0;
+const sampledRobotPoseHistory = [];
+const sampledAmclPoseHistory = [];
+
+function samplePoses() {
+  const g = sh?.graph;
+  if (!g) return;
+  const t = (g.gz && typeof g.gz.time === "number") ? g.gz.time : (typeof performance !== "undefined" ? performance.now() / 1000 : Date.now() / 1000);
+  if (t - lastPoseSample < 0.05) return;
+  lastPoseSample = t;
+
+  let rp = null;
+  if (g.nav2 && typeof g.nav2.odom === "function") {
+    rp = g.nav2.odom();
+  } else if (g.gz && typeof g.gzOdom === "function" && g.gz.models) {
+    for (const m of g.gz.models.values()) {
+      if (m.gazebo && (m.gazebo.plugins || []).some((p) => /diff_drive|mecanum|ackermann/.test(p.kind))) {
+        rp = g.gzOdom(m);
+        break;
+      }
+    }
+  }
+  if (!rp && g.tfTree) {
+    const edge = g.tfTree().find((e) => e.parent === "odom" && (e.child === "base_link" || e.child === "base_footprint"));
+    if (edge && edge.t && edge.q) {
+      const q = edge.q;
+      const yaw = Math.atan2(2 * (q[3] * q[2] + q[0] * q[1]), 1 - 2 * (q[1] * q[1] + q[2] * q[2]));
+      rp = { x: edge.t[0], y: edge.t[1], yaw };
+    }
+  }
+  if (rp) {
+    const prev = sampledRobotPoseHistory[sampledRobotPoseHistory.length - 1];
+    if (!prev || Math.hypot(rp.x - prev.x, rp.y - prev.y) > 0.005 || Math.abs((rp.yaw || 0) - (prev.yaw || 0)) > 0.01 || (t - prev.t) > 0.5) {
+      sampledRobotPoseHistory.push({ x: rp.x, y: rp.y, yaw: rp.yaw || 0, t });
+      if (sampledRobotPoseHistory.length > 5000) sampledRobotPoseHistory.shift();
+    }
+  }
+
+  const amcl = g.nav2?.models?.find((m) => m.role === "amcl" && !m.dead);
+  if (amcl && typeof amcl.pose === "function") {
+    const ap = amcl.pose();
+    if (ap) {
+      const prevA = sampledAmclPoseHistory[sampledAmclPoseHistory.length - 1];
+      if (!prevA || Math.hypot(ap.x - prevA.x, ap.y - prevA.y) > 0.005 || Math.abs((ap.yaw || 0) - (prevA.yaw || 0)) > 0.01 || (t - prevA.t) > 0.5) {
+        sampledAmclPoseHistory.push({ x: ap.x, y: ap.y, yaw: ap.yaw || 0, t });
+        if (sampledAmclPoseHistory.length > 5000) sampledAmclPoseHistory.shift();
+      }
+    }
+  }
+}
+if (typeof setInterval === "function") {
+  setInterval(samplePoses, 100);
+}
+
+let _catalog = (typeof window !== "undefined" && window.__ros2lab?.catalog) || null;
+
+window.__ros2lab = {
+  get term() { return term; },
+  get sh() { return sh; },
+  get catalog() { return _catalog; },
+  set catalog(val) { _catalog = val; },
+  get viewer() {
+    return (typeof window !== "undefined" && window.__rvizViewers && window.__rvizViewers[0]) || live?.viewer || null;
+  },
+
+  // 1. Topic list with types and QoS
+  get topics() {
+    const g = sh?.graph;
+    const res = [];
+    const topicMap = g?.topics ? g.topics() : new Map();
+    if (!topicMap.size) {
+      topicMap.set("/parameter_events", {
+        type: "rcl_interfaces/msg/ParameterEvent",
+        by: { pubs: ["/_ros2cli_daemon"], subs: [] },
+        qos: { "pubs|/_ros2cli_daemon": "RELIABLE/VOLATILE" }
+      });
+      topicMap.set("/rosout", {
+        type: "rcl_interfaces/msg/Log",
+        by: { pubs: ["/_ros2cli_daemon"], subs: [] },
+        qos: { "pubs|/_ros2cli_daemon": "RELIABLE/TRANSIENT_LOCAL" }
+      });
+    }
+    for (const [name, info] of topicMap.entries()) {
+      const type = (g?.topicType ? g.topicType(name) : null) || info.type || "";
+      const pubs = [];
+      const subs = [];
+      const qosObj = info.qos || {};
+      for (const p of (info.by?.pubs || [])) {
+        const rawQos = (typeof qosObj.get === "function" ? qosObj.get(`pubs|${p}`) : qosObj[`pubs|${p}`]) || "RELIABLE/VOLATILE";
+        const [rel, dur] = rawQos.split("/");
+        pubs.push({
+          node: p,
+          endpoint_type: "PUBLISHER",
+          qos: {
+            reliability: rel === "BEST_EFFORT" ? "Best Effort" : "Reliable",
+            durability: dur === "TRANSIENT_LOCAL" ? "Transient Local" : "Volatile",
+            history: "Keep last",
+            depth: 10,
+            raw: rawQos
+          }
+        });
+      }
+      for (const s of (info.by?.subs || [])) {
+        const rawQos = (typeof qosObj.get === "function" ? qosObj.get(`subs|${s}`) : qosObj[`subs|${s}`]) || "RELIABLE/VOLATILE";
+        const [rel, dur] = rawQos.split("/");
+        subs.push({
+          node: s,
+          endpoint_type: "SUBSCRIPTION",
+          qos: {
+            reliability: rel === "BEST_EFFORT" ? "Best Effort" : "Reliable",
+            durability: dur === "TRANSIENT_LOCAL" ? "Transient Local" : "Volatile",
+            history: "Keep last",
+            depth: 10,
+            raw: rawQos
+          }
+        });
+      }
+      const defaultQos = pubs[0]?.qos || subs[0]?.qos || {
+        reliability: "Reliable",
+        durability: "Volatile",
+        history: "Keep last",
+        depth: 10,
+        raw: "RELIABLE/VOLATILE"
+      };
+      res.push({
+        name,
+        type,
+        publishers: pubs,
+        subscribers: subs,
+        pubs: pubs.map((p) => p.node),
+        subs: subs.map((s) => s.node),
+        qos: defaultQos
+      });
+    }
+    res.get = (n) => res.find((t) => t.name === n || t.name === "/" + String(n).replace(/^\/+/, ""));
+    return res;
+  },
+
+  // 2. TF frames, edges, and publishing authority
+  get tf() {
+    const g = sh?.graph;
+    const v = (typeof window !== "undefined" && window.__rvizViewers && window.__rvizViewers[0]) || live?.viewer || null;
+    const edges = g?.tfTree ? g.tfTree() : [];
+    const frameSet = new Set();
+    const authorityMap = {};
+    for (const e of edges) {
+      if (e.parent) frameSet.add(e.parent);
+      if (e.child) frameSet.add(e.child);
+      const auth = e.authority || (
+        e.parent === "map" && e.child === "odom"
+          ? (g?.nav2?.mapOdomBy || (g?.nav2?.models.find((m) => m.role === "amcl") ? "/amcl" : "/slam_toolbox"))
+          : (e.parent === "odom" && e.child === "base_footprint")
+          ? "/turtlebot3_fake_node"
+          : (e.parent === "odom" && e.child === "base_link")
+          ? "/diff_drive_controller"
+          : "/robot_state_publisher"
+      );
+      e.authority = auth;
+      if (e.child) authorityMap[e.child] = auth;
+      if (e.parent && e.child) authorityMap[`${e.parent}->${e.child}`] = auth;
+    }
+    if (v?.state) {
+      const vf = v.state()?.frames || [];
+      for (const f of vf) if (f) frameSet.add(f);
+    }
+    const frames = [...frameSet].sort();
+    return {
+      frames,
+      getAllFrameNames: () => frames.slice(),
+      edges: edges.slice(),
+      authority: authorityMap
+    };
+  },
+
+  // 3. Fixed Frame options and selected value
+  get fixedFrame() {
+    const v = (typeof window !== "undefined" && window.__rvizViewers && window.__rvizViewers[0]) || live?.viewer || null;
+    const tfData = this.tf;
+    const selected = (v?.fixedFrame ? v.fixedFrame() : null) || (v?.state ? v.state().fixedFrame : null) || sh?.viz?.fixedFrame || "map";
+    const options = (v?.state ? v.state().frames : null) || tfData.frames || [];
+    return {
+      selected,
+      options: options.slice()
+    };
+  },
+
+  // 4. Params per emulated node
+  get nodes() {
+    const g = sh?.graph;
+    const res = (g?.nodes || []).map((n) => ({
+      name: n.name,
+      full: n.full,
+      namespace: n.ns || "/",
+      kind: n.kind,
+      params: n.params ? { ...n.params } : {}
+    }));
+    res.get = (name) => res.find((n) => n.name === name || n.full === name || n.full === "/" + String(name).replace(/^\/+/, ""));
+    res.getParams = (name) => res.get(name)?.params || null;
+    return res;
+  },
+
+  // 5. Lifecycle states of Nav2 / lifecycle nodes
+  get lifecycleStates() {
+    const g = sh?.graph;
+    const res = [];
+    const nav2Models = g?.nav2?.models || [];
+    for (const m of nav2Models) {
+      if (m && (m.lifecycleNode || m.state !== undefined)) {
+        const item = {
+          node: m.full,
+          name: m.name,
+          role: m.role,
+          state: m.state || "unconfigured"
+        };
+        res.push(item);
+        res[m.full] = m.state || "unconfigured";
+        res[m.name] = m.state || "unconfigured";
+      }
+    }
+    return res;
+  },
+
+  // 6. Global Status and per-display status text in RViz
+  get rvizStatus() {
+    const v = (typeof window !== "undefined" && window.__rvizViewers && window.__rvizViewers[0]) || live?.viewer || null;
+    if (!v) {
+      return {
+        globalStatus: "OK",
+        statusLines: [],
+        displays: []
+      };
+    }
+    const st = v.state ? v.state() : {};
+    const allDisplays = (v.displays ? v.displays() : []) || [];
+    const displayStatusList = [];
+    let worstLevel = "OK";
+
+    for (const d of allDisplays) {
+      const sList = d.status || [];
+      const hasErr = sList.some((s) => s[0] === "error");
+      const hasWarn = sList.some((s) => s[0] === "warn");
+      const level = hasErr ? "Error" : hasWarn ? "Warning" : "OK";
+      if (d.enabled) {
+        if (level === "Error") worstLevel = "Error";
+        else if (level === "Warning" && worstLevel !== "Error") worstLevel = "Warning";
+      }
+      const text = sList.map((s) => s[1]).join("; ") || "OK";
+      displayStatusList.push({
+        name: d.name,
+        type: d.type,
+        enabled: !!d.enabled,
+        status: text,
+        level,
+        messages: sList.map((s) => ({ level: s[0], text: s[1], key: s[2] }))
+      });
+    }
+
+    const statusLines = st.status || [];
+    for (const line of statusLines) {
+      if (/error/i.test(line)) worstLevel = "Error";
+      else if (/warn/i.test(line) && worstLevel !== "Error") worstLevel = "Warning";
+    }
+
+    return {
+      globalStatus: worstLevel,
+      statusLines,
+      displays: displayStatusList
+    };
+  },
+
+  // 7. User-visible terminal logs and errors
+  get logs() {
+    const domLines = typeof document !== "undefined"
+      ? [...document.querySelectorAll(".line")].map((el) => el.textContent)
+      : [];
+    const navLogs = sh?.graph?.nav2?.logs || [];
+    return [...domLines, ...navLogs];
+  },
+  get errors() {
+    const errLines = typeof document !== "undefined"
+      ? [...document.querySelectorAll(".line.err, .line.warn-line")].map((el) => el.textContent)
+      : [];
+    return errLines;
+  },
+
+  // 8. /plan, /local_plan, robot pose history, /amcl_pose history, particle count, costmaps
+  get nav2() {
+    const g = sh?.graph;
+    const sys = g?.nav2;
+    const planner = sys?.models?.find((m) => m.role === "planner" && !m.dead);
+    const controller = sys?.models?.find((m) => m.role === "controller" && !m.dead);
+    const amcl = sys?.models?.find((m) => m.role === "amcl" && !m.dead);
+
+    const plan = planner?.plan ? {
+      frame: planner.plan.frame || "map",
+      poses: (planner.plan.poses || []).map((p) => ({ x: p.x, y: p.y, yaw: p.yaw ?? 0 }))
+    } : null;
+
+    const localPlan = controller?.local ? {
+      frame: controller.local.frame || "odom",
+      poses: (controller.local.poses || []).map((p) => ({ x: p.x, y: p.y, yaw: p.yaw ?? 0 }))
+    } : null;
+
+    const amclP = (amcl && typeof amcl.pose === "function") ? amcl.pose() : null;
+    const particleCount = amcl?.pf?.ps?.length || 0;
+    const particles = amcl?.pf?.ps ? amcl.pf.ps.slice() : [];
+
+    const globalCostmap = planner?.costmap?.grid ? {
+      width: planner.costmap.grid.width,
+      height: planner.costmap.grid.height,
+      resolution: planner.costmap.grid.resolution,
+      origin: planner.costmap.grid.origin ? planner.costmap.grid.origin.slice() : [0, 0, 0],
+      data: planner.costmap.grid.data ? planner.costmap.grid.data.slice() : []
+    } : null;
+
+    const localCostmap = controller?.costmap?.grid ? {
+      width: controller.costmap.grid.width,
+      height: controller.costmap.grid.height,
+      resolution: controller.costmap.grid.resolution,
+      origin: controller.costmap.grid.origin ? controller.costmap.grid.origin.slice() : [0, 0, 0],
+      data: controller.costmap.grid.data ? controller.costmap.grid.data.slice() : []
+    } : null;
+
+    const robotPoseHistory = (sys?.poseHistory && sys.poseHistory.length) ? sys.poseHistory.slice() : sampledRobotPoseHistory.slice();
+    const amclPoseHistory = (sys?.amclPoseHistory && sys.amclPoseHistory.length) ? sys.amclPoseHistory.slice() : sampledAmclPoseHistory.slice();
+
+    return {
+      plan,
+      localPlan,
+      robotPoseHistory,
+      poseHistory: robotPoseHistory,
+      amclPose: amclP ? { x: amclP.x, y: amclP.y, yaw: amclP.yaw } : null,
+      amclPoseHistory,
+      particleCount,
+      particles,
+      globalCostmap,
+      localCostmap,
+      costmaps: {
+        global: globalCostmap,
+        local: localCostmap
+      }
+    };
+  },
+
+  // 9. Camera info, image size/encoding, PointCloud2 fields, LaserScan
+  get sensors() {
+    const g = sh?.graph;
+    const v = (typeof window !== "undefined" && window.__rvizViewers && window.__rvizViewers[0]) || live?.viewer || null;
+    let cameraInfo = null;
+    let imageInfo = null;
+    let pointCloud2 = null;
+    let scan = null;
+
+    if (v?.topicData) {
+      for (const [topic, data] of (v.topicData()?.entries?.() || [])) {
+        if (/camera_info/i.test(topic) || data.K) {
+          cameraInfo = { width: data.width, height: data.height, K: data.K ? [...data.K] : null, frame: data.frame };
+        }
+        if (data.canvas && !imageInfo) {
+          imageInfo = { width: data.canvas.width, height: data.canvas.height, encoding: "rgb8", frame: data.frame };
+        }
+        if (data.points && !pointCloud2) {
+          pointCloud2 = { fields: ["x", "y", "z", "rgb"], frame: data.frame, count: data.points.length, points: data.points };
+        }
+        if (data.ranges && !scan) {
+          scan = { ranges: data.ranges, angle_min: data.angle_min, angle_max: data.angle_max, angle_increment: data.angle_increment, range_min: data.range_min, range_max: data.range_max, frame: data.frame };
+        }
+      }
+    }
+
+    if (!cameraInfo && g?.gzRunning && g.gzRunning() && g.gz?.models) {
+      for (const m of g.gz.models.values()) {
+        for (const s of (m.gazebo?.sensors || [])) {
+          if (s.camera) {
+            const C = s.camera;
+            const fx = C.width / 2 / Math.tan(C.hfov / 2);
+            cameraInfo = { width: C.width, height: C.height, K: [fx, 0, C.width / 2, 0, fx, C.height / 2, 0, 0, 1], frame: s.frame || s.link };
+            if (!imageInfo) imageInfo = { width: C.width, height: C.height, encoding: "rgb8", frame: s.frame || s.link };
+          }
+        }
+      }
+    }
+
+    return {
+      cameraInfo,
+      imageInfo,
+      pointCloud2,
+      scan
+    };
+  },
+
+  // 10. Current course level and lock state
+  get course() {
+    const levelAttr = typeof document !== "undefined"
+      ? (document.body?.getAttribute("data-level") || document.querySelector("[data-level]")?.getAttribute("data-level"))
+      : null;
+    const level = Number((typeof window !== "undefined" && window.__ros2labCourseLevel) ?? levelAttr ?? 1);
+    const locks = (typeof window !== "undefined" && window.__ros2labCourseLocks) || {};
+    return {
+      level,
+      locks: { ...locks },
+      isLocked: (lvl) => !!locks[lvl]
+    };
+  }
+};
 let current = null;   // { name, files, main, launches }
 
 function writePackage(p) {

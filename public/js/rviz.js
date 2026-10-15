@@ -1976,12 +1976,12 @@ export function createRviz(container, opts = {}) {
       draw();
     },
     setTitle(t) { S.title = t || ""; renderTitle(); },
-    state: () => ({ fixedFrame: S.fixedFrame, displays: asMap(), displayList: S.displays.map((d) => ({ type: d.type, name: d.name, enabled: d.enabled, props: { ...d.props } })), joints: { ...S.joints }, status: lastStatus.map((x) => x.join(": ")), frames: allFrames(), tool: S.tool, view: { ...S.view } }),
+    state: () => ({ fixedFrame: S.fixedFrame, displays: asMap(), displayList: S.displays.map((d) => ({ type: d.type, name: d.name, enabled: d.enabled, props: { ...d.props }, status: d.status })), joints: { ...S.joints }, status: lastStatus.map((x) => x.join(": ")), frames: allFrames(), tool: S.tool, view: { ...S.view } }),
     fitView, setTool, viewType: () => S.view.type, setViewType,
     // extensions (moveit-rviz.js): { group, update(), imarkers() } drawn with the scene; returns a remover
     addExtension(e) { exts.add(e); if (e.group) extG.add(e.group); refresh(); return () => { exts.delete(e); if (e.group) extG.remove(e.group); refresh(); }; },
     ghost: makeGhost, addDock, draw: () => draw(), poseOf: (f) => poses[f] || null, fixedFrame: () => S.fixedFrame, model: () => S.model,
-    displays: (type) => S.displays.filter((d) => d.type === type), rebuildIMarkers: () => { if (!imDrag) { buildIMarkers(); draw(); } }, dragging: () => !!imDrag,
+    displays: (type) => type ? S.displays.filter((d) => d.type === type) : S.displays.slice(), topicData: (topic) => topic ? S.td?.get(topic) : S.td, rebuildIMarkers: () => { if (!imDrag) { buildIMarkers(); draw(); } }, dragging: () => !!imDrag,
     setDisplayStatus(type, list) { for (const d of S.displays.filter((x) => x.type === type)) { d.status = list.map(([lv, t, k]) => st(lv, t, k)); d.extStatus = true; } renderTreeIfChanged(); },
     // used by automated tests: the same feedback a real drag or menu click would send
     testFeedback(name, event, xyz, extra = {}) { const o = imG.children.flatMap((hh) => hh.children).find((c) => c.userData.im && c.userData.im.name === name); if (!o) return false; if (xyz) o.position.set(...xyz); feedback(o.userData.im, o, event, extra); return true; },

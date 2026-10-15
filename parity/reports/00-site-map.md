@@ -135,13 +135,10 @@ Therefore, Gazebo functions as the physics/sensor backend and RViz operates as t
 ## 5. Existing Test Setup & Ground Truth Analysis
 
 ### Site Tests
-- **Vitest Unit & Integration Suites**:
+- **Node & Regression Test Suites**:
   - `tests/iface.test.mjs`: Tests ROS 2 IDL message closure and interface serialization.
   - `tests/physics.test.mjs`: Tests Gazebo Euler/Runge-Kutta physics integration.
   - `tests/tf-buffer.test.mjs`: Tests `TfBuffer` lookup, tree chaining, and exception handling.
-  - `tests/window-ros2lab.test.mjs`: Initial test verifying `window.__ros2lab` shape.
-- **Playwright E2E Suite**:
-  - `tests/e2e/fixed-frame.spec.ts`: Initial test testing Fixed Frame TF registry integration.
   - `package.json` includes `@playwright/test ^1.64.1` and `npm run dev` script (`python3 -m http.server 8000 --directory public`).
 
 ### Existing `ground-truth/` Folder
@@ -171,7 +168,7 @@ Therefore, Gazebo functions as the physics/sensor backend and RViz operates as t
 
 ## 7. Missing Test Hooks on `window.__ros2lab` (P1 Scope)
 
-While `public/js/rviz-page.js:42-101` establishes an initial implementation, the following accessors and capabilities must be completed or hardened in P1:
+In baseline 002e901, `public/js/rviz-page.js:42` defines only a minimal handle `window.__ros2lab = { term, sh };`. The full test hook suite required by P1 must be implemented, including:
 1. **Topic QoS Details**: `window.__ros2lab.topics` must expose complete QoS profiles (reliability, durability, depth, history) per topic and subscription, not just topic names.
 2. **TF Publishing Authority**: `window.__ros2lab.tf.authority` needs to record the publishing node for every frame edge to detect rogue `map` frame publishers.
 3. **Node Parameter Inspection**: `window.__ros2lab.nodes` should provide direct access to declared parameters and values per active node.

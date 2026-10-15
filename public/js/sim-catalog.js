@@ -118,5 +118,8 @@ export async function mountCatalog() {
   try { const t = localStorage.getItem("ros2lab.sim.tab"); if (t && (t === "all" || by.has(t))) active = t; } catch { /* off */ }
   const hash = location.hash.replace("#", ""); if (by.has(hash)) active = hash;
   paint();
-  window.__ros2lab = { catalog: { list, openRobot } };
+  if (typeof window !== "undefined") {
+    if (window.__ros2lab) window.__ros2lab.catalog = { list, openRobot };
+    else window.__ros2lab = { catalog: { list, openRobot } };
+  }
 }

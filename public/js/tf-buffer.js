@@ -35,7 +35,7 @@ export class TfBuffer {
     if (s) for (const fn of s) { try { fn(data); } catch (e) { console.error(e); } }
   }
 
-  setTransform(parent, child, t = [0, 0, 0], q = [0, 0, 0, 1], time = 0, isStatic = false) {
+  setTransform(parent, child, t = [0, 0, 0], q = [0, 0, 0, 1], time = 0, isStatic = false, authority = "") {
     if (!parent || !child) return false;
     const cleanP = String(parent).replace(/^\//, "");
     const cleanC = String(child).replace(/^\//, "");
@@ -49,7 +49,8 @@ export class TfBuffer {
       t: [Number(t[0] || 0), Number(t[1] || 0), Number(t[2] || 0)],
       q: [Number(q[0] || 0), Number(q[1] || 0), Number(q[2] || 0), Number(q[3] ?? 1)],
       time: time || Date.now() / 1000,
-      static: !!isStatic
+      static: !!isStatic,
+      authority: authority || prev?.authority || "default_authority"
     });
 
     if (isNew) {
@@ -57,6 +58,21 @@ export class TfBuffer {
       this.emit("framesChanged", this.allFrames());
     }
     return true;
+  }
+
+  getAllFrameNames() {
+    return this.allFrames();
+  }
+
+  get authority() {
+    const map = {};
+    for (const e of this.edgeMap.values()) {
+      if (e.authority) {
+        map[e.child] = e.authority;
+        map[`${e.parent}->${e.child}`] = e.authority;
+      }
+    }
+    return map;
   }
 
   clear() {
