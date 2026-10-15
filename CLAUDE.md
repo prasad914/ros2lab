@@ -41,3 +41,4 @@ tb3_burger, tb3_waffle, tb3_waffle_pi first; tb4 if its packages are installed; 
 
 ## Commits
 Small commits, one concern each, with tests. Do not push.
+@parity/CLAUDE.md

@@ -1,0 +1,221 @@
+# Student mistakes to reproduce in BOTH real ROS 2 Jazzy and the website.
+# Real output is captured to parity/fixtures/<robot>/<scenario>/errors/<id>.txt (copied verbatim, never paraphrased).
+# reported_real = what the research reports said real ROS does. It is a HINT for the tester, NOT ground truth:
+#   the captured fixture replaces it. Anything still uncaptured is NO-FIXTURE (PENDING).
+# browser_must: what the website must do. Always: faithful error/behaviour FIRST, beginner hint SECOND.
+
+- id: no_tb3_model
+  persona: [beginner]
+  level: 1
+  scenario: sensors
+  how: unset TURTLEBOT3_MODEL, then launch turtlebot3_gazebo turtlebot3_world.launch.py
+  reported_real: launch aborts with a Python KeyError for 'TURTLEBOT3_MODEL' (traceback not verified)
+  browser_must: fail the launch with the same traceback text, then hint "export TURTLEBOT3_MODEL=burger|waffle|waffle_pi"
+
+- id: domain_id_mismatch
+  persona: [beginner, careless]
+  level: 3
+  scenario: sensors
+  how: run teleop / ros2 topic list in a terminal with a different ROS_DOMAIN_ID from the simulation
+  reported_real: nodes and topics silently invisible, no error
+  browser_must: per-terminal environment; empty topic list across domains; hint after a delay
+
+- id: twist_not_stamped
+  persona: [intermediate]
+  level: 3
+  scenario: sensors
+  how: publish geometry_msgs/msg/Twist on /cmd_vel instead of TwistStamped
+  reported_real: robot does not move; ros2 topic info -v shows both types; no obvious error
+  browser_must: robot stays still; topic info shows the two types; hint after ~5 s
+
+- id: wrong_fixed_frame
+  persona: [beginner]
+  level: 1
+  scenario: sensors
+  how: set RViz Fixed Frame to map before SLAM/AMCL is running
+  reported_real: Global Status error "Frame [map] does not exist" (exact text to capture)
+  browser_must: same Global Status text; odom and base_link still selectable and working
+
+- id: fixed_frame_typed_unknown
+  persona: [careless]
+  level: 1
+  scenario: sensors
+  how: type a frame name that does not exist (e.g. base) into Fixed Frame
+  reported_real: Global Status error for the missing frame
+  browser_must: accept the free text and show the same error
+
+- id: pointcloud_on_burger
+  persona: [beginner, careless]
+  level: 2
+  scenario: sensors
+  how: add a PointCloud2 display on tb3_burger (by topic, then by typing a topic name)
+  reported_real: no PointCloud2 topic in Add-by-topic; typed topic shows warning, no data
+  browser_must: same; never fake points; note "standard TurtleBot3 has no depth camera"
+
+- id: pointcloud_on_scan
+  persona: [careless]
+  level: 2
+  scenario: sensors
+  how: set a PointCloud2 display's topic to /scan
+  reported_real: type mismatch (LaserScan is not PointCloud2), display error
+  browser_must: same error; hint to use the LaserScan display
+
+- id: image_on_burger
+  persona: [beginner]
+  level: 2
+  scenario: sensors
+  how: add an Image display on tb3_burger
+  reported_real: no image topic exists; Image display shows "No Image"
+  browser_must: same; teaching note that Burger has no camera
+
+- id: image_qos_mismatch
+  persona: [intermediate]
+  level: 2
+  scenario: sensors
+  how: subscribe to /camera/image_raw with Reliable when the publisher is Best Effort (waffle/waffle_pi) – capture actual publisher QoS first
+  reported_real: no images, incompatible-QoS warning (only if the publisher really is best effort)
+  browser_must: apply DDS compatibility rules exactly as captured
+
+- id: camera_display_no_info
+  persona: [intermediate]
+  level: 2
+  scenario: sensors
+  how: point a Camera display at an image topic without matching camera_info
+  reported_real: Camera display status error about missing CameraInfo
+  browser_must: same status text
+
+- id: missing_static_tf
+  persona: [advanced]
+  level: 1
+  scenario: sensors
+  how: stop robot_state_publisher while LaserScan display is on
+  reported_real: LaserScan warning like "Message Filter dropping message - frame base_scan ... discarding message because the queue is full" (to capture)
+  browser_must: same warning on the LaserScan display
+
+- id: gazebo_paused
+  persona: [careless]
+  level: 3
+  scenario: sensors
+  how: pause the simulation, then try to drive
+  reported_real: /clock frozen, nothing moves
+  browser_must: freeze sim time; hint to unpause
+
+- id: bridge_topic_missing
+  persona: [advanced]
+  level: 2
+  scenario: sensors
+  how: run a ros_gz_bridge config without the /scan entry
+  reported_real: /scan absent from ros2 topic list
+  browser_must: bridge YAML view drives topic existence; /scan absent
+
+- id: duplicate_node_names
+  persona: [careless]
+  level: 3
+  scenario: sensors
+  how: start two teleop nodes with the same name
+  reported_real: warning that nodes share an exact name (to capture)
+  browser_must: same warning text
+
+- id: map_volatile
+  persona: [intermediate]
+  level: 4
+  scenario: slam
+  how: Map display on /map with Durability Volatile, added after the map was first published
+  reported_real: Map display shows "No map received" until the next map publish (to capture)
+  browser_must: same; Transient Local fixes it
+
+- id: map_not_saved
+  persona: [careless]
+  level: 4
+  scenario: slam
+  how: stop SLAM without running map_saver_cli
+  reported_real: map lost, no files
+  browser_must: session ends with no map file; hint shows map_saver_cli command
+
+- id: pose_estimate_during_slam
+  persona: [beginner]
+  level: 4
+  scenario: slam
+  how: use 2D Pose Estimate while SLAM Toolbox is mapping (no AMCL)
+  reported_real: no localisation change (nothing subscribes /initialpose in mapping mode – capture ros2 topic info /initialpose)
+  browser_must: same subscriber count and no effect
+
+- id: goal_before_initial_pose
+  persona: [beginner, careless]
+  level: 5
+  scenario: nav_robotis
+  how: send 2D Goal Pose before 2D Pose Estimate
+  reported_real: no map frame / wrong pose; messages like "Robot is out of bounds of the costmap!" or start-off-costmap planner error (to capture)
+  browser_must: same messages in the same order
+
+- id: bad_map_path
+  persona: [beginner, careless]
+  level: 5
+  scenario: nav_robotis
+  how: pass a map:= path that does not exist
+  reported_real: map_server fails to configure; lifecycle stays inactive (text to capture)
+  browser_must: same lifecycle failure and log text
+
+- id: slam_and_amcl
+  persona: [intermediate]
+  level: 5
+  scenario: nav_robotis
+  how: run slam_toolbox while AMCL is also running
+  reported_real: two publishers of map->odom, robot jumps
+  browser_must: TF authority conflict visible in TF panel; same jumping behaviour
+
+- id: use_sim_time_false
+  persona: [intermediate, advanced]
+  level: 5
+  scenario: nav_robotis
+  how: launch navigation2 with use_sim_time:=False against Gazebo
+  reported_real: TF "extrapolation into the future/past" errors, message-filter drops (to capture)
+  browser_must: same errors
+
+- id: lifecycle_inactive
+  persona: [advanced]
+  level: 5
+  scenario: nav2_bringup
+  how: start Nav2 with autostart:=False and send a goal
+  reported_real: actions unavailable / goal rejected, nodes inactive
+  browser_must: Nav2 panel shows inactive; goal rejected with same text
+
+- id: goal_in_obstacle
+  persona: [beginner]
+  level: 7
+  scenario: nav_robotis
+  how: send a goal inside a lethal cell
+  reported_real: planner fails ("failed to create plan" style message, to capture) then recoveries
+  browser_must: same message, recovery animation
+
+- id: planner_switch_no_effect
+  persona: [intermediate]
+  level: 7
+  scenario: nav2_bringup
+  how: switch planner NavFn -> Smac2D -> ThetaStar and send the same goal
+  reported_real: /plan differs between planners
+  browser_must: /plan differs; identical paths = FAIL (selector not wired)
+
+- id: recovery_spin_loop
+  persona: [intermediate]
+  level: 9
+  scenario: nav_robotis
+  how: set inflation_radius so large the robot is inside inscribed cost, then send a goal
+  reported_real: repeated spin/backup recoveries and plan failures (to capture)
+  browser_must: same sequence in the BT/log view
+
+- id: teleop_during_nav
+  persona: [careless]
+  level: 8
+  scenario: nav_robotis
+  how: leave teleop publishing /cmd_vel while Nav2 is driving
+  reported_real: competing commands, jittery motion
+  browser_must: two publishers on /cmd_vel shown; same jitter
+
+- id: namespace_tf_prefix
+  persona: [advanced]
+  level: 10
+  scenario: nav2_bringup
+  how: run a namespaced robot but keep un-prefixed frame ids in params
+  reported_real: TF lookups fail for the namespaced frames (to capture)
+  browser_must: same failures

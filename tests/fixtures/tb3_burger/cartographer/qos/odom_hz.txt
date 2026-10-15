@@ -1,0 +1,14 @@
+[37;1m2026-10-15 12:49:59.733 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7003: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+average rate: 15.176
+	min: 0.001s max: 0.321s std dev: 0.08396s window: 19
+average rate: 18.581
+	min: 0.001s max: 0.321s std dev: 0.06445s window: 42
+average rate: 17.251
+	min: 0.001s max: 0.358s std dev: 0.07279s window: 50
+average rate: 23.450
+	min: 0.001s max: 0.358s std dev: 0.05684s window: 50
+average rate: 25.757
+	min: 0.001s max: 0.199s std dev: 0.04231s window: 50
+average rate: 21.405
+	min: 0.001s max: 0.236s std dev: 0.05788s window: 50
+failed to initialize wait set: the given context is not valid, either rcl_init() was not called or rcl_shutdown() was called., at ./src/rcl/wait.c:130

@@ -1,0 +1,14 @@
+# Pass thresholds for the parity judge. The instructor sets these; Claude must not change them.
+# Leave a value as null to have the judge report raw numbers and mark PASS/FAIL as PENDING.
+interface_parity_pct: null        # e.g. 100 for topic names+types
+qos_parity_pct: null
+tf_parity: exact                  # same frame set and parent/child edges
+error_text_match: exact_or_normalised
+path_length_ratio_max_dev: null   # e.g. 0.10 = within ±10 % of real /plan length
+path_frechet_max_m: null
+trajectory_rmse_max_m: null
+costmap_cell_agreement_min_pct: null
+costmap_lethal_iou_min: null
+amcl_convergence_time_max_ratio: null
+amcl_final_error_max_m: null
+runs_per_stochastic_test: 10

@@ -1,0 +1,66 @@
+Type: geometry_msgs/msg/TwistStamped
+
+Publisher count: 3
+
+Node name: collision_monitor
+Node namespace: /
+Topic type: geometry_msgs/msg/TwistStamped
+Topic type hash: RIHS01_5f0fcd4f81d5d06ad9b4c4c63e3ea51b82d6ae4d0558f1d475229b1121db6f64
+Endpoint type: PUBLISHER
+GID: 01.0f.d3.65.7a.82.15.f3.00.00.00.00.00.00.25.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: docking_server
+Node namespace: /
+Topic type: geometry_msgs/msg/TwistStamped
+Topic type hash: RIHS01_5f0fcd4f81d5d06ad9b4c4c63e3ea51b82d6ae4d0558f1d475229b1121db6f64
+Endpoint type: PUBLISHER
+GID: 01.0f.d3.65.87.82.d5.fc.00.00.00.00.00.00.20.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: cmd_vel_bridge
+Node namespace: /
+Topic type: geometry_msgs/msg/TwistStamped
+Topic type hash: RIHS01_5f0fcd4f81d5d06ad9b4c4c63e3ea51b82d6ae4d0558f1d475229b1121db6f64
+Endpoint type: PUBLISHER
+GID: 01.0f.d3.65.f1.81.44.cd.00.00.00.00.00.00.15.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: motion_control
+Node namespace: /
+Topic type: geometry_msgs/msg/TwistStamped
+Topic type hash: RIHS01_5f0fcd4f81d5d06ad9b4c4c63e3ea51b82d6ae4d0558f1d475229b1121db6f64
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.d3.65.1b.82.54.e7.00.00.00.00.00.00.58.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+

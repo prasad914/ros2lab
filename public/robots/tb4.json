@@ -1,0 +1,30 @@
+{
+  "id": "tb4",
+  "name": "TurtleBot4",
+  "category": "mobile",
+  "fixedFrame": "odom",
+  "sensors": [
+    { "name": "rplidar", "type": "sensor_msgs/msg/LaserScan", "topic": "/scan", "frame_id": "rplidar_link", "rate": 10 },
+    { "name": "oakd", "type": "sensor_msgs/msg/Image", "topic": "/oakd/rgb/preview/image_raw", "frame_id": "oakd_rgb_camera_frame", "rate": 30 },
+    { "name": "odom", "type": "nav_msgs/msg/Odometry", "topic": "/odom", "frame_id": "odom", "rate": 30 }
+  ],
+  "topics": [
+    { "name": "/clock", "type": "rosgraph_msgs/msg/Clock", "qos": "transient_local" },
+    { "name": "/cmd_vel", "type": "geometry_msgs/msg/Twist", "qos": "reliable" },
+    { "name": "/odom", "type": "nav_msgs/msg/Odometry", "qos": "best_effort" },
+    { "name": "/scan", "type": "sensor_msgs/msg/LaserScan", "qos": "best_effort" },
+    { "name": "/tf", "type": "tf2_msgs/msg/TFMessage", "qos": "reliable" },
+    { "name": "/tf_static", "type": "tf2_msgs/msg/TFMessage", "qos": "transient_local" }
+  ],
+  "frames": [
+    "odom",
+    "base_footprint",
+    "base_link",
+    "rplidar_link",
+    "oakd_rgb_camera_frame",
+    "left_wheel_link",
+    "right_wheel_link"
+  ],
+  "package_version": "1.0.0",
+  "source_path": "tests/fixtures/tb4/"
+}

@@ -1,0 +1,14 @@
+[37;1m2026-10-15 12:50:26.561 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7003: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+average rate: 194.048
+	min: 0.001s max: 0.021s std dev: 0.00559s window: 50
+average rate: 160.136
+	min: 0.000s max: 0.030s std dev: 0.00776s window: 50
+average rate: 132.301
+	min: 0.001s max: 0.053s std dev: 0.01109s window: 50
+average rate: 178.499
+	min: 0.001s max: 0.033s std dev: 0.00618s window: 50
+average rate: 150.734
+	min: 0.001s max: 0.031s std dev: 0.00741s window: 50
+average rate: 158.569
+	min: 0.001s max: 0.037s std dev: 0.00802s window: 50
+failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:333

@@ -1,5 +1,5 @@
 # Facts from installed Jazzy packages
-Generated 2026-10-15T11:47:13+05:30. Raw grep output – read it, do not assume.
+Generated 2026-10-15T13:24:27+05:30. Raw grep output – read it, do not assume.
 
 ## Optional packages present?
 ```
@@ -11,9 +11,9 @@ INSTALLED: nav2_mppi_controller
 INSTALLED: nav2_regulated_pure_pursuit_controller
 INSTALLED: nav2_theta_star_planner
 INSTALLED: nav2_smac_planner
-NOT INSTALLED: nav2_loopback_sim
+INSTALLED: nav2_loopback_sim
 INSTALLED: nav2_collision_monitor
-NOT INSTALLED: turtlebot4_gz_bringup
+INSTALLED: turtlebot4_gz_bringup
 INSTALLED: rosbridge_server
 INSTALLED: foxglove_bridge
 INSTALLED: robot_localization
@@ -62,6 +62,17 @@ tests/fixtures/_installed/turtlebot3_gazebo/params/turtlebot3_waffle_pi_bridge.y
 
 ## enable_stamped_cmd_vel in installed params
 ```
+tests/fixtures/_installed/turtlebot4_navigation/config/nav2.yaml:3:    enable_stamped_cmd_vel: true
+tests/fixtures/_installed/turtlebot4_navigation/config/nav2.yaml:22:    enable_stamped_cmd_vel: true
+tests/fixtures/_installed/turtlebot4_navigation/config/nav2.yaml:129:      enable_stamped_cmd_vel: true
+tests/fixtures/_installed/turtlebot4_navigation/config/nav2.yaml:179:      enable_stamped_cmd_vel: true
+tests/fixtures/_installed/turtlebot4_navigation/config/nav2.yaml:220:    enable_stamped_cmd_vel: true
+tests/fixtures/_installed/turtlebot4_navigation/config/nav2.yaml:231:    enable_stamped_cmd_vel: true
+tests/fixtures/_installed/turtlebot4_navigation/config/nav2.yaml:241:    enable_stamped_cmd_vel: true
+tests/fixtures/_installed/turtlebot4_navigation/config/nav2.yaml:269:    enable_stamped_cmd_vel: true
+tests/fixtures/_installed/turtlebot4_navigation/config/nav2.yaml:281:    enable_stamped_cmd_vel: true
+tests/fixtures/_installed/turtlebot4_navigation/config/nav2.yaml:296:    enable_stamped_cmd_vel: true
+tests/fixtures/_installed/turtlebot4_navigation/config/nav2.yaml:328:    enable_stamped_cmd_vel: true
 tests/fixtures/_installed/turtlebot3_navigation2/param/waffle.yaml:99:    enable_stamped_cmd_vel: true
 tests/fixtures/_installed/turtlebot3_navigation2/param/waffle.yaml:161:    enable_stamped_cmd_vel: true
 tests/fixtures/_installed/turtlebot3_navigation2/param/waffle.yaml:317:    enable_stamped_cmd_vel: true

@@ -1,0 +1,36 @@
+Type: turtlebot4_msgs/msg/UserButton
+
+Publisher count: 1
+
+Node name: turtlebot4_gz_hmi_node
+Node namespace: /
+Topic type: turtlebot4_msgs/msg/UserButton
+Topic type hash: RIHS01_e07447eabadb14c08c03e8e92c434891a6220a72d700766012ebc07e69212236
+Endpoint type: PUBLISHER
+GID: 01.0f.d3.65.17.82.fe.30.00.00.00.00.00.00.16.03
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: turtlebot4_node
+Node namespace: /
+Topic type: turtlebot4_msgs/msg/UserButton
+Topic type hash: RIHS01_e07447eabadb14c08c03e8e92c434891a6220a72d700766012ebc07e69212236
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.d3.65.14.82.f9.4b.00.00.00.00.00.00.47.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+

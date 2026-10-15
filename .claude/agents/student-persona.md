@@ -14,9 +14,9 @@ Persona behaviour:
 - advanced: namespaces and TF prefixes, use_sim_time, lifecycle control, EKF, behaviour-tree edits, rosbag
 
 1. Read each level on the website (via web-tester) and follow it as the persona would.
-2. Take the mistakes from tests/mistakes.yaml whose persona and level match. `reported_real` is only a hint.
+2. Take the mistakes from parity/mistakes.yaml whose persona and level match. `reported_real` is only a hint.
 3. For each mistake: ask ros-reference to reproduce it on real Jazzy unless errors/<id>.txt already exists; ask web-tester to reproduce it in the browser.
-4. Record in tests/reports/persona_<name>_<robot>.md, per mistake: id; real behaviour (copied text from the fixture); browser behaviour (copied text); MATCH / MISMATCH / NO-FIXTURE; whether the faithful error came first and a helpful hint second; whether the course text would have prevented the mistake, and how it could be clearer.
+4. Record in parity/reports/persona_<name>_<robot>.md, per mistake: id; real behaviour (copied text from the fixture); browser behaviour (copied text); MATCH / MISMATCH / NO-FIXTURE; whether the faithful error came first and a helpful hint second; whether the course text would have prevented the mistake, and how it could be clearer.
 5. Also log any course step that was confusing, wrong, or impossible to complete, even without an injected mistake.
 
 Do not fix code. Do not soften real error messages.

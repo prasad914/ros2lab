@@ -1,0 +1,81 @@
+Type: sensor_msgs/msg/JointState
+
+Publisher count: 1
+
+Node name: joint_state_publisher
+Node namespace: /
+Topic type: sensor_msgs/msg/JointState
+Topic type hash: RIHS01_a13ee3a330e346c9d87b5aa18d24e11690752bd33a0350f11c5882bc9179260e
+Endpoint type: PUBLISHER
+GID: 01.0f.d3.65.ec.81.3f.9a.00.00.00.00.00.00.15.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 4
+
+Node name: pose_republisher_node
+Node namespace: /
+Topic type: sensor_msgs/msg/JointState
+Topic type hash: RIHS01_a13ee3a330e346c9d87b5aa18d24e11690752bd33a0350f11c5882bc9179260e
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.d3.65.31.82.60.9a.00.00.00.00.00.00.1c.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: sensors_node
+Node namespace: /
+Topic type: sensor_msgs/msg/JointState
+Topic type hash: RIHS01_a13ee3a330e346c9d87b5aa18d24e11690752bd33a0350f11c5882bc9179260e
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.d3.65.34.82.46.90.00.00.00.00.00.00.35.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: robot_state_publisher
+Node namespace: /
+Topic type: sensor_msgs/msg/JointState
+Topic type hash: RIHS01_a13ee3a330e346c9d87b5aa18d24e11690752bd33a0350f11c5882bc9179260e
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.d3.65.eb.81.bf.f1.00.00.00.00.00.00.18.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: dock_state_publisher
+Node namespace: /
+Topic type: sensor_msgs/msg/JointState
+Topic type hash: RIHS01_a13ee3a330e346c9d87b5aa18d24e11690752bd33a0350f11c5882bc9179260e
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.d3.65.ed.81.40.65.00.00.00.00.00.00.18.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+

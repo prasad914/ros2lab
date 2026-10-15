@@ -1,0 +1,111 @@
+Type: nav_msgs/msg/OccupancyGrid
+
+Publisher count: 2
+
+Node name: slam_toolbox
+Node namespace: /
+Topic type: nav_msgs/msg/OccupancyGrid
+Topic type hash: RIHS01_8d348150c12913a31ee0ec170fbf25089e4745d17035792a1ba94d6f0bc0cfc7
+Endpoint type: PUBLISHER
+GID: 01.0f.d3.65.d8.59.36.a7.00.00.00.00.00.00.38.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: slam_toolbox
+Node namespace: /
+Topic type: nav_msgs/msg/OccupancyGrid
+Topic type hash: RIHS01_8d348150c12913a31ee0ec170fbf25089e4745d17035792a1ba94d6f0bc0cfc7
+Endpoint type: PUBLISHER
+GID: 01.0f.d3.65.f8.5c.92.03.00.00.00.00.00.00.38.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 5
+
+Node name: rosbag2_recorder
+Node namespace: /
+Topic type: nav_msgs/msg/OccupancyGrid
+Topic type hash: RIHS01_8d348150c12913a31ee0ec170fbf25089e4745d17035792a1ba94d6f0bc0cfc7
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.d3.65.49.5d.f8.d0.00.00.00.00.00.00.28.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: rosbag2_recorder
+Node namespace: /
+Topic type: nav_msgs/msg/OccupancyGrid
+Topic type hash: RIHS01_8d348150c12913a31ee0ec170fbf25089e4745d17035792a1ba94d6f0bc0cfc7
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.d3.65.a6.5b.e7.38.00.00.00.00.00.00.2b.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: rosbag2_recorder
+Node namespace: /
+Topic type: nav_msgs/msg/OccupancyGrid
+Topic type hash: RIHS01_8d348150c12913a31ee0ec170fbf25089e4745d17035792a1ba94d6f0bc0cfc7
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.d3.65.c5.5f.68.97.00.00.00.00.00.00.2e.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: slam_toolbox
+Node namespace: /
+Topic type: nav_msgs/msg/OccupancyGrid
+Topic type hash: RIHS01_8d348150c12913a31ee0ec170fbf25089e4745d17035792a1ba94d6f0bc0cfc7
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.d3.65.d8.59.36.a7.00.00.00.00.00.00.29.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: slam_toolbox
+Node namespace: /
+Topic type: nav_msgs/msg/OccupancyGrid
+Topic type hash: RIHS01_8d348150c12913a31ee0ec170fbf25089e4745d17035792a1ba94d6f0bc0cfc7
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.d3.65.f8.5c.92.03.00.00.00.00.00.00.29.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+

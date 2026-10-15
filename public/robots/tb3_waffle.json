@@ -1,0 +1,40 @@
+{
+  "id": "tb3_waffle",
+  "name": "TurtleBot3 Waffle",
+  "category": "mobile",
+  "fixedFrame": "odom",
+  "sensors": [
+    { "name": "base_scan", "type": "sensor_msgs/msg/LaserScan", "topic": "/scan", "frame_id": "base_scan", "rate": 10 },
+    { "name": "imu", "type": "sensor_msgs/msg/Imu", "topic": "/imu", "frame_id": "imu_link", "rate": 50 },
+    { "name": "odom", "type": "nav_msgs/msg/Odometry", "topic": "/odom", "frame_id": "odom", "rate": 30 },
+    { "name": "camera_rgb", "type": "sensor_msgs/msg/Image", "topic": "/camera/image_raw", "frame_id": "camera_rgb_frame", "rate": 30 }
+  ],
+  "topics": [
+    { "name": "/camera/camera_info", "type": "sensor_msgs/msg/CameraInfo", "qos": "reliable" },
+    { "name": "/camera/image_raw", "type": "sensor_msgs/msg/Image", "qos": "reliable" },
+    { "name": "/clock", "type": "rosgraph_msgs/msg/Clock", "qos": "transient_local" },
+    { "name": "/cmd_vel", "type": "geometry_msgs/msg/TwistStamped", "qos": "reliable" },
+    { "name": "/imu", "type": "sensor_msgs/msg/Imu", "qos": "best_effort" },
+    { "name": "/joint_states", "type": "sensor_msgs/msg/JointState", "qos": "reliable" },
+    { "name": "/odom", "type": "nav_msgs/msg/Odometry", "qos": "best_effort" },
+    { "name": "/scan", "type": "sensor_msgs/msg/LaserScan", "qos": "best_effort" },
+    { "name": "/tf", "type": "tf2_msgs/msg/TFMessage", "qos": "reliable" },
+    { "name": "/tf_static", "type": "tf2_msgs/msg/TFMessage", "qos": "transient_local" }
+  ],
+  "frames": [
+    "odom",
+    "base_footprint",
+    "base_link",
+    "base_scan",
+    "imu_link",
+    "camera_link",
+    "camera_rgb_frame",
+    "camera_rgb_optical_frame",
+    "caster_back_left_link",
+    "caster_back_right_link",
+    "wheel_left_link",
+    "wheel_right_link"
+  ],
+  "package_version": "1.3.13",
+  "source_path": "tests/fixtures/tb3_waffle/"
+}

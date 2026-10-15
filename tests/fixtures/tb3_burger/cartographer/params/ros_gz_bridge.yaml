@@ -1,0 +1,73 @@
+[37;1m2026-10-15 12:52:17.618 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7003: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+/ros_gz_bridge:
+  ros__parameters:
+    bridge_names: []
+    config_file: /opt/ros/jazzy/share/turtlebot3_gazebo/params/turtlebot3_burger_bridge.yaml
+    expand_gz_topic_names: false
+    lazy: false
+    override_frame_id: ''
+    override_timestamps_with_wall_time: false
+    qos_overrides:
+      /clock:
+        publisher:
+          deadline: 0
+          depth: 10
+          durability: volatile
+          history: keep_last
+          liveliness: system_default
+          reliability: reliable
+      /cmd_vel:
+        subscription:
+          depth: 10
+          history: keep_last
+          reliability: reliable
+      /imu:
+        publisher:
+          deadline: 0
+          depth: 10
+          durability: volatile
+          history: keep_last
+          liveliness: system_default
+          reliability: reliable
+      /joint_states:
+        publisher:
+          deadline: 0
+          depth: 10
+          durability: volatile
+          history: keep_last
+          liveliness: system_default
+          reliability: reliable
+      /odom:
+        publisher:
+          deadline: 0
+          depth: 10
+          durability: volatile
+          history: keep_last
+          liveliness: system_default
+          reliability: reliable
+      /parameter_events:
+        publisher:
+          depth: 1000
+          durability: volatile
+          history: keep_last
+          reliability: reliable
+      /scan:
+        publisher:
+          deadline: 0
+          depth: 10
+          durability: volatile
+          history: keep_last
+          liveliness: system_default
+          reliability: reliable
+      /tf:
+        publisher:
+          deadline: 0
+          depth: 10
+          durability: volatile
+          history: keep_last
+          liveliness: system_default
+          reliability: reliable
+    start_type_description_service: true
+    subscription_heartbeat: 1000
+    use_sim_time: false
+

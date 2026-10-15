@@ -39,7 +39,66 @@ const term = mountTerminal($("term"), {
   fs: { dirs: [`${WS}/src`], files: {} },
 });
 const sh = term.shell;
-window.__ros2lab = { term, sh };   // for automated checks (tools/) and the browser console
+window.__ros2lab = {
+  get term() { return term; },
+  get sh() { return sh; },
+  get topics() { return sh.graph?.topics || sh.topics || []; },
+  get tf() {
+    const v = window.__rvizViewers?.[0];
+    const buf = sh.graph?.tf || v?.tfBuffer || null;
+    return {
+      frames: v ? v.state()?.frames : (buf ? buf.allFrames() : []),
+      edges: buf ? buf.edges() : [],
+      authority: buf?.authority || {}
+    };
+  },
+  get fixedFrame() {
+    const v = window.__rvizViewers?.[0];
+    return {
+      selected: v?.fixedFrame?.() || "map",
+      options: v ? v.state()?.frames : []
+    };
+  },
+  get nodes() { return sh.graph?.nodes || []; },
+  get lifecycleStates() {
+    const sys = sh.graph?.nav2;
+    return sys?.models ? sys.models.map(m => ({ role: m.role, state: m.state })) : [];
+  },
+  get rvizStatus() {
+    const v = window.__rvizViewers?.[0];
+    return {
+      globalStatus: v?.globalStatus?.() || "OK",
+      displays: v?.displays?.() || []
+    };
+  },
+  get logs() { return term?.logs || sh?.logs || []; },
+  get nav2() {
+    const sys = sh.graph?.nav2;
+    return {
+      plan: sys?.plan || null,
+      localPlan: sys?.localPlan || null,
+      amclPose: sys?.amclPose || null,
+      particleCount: sys?.amcl?.pf?.particles?.length || 0,
+      poseHistory: sys?.poseHistory || [],
+      amclPoseHistory: sys?.amclPoseHistory || [],
+      globalCostmap: sys?.globalCostmap || null,
+      localCostmap: sys?.localCostmap || null
+    };
+  },
+  get sensors() {
+    return {
+      cameraInfo: sh.graph?.cameraInfo || null,
+      imageInfo: sh.graph?.imageInfo || null,
+      pointCloud2: sh.graph?.pointCloud2 || null
+    };
+  },
+  get course() {
+    return {
+      level: window.__ros2labCourseLevel || 1,
+      locks: window.__ros2labCourseLocks || {}
+    };
+  }
+};   // for automated checks (tools/) and the browser console
 let current = null;   // { name, files, main, launches }
 
 function writePackage(p) {
