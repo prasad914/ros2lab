@@ -435,6 +435,56 @@ export function rppCommand(P, st) {
   for (let k = 0; k < 10; k++) { th += w * 0.1; x += v * Math.cos(th) * 0.1; y += v * Math.sin(th) * 0.1; const c = cost(x, y); if (c >= INSCRIBED && c !== NO_INFO) return { vx: 0, wz: 0, noValid: true }; }
   return { vx: v, wz: Math.max(-num(P.max_angular_accel, 3.2) * 10, Math.min(num(P.max_angular_accel, 3.2) * 10, w)) };
 }
+// nav2_mppi_controller (Model Predictive Path Integral): sample trajectories, evaluate cost on costmap, softmax weights
+export function mppiCommand(P, st) {
+  const { pose, vel, path, cost, dt, goalPose, xyTol } = st;
+  const dGoal = Math.hypot(goalPose.x - pose.x, goalPose.y - pose.y);
+  const maxV = num(P.vx_max ?? P.max_vel_x, 0.5), minV = num(P.vx_min ?? P.min_vel_x, 0);
+  const maxW = num(P.wz_max ?? P.max_vel_theta, 1.8);
+  const batchSize = Math.max(8, num(P.batch_size, 32));
+  const timeSteps = Math.max(6, num(P.time_steps, 15));
+  const modelDt = num(P.model_dt, 0.05);
+  const lambda = num(P.temperature, 0.3);
+
+  if (dGoal <= xyTol || st.latched) {
+    const e = wrap(goalPose.yaw - pose.yaw);
+    return { vx: 0, wz: Math.sign(e) * Math.min(maxW, Math.abs(e) * 2.0), rotating: true };
+  }
+  const local = st.localPath;
+  let target = local[local.length - 1] || [goalPose.x, goalPose.y];
+  const lookahead = Math.min(1.2, Math.max(0.4, vel.vx * 1.5));
+  for (const p of local) { if (Math.hypot(p[0] - pose.x, p[1] - pose.y) >= lookahead) { target = p; break; } }
+  const dx = target[0] - pose.x, dy = target[1] - pose.y;
+  const angleToTarget = wrap(Math.atan2(dy, dx) - pose.yaw);
+  const nomV = Math.max(minV, Math.min(maxV, dGoal > 0.5 ? maxV : maxV * (dGoal / 0.5)));
+  const nomW = Math.max(-maxW, Math.min(maxW, angleToTarget * 2.5));
+
+  const trajectories = []; let minCost = Infinity;
+  for (let i = 0; i < batchSize; i++) {
+    const dv = (i === 0) ? 0 : ((Math.sin(i * 12.9898 + pose.x) * 43758.5453) % 1) * 0.4 - 0.2;
+    const dw = (i === 0) ? 0 : ((Math.cos(i * 78.233 + pose.y) * 43758.5453) % 1) * 0.8 - 0.4;
+    const vSample = Math.max(minV, Math.min(maxV, nomV + dv));
+    const wSample = Math.max(-maxW, Math.min(maxW, nomW + dw));
+    let x = pose.x, y = pose.y, th = pose.yaw, trajCost = 0, collision = false;
+    for (let k = 0; k < timeSteps; k++) {
+      th += wSample * modelDt; x += vSample * Math.cos(th) * modelDt; y += vSample * Math.sin(th) * modelDt;
+      const c = cost(x, y);
+      if (c >= INSCRIBED && c !== NO_INFO) { collision = true; break; }
+      if (c > 0 && c < INSCRIBED) trajCost += c * 0.1;
+      trajCost += Math.hypot(x - target[0], y - target[1]) * 2.0;
+    }
+    if (collision) trajCost = 1e6; else if (trajCost < minCost) minCost = trajCost;
+    trajectories.push({ v: vSample, w: wSample, cost: trajCost, collision });
+  }
+  let sumWeight = 0, weightedV = 0, weightedW = 0;
+  for (const tr of trajectories) {
+    if (tr.collision) continue;
+    const w = Math.exp(-(tr.cost - minCost) / lambda);
+    sumWeight += w; weightedV += w * tr.v; weightedW += w * tr.w;
+  }
+  if (sumWeight <= 1e-6 || minCost >= 1e6) return { vx: 0, wz: 0, noValid: true };
+  return { vx: weightedV / sumWeight, wz: weightedW / sumWeight };
+}
 
 // ---------------------------------------------------------------- AMCL (nav2_amcl: likelihood field + differential motion model)
 // distance (m) from every cell to the nearest occupied cell, capped at maxDist (map_t's likelihood field)

@@ -1452,10 +1452,31 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
       if (c !== undefined) return at(c);
       // an installed package's share folder (official workspaces, /opt/ros/jazzy)
       for (const root of [`${HOME}/ros2_ws/install/${m[1]}/share/${m[1]}`, `/opt/ros/jazzy/share/${m[1]}`]) { const n = sh.node(`${root}/${m[2]}/${m[3]}`); if (n && n.type === "f") return at(n.content); }
+      const sub = `/${m[1]}/${m[2]}/${m[3]}`;
+      for (const [k, n] of sh.fs) { if (n && n.type === "f" && k.endsWith(sub)) return at(n.content); }
       return null;
     }
     m = str.match(/^model:\/\/([\w-]+)\/(.+)$/);   // Gazebo model:// URIs, through GZ_SIM_RESOURCE_PATH
-    if (m) for (const d of String((sh.graph && sh.graph.gz && sh.graph.gz.env && sh.graph.gz.env.GZ_SIM_RESOURCE_PATH) || sh.env.GZ_SIM_RESOURCE_PATH || "").split(":").filter(Boolean)) { const n = sh.node(`${d}/${m[1]}/${m[2]}`); if (n && n.type === "f") return at(n.content); }
+    if (m) {
+      const dirs = [
+        ...String((sh.graph && sh.graph.gz && sh.graph.gz.env && sh.graph.gz.env.GZ_SIM_RESOURCE_PATH) || sh.env.GZ_SIM_RESOURCE_PATH || "").split(":"),
+        ...String((sh.graph && sh.graph.gz && sh.graph.gz.env && sh.graph.gz.env.IGN_GAZEBO_RESOURCE_PATH) || sh.env.IGN_GAZEBO_RESOURCE_PATH || "").split(":"),
+        ...String((sh.graph && sh.graph.gz && sh.graph.gz.env && sh.graph.gz.env.SDF_PATH) || sh.env.SDF_PATH || "").split(":"),
+        `${HOME}/ros2_ws/install/${m[1]}/share/${m[1]}/models`,
+        `${HOME}/ros2_ws/install/turtlebot3_gazebo/share/turtlebot3_gazebo/models`,
+        `${HOME}/ros2_ws/install/turtlebot3_common/share/turtlebot3_common/models`,
+        `${HOME}/ros2_ws/install/${m[1]}/share/${m[1]}`,
+        `${HOME}/ros2_ws/src/turtlebot3/turtlebot3_simulations/turtlebot3_gazebo/models`,
+        `/opt/ros/jazzy/share/${m[1]}/models`,
+        `/opt/ros/jazzy/share/${m[1]}`,
+      ].filter(Boolean);
+      for (const d of dirs) {
+        const n = sh.node(`${d}/${m[1]}/${m[2]}`) || sh.node(`${d}/${m[2]}`);
+        if (n && n.type === "f") return at(n.content);
+      }
+      const sub = `/${m[1]}/${m[2]}`;
+      for (const [k, n] of sh.fs) { if (n && n.type === "f" && k.endsWith(sub)) return at(n.content); }
+    }
     m = str.match(/^file:\/\/(\/.+)$/) || str.match(/^(\/.+)$/);
     if (m) { const n = sh.node(m[1]); return n && n.type === "f" ? at(n.content) : null; }
     return null;
@@ -1482,7 +1503,16 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
   function rvizPublished(topic, type, msg) {
     sh.viz.published = sh.viz.published || {};
     sh.viz.published[topic] = { type, msg };
-    if (sh.graph) sh.graph.lastPub = { topic, type };
+    if (sh.graph) {
+      sh.graph.lastPub = { topic, type };
+      sh.graph.lastPubMsg = { topic, type, msg };
+      if (sh.graph.nav2Api && sh.graph.nav2) {
+        sh.graph.nav2Api.nav2Topic(sh.graph, topic, type, msg);
+      }
+      if (sh.graph.pubOther) {
+        sh.graph.pubOther(topic, type, msg, true);
+      }
+    }
     addLine({ text: `(RViz published a ${type.split("/").pop()} on ${topic}. Try: ros2 topic echo ${topic})`, cls: "hint" }); scroll();
     afterCommand("");
   }

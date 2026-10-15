@@ -589,7 +589,7 @@ class ControllerServer extends NavNode {
     const local = []; for (let i = ci; i < pts.length; i++) { const p = pts[i]; if (!inGrid(p)) break; local.push([p.x, p.y]); }
     const cp = this.P[J.id] || {}, pl = String(cp.plugin || "dwb_core::DWBLocalPlanner");
     const st = { pose, vel: this.vel, path: pts, localPath: local.length ? local : [[goalPose.x, goalPose.y]], cost: (x, y) => this.costmap.cost(x, y), dt: cdt, goalPose, xyTol, latched: J.latched, res: this.costmap.res, lastW: this.vel.wz, grid: this.costmap.grid, stats: this.debug ? { valid: 0, invalid: 0 } : null };
-    const v = /RegulatedPurePursuit/.test(pl) ? C.rppCommand(cp, st) : C.dwbCommand(cp, st);
+    const v = /MPPI/.test(pl) ? C.mppiCommand(cp, st) : /RegulatedPurePursuit/.test(pl) ? C.rppCommand(cp, st) : C.dwbCommand(cp, st);
     if (this.debug) this.lastDebug = { v, stats: st.stats, vel: { ...this.vel }, cdt, local: local.length, pose };
     if (v.noValid) {
       if (J.failT === null) J.failT = t;

@@ -2170,6 +2170,7 @@ RosGraph.prototype.rvizConfig = function (path, text) {
   const ff = go["Fixed Frame"] ? String(go["Fixed Frame"]).replace(/^\//, "") : null;
   const ds = {};
   for (const { cls, item } of rvizDisplays(cfg)) { const t = cls.split("/").pop(); if (t) ds[t] = ds[t] || (item.Enabled ?? item.Value) !== false; }
+  if (!ds.RobotModel && (this.robotModel() || this.nodes.some((n) => n.kind === "rsp" || (n.params && n.params.robot_description)))) ds.RobotModel = true;
   if (ff) viz.fixedFrame = ff;
   if (Object.keys(ds).length) viz.displays = ds;
   viz.configText = content; viz.configName = path || "urdf_config.rviz";
