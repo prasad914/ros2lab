@@ -68,7 +68,7 @@ Ways to plan (each must be selectable and visibly different):
 | | Regulated Pure Pursuit | diff, Ackermann, legged |
 | | Rotation Shim (wraps another) | diff/omni; pair with NavFn/Theta*/Smac2D |
 | | Graceful | diff |
-| | Vector Pursuit [VERIFY in Jazzy] | diff, Ackermann |
+| | Vector Pursuit (not in Jazzy apt packages; from installed file) | diff, Ackermann |
 | Behaviours | Spin, BackUp, Wait, DriveOnHeading, AssistedTeleop, ClearCostmap | all |
 | Modes | NavigateToPose, NavigateThroughPoses, FollowWaypoints (+ WaitAtWaypoint / PhotoAtWaypoint / InputAtWaypoint), Simple Commander API, keepout & speed filters, docking | all |
 
@@ -76,7 +76,7 @@ Ways to plan (each must be selectable and visibly different):
 - Global costmap: `global_frame: map`, whole map, layers static + obstacle + inflation; used by planner.
 - Local costmap: `global_frame: odom`, rolling window 3 m × 3 m at 0.05 m [VERIFY], layers voxel/obstacle + inflation; used by controller.
 - Cost values: 0 free · 1–252 graded · 253 inscribed · 254 lethal · 255 unknown.
-- Inflation: exponential decay to `inflation_radius` with `cost_scaling_factor`, using `robot_radius`/footprint. Plugin defaults 0.55 / 10.0; Jazzy bringup values differ between versions (reported 0.70/3.0 and 0.82/3.0, robot_radius 0.22) [VERIFY – read installed file].
+- Inflation: exponential decay to `inflation_radius` with `cost_scaling_factor`, using `robot_radius`/footprint. Plugin defaults 0.55 / 10.0; Jazzy bringup values: `inflation_radius: 0.70`, `cost_scaling_factor: 3.0`, `robot_radius: 0.22` (from installed file: `nav2_bringup/params/nav2_params.yaml`). TurtleBot3 bringup values: `inflation_radius: 0.5`, `cost_scaling_factor: 5.0`, `robot_radius: 0.1` (burger) / `0.15` (waffle) (from installed file: `turtlebot3_navigation2/param/`).
 - Other layers: range, denoise; filters: keepout, speed (`/keepout_filter_mask`, `/costmap_filter_info`).
 - RViz: Map display, colour scheme `costmap`, topics `/global_costmap/costmap`, `/local_costmap/costmap`; footprints as Polygon.
 
@@ -102,11 +102,11 @@ Behaviour that must match RViz:
 - PointCloud2 on `/scan`: type mismatch (LaserScan ≠ PointCloud2) → error; teach LaserScan display.
 - Image: "No Image" until data. Best-effort publisher + Reliable subscriber → no data + incompatible-QoS warning (DDS rules). Transport hint raw/compressed.
 - Camera display needs CameraInfo + TF to camera frame; missing CameraInfo → status error.
-- DepthCloud display: expose only if present in installed rviz_default_plugins [VERIFY].
+- DepthCloud display: confirmed present in installed rviz_default_plugins (from installed file: `rviz_default_plugins/plugins_description.xml`).
 Emulation: RGB = offscreen Three.js camera at the optical frame (z fwd, x right, y down) → WebGLRenderTarget → rgb8 at 10–30 Hz, throttled when hidden. CameraInfo K from HFOV: fx = w / (2·tan(hfov/2)), plumb_bob, D = 0. Depth/PointCloud2 (TB4 + non-standard variant): depth texture or BVH raycast → 32FC1 → PointCloud2 (x,y,z float32 [+rgb], `is_dense=false`, NaN for no return).
 
 ## S10. RViz displays and panels to match (each needs a test)
-Global Options (Fixed Frame, Background Color, Frame Rate [VERIFY default 30]), Global Status, Grid (Reference Frame, Cell Count/Size, Plane), RobotModel (Description Source Topic/File), TF (Show Names/Axes/Arrows, Marker Scale, Frame Timeout [VERIFY 15 s], per-frame toggles), LaserScan (Style, Size, Color Transformer, Decay Time; "Message Filter dropping message: frame 'base_scan' … queue is full" when TF missing [VERIFY]), PointCloud2, Image, Camera, Map (Topic, Update Topic, Durability, Color Scheme map/costmap/raw, Alpha; Volatile on /map → "No map received" [VERIFY]), Path, Pose, PoseArray, PoseWithCovariance, ParticleCloud, Marker/MarkerArray, Polygon, Odometry (Keep, Shape, Covariance), Axes.
+Global Options (Fixed Frame, Background Color, Frame Rate [default 30; from installed file: nav2_default_view.rviz]), Global Status, Grid (Reference Frame, Cell Count/Size, Plane), RobotModel (Description Source Topic/File), TF (Show Names/Axes/Arrows, Marker Scale, Frame Timeout [default 15 s; from installed file: nav2_default_view.rviz], per-frame toggles), LaserScan (Style, Size, Color Transformer, Decay Time; "Message Filter dropping message: frame 'base_scan' … queue is full" when TF missing [VERIFY]), PointCloud2, Image, Camera, Map (Topic, Update Topic, Durability, Color Scheme map/costmap/raw, Alpha; Volatile on /map → "No map received" [VERIFY]), Path, Pose, PoseArray, PoseWithCovariance, ParticleCloud, Marker/MarkerArray, Polygon, Odometry (Keep, Shape, Covariance), Axes.
 Views panel, Time, Selection, Tool Properties, Displays.
 Add dialog: "By display type" and "By topic" (lists only existing, type-compatible topics).
 Navigation 2 panel: Startup / Pause / Reset (lifecycle), Waypoint / Nav Through Poses mode, Start Waypoint Following, feedback (ETA, distance remaining, recoveries, navigation time), load/save/loop waypoints. Kilted-only panels (e.g. Docking panel) must NOT appear in Jazzy mode.
@@ -114,7 +114,7 @@ SlamToolboxPlugin panel as in S8.
 Default display set to mirror: installed `nav2_default_view.rviz` and TB3's own .rviz files.
 
 ## S11. Autonomous-navigation tool inventory (each needs an emulation + lesson)
-URDF/xacro + robot_state_publisher (`/robot_description` transient-local, `/tf`, `/tf_static`) · joint_state_publisher(_gui) (URDF-only lesson) · ros_gz_sim · ros_gz_bridge (virtual bridge table; topic not in YAML must not exist) · ros_gz_image · teleop (turtlebot3_teleop; teleop_twist_keyboard needs stamped option [VERIFY param name]) · robot_localization EKF (optional level) · slam_toolbox · Cartographer · nav2_map_server + map_saver · nav2_amcl · planner/controller/smoother/behavior servers · bt_navigator · waypoint_follower · velocity_smoother · collision_monitor · docking · costmap filters · lifecycle_manager · nav2_simple_commander (in-browser Python shim, e.g. Pyodide, exposing BasicNavigator) · rviz2 + nav2_rviz_plugins + SlamToolboxPlugin · tf2_tools view_frames · rqt_tf_tree / rqt_graph / rqt_image_view · depthimage_to_laserscan / pointcloud_to_laserscan (depth robots only) · image_transport · foxglove_bridge (optional) · rosbag2 (MCAP record/replay).
+URDF/xacro + robot_state_publisher (`/robot_description` transient-local, `/tf`, `/tf_static`) · joint_state_publisher(_gui) (URDF-only lesson) · ros_gz_sim · ros_gz_bridge (virtual bridge table; topic not in YAML must not exist) · ros_gz_image · teleop (turtlebot3_teleop; teleop_twist_keyboard stamped option param name is 'stamped' [bool] and 'frame_id' [string]; from installed file: teleop_twist_keyboard.py) · robot_localization EKF (optional level) · slam_toolbox · Cartographer · nav2_map_server + map_saver · nav2_amcl · planner/controller/smoother/behavior servers · bt_navigator · waypoint_follower · velocity_smoother · collision_monitor · docking · costmap filters · lifecycle_manager · nav2_simple_commander (in-browser Python shim, e.g. Pyodide, exposing BasicNavigator) · rviz2 + nav2_rviz_plugins + SlamToolboxPlugin · tf2_tools view_frames · rqt_tf_tree / rqt_graph / rqt_image_view · depthimage_to_laserscan / pointcloud_to_laserscan (depth robots only) · image_transport · foxglove_bridge (optional) · rosbag2 (MCAP record/replay).
 Reference for the minimum simulated contract: `nav2_loopback_sim` (publishes clock, odom, map→odom, odom→base_link, scan from the static map; accepts initialpose).
 
 ros_gz_bridge mappings: Clock↔gz.msgs.Clock · JointState↔gz.msgs.Model · Odometry↔gz.msgs.Odometry · TFMessage↔gz.msgs.Pose_V · Twist/TwistStamped↔gz.msgs.Twist (ROS→GZ) · Imu↔gz.msgs.IMU · LaserScan↔gz.msgs.LaserScan · CameraInfo↔gz.msgs.CameraInfo · Image via ros_gz_image · PointCloud2↔gz.msgs.PointCloudPacked (not in stock TB3).
