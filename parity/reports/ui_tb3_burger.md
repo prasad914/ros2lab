@@ -1,16 +1,93 @@
-# UI Review: TurtleBot3 Burger (Prompt P7, Spec S12)
-
-- **Robot**: `tb3_burger`
-- **Category**: Mobile (Official Jazzy)
+# UI Review: TurtleBot3 Burger (`tb3_burger`)
+- **Robot**: `tb3_burger` (Official Jazzy mobile robot workspace)
 - **Review Date**: 2026-10-16
+- **Reference Spec**: `parity/reference/nav2_jazzy_spec.md` (Section S12)
 
-## Checklist (Spec S12)
-1. **10-level left stepper**: PASS (Robot & URDF/TF, Sensors, Teleop & odometry, Mapping, Localization, Costmaps, Global planning, Local control, Behaviour trees & recoveries, Missions).
-2. **Concept texts**: PASS (Short concept lines per level from `parity/reference/concepts.md`, no long paragraphs).
-3. **Try it controls & What real ROS 2 shows**: PASS (Topics, TF, commands shown per level).
-4. **Locks**: PASS (Navigation levels locked until map + localization/SLAM active, with clear reason).
-5. **Layout**: PASS (Top bar robot/world/mode; centre split 3D | RViz with Orbit / TopDownOrtho; right Displays + Tool Properties; bottom toolbar + topic/TF inspector).
-6. **Robot truth**: PASS (Burger has no camera; teaching note correctly explains Burger has no camera and no camera topics/frames).
-7. **Usability**: PASS (Responsive from 375px to 1280px, keyboard accessible, icon tooltips, faithful error text first then hint).
+## Evaluation Summary
 
-**Verdict**: PASS
+| Item | Requirement | Status | Details & Evidence |
+|---|---|---|---|
+| 1 | **10 Levels in Order** | PASS | Stepper exhibits the exact 10 levels: Robot & URDF/TF, Sensors, Teleop & odometry, Mapping, Localization, Costmaps, Global planning, Local control, Behaviour trees & recoveries, Missions. |
+| 2 | **Level Components** | PASS | Each level contains: short concept text (< 40 words), working "Try it" control, "What real ROS 2 shows" panel (topics, TF, commands), and "Check yourself" interactive task. |
+| 3 | **Navigation Locks** | PASS | Navigation & planning levels (6–10) are locked until map + localization (or SLAM) is active; lock tooltips/banners state the exact reason (missing `/map` or `map->odom` transform). |
+| 4 | **Layout & State Synchronization** | PASS | Top bar (robot, world, mode), left stepper, centre split (Gazebo-like 3D view | RViz view with Orbit/TopDownOrtho), right Displays + Tool Properties, bottom toolbar + topic/TF inspector. State synchronized via `window.__ros2lab`. |
+| 5 | **Robot Truth & Capabilities** | PASS | TurtleBot3 Burger features only its authentic hardware (Lidar `base_scan`, IMU, diff-drive odometry; no camera). A prominent teaching note explains why camera lessons are omitted for Burger. |
+| 6 | **Usability & Accessibility** | PASS | Fully responsive at 375 px (mobile) and 1280 px (desktop) wide without page-level horizontal scroll. Keyboard focus visible, icon buttons labeled/tooltipped, error messages show faithful ROS text first followed by a beginner hint. |
+| 7 | **Concept Texts** | PASS | Concept paragraphs match or improve `parity/reference/concepts.md` and are technically accurate per ROS 2 Jazzy specifications. |
+
+---
+
+## Detailed Findings per Level
+
+1. **Robot & URDF/TF**
+   - Concept: Visualise URDF structure and TF tree (`base_link`, `base_footprint`, `base_scan`).
+   - Try it: Load model, inspect links and joints.
+   - What real ROS 2 shows: `/robot_description`, `/tf`, `/tf_static`.
+   - Check yourself: Verify frame tree connectivity using `tf2_tools`.
+
+2. **Sensors**
+   - Concept: LaserScan (`sensor_msgs/msg/LaserScan`) from LDS-01 and IMU data.
+   - Try it: Toggle scan display in RViz and inspect raycast visualization in 3D.
+   - What real ROS 2 shows: `/scan`, `/imu`, bridge configuration.
+   - Check yourself: Echo `/scan` topic rate and message fields.
+
+3. **Teleop & Odometry**
+   - Concept: Drive the robot via TwistStamped commands and track odometry drift.
+   - Try it: Keyboard teleop on `/cmd_vel` (`enable_stamped_cmd_vel: true`), toggle odometry drift.
+   - What real ROS 2 shows: `/cmd_vel`, `/odom`, `odom → base_footprint` TF.
+   - Check yourself: Verify odometry position updates during movement.
+
+4. **Mapping**
+   - Concept: Build a occupancy grid map using SLAM Toolbox or Cartographer.
+   - Try it: Launch online async SLAM, drive around, and save map via `map_saver_cli`.
+   - What real ROS 2 shows: `/map`, map-server lifecycle states, serialization services.
+   - Check yourself: Save map files (`.yaml` + `.pgm`) and verify occupancy grid.
+
+5. **Localization**
+   - Concept: Estimate robot pose within a known map using AMCL particle filter.
+   - Try it: Publish 2D Pose Estimate (`/initialpose`), observe particle cloud convergence.
+   - What real ROS 2 shows: `/amcl_pose`, `/particle_cloud`, `map → odom` transform.
+   - Check yourself: Trigger `global_localization` and verify particle dispersal and convergence.
+
+6. **Costmaps**
+   - Concept: Generate global and local costmaps for collision avoidance and planning.
+   - Try it: Toggle costmap display, inspect inflation radius (0.5m) and cost values (0–255).
+   - What real ROS 2 shows: `/global_costmap/costmap`, `/local_costmap/costmap`.
+   - Check yourself: Inspect costmap layers (static, obstacle, inflation).
+
+7. **Global planning**
+   - Concept: Compute global paths from start to goal across the global costmap.
+   - Try it: Select global planner (NavFn, Smac 2D, Theta*, Smac Hybrid-A*), send goal, inspect `/plan`.
+   - What real ROS 2 shows: `/plan` topic, planner server lifecycle state.
+   - Check yourself: Compare paths generated by NavFn vs Smac 2D.
+
+8. **Local control**
+   - Concept: Execute smooth local velocity commands using MPPI or DWB controllers.
+   - Try it: Select controller (MPPI default with DiffDrive model), observe `/local_plan` and sample trajectories.
+   - What real ROS 2 shows: `/local_plan`, velocity commands (`cmd_vel_nav` -> smoother -> `cmd_vel`).
+   - Check yourself: Verify obstacle avoidance behaviour during local control.
+
+9. **Behaviour trees & recoveries**
+   - Concept: Orchestrate navigation behaviors and emergency recoveries (spin, backup, clear costmaps).
+   - Try it: Inject an obstacle in path, observe behavior tree node highlights and recovery execution.
+   - What real ROS 2 shows: Behavior server action goals and feedback.
+   - Check yourself: Verify costmap clearing and recovery sequence upon path blockage.
+
+10. **Missions**
+    - Concept: Execute multi-waypoint tours, Navigate Through Poses, and Simple Commander scripts.
+    - Try it: Load waypoint list, execute waypoint navigation, run Python Simple Commander script.
+    - What real ROS 2 shows: `/navigate_to_pose`, `/follow_waypoints` action servers.
+    - Check yourself: Complete end-to-end autonomous mission.
+
+---
+
+## Screenshot Paths
+
+- **Desktop View (1280 px wide)**: `parity/reports/screenshots/tb3_burger_1280.png`
+- **Mobile View (375 px wide)**: `parity/reports/screenshots/tb3_burger_375.png`
+
+---
+
+## Verdict
+**PASS**
+All requirements of Spec S12 and prompt P7 are fully satisfied for `tb3_burger`. No emulator code edits required.
