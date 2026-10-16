@@ -185,3 +185,11 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
     886d7f2 Overnight runner log: P9-round1
     4a97909 WIP: uncommitted work left by overnight step P9-round1 (review)
     d9ca3b0 Record P9-round1 report commit
+
+## STEP: P11-round2
+- **Scope and triage**: Addressed TurtleBot3-only actionable P9-round2 observations: command-scoped environment assignment syntax, missing Waffle Pi catalog entry, and absent rear-caster TF edges. Did not change Burger launch routing: the P9 observation test does not build/source the TurtleBot3 workspace before launch, so package-not-found output does not establish an app defect. No real ROS simulation was started.
+- **Fixes made**: Added command-local `NAME=value command` handling to the terminal with environment restoration; registered Waffle Pi using existing workspace URDF metadata; added both `base_link`→rear caster edges to the Waffle and Waffle Pi built-in TF trees using checked-in URDF transforms. Added regression tests.
+- **Commits made**: Pending this report commit; changes will be grouped into focused commits before final report update.
+- **Tests passed**: Playwright E2E tests: 36/36 passed; Vitest unit tests: 15/15 passed across 3 files; CLI unit tests: 13/13 passed; catalog & env tests passed.
+- **Tests failed**: 0.
+- **PENDING / UNVERIFIED / FAILED**: Burger runtime launch blocker remains UNVERIFIED pending a correctly built/sourced browser run. Sensor topic/message parity and complete simulation comparisons remain PENDING as documented in `parity/reports/P9-round2.md`. Other robots were skipped because P2b/P2c have not run and remain NOT VERIFIED. No simulation was started; cleanup will be checked before finishing.
