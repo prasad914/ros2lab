@@ -11,3 +11,6 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2139
 
 # Overnight run 2026-10-16 21:47 on branch overnight-2026-10-16-2147 (from overnight-2026-10-16-2139, model claude-opus-5-5)
 Logs: /home/prasad/parity_overnight_logs/2026-10-16_2147
+
+# Overnight run 2026-10-16 21:54 on branch overnight-2026-10-16-2154 (from overnight-2026-10-16-2147, model sonnet)
+Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
