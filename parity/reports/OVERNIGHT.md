@@ -8,3 +8,6 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2139
 - **Status evidence**: Confirmed `parity/robots/STATUS.md` TurtleBot3 rows point to valid evidence files in `parity/fixtures/<model>/install_check/`.
 - **Tests**: Unit tests (10 passed), Playwright E2E tests (23 passed).
 - **Scope check**: Other robots (TurtleBot4, Scout, arms) remain out of scope / pending as instructed.
+
+# Overnight run 2026-10-16 21:47 on branch overnight-2026-10-16-2147 (from overnight-2026-10-16-2139, model claude-opus-5-5)
+Logs: /home/prasad/parity_overnight_logs/2026-10-16_2147
