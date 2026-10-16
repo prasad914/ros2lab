@@ -194,6 +194,14 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
 - **Tests failed**: 0.
 - **Items still PENDING / UNVERIFIED / FAILED**: Non-TurtleBot3 robots remain out of scope / NOT VERIFIED per overnight instructions. Docking server (`DOCK`) and multi-robot namespaces (`NS`) remain PENDING for TurtleBot3 models, keeping those games correctly locked. Camera check (`CAM`) fails for `tb3_burger` as intended (burger has no camera). No real simulation was started during this step.
 
+## STEP: P13
+- **Task**: Code review, accuracy summary (`SUMMARY.md`), and papers (Prompt P13), scoped to TurtleBot3 models only (`tb3_burger`, `tb3_waffle`, `tb3_waffle_pi`).
+- **Implementation**: Reviewed diff and code correctness against fixtures and spec; wrote `parity/reports/SUMMARY.md` with S14 metrics, installed versions, feature coverage %, known differences, status labels, and per-robot site badge texts; noted that paper search is not available in this session, so `parity/reference/papers.md` was left unchanged.
+- **Commits made**: `parity/reports/SUMMARY.md`, `parity/reports/OVERNIGHT.md`.
+- **Tests passed**: Vitest unit tests: 20/20 passed; Playwright E2E tests: 39/39 passed.
+- **Tests failed**: 0.
+- **Items still PENDING / UNVERIFIED / FAILED**: Non-TurtleBot3 robots (TurtleBot4, Scout, arms, course robots) remain NOT VERIFIED per overnight instructions. Paper search P13 item skipped as unavailable.
+
 ## Runner note – P12: exit 0
     d40e54c Implement P12 playground readiness checks and robot mission games for TurtleBot3
     0885638 WIP: uncommitted work left by overnight step P11-round2 (review)
