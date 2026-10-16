@@ -79,3 +79,13 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
     1a757ec Overnight run started on overnight-2026-10-16-2154
     9c9b815 Update overnight script to use model sonnet
     ec9dac0 Overnight run started on overnight-2026-10-16-2147
+
+## Runner note – P7: exit 0 at 22:28
+    e036234 Add UI review report and Playwright test for TurtleBot3 Waffle
+    473fbb5 Update P7 UI review reports and screenshots for TurtleBot3 models
+    2631720 Complete P7 robot page UI reviews for TurtleBot3 models and update overnight report
+    54bfe69 Overnight runner log: P6
+    85fc777 Complete P6 full autonomous-navigation stack emulation for TurtleBot3 models and update overnight report
+    d450f32 Overnight runner log: P5
+    350ce4a Complete P5 sensor parity for TurtleBot3 models and update overnight report
+    26a7754 Overnight runner log: P2-audit
