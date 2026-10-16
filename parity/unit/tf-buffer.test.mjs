@@ -66,6 +66,15 @@ describe("TfBuffer (tf2_ros::Buffer emulation)", () => {
     }).toThrow(TransformException);
   });
 
+  it("includes both rear caster transforms for Waffle models", () => {
+    for (const robotId of ["tb3_waffle", "tb3_waffle_pi"]) {
+      const tf = new TfBuffer({ robotId });
+      const edges = tf.edges().map(({ parent, child }) => `${parent}->${child}`);
+      expect(edges).toContain("base_link->caster_back_left_link");
+      expect(edges).toContain("base_link->caster_back_right_link");
+    }
+  });
+
   it("supports transient-local /tf_static replay for late subscribers", () => {
     const tf = new TfBuffer();
     tf.setTransform("base_link", "base_scan", [0.1, 0, 0.2], [0, 0, 0, 1], 0, true, "robot_state_publisher");

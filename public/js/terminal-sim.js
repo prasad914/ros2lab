@@ -305,6 +305,18 @@ export class Shell {
     const special = this.specialLine(line);
     if (special) return this.result(special);
     const tokens = this.tokenize(line);
+    const scopedEnv = {};
+    while (typeof tokens[0] === "string" && /^[A-Za-z_][A-Za-z0-9_]*=/.test(tokens[0])) {
+      const [name, ...value] = tokens.shift().split("=");
+      scopedEnv[name] = Object.hasOwn(this.env, name) ? this.env[name] : undefined;
+      this.env[name] = value.join("=");
+    }
+    const restoreScopedEnv = () => {
+      for (const [name, value] of Object.entries(scopedEnv)) {
+        if (value === undefined) delete this.env[name];
+        else this.env[name] = value;
+      }
+    };
     const segments = [[]];
     let redirect = null;
     for (let i = 0; i < tokens.length; i++) {
@@ -313,10 +325,11 @@ export class Shell {
       else if (typeof t === "object") { redirect = { append: t.op === ">>", target: tokens[i + 1] }; i++; }
       else segments[segments.length - 1].push(t);
     }
-    if (redirect && typeof redirect.target !== "string") return this.result([this.err("bash: syntax error near unexpected token `newline'")]);
+    if (redirect && typeof redirect.target !== "string") { restoreScopedEnv(); return this.result([this.err("bash: syntax error near unexpected token `newline'")]); }
     this.piped = segments.length > 1 || !!redirect;   // ls prints one name per line when its output is not the screen
     let res = this.exec(segments[0], false);
     this.piped = false;
+    restoreScopedEnv();
     if (bg) res = { ...res, bg: true };
     for (const seg of segments.slice(1)) {
       if (res.clear || res.nano || res.code || res.python) break;
