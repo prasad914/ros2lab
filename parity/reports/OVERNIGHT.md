@@ -24,3 +24,13 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
 - **Tests failed**: 0.
 - **Items still PENDING / UNVERIFIED / FAILED**: Other non-TurtleBot3 robots (TurtleBot4, Scout, arms) remain out of scope / NOT VERIFIED per overnight instructions. SmacLattice pairs are `VERIFIED (Config)`.
 
+
+## Runner note – P2-audit: exit 0 at 21:57
+    b2cbcf0 Update overnight report for STEP: P2-audit
+    1a757ec Overnight run started on overnight-2026-10-16-2154
+    9c9b815 Update overnight script to use model sonnet
+    ec9dac0 Overnight run started on overnight-2026-10-16-2147
+    d710c43 Complete P2-audit for TurtleBot3 models and update overnight report
+    faa6844 Overnight run started on overnight-2026-10-16-2139
+    9bee3e3 Commit remaining SmacLattice configs, runs, and navigation trial outputs for overnight run
+    48a5837 Add overnight runner
