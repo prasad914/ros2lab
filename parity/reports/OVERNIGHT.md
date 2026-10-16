@@ -61,3 +61,13 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
     ec9dac0 Overnight run started on overnight-2026-10-16-2147
     d710c43 Complete P2-audit for TurtleBot3 models and update overnight report
     faa6844 Overnight run started on overnight-2026-10-16-2139
+
+## Runner note – P6: exit 0 at 22:17
+    85fc777 Complete P6 full autonomous-navigation stack emulation for TurtleBot3 models and update overnight report
+    d450f32 Overnight runner log: P5
+    350ce4a Complete P5 sensor parity for TurtleBot3 models and update overnight report
+    26a7754 Overnight runner log: P2-audit
+    b2cbcf0 Update overnight report for STEP: P2-audit
+    1a757ec Overnight run started on overnight-2026-10-16-2154
+    9c9b815 Update overnight script to use model sonnet
+    ec9dac0 Overnight run started on overnight-2026-10-16-2147
