@@ -25,6 +25,15 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
 - **Items still PENDING / UNVERIFIED / FAILED**: Other non-TurtleBot3 robots (TurtleBot4, Scout, arms) remain out of scope / NOT VERIFIED per overnight instructions. SmacLattice pairs are `VERIFIED (Config)`.
 
 
+## STEP: P5
+- **Task**: Sensors (Image and PointCloud2 per robot, Spec S9) for TurtleBot3 models.
+- **Commits made**: Added sensor E2E tests (`parity/e2e/sensors.spec.ts`) and unit tests (`parity/unit/sensors.test.mjs`).
+- **Tests passed**: Playwright E2E tests: 25/25 passed; Vitest unit tests: 14/14 passed.
+- **Tests failed**: 0.
+- **Items still PENDING / UNVERIFIED / FAILED**: TurtleBot4 and other non-TurtleBot3 robots remain NOT VERIFIED per overnight instructions. `tb3_waffle_depth` variant skipped as optional.
+
+
+
 ## Runner note – P2-audit: exit 0 at 21:57
     b2cbcf0 Update overnight report for STEP: P2-audit
     1a757ec Overnight run started on overnight-2026-10-16-2154
