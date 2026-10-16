@@ -1185,7 +1185,13 @@ export function createRviz(container, opts = {}) {
   const yawQuat = (yaw) => ({ x: 0, y: 0, z: Math.sin(yaw / 2), w: Math.cos(yaw / 2) });
   const stamp = () => { const t = Date.now() / 1000; return { sec: Math.floor(t), nanosec: Math.floor((t % 1) * 1e9) }; };
   const fmtP = (p) => `[${Number(p.x.toPrecision(3))},${Number(p.y.toPrecision(3))},${Number(p.z.toPrecision(3))}]`;
-  function publish(topic, type, msg) { if (opts.onPublish) opts.onPublish(topic, type, msg); }
+  function publish(topic, type, msg) {
+    if (typeof window !== "undefined") {
+      window.__ros2labPub = window.__ros2labPub || {};
+      window.__ros2labPub[topic] = { type, msg };
+    }
+    if (opts.onPublish) opts.onPublish(topic, type, msg);
+  }
   function toolHover(ev) {
     if (!renderer) return;
     if (S.tool === "interact") {
@@ -2127,6 +2133,7 @@ export function createRviz(container, opts = {}) {
     panels: () => panels.map((p) => p.cls),
     testPublishGoal(x, y, yaw) { publish(toolTopics.goal || "/goal_pose", "geometry_msgs/msg/PoseStamped", { header: { stamp: stamp(), frame_id: S.fixedFrame }, pose: { position: { x, y, z: 0 }, orientation: yawQuat(yaw) } }); },
     testPublishInitialPose(x, y, yaw) { publish(toolTopics.pose || "/initialpose", "geometry_msgs/msg/PoseWithCovarianceStamped", { header: { stamp: stamp(), frame_id: S.fixedFrame }, pose: { pose: { position: { x, y, z: 0 }, orientation: yawQuat(yaw) }, covariance: [0.25, 0, 0, 0, 0, 0, 0, 0.25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.06853891909122467] } }); },
+    testPublishPoint(x, y, z) { publish(toolTopics.point || "/clicked_point", "geometry_msgs/msg/PointStamped", { header: { stamp: stamp(), frame_id: S.fixedFrame }, point: { x, y, z: z || 0 } }); },
     destroy() {
       dead = true; clearInterval(timer); clearInterval(ticker); clearTimeout(fitTimer); document.removeEventListener("pointerdown", outside, true);
       for (const k of docks.values()) if (k.r) { k.r.dispose(); if (k.r.forceContextLoss) k.r.forceContextLoss(); }
