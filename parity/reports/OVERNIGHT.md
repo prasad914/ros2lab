@@ -89,3 +89,10 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
     d450f32 Overnight runner log: P5
     350ce4a Complete P5 sensor parity for TurtleBot3 models and update overnight report
     26a7754 Overnight runner log: P2-audit
+
+## STEP: P8
+- **Task**: RViz option-by-option parity audit (Spec S10), scoped to TurtleBot3 models only.
+- **Commits made**: None for the P8 implementation because the audit could not meet its required element-by-element test and actual-effect criteria without inventing evidence. Existing installed-config values were gathered in `parity/fixtures/_installed/nav2_bringup/rviz/nav2_default_view.rviz` and `parity/fixtures/_installed/turtlebot3_navigation2/rviz/tb3_navigation2.rviz`. The inventory and evidence boundary are recorded in `parity/reports/rviz_parity.md`. All rows remain explicitly PENDING where no valid emulator behavior test or captured real runtime default/status fixture exists. The implementation phase's additional placeholder tests asserted unrelated truths and failed; those temporary tests and artifacts were removed, not committed. Automatic regeneration from test results and the `npm run parity:report` script remain PENDING. No application files, package scripts, TurtleBot3 upstream package sources, or other-robot files were changed.
+- **Tests passed**: Final required Playwright suite: 29/29. Final required unit suite: 14/14 (3 test files).
+- **Tests failed**: Temporary P8 placeholder suite: 6/10 added test cases passed, 4/10 failed in the first run; after attempted corrections, 3/10 continued failing. Those untracked temporary tests were removed and are not part of the final tree. Final required suites passed.
+- **Items still PENDING / UNVERIFIED / FAILED**: S10 element-level behavior/effects, topic/frame/message verification, real status text, and all rows without adequate evidence remain PENDING in `parity/reports/rviz_parity.md`; report auto-generation from test results is PENDING. Other robots are skipped because P2b/P2c have not run and remain NOT VERIFIED. Real ROS simulation check: stop commands for domains 41, 47, 42, 43, 44, 45 each reported `nothing running for domain <id>`.
