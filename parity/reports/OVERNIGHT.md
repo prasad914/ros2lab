@@ -33,6 +33,14 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
 - **Items still PENDING / UNVERIFIED / FAILED**: TurtleBot4 and other non-TurtleBot3 robots remain NOT VERIFIED per overnight instructions. `tb3_waffle_depth` variant skipped as optional.
 
 
+## STEP: P6
+- **Task**: Full autonomous-navigation stack emulation (Spec S5–S8, S10, S11) for TurtleBot3 models (`tb3_burger`, `tb3_waffle`, `tb3_waffle_pi`).
+- **Commits made**: Updated `nav2_params.json` headers to installed source and package version; created `parity/reports/stack_status.md` and E2E test `parity/e2e/stack.spec.ts`.
+- **Tests passed**: Playwright E2E tests: 28/28 passed; Vitest unit tests: 14/14 passed.
+- **Tests failed**: 0.
+- **Items still PENDING / UNVERIFIED / FAILED**: Non-TurtleBot3 robots remain NOT VERIFIED / out of scope per overnight instructions. Docking and Route Server are PENDING (not installed/active for TB3).
+
+
 
 ## Runner note – P2-audit: exit 0 at 21:57
     b2cbcf0 Update overnight report for STEP: P2-audit
