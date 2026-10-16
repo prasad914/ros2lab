@@ -175,3 +175,13 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
 - **Tests failed**: 0 in final required runs. The first two Playwright suite attempts timed out in the Waffle observation spec (35 passed/1 failed each); the timeout was traced to an unbounded slow control trial loop, removed from the observation-only spec, and the final full suite passed. See final test output for the measured attempts.
 - **Simulation cleanup**: `bash parity/scripts/stop_reference.sh` for domains 41–47 reported `nothing running for domain <id>` for each.
 - **Items still PENDING / UNVERIFIED / FAILED**: P9 simulation scenarios did not launch on the browser side due to the blockers above, so observed topic/TF mismatches are not full runtime parity verdicts; see report caveat. Burger SLAM occupancy and navigation quality metrics, QoS, actions/services, params, sensor payloads, faithful runtime errors, and RViz interaction/publication effects remain PENDING. `tb3_waffle` control/message checks remain incomplete. Other robots remain NOT VERIFIED and skipped.
+
+## Runner note – P9-round2: exit 0 at 23:35
+    235da3f Record P9-round2 TurtleBot3 parity observations
+    2810506 Overnight runner log: P11-round1
+    cca56a3 Document P11-round1 fix loop results
+    1175814 Overnight runner log: P10
+    3bc828e Document P10 TurtleBot3 persona results
+    886d7f2 Overnight runner log: P9-round1
+    4a97909 WIP: uncommitted work left by overnight step P9-round1 (review)
+    d9ca3b0 Record P9-round1 report commit
