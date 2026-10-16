@@ -166,13 +166,6 @@ def main():
             "frames": info["frames"]
         }
 
-        # Write public/robots/<id>.json
-        out_json = os.path.join(robots_dir, f"{rid}.json")
-        with open(out_json, "w") as f:
-            json.dump(manifest, f, indent=2)
-            f.write("\n")
-        print(f"Wrote {out_json}")
-
         # Write public/robots/<id>/manifest.json
         sub_dir = os.path.join(robots_dir, rid)
         os.makedirs(sub_dir, exist_ok=True)
