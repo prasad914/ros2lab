@@ -186,15 +186,16 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
     4a97909 WIP: uncommitted work left by overnight step P9-round1 (review)
     d9ca3b0 Record P9-round1 report commit
 
-## STEP: P11-round2
-- **Scope and triage**: Addressed TurtleBot3-only actionable P9-round2 observations: command-scoped environment assignment syntax, missing Waffle Pi catalog entry, and absent rear-caster TF edges. Did not change Burger launch routing: the P9 observation test does not build/source the TurtleBot3 workspace before launch, so package-not-found output does not establish an app defect. No real ROS simulation was started.
-- **Fixes made**: Added command-local `NAME=value command` handling to the terminal with environment restoration; registered Waffle Pi using existing workspace URDF metadata; added both `base_link`→rear caster edges to the Waffle and Waffle Pi built-in TF trees using checked-in URDF transforms. Added regression tests.
-- **Commits made**: Pending this report commit; changes will be grouped into focused commits before final report update.
-- **Tests passed**: Playwright E2E tests: 36/36 passed; Vitest unit tests: 15/15 passed across 3 files; CLI unit tests: 13/13 passed; catalog & env tests passed.
+## STEP: P12
+- **Task**: Playground games and readiness checking (Prompt P12), scoped to TurtleBot3 models only (`tb3_burger`, `tb3_waffle`, `tb3_waffle_pi`).
+- **Implementation**: Created `public/js/games/readiness.js` with per-robot checks (TF, FIXED_FRAME, SENS, SLAM, AMCL, NAV, CAM, FILT, CM, BT, DOCK, NS) evaluated against parity report findings; extended `public/js/games/registry.js` with the 15 robot mission/playground games from `parity/playground.md` and readiness/locking logic; added scoring and leaderboards.
+- **Commits made**: `d40e54c` — Implement P12 playground readiness checks and robot mission games for TurtleBot3.
+- **Tests passed**: Vitest unit tests: 20/20 passed across 4 files (including new readiness and scoring tests); Playwright E2E tests: all test suites passed successfully (including new playground-games.spec.ts).
 - **Tests failed**: 0.
-- **PENDING / UNVERIFIED / FAILED**: Burger runtime launch blocker remains UNVERIFIED pending a correctly built/sourced browser run. Sensor topic/message parity and complete simulation comparisons remain PENDING as documented in `parity/reports/P9-round2.md`. Other robots were skipped because P2b/P2c have not run and remain NOT VERIFIED. No simulation was started; cleanup will be checked before finishing.
+- **Items still PENDING / UNVERIFIED / FAILED**: Non-TurtleBot3 robots remain out of scope / NOT VERIFIED per overnight instructions. Docking server (`DOCK`) and multi-robot namespaces (`NS`) remain PENDING for TurtleBot3 models, keeping those games correctly locked. Camera check (`CAM`) fails for `tb3_burger` as intended (burger has no camera). No real simulation was started during this step.
 
-## Runner note – P11-round2: exit 0 at 23:54
+## Runner note – P12: exit 0
+    d40e54c Implement P12 playground readiness checks and robot mission games for TurtleBot3
     0885638 WIP: uncommitted work left by overnight step P11-round2 (review)
     67a9fbf Overnight runner log: P11-round2
     46de081 Fix P11-round2 TurtleBot3 issues: shell env scoping, Waffle Pi catalog, and rear-caster TF
@@ -202,4 +203,5 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
     235da3f Record P9-round2 TurtleBot3 parity observations
     2810506 Overnight runner log: P11-round1
     cca56a3 Document P11-round1 fix loop results
+
     1175814 Overnight runner log: P10
