@@ -40,7 +40,10 @@ case $SCEN in
     bg nav2 xvfb-run -a ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True map:="$MAP" ;;
   nav2_bringup)
     # Nav2's own TB3 demo; its robot model (nav2_minimal_tb3_sim) may differ from TURTLEBOT3_MODEL.
-    bg nav2demo ros2 launch nav2_bringup tb3_simulation_launch.py headless:=True use_rviz:=False ;;
+    EXTRA_ARGS=""
+    [ -n "${PARAMS_FILE:-}" ] && EXTRA_ARGS="$EXTRA_ARGS params_file:=$PARAMS_FILE"
+    [ -n "${MAP:-}" ] && EXTRA_ARGS="$EXTRA_ARGS map:=$MAP"
+    bg nav2demo ros2 launch nav2_bringup tb3_simulation_launch.py headless:=True use_rviz:=False $EXTRA_ARGS ;;
   nav2_bringup_slam)
     bg nav2demo ros2 launch nav2_bringup tb3_simulation_launch.py headless:=True use_rviz:=False slam:=True ;;
   tb4_slam_nav)
@@ -55,7 +58,7 @@ case $SCEN in
     bg "$SCEN" bash "$S" ;;
 esac
 
-STATUS_LINE=$(grep -i -m1 "($ROBOT)\|\`$ROBOT\`\|| $ROBOT |" parity/robots/STATUS.md 2>/dev/null || echo "no STATUS.md row")
+STATUS_LINE=$(grep -i -m1 "($ROBOT)\|\`$ROBOT\`\|| \*\*$ROBOT\*\* \|| $ROBOT |" parity/robots/STATUS.md 2>/dev/null || echo "no STATUS.md row")
 {
   echo "robot=$ROBOT scenario=$SCEN domain=$DOMAIN partition=$PART model=${TURTLEBOT3_MODEL:-n/a}"
   echo "date=$(date -Iseconds)"

@@ -1,0 +1,26 @@
+{
+  "run_label": "ThetaStar_RotationShimRPP",
+  "timestamp": 1792091623.8035276,
+  "results": {
+    "goal1": {
+      "success": true,
+      "duration": 6.297,
+      "wall_duration": 6.29795241355896,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        0.06036673194027797,
+        0.5571014744561178,
+        1.35255484845118
+      ],
+      "position_error_m": 0.4643883649252887,
+      "yaw_error_deg": 12.504318672641093,
+      "amcl_cov_x": 0.026954027698926655,
+      "amcl_cov_y": 0.08701070564306318,
+      "amcl_cov_yaw": 0.0744490557367733
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "run_label": "NavFn_RotationShimRPP",
+  "timestamp": 1792091134.229225,
+  "results": {
+    "goal1": {
+      "success": true,
+      "duration": 7.035,
+      "wall_duration": 7.050800800323486,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        0.07864090866264897,
+        0.7472034684588007,
+        1.2774348517067242
+      ],
+      "position_error_m": 0.28041775159480914,
+      "yaw_error_deg": 16.808377443134894,
+      "amcl_cov_x": 0.037243877588179264,
+      "amcl_cov_y": 0.10375209905222182,
+      "amcl_cov_yaw": 0.10138542304578789
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "run_label": "NavFn_RPP",
+  "timestamp": 1792091082.9248898,
+  "results": {
+    "goal1": {
+      "success": true,
+      "duration": 6.219,
+      "wall_duration": 6.249840497970581,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        0.08025418207525403,
+        0.7327811265165362,
+        1.3406317799802336
+      ],
+      "position_error_m": 0.29282245005504254,
+      "yaw_error_deg": 13.18746017487181,
+      "amcl_cov_x": 0.018531632840698913,
+      "amcl_cov_y": 0.06511213356884449,
+      "amcl_cov_yaw": 0.06386931699234091
+    }
+  }
+}

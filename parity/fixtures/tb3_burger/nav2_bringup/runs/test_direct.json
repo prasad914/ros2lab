@@ -1,0 +1,25 @@
+{
+  "run_label": "test_direct",
+  "timestamp": 1792090241.9771473,
+  "results": {
+    "goal1": {
+      "success": true,
+      "duration": 4.239,
+      "wall_duration": 4.254204273223877,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        0.24801492557969207,
+        0.6186539806998055,
+        1.6668302350462558
+      ],
+      "position_error_m": 0.3843568908118179,
+      "amcl_cov_x": 0.01889522549749978,
+      "amcl_cov_y": 0.0586972466199428,
+      "amcl_cov_yaw": 0.046713288787524135
+    }
+  }
+}

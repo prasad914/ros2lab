@@ -1,0 +1,188 @@
+# Ground truth navigation goals for turtlebot3_world
+# Generated from real ROS 2 Jazzy SLAM map (turtlebot3_world.yaml / pgm)
+# Map parameters:
+#   resolution: 0.050
+#   origin: [-0.932, -2.095, 0.0]
+#   dimensions: 111 x 103 pixels
+
+map:
+  yaml: "parity/fixtures/maps/turtlebot3_world.yaml"
+  pgm: "parity/fixtures/maps/turtlebot3_world.pgm"
+  resolution: 0.050
+  origin: [-0.932, -2.095, 0.0]
+  width: 111
+  height: 103
+
+# Robot start pose:
+# In Gazebo world: spawned by turtlebot3_world.launch.py at x_pose=-2.0, y_pose=-0.5, z=0.01
+# In SLAM map frame: odometry initializes at (0.0, 0.0), so map frame origin aligns with spawn pose at (0.0, 0.0)
+start_pose:
+  frame_id: "map"
+  position:
+    x: 0.00
+    y: 0.00
+    z: 0.00
+  orientation:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  yaw: 0.0000
+  cell:
+    x: 19
+    y: 42
+  pgm_pixel:
+    col: 19
+    row: 60
+  cell_value: 254
+  status: "FREE"
+  clearance_m: 0.541
+  covariance: [
+    0.25, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.25, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.06853891909122467
+  ]
+
+# 5 Free goals spread over turtlebot3_world (clearance >= 0.40 m from any obstacle)
+goals:
+  goal1:
+    description: "Northwest open area (North of start)"
+    frame_id: "map"
+    position:
+      x: 0.20
+      y: 1.00
+      z: 0.00
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.7071068
+      w: 0.7071068
+    yaw: 1.5708
+    cell:
+      x: 23
+      y: 62
+    pgm_pixel:
+      col: 23
+      row: 40
+    cell_value: 254
+    status: "FREE"
+    clearance_m: 0.711
+
+  goal2:
+    description: "Northeast open area"
+    frame_id: "map"
+    position:
+      x: 2.50
+      y: 1.95
+      z: 0.00
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+    yaw: 0.0000
+    cell:
+      x: 69
+      y: 81
+    pgm_pixel:
+      col: 69
+      row: 21
+    cell_value: 254
+    status: "FREE"
+    clearance_m: 0.495
+
+  goal3:
+    description: "Far East open corridor"
+    frame_id: "map"
+    position:
+      x: 3.75
+      y: 0.50
+      z: 0.00
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: -0.7071068
+      w: 0.7071068
+    yaw: -1.5708
+    cell:
+      x: 94
+      y: 52
+    pgm_pixel:
+      col: 94
+      row: 50
+    cell_value: 254
+    status: "FREE"
+    clearance_m: 0.550
+
+  goal4:
+    description: "South open corridor"
+    frame_id: "map"
+    position:
+      x: 2.00
+      y: -1.40
+      z: 0.00
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 1.0
+      w: 0.0
+    yaw: 3.14159
+    cell:
+      x: 59
+      y: 14
+    pgm_pixel:
+      col: 59
+      row: 88
+    cell_value: 254
+    status: "FREE"
+    clearance_m: 0.650
+
+  goal5:
+    description: "Center open space between cylinder clusters"
+    frame_id: "map"
+    position:
+      x: 1.50
+      y: 0.00
+      z: 0.00
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+    yaw: 0.0000
+    cell:
+      x: 49
+      y: 42
+    pgm_pixel:
+      col: 49
+      row: 60
+    cell_value: 254
+    status: "FREE"
+    clearance_m: 0.532
+
+# 1 Goal inside an obstacle cell (for planner failure and recovery testing)
+obstacle_goal:
+  description: "Interior of central obstacle cylinder"
+  frame_id: "map"
+  position:
+    x: 1.87
+    y: 0.40
+    z: 0.00
+  orientation:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  yaw: 0.0000
+  cell:
+    x: 56
+    y: 50
+  pgm_pixel:
+    col: 56
+    row: 52
+  cell_value: 0
+  status: "OCCUPIED"
+  clearance_m: 0.000

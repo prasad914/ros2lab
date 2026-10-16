@@ -1,0 +1,25 @@
+{
+  "run_label": "NavFn_DWB",
+  "timestamp": 1792091034.0059345,
+  "results": {
+    "goal1": {
+      "success": true,
+      "duration": 4.107,
+      "wall_duration": 4.109173774719238,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        0.2558552896951357,
+        0.6756870940873388,
+        1.739206057886781
+      ],
+      "position_error_m": 0.3290876392823683,
+      "amcl_cov_x": 0.04344547393393711,
+      "amcl_cov_y": 0.10459643510512207,
+      "amcl_cov_yaw": 0.0870471219818882
+    }
+  }
+}

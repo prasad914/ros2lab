@@ -1,0 +1,26 @@
+{
+  "run_label": "SmacHybrid_MPPI",
+  "timestamp": 1792091726.6216643,
+  "results": {
+    "goal1": {
+      "success": true,
+      "duration": 5.898,
+      "wall_duration": 5.898542165756226,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        0.316779375109825,
+        0.8701593922916988,
+        1.8194906917060438
+      ],
+      "position_error_m": 0.17463105640493096,
+      "yaw_error_deg": 14.249134449244766,
+      "amcl_cov_x": 0.021223129018206888,
+      "amcl_cov_y": 0.06034429398153107,
+      "amcl_cov_yaw": 0.06513210162858324
+    }
+  }
+}

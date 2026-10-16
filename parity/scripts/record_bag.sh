@@ -8,7 +8,21 @@ source "$(dirname "$0")/env.sh"
 
 if [ "$ACTION" = stop ]; then
   DOMAIN=${2:?domain}; P=/tmp/ros2lab_bag_$DOMAIN.pid
-  [ -f "$P" ] && kill -INT -- "-$(cat "$P")" 2>/dev/null; sleep 3; rm -f "$P"; echo "bag stopped"; exit 0
+  if [ -f "$P" ]; then
+    PID=$(cat "$P")
+    kill -INT -- "-$PID" 2>/dev/null || true
+    kill -INT "$PID" 2>/dev/null || true
+    pkill -INT -P "$PID" 2>/dev/null || true
+    sleep 3
+    # If still alive, try SIGTERM then SIGKILL
+    if ps -p "$PID" >/dev/null 2>&1; then
+      kill -TERM "$PID" 2>/dev/null || true
+      sleep 2
+    fi
+    rm -f "$P"
+  fi
+  echo "bag stopped"
+  exit 0
 fi
 
 ROBOT=${2:?robot}; SCEN=${3:?scenario}; DOMAIN=${4:?domain}; LABEL=${5:-run1}
@@ -18,6 +32,6 @@ WANT='^/(tf|tf_static|clock|scan|odom|imu|joint_states|camera/image_raw|camera/c
 TOPICS=$(ros2 topic list | grep -E "$WANT" | tr '\n' ' ')
 [ -n "$TOPICS" ] || { echo "none of the parity topics exist yet"; exit 1; }
 # shellcheck disable=SC2086
-setsid ros2 bag record -s mcap -o "$OUT" $TOPICS > "$OUT.log" 2>&1 &
+setsid -w ros2 bag record -s mcap -e "$WANT" -o "$OUT" > "$OUT.log" 2>&1 &
 echo $! > /tmp/ros2lab_bag_$DOMAIN.pid
-echo "recording to $OUT: $TOPICS"
+echo "recording to $OUT (matching $WANT)"

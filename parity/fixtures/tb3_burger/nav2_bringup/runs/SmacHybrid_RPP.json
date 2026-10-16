@@ -1,0 +1,26 @@
+{
+  "run_label": "SmacHybrid_RPP",
+  "timestamp": 1792091822.868341,
+  "results": {
+    "goal1": {
+      "success": true,
+      "duration": 4.209,
+      "wall_duration": 4.209078788757324,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        0.41667752937383445,
+        0.5740929216900569,
+        1.8275318950230341
+      ],
+      "position_error_m": 0.4778556174097579,
+      "yaw_error_deg": 14.709861461514906,
+      "amcl_cov_x": 0.016267560729267022,
+      "amcl_cov_y": 0.03805046908253906,
+      "amcl_cov_yaw": 0.044509809819571824
+    }
+  }
+}

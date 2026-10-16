@@ -1,0 +1,26 @@
+{
+  "run_label": "ThetaStar_Graceful",
+  "timestamp": 1792091676.2003016,
+  "results": {
+    "goal1": {
+      "success": true,
+      "duration": 8.55,
+      "wall_duration": 8.601468563079834,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        0.20729467095281742,
+        0.5073289649546064,
+        1.5687669096421726
+      ],
+      "position_error_m": 0.49272503589426964,
+      "yaw_error_deg": 0.11628008657290785,
+      "amcl_cov_x": 0.017259695555377118,
+      "amcl_cov_y": 0.06339777783982947,
+      "amcl_cov_yaw": 0.055493651021454544
+    }
+  }
+}

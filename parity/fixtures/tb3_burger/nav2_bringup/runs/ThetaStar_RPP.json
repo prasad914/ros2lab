@@ -1,0 +1,26 @@
+{
+  "run_label": "ThetaStar_RPP",
+  "timestamp": 1792091574.6721172,
+  "results": {
+    "goal1": {
+      "success": true,
+      "duration": 5.244,
+      "wall_duration": 5.249407052993774,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        0.1330594097841946,
+        0.517010656752693,
+        1.5027055740079613
+      ],
+      "position_error_m": 0.48760614055701285,
+      "yaw_error_deg": 3.901315807410416,
+      "amcl_cov_x": 0.015151310267328782,
+      "amcl_cov_y": 0.06544263402005945,
+      "amcl_cov_yaw": 0.05397085919694414
+    }
+  }
+}
