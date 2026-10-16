@@ -1,0 +1,599 @@
+{
+  "launchState": {
+    "termHook": true,
+    "visibleText": "ROS2Lab ROS 2 for beginners\nHome\nPlayground\nSimulator\nFree resources\nLog in\nRegister\nRobotic Models Simulator / Robot\nRobot not found\n\nThis page has one robot and its own workspace. A description package is built with colcon, and a launch file (Python or XML) starts robot_state_publisher, joint_state_publisher_gui and rviz2 with a saved .rviz config, as on Ubuntu. Move a slider and the robot moves: /joint_states → robot_state_publisher → /tf → RViz.\n\nGazebo, MoveIt 2 and the real robot on this page\n\nRobot\n\nLaunch it\n Robot model (display)\n Gazebo simulation with sensors (sim)\n Gazebo + ros2_control (sim_control)\n Python launch file\n XML launch file\nType these commands for me\nor type them in the terminal below\nWorkspace files\nRobot details: links, joints, sensors, Gazebo plugins\nTerminal: ~/ros2_ws\nstudent@ros2lab: ~/ros2_ws\nRight-click a terminal for the Terminator menu\n+ New terminal\nstudent@ros2lab: ~/ros2_ws\n(There is no robot \"tb3_waffle_pi\" in the catalog. Go back to the Robotic Models Simulator and pick one.)\nstudent@ros2lab:~/ros2_ws$\nTab\n↑ Last command\nOpen a new terminal\nOpen VS Code\nStart again\nConnect to ROS 2 on your Ubuntu computer (rosbridge)\nHow it works, and its limits\nROS2Lab: a free ROS 2 course for students and engineers\nDeveloped by the Robotics and ROS2 lab Channel\nTerms of Use\nPrivacy notice"
+  },
+  "commandResult": {
+    "attempted": true
+  },
+  "rvizResult": {
+    "attempted": true
+  },
+  "state": {
+    "topics": [
+      {
+        "name": "/clicked_point",
+        "type": "geometry_msgs/msg/PointStamped",
+        "publishers": [
+          {
+            "node": "/rviz2",
+            "endpoint_type": "PUBLISHER",
+            "qos": {
+              "reliability": "Reliable",
+              "durability": "Volatile",
+              "history": "Keep last",
+              "depth": 10,
+              "raw": "RELIABLE/VOLATILE"
+            }
+          }
+        ],
+        "subscribers": [],
+        "pubs": [
+          "/rviz2"
+        ],
+        "subs": [],
+        "qos": {
+          "reliability": "Reliable",
+          "durability": "Volatile",
+          "history": "Keep last",
+          "depth": 10,
+          "raw": "RELIABLE/VOLATILE"
+        }
+      },
+      {
+        "name": "/goal_pose",
+        "type": "geometry_msgs/msg/PoseStamped",
+        "publishers": [
+          {
+            "node": "/rviz2",
+            "endpoint_type": "PUBLISHER",
+            "qos": {
+              "reliability": "Reliable",
+              "durability": "Volatile",
+              "history": "Keep last",
+              "depth": 10,
+              "raw": "RELIABLE/VOLATILE"
+            }
+          }
+        ],
+        "subscribers": [],
+        "pubs": [
+          "/rviz2"
+        ],
+        "subs": [],
+        "qos": {
+          "reliability": "Reliable",
+          "durability": "Volatile",
+          "history": "Keep last",
+          "depth": 10,
+          "raw": "RELIABLE/VOLATILE"
+        }
+      },
+      {
+        "name": "/initialpose",
+        "type": "geometry_msgs/msg/PoseWithCovarianceStamped",
+        "publishers": [
+          {
+            "node": "/rviz2",
+            "endpoint_type": "PUBLISHER",
+            "qos": {
+              "reliability": "Reliable",
+              "durability": "Volatile",
+              "history": "Keep last",
+              "depth": 10,
+              "raw": "RELIABLE/VOLATILE"
+            }
+          }
+        ],
+        "subscribers": [],
+        "pubs": [
+          "/rviz2"
+        ],
+        "subs": [],
+        "qos": {
+          "reliability": "Reliable",
+          "durability": "Volatile",
+          "history": "Keep last",
+          "depth": 10,
+          "raw": "RELIABLE/VOLATILE"
+        }
+      },
+      {
+        "name": "/parameter_events",
+        "type": "rcl_interfaces/msg/ParameterEvent",
+        "publishers": [
+          {
+            "node": "/rviz2",
+            "endpoint_type": "PUBLISHER",
+            "qos": {
+              "reliability": "Reliable",
+              "durability": "Volatile",
+              "history": "Keep last",
+              "depth": 10,
+              "raw": "RELIABLE/VOLATILE"
+            }
+          }
+        ],
+        "subscribers": [
+          {
+            "node": "/rviz2",
+            "endpoint_type": "SUBSCRIPTION",
+            "qos": {
+              "reliability": "Reliable",
+              "durability": "Volatile",
+              "history": "Keep last",
+              "depth": 10,
+              "raw": "RELIABLE/VOLATILE"
+            }
+          }
+        ],
+        "pubs": [
+          "/rviz2"
+        ],
+        "subs": [
+          "/rviz2"
+        ],
+        "qos": {
+          "reliability": "Reliable",
+          "durability": "Volatile",
+          "history": "Keep last",
+          "depth": 10,
+          "raw": "RELIABLE/VOLATILE"
+        }
+      },
+      {
+        "name": "/rosout",
+        "type": "rcl_interfaces/msg/Log",
+        "publishers": [
+          {
+            "node": "/rviz2",
+            "endpoint_type": "PUBLISHER",
+            "qos": {
+              "reliability": "Reliable",
+              "durability": "Volatile",
+              "history": "Keep last",
+              "depth": 10,
+              "raw": "RELIABLE/VOLATILE"
+            }
+          }
+        ],
+        "subscribers": [],
+        "pubs": [
+          "/rviz2"
+        ],
+        "subs": [],
+        "qos": {
+          "reliability": "Reliable",
+          "durability": "Volatile",
+          "history": "Keep last",
+          "depth": 10,
+          "raw": "RELIABLE/VOLATILE"
+        }
+      },
+      {
+        "name": "/tf",
+        "type": "tf2_msgs/msg/TFMessage",
+        "publishers": [],
+        "subscribers": [
+          {
+            "node": "/rviz2",
+            "endpoint_type": "SUBSCRIPTION",
+            "qos": {
+              "reliability": "Reliable",
+              "durability": "Volatile",
+              "history": "Keep last",
+              "depth": 10,
+              "raw": "RELIABLE/VOLATILE"
+            }
+          }
+        ],
+        "pubs": [],
+        "subs": [
+          "/rviz2"
+        ],
+        "qos": {
+          "reliability": "Reliable",
+          "durability": "Volatile",
+          "history": "Keep last",
+          "depth": 10,
+          "raw": "RELIABLE/VOLATILE"
+        }
+      },
+      {
+        "name": "/tf_static",
+        "type": "tf2_msgs/msg/TFMessage",
+        "publishers": [],
+        "subscribers": [
+          {
+            "node": "/rviz2",
+            "endpoint_type": "SUBSCRIPTION",
+            "qos": {
+              "reliability": "Reliable",
+              "durability": "Transient Local",
+              "history": "Keep last",
+              "depth": 10,
+              "raw": "RELIABLE/TRANSIENT_LOCAL"
+            }
+          }
+        ],
+        "pubs": [],
+        "subs": [
+          "/rviz2"
+        ],
+        "qos": {
+          "reliability": "Reliable",
+          "durability": "Transient Local",
+          "history": "Keep last",
+          "depth": 10,
+          "raw": "RELIABLE/TRANSIENT_LOCAL"
+        }
+      }
+    ],
+    "qosByTopic": [
+      {
+        "topic": "/clicked_point",
+        "type": "geometry_msgs/msg/PointStamped",
+        "qos": {
+          "reliability": "Reliable",
+          "durability": "Volatile",
+          "history": "Keep last",
+          "depth": 10,
+          "raw": "RELIABLE/VOLATILE"
+        }
+      },
+      {
+        "topic": "/goal_pose",
+        "type": "geometry_msgs/msg/PoseStamped",
+        "qos": {
+          "reliability": "Reliable",
+          "durability": "Volatile",
+          "history": "Keep last",
+          "depth": 10,
+          "raw": "RELIABLE/VOLATILE"
+        }
+      },
+      {
+        "topic": "/initialpose",
+        "type": "geometry_msgs/msg/PoseWithCovarianceStamped",
+        "qos": {
+          "reliability": "Reliable",
+          "durability": "Volatile",
+          "history": "Keep last",
+          "depth": 10,
+          "raw": "RELIABLE/VOLATILE"
+        }
+      },
+      {
+        "topic": "/parameter_events",
+        "type": "rcl_interfaces/msg/ParameterEvent",
+        "qos": {
+          "reliability": "Reliable",
+          "durability": "Volatile",
+          "history": "Keep last",
+          "depth": 10,
+          "raw": "RELIABLE/VOLATILE"
+        }
+      },
+      {
+        "topic": "/rosout",
+        "type": "rcl_interfaces/msg/Log",
+        "qos": {
+          "reliability": "Reliable",
+          "durability": "Volatile",
+          "history": "Keep last",
+          "depth": 10,
+          "raw": "RELIABLE/VOLATILE"
+        }
+      },
+      {
+        "topic": "/tf",
+        "type": "tf2_msgs/msg/TFMessage",
+        "qos": {
+          "reliability": "Reliable",
+          "durability": "Volatile",
+          "history": "Keep last",
+          "depth": 10,
+          "raw": "RELIABLE/VOLATILE"
+        }
+      },
+      {
+        "topic": "/tf_static",
+        "type": "tf2_msgs/msg/TFMessage",
+        "qos": {
+          "reliability": "Reliable",
+          "durability": "Transient Local",
+          "history": "Keep last",
+          "depth": 10,
+          "raw": "RELIABLE/TRANSIENT_LOCAL"
+        }
+      }
+    ],
+    "tfFramesEdgesAuthority": {
+      "frames": [
+        "base_footprint",
+        "base_link",
+        "base_scan",
+        "camera_link",
+        "camera_rgb_frame",
+        "camera_rgb_optical_frame",
+        "imu_link",
+        "odom",
+        "wheel_left_link",
+        "wheel_right_link"
+      ],
+      "edges": [
+        {
+          "parent": "base_footprint",
+          "child": "base_link",
+          "t": [
+            0,
+            0,
+            0.01
+          ],
+          "q": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "time": 1792173810.823,
+          "static": true,
+          "authority": "robot_state_publisher"
+        },
+        {
+          "parent": "base_link",
+          "child": "base_scan",
+          "t": [
+            -0.064,
+            0,
+            0.122
+          ],
+          "q": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "time": 1792173810.824,
+          "static": true,
+          "authority": "robot_state_publisher"
+        },
+        {
+          "parent": "base_link",
+          "child": "imu_link",
+          "t": [
+            0,
+            0,
+            0.068
+          ],
+          "q": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "time": 1792173810.824,
+          "static": true,
+          "authority": "robot_state_publisher"
+        },
+        {
+          "parent": "base_link",
+          "child": "camera_link",
+          "t": [
+            0.073,
+            -0.011,
+            0.084
+          ],
+          "q": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "time": 1792173810.824,
+          "static": true,
+          "authority": "robot_state_publisher"
+        },
+        {
+          "parent": "camera_link",
+          "child": "camera_rgb_frame",
+          "t": [
+            0.003,
+            0.011,
+            0.009
+          ],
+          "q": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "time": 1792173810.824,
+          "static": true,
+          "authority": "robot_state_publisher"
+        },
+        {
+          "parent": "camera_rgb_frame",
+          "child": "camera_rgb_optical_frame",
+          "t": [
+            0,
+            0,
+            0
+          ],
+          "q": [
+            -0.5,
+            0.5,
+            -0.5,
+            0.5
+          ],
+          "time": 1792173810.824,
+          "static": true,
+          "authority": "robot_state_publisher"
+        },
+        {
+          "parent": "base_link",
+          "child": "wheel_left_link",
+          "t": [
+            0,
+            0.144,
+            0.023
+          ],
+          "q": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "time": 1792173810.824,
+          "static": false,
+          "authority": "diff_drive_controller"
+        },
+        {
+          "parent": "base_link",
+          "child": "wheel_right_link",
+          "t": [
+            0,
+            -0.144,
+            0.023
+          ],
+          "q": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "time": 1792173810.824,
+          "static": false,
+          "authority": "diff_drive_controller"
+        },
+        {
+          "parent": "odom",
+          "child": "base_footprint",
+          "t": [
+            0,
+            0,
+            0
+          ],
+          "q": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "time": 1792173810.824,
+          "static": false,
+          "authority": "diff_drive_controller"
+        }
+      ],
+      "authority": {
+        "base_link": "robot_state_publisher",
+        "base_footprint->base_link": "robot_state_publisher",
+        "base_scan": "robot_state_publisher",
+        "base_link->base_scan": "robot_state_publisher",
+        "imu_link": "robot_state_publisher",
+        "base_link->imu_link": "robot_state_publisher",
+        "camera_link": "robot_state_publisher",
+        "base_link->camera_link": "robot_state_publisher",
+        "camera_rgb_frame": "robot_state_publisher",
+        "camera_link->camera_rgb_frame": "robot_state_publisher",
+        "camera_rgb_optical_frame": "robot_state_publisher",
+        "camera_rgb_frame->camera_rgb_optical_frame": "robot_state_publisher",
+        "wheel_left_link": "diff_drive_controller",
+        "base_link->wheel_left_link": "diff_drive_controller",
+        "wheel_right_link": "diff_drive_controller",
+        "base_link->wheel_right_link": "diff_drive_controller",
+        "base_footprint": "diff_drive_controller",
+        "odom->base_footprint": "diff_drive_controller"
+      }
+    },
+    "fixedFrame": {
+      "selected": "map",
+      "options": [
+        "base_footprint",
+        "base_link",
+        "base_scan",
+        "camera_link",
+        "camera_rgb_frame",
+        "camera_rgb_optical_frame",
+        "imu_link",
+        "odom",
+        "wheel_left_link",
+        "wheel_right_link"
+      ]
+    },
+    "params": [
+      {
+        "name": "rviz2",
+        "full": "/rviz2",
+        "params": {
+          "start_type_description_service": true,
+          "use_sim_time": false
+        }
+      }
+    ],
+    "lifecycleStates": [],
+    "globalAndDisplayStatus": {
+      "globalStatus": "Error",
+      "statusLines": [
+        "error: Fixed Frame: Fixed Frame [map] does not exist",
+        "error: Grid: Fixed Frame [map] does not exist"
+      ],
+      "displays": [
+        {
+          "name": "Grid",
+          "type": "Grid",
+          "enabled": true,
+          "status": "Fixed Frame [map] does not exist",
+          "level": "Error",
+          "messages": [
+            "Fixed Frame [map] does not exist"
+          ]
+        }
+      ]
+    },
+    "logs": [
+      "(There is no robot \"tb3_waffle_pi\" in the catalog. Go back to the Robotic Models Simulator and pick one.)",
+      "student@ros2lab:~/ros2_ws$ TURTLEBOT3_MODEL=waffle_pi ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py",
+      "TURTLEBOT3_MODEL=waffle_pi: command not found",
+      "student@ros2lab:~/ros2_ws$ ros2 run rviz2 rviz2",
+      "[INFO] [rviz2]: Stereo is NOT SUPPORTED",
+      "[INFO] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)",
+      "(The RViz2 window opened below the terminal.)"
+    ],
+    "errors": [
+      "TURTLEBOT3_MODEL=waffle_pi: command not found"
+    ],
+    "nav": {
+      "plan": null,
+      "localPlan": null,
+      "robotPoseHistory": [],
+      "amclPoseHistory": [],
+      "particleCount": 0,
+      "globalCostmap": null,
+      "localCostmap": null
+    },
+    "sensors": {
+      "cameraInfo": null,
+      "imageInfo": null,
+      "pointCloud2": null,
+      "scan": null
+    },
+    "rvizViewers": [
+      {
+        "root": {}
+      }
+    ],
+    "simulatorPose": null,
+    "canvases": [
+      {
+        "width": 462,
+        "height": 684
+      }
+    ],
+    "visibleText": "ROS2Lab ROS 2 for beginners\nHome\nPlayground\nSimulator\nFree resources\nLog in\nRegister\nRobotic Models Simulator / Robot\nRobot not found\n\nThis page has one robot and its own workspace. A description package is built with colcon, and a launch file (Python or XML) starts robot_state_publisher, joint_state_publisher_gui and rviz2 with a saved .rviz config, as on Ubuntu. Move a slider and the robot moves: /joint_states → robot_state_publisher → /tf → RViz.\n\nGazebo, MoveIt 2 and the real robot on this page\n\nRobot\n\nLaunch it\n Robot model (display)\n Gazebo simulation with sensors (sim)\n Gazebo + ros2_control (sim_control)\n Python launch file\n XML launch file\nType these commands for me\nor type them in the terminal below\nWorkspace files\nRobot details: links, joints, sensors, Gazebo plugins\nTerminal: ~/ros2_ws\nstudent@ros2lab: ~/ros2_ws\nRight-click a terminal for the Terminator menu\n+ New terminal\nstudent@ros2lab: ~/ros2_ws\nrviz2\n(There is no robot \"tb3_waffle_pi\" in the catalog. Go back to the Robotic Models Simulator and pick one.)\nstudent@ros2lab:~/ros2_ws$ TURTLEBOT3_MODEL=waffle_pi ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py\nTURTLEBOT3_MODEL=waffle_pi: command not found\nstudent@ros2lab:~/ros2_ws$ ros2 run rviz2 rviz2\n[INFO] [rviz2]: Stereo is NOT SUPPORTED\n[INFO] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)\n(The RViz2 window opened below the terminal.)\n/rviz2 is running in this terminal. Real ROS 2 works the same way: open a + New terminal to type more commands.\nCtrl+C (stop it)\nTab\n↑ Last command\nOpen a new terminal\nOpen VS Code\nStart again\nRViz\nFile\nPanels\nHelp\nInteract\nMove Camera\nSelect\nFocus Camera\nMeasure\n2D Pose Estimate\n2D Goal Pose\nPublish Point\nDisplays\nGlobal Options\nFixed Frame\nBackground Color\n48; 48; 48\nFrame Rate\n30\nGlobal Status: Error\nFixed Frame\nFixed Frame [map] does not exist\nGrid\nAdd\nDuplicate\nRemove\nRename\n3D Orbit\n2D Top\nViews\nType:\nOrbit (rviz_default_plugins)\nFPS (rviz_default_plugins)\nThirdPersonFollower (rviz_default_plugins)\nTopDownOrtho (rviz_default_plugins)\nXYOrbit (rviz_default_plugins)\nZero\nCurrent View\nOrbit (rviz_default_plugins)\nNear Clip Distance\n0.01\nInvert Z Axis\nTarget Frame\n<Fixed Frame>\nDistance\n10\nFocal Shape Size\n0.05\nFocal Shape Fixed Size\nYaw\n0.785398\nPitch\n0.785398\nFocal Point\n0; 0; 0\nSave\nRemove\nRename\nTime\nROS Time:\nROS Elapsed:\nWall Time:\nWall Elapsed:\nExperimental\nReset\nLeft-Click: Rotate. Middle-Click: Move X/Y. Right-Click/Mouse Wheel: Zoom. Shift: More options.\nFixed Frame: Fixed Frame [map] does not exist\nGrid: Fixed Frame [map] does not exist\nConnect to ROS 2 on your Ubuntu computer (rosbridge)\nHow it works, and its limits\nROS2Lab: a free ROS 2 course for students and engineers\nDeveloped by the Robotics and ROS2 lab Channel\nTerms of Use\nPrivacy notice"
+  },
+  "browserErrors": [
+    "Access to fetch at 'https://asia-south1-ros2lab.cloudfunctions.net/heartbeat' from origin 'http://127.0.0.1:8000' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+    "Failed to load resource: net::ERR_FAILED"
+  ]
+}
