@@ -193,3 +193,13 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
 - **Tests passed**: Playwright E2E tests: 36/36 passed; Vitest unit tests: 15/15 passed across 3 files; CLI unit tests: 13/13 passed; catalog & env tests passed.
 - **Tests failed**: 0.
 - **PENDING / UNVERIFIED / FAILED**: Burger runtime launch blocker remains UNVERIFIED pending a correctly built/sourced browser run. Sensor topic/message parity and complete simulation comparisons remain PENDING as documented in `parity/reports/P9-round2.md`. Other robots were skipped because P2b/P2c have not run and remain NOT VERIFIED. No simulation was started; cleanup will be checked before finishing.
+
+## Runner note – P11-round2: exit 0 at 23:54
+    0885638 WIP: uncommitted work left by overnight step P11-round2 (review)
+    67a9fbf Overnight runner log: P11-round2
+    46de081 Fix P11-round2 TurtleBot3 issues: shell env scoping, Waffle Pi catalog, and rear-caster TF
+    822cc50 Overnight runner log: P9-round2
+    235da3f Record P9-round2 TurtleBot3 parity observations
+    2810506 Overnight runner log: P11-round1
+    cca56a3 Document P11-round1 fix loop results
+    1175814 Overnight runner log: P10
