@@ -144,3 +144,13 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
     16ace77 Overnight runner log: P8
     e5c3fc5 Document P8 RViz parity audit status
     6d3680c Overnight runner log: P7
+
+
+## STEP: P11-round1
+- **Task**: Fix loop for TurtleBot3 only (`tb3_burger`, `tb3_waffle`, `tb3_waffle_pi`), up to 10 highest-priority actionable findings.
+- **Triage**: No P11-ready FAIL/MISMATCH item was available to pass to `emulator-fixer`. `parity/reports/FAILS.md` contains only the SmacLattice configuration entry marked Resolved / Verified Configuration. `parity/reports/MISTAKES.md` and `parity/reports/COURSE_ISSUES.md` do not exist. The three `ui_tb3_*.md` reports are P7 reports, not verified P11 FAILs; the Waffle Pi report lists focus contrast and tooltip delay recommendations without corresponding failed measurements. P9 artifacts are browser observations and explicitly not parity verdicts; some record blocked launches or missing hooks, so they do not establish a simulator defect against real fixtures. No fixes were made rather than inventing expected behavior or editing on unverified evidence.
+- **Commits made**: Report update only (this commit). No application, fixture, or other-robot files changed.
+- **Tests passed**: `npx playwright test -c parity/playwright.config.ts`: 33 passed, 0 failed. `npx vitest run parity/unit`: 14 passed across 3 files, 0 failed.
+- **Tests failed**: 0.
+- **Simulation cleanup**: `bash parity/scripts/stop_reference.sh` for domains 41–47 reported `nothing running for domain <id>` for each. No simulation was started during P11.
+- **Items still PENDING / UNVERIFIED / FAILED**: P9 parity-judge comparisons and the P9 browser observations' launch/control issues remain unresolved and unverified, including the Burger Gazebo launch blocker `Package 'turtlebot3_gazebo' not found` as recorded in the P9 report; it is not treated as an actionable simulator defect without matched real/browser evidence. P8 RViz S10 element-level effects/status parity and report generation remain PENDING (see `parity/reports/rviz_parity.md`). P10 persona real/browser comparisons and coverage remain PENDING (see persona reports and prior P10 section). No P11 fixes were validated because there were no evidence-backed actionable findings. Other robots, including TurtleBot4, Scout, and arms, were skipped because P2b/P2c have not run and remain NOT VERIFIED.
