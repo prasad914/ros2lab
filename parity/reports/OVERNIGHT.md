@@ -43,3 +43,13 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
     faa6844 Overnight run started on overnight-2026-10-16-2139
     9bee3e3 Commit remaining SmacLattice configs, runs, and navigation trial outputs for overnight run
     48a5837 Add overnight runner
+
+## Runner note – P5: exit 0 at 22:08
+    350ce4a Complete P5 sensor parity for TurtleBot3 models and update overnight report
+    26a7754 Overnight runner log: P2-audit
+    b2cbcf0 Update overnight report for STEP: P2-audit
+    1a757ec Overnight run started on overnight-2026-10-16-2154
+    9c9b815 Update overnight script to use model sonnet
+    ec9dac0 Overnight run started on overnight-2026-10-16-2147
+    d710c43 Complete P2-audit for TurtleBot3 models and update overnight report
+    faa6844 Overnight run started on overnight-2026-10-16-2139
