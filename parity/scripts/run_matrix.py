@@ -89,27 +89,6 @@ def test_pair(planner, controller):
         "MAP": MAP_PATH
     }
 
-    if planner == "SmacLattice":
-        print(f"Testing SmacLattice configuration for {pair_name}...")
-        run_cmd(f"bash parity/scripts/start_reference.sh {ROBOT} {SCEN} {DOMAIN} {PARTITION}", env=env)
-        time.sleep(10)
-        planner_ok, planner_state = check_lifecycle_node("/planner_server")
-        controller_ok, controller_state = check_lifecycle_node("/controller_server")
-        log_file = os.path.join(LOGS_DIR, "nav2demo.log")
-        err_excerpt = extract_log_errors(log_file)
-        fail_log = os.path.join(LOGS_DIR, f"{pair_name}_unverified.log")
-        with open(fail_log, "w") as f:
-            f.write(f"Pair: {pair_name}\nPlanner state: {planner_state}\nController state: {controller_state}\n\nError excerpt:\n{err_excerpt}\n")
-        stop_stack()
-        return {
-            "pair": pair_name,
-            "planner": planner,
-            "controller": controller,
-            "status": "UNVERIFIED",
-            "reason": "SmacPlannerLattice requires external lattice graph filepath (not bundled in Jazzy nav2_smac_planner)",
-            "log": fail_log,
-            "error_excerpt": err_excerpt
-        }
 
     print(f"Starting nav2_bringup with {config_path}...")
     run_cmd(f"bash parity/scripts/start_reference.sh {ROBOT} {SCEN} {DOMAIN} {PARTITION}", env=env)

@@ -1,0 +1,26 @@
+{
+  "run_label": "SmacLattice_Graceful",
+  "timestamp": 1792164631.1811829,
+  "results": {
+    "goal1": {
+      "success": false,
+      "duration": 0.0,
+      "wall_duration": 0.06795406341552734,
+      "status": "6",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        0.042474076013286025,
+        0.02290531361834596,
+        -0.00793945097715239
+      ],
+      "position_error_m": 0.9897112926925361,
+      "yaw_error_deg": 90.45490008149223,
+      "amcl_cov_x": 0.18935726774772865,
+      "amcl_cov_y": 0.23774804455891038,
+      "amcl_cov_yaw": 0.0671170520792445
+    }
+  }
+}

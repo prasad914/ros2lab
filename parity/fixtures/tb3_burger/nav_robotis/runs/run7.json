@@ -1,0 +1,76 @@
+{
+  "run_label": "run7",
+  "timestamp": 1792164497.0644627,
+  "results": {
+    "goal1": {
+      "success": true,
+      "duration": 20.354,
+      "wall_duration": 77.1702070236206,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        0.13761276235407188,
+        0.6290990122081409,
+        1.395020030083808
+      ],
+      "position_error_m": 0.37611130023713235,
+      "yaw_error_deg": 10.071242988835046,
+      "amcl_cov_x": 0.017911366027303463,
+      "amcl_cov_y": 0.04930011166246512,
+      "amcl_cov_yaw": 0.055677586687295055
+    },
+    "goal2": {
+      "success": false,
+      "duration": 49.573,
+      "wall_duration": 182.33645248413086,
+      "status": "6",
+      "goal_target": [
+        2.5,
+        1.95
+      ],
+      "final_amcl_pose": [
+        0.8696487382265324,
+        1.9838339271586758,
+        0.3789884292174821
+      ],
+      "position_error_m": 1.6307022939191924,
+      "yaw_error_deg": 21.71443747845426,
+      "amcl_cov_x": 0.07209248473888363,
+      "amcl_cov_y": 0.04262177535769274,
+      "amcl_cov_yaw": 0.08722010402382088
+    },
+    "goal3": {
+      "success": false,
+      "duration": 0.0,
+      "wall_duration": 0.0,
+      "status": "REJECTED",
+      "goal_target": [
+        3.75,
+        0.5
+      ]
+    },
+    "goal4": {
+      "success": false,
+      "duration": 0.0,
+      "wall_duration": 0.0,
+      "status": "SEND_TIMEOUT",
+      "goal_target": [
+        2.0,
+        -1.4
+      ]
+    },
+    "goal5": {
+      "success": false,
+      "duration": 0.0,
+      "wall_duration": 0.0,
+      "status": "SEND_TIMEOUT",
+      "goal_target": [
+        1.5,
+        0.0
+      ]
+    }
+  }
+}
