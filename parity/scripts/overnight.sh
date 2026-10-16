@@ -7,7 +7,7 @@
 set -u
 cd "$(git rev-parse --show-toplevel)" || { echo "Run this inside ~/ros2lab-course"; exit 1; }
 
-MODEL="${MODEL:-opus}"                       # pinned model; override with MODEL=sonnet bash parity/scripts/overnight.sh
+MODEL="${MODEL:-claude-opus-5-5}"                       # pinned model; override with MODEL=sonnet bash parity/scripts/overnight.sh
 LOGDIR="$HOME/parity_overnight_logs/$(date +%F_%H%M)"
 REPORT="parity/reports/OVERNIGHT.md"
 RETRIES="${RETRIES:-3}"                                    # per step, for usage limits / network errors
