@@ -14,3 +14,13 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2147
 
 # Overnight run 2026-10-16 21:54 on branch overnight-2026-10-16-2154 (from overnight-2026-10-16-2147, model sonnet)
 Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
+
+## STEP: P2-audit
+- **Audited P2 for TurtleBot3 models**: Confirmed `parity/fixtures/bag_manifest.md` lists `nav_robotis` run1..run10 and every planner x controller pair including the 5 SmacLattice pairs, each with a bag and a `runs/<pair>.json` result.
+- **Occupied goal fixture**: Confirmed `parity/fixtures/tb3_burger/nav_robotis/runs/occupied_goal.json` exists with status `REJECTED`, `error_code: 101`, and `error_msg: "Goal is in collision"`.
+- **Samples and QoS**: Confirmed no empty file remains in `samples` or `qos` for `/plan` and `/particle_cloud`.
+- **STATUS.md**: Confirmed TurtleBot3 rows point to evidence files that exist in `parity/fixtures/<model>/install_check/`.
+- **Tests passed**: Vitest unit tests: 10/10 passed; Playwright E2E tests: 23/23 passed.
+- **Tests failed**: 0.
+- **Items still PENDING / UNVERIFIED / FAILED**: Other non-TurtleBot3 robots (TurtleBot4, Scout, arms) remain out of scope / NOT VERIFIED per overnight instructions. SmacLattice pairs are `VERIFIED (Config)`.
+
