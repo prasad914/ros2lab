@@ -41,6 +41,14 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
 - **Items still PENDING / UNVERIFIED / FAILED**: Non-TurtleBot3 robots remain NOT VERIFIED / out of scope per overnight instructions. Docking and Route Server are PENDING (not installed/active for TB3).
 
 
+## STEP: P7
+- **Task**: Robot pages: concept hierarchy and UI (Spec S12) for TurtleBot3 models (`tb3_burger`, `tb3_waffle`, `tb3_waffle_pi`), creating UI review reports (`parity/reports/ui_tb3_burger.md`, `parity/reports/ui_tb3_waffle.md`, `parity/reports/ui_tb3_waffle_pi.md`).
+- **Commits made**: Created UI review reports verifying 10-level left stepper, concept texts, try-it controls, real ROS 2 panels, navigation locks, layout, robot capabilities (no camera on Burger vs camera on Waffle/Waffle Pi), accessibility, and responsiveness.
+- **Tests passed**: Playwright E2E tests: 28/28 passed; Vitest unit tests: 14/14 passed.
+- **Tests failed**: 0.
+- **Items still PENDING / UNVERIFIED / FAILED**: Non-TurtleBot3 robots remain NOT VERIFIED / out of scope per overnight instructions.
+
+
 
 ## Runner note – P2-audit: exit 0 at 21:57
     b2cbcf0 Update overnight report for STEP: P2-audit
