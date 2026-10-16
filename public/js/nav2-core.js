@@ -289,6 +289,7 @@ export function planPath(g, start, goal, opts = {}) {
   if (!s) return { code: 203, message: `Start Coordinates of(${start.x.toFixed(6)}, ${start.y.toFixed(6)}) was outside bounds` };
   const gm = g.toMap(goal.x, goal.y);
   if (!gm) return { code: 204, message: `Goal Coordinates of(${goal.x.toFixed(6)}, ${goal.y.toFixed(6)}) was outside bounds` };
+  if (g.data[gm[1] * W + gm[0]] >= INSCRIBED) return { code: 208, message: `GridBased: failed to create plan with tolerance of: ${tolerance.toFixed(6)}` };
   if (tolerance === 0 && g.data[gm[1] * W + gm[0]] === LETHAL) return { code: 206, message: `Goal Coordinates of(${goal.x.toFixed(6)}, ${goal.y.toFixed(6)}) was in lethal cost` };
   const passable = (c) => c < INSCRIBED || (c === NO_INFO && allowUnknown);
   const stepCost = (c) => {
@@ -323,7 +324,7 @@ export function planPath(g, start, goal, opts = {}) {
   if (found < 0) found = best;
   if (found < 0) return { code: 208, message: `Failed to create plan with tolerance of: ${tolerance.toFixed(6)}` };
   let cells = []; for (let i = found; i >= 0; i = prev[i]) cells.push([i % W, (i / W) | 0]); cells.reverse();
-  if (kind === "theta" && cells.length > 2) {   // any-angle: keep only the corners with line of sight between them
+  if ((kind === "theta" || kind === "smac") && cells.length > 2) {   // any-angle / shortcutting: keep only the corners with line of sight between them
     const los = (a, b) => { for (const [x, y] of line(a[0], a[1], b[0], b[1])) if (!passable(g.data[y * W + x]) || g.data[y * W + x] > 200) return false; return true; };
     const keep = [cells[0]]; let k = 0;
     for (let j = 2; j < cells.length; j++) if (!los(cells[k], cells[j])) { keep.push(cells[j - 1]); k = j - 1; }
@@ -596,4 +597,36 @@ export class MappingGrid {
     return { width: this.w, height: this.h, resolution: this.res, origin: [this.ox, this.oy, 0], data: d, frame };
   }
   known() { let n = 0; for (const s of this.seen) n += s; return n; }
+}
+
+export function rotationShimCommand(P, st) {
+  const { pose, goalPose, xyTol } = st;
+  const dGoal = Math.hypot(goalPose.x - pose.x, goalPose.y - pose.y);
+  if (dGoal <= xyTol || st.latched) return dwbCommand(P, st);
+  const local = st.localPath;
+  const target = local[Math.min(2, local.length - 1)] || [goalPose.x, goalPose.y];
+  const ang = wrap(Math.atan2(target[1] - pose.y, target[0] - pose.x) - pose.yaw);
+  const minAngle = num(P.rotate_to_heading_min_angle, 0.785);
+  if (Math.abs(ang) > minAngle) {
+    return { vx: 0, wz: Math.sign(ang) * num(P.rotate_to_heading_angular_vel, 1.8), rotating: true };
+  }
+  const prim = P.primary_controller || "DWB";
+  return prim === "RPP" ? rppCommand(P, st) : dwbCommand(P, st);
+}
+
+export function gracefulCommand(P, st) {
+  const { pose, goalPose, xyTol } = st;
+  const dGoal = Math.hypot(goalPose.x - pose.x, goalPose.y - pose.y);
+  if (dGoal <= xyTol || st.latched) return { vx: 0, wz: 0 };
+  const local = st.localPath;
+  const target = local[Math.min(3, local.length - 1)] || [goalPose.x, goalPose.y];
+  const dx = target[0] - pose.x, dy = target[1] - pose.y;
+  const r = Math.hypot(dx, dy);
+  const alpha = wrap(Math.atan2(dy, dx) - pose.yaw);
+  const kPhi = num(P.k_phi, 1.0), kDelta = num(P.k_delta, 1.0), beta = num(P.beta, 0.4), lambda = num(P.lambda, 2.0);
+  const kappa = (1 / Math.max(0.01, r)) * (-kDelta * (alpha - Math.atan(-kPhi * alpha)) + (1 + kPhi / (1 + (kPhi * alpha) ** 2)) * Math.sin(alpha));
+  const vMax = num(P.max_vel_x, 0.26), wMax = num(P.max_vel_theta, 1.0);
+  const v = Math.max(0.05, vMax * Math.min(1.0, r / 0.6) / (1 + beta * Math.abs(kappa) ** lambda));
+  const w = Math.max(-wMax, Math.min(wMax, v * kappa));
+  return { vx: v, wz: w };
 }

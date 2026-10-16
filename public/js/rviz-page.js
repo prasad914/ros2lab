@@ -716,7 +716,21 @@ async function ensureLive() {
     fixedFrame: "base_link", displays: { Grid: true, RobotModel: true, TF: true }, resolve: () => null, topics: () => topics, title: "", externalTf: true, plugins: () => ["rviz_imu_plugin"],
     onSave: (path) => say(`${path} is kept in this page only: ROS2Lab does not download files to your device.`),
     onOpenConfig: () => { const i = document.createElement("input"); i.type = "file"; i.accept = ".rviz,.yaml"; i.onchange = async () => { const f = i.files[0]; if (f) viewer.loadConfig(await f.text(), f.name); }; i.click(); },
-    onPublish: (topic, type, msg) => { if (rb) { rb.publish(topic, type, msg); say(`Published a ${type} on ${topic} through rosbridge.`); } },
+    onPublish: (topic, type, msg) => {
+      window.__ros2lab.sh = window.__ros2lab.sh || {};
+      window.__ros2lab.sh.viz = window.__ros2lab.sh.viz || {};
+      window.__ros2lab.sh.viz.published = window.__ros2lab.sh.viz.published || {};
+      window.__ros2lab.sh.viz.published[topic] = { type, msg };
+      if (window.__ros2lab.sh.graph) {
+        const g = window.__ros2lab.sh.graph;
+        g.lastPub = { topic, type };
+        g.lastPubMsg = { topic, type, msg };
+        if (g.nav2Api && g.nav2) {
+          g.nav2Api.nav2Topic(g, topic, type, msg);
+        }
+      }
+      if (rb) { rb.publish(topic, type, msg); say(`Published a ${type} on ${topic} through rosbridge.`); }
+    },
   });
   const jsp = createJspWindow(desk, { title: "Joint State Publisher", onChange: (v) => { if (rb && $("pubjs").checked) publishJointStates(v); } });
   live = { viewer, jsp };
