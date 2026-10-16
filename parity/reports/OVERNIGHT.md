@@ -106,3 +106,12 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
     54bfe69 Overnight runner log: P6
     85fc777 Complete P6 full autonomous-navigation stack emulation for TurtleBot3 models and update overnight report
     d450f32 Overnight runner log: P5
+
+## STEP: P9-round1
+- **Task**: Run P9 parity observations for TurtleBot3 models only; do not fix findings.
+- **Browser observations**: Burger sensors, SLAM, and Cartographer captured under `parity/browser_out/tb3_burger/`; waffle Pi sensors captured under `parity/browser_out/tb3_waffle_pi/sensors/`. These are observations only, not parity verdicts. Burger notes record the browser launch blocker `Package 'turtlebot3_gazebo' not found`; SLAM/Cartographer did not reach active operation. The waffle Pi action list was empty, so no control interactions were specified or tested. Waffle sensors did not complete. No P9 parity-judge verdicts were produced; P9 remains incomplete.
+- **Unexpected fixture mutation**: The burger sensors browser observation modified files under `parity/fixtures/tb3_burger/sensors/` (topic/QoS/run metadata). The attempted `git restore --worktree -- parity/fixtures/tb3_burger/sensors` was denied by the permission gate; these changes remain uncommitted and must be restored before treating comparisons as valid. No real-ROS capture was intentionally run in this step.
+- **Commits made**: None for P9. Browser output and observation specs remain uncommitted. Final report commit is blocked pending fixture restoration and permission.
+- **Tests passed**: `npx playwright test -c parity/playwright.config.ts`: 31 passed, 0 failed; `npx vitest run parity/unit`: 14 passed across 3 files, 0 failed.
+- **Tests failed**: Dev-server start attempt failed with `OSError: [Errno 98] Address already in use`; this was not a test failure. Waffle sensors observation was not completed.
+- **Items still PENDING / UNVERIFIED / FAILED**: P9 parity-judge comparisons; waffle sensors; active Burger simulation scenarios due the package-not-found launch error; sensor/display/control effect and published-message checks. Other robots skipped because P2b/P2c have not run and remain NOT VERIFIED. Fixture-tree restoration is BLOCKED by the denied `git restore` command.
