@@ -1,7 +1,7 @@
 {
   "launchState": {
     "termHook": true,
-    "visibleText": "ROS2Lab ROS 2 for beginners\nHome\nPlayground\nSimulator\nFree resources\nLog in\nRegister\nRobotic Models Simulator / Robot\nRobot not found\n\nThis page has one robot and its own workspace. A description package is built with colcon, and a launch file (Python or XML) starts robot_state_publisher, joint_state_publisher_gui and rviz2 with a saved .rviz config, as on Ubuntu. Move a slider and the robot moves: /joint_states → robot_state_publisher → /tf → RViz.\n\nGazebo, MoveIt 2 and the real robot on this page\n\nRobot\n\nLaunch it\n Robot model (display)\n Gazebo simulation with sensors (sim)\n Gazebo + ros2_control (sim_control)\n Python launch file\n XML launch file\nType these commands for me\nor type them in the terminal below\nWorkspace files\nRobot details: links, joints, sensors, Gazebo plugins\nTerminal: ~/ros2_ws\nstudent@ros2lab: ~/ros2_ws\nRight-click a terminal for the Terminator menu\n+ New terminal\nstudent@ros2lab: ~/ros2_ws\n(There is no robot \"tb3_waffle_pi\" in the catalog. Go back to the Robotic Models Simulator and pick one.)\nstudent@ros2lab:~/ros2_ws$\nTab\n↑ Last command\nOpen a new terminal\nOpen VS Code\nStart again\nConnect to ROS 2 on your Ubuntu computer (rosbridge)\nHow it works, and its limits\nROS2Lab: a free ROS 2 course for students and engineers\nDeveloped by the Robotics and ROS2 lab Channel\nTerms of Use\nPrivacy notice"
+    "visibleText": "ROS2Lab ROS 2 for beginners\nHome\nPlayground\nSimulator\nFree resources\nLog in\nRegister\nRobotic Models Simulator / TurtleBot3 Waffle Pi\nTurtleBot3 Waffle Pi\n\nThis page has one robot and its own workspace. A description package is built with colcon, and a launch file (Python or XML) starts robot_state_publisher, joint_state_publisher_gui and rviz2 with a saved .rviz config, as on Ubuntu. Move a slider and the robot moves: /joint_states → robot_state_publisher → /tf → RViz.\n\nGazebo, MoveIt 2 and the real robot on this page\n\nMobile robots · ROBOTIS\n\nTurtleBot3 Waffle Pi\n\nundefined Source: ROBOTIS-GIT/turtlebot3 (Apache-2.0)\n\nLaunch it\n Robot model (display)\n Gazebo simulation with sensors (sim)\n Gazebo + ros2_control (sim_control)\n Python launch file\n XML launch file\n$ cd ~/ros2_ws\n$ colcon build --packages-select turtlebot3_description tb3_waffle_pi_gazebo tb3_waffle_pi_bringup goal_pose_gui\n$ source install/setup.bash\n$ ros2 launch turtlebot3_description display.launch.py\nType these commands for me\nor type them in the terminal below\nWorkspace files (4 packages, 50 files)\nRobot details: links, joints, sensors, Gazebo plugins\nTerminal: ~/ros2_ws\nstudent@ros2lab: ~/ros2_ws\nRight-click a terminal for the Terminator menu\n+ New terminal\nstudent@ros2lab: ~/ros2_ws\n(TurtleBot3 Waffle Pi: the packages turtlebot3_description, tb3_waffle_pi_gazebo, tb3_waffle_pi_bringup, goal_pose_gui are in ~/ros2_ws/src. Build, source the workspace and launch: the commands are above the terminal. code ~/ros2_ws opens them all in VS Code.)\nstudent@ros2lab:~/ros2_ws$\nTab\n↑ Last command\nOpen a new terminal\nOpen VS Code\nStart again\nConnect to ROS 2 on your Ubuntu computer (rosbridge)\nHow it works, and its limits\nROS2Lab: a free ROS 2 course for students and engineers\nDeveloped by the Robotics and ROS2 lab Channel\nTerms of Use\nPrivacy notice"
   },
   "commandResult": {
     "attempted": true
@@ -316,6 +316,8 @@
         "camera_link",
         "camera_rgb_frame",
         "camera_rgb_optical_frame",
+        "caster_back_left_link",
+        "caster_back_right_link",
         "imu_link",
         "odom",
         "wheel_left_link",
@@ -336,7 +338,7 @@
             0,
             1
           ],
-          "time": 1792173810.823,
+          "time": 1792176823.818,
           "static": true,
           "authority": "robot_state_publisher"
         },
@@ -354,7 +356,7 @@
             0,
             1
           ],
-          "time": 1792173810.824,
+          "time": 1792176823.818,
           "static": true,
           "authority": "robot_state_publisher"
         },
@@ -372,7 +374,43 @@
             0,
             1
           ],
-          "time": 1792173810.824,
+          "time": 1792176823.818,
+          "static": true,
+          "authority": "robot_state_publisher"
+        },
+        {
+          "parent": "base_link",
+          "child": "caster_back_right_link",
+          "t": [
+            -0.177,
+            -0.064,
+            -0.004
+          ],
+          "q": [
+            -0.706825,
+            0,
+            0,
+            0.707388
+          ],
+          "time": 1792176823.818,
+          "static": true,
+          "authority": "robot_state_publisher"
+        },
+        {
+          "parent": "base_link",
+          "child": "caster_back_left_link",
+          "t": [
+            -0.177,
+            0.064,
+            -0.004
+          ],
+          "q": [
+            -0.706825,
+            0,
+            0,
+            0.707388
+          ],
+          "time": 1792176823.819,
           "static": true,
           "authority": "robot_state_publisher"
         },
@@ -390,7 +428,7 @@
             0,
             1
           ],
-          "time": 1792173810.824,
+          "time": 1792176823.819,
           "static": true,
           "authority": "robot_state_publisher"
         },
@@ -408,7 +446,7 @@
             0,
             1
           ],
-          "time": 1792173810.824,
+          "time": 1792176823.819,
           "static": true,
           "authority": "robot_state_publisher"
         },
@@ -426,7 +464,7 @@
             -0.5,
             0.5
           ],
-          "time": 1792173810.824,
+          "time": 1792176823.819,
           "static": true,
           "authority": "robot_state_publisher"
         },
@@ -444,7 +482,7 @@
             0,
             1
           ],
-          "time": 1792173810.824,
+          "time": 1792176823.818,
           "static": false,
           "authority": "diff_drive_controller"
         },
@@ -462,7 +500,7 @@
             0,
             1
           ],
-          "time": 1792173810.824,
+          "time": 1792176823.818,
           "static": false,
           "authority": "diff_drive_controller"
         },
@@ -480,7 +518,7 @@
             0,
             1
           ],
-          "time": 1792173810.824,
+          "time": 1792176823.819,
           "static": false,
           "authority": "diff_drive_controller"
         }
@@ -492,6 +530,10 @@
         "base_link->base_scan": "robot_state_publisher",
         "imu_link": "robot_state_publisher",
         "base_link->imu_link": "robot_state_publisher",
+        "caster_back_right_link": "robot_state_publisher",
+        "base_link->caster_back_right_link": "robot_state_publisher",
+        "caster_back_left_link": "robot_state_publisher",
+        "base_link->caster_back_left_link": "robot_state_publisher",
         "camera_link": "robot_state_publisher",
         "base_link->camera_link": "robot_state_publisher",
         "camera_rgb_frame": "robot_state_publisher",
@@ -515,6 +557,8 @@
         "camera_link",
         "camera_rgb_frame",
         "camera_rgb_optical_frame",
+        "caster_back_left_link",
+        "caster_back_right_link",
         "imu_link",
         "odom",
         "wheel_left_link",
@@ -552,16 +596,17 @@
       ]
     },
     "logs": [
-      "(There is no robot \"tb3_waffle_pi\" in the catalog. Go back to the Robotic Models Simulator and pick one.)",
+      "(TurtleBot3 Waffle Pi: the packages turtlebot3_description, tb3_waffle_pi_gazebo, tb3_waffle_pi_bringup, goal_pose_gui are in ~/ros2_ws/src. Build, source the workspace and launch: the commands are above the terminal. code ~/ros2_ws opens them all in VS Code.)",
       "student@ros2lab:~/ros2_ws$ TURTLEBOT3_MODEL=waffle_pi ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py",
-      "TURTLEBOT3_MODEL=waffle_pi: command not found",
+      "Package 'turtlebot3_gazebo' not found: \"package 'turtlebot3_gazebo' not found, searching: ['/opt/ros/jazzy']\"",
+      "Install it with apt (the apt name uses dashes: ros-jazzy-...), then source again.",
       "student@ros2lab:~/ros2_ws$ ros2 run rviz2 rviz2",
       "[INFO] [rviz2]: Stereo is NOT SUPPORTED",
       "[INFO] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)",
       "(The RViz2 window opened below the terminal.)"
     ],
     "errors": [
-      "TURTLEBOT3_MODEL=waffle_pi: command not found"
+      "Package 'turtlebot3_gazebo' not found: \"package 'turtlebot3_gazebo' not found, searching: ['/opt/ros/jazzy']\""
     ],
     "nav": {
       "plan": null,
@@ -590,10 +635,12 @@
         "height": 684
       }
     ],
-    "visibleText": "ROS2Lab ROS 2 for beginners\nHome\nPlayground\nSimulator\nFree resources\nLog in\nRegister\nRobotic Models Simulator / Robot\nRobot not found\n\nThis page has one robot and its own workspace. A description package is built with colcon, and a launch file (Python or XML) starts robot_state_publisher, joint_state_publisher_gui and rviz2 with a saved .rviz config, as on Ubuntu. Move a slider and the robot moves: /joint_states → robot_state_publisher → /tf → RViz.\n\nGazebo, MoveIt 2 and the real robot on this page\n\nRobot\n\nLaunch it\n Robot model (display)\n Gazebo simulation with sensors (sim)\n Gazebo + ros2_control (sim_control)\n Python launch file\n XML launch file\nType these commands for me\nor type them in the terminal below\nWorkspace files\nRobot details: links, joints, sensors, Gazebo plugins\nTerminal: ~/ros2_ws\nstudent@ros2lab: ~/ros2_ws\nRight-click a terminal for the Terminator menu\n+ New terminal\nstudent@ros2lab: ~/ros2_ws\nrviz2\n(There is no robot \"tb3_waffle_pi\" in the catalog. Go back to the Robotic Models Simulator and pick one.)\nstudent@ros2lab:~/ros2_ws$ TURTLEBOT3_MODEL=waffle_pi ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py\nTURTLEBOT3_MODEL=waffle_pi: command not found\nstudent@ros2lab:~/ros2_ws$ ros2 run rviz2 rviz2\n[INFO] [rviz2]: Stereo is NOT SUPPORTED\n[INFO] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)\n(The RViz2 window opened below the terminal.)\n/rviz2 is running in this terminal. Real ROS 2 works the same way: open a + New terminal to type more commands.\nCtrl+C (stop it)\nTab\n↑ Last command\nOpen a new terminal\nOpen VS Code\nStart again\nRViz\nFile\nPanels\nHelp\nInteract\nMove Camera\nSelect\nFocus Camera\nMeasure\n2D Pose Estimate\n2D Goal Pose\nPublish Point\nDisplays\nGlobal Options\nFixed Frame\nBackground Color\n48; 48; 48\nFrame Rate\n30\nGlobal Status: Error\nFixed Frame\nFixed Frame [map] does not exist\nGrid\nAdd\nDuplicate\nRemove\nRename\n3D Orbit\n2D Top\nViews\nType:\nOrbit (rviz_default_plugins)\nFPS (rviz_default_plugins)\nThirdPersonFollower (rviz_default_plugins)\nTopDownOrtho (rviz_default_plugins)\nXYOrbit (rviz_default_plugins)\nZero\nCurrent View\nOrbit (rviz_default_plugins)\nNear Clip Distance\n0.01\nInvert Z Axis\nTarget Frame\n<Fixed Frame>\nDistance\n10\nFocal Shape Size\n0.05\nFocal Shape Fixed Size\nYaw\n0.785398\nPitch\n0.785398\nFocal Point\n0; 0; 0\nSave\nRemove\nRename\nTime\nROS Time:\nROS Elapsed:\nWall Time:\nWall Elapsed:\nExperimental\nReset\nLeft-Click: Rotate. Middle-Click: Move X/Y. Right-Click/Mouse Wheel: Zoom. Shift: More options.\nFixed Frame: Fixed Frame [map] does not exist\nGrid: Fixed Frame [map] does not exist\nConnect to ROS 2 on your Ubuntu computer (rosbridge)\nHow it works, and its limits\nROS2Lab: a free ROS 2 course for students and engineers\nDeveloped by the Robotics and ROS2 lab Channel\nTerms of Use\nPrivacy notice"
+    "visibleText": "ROS2Lab ROS 2 for beginners\nHome\nPlayground\nSimulator\nFree resources\nLog in\nRegister\nRobotic Models Simulator / TurtleBot3 Waffle Pi\nTurtleBot3 Waffle Pi\n\nThis page has one robot and its own workspace. A description package is built with colcon, and a launch file (Python or XML) starts robot_state_publisher, joint_state_publisher_gui and rviz2 with a saved .rviz config, as on Ubuntu. Move a slider and the robot moves: /joint_states → robot_state_publisher → /tf → RViz.\n\nGazebo, MoveIt 2 and the real robot on this page\n\nMobile robots · ROBOTIS\n\nTurtleBot3 Waffle Pi\n\nundefined Source: ROBOTIS-GIT/turtlebot3 (Apache-2.0)\n\nLaunch it\n Robot model (display)\n Gazebo simulation with sensors (sim)\n Gazebo + ros2_control (sim_control)\n Python launch file\n XML launch file\n$ cd ~/ros2_ws\n$ colcon build --packages-select turtlebot3_description tb3_waffle_pi_gazebo tb3_waffle_pi_bringup goal_pose_gui\n$ source install/setup.bash\n$ ros2 launch turtlebot3_description display.launch.py\nType these commands for me\nor type them in the terminal below\nWorkspace files (4 packages, 50 files)\nRobot details: links, joints, sensors, Gazebo plugins\nTerminal: ~/ros2_ws\nstudent@ros2lab: ~/ros2_ws\nRight-click a terminal for the Terminator menu\n+ New terminal\nstudent@ros2lab: ~/ros2_ws\nrviz2\n(TurtleBot3 Waffle Pi: the packages turtlebot3_description, tb3_waffle_pi_gazebo, tb3_waffle_pi_bringup, goal_pose_gui are in ~/ros2_ws/src. Build, source the workspace and launch: the commands are above the terminal. code ~/ros2_ws opens them all in VS Code.)\nstudent@ros2lab:~/ros2_ws$ TURTLEBOT3_MODEL=waffle_pi ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py\nPackage 'turtlebot3_gazebo' not found: \"package 'turtlebot3_gazebo' not found, searching: ['/opt/ros/jazzy']\"\nInstall it with apt (the apt name uses dashes: ros-jazzy-...), then source again.\nstudent@ros2lab:~/ros2_ws$ ros2 run rviz2 rviz2\n[INFO] [rviz2]: Stereo is NOT SUPPORTED\n[INFO] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)\n(The RViz2 window opened below the terminal.)\n/rviz2 is running in this terminal. Real ROS 2 works the same way: open a + New terminal to type more commands.\nCtrl+C (stop it)\nTab\n↑ Last command\nOpen a new terminal\nOpen VS Code\nStart again\nRViz\nFile\nPanels\nHelp\nInteract\nMove Camera\nSelect\nFocus Camera\nMeasure\n2D Pose Estimate\n2D Goal Pose\nPublish Point\nDisplays\nGlobal Options\nFixed Frame\nBackground Color\n48; 48; 48\nFrame Rate\n30\nGlobal Status: Error\nFixed Frame\nFixed Frame [map] does not exist\nGrid\nAdd\nDuplicate\nRemove\nRename\n3D Orbit\n2D Top\nViews\nType:\nOrbit (rviz_default_plugins)\nFPS (rviz_default_plugins)\nThirdPersonFollower (rviz_default_plugins)\nTopDownOrtho (rviz_default_plugins)\nXYOrbit (rviz_default_plugins)\nZero\nCurrent View\nOrbit (rviz_default_plugins)\nNear Clip Distance\n0.01\nInvert Z Axis\nTarget Frame\n<Fixed Frame>\nDistance\n10\nFocal Shape Size\n0.05\nFocal Shape Fixed Size\nYaw\n0.785398\nPitch\n0.785398\nFocal Point\n0; 0; 0\nSave\nRemove\nRename\nTime\nROS Time:\nROS Elapsed:\nWall Time:\nWall Elapsed:\nExperimental\nReset\nLeft-Click: Rotate. Middle-Click: Move X/Y. Right-Click/Mouse Wheel: Zoom. Shift: More options.\nFixed Frame: Fixed Frame [map] does not exist\nGrid: Fixed Frame [map] does not exist\nConnect to ROS 2 on your Ubuntu computer (rosbridge)\nHow it works, and its limits\nROS2Lab: a free ROS 2 course for students and engineers\nDeveloped by the Robotics and ROS2 lab Channel\nTerms of Use\nPrivacy notice"
   },
   "browserErrors": [
+    "Failed to load resource: the server responded with a status of 404 (File not found)",
     "Access to fetch at 'https://asia-south1-ros2lab.cloudfunctions.net/heartbeat' from origin 'http://127.0.0.1:8000' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
-    "Failed to load resource: net::ERR_FAILED"
+    "Failed to load resource: net::ERR_FAILED",
+    "Failed to load resource: the server responded with a status of 404 (File not found)"
   ]
 }
