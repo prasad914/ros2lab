@@ -154,3 +154,13 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
 - **Tests failed**: 0.
 - **Simulation cleanup**: `bash parity/scripts/stop_reference.sh` for domains 41–47 reported `nothing running for domain <id>` for each. No simulation was started during P11.
 - **Items still PENDING / UNVERIFIED / FAILED**: P9 parity-judge comparisons and the P9 browser observations' launch/control issues remain unresolved and unverified, including the Burger Gazebo launch blocker `Package 'turtlebot3_gazebo' not found` as recorded in the P9 report; it is not treated as an actionable simulator defect without matched real/browser evidence. P8 RViz S10 element-level effects/status parity and report generation remain PENDING (see `parity/reports/rviz_parity.md`). P10 persona real/browser comparisons and coverage remain PENDING (see persona reports and prior P10 section). No P11 fixes were validated because there were no evidence-backed actionable findings. Other robots, including TurtleBot4, Scout, and arms, were skipped because P2b/P2c have not run and remain NOT VERIFIED.
+
+## Runner note – P11-round1: exit 0 at 23:08
+    cca56a3 Document P11-round1 fix loop results
+    1175814 Overnight runner log: P10
+    3bc828e Document P10 TurtleBot3 persona results
+    886d7f2 Overnight runner log: P9-round1
+    4a97909 WIP: uncommitted work left by overnight step P9-round1 (review)
+    d9ca3b0 Record P9-round1 report commit
+    aeb1025 Document P9-round1 parity observations
+    16ace77 Overnight runner log: P8
