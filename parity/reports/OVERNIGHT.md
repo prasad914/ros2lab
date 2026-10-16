@@ -205,3 +205,13 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
     cca56a3 Document P11-round1 fix loop results
 
     1175814 Overnight runner log: P10
+
+## Runner note – P12: exit 0 at 00:28
+    937e916 WIP: uncommitted work left by overnight step P12 (review)
+    9424159 Update overnight report for STEP P12
+    d40e54c Implement P12 playground readiness checks and robot mission games for TurtleBot3
+    1e87dc2 Overnight runner log: P11-round2
+    0885638 WIP: uncommitted work left by overnight step P11-round2 (review)
+    67a9fbf Overnight runner log: P11-round2
+    46de081 Fix P11-round2 TurtleBot3 issues: shell env scoping, Waffle Pi catalog, and rear-caster TF
+    822cc50 Overnight runner log: P9-round2
