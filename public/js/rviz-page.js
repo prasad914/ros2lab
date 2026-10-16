@@ -11,6 +11,12 @@ import { Rosbridge } from "./rosbridge.js";
 import { convert, LIVE_TYPES, THROTTLE } from "./ros-msgs.js";
 import { PKG_SOURCES } from "./pkg-sources.js";
 import { licenseStatus, cachedLicense, licensed, licenseMessage, requestLicense } from "./hw-license.js";
+import { TfBuffer } from "./tf-buffer.js";
+import { FrameManager } from "./frame-manager.js";
+
+const ROBOT = typeof location !== "undefined" ? (new URLSearchParams(location.search).get("robot") || "") : "";
+const tfRegistry = new TfBuffer({ robotId: ROBOT });
+const frameManager = new FrameManager(tfRegistry, "map", { robotId: ROBOT });
 
 const $ = (id) => document.getElementById(id);
 const WS = "~/ros2_ws";
@@ -39,6 +45,21 @@ const term = mountTerminal($("term"), {
   fs: { dirs: [`${WS}/src`], files: {} },
 });
 const sh = term.shell;
+
+if (sh && sh.graph) {
+  sh.graph.tf = tfRegistry;
+  sh.graph.frameManager = frameManager;
+}
+if (sh && sh.viz) {
+  sh.viz.fixedFrame = frameManager.fixedFrame;
+}
+frameManager.onChange((f) => {
+  if (sh && sh.viz) sh.viz.fixedFrame = f;
+  const v = (typeof window !== "undefined" && window.__rvizViewers && window.__rvizViewers[0]) || live?.viewer || null;
+  if (v && typeof v.setFixedFrame === "function") {
+    v.setFixedFrame(f);
+  }
+});
 
 // Continuous background sampling for robot pose and AMCL pose history
 let lastPoseSample = 0;
@@ -102,6 +123,8 @@ window.__ros2lab = {
   get sh() { return sh; },
   get catalog() { return _catalog; },
   set catalog(val) { _catalog = val; },
+  get tfRegistry() { return tfRegistry; },
+  get frameManager() { return frameManager; },
   get viewer() {
     return (typeof window !== "undefined" && window.__rvizViewers && window.__rvizViewers[0]) || live?.viewer || null;
   },
@@ -181,35 +204,12 @@ window.__ros2lab = {
 
   // 2. TF frames, edges, and publishing authority
   get tf() {
-    const g = sh?.graph;
-    const v = (typeof window !== "undefined" && window.__rvizViewers && window.__rvizViewers[0]) || live?.viewer || null;
-    const edges = g?.tfTree ? g.tfTree() : [];
-    const frameSet = new Set();
-    const authorityMap = {};
-    for (const e of edges) {
-      if (e.parent) frameSet.add(e.parent);
-      if (e.child) frameSet.add(e.child);
-      const auth = e.authority || (
-        e.parent === "map" && e.child === "odom"
-          ? (g?.nav2?.mapOdomBy || (g?.nav2?.models.find((m) => m.role === "amcl") ? "/amcl" : "/slam_toolbox"))
-          : (e.parent === "odom" && e.child === "base_footprint")
-          ? "/turtlebot3_fake_node"
-          : (e.parent === "odom" && e.child === "base_link")
-          ? "/diff_drive_controller"
-          : "/robot_state_publisher"
-      );
-      e.authority = auth;
-      if (e.child) authorityMap[e.child] = auth;
-      if (e.parent && e.child) authorityMap[`${e.parent}->${e.child}`] = auth;
-    }
-    if (v?.state) {
-      const vf = v.state()?.frames || [];
-      for (const f of vf) if (f) frameSet.add(f);
-    }
-    const frames = [...frameSet].sort();
+    const edges = tfRegistry.edges();
+    const frameSet = new Set(tfRegistry.getAllFrameNames());
+    const authorityMap = tfRegistry.authority;
     return {
-      frames,
-      getAllFrameNames: () => frames.slice(),
+      frames: [...frameSet].sort(),
+      getAllFrameNames: () => tfRegistry.getAllFrameNames(),
       edges: edges.slice(),
       authority: authorityMap
     };
@@ -218,9 +218,8 @@ window.__ros2lab = {
   // 3. Fixed Frame options and selected value
   get fixedFrame() {
     const v = (typeof window !== "undefined" && window.__rvizViewers && window.__rvizViewers[0]) || live?.viewer || null;
-    const tfData = this.tf;
-    const selected = (v?.fixedFrame ? v.fixedFrame() : null) || (v?.state ? v.state().fixedFrame : null) || sh?.viz?.fixedFrame || "map";
-    const options = (v?.state ? v.state().frames : null) || tfData.frames || [];
+    const selected = (v?.fixedFrame ? v.fixedFrame() : null) || (v?.state ? v.state().fixedFrame : null) || frameManager.fixedFrame || sh?.viz?.fixedFrame || "map";
+    const options = frameManager.getAllFrameNames();
     return {
       selected,
       options: options.slice()
@@ -266,17 +265,18 @@ window.__ros2lab = {
   // 6. Global Status and per-display status text in RViz
   get rvizStatus() {
     const v = (typeof window !== "undefined" && window.__rvizViewers && window.__rvizViewers[0]) || live?.viewer || null;
+    const gStatus = frameManager.getGlobalStatus();
     if (!v) {
       return {
-        globalStatus: "OK",
-        statusLines: [],
+        globalStatus: gStatus[0] === "error" ? "Error" : gStatus[0] === "warn" ? "Warning" : "OK",
+        statusLines: [gStatus[1]],
         displays: []
       };
     }
     const st = v.state ? v.state() : {};
     const allDisplays = (v.displays ? v.displays() : []) || [];
     const displayStatusList = [];
-    let worstLevel = "OK";
+    let worstLevel = gStatus[0] === "error" ? "Error" : gStatus[0] === "warn" ? "Warning" : "OK";
 
     for (const d of allDisplays) {
       const sList = d.status || [];
@@ -294,7 +294,7 @@ window.__ros2lab = {
         enabled: !!d.enabled,
         status: text,
         level,
-        messages: sList.map((s) => ({ level: s[0], text: s[1], key: s[2] }))
+        messages: sList.map((s) => s[1])
       });
     }
 
@@ -571,7 +571,6 @@ function expandIn(files, pkg, rel) {
 }
 
 // ---------------- 1. this window's robot (rviz.html?robot=<id>): only its packages go into the workspace
-const ROBOT = new URLSearchParams(location.search).get("robot") || "";
 const CFG_KEY = `ros2lab.sim.cfg.${ROBOT}`;   // this robot's own launch settings, kept in this browser
 function loadCfg() {
   try {

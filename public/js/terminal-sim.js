@@ -1483,7 +1483,12 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
   };
 
   function vizChanged(ch) {
-    if (ch.fixedFrame) sh.viz.fixedFrame = ch.fixedFrame;
+    if (ch.fixedFrame) {
+      sh.viz.fixedFrame = ch.fixedFrame;
+      if (sh.graph?.frameManager && typeof sh.graph.frameManager.setFixedFrame === "function") {
+        sh.graph.frameManager.setFixedFrame(ch.fixedFrame);
+      }
+    }
     if (ch.displays) { sh.viz.displays = ch.displays; paintMoveit(); }   // MotionPlanning / PlanningScene / Trajectory ticked or unticked
     if (ch.joints) sh.viz.joints = { ...sh.viz.joints, ...ch.joints };
     deliverPending();
@@ -1542,7 +1547,16 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
       vizLoading = true;
       import("./rviz.js").then((mod) => {
         vizLoading = false; vizMod = mod;
-        viewer = mod.createRviz(rvizHolder, { fixedFrame: sh.viz.fixedFrame, displays: sh.viz.displays, resolve: resolveMesh, onChange: vizChanged, onSave: saveConfig, savePath: spec.rvizSave || "~/my_config.rviz", plugins: () => [...sh.rosPkgs].filter((p) => /^(rviz_|moveit_rviz_plugin$|nav2_rviz_plugins$|slam_toolbox$)/.test(p)),
+        viewer = mod.createRviz(rvizHolder, {
+          fixedFrame: (sh.graph?.frameManager ? sh.graph.frameManager.fixedFrame : sh.viz.fixedFrame),
+          frameManager: sh.graph?.frameManager,
+          tf: sh.graph?.tf,
+          displays: sh.viz.displays,
+          resolve: resolveMesh,
+          onChange: vizChanged,
+          onSave: saveConfig,
+          savePath: spec.rvizSave || "~/my_config.rviz",
+          plugins: () => [...sh.rosPkgs].filter((p) => /^(rviz_|moveit_rviz_plugin$|nav2_rviz_plugins$|slam_toolbox$)/.test(p)),
           nav2: { state: () => (sh.graph.nav2Api ? sh.graph.nav2Api.nav2Panel(sh.graph).state() : { navigation: "unknown", localization: "unknown", feedback: null }), command: (c) => (sh.graph.nav2Api ? sh.graph.nav2Api.nav2Panel(sh.graph).command(c) : false), goal: (p, th) => (sh.graph.nav2Api && sh.graph.nav2 ? sh.graph.nav2Api.nav2Panel(sh.graph).goal(p, th) : false), waypoints: (p) => (sh.graph.nav2Api && sh.graph.nav2 ? sh.graph.nav2Api.nav2Panel(sh.graph).waypoints(p) : false) }, onLog: (t) => { const rz = sh.graph.nodes.find((n) => n.kind === "rviz"); if (rz) { (sh.graph.notices = sh.graph.notices || []).push({ node: rz.full, text: t, cls: "warn-line" }); flushNotices(); } },
           configName: sh.viz.configName || "", topics: () => (sh.graph ? [...sh.graph.topics()].map(([name, t]) => ({ name, type: t.type, pubs: t.by.pubs.length })) : []), onPublish: rvizPublished });
         if (sh.viz.configText) viewer.loadConfig(sh.viz.configText, sh.viz.configName);

@@ -1,0 +1,240 @@
+{
+  "_header": {
+    "robot": "tb3_waffle",
+    "description": "Robot capability manifest for TurtleBot3 Waffle (ROS 2 Jazzy)",
+    "source": "parity/fixtures/tb3_waffle/sensors/topic_list.txt"
+  },
+  "id": "tb3_waffle",
+  "name": "TurtleBot3 Waffle",
+  "category": "mobile",
+  "nonstandard": false,
+  "base_frame": "base_footprint",
+  "odom_frame": "odom",
+  "map_frame": "map",
+  "sensors": [
+    {
+      "name": "lidar",
+      "type": "sensor_msgs/msg/LaserScan",
+      "topic": "/scan",
+      "frame_id": "base_scan",
+      "rate_hz": 5.0
+    },
+    {
+      "name": "imu",
+      "type": "sensor_msgs/msg/Imu",
+      "topic": "/imu",
+      "frame_id": "imu_link",
+      "rate_hz": 100.0
+    },
+    {
+      "name": "odometry",
+      "type": "nav_msgs/msg/Odometry",
+      "topic": "/odom",
+      "frame_id": "odom",
+      "child_frame_id": "base_footprint",
+      "rate_hz": 30.0
+    },
+    {
+      "name": "camera_rgb",
+      "type": "sensor_msgs/msg/Image",
+      "topic": "/camera/image_raw",
+      "frame_id": "camera_rgb_optical_frame",
+      "rate_hz": 30.0
+    },
+    {
+      "name": "camera_info",
+      "type": "sensor_msgs/msg/CameraInfo",
+      "topic": "/camera/camera_info",
+      "frame_id": "camera_rgb_optical_frame",
+      "rate_hz": 30.0
+    }
+  ],
+  "topics": [
+    {
+      "name": "/camera/camera_info",
+      "type": "sensor_msgs/msg/CameraInfo",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "depth": 10,
+        "history": "Keep Last"
+      }
+    },
+    {
+      "name": "/camera/image_raw",
+      "type": "sensor_msgs/msg/Image",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "depth": 10,
+        "history": "Keep Last"
+      }
+    },
+    {
+      "name": "/camera/image_raw/compressed",
+      "type": "sensor_msgs/msg/CompressedImage",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "depth": 10,
+        "history": "Keep Last"
+      }
+    },
+    {
+      "name": "/camera/image_raw/compressedDepth",
+      "type": "sensor_msgs/msg/CompressedImage",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "depth": 10,
+        "history": "Keep Last"
+      }
+    },
+    {
+      "name": "/camera/image_raw/theora",
+      "type": "theora_image_transport/msg/Packet",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "depth": 10,
+        "history": "Keep Last"
+      }
+    },
+    {
+      "name": "/camera/image_raw/zstd",
+      "type": "sensor_msgs/msg/CompressedImage",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "depth": 10,
+        "history": "Keep Last"
+      }
+    },
+    {
+      "name": "/clock",
+      "type": "rosgraph_msgs/msg/Clock",
+      "qos": {
+        "reliability": "Best Effort",
+        "durability": "Volatile",
+        "depth": 10,
+        "history": "Keep Last"
+      }
+    },
+    {
+      "name": "/cmd_vel",
+      "type": "geometry_msgs/msg/TwistStamped",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "depth": 10,
+        "history": "Keep Last"
+      }
+    },
+    {
+      "name": "/imu",
+      "type": "sensor_msgs/msg/Imu",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "depth": 10,
+        "history": "Keep Last"
+      }
+    },
+    {
+      "name": "/joint_states",
+      "type": "sensor_msgs/msg/JointState",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "depth": 10,
+        "history": "Keep Last"
+      }
+    },
+    {
+      "name": "/odom",
+      "type": "nav_msgs/msg/Odometry",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "depth": 10,
+        "history": "Keep Last"
+      }
+    },
+    {
+      "name": "/parameter_events",
+      "type": "rcl_interfaces/msg/ParameterEvent",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "depth": 1000,
+        "history": "Keep Last"
+      }
+    },
+    {
+      "name": "/robot_description",
+      "type": "std_msgs/msg/String",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Transient Local",
+        "depth": 1,
+        "history": "Keep Last"
+      }
+    },
+    {
+      "name": "/rosout",
+      "type": "rcl_interfaces/msg/Log",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Transient Local",
+        "depth": 1000,
+        "history": "Keep Last"
+      }
+    },
+    {
+      "name": "/scan",
+      "type": "sensor_msgs/msg/LaserScan",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "depth": 10,
+        "history": "Keep Last"
+      }
+    },
+    {
+      "name": "/tf",
+      "type": "tf2_msgs/msg/TFMessage",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "depth": 100,
+        "history": "Keep Last"
+      }
+    },
+    {
+      "name": "/tf_static",
+      "type": "tf2_msgs/msg/TFMessage",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Transient Local",
+        "depth": 100,
+        "history": "Keep Last"
+      }
+    }
+  ],
+  "frames": [
+    "odom",
+    "base_footprint",
+    "base_link",
+    "base_scan",
+    "imu_link",
+    "wheel_left_link",
+    "wheel_right_link",
+    "caster_back_right_link",
+    "caster_back_left_link",
+    "camera_link",
+    "camera_rgb_frame",
+    "camera_rgb_optical_frame",
+    "camera_depth_frame",
+    "camera_depth_optical_frame"
+  ]
+}

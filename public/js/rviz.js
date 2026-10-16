@@ -155,13 +155,18 @@ export function createRviz(container, opts = {}) {
   THREE.ColorManagement.enabled = false;   // Ogre has no sRGB conversion: colours go to the screen as they are
   let toolTopics = {};   // the pose tools' topics from the loaded .rviz file (SetGoal / SetInitialPose); defaults otherwise
   const S = {
-    model: null, modelError: null, joints: {}, haveStates: false, extraEdges: [], externalTf: !!opts.externalTf, fixedFrame: opts.fixedFrame || "map",
+    model: null, modelError: null, joints: {}, haveStates: false, extraEdges: [], externalTf: !!opts.externalTf, fixedFrame: opts.fixedFrame || (opts.frameManager ? opts.frameManager.fixedFrame : "map"),
     background: "48; 48; 48", frameRate: 30,
     displays: [], markers: new Map(), imarkers: [], sensors: {}, title: opts.title || "", configName: opts.configName || "", dirty: false,
     tool: "interact", tools: TOOLS.filter((t) => !t.plugin).map((t) => t.id), panels: { displays: true, views: opts.views !== false, time: opts.time !== false, tool: false, selection: false, help: false }, toolbar: true,
     open: new Set(["g", "gs"]), sel: null, vsel: null, tsel: null, tfOff: new Set(), linkOff: new Set(), savedViews: [],
     view: { type: "Orbit", distance: 10, yaw: 0.785398, pitch: 0.785398, focal: [0, 0, 0], near: 0.01, invertZ: false, focalSize: 0.05, focalFixed: true, scale: 10, angle: 0, x: 0, y: 0 },
   };
+
+  if (opts.frameManager && opts.frameManager.fixedFrame) {
+    S.fixedFrame = opts.frameManager.fixedFrame;
+  }
+  const tfUnsubs = [];
   const onChange = opts.onChange || (() => {});
   // plugin packages are found when RViz starts (pluginlib): a package installed later needs an RViz restart
   const installed = new Set(opts.plugins ? opts.plugins() : []);
@@ -625,21 +630,28 @@ export function createRviz(container, opts = {}) {
 
   // ================= frames =================
   let poses = {}, frameErr = null, frames = [];
-  const edges = () => [...(S.model && !S.externalTf ? urdfEdges(S.model, S.joints, S.haveStates) : []), ...S.extraEdges];
+  const edges = () => [
+    ...(opts.tf && typeof opts.tf.edges === "function" ? opts.tf.edges() : []),
+    ...(S.model && !S.externalTf ? urdfEdges(S.model, S.joints, S.haveStates) : []),
+    ...S.extraEdges
+  ];
   function computeFrames() {
     const r = framePoses(edges(), S.fixedFrame);
     poses = r.poses; frameErr = r.err || null; frames = r.frames || [];
     if (frameErr && (!opts.topics || opts.lesson) && S.model && S.fixedFrame === S.model.root && !edges().length) { frameErr = null; frames = [S.model.root]; }
-    if (!poses[S.fixedFrame]) poses[S.fixedFrame] = { t: [0, 0, 0], q: [0, 0, 0, 1] };
+    if (!frameErr && !poses[S.fixedFrame]) poses[S.fixedFrame] = { t: [0, 0, 0], q: [0, 0, 0, 1] };
   }
   const refFrame = (v) => (v === "<Fixed Frame>" || !v ? S.fixedFrame : v);
   const st = (level, text, key) => [level, text, key];
   const allFrames = () => {
+    if (opts.frameManager && typeof opts.frameManager.getAllFrameNames === "function") {
+      const fNames = opts.frameManager.getAllFrameNames();
+      if (fNames && fNames.length) return fNames;
+    }
     const set = new Set(frames);
     Object.keys(poses).forEach((f) => set.add(f));
     for (const e of edges()) { if (e.parent) set.add(e.parent); if (e.child) set.add(e.child); }
     if (S.model && S.model.links) Object.keys(S.model.links).forEach((l) => set.add(l));
-    if (S.fixedFrame) set.add(S.fixedFrame);
     return [...set].filter(Boolean).sort();
   };
 
@@ -659,11 +671,11 @@ export function createRviz(container, opts = {}) {
       if (p.Plane === "XZ") lines.rotation.x = Math.PI / 2; else if (p.Plane === "YZ") lines.rotation.y = Math.PI / 2;
       lines.position.set(...vecOf(p.Offset));
       const T = poses[refFrame(p["Reference Frame"])]; const hold = new THREE.Group(); if (T) setPose(hold, T); hold.add(lines); gridG.add(hold);
-      d.status = T ? [] : [st("error", `Frame [${refFrame(p["Reference Frame"])}] does not exist`, "Transform")];
+      d.status = T && !frameErr ? [] : [st("error", frameErr ? `Fixed Frame [${S.fixedFrame}] does not exist` : `Frame [${refFrame(p["Reference Frame"])}] does not exist`, "Transform")];
     }
     for (const d of enabled("Axes")) {
       const p = d.props, T = poses[refFrame(p["Reference Frame"])];
-      d.status = T ? [] : [st("error", `Could not transform from [${refFrame(p["Reference Frame"])}] to Fixed Frame [${S.fixedFrame}]`, "Transform")];
+      d.status = T && !frameErr ? [] : [st("error", frameErr ? `Fixed Frame [${S.fixedFrame}] does not exist` : `Could not transform from [${refFrame(p["Reference Frame"])}] to Fixed Frame [${S.fixedFrame}]`, "Transform")];
       if (!T) continue;
       const hold = new THREE.Group(); setPose(hold, T); hold.add(axesObj(Number(p.Length), Number(p.Radius), Number(p.Alpha ?? 1))); axesG.add(hold);
     }
@@ -711,7 +723,8 @@ export function createRviz(container, opts = {}) {
       else {
         if (opts.topics) s.push(st("ok", `1 messages received at ${(1 / Math.max(1, (Date.now() - (dd.subAt || (dd.subAt = Date.now()))) / 1000)).toFixed(1)} hz.`, "Topic"));
         s.push(st("ok", "URDF parsed OK", "URDF"));
-        if (missing.length) s.push(st("error", `No transform from [${missing[0]}] to [${S.fixedFrame}]${missing.length > 1 ? ` (and ${missing.length - 1} more links)` : ""}${!S.haveStates && missing.some((l) => Object.values(S.model.joints).some((j) => j.child === l && !["fixed", "floating", "planar"].includes(j.type))) ? ". Moving joints need /joint_states: start joint_state_publisher(_gui)." : ""}`, "Transform"));
+        if (frameErr) s.push(st("error", `Fixed Frame [${S.fixedFrame}] does not exist`, "Transform"));
+        else if (missing.length) s.push(st("error", `No transform from [${missing[0]}] to [${S.fixedFrame}]${missing.length > 1 ? ` (and ${missing.length - 1} more links)` : ""}${!S.haveStates && missing.some((l) => Object.values(S.model.joints).some((j) => j.child === l && !["fixed", "floating", "planar"].includes(j.type))) ? ". Moving joints need /joint_states: start joint_state_publisher(_gui)." : ""}`, "Transform"));
       }
       s.push(...robotMsgs);
       (S.model && dd.props["Description Topic"] ? S.model.warnings.filter((w) => !/mass|ixx|inertia/i.test(w)) : []).forEach((w) => s.push(st("warn", w, "URDF")));
@@ -732,7 +745,10 @@ export function createRviz(container, opts = {}) {
     tfG.clear();
     const d = first("TF"); if (!d) return;
     d.status = [];
-    if (frameErr) return;
+    if (frameErr) {
+      d.status = [st("error", `Fixed Frame [${S.fixedFrame}] does not exist`, "Transform")];
+      return;
+    }
     const sc = Number(d.props["Marker Scale"]) || 1;
     for (const f of Object.keys(poses)) {
       if (!tfFrameVisible(d, f)) continue;
@@ -1279,20 +1295,36 @@ export function createRviz(container, opts = {}) {
     const startStop = btn("Startup", () => { const s = B && B.state ? B.state() : {}; cmd(s.navigation === "active" ? "pause" : S.navPaused ? "resume" : "startup"); S.navPaused = s.navigation === "active"; });
     const reset = btn("Reset", () => cmd("reset")), cancel = btn("Cancel", () => cmd("cancel"));
     const mode = btn("Waypoint / Nav Through Poses Mode", () => { S.wpMode = !S.wpMode; S.wps = []; drawWps(); refreshPanels(true); });
-    const startWp = btn("Start Waypoint Following", () => { if (!S.wps.length) { note.innerHTML = "<b> Note: </b> Uh oh! Someone forgot to select the waypoints"; return; } if (B && B.waypoints) B.waypoints(S.wps.slice()); S.wpMode = false; S.wps = []; drawWps(); refreshPanels(true); });
-    const startNtp = btn("Start Nav Through Poses", () => { if (!S.wps.length) { note.innerHTML = "<b> Note: </b> Uh oh! Someone forgot to select the waypoints"; return; } if (B && B.goal) B.goal(S.wps.slice(), true); S.wpMode = false; S.wps = []; drawWps(); refreshPanels(true); });
+    const startWp = btn("Start Waypoint Following", () => { if (!S.wps.length) { note.replaceChildren(h("b", {}, " Note: "), document.createTextNode(" Uh oh! Someone forgot to select the waypoints")); return; } if (B && B.waypoints) B.waypoints(S.wps.slice()); S.wpMode = false; S.wps = []; drawWps(); refreshPanels(true); });
+    const startNtp = btn("Start Nav Through Poses", () => { if (!S.wps.length) { note.replaceChildren(h("b", {}, " Note: "), document.createTextNode(" Uh oh! Someone forgot to select the waypoints")); return; } if (B && B.goal) B.goal(S.wps.slice(), true); S.wpMode = false; S.wps = []; drawWps(); refreshPanels(true); });
     const cancelAcc = btn("Cancel Accumulation", () => { S.wpMode = false; S.wps = []; drawWps(); refreshPanels(true); });
     const body = h("div", { class: "rv-nav2" }, status, h("div", { class: "rv-nav2-row" }, startStop, reset), h("div", { class: "rv-nav2-row" }, mode), h("div", { class: "rv-nav2-row rv-nav2-wp" }, startWp, startNtp, cancelAcc), h("div", { class: "rv-nav2-row" }, cancel), fb, note);
-    const row = (k, v) => `<table><tr><td width=150><b>${k}:</b></td>${v === "active" ? "<td><font color=green>active</color></td>" : `<td>${v}</td>`}</tr></table>`;
+    const createTable = (rows) => {
+      const tbl = h("table", {});
+      for (const [k, v] of rows) {
+        const valTd = h("td", {}, v === "active" ? h("font", { color: "green" }, "active") : document.createTextNode(v));
+        tbl.append(h("tr", {}, h("td", { width: "150" }, h("b", {}, k + ":")), valTd));
+      }
+      return tbl;
+    };
     const refresh = () => {
       const s = B && B.state ? B.state() : { navigation: "unknown", localization: "unknown" };
-      status.innerHTML = row("Navigation", s.navigation) + row("Localization", s.localization);
+      status.replaceChildren(createTable([["Navigation", s.navigation], ["Localization", s.localization]]));
       startStop.textContent = s.navigation === "active" ? "Pause" : S.navPaused ? "Resume" : "Startup";
       const f = s.feedback;
-      fb.innerHTML = f ? `<table><tr><td width=150>ETA:</td><td>${Math.round(f.eta)} s</td></tr><tr><td width=150>Distance remaining:</td><td>${f.remaining.toFixed(2)} m</td></tr><tr><td width=150>Time taken:</td><td>${Math.round(f.time)} s</td></tr><tr><td width=150>Recoveries:</td><td>${f.recoveries}</td></tr></table>` : "";
+      if (f) {
+        fb.replaceChildren(createTable([
+          ["ETA", `${Math.round(f.eta)} s`],
+          ["Distance remaining", `${Number(f.remaining).toFixed(2)} m`],
+          ["Time taken", `${Math.round(f.time)} s`],
+          ["Recoveries", String(f.recoveries)]
+        ]));
+      } else {
+        fb.replaceChildren();
+      }
       body.querySelector(".rv-nav2-wp").style.display = S.wpMode ? "" : "none"; mode.style.display = S.wpMode ? "none" : "";
       cancel.style.display = s.goal === "navigating" ? "" : "none";
-      if (S.wpMode) note.textContent = `${S.wps.length} waypoint(s): click and drag with the Nav2 Goal tool to add more.`; else if (!note.innerHTML.includes("Uh oh")) note.textContent = "";
+      if (S.wpMode) note.textContent = `${S.wps.length} waypoint(s): click and drag with the Nav2 Goal tool to add more.`; else if (!note.textContent.includes("Uh oh")) note.textContent = "";
     };
     refresh();
     const remove = addDock(title, body); if (body.parentElement) body.parentElement.classList.add("rv-nav2dock");
@@ -1337,7 +1369,7 @@ export function createRviz(container, opts = {}) {
       const val = valueCell(r);
       const row = h("div", { class: `q-row${sel === r.path ? " sel" : ""}${r.disabled ? " dis" : ""}${r.rowBold ? " bold" : ""}${r.icon ? " ic" : ""}`, role: "treeitem", "aria-expanded": r.kids ? String(open.has(r.path)) : null, "aria-selected": String(sel === r.path), "data-path": r.path },
         h("span", { class: "q-c0", style: `padding-left:${r.depth * 20}px` }, arrow, name), val);
-      row.addEventListener("click", (e) => { if (e.target.closest(".q-checkbox, .q-editor, .q-arrow")) return; if (sel !== r.path) { sel = r.path; el.querySelectorAll(".q-row.sel").forEach((x) => { x.classList.remove("sel"); x.setAttribute("aria-selected", "false"); }); row.classList.add("sel"); row.setAttribute("aria-selected", "true"); onSel(r.path, false, true); } });
+      row.addEventListener("click", (e) => { if (e.target.closest(".q-checkbox, .q-editor, .q-arrow, .q-ecombo, .fixed-frame-input")) return; if (sel !== r.path) { sel = r.path; el.querySelectorAll(".q-row.sel").forEach((x) => { x.classList.remove("sel"); x.setAttribute("aria-selected", "false"); }); row.classList.add("sel"); row.setAttribute("aria-selected", "true"); onSel(r.path, false, true); } });
       row.addEventListener("dblclick", (e) => { if (r.kids && !e.target.closest(".q-c1")) { if (open.has(r.path)) open.delete(r.path); else open.add(r.path); onSel(r.path, true); } });
       return row;
     }));
@@ -1345,7 +1377,7 @@ export function createRviz(container, opts = {}) {
     // Space toggles a check box, Enter/F2 edits the value
     if (!el.hasAttribute("tabindex")) el.tabIndex = 0;
     el.onkeydown = (e) => {
-      if (e.target.closest(".q-editor")) return;
+      if (e.target.closest(".q-editor, .fixed-frame-input, input, select, textarea")) return;
       const idx = vis.findIndex((r) => r.path === sel), cur = vis[idx];
       const rowEl = (r) => el.querySelector(`.q-row[data-path="${CSS.escape(r.path)}"]`);
       const pick = (r) => { if (!r) return; sel = r.path; onSel(r.path, false, true); const x = rowEl(r); if (x) { el.querySelectorAll(".q-row.sel").forEach((y) => { y.classList.remove("sel"); y.setAttribute("aria-selected", "false"); }); x.classList.add("sel"); x.setAttribute("aria-selected", "true"); x.scrollIntoView({ block: "nearest" }); } };
@@ -1365,6 +1397,72 @@ export function createRviz(container, opts = {}) {
     };
   }
   function valueCell(r) {
+    if (r.path === "g/Fixed Frame") {
+      const cell = h("span", { class: "q-c1 q-val" });
+      const field = h("input", {
+        class: "q-ecin fixed-frame-input",
+        "data-testid": "fixed-frame",
+        role: "combobox",
+        "aria-autocomplete": "list",
+        "aria-label": "Fixed Frame",
+        spellcheck: "false",
+        value: S.fixedFrame || "map"
+      });
+      const arrow = h("span", { class: "q-ecarrow", "aria-hidden": "true" });
+      const wrap = h("span", { class: "q-ecombo" }, field, arrow);
+      const commit = (val) => {
+        const clean = String(val || "").trim().replace(/^\//, "");
+        if (clean && clean !== S.fixedFrame) {
+          S.fixedFrame = clean;
+          changed({ fixedFrame: clean });
+          if (opts.frameManager && typeof opts.frameManager.setFixedFrame === "function") {
+            opts.frameManager.setFixedFrame(clean);
+          }
+          if (opts.onFixedFrame) opts.onFixedFrame(clean);
+          try {
+            const rId = (typeof location !== "undefined" ? (new URLSearchParams(location.search).get("robot") || "") : "") || opts.robotId || "";
+            const key = rId ? `ros2lab.fixed_frame.${rId}` : "ros2lab.fixed_frame.default";
+            localStorage.setItem(key, clean);
+          } catch (e) {}
+        }
+        refresh();
+      };
+      field.addEventListener("keydown", (e) => {
+        e.stopPropagation();
+        if (e.key === "Enter") {
+          e.preventDefault();
+          commit(field.value);
+        } else if (e.key === "Escape") {
+          e.preventDefault();
+          field.value = S.fixedFrame;
+          closeCombo();
+        } else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+          e.preventDefault();
+          if (!comboPop) {
+            openFixedFrameCombo(wrap, field, commit);
+          }
+        }
+      });
+      field.addEventListener("change", () => commit(field.value));
+      field.addEventListener("blur", () => {
+        setTimeout(() => {
+          if (!comboPop && field.value !== S.fixedFrame) {
+            commit(field.value);
+          }
+        }, 150);
+      });
+      arrow.addEventListener("pointerdown", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (comboPop) closeCombo();
+        else {
+          openFixedFrameCombo(wrap, field, commit);
+          field.focus();
+        }
+      });
+      cell.append(wrap);
+      return cell;
+    }
     const v = r.value || { k: "text", text: "" };
     const cell = h("span", { class: `q-c1 q-val ${v.cls || ""}` });
     if (v.k === "check") {
@@ -1385,6 +1483,40 @@ export function createRviz(container, opts = {}) {
   // RosTopicProperty -> editable QComboBox, ColorProperty -> line edit + "..." (QColorDialog), others -> QLineEdit
   let comboPop = null;
   function closeCombo() { if (comboPop) { comboPop.remove(); comboPop = null; } }
+  function openFixedFrameCombo(wrap, field, commitFn) {
+    closeCombo();
+    const opts_ = allFrames();
+    const cur = field.value || S.fixedFrame;
+    let hi = opts_.indexOf(cur);
+    comboPop = h("div", { class: "q-cpop", role: "listbox" }, ...opts_.map((o, i) => h("div", {
+      class: `q-copt${i === hi ? " hi" : ""}`,
+      role: "option",
+      text: o,
+      onpointerdown: (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        field.value = o;
+        closeCombo();
+        commitFn(o);
+      },
+      onpointerenter: () => {
+        hi = i;
+        if (comboPop) {
+          comboPop.querySelectorAll(".q-copt").forEach((el, idx) => el.classList.toggle("hi", idx === hi));
+        }
+      }
+    })));
+    if (!opts_.length) {
+      comboPop.append(h("div", { class: "q-copt empty", text: "" }));
+    }
+    root.append(comboPop);
+    const R = root.getBoundingClientRect(), r = wrap.getBoundingClientRect();
+    comboPop.style.left = `${r.left - R.left}px`;
+    comboPop.style.minWidth = `${r.width}px`;
+    comboPop.style.top = `${Math.max(0, r.bottom - R.top - 1)}px`;
+    comboPop.style.width = `${r.width}px`;
+    field.setAttribute("aria-expanded", "true");
+  }
   function comboEditor(cell, v, editable) {
     const opts_ = (typeof v.edit.options === "function" ? v.edit.options() : v.edit.options) || [];
     let done = false, hi = -1, clickingPop = false;
@@ -1528,10 +1660,15 @@ export function createRviz(container, opts = {}) {
     return rows;
   }
   function globalRows() {
-    const gs = frameErr ? (edges().length ? ["error", `Fixed Frame [${S.fixedFrame}] does not exist`] : ["warn", `No tf data.  Actual error: Frame [${S.fixedFrame}] does not exist`]) : ["ok", "OK"];
+    let gs;
+    if (opts.frameManager && typeof opts.frameManager.getGlobalStatus === "function") {
+      gs = opts.frameManager.getGlobalStatus();
+    } else {
+      gs = frameErr ? (edges().length ? ["error", `Fixed Frame [${S.fixedFrame}] does not exist`] : ["warn", `No tf data.  Actual error: Frame [${S.fixedFrame}] does not exist`]) : ["ok", "OK"];
+    }
     return [
       { path: "g", depth: 0, name: "Global Options", icon: ico("options.png"), kids: true, help: "" },
-      { path: "g/Fixed Frame", depth: 1, name: "Fixed Frame", help: "Frame into which all data is transformed before being displayed.", value: { k: "text", text: S.fixedFrame, edit: { options: allFrames, commit: (s) => { const f = s.trim().replace(/^\//, ""); if (f && f !== S.fixedFrame) { S.fixedFrame = f; changed({ fixedFrame: f }); } refresh(); } } } },
+      { path: "g/Fixed Frame", depth: 1, name: "Fixed Frame", help: "Frame into which all data is transformed before being displayed.", value: { k: "text", text: S.fixedFrame, edit: { options: allFrames, commit: (s) => { const f = s.trim().replace(/^\//, ""); if (f && f !== S.fixedFrame) { S.fixedFrame = f; changed({ fixedFrame: f }); if (opts.frameManager) opts.frameManager.setFixedFrame(f); } refresh(); } } } },
       { path: "g/Background Color", depth: 1, name: "Background Color", help: "Background color for the 3D view.", value: { k: "color", text: S.background, edit: { color: true, commit: (s) => { S.background = rgbOf(s).map((x) => Math.round(x * 255)).join("; "); bg(); changed(); refresh(); } } } },
       { path: "g/Frame Rate", depth: 1, name: "Frame Rate", help: "RViz will try to render this many frames per second.", value: { k: "text", text: String(S.frameRate), edit: { commit: (s) => { S.frameRate = Math.max(1, Math.round(Number(s)) || 30); refresh(); } } } },
       { path: "gs", depth: 0, name: `Global Status: ${WORD[gs[0]]}`, cls: gs[0] === "ok" ? "" : gs[0], icon: statusIcon(gs[0]), kids: true, help: "" },
@@ -1542,6 +1679,7 @@ export function createRviz(container, opts = {}) {
   // periodic refreshes (sim updates, MoveIt status) only rebuild when the rows changed: a rebuild detaches the check
   // boxes under the mouse, so a click on one (MotionPlanning's checkbox) would land on a dead node
   function renderTreeIfChanged() {
+    if (dTree.contains(document.activeElement) && document.activeElement.classList.contains("fixed-frame-input")) return;
     const rows = [...globalRows(), ...S.displays.flatMap(displayRows)];
     const sig = JSON.stringify(rows.map((r) => [r.path, r.name, r.depth, r.cls, r.disabled, r.value && r.value.k, r.value && r.value.text, r.value && r.value.checked, r.value && r.value.cls, !!r.kids, r.help, r.icon]));
     if (sig === S.treeSig) return;
@@ -1995,11 +2133,30 @@ export function createRviz(container, opts = {}) {
       docks.clear();
       if (ro) ro.disconnect(); if (ro2) ro2.disconnect(); if (io) io.disconnect();
       if (renderer) { renderer.dispose(); if (renderer.forceContextLoss) renderer.forceContextLoss(); }
+      tfUnsubs.forEach((u) => { try { if (typeof u === "function") u(); } catch (e) {} });
       if (typeof window !== "undefined" && window.__rvizViewers) window.__rvizViewers = window.__rvizViewers.filter((x) => x !== api);
       container.replaceChildren();
     },
     root,
   };
+  if (opts.frameManager && typeof opts.frameManager.onChange === "function") {
+    tfUnsubs.push(opts.frameManager.onChange((f) => {
+      if (f && f !== S.fixedFrame) {
+        S.fixedFrame = f;
+        refresh();
+      }
+    }));
+  }
+  if (opts.tf && typeof opts.tf.on === "function") {
+    tfUnsubs.push(opts.tf.on("framesChanged", () => {
+      refresh();
+    }));
+    if (typeof opts.tf.subscribeStatic === "function") {
+      tfUnsubs.push(opts.tf.subscribeStatic(() => {
+        refresh();
+      }));
+    }
+  }
   if (document.fonts && document.fonts.load) document.fonts.load('64px "Liberation Sans"').then(() => { if (dead) return; labelCache.clear(); refresh(true); }).catch(() => {});
   renderTitle(); renderToolbar(); setTool("interact"); layout(); refresh(); applyView();
   if (typeof window !== "undefined") (window.__rvizViewers = window.__rvizViewers || []).push(api);

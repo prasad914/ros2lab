@@ -192,6 +192,29 @@ export class RosGraph {
   }
   topics() { const t = this.collect(["pubs", "subs"]); if (this.lastPub && !t.has(this.lastPub.topic)) t.set(this.lastPub.topic, { type: this.lastPub.type, by: { pubs: [], subs: [] } }); return t; }
 
+  // DDS QoS compatibility checking (Spec S1 c, ROS 2 Jazzy rules)
+  checkQosCompatibility(pubQos, subQos) {
+    const pubRel = String(pubQos?.reliability || "Reliable").toLowerCase();
+    const subRel = String(subQos?.reliability || "Reliable").toLowerCase();
+    if (subRel.includes("reliable") && pubRel.includes("best_effort")) {
+      return {
+        compatible: false,
+        policy: "RELIABILITY_QOS_POLICY",
+        reason: "Subscriber requested RELIABLE, but Publisher offered BEST_EFFORT"
+      };
+    }
+    const pubDur = String(pubQos?.durability || "Volatile").toLowerCase();
+    const subDur = String(subQos?.durability || "Volatile").toLowerCase();
+    if (subDur.includes("transient_local") && pubDur.includes("volatile")) {
+      return {
+        compatible: false,
+        policy: "DURABILITY_QOS_POLICY",
+        reason: "Subscriber requested TRANSIENT_LOCAL, but Publisher offered VOLATILE"
+      };
+    }
+    return { compatible: true };
+  }
+
   // ros2 doctor / ros2 doctor --report (ros2doctor, Jazzy)
   doctor(args) {
     const env = this.sh.env, rmw = this.rmw();
