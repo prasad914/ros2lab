@@ -115,3 +115,13 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
 - **Tests passed**: `npx playwright test -c parity/playwright.config.ts`: 31 passed, 0 failed; `npx vitest run parity/unit`: 14 passed across 3 files, 0 failed.
 - **Tests failed**: Dev-server start attempt failed with `OSError: [Errno 98] Address already in use`; this was not a test failure. Waffle sensors observation was not completed.
 - **Items still PENDING / UNVERIFIED / FAILED**: P9 parity-judge comparisons; waffle sensors; active Burger simulation scenarios due the package-not-found launch error; sensor/display/control effect and published-message checks. Other robots skipped because P2b/P2c have not run and remain NOT VERIFIED. Fixture-tree restoration is BLOCKED by the denied `git restore` command.
+
+## Runner note – P9-round1: exit 0 at 22:49
+    4a97909 WIP: uncommitted work left by overnight step P9-round1 (review)
+    d9ca3b0 Record P9-round1 report commit
+    aeb1025 Document P9-round1 parity observations
+    16ace77 Overnight runner log: P8
+    e5c3fc5 Document P8 RViz parity audit status
+    6d3680c Overnight runner log: P7
+    e036234 Add UI review report and Playwright test for TurtleBot3 Waffle
+    473fbb5 Update P7 UI review reports and screenshots for TurtleBot3 models
