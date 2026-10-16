@@ -96,3 +96,13 @@ Logs: /home/prasad/parity_overnight_logs/2026-10-16_2154
 - **Tests passed**: Final required Playwright suite: 29/29. Final required unit suite: 14/14 (3 test files).
 - **Tests failed**: Temporary P8 placeholder suite: 6/10 added test cases passed, 4/10 failed in the first run; after attempted corrections, 3/10 continued failing. Those untracked temporary tests were removed and are not part of the final tree. Final required suites passed.
 - **Items still PENDING / UNVERIFIED / FAILED**: S10 element-level behavior/effects, topic/frame/message verification, real status text, and all rows without adequate evidence remain PENDING in `parity/reports/rviz_parity.md`; report auto-generation from test results is PENDING. Other robots are skipped because P2b/P2c have not run and remain NOT VERIFIED. Real ROS simulation check: stop commands for domains 41, 47, 42, 43, 44, 45 each reported `nothing running for domain <id>`.
+
+## Runner note – P8: exit 0 at 22:43
+    e5c3fc5 Document P8 RViz parity audit status
+    6d3680c Overnight runner log: P7
+    e036234 Add UI review report and Playwright test for TurtleBot3 Waffle
+    473fbb5 Update P7 UI review reports and screenshots for TurtleBot3 models
+    2631720 Complete P7 robot page UI reviews for TurtleBot3 models and update overnight report
+    54bfe69 Overnight runner log: P6
+    85fc777 Complete P6 full autonomous-navigation stack emulation for TurtleBot3 models and update overnight report
+    d450f32 Overnight runner log: P5
