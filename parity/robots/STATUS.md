@@ -16,9 +16,9 @@ Status definitions:
 
 | Robot | Category | Source | Built | Verified | Status | Launch Command | Evidence |
 |---|---|---|---|---|---|---|---|
-| **tb3_burger** | mobile | apt: `ros-jazzy-turtlebot3-gazebo`, `ros-jazzy-turtlebot3-navigation2` | yes | no | NOT VERIFIED | `ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py` | pending P2 |
-| **tb3_waffle** | mobile | apt: `ros-jazzy-turtlebot3-gazebo`, `ros-jazzy-turtlebot3-navigation2` | yes | no | NOT VERIFIED | `TURTLEBOT3_MODEL=waffle ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py` | pending P2 |
-| **tb3_waffle_pi** | mobile | apt: `ros-jazzy-turtlebot3-gazebo`, `ros-jazzy-turtlebot3-navigation2` | yes | no | NOT VERIFIED | `TURTLEBOT3_MODEL=waffle_pi ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py` | pending P2 |
+| **tb3_burger** | mobile | apt: `ros-jazzy-turtlebot3-gazebo`, `ros-jazzy-turtlebot3-navigation2` | yes | yes | OFFICIAL-JAZZY | `ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py` | parity/fixtures/tb3_burger/install_check/ |
+| **tb3_waffle** | mobile | apt: `ros-jazzy-turtlebot3-gazebo`, `ros-jazzy-turtlebot3-navigation2` | yes | yes | OFFICIAL-JAZZY | `TURTLEBOT3_MODEL=waffle ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py` | parity/fixtures/tb3_waffle/install_check/ |
+| **tb3_waffle_pi** | mobile | apt: `ros-jazzy-turtlebot3-gazebo`, `ros-jazzy-turtlebot3-navigation2` | yes | yes | OFFICIAL-JAZZY | `TURTLEBOT3_MODEL=waffle_pi ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py` | parity/fixtures/tb3_waffle_pi/install_check/ |
 | **tb4** | mobile | apt: `ros-jazzy-turtlebot4-gz-bringup`, `ros-jazzy-turtlebot4-navigation` | yes | no | NOT VERIFIED | `ros2 launch turtlebot4_gz_bringup turtlebot4_gz.launch.py` | pending P2b/P2c |
 | **ur5e** | arm | apt: `ros-jazzy-ur-simulation-gz`, `ros-jazzy-ur-moveit-config` | yes | no | NOT VERIFIED | `ros2 launch ur_simulation_gz ur_sim_control.launch.py ur_type:=ur5e` | pending P2b |
 | **fr3** | arm | `https://github.com/frankaemika/franka_ros2` | no | no | NOT BUILT | - | - |

@@ -1,0 +1,6 @@
+<plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+  <left_joint>wheel_left_joint</left_joint>
+  <right_joint>wheel_right_joint</right_joint>
+  <odom_publish_frequency>30</odom_publish_frequency>
+  <tf_topic>/tf</tf_topic>
+</plugin>

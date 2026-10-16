@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test.describe("RViz Tools & Nav2 Parity (Spec S4, Prompt P4)", () => {
   test("P4 Part 1: 2D Pose Estimate publishes /initialpose with exact RViz covariance and updates AMCL", async ({ page }) => {
-    await page.goto("/rviz.html?robot=tb3_burger");
+    await page.goto("http://127.0.0.1:8000/rviz.html?robot=tb3_burger");
     await page.waitForFunction(() => typeof window !== "undefined" && !!window.__ros2lab?.term);
 
     // Start RViz first and wait for viewer
@@ -38,7 +38,7 @@ test.describe("RViz Tools & Nav2 Parity (Spec S4, Prompt P4)", () => {
   });
 
   test("P4 Part 2: 2D Goal Pose works when Fixed Frame is odom and transforms to map", async ({ page }) => {
-    await page.goto("/rviz.html?robot=tb3_burger");
+    await page.goto("http://127.0.0.1:8000/rviz.html?robot=tb3_burger");
     await page.waitForFunction(() => typeof window !== "undefined" && !!window.__ros2lab?.term);
 
     await page.evaluate(() => {
@@ -70,7 +70,7 @@ test.describe("RViz Tools & Nav2 Parity (Spec S4, Prompt P4)", () => {
   });
 
   test("P4 Part 3: Publish Point publishes /clicked_point with PointStamped", async ({ page }) => {
-    await page.goto("/rviz.html?robot=tb3_burger");
+    await page.goto("http://127.0.0.1:8000/rviz.html?robot=tb3_burger");
     await page.waitForFunction(() => typeof window !== "undefined" && !!window.__ros2lab?.term);
 
     await page.evaluate(() => {
