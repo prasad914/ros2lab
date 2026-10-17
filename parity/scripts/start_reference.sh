@@ -75,7 +75,7 @@ STATUS_LINE=$(grep -i -m1 "($ROBOT)\|\`$ROBOT\`\|| \*\*$ROBOT\*\* \|| $ROBOT |" 
   echo "date=$(date -Iseconds)"
   echo "ros_distro=$ROS_DISTRO tb3_ws=${TB3_WS:-none} robots_ws=${ROBOTS_WS:-none}"
   echo "status_row=$STATUS_LINE"
-  dpkg-query -W -f='${Package} ${Version}\n' 'ros-jazzy-nav2-*' 'ros-jazzy-turtlebot*' 'ros-jazzy-slam-toolbox' 'ros-jazzy-ros-gz*' 'ros-jazzy-moveit*' 'ros-jazzy-ur*' 2>/dev/null
+  dpkg-query -W -f='${Package} ${Version}\n' 'ros-jazzy-nav2-*' 'ros-jazzy-turtlebot*' 'ros-jazzy-slam-toolbox' 'ros-jazzy-cartographer*' 'ros-jazzy-ros-gz*' 'ros-jazzy-moveit*' 'ros-jazzy-ur*' 2>/dev/null
 } > "$OUT/run_info.txt"
 echo "Started $SCEN for $ROBOT on domain $DOMAIN. Logs: $LOG  PIDs: $PIDFILE"
 echo "Note: TB4 Gazebo may start paused – if /clock does not advance, unpause it (gz service on the world control service) and record that in run_info.txt."
