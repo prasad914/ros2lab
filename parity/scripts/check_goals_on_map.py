@@ -7,7 +7,8 @@ Prints a Markdown table to stdout. The goals file is only read, never changed.
 Cell classification (trinary mode only):
   occ = (255 - pixel) / 255 (or pixel / 255 when negate: 1)
   occ > occupied_thresh -> OCCUPIED, occ < free_thresh -> FREE, else UNKNOWN.
-World -> cell: mx = floor((x - origin_x) / resolution), same for y;
+World -> cell: mx = floor((x - origin_x) / resolution), same for y, with resolution rounded
+to float32 as /map carries it;
 PGM rows run top to bottom, so pgm_row = height - 1 - my.
 These rules are not checked against nav2 source (not installed on this machine);
 compare with the /map that nav2_map_server publishes for the same map.
@@ -16,6 +17,7 @@ and the nearest OCCUPIED cell centre (cell distance * resolution).
 """
 import math
 import os
+import struct
 import sys
 
 import yaml
@@ -58,7 +60,9 @@ def main():
 
     pgm_path = os.path.join(os.path.dirname(map_path), m['image'])
     width, height, raster = read_pgm(pgm_path)
-    res = float(m['resolution'])
+    # /map carries resolution as float32 (nav_msgs/MapMetaData) and origin as float64 (geometry_msgs/Point),
+    # so round the resolution the same way; a pose on a cell edge then lands in the same cell as in /map.
+    res = struct.unpack('f', struct.pack('f', float(m['resolution'])))[0]
     ox, oy, oyaw = (float(v) for v in m['origin'])
     negate = int(m.get('negate', 0))
     occ_t, free_t = float(m['occupied_thresh']), float(m['free_thresh'])
