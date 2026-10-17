@@ -40,7 +40,8 @@ export function topicInfo(p: string): { type: string; endpoints: Endpoint[]; unk
   const endpoints: Endpoint[] = [];
   for (const block of t.split(/\n(?=Node name: )/).slice(1)) {
     const g = (re: RegExp) => (block.match(re) || [])[1] || "";
-    endpoints.push({ node: g(/^Node name: (.+)$/m), kind: g(/^Endpoint type: (.+)$/m) as any,
+    const ns = g(/^Node namespace: (.+)$/m).replace(/^\/+|\/+$/g, "");
+    endpoints.push({ node: (ns ? ns + "/" : "") + g(/^Node name: (.+)$/m), kind: g(/^Endpoint type: (.+)$/m) as any,
       reliability: g(/^\s+Reliability: (.+)$/m), durability: g(/^\s+Durability: (.+)$/m) });
   }
   return { type, endpoints, unknown: false };

@@ -4,7 +4,7 @@
 import { test } from "@playwright/test";
 import fs from "node:fs";
 import path from "node:path";
-import { FIX, MODEL, ROBOTS, Recorder, compareGraph, exists, framesFile, gvEdges, lastScreen, openWorld, prepTerm, putFile, run, screens, siteState, text, topicInfo, waitText } from "./lib";
+import { FIX, MODEL, ROBOTS, Recorder, compareGraph, exists, flatten, framesFile, gvEdges, lastScreen, openWorld, prepTerm, putFile, run, screens, siteState, text, topicInfo, waitText, yaml } from "./lib";
 import { GOALS, SITE_MAP, checkLines, logLines, paramsByNode, sameValue, sendGoal, setInitialPose, stamp } from "./nav";
 
 const NAV = `ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True map:=${SITE_MAP}`;
@@ -73,9 +73,13 @@ for (const robot of ROBOTS) {
         const sn = site.nodes.find((n) => n.full === node);
         // set by the launch file, not by the params file: use_sim_time (use_sim_time:=True), yaml_filename (map:=)
         const keys = Object.keys(params).filter((k) => k !== "use_sim_time" && k !== "yaml_filename");
-        const bad = keys.filter((k) => !sn || !sameValue(params[k], sn.params[k]));
+        // the captured `ros2 param dump` (fixture) wins over the installed file where it has the key (substitutions)
+        const dumpFile = path.join(snap, "params", node.replace(/^\//, "").replace(/\//g, "__") + ".yaml");
+        const dump: Record<string, any> = exists(dumpFile) ? flatten((Object.values<any>(yaml(dumpFile) || {})[0] || {}).ros__parameters) : {};
+        const want = (k: string) => (k in dump ? dump[k] : params[k]);
+        const bad = keys.filter((k) => !sn || !sameValue(want(k), sn.params[k]));
         rec.exact(`params ${node} = ${MODEL[robot]}.yaml`, `${keys.length} keys as installed`, bad.length ? `${bad.length} differ` : `${keys.length} keys as installed`, pf,
-          !bad.length, bad.length ? (sn ? bad.slice(0, 12).map((k) => `${k}: ${JSON.stringify(params[k])} vs ${JSON.stringify(sn.params[k])}`).join("; ") : "node not on site") : undefined);
+          !bad.length, bad.length ? (sn ? bad.slice(0, 12).map((k) => `${k}: ${JSON.stringify(want(k))} vs ${JSON.stringify(sn.params[k])}`).join("; ") : "node not on site") : undefined);
       }
       const P = paramsByNode(pf);
       for (const n of ["/local_costmap/local_costmap", "/global_costmap/global_costmap"]) {

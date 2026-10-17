@@ -35,22 +35,26 @@ export async function setInitialPose(p: Page, robot: string) {
 }
 
 export type GoalResult = { status: string | null; error_code: number | null; error_msg: string | null; screen: string };
-/** ros2 action send_goal /navigate_to_pose in a new terminal; waits for "Goal finished with status". */
+/** ros2 action send_goal /navigate_to_pose in one goal terminal per page (the site caps the number of terminals);
+ *  an echo marker before each goal separates its output from the earlier goals'. */
+const goalTerm = new WeakSet<Page>();
+let marks = 0;
 export async function sendGoal(p: Page, robot: string, g: { x: number; y: number; z?: number; w?: number }, ms = 240000): Promise<GoalResult> {
-  await prepTerm(p, robot);
-  const before = (await screens(p)).split("\n=====\n").length;
+  if (!goalTerm.has(p)) { await prepTerm(p, robot); goalTerm.add(p); }
+  const mark = `GOAL_MARK_${++marks}`;
+  await run(p, `echo ${mark}`);
   await run(p, `ros2 action send_goal /navigate_to_pose nav2_msgs/action/NavigateToPose "{pose: {header: {frame_id: map}, pose: {position: {x: ${g.x}, y: ${g.y}, z: 0.0}, orientation: {z: ${g.z ?? 0}, w: ${g.w ?? 1}}}}}"`);
   const t0 = Date.now();
   let last = "";
   while (Date.now() - t0 < ms) {
-    const all = (await screens(p)).split("\n=====\n");
-    last = all[before - 1] ?? all[all.length - 1];
+    const scr = (await screens(p)).split("\n=====\n").find((s) => s.includes(`\n${mark}`)) || "";
+    last = scr.slice(scr.lastIndexOf(`\n${mark}`));
     if (/Goal finished with status: \w+/.test(last)) break;
     await p.waitForTimeout(1000);
   }
   const st = last.match(/Goal finished with status: (\w+)/);
-  const ec = [...last.matchAll(/error_code: (\d+)/g)].pop();
-  const em = [...last.matchAll(/error_msg: '?([^'\n]*)'?/g)].pop();
+  const ec = last.match(/error_code: (\d+)/);
+  const em = last.match(/error_msg: '?([^'\n]*)'?/);
   return { status: st ? st[1] : null, error_code: ec ? Number(ec[1]) : null, error_msg: em ? em[1] : null, screen: last };
 }
 

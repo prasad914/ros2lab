@@ -37,3 +37,33 @@ Found: `/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml` lines 120
 Result: 5/5 SUCCEEDED, error_code 0 (NavFn 4.00 s, Smac2D 3.77 s, ThetaStar 3.86 s, SmacHybrid 8.42 s, SmacLattice
 4.66 s sim). Details: `parity/reports/matrix.md` §6. Caveat recorded there: nav2_bringup's
 `tb3_simulation_launch.py` spawns the waffle model by default, so the burger limits ran on a waffle body.
+
+## Item 2 – Step F fixture parity tests (in progress)
+
+Decisions:
+- Dev server: 127.0.0.1:8000 was not serving; started `npm run dev` in the background.
+- Specs in `parity/e2e/fixtures/` (`lib.ts`, `nav.ts`, `sensors.spec.ts`, `mapping.spec.ts`, `nav_robotis.spec.ts`,
+  `nav2_bringup.spec.ts`). They read the committed fixtures at run time (YAML via PyYAML, `ros2 topic list/info`,
+  `view_frames` .gv, result.json, log excerpts) and drive the site like a student: build the official workspace,
+  source, `export TURTLEBOT3_MODEL=<model>`, the same launch commands as `parity/scripts/start_reference.sh`.
+- The fixture map (`parity/fixtures/maps/turtlebot3_world.*`) is copied onto the site's file system and passed as
+  `map:=` (the reference runs used it; goals.yaml is in its frame).
+- QoS compares the set of (endpoint kind, node full name, reliability/durability) per topic; capture tool nodes
+  (ros2cli daemon, rosbag2 recorder) are left out; `launch_ros_<pid>` and `transform_listener_impl_<address>` are
+  compared by role (their suffix changes every run). History depth is UNKNOWN in the fixtures, so not compared.
+- Nav2 params: every key of the installed `<model>.yaml` for each node that the reference started; where the captured
+  `ros2 param dump` has the key, its value wins (order of truth: fixture > installed). `use_sim_time` and
+  `yaml_filename` are set by the launch file and skipped.
+- Log texts: exact after normalising robot coordinates `(x, y)` (thresholds.yaml `error_text_match:
+  exact_or_normalised`); level and logger must match.
+- Numeric items (camera K, goal durations, bringup timeout seconds): thresholds.yaml has no key → PENDING-THRESHOLD
+  with both values. Site goal durations are wall seconds (the site has no sim clock readout in the CLI output).
+- Image width/height and camera_info width/height are compared exactly (integers that define the sensor).
+- tb3_burger goals: one site session runs goal1–5, then obstacle_goal, cylinder_centre, outside_map (the reference
+  ran these in three sessions); status/error_code/error_msg are compared, not positions.
+- nav2_bringup matrix: each pair in a fresh page with the pair's committed `params.yaml` as `params_file:=`; if the
+  first pair cannot become ready, the rest are recorded FAIL "not run" with that reason (no 25 identical waits).
+- Spec bugs found and fixed while writing (not site bugs): terminal cap (`MAX_TABS = 6`) made goals run in an old
+  terminal → one goal terminal with an `echo` marker per goal; `ros2 topic info` node names must include the namespace.
+- vitest is not installed in node_modules: unit tests run with `npx --yes vitest@3.2.4 run parity/unit`
+  (baseline 22/22 passed).
