@@ -72,3 +72,11 @@ This is the map the nav scenarios load (`start_reference.sh`, `MAP` default). It
 - Frame: the SLAM map frame starts at the robot's spawn pose; the 9 cylinders of the installed `turtlebot3_world/model.sdf`,
   shifted by the spawn pose (-2.0, -0.5) from `turtlebot3_world.launch.py`, fall within 0.06 m of the occupied-cell
   centroids in this map. goals.yaml positions are in this frame (start_pose = (0, 0)).
+
+## `/map_updates` QoS file (step E.0)
+
+All three `parity/fixtures/tb3_{burger,waffle,waffle_pi}/slam/qos/map_updates.txt` contain exactly
+`Unknown topic '/map_updates'`. `/map_updates` is not in any of the three `slam/topic_list.txt` (grep count 0), so
+`capture_reference.sh` (which writes `qos/<topic>.txt` per listed topic, line 22) did not produce this file. It came
+from the explicit query in `run_mapping_item.sh` line 36 (`ros2 topic info -v /map_updates`). slam_toolbox in these
+runs did not advertise `/map_updates`; the file is a negative result, not a daemon gap (no topic missed by the daemon).
