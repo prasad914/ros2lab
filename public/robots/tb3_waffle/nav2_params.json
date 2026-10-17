@@ -2,11 +2,13 @@
   "_header": {
     "description": "TurtleBot3 Navigation 2 Parameters (ROS 2 Jazzy installed)",
     "package": "turtlebot3_navigation2",
-    "version": "2.3.6-1noble.20261006.044113",
+    "version": "2.3.6",
+    "deb_package": "ros-jazzy-turtlebot3-navigation2",
+    "deb_version": "2.3.6-1noble.20261006.044113",
     "ros_distro": "jazzy",
     "upstream_repo": "https://github.com/ROBOTIS-GIT/turtlebot3.git",
     "source_file": "/opt/ros/jazzy/share/turtlebot3_navigation2/param/waffle.yaml",
-    "generated_by": "parity script P6"
+    "generated_by": "parity/scripts/update_nav2_headers.py"
   },
   "amcl": {
     "ros__parameters": {
