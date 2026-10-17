@@ -44,10 +44,12 @@ export function parseRvizYaml(text) {
   try { return L.length ? block(L[0].ind) : {}; } catch { return {}; }
 }
 
-// The display list of a .rviz file, flattened (displays inside a Group come after the group): [{ cls, item }]
+// The display list of a .rviz file, flattened (displays inside a Group come after the group): [{ cls, item, groupOff }]
+// groupOff: a Group around the display is disabled, so the display is inactive although its own Enabled may be true
 export function rvizDisplays(cfg) {
   const out = [];
-  const walk = (list) => { for (const d of Array.isArray(list) ? list : []) { if (!d || typeof d !== "object") continue; out.push({ cls: String(d.Class || ""), item: d }); if (Array.isArray(d.Displays)) walk(d.Displays); } };
+  const on = (d) => (d.Enabled ?? d.Value) !== false;
+  const walk = (list, off = false) => { for (const d of Array.isArray(list) ? list : []) { if (!d || typeof d !== "object") continue; out.push({ cls: String(d.Class || ""), item: d, groupOff: off }); if (Array.isArray(d.Displays)) walk(d.Displays, off || !on(d)); } };
   walk(cfg && cfg["Visualization Manager"] && cfg["Visualization Manager"].Displays);
   return out;
 }

@@ -1952,12 +1952,13 @@ export function createRviz(container, opts = {}) {
     for (const t of Array.isArray(vm.Tools) ? vm.Tools : []) {
       const v = t && t.Topic && t.Topic.Value, cls = String((t && t.Class) || "");
       toolTopics.classes.add(cls);
-      if (typeof v === "string" && v) { if (cls === TOOL_CLASS.goal) toolTopics.goal = v; else if (cls === TOOL_CLASS.pose) toolTopics.pose = v; }
+      const a = typeof v === "string" && v ? (v.startsWith("/") ? v : `/${v}`) : "";
+      if (a) { if (cls === TOOL_CLASS.goal) toolTopics.goal = a; else if (cls === TOOL_CLASS.pose) toolTopics.pose = a; }
     }
     if (!Array.isArray(vm.Tools)) toolTopics.classes = null;   // no Tools list: keep RViz's default tool set
     const META = new Set(["Class", "Name", "Enabled", "Value"]);
     const ds = [];
-    for (const { cls, item } of rvizDisplays(cfg)) {
+    for (const { cls, item, groupOff } of rvizDisplays(cfg)) {
       const type = cls.split("/").pop(), pkg = cls.split("/")[0];
       const ok = type === "Group" || (PLUGINS[type] && SCHEMA[type] && pkg === pluginPkg(type) && (!EXTRA_PLUGINS[type] || installed.has(pkg)));
       if (!ok) {   // pluginlib could not find the class: RViz keeps the display (red) with its saved settings
@@ -1972,6 +1973,7 @@ export function createRviz(container, opts = {}) {
       const deep = (obj) => { for (const [k, v] of Object.entries(obj)) { if (SKIP.has(k) || META.has(k)) continue; if (v && typeof v === "object" && !Array.isArray(v)) { const x = own(k, v); if (x !== undefined && !(k in flat)) flat[k] = x; deep(v); } else if (!(k in flat)) flat[k] = v; } };
       for (const [k, v] of Object.entries(item)) if (!SKIP.has(k) && v && typeof v === "object" && !Array.isArray(v)) deep(v);
       const d = mkDisplay(type, String(item.Name ?? type), (item.Enabled ?? item.Value) !== false);
+      if (groupOff) d.groupOff = true;
       for (const k of Object.keys(d.props)) {
         if (!(k in flat) || flat[k] === null || (typeof flat[k] === "object")) continue;
         const v = flat[k], was = d.props[k];
@@ -1982,10 +1984,12 @@ export function createRviz(container, opts = {}) {
     let rm = ds.find((d) => d.type === "RobotModel");
     if (!rm) {
       rm = mkDisplay("RobotModel", "RobotModel", true, { "Description Topic": "/robot_description" }, true);
+      rm.notInFile = true;   // not in the file: drawn for the student, but not part of RViz's ROS graph
       const gridIdx = ds.findIndex((d) => d.type === "Grid");
       if (gridIdx >= 0) ds.splice(gridIdx + 1, 0, rm);
       else ds.unshift(rm);
     } else {
+      if (!rm.enabled) rm.notInFile = true;   // disabled in the file: drawn for the student, not subscribed like RViz
       rm.enabled = true;
     }
     if (ds.length) S.displays = ds;
@@ -2061,11 +2065,12 @@ export function createRviz(container, opts = {}) {
     // the topics this RViz subscribes to: the TF listener, plus each enabled display's topic
     subscriptions() {
       const out = [["/tf", "tf2_msgs/msg/TFMessage"], ["/tf_static", "tf2_msgs/msg/TFMessage"]], abs = (t) => (t.startsWith("/") ? t : "/" + t);
+      const qos = (p) => `${p["Reliability Policy"] === "Best Effort" ? "BEST_EFFORT" : "RELIABLE"}/${p["Durability Policy"] === "Transient Local" ? "TRANSIENT_LOCAL" : "VOLATILE"}`;
       for (const d of S.displays) {
-        if (!d.enabled) continue;
-        if (d.type === "RobotModel") { if (d.props["Description Source"] === "Topic" && d.props["Description Topic"]) out.push([abs(d.props["Description Topic"]), "std_msgs/msg/String"]); continue; }
+        if (!d.enabled || d.groupOff) continue;
+        if (d.type === "RobotModel") { if (!d.notInFile && d.props["Description Source"] === "Topic" && d.props["Description Topic"]) out.push([abs(d.props["Description Topic"]), "std_msgs/msg/String", qos(d.props)]); continue; }
         const type = (MSG_TYPES[d.type] || [TOPIC_TYPES[d.type]])[0];
-        if (d.props.Topic && type && d.type !== "TF") out.push([abs(d.props.Topic), type]);
+        if (d.props.Topic && type && d.type !== "TF") out.push([abs(d.props.Topic), type, qos(d.props)]);
         // rviz_default_plugins/Map also subscribes its update topic (map_msgs/msg/OccupancyGridUpdate)
         if (d.type === "Map" && d.props.Topic) { const u = d.props["Update Topic"]; out.push([abs(typeof u === "string" && u ? u : `${d.props.Topic}_updates`), "map_msgs/msg/OccupancyGridUpdate"]); }
       }
