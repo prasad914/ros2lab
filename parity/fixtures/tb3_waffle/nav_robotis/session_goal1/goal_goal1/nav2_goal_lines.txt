@@ -1,0 +1,15 @@
+# Excerpt of parity/fixtures/tb3_waffle/nav_robotis/session_goal1/logs/nav2.log (gitignored)
+# Selection: [planner_server] [controller_server] [bt_navigator] lines stamped wall 1792243765.327 .. 1792243776.282 (send_wall - 1 s .. result_wall + 3 s from parity/fixtures/tb3_waffle/nav_robotis/session_goal1/goal_goal1/result.json)
+# Generated 2026-10-17T19:34:37+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+367:[component_container_isolated-1] [INFO] [1792243766.328939852] [bt_navigator]: Begin navigating from current location (0.07, -0.01) to (0.20, 1.00)
+368:[component_container_isolated-1] [INFO] [1792243766.350631551] [controller_server]: Received a goal, begin computing control effort.
+369:[component_container_isolated-1] [WARN] [1792243766.351698517] [controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded goal_checker . This warning will appear once.
+370:[component_container_isolated-1] [WARN] [1792243766.351750619] [controller_server]: No progress checker was specified in parameter 'current_progress_checker'. Server will use only plugin loaded progress_checker . This warning will appear once.
+371:[component_container_isolated-1] [INFO] [1792243767.453197804] [controller_server]: Passing new path to controller.
+372:[component_container_isolated-1] [INFO] [1792243768.452445818] [controller_server]: Passing new path to controller.
+373:[component_container_isolated-1] [INFO] [1792243769.452667894] [controller_server]: Passing new path to controller.
+374:[component_container_isolated-1] [INFO] [1792243770.452264385] [controller_server]: Passing new path to controller.
+375:[component_container_isolated-1] [INFO] [1792243771.552266308] [controller_server]: Passing new path to controller.
+376:[component_container_isolated-1] [INFO] [1792243772.552277867] [controller_server]: Passing new path to controller.
+377:[component_container_isolated-1] [INFO] [1792243773.252402406] [controller_server]: Reached the goal!
+378:[component_container_isolated-1] [INFO] [1792243773.280029841] [bt_navigator]: Goal succeeded

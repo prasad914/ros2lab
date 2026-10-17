@@ -1,0 +1,51 @@
+Type: nav2_msgs/msg/CostmapUpdate
+
+Publisher count: 1
+
+Node name: local_costmap
+Node namespace: /local_costmap
+Topic type: nav2_msgs/msg/CostmapUpdate
+Topic type hash: RIHS01_b44706e1f0906a3f72a1640bc2153e85576ff8e8ad203ec48b78c187669168a2
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.ef.f7.47.e8.00.00.00.00.00.02.2b.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 2
+
+Node name: behavior_server
+Node namespace: /
+Topic type: nav2_msgs/msg/CostmapUpdate
+Topic type hash: RIHS01_b44706e1f0906a3f72a1640bc2153e85576ff8e8ad203ec48b78c187669168a2
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.ef.f7.47.e8.00.00.00.00.00.02.c3.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: docking_server
+Node namespace: /
+Topic type: nav2_msgs/msg/CostmapUpdate
+Topic type hash: RIHS01_b44706e1f0906a3f72a1640bc2153e85576ff8e8ad203ec48b78c187669168a2
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.ef.f7.47.e8.00.00.00.00.00.03.6e.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+

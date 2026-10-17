@@ -1,0 +1,17 @@
+# Excerpt of parity/fixtures/tb3_burger/nav_robotis/run2_attempt1_clock_bug/run2_attempt2_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-17T19:34:37+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:==========================================================
+2:Starting Navigation Trial: run2 (Domain: 41, 2026-10-17T19:18:40+05:30)
+3:==========================================================
+4:nothing running for domain 41
+5:Started nav_robotis for tb3_burger on domain 41. Logs: parity/fixtures/tb3_burger/nav_robotis/logs  PIDs: /tmp/ros2lab_ref/41-nav_robotis-20261017T191844-160527.pids
+6:Note: TB4 Gazebo may start paused – if /clock does not advance, unpause it (gz service on the world control service) and record that in run_info.txt.
+7:ready: /clock advancing (sim 6.4 s)
+8:ready: navigate_to_pose action server
+9:ready: lifecycle_manager_localization is_active
+10:READY after 5.0 s wall
+11:none of the parity topics exist yet
+12:ERROR: record_bag.sh start failed for run2 (see above); skipping this run
+13:stopped domain 41; no processes with ROS_DOMAIN_ID=41 remain
+14:Navigation trials 2 to 2 finished; NOT READY (skipped): run2

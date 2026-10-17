@@ -1,0 +1,11 @@
+# clock: sim time (ros2 topic hz --use-sim-time --window 50)
+WARNING: topic [/imu] does not appear to be published yet
+average rate: 202.429
+	min: 0.002s max: 0.008s std dev: 0.00132s window: 50
+average rate: 200.000
+	min: 0.004s max: 0.006s std dev: 0.00077s window: 50
+average rate: 199.203
+	min: 0.002s max: 0.008s std dev: 0.00114s window: 50
+average rate: 202.429
+	min: 0.001s max: 0.009s std dev: 0.00129s window: 50
+failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:333

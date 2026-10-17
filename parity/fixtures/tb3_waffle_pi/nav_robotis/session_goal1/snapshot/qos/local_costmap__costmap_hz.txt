@@ -1,0 +1,6 @@
+# clock: sim time (ros2 topic hz --use-sim-time --window 50)
+average rate: 1.774
+	min: 0.515s max: 0.598s std dev: 0.03537s window: 3
+average rate: 1.801
+	min: 0.515s max: 0.598s std dev: 0.02976s window: 5
+failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:333

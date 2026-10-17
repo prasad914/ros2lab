@@ -1,0 +1,7 @@
+# clock: sim time (ros2 topic hz --use-sim-time --window 50)
+WARNING: topic [/global_costmap/costmap] does not appear to be published yet
+average rate: 0.932
+	min: 1.056s max: 1.091s std dev: 0.01750s window: 2
+average rate: 0.823
+	min: 1.056s max: 1.500s std dev: 0.20156s window: 3
+failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:333

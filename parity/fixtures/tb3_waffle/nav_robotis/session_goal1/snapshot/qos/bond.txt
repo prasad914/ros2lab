@@ -1,0 +1,126 @@
+Type: bond/msg/Status
+
+Publisher count: 4
+
+Node name: map_server
+Node namespace: /
+Topic type: bond/msg/Status
+Topic type hash: RIHS01_87eaccffa254ffffadc0b61600452e8251740f06c25659a2dbda4927fdb1f70a
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.d5.2c.1d.8f.00.00.00.00.00.00.fb.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: lifecycle_manager_localization
+Node namespace: /
+Topic type: bond/msg/Status
+Topic type hash: RIHS01_87eaccffa254ffffadc0b61600452e8251740f06c25659a2dbda4927fdb1f70a
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.d5.2c.1d.8f.00.00.00.00.00.00.ff.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: amcl
+Node namespace: /
+Topic type: bond/msg/Status
+Topic type hash: RIHS01_87eaccffa254ffffadc0b61600452e8251740f06c25659a2dbda4927fdb1f70a
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.d5.2c.1d.8f.00.00.00.00.00.01.42.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: lifecycle_manager_localization
+Node namespace: /
+Topic type: bond/msg/Status
+Topic type hash: RIHS01_87eaccffa254ffffadc0b61600452e8251740f06c25659a2dbda4927fdb1f70a
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.d5.2c.1d.8f.00.00.00.00.00.01.48.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 4
+
+Node name: map_server
+Node namespace: /
+Topic type: bond/msg/Status
+Topic type hash: RIHS01_87eaccffa254ffffadc0b61600452e8251740f06c25659a2dbda4927fdb1f70a
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.d5.2c.1d.8f.00.00.00.00.00.00.fc.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: lifecycle_manager_localization
+Node namespace: /
+Topic type: bond/msg/Status
+Topic type hash: RIHS01_87eaccffa254ffffadc0b61600452e8251740f06c25659a2dbda4927fdb1f70a
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.d5.2c.1d.8f.00.00.00.00.00.01.02.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: amcl
+Node namespace: /
+Topic type: bond/msg/Status
+Topic type hash: RIHS01_87eaccffa254ffffadc0b61600452e8251740f06c25659a2dbda4927fdb1f70a
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.d5.2c.1d.8f.00.00.00.00.00.01.43.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: lifecycle_manager_localization
+Node namespace: /
+Topic type: bond/msg/Status
+Topic type hash: RIHS01_87eaccffa254ffffadc0b61600452e8251740f06c25659a2dbda4927fdb1f70a
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.d5.2c.1d.8f.00.00.00.00.00.01.4b.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+

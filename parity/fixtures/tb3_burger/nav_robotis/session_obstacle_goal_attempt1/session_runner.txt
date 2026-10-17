@@ -1,0 +1,23 @@
+# Excerpt of parity/fixtures/tb3_burger/nav_robotis/session_obstacle_goal_attempt1/session_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-17T19:34:37+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:nothing running for domain 41
+2:[2026-10-17T18:16:58+05:30] start_reference.sh tb3_burger nav_robotis 41 ref41 (OUT_DIR=parity/fixtures/tb3_burger/nav_robotis/session_obstacle_goal)
+3:Started nav_robotis for tb3_burger on domain 41. Logs: parity/fixtures/tb3_burger/nav_robotis/session_obstacle_goal/logs  PIDs: /tmp/ros2lab_ref/41-nav_robotis-20261017T181700-121923.pids
+4:Note: TB4 Gazebo may start paused – if /clock does not advance, unpause it (gz service on the world control service) and record that in run_info.txt.
+5:ready: /clock advancing (sim 7.8 s)
+6:ready: navigate_to_pose action server
+7:ready: lifecycle_manager_localization is_active
+8:ready: localized, /amcl_pose (0.052, -0.010)
+9:READY after 3.5 s wall
+10:ready: /clock advancing (sim 12.4 s)
+11:ready: navigate_to_pose action server
+12:ready: lifecycle_manager_navigation is_active
+13:READY after 7.2 s wall
+14:[2026-10-17T18:17:32+05:30] /cmd_vel info and NavigateToPose interface
+15:[2026-10-17T18:17:35+05:30] send obstacle_goal
+16:{"goal_name": "obstacle_goal", "accepted": true, "status": 4, "status_name": "SUCCEEDED", "result": {"error_code": 0, "error_msg": ""}, "duration_sim_s": 14.467000000000002}
+17:[2026-10-17T18:17:58+05:30] stop_reference.sh 41
+18:stopped domain 41; no processes with ROS_DOMAIN_ID=41 remain
+19:[2026-10-17T18:18:01+05:30] domain 41 empty after stop
+20:24 planner_server/controller_server/bt_navigator lines between wall 1792241257.472 and 1792241280.727

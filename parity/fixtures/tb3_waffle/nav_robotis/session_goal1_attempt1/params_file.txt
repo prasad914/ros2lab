@@ -1,0 +1,48 @@
+# processes of domain 41 running navigation2.launch.py / nav2 (pid, TURTLEBOT3_MODEL, args)
+128757 TURTLEBOT3_MODEL=waffle /opt/ros/jazzy/lib/robot_state_publisher/robot_state_publisher --ros-args -r __node:=robot_state_publisher --params-file /tmp/launch_params_e78no8a9 
+128907 TURTLEBOT3_MODEL=waffle /bin/sh /usr/bin/xvfb-run -a ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True map:=/home/prasad/ros2lab-course/parity/fixtures/maps/turtlebot3_world.yaml 
+128945 TURTLEBOT3_MODEL=waffle /usr/bin/python3 /opt/ros/jazzy/bin/ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True map:=/home/prasad/ros2lab-course/parity/fixtures/maps/turtlebot3_world.yaml 
+129007 TURTLEBOT3_MODEL=waffle /opt/ros/jazzy/lib/rclcpp_components/component_container_isolated --ros-args --log-level info --ros-args -r __node:=nav2_container --params-file /tmp/launch_params_r5l1ub_7 --params-file /tmp/launch_params_hs1cj6qw -r /tf:=tf -r /tf_static:=tf_static 
+129008 TURTLEBOT3_MODEL=waffle /opt/ros/jazzy/lib/rviz2/rviz2 -d /opt/ros/jazzy/share/turtlebot3_navigation2/rviz/tb3_navigation2.rviz --ros-args -r __node:=rviz2 --params-file /tmp/launch_params_jaks8_ur 
+
+# /opt/ros/jazzy/share/turtlebot3_navigation2/launch/navigation2.launch.py lines 27-56
+L27	TURTLEBOT3_MODEL = os.environ['TURTLEBOT3_MODEL']
+L28	ROS_DISTRO = os.environ.get('ROS_DISTRO')
+L29	
+L30	
+L31	def generate_launch_description():
+L32	    use_sim_time = LaunchConfiguration('use_sim_time', default='false')
+L33	    map_dir = LaunchConfiguration(
+L34	        'map',
+L35	        default=os.path.join(
+L36	            get_package_share_directory('turtlebot3_navigation2'),
+L37	            'map',
+L38	            'map.yaml'))
+L39	
+L40	    param_file_name = TURTLEBOT3_MODEL + '.yaml'
+L41	    if ROS_DISTRO == 'humble':
+L42	        param_dir = LaunchConfiguration(
+L43	            'params_file',
+L44	            default=os.path.join(
+L45	                get_package_share_directory('turtlebot3_navigation2'),
+L46	                'param',
+L47	                ROS_DISTRO,
+L48	                param_file_name))
+L49	    else:
+L50	        param_dir = LaunchConfiguration(
+L51	            'params_file',
+L52	            default=os.path.join(
+L53	                get_package_share_directory('turtlebot3_navigation2'),
+L54	                'param',
+L55	                param_file_name))
+L56	
+
+# sha256 of the installed param files
+477c7bf179542dc801f82e0af6cb22636732f98a9f10fd69b539b7d9790b34b2  /opt/ros/jazzy/share/turtlebot3_navigation2/param/burger_cam.yaml
+477c7bf179542dc801f82e0af6cb22636732f98a9f10fd69b539b7d9790b34b2  /opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml
+5610a11840ad3c03b372ccedd8f3ec313f25955df87e97b443b960e87735fcb9  /opt/ros/jazzy/share/turtlebot3_navigation2/param/waffle_pi.yaml
+5610a11840ad3c03b372ccedd8f3ec313f25955df87e97b443b960e87735fcb9  /opt/ros/jazzy/share/turtlebot3_navigation2/param/waffle.yaml
+
+# robot_radius (burger.yaml 0.1, waffle.yaml and waffle_pi.yaml 0.15), from the running nodes
+/local_costmap/local_costmap robot_radius: Double value is: 0.15
+/global_costmap/global_costmap robot_radius: Double value is: 0.15

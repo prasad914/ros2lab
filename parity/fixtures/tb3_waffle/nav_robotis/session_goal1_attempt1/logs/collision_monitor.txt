@@ -1,0 +1,14 @@
+# Excerpt of parity/fixtures/tb3_waffle/nav_robotis/session_goal1_attempt1/logs/nav2.log (gitignored)
+# Selection: lines matching [collision_monitor]
+# Generated 2026-10-17T19:34:37+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+153:[component_container_isolated-1] [INFO] [1792241481.064453495] [collision_monitor]: 
+276:[component_container_isolated-1] [INFO] [1792241482.217090537] [collision_monitor]: Configuring
+277:[component_container_isolated-1] [INFO] [1792241482.236787888] [collision_monitor]: [scan]: Creating Scan
+278:[component_container_isolated-1] [INFO] [1792241482.242333518] [collision_monitor]: [PolygonStop]: Creating Polygon
+279:[component_container_isolated-1] [INFO] [1792241482.242424643] [collision_monitor]: [PolygonStop]: Creating Circle
+280:[component_container_isolated-1] [INFO] [1792241482.251604315] [collision_monitor]: [PolygonSlow]: Creating Polygon
+281:[component_container_isolated-1] [INFO] [1792241482.262589894] [collision_monitor]: [FootprintApproach]: Creating Polygon
+282:[component_container_isolated-1] [INFO] [1792241482.263211390] [collision_monitor]: [FootprintApproach]: Polygon points are not defined. Using dynamic subscription instead.
+283:[component_container_isolated-1] [INFO] [1792241482.267526543] [collision_monitor]: [FootprintApproach]: Making footprint subscriber on /local_costmap/published_footprint topic
+344:[component_container_isolated-1] [INFO] [1792241485.359725329] [collision_monitor]: Activating
+345:[component_container_isolated-1] [INFO] [1792241485.359903440] [collision_monitor]: Creating bond (collision_monitor) to lifecycle manager.

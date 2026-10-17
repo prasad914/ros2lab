@@ -1,0 +1,36 @@
+Type: diagnostic_msgs/msg/DiagnosticArray
+
+Publisher count: 2
+
+Node name: lifecycle_manager_localization
+Node namespace: /
+Topic type: diagnostic_msgs/msg/DiagnosticArray
+Topic type hash: RIHS01_5a8a36efb05fb25070fa0fb3810290c0e6cd4862b54a8fb975a1ee8dc55a333e
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.51.0c.02.a9.00.00.00.00.00.00.b0.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: lifecycle_manager_navigation
+Node namespace: /
+Topic type: diagnostic_msgs/msg/DiagnosticArray
+Topic type hash: RIHS01_5a8a36efb05fb25070fa0fb3810290c0e6cd4862b54a8fb975a1ee8dc55a333e
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.51.0c.02.a9.00.00.00.00.00.01.ef.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 0
+

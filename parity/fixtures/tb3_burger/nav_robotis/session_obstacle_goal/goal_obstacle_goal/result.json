@@ -1,0 +1,59 @@
+{
+  "goal_name": "obstacle_goal",
+  "goal_yaml": {
+    "description": "Occupied cell on the surface of the central obstacle cylinder",
+    "frame_id": "map",
+    "position": {
+      "x": 1.893,
+      "y": 0.43,
+      "z": 0.0
+    },
+    "orientation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0,
+      "w": 1.0
+    },
+    "yaw": 0.0,
+    "status": "OCCUPIED"
+  },
+  "goal_msg": {
+    "pose": {
+      "header": {
+        "stamp": {
+          "sec": 31,
+          "nanosec": 319000000
+        },
+        "frame_id": "map"
+      },
+      "pose": {
+        "position": {
+          "x": 1.893,
+          "y": 0.43,
+          "z": 0.0
+        },
+        "orientation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        }
+      }
+    },
+    "behavior_tree": ""
+  },
+  "send_wall": 1792241415.467589,
+  "send_sim": 31.319,
+  "accepted": true,
+  "response_wall": 1792241415.4699585,
+  "response_sim": 31.321,
+  "status": 4,
+  "status_name": "SUCCEEDED",
+  "result": {
+    "error_code": 0,
+    "error_msg": ""
+  },
+  "result_wall": 1792241441.2326806,
+  "result_sim": 50.797,
+  "duration_sim_s": 19.475999999999996
+}

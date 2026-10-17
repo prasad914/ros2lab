@@ -1,0 +1,70 @@
+# Excerpt of parity/fixtures/tb3_burger/nav_robotis/session_obstacle_goal_attempt1/logs/nav2.log (gitignored)
+# Selection: lines matching [collision_monitor]
+# Generated 2026-10-17T19:34:37+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+146:[component_container_isolated-1] [INFO] [1792241240.009921862] [collision_monitor]: 
+275:[component_container_isolated-1] [INFO] [1792241241.027561847] [collision_monitor]: Configuring
+276:[component_container_isolated-1] [INFO] [1792241241.050616774] [collision_monitor]: [scan]: Creating Scan
+277:[component_container_isolated-1] [INFO] [1792241241.057685112] [collision_monitor]: [PolygonStop]: Creating Polygon
+278:[component_container_isolated-1] [INFO] [1792241241.057773834] [collision_monitor]: [PolygonStop]: Creating Circle
+279:[component_container_isolated-1] [INFO] [1792241241.070084114] [collision_monitor]: [PolygonSlow]: Creating Polygon
+280:[component_container_isolated-1] [INFO] [1792241241.076779960] [collision_monitor]: [FootprintApproach]: Creating Polygon
+281:[component_container_isolated-1] [INFO] [1792241241.077322382] [collision_monitor]: [FootprintApproach]: Polygon points are not defined. Using dynamic subscription instead.
+282:[component_container_isolated-1] [INFO] [1792241241.082223264] [collision_monitor]: [FootprintApproach]: Making footprint subscriber on /local_costmap/published_footprint topic
+341:[component_container_isolated-1] [INFO] [1792241243.599703668] [collision_monitor]: Activating
+342:[component_container_isolated-1] [INFO] [1792241243.599851592] [collision_monitor]: Creating bond (collision_monitor) to lifecycle manager.
+370:[component_container_isolated-1] [INFO] [1792241264.662798438] [collision_monitor]: Robot to approach for 2.000000 seconds away from collision
+372:[component_container_isolated-1] [WARN] [1792241264.741511442] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.212000 seconds. Ignoring the source.
+373:[component_container_isolated-1] [WARN] [1792241264.741644365] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+374:[component_container_isolated-1] [INFO] [1792241264.802511276] [collision_monitor]: Robot to approach for 2.000000 seconds away from collision
+375:[component_container_isolated-1] [INFO] [1792241264.963450671] [collision_monitor]: Robot to continue normal operation
+376:[component_container_isolated-1] [WARN] [1792241264.990164939] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.208000 seconds. Ignoring the source.
+377:[component_container_isolated-1] [WARN] [1792241264.990272862] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+378:[component_container_isolated-1] [INFO] [1792241265.072855246] [collision_monitor]: Robot to continue normal operation
+379:[component_container_isolated-1] [INFO] [1792241265.152786907] [collision_monitor]: Robot to approach for 2.000000 seconds away from collision
+381:[component_container_isolated-1] [INFO] [1792241265.842776368] [collision_monitor]: Robot to continue normal operation
+382:[component_container_isolated-1] [WARN] [1792241266.040188360] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.207000 seconds. Ignoring the source.
+383:[component_container_isolated-1] [WARN] [1792241266.040323527] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+384:[component_container_isolated-1] [INFO] [1792241266.113546825] [collision_monitor]: Robot to continue normal operation
+386:[component_container_isolated-1] [WARN] [1792241266.840453809] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.205000 seconds. Ignoring the source.
+387:[component_container_isolated-1] [WARN] [1792241266.840580906] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+388:[component_container_isolated-1] [INFO] [1792241266.903042749] [collision_monitor]: Robot to continue normal operation
+389:[component_container_isolated-1] [WARN] [1792241267.390026246] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.202000 seconds. Ignoring the source.
+390:[component_container_isolated-1] [WARN] [1792241267.390280691] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+391:[component_container_isolated-1] [INFO] [1792241267.452712728] [collision_monitor]: Robot to continue normal operation
+393:[component_container_isolated-1] [WARN] [1792241267.943421495] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.209000 seconds. Ignoring the source.
+394:[component_container_isolated-1] [WARN] [1792241267.943560048] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+395:[component_container_isolated-1] [INFO] [1792241268.022808963] [collision_monitor]: Robot to continue normal operation
+397:[component_container_isolated-1] [WARN] [1792241269.290121087] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.208000 seconds. Ignoring the source.
+398:[component_container_isolated-1] [WARN] [1792241269.290221610] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+399:[component_container_isolated-1] [INFO] [1792241269.362628135] [collision_monitor]: Robot to continue normal operation
+401:[component_container_isolated-1] [WARN] [1792241269.840122106] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.211000 seconds. Ignoring the source.
+402:[component_container_isolated-1] [WARN] [1792241269.840231803] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+403:[component_container_isolated-1] [INFO] [1792241269.912384197] [collision_monitor]: Robot to continue normal operation
+405:[component_container_isolated-1] [WARN] [1792241271.190625872] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.211000 seconds. Ignoring the source.
+406:[component_container_isolated-1] [WARN] [1792241271.190738882] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+407:[component_container_isolated-1] [INFO] [1792241271.262825819] [collision_monitor]: Robot to continue normal operation
+409:[component_container_isolated-1] [WARN] [1792241272.540056384] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.211000 seconds. Ignoring the source.
+410:[component_container_isolated-1] [WARN] [1792241272.540178911] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+411:[component_container_isolated-1] [INFO] [1792241272.603012857] [collision_monitor]: Robot to continue normal operation
+413:[component_container_isolated-1] [INFO] [1792241273.152201220] [collision_monitor]: Robot to approach for 2.000000 seconds away from collision
+414:[component_container_isolated-1] [INFO] [1792241273.673861517] [collision_monitor]: Robot to continue normal operation
+415:[component_container_isolated-1] [INFO] [1792241273.854408994] [collision_monitor]: Robot to approach for 2.000000 seconds away from collision
+417:[component_container_isolated-1] [WARN] [1792241274.040142785] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.203000 seconds. Ignoring the source.
+418:[component_container_isolated-1] [WARN] [1792241274.040254576] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+419:[component_container_isolated-1] [INFO] [1792241274.102207859] [collision_monitor]: Robot to approach for 2.000000 seconds away from collision
+420:[component_container_isolated-1] [INFO] [1792241274.452281423] [collision_monitor]: Robot to continue normal operation
+421:[component_container_isolated-1] [WARN] [1792241274.590059130] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.214000 seconds. Ignoring the source.
+422:[component_container_isolated-1] [WARN] [1792241274.590187085] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+423:[component_container_isolated-1] [INFO] [1792241274.663292792] [collision_monitor]: Robot to continue normal operation
+425:[component_container_isolated-1] [WARN] [1792241275.389995644] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.205000 seconds. Ignoring the source.
+426:[component_container_isolated-1] [WARN] [1792241275.390098881] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+427:[component_container_isolated-1] [INFO] [1792241275.452493999] [collision_monitor]: Robot to continue normal operation
+430:[component_container_isolated-1] [WARN] [1792241277.640104933] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.225000 seconds. Ignoring the source.
+431:[component_container_isolated-1] [WARN] [1792241277.640215857] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+432:[component_container_isolated-1] [WARN] [1792241277.690024367] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.264000 seconds. Ignoring the source.
+435:[component_container_isolated-1] [WARN] [1792241277.740837890] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.296000 seconds. Ignoring the source.
+436:[component_container_isolated-1] [WARN] [1792241277.790022317] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.336000 seconds. Ignoring the source.
+437:[component_container_isolated-1] [WARN] [1792241277.840147308] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.360000 seconds. Ignoring the source.
+438:[component_container_isolated-1] [WARN] [1792241277.890038470] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.398000 seconds. Ignoring the source.
+439:[component_container_isolated-1] [WARN] [1792241277.940190457] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.400000 seconds. Ignoring the source.
+440:[component_container_isolated-1] [WARN] [1792241277.991466016] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.400000 seconds. Ignoring the source.

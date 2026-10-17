@@ -1,0 +1,3 @@
+# clock: sim time (ros2 topic hz --use-sim-time --window 50)
+WARNING: topic [/plan] does not appear to be published yet
+failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:333
