@@ -4,7 +4,7 @@ run_matrix.py - Orchestrates the 5x5 planner and controller matrix test for nav2
 For each pair of installed planners (NavFn, Smac2D, ThetaStar, SmacHybrid, SmacLattice)
 and controllers (MPPI, DWB, RPP, RotationShimRPP, Graceful):
   - Starts nav2_bringup with the pair's YAML configuration.
-  - Checks lifecycle status of planner_server and controller_server.
+  - Waits for Nav2 with wait_nav_ready.py (clock, navigate_to_pose, lifecycle managers active).
   - If configuration fails, captures the error log and marks UNVERIFIED + log.
   - If configuration succeeds, records an MCAP bag and navigates to Goal 1.
   - Stops recording and reference stack.
@@ -43,10 +43,26 @@ def run_cmd(cmd, env=None, check=True):
     return res
 
 
+READY_LIMIT = int(os.environ.get("READY_LIMIT", "300"))        # wall-clock s for Nav2 to come up
+LOCALIZE_LIMIT = int(os.environ.get("LOCALIZE_LIMIT", "120"))  # wall-clock s for /amcl_pose after /initialpose
+
+
 def stop_stack():
+    # record_bag.sh stop waits for the recorder; stop_reference.sh waits until the domain is empty.
     run_cmd(f"bash parity/scripts/record_bag.sh stop {DOMAIN}", check=False)
     run_cmd(f"bash parity/scripts/stop_reference.sh {DOMAIN}", check=False)
-    time.sleep(3)
+
+
+def wait_ready(extra=""):
+    """wait_nav_ready.py on the domain; returns (ok, output)."""
+    res = run_cmd(
+        f"bash -c 'source parity/scripts/env.sh && export ROS_DOMAIN_ID={DOMAIN} && "
+        f"python3 parity/scripts/wait_nav_ready.py --limit {READY_LIMIT} {extra}'",
+        check=False
+    )
+    out = (res.stdout + res.stderr).strip()
+    print(out)
+    return res.returncode == 0, out
 
 
 def check_lifecycle_node(node_name):
@@ -93,29 +109,43 @@ def test_pair(planner, controller):
     print(f"Starting nav2_bringup with {config_path}...")
     run_cmd(f"bash parity/scripts/start_reference.sh {ROBOT} {SCEN} {DOMAIN} {PARTITION}", env=env)
 
-    # Wait for bringup
-    print("Waiting 8s for bringup...")
-    time.sleep(8)
+    # Wait for bringup: clock, navigate_to_pose, lifecycle managers active. A pair whose planner or
+    # controller fails to configure never becomes active: mark it UNVERIFIED with the log lines.
+    print(f"Waiting for Nav2 (limit {READY_LIMIT} s wall)...")
+    ok, ready_out = wait_ready()
+    if not ok:
+        nav_log = os.path.join(FIXTURES_DIR, "logs", "nav2demo.log")
+        stop_stack()
+        return {
+            "pair": pair_name, "planner": planner, "controller": controller,
+            "status": "UNVERIFIED",
+            "not_ready": ready_out.splitlines()[-2:] if ready_out else [],
+            "log_errors": extract_log_errors(nav_log),
+        }
 
-    # Start bag recording
+    # Start bag recording. Settle 2 s: the recorder subscribes after discovery and there is no ready signal.
     print(f"Starting rosbag recording for {pair_name}...")
     run_cmd(f"bash parity/scripts/record_bag.sh start {ROBOT} {SCEN} {DOMAIN} {pair_name}", env=env)
     time.sleep(2)
 
-    # Drive Goal 1 (this handles /initialpose, AMCL confirmation, and goal execution)
-    print(f"Driving Goal 1 for {pair_name}...")
-    drive_res = run_cmd(
-        f"bash -c 'source parity/scripts/env.sh && export ROS_DOMAIN_ID={DOMAIN} && "
-        f"python3 parity/scripts/drive_goals.py --goal-name goal1 --run-label {pair_name} --out-dir {RUNS_DIR}'",
-        check=False
-    )
-    print(drive_res.stdout)
+    # Localize inside the bag (start_pose on /initialpose until /amcl_pose), then drive Goal 1
+    ok, ready_out = wait_ready(f"--localize --localize-limit {LOCALIZE_LIMIT}")
+    if ok:
+        print(f"Driving Goal 1 for {pair_name}...")
+        drive_res = run_cmd(
+            f"bash -c 'source parity/scripts/env.sh && export ROS_DOMAIN_ID={DOMAIN} && "
+            f"python3 parity/scripts/drive_goals.py --goal-name goal1 --skip-init-pose --run-label {pair_name} --out-dir {RUNS_DIR}'",
+            check=False
+        )
+        print(drive_res.stdout)
+    else:
+        print(f"ERROR: robot not localized for {pair_name} within {LOCALIZE_LIMIT} s wall (no /amcl_pose)")
 
     print(f"Stopping rosbag recording for {pair_name}...")
-    run_cmd(f"bash parity/scripts/record_bag.sh stop {DOMAIN}", check=False)
-    time.sleep(2)
-
     stop_stack()
+    if not ok:
+        return {"pair": pair_name, "planner": planner, "controller": controller,
+                "status": "NOT_LOCALIZED", "not_ready": ready_out.splitlines()[-1:]}
 
     # Read run summary if available
     run_json = os.path.join(RUNS_DIR, f"{pair_name}.json")
@@ -181,7 +211,9 @@ def main():
     verified_count = sum(1 for r in results if r["status"] == "VERIFIED")
     unverified_count = sum(1 for r in results if r["status"] == "UNVERIFIED")
     failed_count = sum(1 for r in results if r["status"] == "FAILED_GOAL")
-    print(f"Total: {len(results)} | VERIFIED: {verified_count} | UNVERIFIED: {unverified_count} | FAILED_GOAL: {failed_count}")
+    not_localized_count = sum(1 for r in results if r["status"] == "NOT_LOCALIZED")
+    print(f"Total: {len(results)} | VERIFIED: {verified_count} | UNVERIFIED: {unverified_count} | "
+          f"FAILED_GOAL: {failed_count} | NOT_LOCALIZED: {not_localized_count}")
 
 
 if __name__ == "__main__":
