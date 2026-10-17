@@ -141,7 +141,7 @@ export class RosGraph {
     // every node's /rosout publisher is transient_local (`ros2 topic info -v /rosout` on Jazzy, parity/fixtures/*/sensors/qos/rosout.txt)
     const e = { pubs: [["/parameter_events", "rcl_interfaces/msg/ParameterEvent"], ["/rosout", "rcl_interfaces/msg/Log", "RELIABLE/TRANSIENT_LOCAL"]], subs: [["/parameter_events", "rcl_interfaces/msg/ParameterEvent"]],
       srvs: PARAM_SRVS.map(([s, t]) => [`${n.full}/${s}`, t]), cli: [], acts: [], actc: [] };
-    if (n.info) { const r = (x) => (x.startsWith("/") ? x : x.startsWith("~/") ? `${n.full}/${x.slice(2)}` : p(x)); for (const k of ["pubs", "subs", "srvs", "cli", "acts", "actc"]) for (const [nm, t] of n.info[k]) e[k].push([r(nm), t]); }
+    if (n.info) { const r = (x) => (x.startsWith("/") ? x : x.startsWith("~/") ? `${n.full}/${x.slice(2)}` : p(x)); for (const k of ["pubs", "subs", "srvs", "cli", "acts", "actc"]) for (const [nm, t, q] of n.info[k]) e[k].push([r(nm), t, q]); }
     if (n.kind === "arm") { e.subs.push([p("target_point"), "geometry_msgs/msg/Point"]); e.pubs.push([p("joint_states"), "sensor_msgs/msg/JointState"], [p("end_effector"), "geometry_msgs/msg/Point"]); e.srvs.push([p("arm/home"), "std_srvs/srv/Trigger"]); }
     if (n.kind === "diffbot") { e.subs.push([p("cmd_vel"), "geometry_msgs/msg/Twist"]); e.pubs.push([p("odom"), "nav_msgs/msg/Odometry"], [p("ground_truth"), "nav_msgs/msg/Odometry"], [p("wheel_states"), "sensor_msgs/msg/JointState"], ["/tf", "tf2_msgs/msg/TFMessage"]); }
     if (n.kind === "mm") { e.subs.push([p("goal_point"), "geometry_msgs/msg/Point"]); e.pubs.push([p("cmd_vel"), "geometry_msgs/msg/Twist"], [p("target_point"), "geometry_msgs/msg/Point"]); }

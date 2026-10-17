@@ -62,15 +62,17 @@ export function startSlam(sys, kind, desc, { NavNode, C }) {
   class SlamToolbox extends SlamBase {
     constructor(desc) {
       super(sys, `slam_${kind}`, { ...desc, name: desc.name || "slam_toolbox" });
-      this.mode = kind; this.mapFrame = String(this.P.map_frame || "map");
+      this.mode = kind; this.mapFrame = String(this.P.map_frame || "map"); this.noBond = true;
       this.announce(null);
       this.info(`Node using stack size ${num(this.P.stack_size_to_use, 40000000)}`);
       if (kind === "toolbox_lifelong") this.warn("(ROS2Lab) lifelong mapping is modelled like online mapping in the practice simulator.");
     }
     endpoints() {
       const S = "slam_toolbox/";
-      return { subs: [[String(this.P.scan_topic || "/scan"), "sensor_msgs/msg/LaserScan"], ["initialpose", "geometry_msgs/msg/PoseWithCovarianceStamped"], ["slam_toolbox/feedback", "visualization_msgs/msg/InteractiveMarkerFeedback"]],
-        pubs: [["map", "nav_msgs/msg/OccupancyGrid"], ["map_metadata", "nav_msgs/msg/MapMetaData"], ["pose", "geometry_msgs/msg/PoseWithCovarianceStamped"], ["/tf", "tf2_msgs/msg/TFMessage"], ["slam_toolbox/graph_visualization", "visualization_msgs/msg/MarkerArray"], ["slam_toolbox/scan_visualization", "sensor_msgs/msg/LaserScan"], ["slam_toolbox/update", "visualization_msgs/msg/InteractiveMarkerUpdate"]],
+      // real (async mapping): /scan best effort, /map and /map_metadata transient_local, slam_toolbox also subscribes its
+      // own /map; /initialpose only in localization mode (parity/fixtures/*/slam/qos, topic_list.txt)
+      return { subs: [[String(this.P.scan_topic || "/scan"), "sensor_msgs/msg/LaserScan", "BEST_EFFORT/VOLATILE"], ["map", "nav_msgs/msg/OccupancyGrid"], ...(kind === "toolbox_localization" ? [["initialpose", "geometry_msgs/msg/PoseWithCovarianceStamped"]] : []), ["slam_toolbox/feedback", "visualization_msgs/msg/InteractiveMarkerFeedback"]],
+        pubs: [["map", "nav_msgs/msg/OccupancyGrid", "RELIABLE/TRANSIENT_LOCAL"], ["map_metadata", "nav_msgs/msg/MapMetaData", "RELIABLE/TRANSIENT_LOCAL"], ["pose", "geometry_msgs/msg/PoseWithCovarianceStamped"], ["/tf", "tf2_msgs/msg/TFMessage"], ["slam_toolbox/graph_visualization", "visualization_msgs/msg/MarkerArray"], ["slam_toolbox/scan_visualization", "sensor_msgs/msg/LaserScan"], ["slam_toolbox/update", "visualization_msgs/msg/InteractiveMarkerUpdate"]],
         srvs: [[S + "dynamic_map", "nav_msgs/srv/GetMap"], [S + "pause_new_measurements", "slam_toolbox/srv/Pause"], [S + "serialize_map", "slam_toolbox/srv/SerializePoseGraph"], [S + "deserialize_map", "slam_toolbox/srv/DeserializePoseGraph"], [S + "reset", "slam_toolbox/srv/Reset"], [S + "save_map", "slam_toolbox/srv/SaveMap"], [S + "clear_changes", "slam_toolbox/srv/Clear"], [S + "manual_loop_closure", "slam_toolbox/srv/LoopClosure"], [S + "toggle_interactive_mode", "slam_toolbox/srv/ToggleInteractive"], [S + "clear_queue", "slam_toolbox/srv/ClearQueue"]] };
     }
     onConfigure() {
