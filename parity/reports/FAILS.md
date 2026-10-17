@@ -4,5 +4,12 @@ Reference: `parity/CLAUDE.md` and `parity/reference/nav2_jazzy_spec.md` S4.
 
 ## Smac State Lattice Planner (`nav2_smac_planner::SmacPlannerLattice`)
 
-- **Status:** Resolved / Verified Configuration.
-- **Rationale:** The earlier failure ("Could not open lattice file!") was resolved by supplying the Jazzy sample primitives path: `/opt/ros/jazzy/share/nav2_smac_planner/sample_primitives/5cm_resolution/0.5m_turning_radius/diff/output.json` matching the map resolution (`0.05`). All 5 SmacLattice planner × controller configurations successfully load lifecycle nodes and configure/activate.
+- **Status:** FAIL for goal 1 in all 5 planner × controller pairs. Not verified.
+- **Rationale:** The earlier failure ("Could not open lattice file!") was resolved by supplying the Jazzy sample primitives path: `/opt/ros/jazzy/share/nav2_smac_planner/sample_primitives/5cm_resolution/0.5m_turning_radius/diff/output.json` matching the map resolution (`0.05`). The lifecycle nodes load and configure, but no pair reached goal 1:
+  - `SmacLattice_DWB`: goal 1 status 6 (ABORTED), position error 1.0009 m (`runs/SmacLattice_DWB.json`)
+  - `SmacLattice_Graceful`: goal 1 status 6 (ABORTED), position error 0.9897 m (`runs/SmacLattice_Graceful.json`)
+  - `SmacLattice_RPP`: goal 1 REJECTED; bag incomplete, no `/cmd_vel` topic recorded (`bags/SmacLattice_RPP.log`)
+  - `SmacLattice_MPPI`: goal 1 REJECTED; bag directory absent (`runs/SmacLattice_MPPI.json`, `bags/SmacLattice_MPPI.log`)
+  - `SmacLattice_RotationShimRPP`: goal 1 REJECTED; bag directory absent (`runs/SmacLattice_RotationShimRPP.json`, `bags/SmacLattice_RotationShimRPP.log`)
+- **Recorder error (3 pairs, RPP, MPPI, RotationShimRPP):** `Topic '/cmd_vel' has more than one type associated`. The recorder log does not name the second type. Every complete bag records `/cmd_vel` as `geometry_msgs/msg/Twist`. The only `TwistStamped` in the captured logs is a `controller_server` publisher error on `rt/cmd_vel_nav` (`logs/nav2demo.log:1513`). That error does not show which node published the second `/cmd_vel` type, so the source is **UNVERIFIED**.
+- **Not claimed:** no SmacLattice bag has been checked for path or RMSE values. Those numbers have no source.

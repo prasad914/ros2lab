@@ -36,7 +36,7 @@ Total bags recorded: **36**
 | `nav2_bringup/bags/SmacLattice_DWB` | 0.98 | NAV FAILED: goal1 status 6 (ABORTED), position error 1.00 m (`runs/SmacLattice_DWB.json`) |
 | `nav2_bringup/bags/SmacLattice_Graceful` | 1.22 | NAV FAILED: goal1 status 6 (ABORTED), position error 0.99 m (`runs/SmacLattice_Graceful.json`) |
 | `nav2_bringup/bags/SmacLattice_MPPI` | — | BAG MISSING; goal1 REJECTED; recorder: `/cmd_vel` has more than one type (`bags/SmacLattice_MPPI.log`) |
-| `nav2_bringup/bags/SmacLattice_RPP` | 2.71 | goal1 REJECTED (`runs/SmacLattice_RPP.json`); bag present, no goal reached |
+| `nav2_bringup/bags/SmacLattice_RPP` | — | INCOMPLETE: goal1 REJECTED (`runs/SmacLattice_RPP.json`); bag has 11399 messages but no `/cmd_vel` topic in metadata; recorder log has 52 `/cmd_vel has more than one type` errors (`bags/SmacLattice_RPP.log`). No goal reached. The earlier "2.71" value has no source file and is removed. |
 | `nav2_bringup/bags/SmacLattice_RotationShimRPP` | — | BAG MISSING; goal1 REJECTED; recorder: `/cmd_vel` has more than one type (`bags/SmacLattice_RotationShimRPP.log`) |
 | `nav2_bringup/bags/ThetaStar_DWB` | 4.92 | VERIFIED |
 | `nav2_bringup/bags/ThetaStar_Graceful` | 5.98 | VERIFIED |
