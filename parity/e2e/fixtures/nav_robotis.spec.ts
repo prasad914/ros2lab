@@ -90,7 +90,9 @@ for (const robot of ROBOTS) {
       }
 
       // goals: the 5 free goals (tb3_burger: every run's status) or goal1 (waffle, waffle_pi)
-      const goals = robot === "tb3_burger" ? ["goal1", "goal2", "goal3", "goal4", "goal5"] : ["goal1"];
+      // NAV_GOALS=<name,...> runs only those goals / failure cases (for checking one fix); default: all
+      const only = process.env.NAV_GOALS ? process.env.NAV_GOALS.split(",") : null, want = (n: string) => !only || only.includes(n);
+      const goals = (robot === "tb3_burger" ? ["goal1", "goal2", "goal3", "goal4", "goal5"] : ["goal1"]).filter(want);
       for (const g of goals) {
         let expStatus: string, fx: string, expDur: any;
         if (robot === "tb3_burger") {
@@ -117,6 +119,7 @@ for (const robot of ROBOTS) {
         ];
         for (const dir of cases) {
           const fx = path.join(dir, "result.json"), R = JSON.parse(text(fx)), gp = R.goal_yaml.position, go = R.goal_yaml.orientation;
+          if (!want(R.goal_name)) continue;
           const r = await sendGoal(page, robot, { x: gp.x, y: gp.y, z: go.z, w: go.w });
           rec.exact(`${R.goal_name} (${gp.x}, ${gp.y}) status`, R.status_name, r.status, fx);
           rec.exact(`${R.goal_name} error_code`, R.result.error_code, r.error_code, fx);
