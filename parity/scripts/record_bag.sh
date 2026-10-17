@@ -32,6 +32,6 @@ WANT='^/(tf|tf_static|clock|scan|odom|imu|joint_states|camera/image_raw|camera/c
 TOPICS=$(ros2 topic list | grep -E "$WANT" | tr '\n' ' ')
 [ -n "$TOPICS" ] || { echo "none of the parity topics exist yet"; exit 1; }
 # shellcheck disable=SC2086
-setsid -w ros2 bag record -s mcap -e "$WANT" -o "$OUT" > "$OUT.log" 2>&1 &
+setsid -w ros2 bag record --use-sim-time -s mcap -e "$WANT" -o "$OUT" > "$OUT.log" 2>&1 &
 echo $! > /tmp/ros2lab_bag_$DOMAIN.pid
 echo "recording to $OUT (matching $WANT)"

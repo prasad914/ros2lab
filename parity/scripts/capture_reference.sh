@@ -20,11 +20,13 @@ while read -r topic _; do
   timeout -k 2s 10 ros2 topic info -v "$topic" > "$OUT/qos/$f.txt" 2>&1
 done < <(ros2 topic list)
 
-# Message rates for the sensor and nav topics that exist
+# Message rates for the sensor and nav topics that exist, in sim time (ros2 topic hz --use-sim-time: the rate per
+# simulated second, from /clock). The 12 s timeout is wall clock; each file's first line names the clock used.
 for t in /scan /odom /imu /camera/image_raw /camera/camera_info /oakd/rgb/preview/image_raw /oakd/rgb/preview/depth/points /tf /map /plan /cmd_vel /particle_cloud /global_costmap/costmap /local_costmap/costmap; do
   if grep -q "^$t " "$OUT/topic_list.txt"; then
     f=$(echo "$t" | sed 's#^/##; s#/#__#g')
-    timeout -k 2s 12 ros2 topic hz "$t" --window 50 > "$OUT/qos/${f}_hz.txt" 2>&1
+    { echo "# clock: sim time (ros2 topic hz --use-sim-time --window 50)"
+      timeout -k 2s 12 ros2 topic hz "$t" --use-sim-time --window 50 2>&1; } > "$OUT/qos/${f}_hz.txt"
   fi
 done
 
