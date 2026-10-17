@@ -14,6 +14,7 @@ test.describe("Playground Readiness and Robot Mission Games (Prompt P12)", () =>
         const evaluation = await page.evaluate(async () => {
             const { getRobotReadiness, isGameUnlocked } = await import("./js/games/readiness.js");
             const { getGamesForRobot } = await import("./js/games/registry.js");
+            const { FIXTURE_STATUS } = await import("./js/games/fixture-status.js");
 
             const burgerReady = getRobotReadiness("tb3_burger");
             const waffleReady = getRobotReadiness("tb3_waffle");
@@ -30,6 +31,7 @@ test.describe("Playground Readiness and Robot Mission Games (Prompt P12)", () =>
             const dockGame = waffleGames.find(g => g.id === "dock_it");
 
             return {
+                waffleCamFixture: !!FIXTURE_STATUS.robots.tb3_waffle?.CAM?.pass,
                 burgerCam: burgerReady.CAM,
                 waffleCam: waffleReady.CAM,
                 burgerColorFinderUnlocked: burgerColorFinder.unlocked,
@@ -42,12 +44,13 @@ test.describe("Playground Readiness and Robot Mission Games (Prompt P12)", () =>
         });
 
         expect(evaluation.burgerCam).toBe(false);
-        expect(evaluation.waffleCam).toBe(true);
+        // step G: CAM follows the fixture parity tests (fixture-status.js); locked until they all pass
+        expect(evaluation.waffleCam).toBe(evaluation.waffleCamFixture);
         expect(evaluation.burgerColorFinderUnlocked).toBe(false);
-        expect(evaluation.waffleColorFinderUnlocked).toBe(true);
+        expect(evaluation.waffleColorFinderUnlocked).toBe(evaluation.waffleCamFixture);
         expect(evaluation.dockUnlocked).toBe(false);
         expect(evaluation.burgerCFUnlocked).toBe(false);
-        expect(evaluation.waffleCFUnlocked).toBe(true);
+        expect(evaluation.waffleCFUnlocked).toBe(evaluation.waffleCamFixture);
         expect(evaluation.dockGameUnlocked).toBe(false); // DOCK is PENDING -> locked
     });
 

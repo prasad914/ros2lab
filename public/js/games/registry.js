@@ -96,12 +96,12 @@ export async function mountGame(container, id, opts = {}) {
   if (g.track === "robots") {
     const { unlocked, missingCheck } = isGameUnlocked(g.id, robotId, g.checks || []);
     if (!unlocked) {
-      container.replaceChildren(
-        Object.assign(document.createElement("div"), {
-          className: "game-locked",
-          innerHTML: `<h3>🔒 Game Locked</h3><p>This mission requires check <b>${missingCheck}</b>, which is currently PENDING or FAIL for <b>${robotId}</b>. Per ROS2Lab parity rules, unverified checks keep the game locked.</p>`
-        })
-      );
+      const box = Object.assign(document.createElement("div"), { className: "game-locked" });
+      const b = (t) => Object.assign(document.createElement("b"), { textContent: t });
+      const p = document.createElement("p");
+      p.append("This mission requires check ", b(missingCheck), ", which has not passed its parity tests against real ROS 2 for ", b(robotId), ". Unverified checks keep the game locked.");
+      box.append(Object.assign(document.createElement("h3"), { textContent: "🔒 Game Locked" }), p);
+      container.replaceChildren(box);
       return;
     }
   }

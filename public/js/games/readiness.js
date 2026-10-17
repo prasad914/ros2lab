@@ -1,4 +1,8 @@
 // Readiness checks and robot mission game configuration (Prompt P12)
+// A check is passed only when its fixture parity tests passed against real ROS 2 Jazzy (fixture-status.js, generated
+// by parity/compare/readiness_from_fixtures.py); a check without such a test keeps its games locked.
+import { FIXTURE_STATUS } from "./fixture-status.js";
+
 export const CHECKS = {
   TF: { id: "TF", name: "TF tree complete", status: "NOT YET VALIDATED" },
   FIXED_FRAME: { id: "FIXED_FRAME", name: "Fixed Frame selectable", status: "NOT YET VALIDATED" },
@@ -15,21 +19,10 @@ export const CHECKS = {
 };
 
 export function getRobotReadiness(robotId) {
-  const isBurger = robotId === "tb3_burger";
-  return {
-    TF: true,
-    FIXED_FRAME: true,
-    SENS: true,
-    SLAM: true,
-    AMCL: true,
-    NAV: true,
-    CAM: !isBurger, // burger has no camera; waffle and waffle_pi have camera
-    FILT: true,
-    CM: true,
-    BT: true,
-    DOCK: false, // PENDING for TB3
-    NS: false, // PENDING for single robot
-  };
+  const r = (FIXTURE_STATUS.robots && FIXTURE_STATUS.robots[robotId]) || {};
+  const out = {};
+  for (const id of Object.keys(CHECKS)) out[id] = !!(r[id] && r[id].pass);
+  return out;
 }
 
 export function isGameUnlocked(gameId, robotId, requiredChecks = []) {

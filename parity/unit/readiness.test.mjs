@@ -1,29 +1,31 @@
 import { describe, it, expect } from "vitest";
-import { getRobotReadiness, isGameUnlocked, calculateScore, saveScore, getLeaderboard } from "../../public/js/games/readiness.js";
+import { CHECKS, getRobotReadiness, isGameUnlocked, calculateScore, saveScore, getLeaderboard } from "../../public/js/games/readiness.js";
+import { FIXTURE_STATUS } from "../../public/js/games/fixture-status.js";
 
-describe("Playground Readiness and Game Locking (Prompt P12)", () => {
-    it("evaluates correct readiness checks per robot (tb3_burger has no camera)", () => {
-        const burgerReadiness = getRobotReadiness("tb3_burger");
-        const waffleReadiness = getRobotReadiness("tb3_waffle");
-
-        expect(burgerReadiness.TF).toBe(true);
-        expect(burgerReadiness.SLAM).toBe(true);
-        expect(burgerReadiness.CAM).toBe(false); // burger has no camera
-        expect(burgerReadiness.DOCK).toBe(false); // pending
-
-        expect(waffleReadiness.CAM).toBe(true); // waffle has camera
-        expect(waffleReadiness.DOCK).toBe(false); // pending
+// Readiness follows the fixture parity tests (parity/compare/readiness_from_fixtures.py): a check is true only when
+// the fixture status says it passed; checks without fixture tests are locked.
+describe("Playground Readiness and Game Locking (Prompt P12, step G: wired to fixture tests)", () => {
+    it("every check equals its fixture test result; unknown robots are fully locked", () => {
+        for (const robot of ["tb3_burger", "tb3_waffle", "tb3_waffle_pi"]) {
+            const r = getRobotReadiness(robot);
+            for (const id of Object.keys(CHECKS)) expect(r[id]).toBe(!!FIXTURE_STATUS.robots[robot]?.[id]?.pass);
+        }
+        const none = getRobotReadiness("no_such_robot");
+        expect(Object.values(none).every((v) => v === false)).toBe(true);
     });
 
-    it("locks camera games for tb3_burger and unlocks them for tb3_waffle", () => {
-        const burgerColorFinder = isGameUnlocked("color_finder", "tb3_burger", ["CAM"]);
-        const waffleColorFinder = isGameUnlocked("color_finder", "tb3_waffle", ["CAM"]);
+    it("checks without fixture tests stay locked (FIXED_FRAME, FILT, CM, BT, DOCK, NS)", () => {
+        for (const robot of ["tb3_burger", "tb3_waffle", "tb3_waffle_pi"]) {
+            const r = getRobotReadiness(robot);
+            for (const id of ["FIXED_FRAME", "FILT", "CM", "BT", "DOCK", "NS"]) expect(r[id]).toBe(false);
+        }
+    });
 
-        expect(burgerColorFinder.unlocked).toBe(false);
-        expect(burgerColorFinder.missingCheck).toBe("CAM");
-
-        expect(waffleColorFinder.unlocked).toBe(true);
-        expect(waffleColorFinder.missingCheck).toBeNull();
+    it("tb3_burger has no camera: CAM is locked and camera games stay locked", () => {
+        expect(getRobotReadiness("tb3_burger").CAM).toBe(false);
+        const c = isGameUnlocked("color_finder", "tb3_burger", ["CAM"]);
+        expect(c.unlocked).toBe(false);
+        expect(c.missingCheck).toBe("CAM");
     });
 
     it("locks docking and relay games for all TB3 models because their checks are PENDING", () => {
