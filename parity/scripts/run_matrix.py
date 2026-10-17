@@ -115,8 +115,8 @@ def start(out_dir, params_file=None):
     stop_all()
     if not check_domain("before start", dc):
         return None
-    env = {"ROS_DOMAIN_ID": str(DOMAIN), "GZ_PARTITION": PARTITION, "MAP": MAP, "OUT_DIR": out_dir,
-           "REF_RENDER": "egl"}
+    # No ROS_DOMAIN_ID here: start_reference.sh exports it itself, and its domain check would see this wrapper
+    env = {"MAP": MAP, "OUT_DIR": out_dir, "REF_RENDER": "egl"}
     if params_file:
         env["PARAMS_FILE"] = params_file
     rc, out = sh(f"bash parity/scripts/start_reference.sh {ROBOT} {SCEN} {DOMAIN} {PARTITION}", env=env, timeout=120)
