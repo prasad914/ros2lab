@@ -9,7 +9,7 @@ Reference: `parity/CLAUDE.md` and `parity/reference/nav2_jazzy_spec.md` S4.
   - `SmacLattice_DWB`: goal 1 status 6 (ABORTED), position error 1.0009 m (`runs/SmacLattice_DWB.json`)
   - `SmacLattice_Graceful`: goal 1 status 6 (ABORTED), position error 0.9897 m (`runs/SmacLattice_Graceful.json`)
   - `SmacLattice_RPP`: goal 1 REJECTED; bag incomplete, no `/cmd_vel` topic recorded (`bags/SmacLattice_RPP.log`)
-  - `SmacLattice_MPPI`: goal 1 REJECTED; bag directory absent (`runs/SmacLattice_MPPI.json`, `bags/SmacLattice_MPPI.log`)
-  - `SmacLattice_RotationShimRPP`: goal 1 REJECTED; bag directory absent (`runs/SmacLattice_RotationShimRPP.json`, `bags/SmacLattice_RotationShimRPP.log`)
+  - `SmacLattice_MPPI`: REDO. Goal 1 REJECTED; bag directory absent (no evidence it was deleted; the recorder never produced a usable bag) (`runs/SmacLattice_MPPI.json`, `bags/SmacLattice_MPPI.log`)
+  - `SmacLattice_RotationShimRPP`: REDO. Goal 1 REJECTED; bag directory absent (no evidence it was deleted; the recorder never produced a usable bag) (`runs/SmacLattice_RotationShimRPP.json`, `bags/SmacLattice_RotationShimRPP.log`)
 - **Recorder error (3 pairs, RPP, MPPI, RotationShimRPP):** `Topic '/cmd_vel' has more than one type associated`. The recorder log does not name the second type. Every complete bag records `/cmd_vel` as `geometry_msgs/msg/Twist`. The only `TwistStamped` in the captured logs is a `controller_server` publisher error on `rt/cmd_vel_nav` (`logs/nav2demo.log:1513`). That error does not show which node published the second `/cmd_vel` type, so the source is **UNVERIFIED**.
 - **Not claimed:** no SmacLattice bag has been checked for path or RMSE values. Those numbers have no source.
