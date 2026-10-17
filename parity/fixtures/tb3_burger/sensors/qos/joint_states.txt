@@ -1,13 +1,13 @@
 Type: sensor_msgs/msg/JointState
 
-Publisher count: 3
+Publisher count: 1
 
 Node name: ros_gz_bridge
 Node namespace: /
 Topic type: sensor_msgs/msg/JointState
 Topic type hash: RIHS01_a13ee3a330e346c9d87b5aa18d24e11690752bd33a0350f11c5882bc9179260e
 Endpoint type: PUBLISHER
-GID: 01.0f.17.2e.15.7b.0d.d5.00.00.00.00.00.00.15.03
+GID: 01.0f.17.2e.cd.65.ad.e3.00.00.00.00.00.00.15.03
 QoS profile:
   Reliability: RELIABLE
   History (Depth): UNKNOWN
@@ -17,104 +17,14 @@ QoS profile:
   Liveliness: AUTOMATIC
   Liveliness lease duration: Infinite
 
-Node name: ros_gz_bridge
-Node namespace: /
-Topic type: sensor_msgs/msg/JointState
-Topic type hash: RIHS01_a13ee3a330e346c9d87b5aa18d24e11690752bd33a0350f11c5882bc9179260e
-Endpoint type: PUBLISHER
-GID: 01.0f.17.2e.b5.f1.60.5b.00.00.00.00.00.00.15.03
-QoS profile:
-  Reliability: RELIABLE
-  History (Depth): UNKNOWN
-  Durability: VOLATILE
-  Lifespan: Infinite
-  Deadline: Infinite
-  Liveliness: AUTOMATIC
-  Liveliness lease duration: Infinite
-
-Node name: ros_gz_bridge
-Node namespace: /
-Topic type: sensor_msgs/msg/JointState
-Topic type hash: RIHS01_a13ee3a330e346c9d87b5aa18d24e11690752bd33a0350f11c5882bc9179260e
-Endpoint type: PUBLISHER
-GID: 01.0f.17.2e.d9.74.4c.58.00.00.00.00.00.00.15.03
-QoS profile:
-  Reliability: RELIABLE
-  History (Depth): UNKNOWN
-  Durability: VOLATILE
-  Lifespan: Infinite
-  Deadline: Infinite
-  Liveliness: AUTOMATIC
-  Liveliness lease duration: Infinite
-
-Subscription count: 5
+Subscription count: 1
 
 Node name: robot_state_publisher
 Node namespace: /
 Topic type: sensor_msgs/msg/JointState
 Topic type hash: RIHS01_a13ee3a330e346c9d87b5aa18d24e11690752bd33a0350f11c5882bc9179260e
 Endpoint type: SUBSCRIPTION
-GID: 01.0f.17.2e.16.7b.6e.d1.00.00.00.00.00.00.18.04
-QoS profile:
-  Reliability: BEST_EFFORT
-  History (Depth): UNKNOWN
-  Durability: VOLATILE
-  Lifespan: Infinite
-  Deadline: Infinite
-  Liveliness: AUTOMATIC
-  Liveliness lease duration: Infinite
-
-Node name: rosbag2_recorder
-Node namespace: /
-Topic type: sensor_msgs/msg/JointState
-Topic type hash: RIHS01_a13ee3a330e346c9d87b5aa18d24e11690752bd33a0350f11c5882bc9179260e
-Endpoint type: SUBSCRIPTION
-GID: 01.0f.17.2e.5b.7c.fd.a2.00.00.00.00.00.00.2d.04
-QoS profile:
-  Reliability: RELIABLE
-  History (Depth): UNKNOWN
-  Durability: VOLATILE
-  Lifespan: Infinite
-  Deadline: Infinite
-  Liveliness: AUTOMATIC
-  Liveliness lease duration: Infinite
-
-Node name: robot_state_publisher
-Node namespace: /
-Topic type: sensor_msgs/msg/JointState
-Topic type hash: RIHS01_a13ee3a330e346c9d87b5aa18d24e11690752bd33a0350f11c5882bc9179260e
-Endpoint type: SUBSCRIPTION
-GID: 01.0f.17.2e.b8.f1.06.76.00.00.00.00.00.00.18.04
-QoS profile:
-  Reliability: BEST_EFFORT
-  History (Depth): UNKNOWN
-  Durability: VOLATILE
-  Lifespan: Infinite
-  Deadline: Infinite
-  Liveliness: AUTOMATIC
-  Liveliness lease duration: Infinite
-
-Node name: rosbag2_recorder
-Node namespace: /
-Topic type: sensor_msgs/msg/JointState
-Topic type hash: RIHS01_a13ee3a330e346c9d87b5aa18d24e11690752bd33a0350f11c5882bc9179260e
-Endpoint type: SUBSCRIPTION
-GID: 01.0f.17.2e.ba.76.74.8c.00.00.00.00.00.00.30.04
-QoS profile:
-  Reliability: RELIABLE
-  History (Depth): UNKNOWN
-  Durability: VOLATILE
-  Lifespan: Infinite
-  Deadline: Infinite
-  Liveliness: AUTOMATIC
-  Liveliness lease duration: Infinite
-
-Node name: robot_state_publisher
-Node namespace: /
-Topic type: sensor_msgs/msg/JointState
-Topic type hash: RIHS01_a13ee3a330e346c9d87b5aa18d24e11690752bd33a0350f11c5882bc9179260e
-Endpoint type: SUBSCRIPTION
-GID: 01.0f.17.2e.da.74.4b.59.00.00.00.00.00.00.18.04
+GID: 01.0f.17.2e.ce.65.1a.44.00.00.00.00.00.00.18.04
 QoS profile:
   Reliability: BEST_EFFORT
   History (Depth): UNKNOWN

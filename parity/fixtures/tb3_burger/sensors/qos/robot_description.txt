@@ -1,43 +1,13 @@
 Type: std_msgs/msg/String
 
-Publisher count: 3
+Publisher count: 1
 
 Node name: robot_state_publisher
 Node namespace: /
 Topic type: std_msgs/msg/String
 Topic type hash: RIHS01_df668c740482bbd48fb39d76a70dfd4bd59db1288021743503259e948f6b1a18
 Endpoint type: PUBLISHER
-GID: 01.0f.17.2e.16.7b.6e.d1.00.00.00.00.00.00.17.03
-QoS profile:
-  Reliability: RELIABLE
-  History (Depth): UNKNOWN
-  Durability: TRANSIENT_LOCAL
-  Lifespan: Infinite
-  Deadline: Infinite
-  Liveliness: AUTOMATIC
-  Liveliness lease duration: Infinite
-
-Node name: robot_state_publisher
-Node namespace: /
-Topic type: std_msgs/msg/String
-Topic type hash: RIHS01_df668c740482bbd48fb39d76a70dfd4bd59db1288021743503259e948f6b1a18
-Endpoint type: PUBLISHER
-GID: 01.0f.17.2e.b8.f1.06.76.00.00.00.00.00.00.17.03
-QoS profile:
-  Reliability: RELIABLE
-  History (Depth): UNKNOWN
-  Durability: TRANSIENT_LOCAL
-  Lifespan: Infinite
-  Deadline: Infinite
-  Liveliness: AUTOMATIC
-  Liveliness lease duration: Infinite
-
-Node name: robot_state_publisher
-Node namespace: /
-Topic type: std_msgs/msg/String
-Topic type hash: RIHS01_df668c740482bbd48fb39d76a70dfd4bd59db1288021743503259e948f6b1a18
-Endpoint type: PUBLISHER
-GID: 01.0f.17.2e.da.74.4b.59.00.00.00.00.00.00.17.03
+GID: 01.0f.17.2e.ce.65.1a.44.00.00.00.00.00.00.17.03
 QoS profile:
   Reliability: RELIABLE
   History (Depth): UNKNOWN

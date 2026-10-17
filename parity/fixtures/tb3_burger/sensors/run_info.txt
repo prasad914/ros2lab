@@ -1,7 +1,7 @@
 robot=tb3_burger scenario=sensors domain=41 partition=ref41 model=burger
-date=2026-10-16T22:45:13+05:30
-ros_distro=jazzy tb3_ws=none robots_ws=/home/prasad/robots_ws
-status_row=| **tb3_burger** | mobile | apt: `ros-jazzy-turtlebot3-gazebo`, `ros-jazzy-turtlebot3-navigation2` | yes | yes | OFFICIAL-JAZZY | `ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py` | parity/fixtures/tb3_burger/install_check/ |
+date=2026-10-15T20:55:59+05:30
+ros_distro=jazzy tb3_ws=none robots_ws=none
+status_row=| **tb3_burger** | mobile | apt: `ros-jazzy-turtlebot3-gazebo`, `ros-jazzy-turtlebot3-navigation2` | yes | no | NOT VERIFIED | `ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py` | pending P2 |
 ros-jazzy-moveit 2.12.4-1noble.20260921.025955
 ros-jazzy-moveit-common 2.12.4-1noble.20260225.235600
 ros-jazzy-moveit-configs-utils 2.12.4-1noble.20260412.053416
