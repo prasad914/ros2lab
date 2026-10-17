@@ -25,10 +25,12 @@ SmacLattice SUCCEEDED with MPPI, RPP, RotationShimRPP and Graceful and ABORTED 1
   ("gz is running, but the practice computer has no model of what this program does"), so there is no odom, Nav2 does
   not activate and no goal can run. Faithful fix = model that launch file's `gz sim` + spawn + bridge
   (`nav2_minimal_tb3_sim` waffle SDF, its bridge yaml) in ros-gz.js; too large for an unattended night. Not fixed.
-- **Nodes the site does not model:** `launch_ros_<pid>` (the launch system's own node, with slam_toolbox's lifecycle
-  events), `transform_listener_impl_<address>` (tf2 listener nodes), `bt_navigator_navigate_*_rclcpp_node`,
-  `rviz_navigation_dialog_action_client`. Their endpoints make QoS items for `/rosout`, `/parameter_events`, `/tf`,
-  `/tf_static`, `/clock`, `/behavior_tree_log`, `/waypoints` FAIL. Not fixed: needs new node models in ros-graph.js.
+- **Nodes the site does not model (nav_robotis):** `bt_navigator_navigate_*_rclcpp_node`,
+  `rviz_navigation_dialog_action_client`, and the tf2 listener nodes of the Nav2 servers. (The tf2 listener nodes of
+  rviz2, slam_toolbox, cartographer_node and `launch_ros_<pid>` were added in fdebe44; slam and cartographer now pass.)
+  Their endpoints make QoS items for `/rosout`, `/parameter_events`, `/tf`, `/tf_static`, `/clock`,
+  `/behavior_tree_log`, `/waypoints` FAIL in nav_robotis. Not fixed: the owners of the four real listener nodes in the
+  nav capture are not identifiable from the fixture (random names), so adding them would be a guess.
 - **Nav2 topics and endpoints not modelled:** costmap layer topics (`*/obstacle_layer*`, `*/static_layer*`,
   `*/voxel_layer*`, `clearing_endpoints`, `voxel_grid`), docking_server (`/battery_state`, `/staging_pose`,
   `/docking_trajectory`, `/cmd_vel`), route_server (`/route_graph`, `/plan`, `/speed_limit`), `/diagnostics`,

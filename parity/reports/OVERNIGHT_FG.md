@@ -119,3 +119,82 @@ Done: `parity/robots/P2B_PHASE_A.md`, `parity/scripts/robots_sudo.sh` (not run),
 DOBOT_6Axis_ROS2_V4, crazyswarm2 (main only), franka_description; scout_ros2 switched from humble to origin/jazzy.
 Blocking finding: apt cannot read its sources (duplicate packages.ros.org entries with different Signed-By), so the
 10 apt names rosdep resolved could not be confirmed with apt-cache; robots_sudo.sh fixes the source list first.
+
+## End of run (2026-10-18)
+
+Simulations: `parity/scripts/stop_reference.sh 41` → "nothing running for domain 41"; domain_pids 41 empty. Dev
+servers on :8000 and :8080 left running (not simulations).
+
+Corrections to the hashes above: G10 = 25fc516, G11 = fdebe44.
+
+### Commits made this run
+
+```
+05f9550 fixture_parity.md final step G run: 495 PASS, 185 FAIL, 10 PENDING-THRESHOLD, 53 NOT-VALIDATED; readiness: SLAM now passes
+25cb5d2 OVERNIGHT_FG: step G fixes G5-G11, item 4
+fdebe44 Model the tf2 listener nodes and launch_ros's node, as in the Jazzy graph
+1a4e99c Playground readiness locks follow the fixture parity tests (locked until their tests pass)
+cf9b61f fixture_parity.md after step G fixes G1-G8, G10: 465 PASS, 215 FAIL (was 279 / 427)
+977cd18 FAILS.md: step G fixture FAILs left and why
+4427cce P2b phase A: sources and rosdep for the non-TB3 robots, robots_sudo.sh (not run)
+25fc516 tb3_waffle_pi opens the official ROBOTIS workspace with TURTLEBOT3_MODEL=waffle_pi
+5ce42e7 Fix RViz 2 graph: displays in a disabled Group do not subscribe, topic QoS from the .rviz file, absolute tool topics
+bd6b9d9 nav2_params.json headers: installed source file, package version 2.3.6 (deb 2.3.6-1noble.20261006.044113), values checked
+b43e601 Fix failed-goal log lines: [ActionServer] Aborting handle. (planner, controller, bt_navigator) and ERROR Goal failed
+69e8fc2 nav_robotis.spec.ts: NAV_GOALS=<names> runs only those goals (default all)
+a5e0efa Fix Nav2 endpoint QoS as on Jazzy: latched map/costmaps/footprints transient_local, sensor and pose inputs best effort
+8684436 OVERNIGHT_FG: step G decisions and fixes G1-G4; readiness_from_fixtures.py (not yet wired)
+dd299d2 Fix window.__ros2lab.tf: the TF tree the running programs broadcast (RosGraph.tfTree), incl. map -> odom
+7829ea1 Fix cartographer graph: SensorDataQoS scan/odom, imu only with use_imu_data, /map transient_local
+d44a05c Fix slam_toolbox graph: QoS as on Jazzy, /map self-subscription, no /initialpose (mapping mode), no bond
+01c6186 Fix /rosout publisher QoS: RELIABLE/TRANSIENT_LOCAL like Jazzy (fixtures */sensors/qos/rosout.txt)
+aadea3f Add run_regression.sh: parity e2e (non-fixture), parity unit, security check, site TB3 tests
+ff7cb5e fixture_parity: site goal results near obstacles vary between runs; OVERNIGHT_FG item 2 result
+b79f45a Step F: parity/reports/fixture_parity.md (279 PASS, 427 FAIL, 10 PENDING-THRESHOLD, 27 NOT-VALIDATED), capture-gap handling
+0f9cc6d Step F specs: namespace-qualified QoS node names, one goal terminal with markers, captured param dump wins; OVERNIGHT_FG item 2 decisions
+0c3e20b Step F: fixture parity specs (sensors, slam, cartographer, nav_robotis, nav2_bringup) and report generator
+145a489 matrix.md, OVERNIGHT_FG.md: 37 burger.yaml DWB keys (count from params.diff)
+b83b923 tb3_burger nav2_bringup DWB with installed burger.yaml FollowPath keys: 5/5 SUCCEEDED (was ABORTED 104 without them)
+9097a3f run_matrix.py --dwb-burger: 5 planners x DWB with the installed burger.yaml FollowPath keys (source line per key)
+e3b2dfb bag manifest: status from each bag's own result file, archived/superseded attempts listed separately
+```
+
+Branches: items 0–2 on `review-2026-10-17` (up to ff7cb5e); item 3 and later commits on `parity-fixes` (created from
+ff7cb5e). Item 4 (P2b phase A) was committed on `parity-fixes` as well (it is parity-only, no site code).
+
+### Test numbers from the final runs (branch parity-fixes)
+
+- Fixture suite `parity/e2e/fixtures` (2026-10-18 04:22–05:01 IST): 16 tests, **10 passed, 6 failed**.
+  Items: **495 PASS, 185 FAIL, 10 PENDING-THRESHOLD, 53 NOT-VALIDATED** (start of step F: 279 / 427 / 10 / 27).
+  Report: `parity/reports/fixture_parity.md`.
+- Regression gate after the last change (`run_regression.sh`): parity e2e (non-fixture) **39 passed / 0 failed**,
+  vitest **26 passed / 0 failed**, security check passed, `real-tb3` all passed, `real-tb3-nav` all passed,
+  `real-mobile-audit` (burger, waffle, slam, nav, fake) all passed.
+
+### FAILs fixed (fixture items FAIL → PASS)
+
+/rosout QoS (all scenarios); slam_toolbox graph and QoS; cartographer graph and QoS; TF hook map -> odom; Nav2 QoS of
+maps, costmaps, footprints, polygons, /amcl_pose, /odom, /scan, /initialpose, /goal_pose, /particle_cloud; failed-goal
+log lines and ERROR level; RViz 2 subscriptions, QoS and tool topics; tb3_waffle_pi official workspace (all its sensors,
+slam and cartographer items, nav goal1, params, lifecycle); tf2 listener and launch_ros nodes (slam, cartographer);
+nav2_params.json headers (unit test). Readiness locks now follow fixture results: TF, SENS, SLAM, AMCL pass for all
+three; NAV passes for waffle and waffle_pi.
+
+### FAILs left (reasons in parity/reports/FAILS.md, "Step G")
+
+nav2_bringup tb3_simulation_launch.py world not modelled (graph, matrix 25 + 5); Nav2 topics/nodes not modelled
+(nav_robotis QoS and topic list); burger obstacle_goal / cylinder_centre goal results vary on the site; numeric items
+without thresholds; the pre-existing real-mobile-audit nav flake.
+
+### What you must do in the morning
+
+1. Review and merge branch `parity-fixes` (not pushed, not deployed). If you agree with the test changes in 1a4e99c
+   (readiness unit test and playground spec now follow fixture-status.js), keep them; otherwise say so.
+2. Run `bash parity/scripts/robots_sudo.sh` (fixes the duplicate ROS apt source, then installs 10 packages) and tell me
+   "Done" for P2b phase B. Check `parity/robots/P2B_PHASE_A.md` first (interbotix_ros_core has 37 uncommitted changes
+   from an earlier attempt; I left them untouched).
+3. Decide thresholds in `parity/thresholds.yaml` for camera K, goal durations and the bringup timeout (they keep CAM
+   locked and stay PENDING-THRESHOLD until then).
+4. Recapture the tb3_waffle / tb3_waffle_pi nav_robotis snapshot QoS without the daemon (53 NOT-VALIDATED rows are
+   "Unknown topic" capture gaps).
+5. Decide whether the site should model nav2_bringup's `tb3_simulation_launch.py` world (largest remaining FAIL block).
