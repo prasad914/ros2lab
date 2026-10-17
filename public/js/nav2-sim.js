@@ -207,9 +207,14 @@ class NavNode {
 }
 
 // ---------------------------------------------------------------- map_server / map_saver
+// QoS profiles that are not the default RELIABLE/VOLATILE, as `ros2 topic info -v` shows them on Jazzy with
+// turtlebot3_navigation2 (parity/fixtures/tb3_burger/nav_robotis/qos): latched maps, costmaps and footprints are
+// transient_local, sensor and pose inputs best effort
+const TL = "RELIABLE/TRANSIENT_LOCAL", BE = "BEST_EFFORT/VOLATILE";
+
 class MapServer extends NavNode {
   constructor(sys, desc) { super(sys, "map_server", desc); this.announce(); }
-  endpoints() { return { pubs: [["map", "nav_msgs/msg/OccupancyGrid"]], srvs: [["~/map", "nav_msgs/srv/GetMap"], ["~/load_map", "nav2_msgs/srv/LoadMap"]] }; }
+  endpoints() { return { pubs: [["map", "nav_msgs/msg/OccupancyGrid", TL]], srvs: [["~/map", "nav_msgs/srv/GetMap"], ["~/load_map", "nav2_msgs/srv/LoadMap"]] }; }
   onConfigure() {
     const f = String(this.P.yaml_filename || "");
     if (!f) { this.warn(`yaml-filename parameter is empty, set map through '${this.full.slice(1)}/load_map'-service`); return true; }
@@ -311,12 +316,12 @@ class Costmap extends NavNode {
   layerP(name) { return this.P[name] || {}; }
   layerType(name) { const p = String(this.layerP(name).plugin || ""); return /Static/.test(p) ? "static" : /Voxel/.test(p) ? "voxel" : /Obstacle/.test(p) ? "obstacle" : /Inflation/.test(p) ? "inflation" : /Range/.test(p) ? "range" : name.includes("static") ? "static" : name.includes("inflation") ? "inflation" : name.includes("voxel") ? "voxel" : "obstacle"; }
   endpoints() {
-    const e = { pubs: [["costmap", "nav_msgs/msg/OccupancyGrid"], ["costmap_raw", "nav2_msgs/msg/Costmap"], ["costmap_updates", "map_msgs/msg/OccupancyGridUpdate"], ["costmap_raw_updates", "nav2_msgs/msg/CostmapUpdate"], ["published_footprint", "geometry_msgs/msg/PolygonStamped"]], subs: [["footprint", "geometry_msgs/msg/Polygon"]],
+    const e = { pubs: [["costmap", "nav_msgs/msg/OccupancyGrid", TL], ["costmap_raw", "nav2_msgs/msg/Costmap", TL], ["costmap_updates", "map_msgs/msg/OccupancyGridUpdate", TL], ["costmap_raw_updates", "nav2_msgs/msg/CostmapUpdate", TL], ["published_footprint", "geometry_msgs/msg/PolygonStamped", TL]], subs: [["footprint", "geometry_msgs/msg/Polygon", BE]],
       srvs: [[`clear_entirely_${this.which}`, "nav2_msgs/srv/ClearEntireCostmap"], [`clear_around_${this.which}`, "nav2_msgs/srv/ClearCostmapAroundRobot"], [`clear_except_${this.which}`, "nav2_msgs/srv/ClearCostmapExceptRegion"], [`get_cost_${this.which}`, "nav2_msgs/srv/GetCosts"]] };
     for (const l of this.layers) {
       const t = this.layerType(l);
-      if (t === "static") e.subs.push(["/map", "nav_msgs/msg/OccupancyGrid"]);
-      if (t === "obstacle" || t === "voxel") { const lp = this.layerP(l); for (const src of String(lp.observation_sources || "").split(/\s+/).filter(Boolean)) { const sp = lp[src] || {}; e.subs.push([String(sp.topic || src).startsWith("/") ? String(sp.topic || src) : `/${sp.topic || src}`, sp.data_type === "PointCloud2" ? "sensor_msgs/msg/PointCloud2" : "sensor_msgs/msg/LaserScan"]); } if (t === "voxel" && bool(lp.publish_voxel_map, false)) e.pubs.push([`${l}/voxel_grid`, "nav2_msgs/msg/VoxelGrid"]); }
+      if (t === "static") e.subs.push(["/map", "nav_msgs/msg/OccupancyGrid", TL]);
+      if (t === "obstacle" || t === "voxel") { const lp = this.layerP(l); for (const src of String(lp.observation_sources || "").split(/\s+/).filter(Boolean)) { const sp = lp[src] || {}; e.subs.push([String(sp.topic || src).startsWith("/") ? String(sp.topic || src) : `/${sp.topic || src}`, sp.data_type === "PointCloud2" ? "sensor_msgs/msg/PointCloud2" : "sensor_msgs/msg/LaserScan", BE]); } if (t === "voxel" && bool(lp.publish_voxel_map, false)) e.pubs.push([`${l}/voxel_grid`, "nav2_msgs/msg/VoxelGrid"]); }
     }
     return e;
   }
@@ -392,7 +397,7 @@ class Costmap extends NavNode {
 // ---------------------------------------------------------------- amcl
 class Amcl extends NavNode {
   constructor(sys, desc) { super(sys, "amcl", desc); this.announce(); }
-  endpoints() { return { subs: [["map", "nav_msgs/msg/OccupancyGrid"], [String(this.P.scan_topic || "scan"), "sensor_msgs/msg/LaserScan"], ["initialpose", "geometry_msgs/msg/PoseWithCovarianceStamped"]], pubs: [["amcl_pose", "geometry_msgs/msg/PoseWithCovarianceStamped"], ["particle_cloud", "nav2_msgs/msg/ParticleCloud"], ...(bool(this.P.tf_broadcast, true) && this.pf && this.pf.ps.length && this.state === "active" ? [["/tf", "tf2_msgs/msg/TFMessage"]] : [])], srvs: [["reinitialize_global_localization", "std_srvs/srv/Empty"], ["request_nomotion_update", "std_srvs/srv/Empty"], ["set_initial_pose", "nav2_msgs/srv/SetInitialPose"]] }; }
+  endpoints() { return { subs: [["map", "nav_msgs/msg/OccupancyGrid", TL], [String(this.P.scan_topic || "scan"), "sensor_msgs/msg/LaserScan", BE], ["initialpose", "geometry_msgs/msg/PoseWithCovarianceStamped", BE]], pubs: [["amcl_pose", "geometry_msgs/msg/PoseWithCovarianceStamped", TL], ["particle_cloud", "nav2_msgs/msg/ParticleCloud", BE], ...(bool(this.P.tf_broadcast, true) && this.pf && this.pf.ps.length && this.state === "active" ? [["/tf", "tf2_msgs/msg/TFMessage"]] : [])], srvs: [["reinitialize_global_localization", "std_srvs/srv/Empty"], ["request_nomotion_update", "std_srvs/srv/Empty"], ["set_initial_pose", "nav2_msgs/srv/SetInitialPose"]] }; }
   onConfigure() {
     const P = this.P;
     if (num(P.max_particles, 2000) < num(P.min_particles, 500)) this.warn("You've set min_particles to be greater than max particles, this isn't allowed so max_particles will be set to min_particles.");
@@ -523,7 +528,7 @@ class ControllerServer extends NavNode {
   }
   get ids() { return [].concat(this.P.controller_plugins || ["FollowPath"]); }
   stamped() { return bool(this.P.enable_stamped_cmd_vel, true); }
-  endpoints() { return { subs: [["odom", "nav_msgs/msg/Odometry"], ["speed_limit", "nav2_msgs/msg/SpeedLimit"]], pubs: [["cmd_vel", this.stamped() ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist"], ["local_plan", "nav_msgs/msg/Path"], ["received_global_plan", "nav_msgs/msg/Path"], ["transformed_global_plan", "nav_msgs/msg/Path"], ["evaluation", "dwb_msgs/msg/LocalPlanEvaluation"], ["marker", "visualization_msgs/msg/MarkerArray"], ["cost_cloud", "sensor_msgs/msg/PointCloud2"]], acts: [["follow_path", "nav2_msgs/action/FollowPath"]] }; }
+  endpoints() { return { subs: [["odom", "nav_msgs/msg/Odometry", BE], ["speed_limit", "nav2_msgs/msg/SpeedLimit"]], pubs: [["cmd_vel", this.stamped() ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist"], ["local_plan", "nav_msgs/msg/Path"], ["received_global_plan", "nav_msgs/msg/Path"], ["transformed_global_plan", "nav_msgs/msg/Path"], ["evaluation", "dwb_msgs/msg/LocalPlanEvaluation"], ["marker", "visualization_msgs/msg/MarkerArray"], ["cost_cloud", "sensor_msgs/msg/PointCloud2"]], acts: [["follow_path", "nav2_msgs/action/FollowPath"]] }; }
   onConfigure() {
     const P = this.P;
     this.info("Configuring controller interface");
@@ -609,7 +614,7 @@ class BehaviorServer extends NavNode {
   get ids() { return [].concat(this.P.behavior_plugins || ["spin", "backup", "drive_on_heading", "wait"]); }
   stamped() { return bool(this.P.enable_stamped_cmd_vel, true); }
   actionType(id) { const pl = String((this.P[id] || {}).plugin || id); const t = pl.split(/::|\//).pop(); return `nav2_msgs/action/${{ Spin: "Spin", BackUp: "BackUp", DriveOnHeading: "DriveOnHeading", Wait: "Wait", AssistedTeleop: "AssistedTeleop" }[t] || t}`; }
-  endpoints() { return { pubs: [["cmd_vel", this.stamped() ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist"]], subs: [[String(this.P.local_costmap_topic || "local_costmap/costmap_raw"), "nav2_msgs/msg/Costmap"], [String(this.P.local_footprint_topic || "local_costmap/published_footprint"), "geometry_msgs/msg/PolygonStamped"], [String(this.P.global_costmap_topic || "global_costmap/costmap_raw"), "nav2_msgs/msg/Costmap"], [String(this.P.global_footprint_topic || "global_costmap/published_footprint"), "geometry_msgs/msg/PolygonStamped"]], acts: this.ids.map((id) => [id, this.actionType(id)]) }; }
+  endpoints() { return { pubs: [["cmd_vel", this.stamped() ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist"]], subs: [[String(this.P.local_costmap_topic || "local_costmap/costmap_raw"), "nav2_msgs/msg/Costmap", TL], [String(this.P.local_footprint_topic || "local_costmap/published_footprint"), "geometry_msgs/msg/PolygonStamped", BE], [String(this.P.global_costmap_topic || "global_costmap/costmap_raw"), "nav2_msgs/msg/Costmap", TL], [String(this.P.global_footprint_topic || "global_costmap/published_footprint"), "geometry_msgs/msg/PolygonStamped", BE]], acts: this.ids.map((id) => [id, this.actionType(id)]) }; }
   onConfigure() { for (const id of this.ids) this.info(`Creating behavior plugin ${id} of type ${(this.P[id] || {}).plugin || id}`); for (const id of this.ids) this.info(`Configuring ${id}`); return true; }
   onActivate() { this.info("Activating"); for (const id of this.ids) this.info(`Activating ${id}`); return true; }
   // run a behavior; onDone(code) 0 = success
@@ -657,7 +662,7 @@ class BehaviorServer extends NavNode {
 class VelocitySmoother extends NavNode {
   constructor(sys, desc) { super(sys, "velsmoother", desc); this.announce(); this.out = { vx: 0, wz: 0 }; this.target = null; }
   stamped() { return bool(this.P.enable_stamped_cmd_vel, true); }
-  endpoints() { const T = this.stamped() ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist"; return { subs: [["cmd_vel", T], [String(this.P.odom_topic || "odom"), "nav_msgs/msg/Odometry"]], pubs: [["cmd_vel_smoothed", T]] }; }
+  endpoints() { const T = this.stamped() ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist"; return { subs: [["cmd_vel", T], ...(String(this.P.feedback || "OPEN_LOOP") === "CLOSED_LOOP" ? [[String(this.P.odom_topic || "odom"), "nav_msgs/msg/Odometry"]] : [])], pubs: [["cmd_vel_smoothed", T]] }; }
   onConfigure() { this.info("Configuring velocity smoother"); const fb = String(this.P.feedback || "OPEN_LOOP"); if (!["OPEN_LOOP", "CLOSED_LOOP"].includes(fb)) { this.error("Invalid feedback_type, options are OPEN_LOOP and CLOSED_LOOP."); return false; } return true; }
   cmdIn() { return this.state === "active" ? this.resolve("cmd_vel") : null; }
   onTwist(v) { this.target = { ...v }; this.lastIn = this.sys.now(); }
@@ -681,8 +686,8 @@ class CollisionMonitor extends NavNode {
   stamped() { return bool(this.P.enable_stamped_cmd_vel, true); }
   endpoints() {
     const T = this.stamped() ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist", e = { subs: [[String(this.P.cmd_vel_in_topic || "cmd_vel_smoothed"), T]], pubs: [[String(this.P.cmd_vel_out_topic || "cmd_vel"), T], [String(this.P.state_topic || "collision_monitor_state"), "nav2_msgs/msg/CollisionMonitorState"]] };
-    for (const s of [].concat(this.P.observation_sources || [])) { const sp = this.P[s] || {}; e.subs.push([String(sp.topic || "/scan"), sp.type === "pointcloud" ? "sensor_msgs/msg/PointCloud2" : sp.type === "range" ? "sensor_msgs/msg/Range" : "sensor_msgs/msg/LaserScan"]); }
-    for (const p of this.polygons()) { if (p.visualize) e.pubs.push([p.pubTopic, "geometry_msgs/msg/PolygonStamped"]); if (p.footprintTopic) e.subs.push([p.footprintTopic, "geometry_msgs/msg/PolygonStamped"]); }
+    for (const s of [].concat(this.P.observation_sources || [])) { const sp = this.P[s] || {}; e.subs.push([String(sp.topic || "/scan"), sp.type === "pointcloud" ? "sensor_msgs/msg/PointCloud2" : sp.type === "range" ? "sensor_msgs/msg/Range" : "sensor_msgs/msg/LaserScan", BE]); }
+    for (const p of this.polygons()) { if (p.visualize) e.pubs.push([p.pubTopic, "geometry_msgs/msg/PolygonStamped", TL]); if (p.footprintTopic) e.subs.push([p.footprintTopic, "geometry_msgs/msg/PolygonStamped", BE]); }
     return e;
   }
   polygons() {
@@ -736,7 +741,7 @@ function readBt(xml) {   // the parameters of the real behavior tree file (Recov
 }
 class BtNavigator extends NavNode {
   constructor(sys, desc) { super(sys, "bt", desc); this.announce(); this.rr = 0; }
-  endpoints() { return { subs: [["goal_pose", "geometry_msgs/msg/PoseStamped"], [String(this.P.odom_topic || "odom"), "nav_msgs/msg/Odometry"]], pubs: [["behavior_tree_log", "nav2_msgs/msg/BehaviorTreeLog"]], acts: [["navigate_to_pose", "nav2_msgs/action/NavigateToPose"], ["navigate_through_poses", "nav2_msgs/action/NavigateThroughPoses"]], actc: [["compute_path_to_pose", "nav2_msgs/action/ComputePathToPose"], ["compute_path_through_poses", "nav2_msgs/action/ComputePathThroughPoses"], ["follow_path", "nav2_msgs/action/FollowPath"], ["spin", "nav2_msgs/action/Spin"], ["backup", "nav2_msgs/action/BackUp"], ["wait", "nav2_msgs/action/Wait"], ["drive_on_heading", "nav2_msgs/action/DriveOnHeading"], ["smooth_path", "nav2_msgs/action/SmoothPath"]] }; }
+  endpoints() { return { subs: [["goal_pose", "geometry_msgs/msg/PoseStamped", BE], [String(this.P.odom_topic || "odom"), "nav_msgs/msg/Odometry", BE]], pubs: [["behavior_tree_log", "nav2_msgs/msg/BehaviorTreeLog"]], acts: [["navigate_to_pose", "nav2_msgs/action/NavigateToPose"], ["navigate_through_poses", "nav2_msgs/action/NavigateThroughPoses"]], actc: [["compute_path_to_pose", "nav2_msgs/action/ComputePathToPose"], ["compute_path_through_poses", "nav2_msgs/action/ComputePathThroughPoses"], ["follow_path", "nav2_msgs/action/FollowPath"], ["spin", "nav2_msgs/action/Spin"], ["backup", "nav2_msgs/action/BackUp"], ["wait", "nav2_msgs/action/Wait"], ["drive_on_heading", "nav2_msgs/action/DriveOnHeading"], ["smooth_path", "nav2_msgs/action/SmoothPath"]] }; }
   onConfigure() {
     const navs = [].concat(this.P.navigators || ["navigate_to_pose", "navigate_through_poses"]);
     for (const id of navs) {
