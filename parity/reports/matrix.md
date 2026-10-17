@@ -129,7 +129,7 @@ The PC did not restart during the run, so no pair was redone.
 Source of the keys: `/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml` lines 122–160
 (`controller_server.FollowPath`, `plugin: "dwb_core::DWBLocalPlanner"` on line 121), package
 `ros-jazzy-turtlebot3-navigation2 2.3.6-1noble.20261006.044113`. Every key of that block except `plugin` was added
-to the step E DWB pair (36 keys: velocity/acceleration limits, `vx_samples` 20, `vtheta_samples` 40, `sim_time` 1.5,
+to the step E DWB pair (37 keys: velocity/acceleration limits, `vx_samples` 20, `vtheta_samples` 40, `sim_time` 1.5,
 granularities, `xy_goal_tolerance` 0.05, `trans_stopped_velocity` 0.25, critics and critic scales); each key and its
 source line is listed in `M_dwb/<pair>/params.diff` (`M_dwb/` = `matrix_dwb_burger/`). Nothing else changed:
 `enable_stamped_cmd_vel` (burger.yaml 99/161) is a server key, not DWB kinematics, and stays as installed (false).
