@@ -38,4 +38,18 @@ LEFT=$(domain_pids "$DOMAIN")
 [ -z "$LEFT" ] || fail "processes left after stop: $LEFT"
 [ ! -e "$PIDFILE" ] || fail "pid file kept although domain is clear"
 
-echo "PASS: start refused on a busy domain, stop killed the group and the grandchild, pid file removed"
+# A process on the domain with no pid file (started outside start_reference.sh). stop must not read
+# stdin when there are no pid files: stdin here is a pipe that stays open for 30 s.
+ROS_DOMAIN_ID=$DOMAIN setsid sleep 602 >/dev/null 2>&1 &
+sleep 1
+[ -n "$(domain_pids "$DOMAIN")" ] || fail "no-pid-file process did not start"
+T0=$(date +%s)
+timeout 20 "$HERE/stop_reference.sh" "$DOMAIN" < <(sleep 30) >/dev/null
+RC=$?
+DT=$(( $(date +%s) - T0 ))
+echo "stop with no pid file: exit code $RC after ${DT} s"
+[ "$RC" -eq 0 ] || fail "stop with no pid file exited $RC (124 = still running after 20 s)"
+LEFT=$(domain_pids "$DOMAIN")
+[ -z "$LEFT" ] || fail "processes left after stop with no pid file: $LEFT"
+
+echo "PASS: start refused on a busy domain, stop killed the group and the grandchild, pid file removed; stop without a pid file finished in ${DT} s and left the domain empty"

@@ -16,7 +16,9 @@ if [ ${#RUN_FILES[@]} -eq 0 ] && [ -z "$(domain_pids "$DOMAIN")" ]; then
 fi
 
 # Process-group leaders from every run file (setsid makes each leader's pid its group id).
-LEADERS=$(cat "${RUN_FILES[@]}" 2>/dev/null | sort -u)
+# No pid files (processes started outside start_reference.sh): cat without arguments would read stdin.
+LEADERS=""
+[ ${#RUN_FILES[@]} -gt 0 ] && LEADERS=$(cat "${RUN_FILES[@]}" 2>/dev/null | sort -u)
 
 signal_all() {
   local sig=$1 pid
