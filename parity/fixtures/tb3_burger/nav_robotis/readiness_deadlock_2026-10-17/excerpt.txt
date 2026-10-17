@@ -1,0 +1,42 @@
+# Generated 2026-10-17T17:44:36+05:30 by grep from runner.log and nav2.log in this directory (both gitignored).
+# Run: run_nav_trials.sh 1 1 at HEAD ba616e1 plus uncommitted runner fixes (b5e0dc0), started 2026-10-17T17:28 +0530, domain 41.
+
+## runner.log: wait_nav_ready.py result
+7:ready: /clock advancing (sim 6.3 s)
+8:ready: navigate_to_pose action server
+9:ready: lifecycle_manager_localization is_active
+10:NOT READY: lifecycle_manager_navigation is_active is not true after 301 s wall
+11:  lifecycle_manager_navigation: controller_server=active, smoother_server=active, planner_server=inactive, route_server=inactive, behavior_server=inactive, velocity_smoother=inactive, collision_monitor=inactive, bt_navigator=inactive, waypoint_follower=inactive, docking_server=inactive
+12:ERROR: Nav2 not ready for run1 within 300 s wall (see above); skipping this run
+14:Navigation trials 1 to 1 finished; NOT READY (skipped): run1
+
+## nav2.log: lifecycle_manager_navigation steps, planner_server / global_costmap activation, AMCL
+229:[component_container_isolated-1] [INFO] [1792238306.889764184] [lifecycle_manager_navigation]: [34m[1mConfiguring planner_server[0m[0m
+299:[component_container_isolated-1] [INFO] [1792238308.581919796] [lifecycle_manager_navigation]: [34m[1mActivating controller_server[0m[0m
+306:[component_container_isolated-1] [INFO] [1792238308.908626250] [lifecycle_manager_navigation]: Server controller_server connected with bond.
+307:[component_container_isolated-1] [INFO] [1792238308.908744594] [lifecycle_manager_navigation]: [34m[1mActivating smoother_server[0m[0m
+310:[component_container_isolated-1] [INFO] [1792238309.033139406] [lifecycle_manager_navigation]: Server smoother_server connected with bond.
+311:[component_container_isolated-1] [INFO] [1792238309.033255297] [lifecycle_manager_navigation]: [34m[1mActivating planner_server[0m[0m
+312:[component_container_isolated-1] [INFO] [1792238309.033981498] [planner_server]: Activating
+313:[component_container_isolated-1] [INFO] [1792238309.034167040] [global_costmap.global_costmap]: Activating
+314:[component_container_isolated-1] [INFO] [1792238309.034193451] [global_costmap.global_costmap]: Checking transform
+
+first and last 'Timed out waiting for transform' of global_costmap (count: 197):
+315:[component_container_isolated-1] [INFO] [1792238309.034311929] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+606:[component_container_isolated-1] [INFO] [1792238407.036912624] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+
+AMCL 'Please set the initial pose' warnings: 92
+305:[component_container_isolated-1] [WARN] [1792238308.898546970] [amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+
+## nav2.log: end of bringup
+607:[component_container_isolated-1] [ERROR] [1792238407.037226214] [global_costmap.global_costmap]: Failed to activate global_costmap because transform from base_link to map did not become available before timeout
+608:[component_container_isolated-1] [ERROR] [1792238407.039296918] [lifecycle_manager_navigation]: Failed to change state for node: planner_server
+609:[component_container_isolated-1] [ERROR] [1792238407.039513375] [lifecycle_manager_navigation]: Failed to bring up all requested nodes. Aborting bringup.
+
+## sim time near activation start and failure (rviz2 Message Filter stamps; approximate)
+317:[rviz2-2] [INFO] [1792238310.028165096] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 9.000 for reason 'discarding message because the queue is full'
+612:[rviz2-2] [INFO] [1792238409.196328004] [rviz2]: Message Filter dropping message: frame 'odom' at time 66.593 for reason 'discarding message because the queue is full'
+
+## initial_transform_timeout in the captured params (2026-10-15 snapshot) and in the installed burger.yaml
+19:    initial_transform_timeout: 60.0
+burger.yaml: 0 occurrences
