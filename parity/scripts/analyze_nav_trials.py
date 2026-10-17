@@ -8,6 +8,7 @@ parity/fixtures/tb3_burger/nav_robotis/navigation_statistics.md.
 import os
 import glob
 import json
+import time
 import math
 import yaml
 import numpy as np
@@ -69,9 +70,11 @@ def main():
     }
     total_durations = []
 
+    goals_ok = []
     for r in runs_data:
         res = r.get("results", {})
         run_total_time = 0.0
+        goals_ok.append(sum(1 for g in goal_names if res.get(g, {}).get("success")))
         for g in goal_names:
             if g in res:
                 gr = res[g]
@@ -83,8 +86,8 @@ def main():
                     goal_stats[g]["errors"].append(gr["position_error_m"])
                 if gr.get("yaw_error_deg") is not None:
                     goal_stats[g]["yaw_errors"].append(gr["yaw_error_deg"])
-                elif gr.get("final_amcl_pose") is not None:
-                    amcl_yaw = gr["final_amcl_pose"][2]
+                elif gr.get("final_tf_pose") is not None:
+                    amcl_yaw = gr["final_tf_pose"][2]
                     tyaw = target_yaws.get(g, 0.0)
                     diff = (amcl_yaw - tyaw + math.pi) % (2 * math.pi) - math.pi
                     goal_stats[g]["yaw_errors"].append(abs(diff) * 180.0 / math.pi)
@@ -108,18 +111,22 @@ def main():
                     total_size += os.path.getsize(os.path.join(root, f))
             bag_info[lbl] = total_size / (1024 * 1024)
 
+    n_runs = len(runs_data)
+    n_ok = sum(goals_ok)
+    dates = sorted({time.strftime("%Y-%m-%d", time.localtime(r["timestamp"])) for r in runs_data if "timestamp" in r})
+
     # Format Markdown
     lines = [
         "# TurtleBot3 Burger Nav2 (nav_robotis) 10-Trial Navigation & AMCL Benchmark",
         "",
-        f"**Date:** 2026-10-16  ",
+        f"**Date:** {', '.join(dates)} (from the run files' timestamps)  ",
         f"**Robot:** `tb3_burger` | **Map:** `turtlebot3_world.yaml` | **Trials:** {len(runs_data)}  ",
-        f"**Controller:** DWB Local Planner (`FollowPath`) | **Planner:** NavFn (`GridBased`)  ",
+        "Durations are sim seconds (drive_goals.py, node clock with use_sim_time) from goal accepted to result.  ",
         "",
         "## 1. Executive Summary",
         "",
         f"- **Total Goals Dispatched:** {len(runs_data) * len(goal_names)} ({len(runs_data)} runs × 5 goals)",
-        f"- **Overall Navigation Success Rate:** {np.mean([np.mean(goal_stats[g]['successes']) for g in goal_names])*100:.1f}%",
+        f"- **Goals Succeeded:** {n_ok} of {n_runs * len(goal_names)}",
         f"- **Average 5-Goal Circuit Duration:** {np.mean(total_durations):.2f}s (± {np.std(total_durations):.2f}s)",
         f"- **Average Final Position Error:** {np.mean([np.mean(goal_stats[g]['errors']) for g in goal_names if goal_stats[g]['errors']]):.3f} m",
         f"- **Average Final Yaw Error:** {np.mean([np.mean(goal_stats[g]['yaw_errors']) for g in goal_names if goal_stats[g]['yaw_errors']]):.1f}°",
@@ -128,21 +135,21 @@ def main():
         "",
         "Benchmark table of (goal, mean_err_m, std_err_m, mean_yaw_err_deg, mean_duration_s) across trials:",
         "",
-        "| goal | mean_err_m | std_err_m | mean_yaw_err_deg | mean_duration_s | success_rate |",
-        "|---|---|---|---|---|---|"
+        "| goal | mean_err_m | std_err_m | mean_yaw_err_deg | mean_duration_s | min_duration_s | max_duration_s | succeeded |",
+        "|---|---|---|---|---|---|---|---|"
     ]
 
     for g in goal_names:
         err_st = compute_stats(goal_stats[g]["errors"])
         yaw_st = compute_stats(goal_stats[g]["yaw_errors"])
         dur_st = compute_stats(goal_stats[g]["durations"])
-        succ = np.mean(goal_stats[g]["successes"]) * 100 if goal_stats[g]["successes"] else 0.0
-        lines.append(f"| **{g}** | {err_st['mean']:.3f} | {err_st['std']:.3f} | {yaw_st['mean']:.1f}° | {dur_st['mean']:.2f}s | {succ:.1f}% |")
+        succ = sum(goal_stats[g]["successes"])
+        lines.append(f"| **{g}** | {err_st['mean']:.3f} | {err_st['std']:.3f} | {yaw_st['mean']:.1f}° | {dur_st['mean']:.2f}s | {dur_st['min']:.2f}s | {dur_st['max']:.2f}s | {succ} / {n_runs} |")
 
     tot_st = compute_stats(total_durations)
     tot_err = compute_stats([e for g in goal_names for e in goal_stats[g]["errors"]])
     tot_yaw = compute_stats([y for g in goal_names for y in goal_stats[g]["yaw_errors"]])
-    lines.append(f"| **Overall / Circuit** | {tot_err['mean']:.3f} | {tot_err['std']:.3f} | {tot_yaw['mean']:.1f}° | {tot_st['mean']:.2f}s | 100.0% |")
+    lines.append(f"| **Overall / Circuit** | {tot_err['mean']:.3f} | {tot_err['std']:.3f} | {tot_yaw['mean']:.1f}° | {tot_st['mean']:.2f}s | {tot_st['min']:.2f}s | {tot_st['max']:.2f}s | {n_ok} / {n_runs * len(goal_names)} |")
 
     lines.extend([
         "",
@@ -173,13 +180,11 @@ def main():
         lbl = r.get("run_label")
         mb = bag_info.get(lbl, 0.0)
         c_time = total_durations[i] if i < len(total_durations) else 0.0
-        lines.append(f"| `{lbl}` | MCAP | {mb:.2f} MB | 5 / 5 | {c_time:.2f}s |")
+        lines.append(f"| `{lbl}` | MCAP | {mb:.2f} MB | {goals_ok[i]} / {len(goal_names)} | {c_time:.2f}s |")
 
     lines.append("")
     with open(out_md, "w") as f:
         f.write("\n".join(lines) + "\n")
-
-    print(f"Report written to {out_md}")
 
     print(f"Report written to {out_md}")
 
