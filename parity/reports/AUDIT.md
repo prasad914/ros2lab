@@ -144,3 +144,27 @@ Also noted, not in the top 10: `terminal-sim.js` gained env-scoping behavior wit
 | FAILS.md | **FIX** | Drop "Verified" for SmacLattice until bags and results are complete. |
 | MISTAKES.md / COURSE_ISSUES.md | **REDO** | Missing. |
 | Robots runner (`~/robots_overnight.sh`) | **REDO** | Restart needed after model settings are verified in a plain terminal. |
+
+---
+
+## (h) Unmerged worktree branches – recommendation (2026-10-17)
+
+Evidence commands were run from the repo root on branch `review-2026-10-17`. Nothing was merged.
+
+### `d33bd28` "Fix P11-round2 TurtleBot3 Waffle Pi catalog" (`worktree-agent-abda37bd5d7fd9825`)
+
+- `git log master..d33bd28` lists this commit. `git diff master d33bd28 -- public/robots/index.json` is the +14-line `tb3_waffle_pi` entry.
+- `master` already contains that entry: `grep -c '"id": "tb3_waffle_pi"' public/robots/index.json` gives 1.
+- The branch's other file, `tests/tb3-catalog.test.mjs` (+16), is not on `master`. It is the only part not yet on `master`.
+- **Recommendation: do not merge the branch.** The catalog change is already on `master`. Add only `tests/tb3-catalog.test.mjs`, and only after it passes on the current `master`. Its result must be recorded before the file is committed.
+
+### `af2de7b` "Fix P11-round2 shell env assignments" (`worktree-agent-afe856755c7b6d6bb`)
+
+- `git log master..af2de7b` lists this commit. It changes `public/js/terminal-sim.js` (+15/-1: scoped `NAME=value` parsing and `restoreScopedEnv()`) and adds `tests/terminal-env-assignment.mjs` (+9).
+- Evidence run (2026-10-17): the test's three assertions were run against the `af2de7b` code, using a `git archive` export into `/tmp/af2de7b-src` and a short check script outside the repo. The check script is a copy of the test's assertions, not the test file itself.
+  - `export KEEP=exported` then `LOCAL=value printenv LOCAL` returns `["value"]`.
+  - `shell.env.LOCAL` is `undefined` afterwards.
+  - `shell.env.KEEP` is `"exported"`.
+  - Result: PASS, exit 0.
+- Still missing before a merge: the repo's own `tests/terminal-env-assignment.mjs` has not been run on that branch, and `master` has not been checked against it. The `git log` output for that branch also does not show whether the change was reviewed.
+- **Recommendation: do not merge yet.** It is a candidate, not a finished fix. Cherry-pick it onto `review-2026-10-17` in a separate commit, once the repo test runs on that branch and passes, and the rest of `tests/` (at least `node tools/security-check.mjs` and the Vitest suites) still passes.
