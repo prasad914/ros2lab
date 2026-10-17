@@ -71,3 +71,22 @@ Decisions:
 Result (full run 2026-10-17 22:14–23:14 +0530, waffle nav_robotis rerun after the capture-gap fix): 16 tests,
 15 failed, 1 passed (the no-initial-pose bringup abort test). Items: 279 PASS, 427 FAIL, 10 PENDING-THRESHOLD,
 27 NOT-VALIDATED. Report: `parity/reports/fixture_parity.md` (main causes listed at its top).
+
+## Item 3 – Step G fixes on branch `parity-fixes` (from b79f45a… ff7cb5e)
+
+Decisions:
+- Gate after every fix: `parity/scripts/run_regression.sh` = every parity Playwright spec outside
+  `parity/e2e/fixtures` (39 tests), `npx --yes vitest@3.2.4 run parity/unit` (22), `node tools/security-check.mjs`,
+  and the site's TurtleBot3 tests `tests/real-tb3.mjs`, `tests/real-tb3-nav.mjs`,
+  `ONLY=burger,waffle,slam,nav,fake tests/real-mobile-audit.mjs` (the site has no single test command; these are the
+  CLAUDE.md tests for TB3). Baseline before any fix: all passed. The fixture spec(s) of the fix are run before and
+  after each change; the whole fixture suite (~1 h) runs once at the end, not after every fix (run time).
+- A fix is one concern (one FAIL class) per commit; the commit message names the fixture items it turns to PASS.
+- One gate run (after G2) had `real-mobile-audit` "[nav] NavigateToPose SUCCEEDED" FAIL; the nav part was rerun twice
+  with the change and passed both times, so it was recorded as a flaky goal, not reverted.
+
+Fixes so far (all gates green):
+- G1 01c6186 `/rosout` publisher QoS TRANSIENT_LOCAL (sensors fully PASS for burger and waffle).
+- G2 d44a05c slam_toolbox endpoints and QoS; model endpoints keep their QoS.
+- G3 7829ea1 cartographer endpoints and QoS (no /imu with use_imu_data = false).
+- G4 dd299d2 `window.__ros2lab.tf` from the graph's TF tree (map -> odom).
