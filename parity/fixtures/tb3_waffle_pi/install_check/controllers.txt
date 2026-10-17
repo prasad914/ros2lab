@@ -1,0 +1,8 @@
+# ros2 control list_controllers (domain 41, tb3_waffle_pi sensors)
+[INFO] [1792208187.893025209] [_ros2cli_318854]: waiting for service /controller_manager/list_controllers to become available...
+[WARN] [1792208197.914457869] [_ros2cli_318854]: Could not contact service /controller_manager/list_controllers
+[INFO] [1792208197.915960383] [_ros2cli_318854]: waiting for service /controller_manager/list_controllers to become available...
+failed to check service availability: rcl node's context is invalid, at ./src/rcl/node.c:404
+exit=124
+# installed model.sdf DiffDrive plugin:
+480:    <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">

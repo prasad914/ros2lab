@@ -1,0 +1,13 @@
+# tb3_burger, domain 41, 2026-10-17T09:02:25+05:30
+# stop first: TwistStamped zero, 10 messages
+# /odom pose before (x)
+3.3510500095994433
+---
+# publish TwistStamped /cmd_vel linear.x=0.1 at 10 Hz for 20 messages (2 s)
+
+# /odom pose after (x)
+3.692500009597391
+---
+# /odom twist.linear.x after
+0.09999999999992237
+---
