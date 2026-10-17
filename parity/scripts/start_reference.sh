@@ -85,6 +85,8 @@ STATUS_LINE=$(grep -i -m1 "($ROBOT)\|\`$ROBOT\`\|| \*\*$ROBOT\*\* \|| $ROBOT |" 
   echo "ros_distro=$ROS_DISTRO tb3_ws=${TB3_WS:-none} robots_ws=${ROBOTS_WS:-none}"
   echo "status_row=$STATUS_LINE"
   echo "render=$REF_RENDER tb3_world_cmd=$TB3_WORLD"
+  echo "git_commit=$(git rev-parse HEAD 2>/dev/null || echo none)"
+  echo "git_uncommitted_scripts=$(git status --porcelain -- parity/scripts 2>/dev/null | tr '\n' ' ')"
   dpkg-query -W -f='${Package} ${Version}\n' 'ros-jazzy-nav2-*' 'ros-jazzy-turtlebot*' 'ros-jazzy-slam-toolbox' 'ros-jazzy-cartographer*' 'ros-jazzy-ros-gz*' 'ros-jazzy-moveit*' 'ros-jazzy-ur*' 2>/dev/null
 } > "$OUT/run_info.txt"
 echo "Started $SCEN for $ROBOT on domain $DOMAIN. Logs: $LOG  PIDs: $PIDFILE"
