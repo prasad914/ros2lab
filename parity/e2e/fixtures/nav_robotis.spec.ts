@@ -4,7 +4,7 @@
 import { test } from "@playwright/test";
 import fs from "node:fs";
 import path from "node:path";
-import { FIX, MODEL, ROBOTS, Recorder, compareGraph, exists, flatten, framesFile, gvEdges, lastScreen, openWorld, prepTerm, putFile, run, screens, siteState, text, topicInfo, waitText, yaml } from "./lib";
+import { FIX, MODEL, ROBOTS, Recorder, compareGraph, exists, flatten, framesFile, gvEdges, lastScreen, openWorld, prepTerm, putFile, run, screens, siteState, text, topicInfo, topicList, waitText, yaml } from "./lib";
 import { GOALS, SITE_MAP, checkLines, logLines, paramsByNode, sameValue, sendGoal, setInitialPose, stamp } from "./nav";
 
 const NAV = `ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True map:=${SITE_MAP}`;
@@ -64,7 +64,9 @@ for (const robot of ROBOTS) {
         }
       }
       const cmdFile = robot === "tb3_burger" ? path.join(base, "session_obstacle_goal", "cmd_vel_info_no_daemon.txt") : path.join(snap, "qos", "cmd_vel.txt");
-      rec.exact("/cmd_vel type (navigation2.launch.py)", topicInfo(cmdFile).type, site.topics.find((t) => t.name === "/cmd_vel")?.type ?? null, cmdFile);
+      const cmdInfo = topicInfo(cmdFile), tlFile = path.join(snap, "topic_list.txt");
+      const cmdType = cmdInfo.unknown ? topicList(tlFile).find((t) => t.name === "/cmd_vel")?.type ?? "" : cmdInfo.type;
+      rec.exact("/cmd_vel type (navigation2.launch.py)", cmdType, site.topics.find((t) => t.name === "/cmd_vel")?.type ?? null, cmdInfo.unknown ? tlFile : cmdFile);
 
       const pf = path.join(FIX, "_installed", "turtlebot3_navigation2", "param", `${MODEL[robot]}.yaml`);
       const realNodes = text(path.join(snap, "node_list.txt")).split("\n").map((s) => s.trim());

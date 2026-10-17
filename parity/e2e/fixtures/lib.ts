@@ -180,7 +180,11 @@ export function compareGraph(rec: Recorder, site: Awaited<ReturnType<typeof site
     const fx = path.join(qdir, f), info = topicInfo(fx);
     const topic = "/" + f.replace(/\.txt$/, "").replace(/__/g, "/");
     const st = site.topics.find((t) => t.name === topic);
-    if (info.unknown) { rec.exact(`QoS ${topic}: topic absent`, "absent", st ? "present" : "absent", fx); continue; }
+    if (info.unknown) {
+      // "Unknown topic" for a topic the same snapshot's topic list has is a capture gap (ROS 2 daemon), not absence
+      if (exists(tl) && topicList(tl).some((t) => t.name === topic)) { rec.pending(`QoS ${topic}`, `capture gap: ${rel(fx)} says Unknown topic, ${rel(tl)} lists it`, fx); continue; }
+      rec.exact(`QoS ${topic}: topic absent`, "absent", st ? "present" : "absent", fx); continue;
+    }
     const key = (e: Endpoint) => `${e.kind} ${roleName(e.node)} ${e.reliability}/${e.durability}`;
     const exp = [...new Set(info.endpoints.filter((e) => !isToolNode(e.node)).map(key))].sort();
     const act = [...new Set((st?.endpoints || []).filter((e: Endpoint) => !isToolNode(e.node)).map(key))].sort();
