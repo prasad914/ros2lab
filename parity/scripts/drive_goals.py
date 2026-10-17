@@ -109,6 +109,17 @@ class Nav2GoalDriver(Node):
             self.get_logger().warn("Did not receive /amcl_pose before timeout, proceeding anyway.")
             return False
 
+    def wait_for_clock(self, timeout_sec=30.0):
+        """Spin until /clock has set the node clock: before that now() is 0, and a goal's sim duration would be the
+        absolute sim time (run2 goal1, 2026-10-17: 29.24 s 'sim' in 6.95 s wall)."""
+        start = time.time()
+        while self.get_clock().now().nanoseconds == 0:
+            rclpy.spin_once(self, timeout_sec=0.1)
+            if time.time() - start > timeout_sec:
+                self.get_logger().error("No /clock received; sim durations cannot be measured")
+                return False
+        return True
+
     def wait_for_server(self, timeout_sec=60.0):
         self.get_logger().info("Waiting for navigate_to_pose action server...")
         start = time.time()
@@ -263,7 +274,7 @@ def main():
         driver.publish_initial_pose()
         time.sleep(2.0)
 
-    if not driver.wait_for_server(timeout_sec=60.0):
+    if not driver.wait_for_clock() or not driver.wait_for_server(timeout_sec=60.0):
         rclpy.shutdown()
         sys.exit(1)
 
