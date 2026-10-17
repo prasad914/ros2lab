@@ -6,7 +6,8 @@
 #   scenario (TB4): tb4_slam_nav | tb4_nav2_bringup
 #   any other robot: a script at parity/robots/<robot>/scenarios/<scenario>.sh (created in P2b)
 # Optional env: TB3_WS, ROBOTS_WS (source workspaces, see env.sh), MAP=<map yaml>,
-#   OUT_DIR=<dir> (where run_info.txt and logs go; default parity/fixtures/<robot>/<scenario>)
+#   OUT_DIR=<dir> (where run_info.txt and logs go; default parity/fixtures/<robot>/<scenario>),
+#   REF_RENDER=xvfb|egl (Gazebo rendering for the TB3 world, see below)
 set -eu
 ROBOT=${1:?robot}; SCEN=${2:?scenario}; DOMAIN=${3:?domain id}; PART=${4:?gz partition}
 
@@ -32,8 +33,15 @@ PIDFILE=$RUN_DIR/$DOMAIN-$SCEN-$(date +%Y%m%dT%H%M%S)-$$.pids
 # Each command gets its own process group (setsid: the group id equals $!), so stop_reference.sh can kill it.
 bg() { local name=$1; shift; setsid "$@" > "$LOG/$name.log" 2>&1 & echo $! >> "$PIDFILE"; }
 
-# ROBOTIS launch files open the Gazebo GUI; run them on a virtual display.
-TB3_WORLD="xvfb-run -a ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py"
+# Gazebo rendering: REF_RENDER=egl (default) runs the gz server alone with --headless-rendering (EGL, GPU when
+# available, no GUI client); REF_RENDER=xvfb runs the ROBOTIS launch file with its GUI on a virtual display (llvmpipe).
+# Both give the same ROS graph, QoS, TF and parameters (parity/reports/render_mode.md).
+REF_RENDER=${REF_RENDER:-egl}
+case $REF_RENDER in
+  xvfb) TB3_WORLD="xvfb-run -a ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py" ;;
+  egl)  TB3_WORLD="ros2 launch parity/scripts/launch/tb3_world_headless.launch.py" ;;
+  *)    echo "REF_RENDER must be xvfb or egl" >&2; exit 2 ;;
+esac
 MAP=${MAP:-$PWD/parity/fixtures/maps/turtlebot3_world.yaml}
 need_map() { [ -f "$MAP" ] || { echo "No map at $MAP – run the slam scenario and save a map first (map_saver_cli)"; exit 2; }; }
 
@@ -76,6 +84,7 @@ STATUS_LINE=$(grep -i -m1 "($ROBOT)\|\`$ROBOT\`\|| \*\*$ROBOT\*\* \|| $ROBOT |" 
   echo "date=$(date -Iseconds)"
   echo "ros_distro=$ROS_DISTRO tb3_ws=${TB3_WS:-none} robots_ws=${ROBOTS_WS:-none}"
   echo "status_row=$STATUS_LINE"
+  echo "render=$REF_RENDER tb3_world_cmd=$TB3_WORLD"
   dpkg-query -W -f='${Package} ${Version}\n' 'ros-jazzy-nav2-*' 'ros-jazzy-turtlebot*' 'ros-jazzy-slam-toolbox' 'ros-jazzy-cartographer*' 'ros-jazzy-ros-gz*' 'ros-jazzy-moveit*' 'ros-jazzy-ur*' 2>/dev/null
 } > "$OUT/run_info.txt"
 echo "Started $SCEN for $ROBOT on domain $DOMAIN. Logs: $LOG  PIDs: $PIDFILE"
