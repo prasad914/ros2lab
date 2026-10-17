@@ -7,6 +7,7 @@ import { cfMethods } from "./cf-sim.js";
 import { moveitServiceMethods } from "./moveit-services.js";
 import { gzMethods, GZ_EXES, GZ_NAMES, GZ_PKG_EXES, IMAGE_TRANSPORTS, TELEOP_BANNER, gzIncludePy, gzIncludeXml, gzArgv, nodeArgsPy, takeExpr, pyEval as pyEvalVar } from "./ros-gz.js";
 import { urdfGazebo } from "./gz-sdf.js";
+import { DOCTOR_PASSED_LINES } from "./doctor-text.js";
 import { xacro as runXacro, parseURDF, urdfEdges, checkUrdfText, graphviz, jointValue } from "./urdf-core.js";
 import { ifacesReady, hasIface, parseYaml, buildMessage, pyRepr, showLines, protoBlock, allIfaces as realIfaces, ifacePackages, normType as normIface, sectionType, echoLines, noArrYaml } from "./ros-iface.js";
 // A pretend running ROS 2 system for the practice terminal: nodes, topics, services,
@@ -221,7 +222,7 @@ export class RosGraph {
     if (!args.some((x) => x === "--report" || x === "-r")) {
       const warn = [];
       if (env.ROS_LOCALHOST_ONLY) warn.push("UserWarning: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.");
-      return [...warn.map((w) => this.out(`/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/network.py: ${w}`)), this.out(`All 5 checks passed`)];
+      return [...warn.map((w) => this.out(`/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/network.py: ${w}`)), ...DOCTOR_PASSED_LINES.map((l) => this.out(l))];
     }
     const sec = (t, rows) => [this.out(""), this.out(`   ${t}`), ...rows.map(([k, v]) => this.out(`${k.padStart(28)} : ${v}`))];
     const T = this.topics();
