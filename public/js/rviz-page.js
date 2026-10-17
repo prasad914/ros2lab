@@ -203,16 +203,21 @@ window.__ros2lab = {
   },
 
   // 2. TF frames, edges, and publishing authority
+  // the TF tree the running programs broadcast, the same one `ros2 run tf2_tools view_frames` and tf2_echo see
+  // (RosGraph.tfTree: robot_state_publisher, Gazebo odometry, amcl / slam_toolbox / cartographer map -> odom ...)
   get tf() {
-    const edges = tfRegistry.edges();
-    const frameSet = new Set(tfRegistry.getAllFrameNames());
-    const authorityMap = tfRegistry.authority;
-    return {
-      frames: [...frameSet].sort(),
-      getAllFrameNames: () => tfRegistry.getAllFrameNames(),
-      edges: edges.slice(),
-      authority: authorityMap
-    };
+    const g = sh?.graph;
+    if (!g || typeof g.tfTree !== "function") {
+      return { frames: [...new Set(tfRegistry.getAllFrameNames())].sort(), getAllFrameNames: () => tfRegistry.getAllFrameNames(), edges: tfRegistry.edges().slice(), authority: tfRegistry.authority };
+    }
+    const seen = new Set(), edges = [], authority = {};
+    for (const e of g.tfTree()) {
+      const k = `${e.parent}->${e.child}`; if (seen.has(k)) continue; seen.add(k);
+      edges.push({ parent: e.parent, child: e.child, authority: e.authority || "", t: e.t, q: e.q });
+      authority[k] = e.authority || "";
+    }
+    const names = () => [...new Set(edges.flatMap((e) => [e.parent, e.child]))].sort();
+    return { frames: names(), getAllFrameNames: names, edges, authority };
   },
 
   // 3. Fixed Frame options and selected value
