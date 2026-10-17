@@ -2,7 +2,7 @@
 
 Rebuilt from the files on disk by `parity/scripts/generate_bag_manifest.py` (bags are gitignored; this list is tracked). Duration, messages and topics come from each bag's `metadata.yaml`. Status is copied from the result file written by the same run as the bag (matrix: `matrix/<pair>/result.json`; nav runs: `runs/<run>.json`), never from a summary or an older file. "Bag end - result" is the last write of the bag files minus the result file's time; a large negative value means the recorder stopped long before the run wrote its result.
 
-Bags: **71** (36 current, 35 archived/superseded), total size **1713.72 MiB** (1796962577 bytes), messages **8655370**.
+Bags: **76** (41 current, 35 archived/superseded), total size **1780.63 MiB** (1867123274 bytes), messages **8924349**.
 
 ## Current evidence
 
@@ -35,6 +35,11 @@ The bags cited by `parity/reports/matrix.md` (step E), `parity/reports/nav_robot
 | `parity/fixtures/tb3_burger/nav2_bringup/bags/matrix/ThetaStar_MPPI` | 13.14 | mcap | 82.03 | 53091 | 19 | SUCCEEDED | `parity/fixtures/tb3_burger/nav2_bringup/matrix/ThetaStar_MPPI/result.json` | -8 |
 | `parity/fixtures/tb3_burger/nav2_bringup/bags/matrix/ThetaStar_RPP` | 13.40 | mcap | 84.53 | 54576 | 19 | SUCCEEDED | `parity/fixtures/tb3_burger/nav2_bringup/matrix/ThetaStar_RPP/result.json` | -8 |
 | `parity/fixtures/tb3_burger/nav2_bringup/bags/matrix/ThetaStar_RotationShimRPP` | 13.22 | mcap | 81.95 | 53203 | 19 | SUCCEEDED | `parity/fixtures/tb3_burger/nav2_bringup/matrix/ThetaStar_RotationShimRPP/result.json` | -8 |
+| `parity/fixtures/tb3_burger/nav2_bringup/bags/matrix_dwb_burger/NavFn_DWB_burger` | 13.13 | mcap | 81.32 | 52616 | 20 | SUCCEEDED | `parity/fixtures/tb3_burger/nav2_bringup/matrix_dwb_burger/NavFn_DWB_burger/result.json` | -9 |
+| `parity/fixtures/tb3_burger/nav2_bringup/bags/matrix_dwb_burger/Smac2D_DWB_burger` | 12.76 | mcap | 79.83 | 51656 | 20 | SUCCEEDED | `parity/fixtures/tb3_burger/nav2_bringup/matrix_dwb_burger/Smac2D_DWB_burger/result.json` | -9 |
+| `parity/fixtures/tb3_burger/nav2_bringup/bags/matrix_dwb_burger/SmacHybrid_DWB_burger` | 13.80 | mcap | 83.96 | 54741 | 20 | SUCCEEDED | `parity/fixtures/tb3_burger/nav2_bringup/matrix_dwb_burger/SmacHybrid_DWB_burger/result.json` | -7 |
+| `parity/fixtures/tb3_burger/nav2_bringup/bags/matrix_dwb_burger/SmacLattice_DWB_burger` | 13.60 | mcap | 84.47 | 54700 | 20 | SUCCEEDED | `parity/fixtures/tb3_burger/nav2_bringup/matrix_dwb_burger/SmacLattice_DWB_burger/result.json` | -9 |
+| `parity/fixtures/tb3_burger/nav2_bringup/bags/matrix_dwb_burger/ThetaStar_DWB_burger` | 13.62 | mcap | 85.42 | 55266 | 20 | SUCCEEDED | `parity/fixtures/tb3_burger/nav2_bringup/matrix_dwb_burger/ThetaStar_DWB_burger/result.json` | -7 |
 | `parity/fixtures/tb3_burger/nav_robotis/bags/run1` | 38.32 | mcap | 86.20 | 207126 | 22 | 5/5 goals SUCCEEDED | `parity/fixtures/tb3_burger/nav_robotis/runs/run1.json` | +5 |
 | `parity/fixtures/tb3_burger/nav_robotis/bags/run10` | 39.16 | mcap | 87.42 | 210469 | 22 | 5/5 goals SUCCEEDED | `parity/fixtures/tb3_burger/nav_robotis/runs/run10.json` | +5 |
 | `parity/fixtures/tb3_burger/nav_robotis/bags/run2` | 43.73 | mcap | 97.62 | 237308 | 22 | 5/5 goals SUCCEEDED | `parity/fixtures/tb3_burger/nav_robotis/runs/run2.json` | +5 |

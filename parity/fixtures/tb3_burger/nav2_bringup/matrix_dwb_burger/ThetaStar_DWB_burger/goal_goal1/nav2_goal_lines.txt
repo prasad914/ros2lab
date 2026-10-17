@@ -1,0 +1,12 @@
+# Excerpt of /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix_dwb_burger/ThetaStar_DWB_burger/logs/nav2demo.log (gitignored)
+# Selection: [planner_server] [controller_server] [bt_navigator] lines stamped wall 1792253706.835 .. 1792253714.879 (send_wall - 1 s .. result_wall + 3 s from /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix_dwb_burger/ThetaStar_DWB_burger/goal_goal1/result.json)
+# Generated 2026-10-17T21:45:24+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+392:[component_container_isolated-6] [INFO] [1792253707.837360673] [bt_navigator]: Begin navigating from current location (0.05, -0.00) to (0.20, 1.00)
+393:[component_container_isolated-6] [INFO] [1792253707.852773572] [controller_server]: Received a goal, begin computing control effort.
+394:[component_container_isolated-6] [WARN] [1792253707.852918890] [controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded general_goal_checker . This warning will appear once.
+395:[component_container_isolated-6] [WARN] [1792253707.852956289] [controller_server]: No progress checker was specified in parameter 'current_progress_checker'. Server will use only plugin loaded progress_checker . This warning will appear once.
+397:[component_container_isolated-6] [INFO] [1792253708.903310074] [controller_server]: Passing new path to controller.
+398:[component_container_isolated-6] [INFO] [1792253709.903263639] [controller_server]: Passing new path to controller.
+399:[component_container_isolated-6] [INFO] [1792253710.903304419] [controller_server]: Passing new path to controller.
+400:[component_container_isolated-6] [INFO] [1792253711.853374335] [controller_server]: Reached the goal!
+401:[component_container_isolated-6] [INFO] [1792253711.878221420] [bt_navigator]: Goal succeeded

@@ -1,0 +1,20 @@
+{
+  "pair": "SmacLattice_DWB_burger",
+  "planner": "SmacLattice",
+  "controller": "DWB_burger",
+  "complete": true,
+  "start_wall": "2026-10-17T21:47:34+0530",
+  "localized": "ready: localized, /amcl_pose (0.038, -0.007)",
+  "active": true,
+  "status": "SUCCEEDED",
+  "accepted": true,
+  "error_code": 0,
+  "error_msg": "",
+  "duration_sim_s": 4.664999999999992,
+  "timed_out_after_sim_s": null,
+  "goal_error": null,
+  "domain_empty_after_stop": true,
+  "bag": "parity/fixtures/tb3_burger/nav2_bringup/bags/matrix_dwb_burger/SmacLattice_DWB_burger",
+  "bag_bytes": 14263464,
+  "end_wall": "2026-10-17T21:49:31+0530"
+}

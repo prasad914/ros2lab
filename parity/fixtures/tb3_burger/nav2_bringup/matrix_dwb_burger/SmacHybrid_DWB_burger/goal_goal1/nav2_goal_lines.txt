@@ -1,0 +1,21 @@
+# Excerpt of /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix_dwb_burger/SmacHybrid_DWB_burger/logs/nav2demo.log (gitignored)
+# Selection: [planner_server] [controller_server] [bt_navigator] lines stamped wall 1792253832.244 .. 1792253844.977 (send_wall - 1 s .. result_wall + 3 s from /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix_dwb_burger/SmacHybrid_DWB_burger/goal_goal1/result.json)
+# Generated 2026-10-17T21:47:34+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+404:[component_container_isolated-6] [INFO] [1792253833.246130757] [bt_navigator]: Begin navigating from current location (0.03, -0.00) to (0.20, 1.00)
+405:[component_container_isolated-6] [INFO] [1792253833.267876414] [controller_server]: Received a goal, begin computing control effort.
+406:[component_container_isolated-6] [WARN] [1792253833.268005071] [controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded general_goal_checker . This warning will appear once.
+407:[component_container_isolated-6] [WARN] [1792253833.268046879] [controller_server]: No progress checker was specified in parameter 'current_progress_checker'. Server will use only plugin loaded progress_checker . This warning will appear once.
+409:[component_container_isolated-6] [INFO] [1792253834.318515906] [controller_server]: Passing new path to controller.
+410:[component_container_isolated-6] [INFO] [1792253835.318569025] [controller_server]: Passing new path to controller.
+411:[component_container_isolated-6] [INFO] [1792253836.368488786] [controller_server]: Passing new path to controller.
+412:[component_container_isolated-6] [INFO] [1792253837.368490271] [controller_server]: Passing new path to controller.
+413:[component_container_isolated-6] [INFO] [1792253838.468553866] [controller_server]: Passing new path to controller.
+414:[component_container_isolated-6] [INFO] [1792253839.518635161] [controller_server]: Passing new path to controller.
+415:[component_container_isolated-6] [WARN] [1792253840.079557533] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 22.2222 Hz.
+416:[component_container_isolated-6] [WARN] [1792253840.287402317] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 22.2222 Hz.
+417:[component_container_isolated-6] [INFO] [1792253840.541422277] [controller_server]: Passing new path to controller.
+418:[component_container_isolated-6] [WARN] [1792253841.593194268] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 19.6078 Hz.
+419:[component_container_isolated-6] [WARN] [1792253841.606433343] [planner_server]: Planner loop missed its desired rate of 20.0000 Hz. Current loop rate is 17.5439 Hz
+420:[component_container_isolated-6] [INFO] [1792253841.643406606] [controller_server]: Passing new path to controller.
+421:[component_container_isolated-6] [INFO] [1792253841.943649640] [controller_server]: Reached the goal!
+422:[component_container_isolated-6] [INFO] [1792253841.977286364] [bt_navigator]: Goal succeeded

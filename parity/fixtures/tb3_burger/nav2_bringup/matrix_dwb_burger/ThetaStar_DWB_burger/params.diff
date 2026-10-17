@@ -1,0 +1,167 @@
+# ThetaStar x DWB_burger: changes against /opt/ros/jazzy/share/nav2_bringup/params/nav2_params.yaml
+# written by parity/scripts/generate_matrix_configs.py; 39 key(s) changed
+# planner_server.GridBased.plugin: 'nav2_navfn_planner::NavfnPlanner' -> 'nav2_theta_star_planner::ThetaStarPlanner'  (plugin name)
+# controller_server.FollowPath.plugin: 'nav2_mppi_controller::MPPIController' -> 'dwb_core::DWBLocalPlanner'  (plugin name)
+# controller_server.FollowPath.debug_trajectory_details: '<not set>' -> True  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:122)
+# controller_server.FollowPath.min_vel_x: '<not set>' -> 0.0  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:123)
+# controller_server.FollowPath.min_vel_y: '<not set>' -> 0.0  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:124)
+# controller_server.FollowPath.max_vel_x: '<not set>' -> 0.3  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:125)
+# controller_server.FollowPath.max_vel_y: '<not set>' -> 0.0  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:126)
+# controller_server.FollowPath.max_vel_theta: '<not set>' -> 1.0  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:127)
+# controller_server.FollowPath.min_speed_xy: '<not set>' -> 0.0  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:128)
+# controller_server.FollowPath.max_speed_xy: '<not set>' -> 0.3  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:129)
+# controller_server.FollowPath.min_speed_theta: '<not set>' -> 0.0  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:130)
+# controller_server.FollowPath.acc_lim_x: '<not set>' -> 3.0  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:133)
+# controller_server.FollowPath.acc_lim_y: '<not set>' -> 0.0  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:134)
+# controller_server.FollowPath.acc_lim_theta: '<not set>' -> 3.2  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:135)
+# controller_server.FollowPath.decel_lim_x: '<not set>' -> -2.5  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:136)
+# controller_server.FollowPath.decel_lim_y: '<not set>' -> 0.0  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:137)
+# controller_server.FollowPath.decel_lim_theta: '<not set>' -> -3.2  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:138)
+# controller_server.FollowPath.vx_samples: '<not set>' -> 20  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:139)
+# controller_server.FollowPath.vy_samples: '<not set>' -> 0  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:140)
+# controller_server.FollowPath.vtheta_samples: '<not set>' -> 40  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:141)
+# controller_server.FollowPath.sim_time: '<not set>' -> 1.5  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:142)
+# controller_server.FollowPath.linear_granularity: '<not set>' -> 0.05  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:143)
+# controller_server.FollowPath.angular_granularity: '<not set>' -> 0.025  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:144)
+# controller_server.FollowPath.transform_tolerance: 0.1 -> 0.2  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:145)
+# controller_server.FollowPath.xy_goal_tolerance: '<not set>' -> 0.05  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:146)
+# controller_server.FollowPath.trans_stopped_velocity: '<not set>' -> 0.25  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:147)
+# controller_server.FollowPath.short_circuit_trajectory_evaluation: '<not set>' -> True  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:148)
+# controller_server.FollowPath.stateful: '<not set>' -> True  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:149)
+# controller_server.FollowPath.critics: ['ConstraintCritic', 'CostCritic', 'GoalCritic', 'GoalAngleCritic', 'PathAlignCritic', 'PathFollowCritic', 'PathAngleCritic', 'PreferForwardCritic'] -> ['RotateToGoal', 'Oscillation', 'BaseObstacle', 'GoalAlign', 'PathAlign', 'PathDist', 'GoalDist']  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:150)
+# controller_server.FollowPath.BaseObstacle.scale: '<not set>' -> 0.02  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:151)
+# controller_server.FollowPath.PathAlign.scale: '<not set>' -> 32.0  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:152)
+# controller_server.FollowPath.PathAlign.forward_point_distance: '<not set>' -> 0.1  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:153)
+# controller_server.FollowPath.GoalAlign.scale: '<not set>' -> 24.0  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:154)
+# controller_server.FollowPath.GoalAlign.forward_point_distance: '<not set>' -> 0.1  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:155)
+# controller_server.FollowPath.PathDist.scale: '<not set>' -> 32.0  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:156)
+# controller_server.FollowPath.GoalDist.scale: '<not set>' -> 24.0  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:157)
+# controller_server.FollowPath.RotateToGoal.scale: '<not set>' -> 32.0  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:158)
+# controller_server.FollowPath.RotateToGoal.slowing_factor: '<not set>' -> 5.0  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:159)
+# controller_server.FollowPath.RotateToGoal.lookahead_time: '<not set>' -> -1.0  (/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml:160)
+--- installed/nav2_params.yaml
++++ ThetaStar_DWB_burger/params.yaml
+@@ -122,6 +122,7 @@
+     FollowPath:
+       AckermannConstraints:
+         min_turning_r: 0.2
++      BaseObstacle.scale: 0.02
+       ConstraintCritic:
+         cost_power: 1
+         cost_weight: 4.0
+@@ -136,6 +137,8 @@
+         near_collision_cost: 253
+         near_goal_distance: 1.0
+         trajectory_point_step: 2
++      GoalAlign.forward_point_distance: 0.1
++      GoalAlign.scale: 24.0
+       GoalAngleCritic:
+         cost_power: 1
+         cost_weight: 3.0
+@@ -146,6 +149,9 @@
+         cost_weight: 5.0
+         enabled: true
+         threshold_to_consider: 1.4
++      GoalDist.scale: 24.0
++      PathAlign.forward_point_distance: 0.1
++      PathAlign.scale: 32.0
+       PathAlignCritic:
+         cost_power: 1
+         cost_weight: 14.0
+@@ -163,6 +169,7 @@
+         mode: 0
+         offset_from_furthest: 4
+         threshold_to_consider: 0.5
++      PathDist.scale: 32.0
+       PathFollowCritic:
+         cost_power: 1
+         cost_weight: 5.0
+@@ -174,9 +181,16 @@
+         cost_weight: 5.0
+         enabled: true
+         threshold_to_consider: 0.5
++      RotateToGoal.lookahead_time: -1.0
++      RotateToGoal.scale: 32.0
++      RotateToGoal.slowing_factor: 5.0
+       TrajectoryVisualizer:
+         time_step: 3
+         trajectory_step: 5
++      acc_lim_theta: 3.2
++      acc_lim_x: 3.0
++      acc_lim_y: 0.0
++      angular_granularity: 0.025
+       ax_max: 3.0
+       ax_min: -3.0
+       ay_max: 3.0
+@@ -184,32 +198,52 @@
+       az_max: 3.5
+       batch_size: 2000
+       critics:
+-      - ConstraintCritic
+-      - CostCritic
+-      - GoalCritic
+-      - GoalAngleCritic
+-      - PathAlignCritic
+-      - PathFollowCritic
+-      - PathAngleCritic
+-      - PreferForwardCritic
++      - RotateToGoal
++      - Oscillation
++      - BaseObstacle
++      - GoalAlign
++      - PathAlign
++      - PathDist
++      - GoalDist
++      debug_trajectory_details: true
++      decel_lim_theta: -3.2
++      decel_lim_x: -2.5
++      decel_lim_y: 0.0
+       gamma: 0.015
+       iteration_count: 1
++      linear_granularity: 0.05
++      max_speed_xy: 0.3
++      max_vel_theta: 1.0
++      max_vel_x: 0.3
++      max_vel_y: 0.0
++      min_speed_theta: 0.0
++      min_speed_xy: 0.0
++      min_vel_x: 0.0
++      min_vel_y: 0.0
+       model_dt: 0.05
+       motion_model: DiffDrive
+-      plugin: nav2_mppi_controller::MPPIController
++      plugin: dwb_core::DWBLocalPlanner
+       prune_distance: 1.7
+       regenerate_noises: true
++      short_circuit_trajectory_evaluation: true
++      sim_time: 1.5
++      stateful: true
+       temperature: 0.3
+       time_steps: 56
+-      transform_tolerance: 0.1
++      trans_stopped_velocity: 0.25
++      transform_tolerance: 0.2
+       visualize: true
++      vtheta_samples: 40
+       vx_max: 0.5
+       vx_min: -0.35
++      vx_samples: 20
+       vx_std: 0.2
+       vy_max: 0.5
++      vy_samples: 0
+       vy_std: 0.2
+       wz_max: 1.9
+       wz_std: 0.4
++      xy_goal_tolerance: 0.05
+     controller_frequency: 20.0
+     controller_plugins:
+     - FollowPath
+@@ -375,7 +409,7 @@
+   ros__parameters:
+     GridBased:
+       allow_unknown: true
+-      plugin: nav2_navfn_planner::NavfnPlanner
++      plugin: nav2_theta_star_planner::ThetaStarPlanner
+       tolerance: 0.5
+       use_astar: false
+     costmap_update_timeout: 1.0

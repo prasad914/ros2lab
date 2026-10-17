@@ -123,3 +123,33 @@ The PC did not restart during the run, so no pair was redone.
    logs; `run_pair` deletes partial dirs before each run, so they were overwritten, not reused.
 5. No script was changed in this session, so there is no scripts commit (the run used 732b64d, which is the
    frame-check fixture commit on top of the script commit 8e98d2b).
+
+## 6. DWB follow-up: DWB with the installed burger.yaml kinematics (2026-10-17 21:39–21:49)
+
+Source of the keys: `/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml` lines 122–160
+(`controller_server.FollowPath`, `plugin: "dwb_core::DWBLocalPlanner"` on line 121), package
+`ros-jazzy-turtlebot3-navigation2 2.3.6-1noble.20261006.044113`. Every key of that block except `plugin` was added
+to the step E DWB pair (36 keys: velocity/acceleration limits, `vx_samples` 20, `vtheta_samples` 40, `sim_time` 1.5,
+granularities, `xy_goal_tolerance` 0.05, `trans_stopped_velocity` 0.25, critics and critic scales); each key and its
+source line is listed in `M_dwb/<pair>/params.diff` (`M_dwb/` = `matrix_dwb_burger/`). Nothing else changed:
+`enable_stamped_cmd_vel` (burger.yaml 99/161) is a server key, not DWB kinematics, and stays as installed (false).
+Run: `run_matrix.py --dwb-burger` at 9097a3f (`run_info.txt`: `git_uncommitted_scripts=` empty).
+Searched and not used: `nav2_bringup/params/nav2_params.yaml` (FollowPath is MPPI), `nav2_multirobot_params_*.yaml`
+(DWB with no robot-specific limits beyond the critic list already used in section 2).
+
+| Planner | DWB_burger result | sim s |
+|---|---|---|
+| NavFn | SUCCEEDED (error_code 0) | 4.00 |
+| Smac2D | SUCCEEDED (error_code 0) | 3.77 |
+| ThetaStar | SUCCEEDED (error_code 0) | 3.86 |
+| SmacHybrid | SUCCEEDED (error_code 0) | 8.42 |
+| SmacLattice | SUCCEEDED (error_code 0) | 4.66 |
+
+`M_dwb/<pair>/result.json`, `M_dwb/matrix_results.json`. `params_effective/controller_server.yaml` confirms the values
+in effect (e.g. NavFn: `acc_lim_x: 3.0`, `max_vel_x: 0.3`, `sim_time: 1.5`, `vtheta_samples: 40`). Logs:
+`controller_server` "Reached the goal!", `bt_navigator` "Goal succeeded" (`goal_goal1/nav2_goal_lines.txt`); no
+"Could not find a legal trajectory" line. /cmd_vel stayed `geometry_msgs/msg/Twist`. Domain 41 empty after every pair.
+So the ABORTED 104 of section 4 comes from running DWB without any kinematics keys (DWB defaults), not from the
+planners. Caveat: `tb3_simulation_launch.py` spawns `turtlebot3_waffle` by default (installed launch file lines 158,
+163: `robot_name` `turtlebot3_waffle`, `gz_waffle.sdf.xacro`), so this "tb3_burger" nav2_bringup matrix drives the
+waffle body with burger limits; the instruction asked for burger.yaml, and it was followed.

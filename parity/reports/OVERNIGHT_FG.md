@@ -27,3 +27,13 @@ attempts* (35 bags, each labelled ARCHIVED attempt `<folder>` or SUPERSEDED by `
 nav_robotis run1–run10 are all "5/5 goals SUCCEEDED", equal to `nav_robotis_step_d.md` (10/10 per goal).
 One wrong line found and corrected: step D said the 10 bags are "422 MB"; on disk 441631011 bytes = 421.17 MiB.
 `slam/bags/run1` has no result file (mapping run, no goals) and shows "no result file".
+
+## Item 1 – DWB follow-up with installed kinematics
+
+Found: `/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml` lines 120–160 is a complete DWB
+`FollowPath` block. Decision: add every key of it except `plugin` (36 keys, each with its line number in
+`params.diff`); keep everything else as in step E (minimal diff). Added `run_matrix.py --dwb-burger` (separate
+`matrix_dwb_burger/` and `bags/matrix_dwb_burger/`, so step E results stay untouched).
+Result: 5/5 SUCCEEDED, error_code 0 (NavFn 4.00 s, Smac2D 3.77 s, ThetaStar 3.86 s, SmacHybrid 8.42 s, SmacLattice
+4.66 s sim). Details: `parity/reports/matrix.md` §6. Caveat recorded there: nav2_bringup's
+`tb3_simulation_launch.py` spawns the waffle model by default, so the burger limits ran on a waffle body.
