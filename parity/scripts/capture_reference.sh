@@ -2,11 +2,12 @@
 # Snapshot ground-truth evidence from a running reference stack (graph, QoS, rates, params, TF, lifecycle).
 # For time-series data (paths, trajectories, costmaps) use parity/scripts/record_bag.sh start/stop around the actions.
 # Usage: capture_reference.sh <robot> <scenario> <ros_domain_id>
+# Optional env: OUT_DIR=<dir> (default parity/fixtures/<robot>/<scenario>)
 set -u
 ROBOT=${1:?robot}; SCEN=${2:?scenario}; DOMAIN=${3:?domain id}
 source "$(dirname "$0")/env.sh"
 export ROS_DOMAIN_ID=$DOMAIN
-OUT=parity/fixtures/$ROBOT/$SCEN; mkdir -p "$OUT/qos" "$OUT/params" "$OUT/errors"
+OUT=${OUT_DIR:-parity/fixtures/$ROBOT/$SCEN}; mkdir -p "$OUT/qos" "$OUT/params" "$OUT/errors"
 
 ros2 topic list -t   > "$OUT/topic_list.txt"
 ros2 node list       > "$OUT/node_list.txt"

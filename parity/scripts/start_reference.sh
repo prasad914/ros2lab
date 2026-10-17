@@ -5,7 +5,8 @@
 #   scenario (TB3): sensors | slam | cartographer | nav_robotis | nav2_bringup | nav2_bringup_slam
 #   scenario (TB4): tb4_slam_nav | tb4_nav2_bringup
 #   any other robot: a script at parity/robots/<robot>/scenarios/<scenario>.sh (created in P2b)
-# Optional env: TB3_WS, ROBOTS_WS (source workspaces, see env.sh), MAP=<map yaml>
+# Optional env: TB3_WS, ROBOTS_WS (source workspaces, see env.sh), MAP=<map yaml>,
+#   OUT_DIR=<dir> (where run_info.txt and logs go; default parity/fixtures/<robot>/<scenario>)
 set -eu
 ROBOT=${1:?robot}; SCEN=${2:?scenario}; DOMAIN=${3:?domain id}; PART=${4:?gz partition}
 
@@ -21,7 +22,7 @@ source "$(dirname "$0")/env.sh"
 export ROS_DOMAIN_ID=$DOMAIN GZ_PARTITION=$PART
 case $ROBOT in tb3_*) export TURTLEBOT3_MODEL=${ROBOT#tb3_} ;; esac   # burger | waffle | waffle_pi
 
-OUT=parity/fixtures/$ROBOT/$SCEN; LOG=$OUT/logs
+OUT=${OUT_DIR:-parity/fixtures/$ROBOT/$SCEN}; LOG=$OUT/logs
 mkdir -p "$LOG"
 # One pid file per run. It is never truncated: other runs' files stay until their own stop.
 RUN_DIR=/tmp/ros2lab_ref
