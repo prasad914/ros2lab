@@ -27,8 +27,8 @@ parity/scripts/start_reference.sh "$ROBOT" "$SCEN" $D $P || exit 1
     sleep 3
   done
   [ $seen -ge 2 ] || { echo "no /map after 180 s"; exit 1; }
-  say "/map present; coverage drive 180 s"
-  timeout -k 5 200 python3 parity/scripts/drive_coverage.py 180 > "$OUT/logs/drive_coverage.log" 2>&1
+  say "/map present; coverage drive 180 sim s (wall limit 3600 s)"
+  timeout -k 5 3700 python3 parity/scripts/drive_coverage.py 180 3600 > "$OUT/logs/drive_coverage.log" 2>&1
   sleep 5
   say "capture_reference.sh"
   parity/scripts/capture_reference.sh "$ROBOT" "$SCEN" $D
