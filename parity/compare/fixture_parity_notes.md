@@ -1,23 +1,18 @@
-## Main causes (read from the FAIL rows below; step G works through them)
+## Main causes of the FAILs left (after step G, branch `parity-fixes`)
 
-1. **tb3_waffle_pi has no official workspace on the site.** `rviz.html?robot=tb3_waffle_pi` opens a site-made
-   workspace (`tb3_waffle_pi_gazebo`, `tb3_waffle_pi_bringup`, …); `ros2 launch turtlebot3_gazebo
-   turtlebot3_world.launch.py` prints `Package 'turtlebot3_gazebo' not found`. The reference uses the ROBOTIS
-   packages with `TURTLEBOT3_MODEL=waffle_pi`. Almost every tb3_waffle_pi FAIL follows from this.
-2. **QoS profiles.** The site gives most endpoints RELIABLE/VOLATILE. Real: every node's `/rosout` publisher is
-   TRANSIENT_LOCAL; `/map` (map_server, slam_toolbox, cartographer) and costmap publishers are TRANSIENT_LOCAL; sensor
-   subscriptions (`/scan`, `/odom` in cartographer, Nav2) are BEST_EFFORT; `/amcl_pose` TRANSIENT_LOCAL,
-   `/particle_cloud` BEST_EFFORT. Model endpoints in `ros-graph.js` also drop any QoS given by a model.
-3. **Missing endpoints / topics.** Costmap layer topics (`*_layer`, `*_raw_updates`, `clearing_endpoints`,
-   `voxel_*`), docking_server and route_server topics, `/diagnostics`, the RViz selector topics, tf listener
-   subscriptions of the Nav2 nodes; slam_toolbox has extra `/initialpose` and `/bond`.
-4. **TF hook.** `window.__ros2lab.tf` reads a buffer pre-filled with the robot tree; it never shows `map -> odom`,
-   although the graph's own TF tree (`ros2 run tf2_tools view_frames`, `tf2_echo`) has it.
-5. **nav2_bringup `tb3_simulation_launch.py`.** The site starts the Nav2 nodes but has no model of the Gazebo world
-   that launch file starts (`gz` prints "no model of what this program does"), so no robot, no `odom`, Nav2 never
-   activates, and the matrix cannot run.
-6. **Goal failure texts.** For the outside-map goal the site ends with the right status and error_code 204, but prints
-   `[INFO] [bt_navigator]: Goal failed` (real: ERROR) and no `[ActionServer] Aborting handle.` lines.
-7. **Goal results near obstacles.** In the single site session obstacle_goal ended ABORTED 208 and cylinder_centre gave
-   no result within 240 s; real both SUCCEEDED (the reference ran them in fresh sessions from the start pose). In an
-   earlier site run of the same spec (before the goal-terminal fix) both SUCCEEDED, so the site result varies run to run.
+Fixed in step G (see `parity/reports/OVERNIGHT_FG.md`): /rosout QoS, slam_toolbox and cartographer graphs, the TF hook
+(map -> odom), Nav2 QoS, failed-goal log lines, RViz 2 subscriptions and QoS, tb3_waffle_pi's official workspace,
+tf2 listener and launch_ros nodes. sensors, slam and cartographer now pass every item for all three models.
+
+1. **nav2_bringup `tb3_simulation_launch.py`.** The site starts the Nav2 nodes but has no model of the Gazebo world and
+   robot that launch file starts (`gz` prints "no model of what this program does"), so there is no odom, Nav2 never
+   activates and the 25 + 5 matrix pairs cannot run.
+2. **Nav2 topics and nodes not modelled (nav_robotis).** Costmap layer topics (`*_layer*`, `clearing_endpoints`,
+   `voxel_grid`), docking_server and route_server topics, `/diagnostics`, behavior_server teleop topics, the RViz Nav2
+   panel selector topics, the bt_navigator `*_rclcpp_node` nodes, `rviz_navigation_dialog_action_client`, and the tf2
+   listener nodes of the Nav2 servers. They account for the QoS and "topics + types" FAILs of nav_robotis.
+3. **Goals near obstacles (tb3_burger).** In one site session after goal1–5, obstacle_goal ended ABORTED 208 and
+   cylinder_centre gave no result within 240 s; real both SUCCEEDED (the reference ran them in fresh sessions from the
+   start pose). In an earlier site run of the same spec both SUCCEEDED, so the site result varies run to run.
+4. **NOT-VALIDATED** rows of tb3_waffle / tb3_waffle_pi nav_robotis are capture gaps of the reference snapshot
+   (`ros2 topic info` said "Unknown topic" through the daemon for topics its topic list has); they need a recapture.
