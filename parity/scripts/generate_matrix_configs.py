@@ -23,6 +23,8 @@ LATTICE = ("/opt/ros/jazzy/share/nav2_smac_planner/sample_primitives/5cm_resolut
            "0.5m_turning_radius/diff/output.json")
 # DWB critic names: the FollowPath block of the installed nav2_bringup/params/nav2_multirobot_params_all.yaml
 DWB_CRITICS_SRC = "/opt/ros/jazzy/share/nav2_bringup/params/nav2_multirobot_params_all.yaml"
+# DWB_burger (step E follow-up): every key of the installed burger FollowPath (DWB) block, with its line number
+BURGER_SRC = "/opt/ros/jazzy/share/turtlebot3_navigation2/param/burger.yaml"
 
 PLANNERS = ["NavFn", "Smac2D", "ThetaStar", "SmacHybrid", "SmacLattice"]
 CONTROLLERS = ["MPPI", "DWB", "RPP", "RotationShimRPP", "Graceful"]
@@ -33,6 +35,23 @@ FP = ("controller_server", "FollowPath")
 def dwb_critics():
     with open(DWB_CRITICS_SRC) as f:
         return yaml.safe_load(f)["controller_server"]["ros__parameters"]["FollowPath"]["critics"]
+
+
+def burger_dwb():
+    """[(key, value, line)] of controller_server.FollowPath in BURGER_SRC, in file order, without plugin."""
+    with open(BURGER_SRC) as f:
+        lines = f.read().splitlines()
+    block = yaml.safe_load("\n".join(lines))["controller_server"]["ros__parameters"]["FollowPath"]
+    start = next(i for i, l in enumerate(lines) if l == "    FollowPath:")
+    out = []
+    for i in range(start + 1, len(lines)):
+        l = lines[i]
+        if l.strip() and not l.startswith("      "):
+            break
+        k = l.strip().split(":", 1)[0]
+        if l.startswith("      ") and not l.strip().startswith("#") and k in block and k != "plugin":
+            out.append((k, block[k], i + 1))
+    return out
 
 
 # (node, plugin id) -> list of (key, value, reason). The installed file already is NavFn + MPPI.
@@ -47,6 +66,8 @@ CHANGES = {
     "DWB": [(FP, "plugin", "dwb_core::DWBLocalPlanner", "plugin name"),
             (FP, "critics", None, "the installed key holds MPPI critic names, which DWB would try to load as "
                                   f"DWB critics; DWB's list from {DWB_CRITICS_SRC}")],
+    "DWB_burger": [(FP, "plugin", "dwb_core::DWBLocalPlanner", "plugin name")] +
+                  [(FP, k, v, f"{BURGER_SRC}:{n}") for k, v, n in burger_dwb()],
     "RPP": [(FP, "plugin", "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController", "plugin name")],
     "RotationShimRPP": [(FP, "plugin", "nav2_rotation_shim_controller::RotationShimController", "plugin name"),
                         (FP, "primary_controller",

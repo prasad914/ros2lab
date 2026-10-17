@@ -6,7 +6,7 @@ Lists every bag directory under parity/fixtures/**/bags/: size on disk, and from
 duration, message count and topic count. A bag directory without metadata.yaml is listed as not finalized.
 
 Each bag's status comes only from the result file written by the same run, never assumed:
-  <scenario>/bags/matrix/<pair>/       ->  <scenario>/matrix/<pair>/result.json   ("status", "error_code")
+  <scenario>/bags/matrix*/<pair>/      ->  <scenario>/matrix*/<pair>/result.json  ("status", "error_code")
   <scenario>/bags/<run>/               ->  <scenario>/runs/<run>.json             (per goal "status")
   <scenario>/<attempt>/bags/<run>/     ->  <scenario>/<attempt>/runs/<run>.json or <scenario>/<attempt>/<run>.json
 A bag with no such file shows "no result file".
@@ -53,15 +53,15 @@ def result_file(bag):
     i = parts.index("bags")
     base = FIX.joinpath(*parts[:i])
     rest = parts[i + 1:]
-    if len(rest) == 2 and rest[0] == "matrix":
-        cands = [base / "matrix" / rest[1] / "result.json"]
+    if len(rest) == 2 and rest[0].startswith("matrix"):
+        cands = [base / rest[0] / rest[1] / "result.json"]
     elif len(rest) == 1:
         cands = [base / "runs" / f"{rest[0]}.json", base / f"{rest[0]}.json"]
     else:
         cands = []
     for c in cands:
         if c.exists():
-            return c, ("matrix" if rest[0] == "matrix" else "runs")
+            return c, ("matrix" if rest[0].startswith("matrix") else "runs")
     return None, None
 
 

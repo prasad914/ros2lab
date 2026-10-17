@@ -8,6 +8,9 @@ Each pair's params file is the installed nav2_params.yaml with only the pair's c
   run_matrix.py --frame-check   installed params: localize, frame_check.py (goals.yaml vs this map frame), stop.
   run_matrix.py                 every pair without a complete result.json (resume after a restart). Refuses to run
                                 unless the frame check said VALID.
+  run_matrix.py --dwb-burger    the 5 planners x DWB_burger (DWB with every FollowPath key of the installed
+                                turtlebot3_navigation2/param/burger.yaml) into matrix_dwb_burger/ and
+                                bags/matrix_dwb_burger/ instead of matrix/ and bags/matrix/.
 Per pair, into parity/fixtures/tb3_burger/nav2_bringup/matrix/<pair>/:
   params.yaml, params.diff     the pair's params and its diff against the installed file
   run_info.txt, logs/          start_reference.sh (git_commit, package versions); logs/nav2demo.log is gitignored
@@ -38,6 +41,8 @@ DOMAIN, PARTITION, ROBOT, SCEN = 41, "ref41", "tb3_burger", "nav2_bringup"
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 FIX = os.path.join(ROOT, "parity", "fixtures", ROBOT, SCEN)
 MATRIX = os.path.join(FIX, "matrix")
+BAG_SUB = "matrix"
+CONTROLLERS = list(gen.CONTROLLERS)
 FRAME = os.path.join(FIX, "frame_check")
 MAP = os.path.join(ROOT, "parity", "fixtures", "maps", "turtlebot3_world.yaml")
 BAG_LIMIT = 8e9
@@ -190,7 +195,7 @@ def tail(text, n):
 def run_pair(planner, controller):
     pair = f"{planner}_{controller}"
     pdir = os.path.join(MATRIX, pair)
-    sh(f"rm -rf '{pdir}' 'parity/fixtures/{ROBOT}/{SCEN}/bags/matrix/{pair}'", timeout=60)  # partial run of an earlier start
+    sh(f"rm -rf '{pdir}' 'parity/fixtures/{ROBOT}/{SCEN}/bags/{BAG_SUB}/{pair}'", timeout=60)  # partial run of an earlier start
     params = gen.generate_pair(planner, controller, pdir)
     res = {"pair": pair, "planner": planner, "controller": controller, "complete": False,
            "start_wall": time.strftime('%Y-%m-%dT%H:%M:%S%z')}
@@ -206,7 +211,7 @@ def run_pair(planner, controller):
             res.update(status="UNVERIFIED", stage="localization lifecycle / navigate_to_pose not ready",
                        ready=tail(out, 3))
         else:
-            sh(f"bash parity/scripts/record_bag.sh start {ROBOT} {SCEN} {DOMAIN} matrix/{pair}", timeout=60)
+            sh(f"bash parity/scripts/record_bag.sh start {ROBOT} {SCEN} {DOMAIN} {BAG_SUB}/{pair}", timeout=60)
             time.sleep(2)  # the recorder subscribes after discovery; no ready signal
             rc, out = wait(rl, "lifecycle_manager_localization", localize=True)
             if rc != 0:
@@ -232,7 +237,7 @@ def run_pair(planner, controller):
                                timed_out_after_sim_s=g.get("timed_out_after_sim_s"), goal_error=g.get("error"))
     res["domain_empty_after_stop"] = stop(pdir)
     sh(f"python3 parity/scripts/log_excerpts.py {pdir}", timeout=300)
-    bag = os.path.join(FIX, "bags", "matrix", pair)
+    bag = os.path.join(FIX, "bags", BAG_SUB, pair)
     res["bag"] = os.path.relpath(bag, ROOT) if os.path.isdir(bag) else None
     res["bag_bytes"] = sum(os.path.getsize(os.path.join(d, f)) for d, _, fs in os.walk(bag) for f in fs) \
         if os.path.isdir(bag) else 0
@@ -246,7 +251,7 @@ def run_pair(planner, controller):
 def collect():
     out = []
     for p in gen.PLANNERS:
-        for c in gen.CONTROLLERS:
+        for c in CONTROLLERS:
             f = os.path.join(MATRIX, f"{p}_{c}", "result.json")
             if os.path.exists(f):
                 out.append(json.load(open(f)))
@@ -258,7 +263,11 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--frame-check", action="store_true")
     ap.add_argument("--only", help="comma-separated pair names")
+    ap.add_argument("--dwb-burger", action="store_true", help="planners x DWB_burger into matrix_dwb_burger/")
     args = ap.parse_args()
+    global MATRIX, BAG_SUB, CONTROLLERS
+    if args.dwb_burger:
+        MATRIX, BAG_SUB, CONTROLLERS = os.path.join(FIX, "matrix_dwb_burger"), "matrix_dwb_burger", ["DWB_burger"]
     if os.environ.get("ROS_DOMAIN_ID") == str(DOMAIN):
         sys.exit(f"ROS_DOMAIN_ID={DOMAIN} is set in this shell; domain_pids would count this script")
     _, dirty = sh("git status --porcelain -- parity/scripts", timeout=30)
@@ -270,7 +279,7 @@ def main():
         sys.exit(f"no VALID frame check in {FRAME}/frame_check.txt: run --frame-check first")
     only = set(args.only.split(",")) if args.only else None
     for p in gen.PLANNERS:
-        for c in gen.CONTROLLERS:
+        for c in CONTROLLERS:
             pair = f"{p}_{c}"
             if only and pair not in only:
                 continue
@@ -291,7 +300,7 @@ def main():
                 log("ABORT: domain not empty after stop")
                 break
     results = collect()
-    log(f"{len(results)} of 25 pairs complete: " + ", ".join(f"{r['pair']}={r['status']}" for r in results))
+    log(f"{len(results)} of {len(gen.PLANNERS) * len(CONTROLLERS)} pairs complete: " + ", ".join(f"{r['pair']}={r['status']}" for r in results))
 
 
 if __name__ == "__main__":
