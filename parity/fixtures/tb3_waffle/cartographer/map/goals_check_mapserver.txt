@@ -1,0 +1,16 @@
+nav2_map_server 1.3.13-1noble.20260921.024942
+command: ros2 run nav2_map_server map_server --ros-args -p yaml_filename:=parity/fixtures/tb3_waffle/cartographer/map/map.yaml; lifecycle configure + activate
+echo: ros2 topic echo --once --full-length --qos-durability transient_local --qos-reliability reliable /map (raw: map_server_map_echo.yaml)
+
+map_server /map: 124 x 114, resolution 0.05000000074505806, origin [-1.248, -2.35], frame_id map  
+script output: `parity/fixtures/tb3_waffle/cartographer/map/goals_check.md`
+
+| pose | x | y | cell (mx, my) | index | /map.data | /map status | script status | agrees |
+|---|---|---|---|---|---|---|---|---|
+| start_pose | 0.000 | 0.000 | (24, 46) | 5728 | 0 | FREE | FREE | yes |
+| goal1 | 0.200 | 1.000 | (28, 66) | 8212 | 0 | FREE | FREE | yes |
+| goal2 | 2.500 | 1.950 | (74, 85) | 10614 | 0 | FREE | FREE | yes |
+| goal3 | 3.750 | 0.500 | (99, 56) | 7043 | 0 | FREE | FREE | yes |
+| goal4 | 2.000 | -1.400 | (64, 18) | 2296 | 0 | FREE | FREE | yes |
+| goal5 | 1.500 | 0.000 | (54, 46) | 5758 | 0 | FREE | FREE | yes |
+| obstacle_goal | 1.870 | 0.400 | (62, 54) | 6758 | -1 | UNKNOWN | UNKNOWN | yes |

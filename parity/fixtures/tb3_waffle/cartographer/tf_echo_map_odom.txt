@@ -1,0 +1,52 @@
+[INFO] [1792234242.906416861] [tf2_echo]: Waiting for transform map ->  odom: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+At time 32.100000000
+- Translation: [0.004, 0.013, -0.078]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.001, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.002]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.090]
+- Matrix:
+  1.000 -0.002  0.000  0.004
+  0.002  1.000  0.000  0.013
+  0.000  0.000  1.000 -0.078
+  0.000  0.000  0.000  1.000
+At time 32.176000000
+- Translation: [0.004, 0.012, -0.078]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.001, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.002]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.088]
+- Matrix:
+  1.000 -0.002  0.000  0.004
+  0.002  1.000  0.000  0.012
+  0.000  0.000  1.000 -0.078
+  0.000  0.000  0.000  1.000
+At time 32.275000000
+- Translation: [0.003, 0.013, -0.078]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.001, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.002]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.087]
+- Matrix:
+  1.000 -0.002  0.000  0.003
+  0.002  1.000  0.000  0.013
+  0.000  0.000  1.000 -0.078
+  0.000  0.000  0.000  1.000
+At time 32.341000000
+- Translation: [0.004, 0.014, -0.078]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.001, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.001]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.079]
+- Matrix:
+  1.000 -0.001  0.000  0.004
+  0.001  1.000  0.000  0.014
+  0.000  0.000  1.000 -0.078
+  0.000  0.000  0.000  1.000
+At time 32.406000000
+- Translation: [0.004, 0.014, -0.078]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.001, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.001]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.079]
+- Matrix:
+  1.000 -0.001  0.000  0.004
+  0.001  1.000  0.000  0.014
+  0.000  0.000  1.000 -0.078
+  0.000  0.000  0.000  1.000
+[INFO] [1792234248.140932513] [rclcpp]: signal_handler(SIGINT/SIGTERM)

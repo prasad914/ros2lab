@@ -1,19 +1,17 @@
-WARNING: topic [/imu] does not appear to be published yet
-average rate: 141.155
-	min: 0.004s max: 0.018s std dev: 0.00308s window: 50
-average rate: 142.871
-	min: 0.004s max: 0.017s std dev: 0.00302s window: 50
-average rate: 159.926
-	min: 0.001s max: 0.019s std dev: 0.00298s window: 50
-average rate: 133.223
-	min: 0.004s max: 0.019s std dev: 0.00335s window: 50
-average rate: 131.426
-	min: 0.004s max: 0.020s std dev: 0.00351s window: 50
-average rate: 143.993
-	min: 0.004s max: 0.019s std dev: 0.00307s window: 50
-average rate: 155.256
-	min: 0.004s max: 0.012s std dev: 0.00217s window: 50
-average rate: 144.777
-	min: 0.004s max: 0.015s std dev: 0.00295s window: 50
-average rate: 155.962
-	min: 0.004s max: 0.014s std dev: 0.00230s window: 50
+average rate: 95.060
+	min: 0.004s max: 0.026s std dev: 0.00493s window: 50
+average rate: 145.958
+	min: 0.004s max: 0.018s std dev: 0.00277s window: 50
+average rate: 146.180
+	min: 0.001s max: 0.014s std dev: 0.00293s window: 50
+average rate: 148.947
+	min: 0.004s max: 0.018s std dev: 0.00322s window: 50
+average rate: 126.638
+	min: 0.003s max: 0.022s std dev: 0.00391s window: 50
+average rate: 122.080
+	min: 0.004s max: 0.022s std dev: 0.00391s window: 50
+average rate: 84.015
+	min: 0.005s max: 0.031s std dev: 0.00516s window: 50
+average rate: 125.368
+	min: 0.003s max: 0.021s std dev: 0.00379s window: 50
+failed to initialize wait set: the given context is not valid, either rcl_init() was not called or rcl_shutdown() was called., at ./src/rcl/wait.c:130

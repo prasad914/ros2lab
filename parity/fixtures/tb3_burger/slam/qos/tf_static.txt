@@ -7,7 +7,7 @@ Node namespace: /
 Topic type: tf2_msgs/msg/TFMessage
 Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
 Endpoint type: PUBLISHER
-GID: 01.0f.17.2e.63.81.e1.b4.00.00.00.00.00.00.16.03
+GID: 01.0f.17.2e.77.22.25.fd.00.00.00.00.00.00.16.03
 QoS profile:
   Reliability: RELIABLE
   History (Depth): UNKNOWN
@@ -17,29 +17,14 @@ QoS profile:
   Liveliness: AUTOMATIC
   Liveliness lease duration: Infinite
 
-Subscription count: 2
+Subscription count: 1
 
-Node name: rosbag2_recorder
+Node name: transform_listener_impl_5ac45398af20
 Node namespace: /
 Topic type: tf2_msgs/msg/TFMessage
 Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
 Endpoint type: SUBSCRIPTION
-GID: 01.0f.17.2e.52.83.28.40.00.00.00.00.00.00.27.04
-QoS profile:
-  Reliability: RELIABLE
-  History (Depth): UNKNOWN
-  Durability: TRANSIENT_LOCAL
-  Lifespan: Infinite
-  Deadline: Infinite
-  Liveliness: AUTOMATIC
-  Liveliness lease duration: Infinite
-
-Node name: transform_listener_impl_5f39ab3f65c0
-Node namespace: /
-Topic type: tf2_msgs/msg/TFMessage
-Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
-Endpoint type: SUBSCRIPTION
-GID: 01.0f.17.2e.a3.82.90.a9.00.00.00.00.00.00.25.04
+GID: 01.0f.17.2e.a4.23.7b.b7.00.00.00.00.00.00.25.04
 QoS profile:
   Reliability: RELIABLE
   History (Depth): UNKNOWN
