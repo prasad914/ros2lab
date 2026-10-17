@@ -774,7 +774,8 @@ class BtNavigator extends NavNode {
     this.job = null;
     const ctl = this.sys.model("controller"), beh = this.sys.model("behavior");
     if (ctl) ctl.cancel(); if (beh && beh.job) beh.cancel();
-    if (!quiet) this.info(status === "SUCCEEDED" ? "Goal succeeded" : status === "CANCELED" ? "Goal canceled" : "Goal failed");
+    if (!quiet && status === "ABORTED") { this.warn(`[${J.kind === "poses" ? "navigate_through_poses" : "navigate_to_pose"}] [ActionServer] Aborting handle.`); this.error("Goal failed"); }
+    else if (!quiet) this.info(status === "SUCCEEDED" ? "Goal succeeded" : "Goal canceled");
     this.status = status === "SUCCEEDED" ? "succeeded" : status === "CANCELED" ? "canceled" : "aborted";
     J.cb.done && J.cb.done(status, { error_code: code, error_msg: "" });
   }
@@ -798,8 +799,9 @@ class BtNavigator extends NavNode {
     if (t - J.lastPlan >= 1 / this.bt.hz - 1e-9) {
       J.lastPlan = t;
       const goal = J.goals[J.goals.length - 1];
-      let r = pl ? pl.compute(goal) : { code: 200 };
-      if (r.code && !J.cpRetried && [200, 207, 208].includes(r.code) && pl) { J.cpRetried = true; pl.costmap.info(`Received request to clear entirely the ${pl.costmap.which}`); pl.costmap.clear(); r = pl.compute(goal); }
+      const aborted = (x) => { if (x.code && pl) pl.warn("[compute_path_to_pose] [ActionServer] Aborting handle."); return x; };
+      let r = pl ? aborted(pl.compute(goal)) : { code: 200 };
+      if (r.code && !J.cpRetried && [200, 207, 208].includes(r.code) && pl) { J.cpRetried = true; pl.costmap.info(`Received request to clear entirely the ${pl.costmap.which}`); pl.costmap.clear(); r = aborted(pl.compute(goal)); }
       if (r.code) { J.cpErr = r.code; return this.pipelineFailed(t); }
       J.cpErr = 0; J.cpRetried = false;
       if (ctl) ctl.follow(r.path, pl.costmap.frame, null, (code) => this.followDone(code));
@@ -812,6 +814,7 @@ class BtNavigator extends NavNode {
     if (code === 0) { J.fpErr = 0; this.finish("SUCCEEDED", 0); return; }
     J.fpErr = code;
     const ctl = this.sys.model("controller");
+    if (ctl) ctl.warn("[follow_path] [ActionServer] Aborting handle.");
     if (!J.fpRetried && ctl) { J.fpRetried = true; ctl.costmap.info(`Received request to clear entirely the ${ctl.costmap.which}`); ctl.costmap.clear(); J.lastPlan = -1e9; return; }
     this.pipelineFailed(this.sys.now());
   }
