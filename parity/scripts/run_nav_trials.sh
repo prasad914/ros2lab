@@ -25,6 +25,7 @@ save_logs() {
   mkdir -p "$RUNS/${LABEL}_logs"
   cp parity/fixtures/$ROBOT/$SCEN/logs/*.log parity/fixtures/$ROBOT/$SCEN/run_info.txt "$RUNS/${LABEL}_logs/" || true
   grep -a '\[collision_monitor\]' "$RUNS/${LABEL}_logs/nav2.log" > "$RUNS/${LABEL}_logs/collision_monitor.log" || true
+  python3 parity/scripts/log_excerpts.py "$RUNS/${LABEL}_logs" || true   # tracked .txt excerpts of the *.log files
 }
 
 for i in $(seq "$START" "$END"); do

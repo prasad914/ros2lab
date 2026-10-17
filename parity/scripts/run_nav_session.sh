@@ -94,4 +94,5 @@ with open(sys.argv[2], errors='replace') as f, open(sys.argv[3], 'w') as o:
 print(f'{n} planner_server/controller_server/bt_navigator lines between wall {t0:.3f} and {t1:.3f}')
 EOF
 grep -a '\[collision_monitor\]' "$S/logs/nav2.log" > "$S/collision_monitor.log" || true
+python3 parity/scripts/log_excerpts.py "$S" || true   # tracked .txt excerpts of the *.log files
 exit $RC
