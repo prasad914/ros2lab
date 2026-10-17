@@ -18,11 +18,12 @@ import rclpy
 from rclpy.node import Node
 from rclpy.action import ActionClient
 from rclpy.parameter import Parameter
-from rcl_interfaces.srv import SetParameters
 from geometry_msgs.msg import PoseWithCovarianceStamped, PoseStamped
 from nav_msgs.msg import Odometry
 from nav2_msgs.action import NavigateToPose
 from action_msgs.msg import GoalStatus
+from rclpy.time import Time
+from tf2_ros import Buffer, TransformListener
 
 
 def quat_to_yaw(q):
@@ -64,6 +65,10 @@ class Nav2GoalDriver(Node):
             10
         )
         self.nav_client = ActionClient(self, NavigateToPose, 'navigate_to_pose')
+        # Final pose error comes from TF map -> base_footprint at the result: /amcl_pose is published only after
+        # AMCL's update_min_d / update_min_a, so its last message can be from well before the goal ended.
+        self.tf_buffer = Buffer()
+        self.tf_listener = TransformListener(self.tf_buffer, self)
 
     def _amcl_cb(self, msg):
         self.amcl_pose_received = True
@@ -71,18 +76,6 @@ class Nav2GoalDriver(Node):
 
     def _odom_cb(self, msg):
         self.latest_odom = msg
-
-    def configure_collision_monitor(self):
-        client = self.create_client(SetParameters, '/collision_monitor/set_parameters')
-        if client.wait_for_service(timeout_sec=5.0):
-            req = SetParameters.Request()
-            param = Parameter('scan.source_timeout', Parameter.Type.DOUBLE, 1.0)
-            req.parameters = [param.to_parameter_msg()]
-            future = client.call_async(req)
-            rclpy.spin_until_future_complete(self, future, timeout_sec=3.0)
-            self.get_logger().info("Set /collision_monitor scan.source_timeout to 1.0s")
-        else:
-            self.get_logger().warn("/collision_monitor set_parameters service not available, continuing")
 
     def publish_initial_pose(self, max_wait_sec=30.0):
         sp = self.cfg['start_pose']
@@ -199,27 +192,38 @@ class Nav2GoalDriver(Node):
 
         # Gather final metrics
         final_amcl = None
+        final_tf = None
         pos_error = None
         cov_x = None
         cov_y = None
         cov_yaw = None
         yaw_error_deg = None
+        target_yaw = quat_to_yaw(goal_msg.pose.pose.orientation)
+
+        try:
+            tf = self.tf_buffer.lookup_transform('map', 'base_footprint', Time())
+            t = tf.transform
+            tf_yaw = quat_to_yaw(t.rotation)
+            final_tf = [t.translation.x, t.translation.y, tf_yaw,
+                        tf.header.stamp.sec + tf.header.stamp.nanosec * 1e-9]
+            pos_error = math.hypot(t.translation.x - goal_x, t.translation.y - goal_y)
+            diff_yaw = (tf_yaw - target_yaw + math.pi) % (2 * math.pi) - math.pi
+            yaw_error_deg = abs(diff_yaw) * 180.0 / math.pi
+        except Exception as e:
+            self.get_logger().warn(f"No TF map -> base_footprint at the result: {e}")
 
         if self.latest_amcl_pose is not None:
             ap = self.latest_amcl_pose.pose.pose
-            target_yaw = quat_to_yaw(goal_msg.pose.pose.orientation)
             amcl_yaw = quat_to_yaw(ap.orientation)
-            final_amcl = [ap.position.x, ap.position.y, amcl_yaw]
-            pos_error = math.hypot(ap.position.x - goal_x, ap.position.y - goal_y)
-            diff_yaw = (amcl_yaw - target_yaw + math.pi) % (2 * math.pi) - math.pi
-            yaw_error_deg = abs(diff_yaw) * 180.0 / math.pi
+            final_amcl = [ap.position.x, ap.position.y, amcl_yaw,
+                          self.latest_amcl_pose.header.stamp.sec + self.latest_amcl_pose.header.stamp.nanosec * 1e-9]
             cov = self.latest_amcl_pose.pose.covariance
             cov_x = cov[0]
             cov_y = cov[7]
             cov_yaw = cov[35]
 
         if success:
-            self.get_logger().info(f"Goal reached successfully in {elapsed_sim:.2f}s sim time ({elapsed_wall:.2f}s wall)! (Pos error: {pos_error:.3f}m, Yaw error: {yaw_error_deg:.1f}deg)")
+            self.get_logger().info(f"Goal reached successfully in {elapsed_sim:.2f}s sim time ({elapsed_wall:.2f}s wall)! (Pos error: {pos_error}m, Yaw error: {yaw_error_deg}deg, from TF)")
         else:
             self.get_logger().warn(f"Goal completed with status {result.status} in {elapsed_sim:.2f}s sim time")
 
@@ -229,7 +233,10 @@ class Nav2GoalDriver(Node):
             "wall_duration": elapsed_wall,
             "status": "SUCCEEDED" if success else str(result.status),
             "goal_target": [goal_x, goal_y],
+            "result_sim_time": self.get_clock().now().nanoseconds / 1e9,
+            "final_tf_pose": final_tf,
             "final_amcl_pose": final_amcl,
+            "error_source": "TF map->base_footprint at the result (final_tf_pose); final_amcl_pose = last /amcl_pose [x, y, yaw, stamp]",
             "position_error_m": pos_error,
             "yaw_error_deg": yaw_error_deg,
             "amcl_cov_x": cov_x,
@@ -260,8 +267,7 @@ def main():
         rclpy.shutdown()
         sys.exit(1)
 
-    driver.configure_collision_monitor()
-    time.sleep(1.0)
+    # No parameter changes: the stack runs with the installed turtlebot3_navigation2 params as launched.
 
     results = {}
     if args.goal_name:
