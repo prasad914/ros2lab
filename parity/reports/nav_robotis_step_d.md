@@ -3,7 +3,7 @@
 Real ROS 2 Jazzy, domain 41, partition ref41, REF_RENDER=egl, `use_sim_time:=True`, map
 `parity/fixtures/maps/turtlebot3_world.yaml`, one simulation at a time. Installed config, no parameter changed at runtime
 (collision_monitor `scan.source_timeout` stays at burger.yaml's 0.2; instructor decision). All paths below are under
-`parity/fixtures/`. Bags (MCAP) are gitignored: `tb3_burger/nav_robotis/bags/run1` … `run10`, 422 MB in total.
+`parity/fixtures/`. Bags (MCAP) are gitignored: `tb3_burger/nav_robotis/bags/run1` … `run10`, 421.17 MiB (441631011 bytes) in total (`bag_manifest.md`).
 
 ## tb3_burger, 10 runs × goal1–goal5 (`run_nav_trials.sh`, `analyze_nav_trials.py`)
 
