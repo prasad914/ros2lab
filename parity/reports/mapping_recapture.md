@@ -41,10 +41,14 @@ Path length and final pose of each drive: **PENDING** – no /odom time series w
 
 ## Goals check
 
-All 7 poses of `parity/fixtures/goals.yaml` on all 6 maps: `check_goals_on_map.py` (resolution rounded to float32)
-agrees with nav2_map_server's /map in 42 of 42 cases (`map/goals_check.md`, `map/goals_check_mapserver.txt`).
-`obstacle_goal` (1.87, 0.40) is FREE on both burger maps, OCCUPIED on the waffle and waffle_pi SLAM maps,
-and UNKNOWN on the waffle and waffle_pi Cartographer maps. goals.yaml is unchanged.
+All 7 poses of `parity/fixtures/goals.yaml` as of commit d23208c on all 6 maps: `check_goals_on_map.py`
+(resolution rounded to float32) agrees with nav2_map_server's /map in 42 of 42 cases (`map/goals_check.md`,
+`map/goals_check_mapserver.txt`). In that check `obstacle_goal` was still at (1.87, 0.40): FREE on both burger maps,
+OCCUPIED on the waffle and waffle_pi SLAM maps, and UNKNOWN on the waffle and waffle_pi Cartographer maps.
+
+Since commit ca02c53 `obstacle_goal` is at (1.893, 0.430). At that point it is OCCUPIED on the nav map
+`parity/fixtures/maps/turtlebot3_world.yaml` (`check_goals_on_map.py`, and nav2_map_server /map.data 100, domain 41;
+see the ca02c53 commit message). The six recaptured maps above were not re-checked for the new point: **PENDING**.
 
 ## Provenance of the nav map (`parity/fixtures/maps/turtlebot3_world.yaml` / `.pgm`)
 
