@@ -9,15 +9,26 @@
 set -eu
 ROBOT=${1:?robot}; SCEN=${2:?scenario}; DOMAIN=${3:?domain id}; PART=${4:?gz partition}
 
+# Refuse to start on a domain that still has processes from an earlier run (see stop_reference.sh).
+source "$(dirname "$0")/domain_procs.sh"
+LEFT=$(domain_pids "$DOMAIN")
+if [ -n "$LEFT" ]; then
+  echo "domain $DOMAIN still has processes ($(echo $LEFT)). Run: parity/scripts/stop_reference.sh $DOMAIN" >&2
+  exit 3
+fi
+
 source "$(dirname "$0")/env.sh"
 export ROS_DOMAIN_ID=$DOMAIN GZ_PARTITION=$PART
 case $ROBOT in tb3_*) export TURTLEBOT3_MODEL=${ROBOT#tb3_} ;; esac   # burger | waffle | waffle_pi
 
 OUT=parity/fixtures/$ROBOT/$SCEN; LOG=$OUT/logs
 mkdir -p "$LOG"
-PIDFILE=/tmp/ros2lab_ref_$DOMAIN.pids; : > "$PIDFILE"
+# One pid file per run. It is never truncated: other runs' files stay until their own stop.
+RUN_DIR=/tmp/ros2lab_ref
+mkdir -p "$RUN_DIR"
+PIDFILE=$RUN_DIR/$DOMAIN-$SCEN-$(date +%Y%m%dT%H%M%S)-$$.pids
 
-# Each command gets its own process group so stop_reference.sh can kill everything.
+# Each command gets its own process group (setsid: the group id equals $!), so stop_reference.sh can kill it.
 bg() { local name=$1; shift; setsid "$@" > "$LOG/$name.log" 2>&1 & echo $! >> "$PIDFILE"; }
 
 # ROBOTIS launch files open the Gazebo GUI; run them on a virtual display.
