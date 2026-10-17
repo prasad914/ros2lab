@@ -1,0 +1,9 @@
+ERROR: the following packages/stacks could not have their rosdep keys resolved
+to system dependencies:
+interbotix_xs_modules: Cannot locate rosdep definition for [interbotix_xs_sdk]
+interbotix_ros_xsarms: Cannot locate rosdep definition for [interbotix_xsarm_perception]
+interbotix_xsarm_sim: Cannot locate rosdep definition for [gazebo_ros2_control]
+interbotix_xsarm_moveit_interface: Cannot locate rosdep definition for [interbotix_moveit_interface]
+interbotix_common_sim: Cannot locate rosdep definition for [gazebo_ros]
+interbotix_xsarm_control: Cannot locate rosdep definition for [interbotix_xs_sdk]
+interbotix_xs_rviz: Cannot locate rosdep definition for [interbotix_xs_sdk]
