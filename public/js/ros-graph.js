@@ -141,6 +141,12 @@ export class RosGraph {
     // every node's /rosout publisher is transient_local (`ros2 topic info -v /rosout` on Jazzy, parity/fixtures/*/sensors/qos/rosout.txt)
     const e = { pubs: [["/parameter_events", "rcl_interfaces/msg/ParameterEvent"], ["/rosout", "rcl_interfaces/msg/Log", "RELIABLE/TRANSIENT_LOCAL"]], subs: [["/parameter_events", "rcl_interfaces/msg/ParameterEvent"]],
       srvs: PARAM_SRVS.map(([s, t]) => [`${n.full}/${s}`, t]), cli: [], acts: [], actc: [] };
+    // tf2_ros::TransformListener's own node (transform_listener_impl_<address>): /tf, /tf_static (transient_local),
+    // /parameter_events, its /rosout, no parameter services or events (fixtures */slam, */cartographer, */nav_robotis qos)
+    if (n.kind === "tf_listener") { e.pubs = [["/rosout", "rcl_interfaces/msg/Log", "RELIABLE/TRANSIENT_LOCAL"]]; e.srvs = []; e.subs.push(["/tf", "tf2_msgs/msg/TFMessage"], ["/tf_static", "tf2_msgs/msg/TFMessage", "RELIABLE/TRANSIENT_LOCAL"]); }
+    // launch_ros's node (launch_ros_<launch pid>): /rosout, /parameter_events, and the transition_event of each lifecycle
+    // node the launch file watches (fixture tb3_burger/slam/qos/slam_toolbox__transition_event.txt)
+    if (n.kind === "launch_ros") e.subs = (n.watch || []).map((t) => [t, "lifecycle_msgs/msg/TransitionEvent"]);
     if (n.info) { const r = (x) => (x.startsWith("/") ? x : x.startsWith("~/") ? `${n.full}/${x.slice(2)}` : p(x)); for (const k of ["pubs", "subs", "srvs", "cli", "acts", "actc"]) for (const [nm, t, q] of n.info[k]) e[k].push([r(nm), t, q]); }
     if (n.kind === "arm") { e.subs.push([p("target_point"), "geometry_msgs/msg/Point"]); e.pubs.push([p("joint_states"), "sensor_msgs/msg/JointState"], [p("end_effector"), "geometry_msgs/msg/Point"]); e.srvs.push([p("arm/home"), "std_srvs/srv/Trigger"]); }
     if (n.kind === "diffbot") { e.subs.push([p("cmd_vel"), "geometry_msgs/msg/Twist"]); e.pubs.push([p("odom"), "nav_msgs/msg/Odometry"], [p("ground_truth"), "nav_msgs/msg/Odometry"], [p("wheel_states"), "sensor_msgs/msg/JointState"], ["/tf", "tf2_msgs/msg/TFMessage"]); }
@@ -162,6 +168,7 @@ export class RosGraph {
     if (n.kind === "jsp" || n.kind === "jsp_gui") { e.pubs.push([p("joint_states"), "sensor_msgs/msg/JointState"]); e.subs.push([p("robot_description"), "std_msgs/msg/String"]); }
     if (n.kind === "rviz" && this.sh.viz && this.sh.viz.subsFn && this.sh.viz.subsFn()) { const seen = new Set(); for (const x of this.sh.viz.subsFn()) if (!seen.has(x[0])) { seen.add(x[0]); e.subs.push(x); } e.pubs.push(...(this.sh.viz.pubsFn ? this.sh.viz.pubsFn() : [["/clicked_point", "geometry_msgs/msg/PointStamped"], ["/goal_pose", "geometry_msgs/msg/PoseStamped"], ["/initialpose", "geometry_msgs/msg/PoseWithCovarianceStamped"]])); }
     else if (n.kind === "rviz") { e.subs.push(["/tf", "tf2_msgs/msg/TFMessage"], ["/tf_static", "tf2_msgs/msg/TFMessage"], ["/robot_description", "std_msgs/msg/String"]); if (this.sh.viz) { if (this.sh.viz.displays.Marker) e.subs.push(["/visualization_marker", "visualization_msgs/msg/Marker"]); if (this.sh.viz.displays.MarkerArray) e.subs.push(["/visualization_marker_array", "visualization_msgs/msg/MarkerArray"]); } e.pubs.push(["/clicked_point", "geometry_msgs/msg/PointStamped"], ["/goal_pose", "geometry_msgs/msg/PoseStamped"], ["/initialpose", "geometry_msgs/msg/PoseWithCovarianceStamped"]); }
+    if (n.kind === "rviz") e.subs = e.subs.filter(([nm]) => nm !== "/tf" && nm !== "/tf_static");   // rviz2 listens through its transform_listener_impl node
     if (n.kind === "rsp") { e.subs.push([p("joint_states"), "sensor_msgs/msg/JointState", "BEST_EFFORT/VOLATILE"]); e.pubs.push(["/tf", "tf2_msgs/msg/TFMessage"], ["/tf_static", "tf2_msgs/msg/TFMessage"], [p("robot_description"), "std_msgs/msg/String", "RELIABLE/TRANSIENT_LOCAL"]); }
     if (n.kind === "container") e.srvs.push([`${n.full}/_container/load_node`, "composition_interfaces/srv/LoadNode"], [`${n.full}/_container/unload_node`, "composition_interfaces/srv/UnloadNode"], [`${n.full}/_container/list_nodes`, "composition_interfaces/srv/ListNodes"]);
     if (n.kind === "gz_bridge" || n.kind === "gz_image") for (const b of n.bridge || []) { if (b.broken) continue; const rn = b.ros.startsWith("/") ? b.ros : p(b.ros); if (b.dir !== "ROS_TO_GZ") e.pubs.push([rn, b.rosType]); if (b.dir !== "GZ_TO_ROS") e.subs.push([rn, b.rosType]); }
@@ -187,7 +194,21 @@ export class RosGraph {
     for (const k of Object.keys(e)) e[k].sort((a, b) => a[0].localeCompare(b[0]));
     return e;
   }
+  // tf2 listener nodes that exist while their owner runs: rviz2, slam_toolbox, cartographer_node. In the fixtures the
+  // listener of cartographer_node and of rviz2 subscribes /clock (use_sim_time), slam_toolbox's does not.
+  syncTfListeners() {
+    const owners = this.nodes.filter((n) => n.kind === "rviz" || (n.nav2 && /^slam_(toolbox|carto$)/.test(n.nav2.role || "")));
+    this.nodes = this.nodes.filter((n) => n.kind !== "tf_listener" || owners.includes(n.tfOwner));
+    for (const o of owners) {
+      if (this.nodes.some((n) => n.tfOwner === o)) continue;
+      let h = 0; for (const c of o.full) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+      const l = this.add("tf_listener", `transform_listener_impl_${(0x5a0000000000 + h * 4096).toString(16).slice(-12)}`, "", {}, [], true);
+      l.tfOwner = o; l.domain = o.domain; l.rmw = o.rmw;
+      l.params = { use_sim_time: o.kind === "rviz" || o.nav2.role === "slam_carto" ? [true, "true", "True"].includes(o.params && o.params.use_sim_time) : false };
+    }
+  }
   collect(kinds) {
+    this.syncTfListeners();
     const m = new Map();
     for (const n of this.nodes) { if (this.unseen(n)) continue; const e = this.endpoints(n); for (const k of kinds) for (const [name, type, q] of e[k]) { if (!m.has(name)) m.set(name, { type, by: { pubs: [], subs: [], srvs: [], cli: [], acts: [], actc: [] }, qos: {} }); else if (k === "acts") m.get(name).type = type; m.get(name).by[k].push(n.full); if (q) m.get(name).qos[`${k}|${n.full}`] = q; } }
     return new Map([...m.entries()].sort((a, b) => a[0].localeCompare(b[0])));
@@ -270,6 +291,7 @@ export class RosGraph {
   }
 
   cmdNode(a, rest) {
+    if (a === "list") this.syncTfListeners();
     if (a === "list") return this.nodes.some((n) => !this.unseen(n)) ? (() => { const L = this.nodes.filter((n) => !this.unseen(n)).map((n) => n.full).sort(); return new Set(L).size < L.length ? ["WARNING: Be aware that there are nodes in the graph that share an exact name, which can have unintended side effects.", ...L] : L; })().map((t) => this.out(t)) : this.noNodes();
     if (a === "info") {
       const n0 = this.node(rest[0] || ""), n = n0 && !this.unseen(n0) ? n0 : null;

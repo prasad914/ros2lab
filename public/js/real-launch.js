@@ -250,11 +250,11 @@ export function startRealLaunch(sh, argv, ui) {
     if (cancelled) { ui.done(130); return 130; }
     job = rt.launch(["ros2", "launch", ...argv], {
       env: launchEnv(sh), cwd: sh.cwd,
-      onOutput: (text, stream) => { for (const l of String(text).replace(/\n$/, "").split("\n")) ctx.emit(l, stream === "err" ? "err" : ""); },
+      onOutput: (text, stream) => { for (const l of String(text).replace(/\n$/, "").split("\n")) { const m = l.match(/^\[INFO\] \[launch\]: All log files can be found below \S*-(\d+)$/); if (m) ctx.launchPid = Number(m[1]); ctx.emit(l, stream === "err" ? "err" : ""); } },
       onProcess: (info) => { ctx.adapt(info, { exit: (rc) => job.exit(info.pid, rc), prefix: true }).catch((e) => { ctx.emit(`(ROS2Lab could not model ${info.name || "a process"}: ${e.message})`, "hint"); console.error(e); }); },
       onExit: (pid) => ctx.cleanup(pid),
-      onLoadComposable: (req) => ctx.loadComposable(req),
-      onLifecycle: (req) => nav2Lifecycle(sh.graph, req.node, req.transition) || null,
+      onLoadComposable: (req) => { ctx.launchNode(); return ctx.loadComposable(req); },
+      onLifecycle: (req) => { ctx.launchNode(`/${String(req.node || "").replace(/^\/+/, "")}/transition_event`); return nav2Lifecycle(sh.graph, req.node, req.transition) || null; },
     });
     R.jobs.add(job);
     const rc = await job.done;
@@ -321,6 +321,16 @@ function makeContext(sh, ui, getJob) {
   const ctx = {
     emit,
     finish() { finished = true; for (const pid of [...byPid.keys()]) ctx.cleanup(pid); },
+    // launch_ros creates its node (launch_ros_<pid of ros2 launch>, the number its log directory ends with) when it
+    // first needs ROS: lifecycle transition events or loading composable nodes
+    launchPid: null,
+    launchNode(watch) {
+      if (ctx.launchPid == null) return;
+      const full = `/launch_ros_${ctx.launchPid}`;
+      let n = g.node(full);
+      if (!n) { n = g.add("launch_ros", full.slice(1), "", {}); n.watch = []; track(ctx.launchPid, full); }
+      if (watch && !n.watch.includes(watch)) n.watch.push(watch);
+    },
     cleanup(pid) {
       const b = byPid.get(pid); if (!b) return;
       byPid.delete(pid);
