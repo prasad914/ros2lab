@@ -43,7 +43,9 @@ for i in $(seq "$START" "$END"); do
     echo "ERROR: start_reference.sh failed for $LABEL (see above); skipping this run"
     FAILED="$FAILED $LABEL"; bash parity/scripts/stop_reference.sh "$DOMAIN" || true; save_logs; continue
   fi
-  if ! ROS_DOMAIN_ID=$DOMAIN python3 parity/scripts/wait_nav_ready.py --limit "$READY_LIMIT"; then
+  # Only localization here: planner_server's global costmap waits for the map frame, which AMCL publishes only after
+  # /initialpose, so lifecycle_manager_navigation cannot become active before step 4 (readiness_deadlock_2026-10-17/nav2.log).
+  if ! ROS_DOMAIN_ID=$DOMAIN python3 parity/scripts/wait_nav_ready.py --limit "$READY_LIMIT" --managers lifecycle_manager_localization; then
     echo "ERROR: Nav2 not ready for $LABEL within $READY_LIMIT s wall (see above); skipping this run"
     FAILED="$FAILED $LABEL"; bash parity/scripts/stop_reference.sh "$DOMAIN" || true; save_logs; continue
   fi
@@ -52,9 +54,12 @@ for i in $(seq "$START" "$END"); do
   bash parity/scripts/record_bag.sh start "$ROBOT" "$SCEN" "$DOMAIN" "$LABEL"
   sleep 2
 
-  # 4. Localize (publish start_pose until /amcl_pose arrives), inside the bag, then drive all 5 goals
-  if ! ROS_DOMAIN_ID=$DOMAIN python3 parity/scripts/wait_nav_ready.py --limit "$READY_LIMIT" --localize --localize-limit "$LOCALIZE_LIMIT"; then
+  # 4. Localize (publish start_pose until /amcl_pose arrives), inside the bag, wait for the navigation lifecycle, drive 5 goals
+  if ! ROS_DOMAIN_ID=$DOMAIN python3 parity/scripts/wait_nav_ready.py --limit "$READY_LIMIT" --managers lifecycle_manager_localization --localize --localize-limit "$LOCALIZE_LIMIT"; then
     echo "ERROR: robot not localized for $LABEL within $LOCALIZE_LIMIT s wall (no /amcl_pose); skipping this run"
+    FAILED="$FAILED $LABEL"
+  elif ! ROS_DOMAIN_ID=$DOMAIN python3 parity/scripts/wait_nav_ready.py --limit "$READY_LIMIT" --managers lifecycle_manager_navigation; then
+    echo "ERROR: lifecycle_manager_navigation not active for $LABEL within $READY_LIMIT s wall after localizing; skipping this run"
     FAILED="$FAILED $LABEL"
   else
     echo "Driving 5 goals for $LABEL..."
