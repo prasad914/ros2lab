@@ -194,3 +194,19 @@ Two sensors files are in the window and do not confirm their domain:
 **Conflict to record:** `sensors/run_info.txt` has `date=2026-10-15T20:55:59`, but `sensors/logs/gazebo.log` shows a launch at 2026-10-16 22:45:16. The run_info file was also rewritten at 2026-10-17 05:44. The `date=` line therefore cannot be used alone to place the sensors capture before or after the stale-stack window. The gazebo.log launch time is inside the window.
 
 **Answer:** Captures written during the window are the 61 files above. Only the two sensors files can be placed by timestamp alone, and their domain is not confirmed from their content. Treat all 61 as contaminated until they are re-captured on a clean domain. Do not rely on the `date=` values in the three `run_info.txt` files that fall in the window until that is done.
+
+---
+
+## (i) Why `stop_reference.sh` found no pid file, and what changed (2026-10-17)
+
+Evidence:
+- Before the fix, `start_reference.sh` truncated `/tmp/ros2lab_ref_$DOMAIN.pids` (`: > "$PIDFILE"`) on every start, and `stop_reference.sh` deleted it with `rm -f` after a stop. So the file existed only between a start and a stop, and each start discarded the pids of any run still alive on that domain. Stop then printed "nothing running for domain N" and did not signal anything that was alive.
+- Two `parameter_bridge` processes for `ROS_DOMAIN_ID=41` were still alive at the start of this item (about 9 h old, parent `systemd --user` i.e. orphaned). No `/tmp/ros2lab_ref_41.pids` existed. The bridges were killed with SIGINT to their process groups and confirmed gone. A quiet recheck found 0 processes of this user on domain 41.
+- Process-group test (throwaway `setsid bash -c 'sleep 600 & sleep 601 & wait'`): `$!` equals the group id, so `kill -- -$!` addresses the group. SIGINT did not stop the background sleeps; only KILL did. The old 5-second INT step was therefore ineffective.
+- Grandchildren can leave the group (`setsid` inside a run), so a group-only kill can miss them.
+
+The exact history of the one run that left no pid file cannot be reconstructed from the files on disk. The explanation above is what the code and the test show.
+
+Changes (commit 180c98a): `domain_procs.sh` (domain check by `/proc/<pid>/environ`), per-run pid files under `/tmp/ros2lab_ref/`, start refuses a busy domain (exit 3), stop sends TERM to groups and domain processes, then KILL, and removes pid files only when the domain is clear. `test_stop_reference.sh` passes on throwaway domain 97 (no ROS).
+
+Limit: the test checks process cleanup only. It does not start Gazebo, so the real run path has not been re-run with the new scripts.
