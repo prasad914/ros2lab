@@ -51,7 +51,10 @@ for i in $(seq "$START" "$END"); do
   fi
 
   # 3. Start rosbag recording. Settle 2 s: the recorder subscribes after discovery and there is no ready signal.
-  bash parity/scripts/record_bag.sh start "$ROBOT" "$SCEN" "$DOMAIN" "$LABEL"
+  if ! bash parity/scripts/record_bag.sh start "$ROBOT" "$SCEN" "$DOMAIN" "$LABEL"; then
+    echo "ERROR: record_bag.sh start failed for $LABEL (see above); skipping this run"
+    FAILED="$FAILED $LABEL"; bash parity/scripts/stop_reference.sh "$DOMAIN" || true; save_logs; continue
+  fi
   sleep 2
 
   # 4. Localize (publish start_pose until /amcl_pose arrives), inside the bag, wait for the navigation lifecycle, drive 5 goals
