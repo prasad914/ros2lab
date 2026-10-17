@@ -14,12 +14,23 @@ LOCALIZE_LIMIT=${LOCALIZE_LIMIT:-120}  # wall-clock seconds for /amcl_pose after
 FAILED=""
 
 source "$(dirname "$0")/env.sh"
-export ROS_DOMAIN_ID=$DOMAIN
+# ROS_DOMAIN_ID is set only on the ROS commands below, never exported here: stop_reference.sh and
+# start_reference.sh find a domain's processes by their environment and would find this script's own children.
 
 mkdir -p "parity/fixtures/$ROBOT/$SCEN/bags" "parity/fixtures/$ROBOT/$SCEN/runs"
 
+# Keep a run's launch logs and run_info (start_reference.sh overwrites them on the next run),
+# plus collision_monitor's own log lines from the Nav2 launch log
+save_logs() {
+  mkdir -p "$RUNS/${LABEL}_logs"
+  cp parity/fixtures/$ROBOT/$SCEN/logs/*.log parity/fixtures/$ROBOT/$SCEN/run_info.txt "$RUNS/${LABEL}_logs/" || true
+  grep -a '\[collision_monitor\]' "$RUNS/${LABEL}_logs/nav2.log" > "$RUNS/${LABEL}_logs/collision_monitor.log" || true
+}
+
 for i in $(seq "$START" "$END"); do
   LABEL="run$i"
+  RUNS=parity/fixtures/$ROBOT/$SCEN/runs
+  rm -f "$RUNS/$LABEL.json"   # a failed run must not leave an older run's result behind
   echo "=========================================================="
   echo "Starting Navigation Trial: $LABEL (Domain: $DOMAIN, $(date -Iseconds))"
   echo "=========================================================="
@@ -28,10 +39,13 @@ for i in $(seq "$START" "$END"); do
   bash parity/scripts/stop_reference.sh "$DOMAIN" || true
 
   # 2. Start clean reference stack and wait until Nav2 is up (clock, navigate_to_pose, lifecycle managers active)
-  bash parity/scripts/start_reference.sh "$ROBOT" "$SCEN" "$DOMAIN" "$PART"
-  if ! python3 parity/scripts/wait_nav_ready.py --limit "$READY_LIMIT"; then
+  if ! bash parity/scripts/start_reference.sh "$ROBOT" "$SCEN" "$DOMAIN" "$PART"; then
+    echo "ERROR: start_reference.sh failed for $LABEL (see above); skipping this run"
+    FAILED="$FAILED $LABEL"; bash parity/scripts/stop_reference.sh "$DOMAIN" || true; save_logs; continue
+  fi
+  if ! ROS_DOMAIN_ID=$DOMAIN python3 parity/scripts/wait_nav_ready.py --limit "$READY_LIMIT"; then
     echo "ERROR: Nav2 not ready for $LABEL within $READY_LIMIT s wall (see above); skipping this run"
-    FAILED="$FAILED $LABEL"; bash parity/scripts/stop_reference.sh "$DOMAIN" || true; continue
+    FAILED="$FAILED $LABEL"; bash parity/scripts/stop_reference.sh "$DOMAIN" || true; save_logs; continue
   fi
 
   # 3. Start rosbag recording. Settle 2 s: the recorder subscribes after discovery and there is no ready signal.
@@ -39,12 +53,12 @@ for i in $(seq "$START" "$END"); do
   sleep 2
 
   # 4. Localize (publish start_pose until /amcl_pose arrives), inside the bag, then drive all 5 goals
-  if ! python3 parity/scripts/wait_nav_ready.py --limit "$READY_LIMIT" --localize --localize-limit "$LOCALIZE_LIMIT"; then
+  if ! ROS_DOMAIN_ID=$DOMAIN python3 parity/scripts/wait_nav_ready.py --limit "$READY_LIMIT" --localize --localize-limit "$LOCALIZE_LIMIT"; then
     echo "ERROR: robot not localized for $LABEL within $LOCALIZE_LIMIT s wall (no /amcl_pose); skipping this run"
     FAILED="$FAILED $LABEL"
   else
     echo "Driving 5 goals for $LABEL..."
-    python3 parity/scripts/drive_goals.py --all-goals --skip-init-pose --run-label "$LABEL" || echo "Warning: drive_goals exited with non-zero code for $LABEL"
+    ROS_DOMAIN_ID=$DOMAIN python3 parity/scripts/drive_goals.py --all-goals --skip-init-pose --run-label "$LABEL" || echo "Warning: drive_goals exited with non-zero code for $LABEL"
   fi
 
   # 5. Stop rosbag recording (record_bag.sh stop waits for the recorder to exit)
@@ -54,6 +68,8 @@ for i in $(seq "$START" "$END"); do
   # 6. Stop reference stack
   echo "Stopping reference simulation for $LABEL..."
   bash parity/scripts/stop_reference.sh "$DOMAIN" || true
+
+  save_logs
 
   echo "Completed Navigation Trial: $LABEL"
   echo ""
