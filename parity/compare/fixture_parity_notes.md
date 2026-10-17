@@ -19,4 +19,5 @@
 6. **Goal failure texts.** For the outside-map goal the site ends with the right status and error_code 204, but prints
    `[INFO] [bt_navigator]: Goal failed` (real: ERROR) and no `[ActionServer] Aborting handle.` lines.
 7. **Goal results near obstacles.** In the single site session obstacle_goal ended ABORTED 208 and cylinder_centre gave
-   no result within 240 s; real both SUCCEEDED (the reference ran them in fresh sessions from the start pose).
+   no result within 240 s; real both SUCCEEDED (the reference ran them in fresh sessions from the start pose). In an
+   earlier site run of the same spec (before the goal-terminal fix) both SUCCEEDED, so the site result varies run to run.

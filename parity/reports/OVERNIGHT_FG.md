@@ -67,3 +67,7 @@ Decisions:
   terminal → one goal terminal with an `echo` marker per goal; `ros2 topic info` node names must include the namespace.
 - vitest is not installed in node_modules: unit tests run with `npx --yes vitest@3.2.4 run parity/unit`
   (baseline 22/22 passed).
+
+Result (full run 2026-10-17 22:14–23:14 +0530, waffle nav_robotis rerun after the capture-gap fix): 16 tests,
+15 failed, 1 passed (the no-initial-pose bringup abort test). Items: 279 PASS, 427 FAIL, 10 PENDING-THRESHOLD,
+27 NOT-VALIDATED. Report: `parity/reports/fixture_parity.md` (main causes listed at its top).
