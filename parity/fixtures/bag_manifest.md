@@ -33,11 +33,11 @@ Total bags recorded: **36**
 | `nav2_bringup/bags/SmacHybrid_MPPI` | 5.21 | VERIFIED |
 | `nav2_bringup/bags/SmacHybrid_RPP` | 4.61 | VERIFIED |
 | `nav2_bringup/bags/SmacHybrid_RotationShimRPP` | 5.07 | VERIFIED |
-| `nav2_bringup/bags/SmacLattice_DWB` | 0.98 | VERIFIED (Config) |
-| `nav2_bringup/bags/SmacLattice_Graceful` | 1.22 | VERIFIED (Config) |
-| `nav2_bringup/bags/SmacLattice_MPPI` | 129.97 | VERIFIED (Config) |
-| `nav2_bringup/bags/SmacLattice_RPP` | 2.71 | VERIFIED (Config) |
-| `nav2_bringup/bags/SmacLattice_RotationShimRPP` | 116.19 | VERIFIED (Config) |
+| `nav2_bringup/bags/SmacLattice_DWB` | 0.98 | NAV FAILED: goal1 status 6 (ABORTED), position error 1.00 m (`runs/SmacLattice_DWB.json`) |
+| `nav2_bringup/bags/SmacLattice_Graceful` | 1.22 | NAV FAILED: goal1 status 6 (ABORTED), position error 0.99 m (`runs/SmacLattice_Graceful.json`) |
+| `nav2_bringup/bags/SmacLattice_MPPI` | — | BAG MISSING; goal1 REJECTED; recorder: `/cmd_vel` has more than one type (`bags/SmacLattice_MPPI.log`) |
+| `nav2_bringup/bags/SmacLattice_RPP` | 2.71 | goal1 REJECTED (`runs/SmacLattice_RPP.json`); bag present, no goal reached |
+| `nav2_bringup/bags/SmacLattice_RotationShimRPP` | — | BAG MISSING; goal1 REJECTED; recorder: `/cmd_vel` has more than one type (`bags/SmacLattice_RotationShimRPP.log`) |
 | `nav2_bringup/bags/ThetaStar_DWB` | 4.92 | VERIFIED |
 | `nav2_bringup/bags/ThetaStar_Graceful` | 5.98 | VERIFIED |
 | `nav2_bringup/bags/ThetaStar_MPPI` | 5.04 | VERIFIED |
