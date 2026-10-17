@@ -32,7 +32,11 @@ for _ in $(seq 1 10); do
 done
 if [ -n "$(domain_pids "$DOMAIN")" ]; then
   signal_all KILL
-  sleep 1
+  # The kernel can take a few seconds to reap killed processes (Gazebo, many DDS threads).
+  for _ in $(seq 1 10); do
+    [ -z "$(domain_pids "$DOMAIN")" ] && break
+    sleep 1
+  done
 fi
 
 LEFT=$(domain_pids "$DOMAIN")
