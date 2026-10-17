@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Send one goals.yaml goal through navigate_to_pose and save exactly what the action returns.
+"""Send one goal (from goals.yaml, or an ad-hoc map point) through navigate_to_pose and save what the action returns.
 
 Writes into --out-dir:
   result.json     goal, accepted, status (number and name), every field of the result message
@@ -7,9 +7,11 @@ Writes into --out-dir:
   feedback.jsonl  every feedback message, one JSON object per line, with the sim time it was received
 Durations are sim time (node clock, use_sim_time). Wall times are kept to cut the launch logs to this goal.
 Usage: send_goal_capture.py --goal <goal1|...|obstacle_goal> --out-dir <dir> [--timeout 180] [--goals-yaml f]
+       send_goal_capture.py --name <label> --x <m> --y <m> [--yaw <rad>] --out-dir <dir>   (map frame, not in goals.yaml)
 """
 import argparse
 import json
+import math
 import os
 import time
 
@@ -27,21 +29,33 @@ STATUS = {v: k[len('STATUS_'):] for k, v in vars(GoalStatus).items() if k.starts
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument('--goal', required=True)
+    ap.add_argument('--goal', help='a goal of goals.yaml')
+    ap.add_argument('--name', help='label of an ad-hoc point given with --x/--y')
+    ap.add_argument('--x', type=float)
+    ap.add_argument('--y', type=float)
+    ap.add_argument('--yaw', type=float, default=0.0)
     ap.add_argument('--out-dir', required=True)
     ap.add_argument('--timeout', type=float, default=180.0, help='sim seconds before the goal is cancelled')
     ap.add_argument('--goals-yaml', default='parity/fixtures/goals.yaml')
     args = ap.parse_args()
-    with open(args.goals_yaml) as f:
-        cfg = yaml.safe_load(f)
-    g = cfg['obstacle_goal'] if args.goal == 'obstacle_goal' else cfg['goals'][args.goal]
+    if args.goal:
+        with open(args.goals_yaml) as f:
+            cfg = yaml.safe_load(f)
+        g = cfg['obstacle_goal'] if args.goal == 'obstacle_goal' else cfg['goals'][args.goal]
+        name, source = args.goal, args.goals_yaml
+    elif args.name and args.x is not None and args.y is not None:
+        g = {'frame_id': 'map', 'position': {'x': args.x, 'y': args.y, 'z': 0.0},
+             'orientation': {'x': 0.0, 'y': 0.0, 'z': math.sin(args.yaw / 2), 'w': math.cos(args.yaw / 2)}}
+        name, source = args.name, 'command line (--x/--y/--yaw)'
+    else:
+        ap.error('give --goal, or --name with --x and --y')
     os.makedirs(args.out_dir, exist_ok=True)
 
     rclpy.init()
     node = Node('send_goal_capture', parameter_overrides=[Parameter('use_sim_time', Parameter.Type.BOOL, True)])
     client = ActionClient(node, NavigateToPose, 'navigate_to_pose')
     sim = lambda: node.get_clock().now().nanoseconds / 1e9
-    out = {'goal_name': args.goal, 'goal_yaml': g}
+    out = {'goal_name': name, 'goal_source': source, 'goal_yaml': g}
     if not client.wait_for_server(timeout_sec=60.0):
         out['error'] = 'navigate_to_pose server not available after 60 s wall'
         json.dump(out, open(os.path.join(args.out_dir, 'result.json'), 'w'), indent=2)
