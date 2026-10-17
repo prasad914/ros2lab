@@ -84,8 +84,8 @@ const STD_STEPS = (wsid, extra = [], pre = []) => [
 export const WORKSPACES = {
   turtlebot3: {
     title: "TurtleBot3 (ROBOTIS) - ROS 2 Jazzy",
-    robots: ["tb3_burger", "tb3_waffle"],
-    env: { tb3_burger: { TURTLEBOT3_MODEL: "burger" }, tb3_waffle: { TURTLEBOT3_MODEL: "waffle" } },
+    robots: ["tb3_burger", "tb3_waffle", "tb3_waffle_pi"],
+    env: { tb3_burger: { TURTLEBOT3_MODEL: "burger" }, tb3_waffle: { TURTLEBOT3_MODEL: "waffle" }, tb3_waffle_pi: { TURTLEBOT3_MODEL: "waffle_pi" } },
     repos: [
       { name: "turtlebot3", packages: "*" },
       { name: "turtlebot3_msgs", packages: "*" },
@@ -104,6 +104,8 @@ export const WORKSPACES = {
       { pkg: "turtlebot3_gazebo", file: "urdf/turtlebot3_waffle.urdf" },
       { pkg: "turtlebot3_gazebo", file: "models/turtlebot3_burger/model.sdf" },
       { pkg: "turtlebot3_gazebo", file: "models/turtlebot3_waffle/model.sdf" },
+      { pkg: "turtlebot3_gazebo", file: "urdf/turtlebot3_waffle_pi.urdf" },
+      { pkg: "turtlebot3_gazebo", file: "models/turtlebot3_waffle_pi/model.sdf" },
       { pkg: "turtlebot3_gazebo", file: "worlds/empty_world.world" },
       { pkg: "turtlebot3_gazebo", file: "worlds/turtlebot3_world.world" },
       { pkg: "turtlebot3_gazebo", file: "worlds/turtlebot3_house.world" },
