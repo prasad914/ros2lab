@@ -1,0 +1,57 @@
+{
+  "goal_name": "outside_map",
+  "goal_source": "command line (--x/--y/--yaw)",
+  "goal_yaml": {
+    "frame_id": "map",
+    "position": {
+      "x": 10.0,
+      "y": 10.0,
+      "z": 0.0
+    },
+    "orientation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0,
+      "w": 1.0
+    }
+  },
+  "goal_msg": {
+    "pose": {
+      "header": {
+        "stamp": {
+          "sec": 33,
+          "nanosec": 293000000
+        },
+        "frame_id": "map"
+      },
+      "pose": {
+        "position": {
+          "x": 10.0,
+          "y": 10.0,
+          "z": 0.0
+        },
+        "orientation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        }
+      }
+    },
+    "behavior_tree": ""
+  },
+  "send_wall": 1792246159.8078601,
+  "send_sim": 33.293,
+  "accepted": true,
+  "response_wall": 1792246159.8114011,
+  "response_sim": 33.295,
+  "status": 6,
+  "status_name": "ABORTED",
+  "result": {
+    "error_code": 204,
+    "error_msg": ""
+  },
+  "result_wall": 1792246159.832532,
+  "result_sim": 33.307,
+  "duration_sim_s": 0.012000000000000455
+}

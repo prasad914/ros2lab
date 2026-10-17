@@ -1,0 +1,57 @@
+{
+  "goal_name": "cylinder_centre",
+  "goal_source": "command line (--x/--y/--yaw)",
+  "goal_yaml": {
+    "frame_id": "map",
+    "position": {
+      "x": 2.0,
+      "y": 0.5,
+      "z": 0.0
+    },
+    "orientation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0,
+      "w": 1.0
+    }
+  },
+  "goal_msg": {
+    "pose": {
+      "header": {
+        "stamp": {
+          "sec": 15,
+          "nanosec": 98000000
+        },
+        "frame_id": "map"
+      },
+      "pose": {
+        "position": {
+          "x": 2.0,
+          "y": 0.5,
+          "z": 0.0
+        },
+        "orientation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        }
+      }
+    },
+    "behavior_tree": ""
+  },
+  "send_wall": 1792246135.7641966,
+  "send_sim": 15.098,
+  "accepted": true,
+  "response_wall": 1792246135.7664702,
+  "response_sim": 15.099,
+  "status": 4,
+  "status_name": "SUCCEEDED",
+  "result": {
+    "error_code": 0,
+    "error_msg": ""
+  },
+  "result_wall": 1792246157.3176856,
+  "result_sim": 31.557,
+  "duration_sim_s": 16.458
+}
