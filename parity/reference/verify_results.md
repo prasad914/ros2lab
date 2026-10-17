@@ -1,10 +1,18 @@
 # ROS 2 Jazzy Specification Verification Results (P0)
 
-Date: 2026-10-15  
-Reference Environment: Ubuntu 24.04 LTS, ROS 2 Jazzy (`/opt/ros/jazzy`), Gazebo Harmonic 8.11.0.  
+Date: 2026-10-15 (re-checked after upgrade 2026-10-17)  
+Reference Environment: Ubuntu 24.04 LTS, ROS 2 Jazzy (`/opt/ros/jazzy`), Gazebo Harmonic 8.15.0 (was 8.11.0 on 2026-10-15).  
 Evidence Source: `parity/fixtures/_installed/facts.md` and installed package manifests.
 
 ---
+
+## Upgrade re-check (2026-10-17)
+
+After `sudo apt upgrade` (done by the instructor), `capture_installed.sh` and `verify_facts.sh` were re-run. 484 package versions changed (`dpkg_versions.txt`), including nav2 1.3.11 → 1.3.13, ros_gz 1.0.22/1.0.24 mixed → 1.0.24, rviz2 14.1.20 → 14.1.24, and Gazebo 8.11.0 → 8.15.0.
+
+Every installed file cited in the table below was compared with the copy taken before the upgrade, and none changed: `nav2_bringup/params/nav2_params.yaml`, `nav2_bringup/rviz/nav2_default_view.rviz`, `turtlebot3_navigation2/param/burger.yaml`, `turtlebot3_gazebo/models/turtlebot3_waffle/model.sdf`, and the `rviz_default_plugins` XML. The results below therefore still stand. Items 13–15 are still PENDING, because they need a live run (P2).
+
+`ros2_doctor.txt` was re-captured. Its non-warning lines (`""`, `All 5 checks passed`, `""`, `""`) are unchanged, so `parity/unit/doctor.test.mjs` still passes. Its UserWarning lines now name the new package versions.
 
 ## Summary Table
 

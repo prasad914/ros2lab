@@ -132,6 +132,7 @@ filters
 force_torque_sensor_broadcaster
 forward_command_controller
 foxglove_bridge
+franka_msgs
 generate_parameter_library
 generate_parameter_library_py
 geographic_msgs
@@ -142,6 +143,10 @@ gpio_controllers
 gps_msgs
 gps_sensor_broadcaster
 graph_msgs
+grid_map_core
+grid_map_cv
+grid_map_msgs
+grid_map_ros
 gripper_controllers
 gz_cmake_vendor
 gz_common_vendor
@@ -172,6 +177,8 @@ image_view
 imu_filter_madgwick
 imu_sensor_broadcaster
 interactive_markers
+interbotix_common_modules
+interbotix_common_sim
 intra_process_demo
 irobot_create_common_bringup
 irobot_create_control
@@ -351,6 +358,7 @@ rclcpp_lifecycle
 rclpy
 rcpputils
 rcutils
+realsense2_camera
 realsense2_camera_msgs
 realsense2_description
 realtime_tools
@@ -469,6 +477,7 @@ rqt_srv
 rqt_tf_tree
 rqt_topic
 rtabmap_conversions
+rtabmap_costmap_plugins
 rtabmap_demos
 rtabmap_examples
 rtabmap_launch
@@ -491,6 +500,8 @@ rviz_default_plugins
 rviz_ogre_vendor
 rviz_rendering
 rviz_visual_tools
+scout_description
+scout_msgs
 sdformat_urdf
 sdformat_vendor
 sdl2_vendor
@@ -601,6 +612,7 @@ turtlesim
 twist_mux
 twist_mux_msgs
 type_description_interfaces
+uf_ros_lib
 uncrustify_vendor
 unique_identifier_msgs
 ur
@@ -634,7 +646,15 @@ webots_ros2_driver
 webots_ros2_importer
 webots_ros2_msgs
 xacro
+xarm_api
+xarm_controller
+xarm_description
+xarm_gazebo
+xarm_moveit_config
+xarm_msgs
+xarm_sdk
 yaml_cpp_vendor
+zed_description
 zed_msgs
 zstd_image_transport
 zstd_vendor

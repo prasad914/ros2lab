@@ -1,5 +1,5 @@
 # Facts from installed Jazzy packages
-Generated 2026-10-15T18:15:45+05:30. Raw grep output – read it, do not assume.
+Generated 2026-10-17T07:22:29+05:30. Raw grep output – read it, do not assume.
 
 ## Optional packages present?
 ```
