@@ -28,15 +28,7 @@ start_pose:
     z: 0.0
     w: 1.0
   yaw: 0.0000
-  cell:
-    x: 19
-    y: 42
-  pgm_pixel:
-    col: 19
-    row: 60
-  cell_value: 254
   status: "FREE"
-  clearance_m: 0.541
   covariance: [
     0.25, 0.0, 0.0, 0.0, 0.0, 0.0,
     0.0, 0.25, 0.0, 0.0, 0.0, 0.0,
@@ -61,15 +53,7 @@ goals:
       z: 0.7071068
       w: 0.7071068
     yaw: 1.5708
-    cell:
-      x: 23
-      y: 62
-    pgm_pixel:
-      col: 23
-      row: 40
-    cell_value: 254
     status: "FREE"
-    clearance_m: 0.711
 
   goal2:
     description: "Northeast open area"
@@ -84,15 +68,7 @@ goals:
       z: 0.0
       w: 1.0
     yaw: 0.0000
-    cell:
-      x: 69
-      y: 81
-    pgm_pixel:
-      col: 69
-      row: 21
-    cell_value: 254
     status: "FREE"
-    clearance_m: 0.495
 
   goal3:
     description: "Far East open corridor"
@@ -107,15 +83,7 @@ goals:
       z: -0.7071068
       w: 0.7071068
     yaw: -1.5708
-    cell:
-      x: 94
-      y: 52
-    pgm_pixel:
-      col: 94
-      row: 50
-    cell_value: 254
     status: "FREE"
-    clearance_m: 0.550
 
   goal4:
     description: "South open corridor"
@@ -130,15 +98,7 @@ goals:
       z: 1.0
       w: 0.0
     yaw: 3.14159
-    cell:
-      x: 59
-      y: 14
-    pgm_pixel:
-      col: 59
-      row: 88
-    cell_value: 254
     status: "FREE"
-    clearance_m: 0.650
 
   goal5:
     description: "Center open space between cylinder clusters"
@@ -153,23 +113,15 @@ goals:
       z: 0.0
       w: 1.0
     yaw: 0.0000
-    cell:
-      x: 49
-      y: 42
-    pgm_pixel:
-      col: 49
-      row: 60
-    cell_value: 254
     status: "FREE"
-    clearance_m: 0.532
 
 # 1 Goal inside an obstacle cell (for planner failure and recovery testing)
 obstacle_goal:
-  description: "Interior of central obstacle cylinder"
+  description: "Occupied cell on the surface of the central obstacle cylinder"
   frame_id: "map"
   position:
-    x: 1.87
-    y: 0.40
+    x: 1.893
+    y: 0.430
     z: 0.00
   orientation:
     x: 0.0
@@ -177,12 +129,4 @@ obstacle_goal:
     z: 0.0
     w: 1.0
   yaw: 0.0000
-  cell:
-    x: 56
-    y: 50
-  pgm_pixel:
-    col: 56
-    row: 52
-  cell_value: 0
   status: "OCCUPIED"
-  clearance_m: 0.000
