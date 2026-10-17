@@ -1,0 +1,14 @@
+# Excerpt of /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/SmacHybrid_RPP/logs/nav2demo.log (gitignored)
+# Selection: [planner_server] [controller_server] [bt_navigator] lines stamped wall 1792251703.914 .. 1792251712.634 (send_wall - 1 s .. result_wall + 3 s from /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/SmacHybrid_RPP/goal_goal1/result.json)
+# Generated 2026-10-17T21:12:04+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+398:[component_container_isolated-6] [INFO] [1792251704.918547323] [bt_navigator]: Begin navigating from current location (0.05, -0.00) to (0.20, 1.00)
+399:[component_container_isolated-6] [INFO] [1792251704.952458013] [controller_server]: Received a goal, begin computing control effort.
+400:[component_container_isolated-6] [WARN] [1792251704.952915883] [controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded general_goal_checker . This warning will appear once.
+401:[component_container_isolated-6] [WARN] [1792251704.952990149] [controller_server]: No progress checker was specified in parameter 'current_progress_checker'. Server will use only plugin loaded progress_checker . This warning will appear once.
+403:[component_container_isolated-6] [INFO] [1792251706.003234351] [controller_server]: Passing new path to controller.
+404:[component_container_isolated-6] [INFO] [1792251707.053599953] [controller_server]: Passing new path to controller.
+405:[component_container_isolated-6] [INFO] [1792251708.053244222] [controller_server]: Passing new path to controller.
+406:[component_container_isolated-6] [WARN] [1792251709.161834655] [planner_server]: Planner loop missed its desired rate of 20.0000 Hz. Current loop rate is 8.3333 Hz
+407:[component_container_isolated-6] [INFO] [1792251709.203242840] [controller_server]: Passing new path to controller.
+408:[component_container_isolated-6] [INFO] [1792251709.603417509] [controller_server]: Reached the goal!
+409:[component_container_isolated-6] [INFO] [1792251709.629898052] [bt_navigator]: Goal succeeded

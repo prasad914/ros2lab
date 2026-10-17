@@ -1,0 +1,15 @@
+# Excerpt of /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/Smac2D_RotationShimRPP/logs/nav2demo.log (gitignored)
+# Selection: [planner_server] [controller_server] [bt_navigator] lines stamped wall 1792250573.755 .. 1792250584.010 (send_wall - 1 s .. result_wall + 3 s from /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/Smac2D_RotationShimRPP/goal_goal1/result.json)
+# Generated 2026-10-17T20:53:14+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+394:[component_container_isolated-6] [INFO] [1792250574.757157597] [bt_navigator]: Begin navigating from current location (0.04, -0.00) to (0.20, 1.00)
+395:[component_container_isolated-6] [INFO] [1792250574.778570350] [controller_server]: Received a goal, begin computing control effort.
+396:[component_container_isolated-6] [WARN] [1792250574.778708413] [controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded general_goal_checker . This warning will appear once.
+397:[component_container_isolated-6] [WARN] [1792250574.778759772] [controller_server]: No progress checker was specified in parameter 'current_progress_checker'. Server will use only plugin loaded progress_checker . This warning will appear once.
+399:[component_container_isolated-6] [INFO] [1792250575.829049037] [controller_server]: Passing new path to controller.
+400:[component_container_isolated-6] [INFO] [1792250576.829036802] [controller_server]: Passing new path to controller.
+401:[component_container_isolated-6] [INFO] [1792250577.879174145] [controller_server]: Passing new path to controller.
+402:[component_container_isolated-6] [INFO] [1792250578.878975947] [controller_server]: Passing new path to controller.
+403:[component_container_isolated-6] [INFO] [1792250579.928986474] [controller_server]: Passing new path to controller.
+404:[component_container_isolated-6] [INFO] [1792250580.928971342] [controller_server]: Passing new path to controller.
+405:[component_container_isolated-6] [INFO] [1792250580.979154949] [controller_server]: Reached the goal!
+406:[component_container_isolated-6] [INFO] [1792250581.008327446] [bt_navigator]: Goal succeeded

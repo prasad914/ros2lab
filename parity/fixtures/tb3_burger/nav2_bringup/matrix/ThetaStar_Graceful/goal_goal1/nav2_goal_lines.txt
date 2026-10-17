@@ -1,0 +1,15 @@
+# Excerpt of /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/ThetaStar_Graceful/logs/nav2demo.log (gitignored)
+# Selection: [planner_server] [controller_server] [bt_navigator] lines stamped wall 1792251307.083 .. 1792251317.789 (send_wall - 1 s .. result_wall + 3 s from /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/ThetaStar_Graceful/goal_goal1/result.json)
+# Generated 2026-10-17T21:05:28+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+386:[component_container_isolated-6] [INFO] [1792251308.087167910] [bt_navigator]: Begin navigating from current location (0.04, -0.00) to (0.20, 1.00)
+387:[component_container_isolated-6] [INFO] [1792251308.109876911] [controller_server]: Received a goal, begin computing control effort.
+388:[component_container_isolated-6] [WARN] [1792251308.110193199] [controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded general_goal_checker . This warning will appear once.
+389:[component_container_isolated-6] [WARN] [1792251308.110497829] [controller_server]: No progress checker was specified in parameter 'current_progress_checker'. Server will use only plugin loaded progress_checker . This warning will appear once.
+391:[component_container_isolated-6] [INFO] [1792251309.160730629] [controller_server]: Passing new path to controller.
+392:[component_container_isolated-6] [INFO] [1792251310.160817695] [controller_server]: Passing new path to controller.
+393:[component_container_isolated-6] [INFO] [1792251311.210776740] [controller_server]: Passing new path to controller.
+394:[component_container_isolated-6] [INFO] [1792251312.210975236] [controller_server]: Passing new path to controller.
+395:[component_container_isolated-6] [INFO] [1792251313.260788045] [controller_server]: Passing new path to controller.
+396:[component_container_isolated-6] [INFO] [1792251314.260725010] [controller_server]: Passing new path to controller.
+397:[component_container_isolated-6] [INFO] [1792251314.760793334] [controller_server]: Reached the goal!
+398:[component_container_isolated-6] [INFO] [1792251314.788140377] [bt_navigator]: Goal succeeded

@@ -1,0 +1,16 @@
+# Excerpt of /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/NavFn_Graceful/logs/nav2demo.log (gitignored)
+# Selection: [planner_server] [controller_server] [bt_navigator] lines stamped wall 1792250076.485 .. 1792250087.754 (send_wall - 1 s .. result_wall + 3 s from /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/NavFn_Graceful/goal_goal1/result.json)
+# Generated 2026-10-17T20:44:59+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+399:[component_container_isolated-6] [INFO] [1792250077.490659448] [bt_navigator]: Begin navigating from current location (0.04, 0.00) to (0.20, 1.00)
+400:[component_container_isolated-6] [INFO] [1792250077.513678626] [controller_server]: Received a goal, begin computing control effort.
+401:[component_container_isolated-6] [WARN] [1792250077.513890103] [controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded general_goal_checker . This warning will appear once.
+402:[component_container_isolated-6] [WARN] [1792250077.513950004] [controller_server]: No progress checker was specified in parameter 'current_progress_checker'. Server will use only plugin loaded progress_checker . This warning will appear once.
+404:[component_container_isolated-6] [INFO] [1792250078.564245883] [controller_server]: Passing new path to controller.
+405:[component_container_isolated-6] [INFO] [1792250079.564265612] [controller_server]: Passing new path to controller.
+406:[component_container_isolated-6] [INFO] [1792250080.614218294] [controller_server]: Passing new path to controller.
+407:[component_container_isolated-6] [INFO] [1792250081.614235231] [controller_server]: Passing new path to controller.
+408:[component_container_isolated-6] [INFO] [1792250082.664966330] [controller_server]: Passing new path to controller.
+409:[component_container_isolated-6] [INFO] [1792250083.664299823] [controller_server]: Passing new path to controller.
+410:[component_container_isolated-6] [INFO] [1792250084.714233070] [controller_server]: Passing new path to controller.
+411:[component_container_isolated-6] [INFO] [1792250084.714658758] [controller_server]: Reached the goal!
+412:[component_container_isolated-6] [INFO] [1792250084.751849178] [bt_navigator]: Goal succeeded

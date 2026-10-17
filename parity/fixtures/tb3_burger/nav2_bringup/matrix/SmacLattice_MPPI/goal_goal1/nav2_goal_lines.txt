@@ -1,0 +1,15 @@
+# Excerpt of /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/SmacLattice_MPPI/logs/nav2demo.log (gitignored)
+# Selection: [planner_server] [controller_server] [bt_navigator] lines stamped wall 1792252101.640 .. 1792252111.168 (send_wall - 1 s .. result_wall + 3 s from /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/SmacLattice_MPPI/goal_goal1/result.json)
+# Generated 2026-10-17T21:18:42+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+401:[component_container_isolated-6] [INFO] [1792252102.643838701] [bt_navigator]: Begin navigating from current location (0.06, 0.00) to (0.20, 1.00)
+402:[component_container_isolated-6] [INFO] [1792252102.676342744] [controller_server]: Received a goal, begin computing control effort.
+403:[component_container_isolated-6] [WARN] [1792252102.676583203] [controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded general_goal_checker . This warning will appear once.
+404:[component_container_isolated-6] [WARN] [1792252102.676649066] [controller_server]: No progress checker was specified in parameter 'current_progress_checker'. Server will use only plugin loaded progress_checker . This warning will appear once.
+406:[component_container_isolated-6] [INFO] [1792252103.726932062] [controller_server]: Passing new path to controller.
+407:[component_container_isolated-6] [INFO] [1792252104.776889566] [controller_server]: Passing new path to controller.
+408:[component_container_isolated-6] [INFO] [1792252105.776890331] [controller_server]: Passing new path to controller.
+409:[component_container_isolated-6] [INFO] [1792252106.826882205] [controller_server]: Passing new path to controller.
+410:[component_container_isolated-6] [INFO] [1792252107.827100280] [controller_server]: Passing new path to controller.
+411:[component_container_isolated-6] [INFO] [1792252108.127032338] [controller_server]: Reached the goal!
+412:[component_container_isolated-6] [INFO] [1792252108.136256574] [controller_server]: Optimizer reset
+413:[component_container_isolated-6] [INFO] [1792252108.165337274] [bt_navigator]: Goal succeeded

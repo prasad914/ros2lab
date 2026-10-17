@@ -1,0 +1,20 @@
+{
+  "pair": "ThetaStar_Graceful",
+  "planner": "ThetaStar",
+  "controller": "Graceful",
+  "complete": true,
+  "start_wall": "2026-10-17T21:03:25+0530",
+  "localized": "ready: localized, /amcl_pose (0.043, -0.002)",
+  "active": true,
+  "status": "SUCCEEDED",
+  "accepted": true,
+  "error_code": 0,
+  "error_msg": "",
+  "duration_sim_s": 6.701999999999998,
+  "timed_out_after_sim_s": null,
+  "goal_error": null,
+  "domain_empty_after_stop": true,
+  "bag": "parity/fixtures/tb3_burger/nav2_bringup/bags/matrix/ThetaStar_Graceful",
+  "bag_bytes": 15297466,
+  "end_wall": "2026-10-17T21:05:28+0530"
+}

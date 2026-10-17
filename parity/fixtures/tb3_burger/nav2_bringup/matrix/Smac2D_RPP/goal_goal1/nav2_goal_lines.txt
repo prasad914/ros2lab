@@ -1,0 +1,12 @@
+# Excerpt of /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/Smac2D_RPP/logs/nav2demo.log (gitignored)
+# Selection: [planner_server] [controller_server] [bt_navigator] lines stamped wall 1792250451.612 .. 1792250458.971 (send_wall - 1 s .. result_wall + 3 s from /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/Smac2D_RPP/goal_goal1/result.json)
+# Generated 2026-10-17T20:51:09+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+380:[component_container_isolated-6] [INFO] [1792250452.615785490] [bt_navigator]: Begin navigating from current location (0.03, 0.00) to (0.20, 1.00)
+381:[component_container_isolated-6] [INFO] [1792250452.639811374] [controller_server]: Received a goal, begin computing control effort.
+382:[component_container_isolated-6] [WARN] [1792250452.640162239] [controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded general_goal_checker . This warning will appear once.
+383:[component_container_isolated-6] [WARN] [1792250452.640333757] [controller_server]: No progress checker was specified in parameter 'current_progress_checker'. Server will use only plugin loaded progress_checker . This warning will appear once.
+385:[component_container_isolated-6] [INFO] [1792250453.690711007] [controller_server]: Passing new path to controller.
+386:[component_container_isolated-6] [INFO] [1792250454.740749566] [controller_server]: Passing new path to controller.
+387:[component_container_isolated-6] [INFO] [1792250455.740659494] [controller_server]: Passing new path to controller.
+388:[component_container_isolated-6] [INFO] [1792250455.940858602] [controller_server]: Reached the goal!
+389:[component_container_isolated-6] [INFO] [1792250455.967412863] [bt_navigator]: Goal succeeded

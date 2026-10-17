@@ -1,0 +1,20 @@
+{
+  "pair": "Smac2D_DWB",
+  "planner": "Smac2D",
+  "controller": "DWB",
+  "complete": true,
+  "start_wall": "2026-10-17T20:47:10+0530",
+  "localized": "ready: localized, /amcl_pose (0.044, -0.012)",
+  "active": true,
+  "status": "ABORTED",
+  "accepted": true,
+  "error_code": 104,
+  "error_msg": "",
+  "duration_sim_s": 16.593000000000004,
+  "timed_out_after_sim_s": null,
+  "goal_error": null,
+  "domain_empty_after_stop": true,
+  "bag": "parity/fixtures/tb3_burger/nav2_bringup/bags/matrix/Smac2D_DWB",
+  "bag_bytes": 16848293,
+  "end_wall": "2026-10-17T20:49:17+0530"
+}

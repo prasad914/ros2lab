@@ -1,0 +1,20 @@
+{
+  "pair": "NavFn_DWB",
+  "planner": "NavFn",
+  "controller": "DWB",
+  "complete": true,
+  "start_wall": "2026-10-17T20:33:07+0530",
+  "localized": "ready: localized, /amcl_pose (0.033, -0.008)",
+  "active": true,
+  "status": "ABORTED",
+  "accepted": true,
+  "error_code": 104,
+  "error_msg": "",
+  "duration_sim_s": 16.551000000000016,
+  "timed_out_after_sim_s": null,
+  "goal_error": null,
+  "domain_empty_after_stop": true,
+  "bag": "parity/fixtures/tb3_burger/nav2_bringup/bags/matrix/NavFn_DWB",
+  "bag_bytes": 23467669,
+  "end_wall": "2026-10-17T20:36:15+0530"
+}

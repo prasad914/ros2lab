@@ -1,0 +1,20 @@
+{
+  "pair": "ThetaStar_MPPI",
+  "planner": "ThetaStar",
+  "controller": "MPPI",
+  "complete": true,
+  "start_wall": "2026-10-17T20:55:16+0530",
+  "localized": "ready: localized, /amcl_pose (0.039, 0.000)",
+  "active": true,
+  "status": "SUCCEEDED",
+  "accepted": true,
+  "error_code": 0,
+  "error_msg": "",
+  "duration_sim_s": 5.385000000000005,
+  "timed_out_after_sim_s": null,
+  "goal_error": null,
+  "domain_empty_after_stop": true,
+  "bag": "parity/fixtures/tb3_burger/nav2_bringup/bags/matrix/ThetaStar_MPPI",
+  "bag_bytes": 13777939,
+  "end_wall": "2026-10-17T20:57:13+0530"
+}

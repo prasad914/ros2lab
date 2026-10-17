@@ -1,0 +1,67 @@
+# Excerpt of /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/NavFn_MPPI/logs/nav2demo.log (gitignored)
+# Selection: [planner_server] [controller_server] [bt_navigator] lines stamped wall 1792249359.147 .. 1792249373.765 (send_wall - 1 s .. result_wall + 3 s from /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/NavFn_MPPI/goal_goal1/result.json)
+# Generated 2026-10-17T20:33:06+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+429:[component_container_isolated-6] [INFO] [1792249360.151868171] [bt_navigator]: Begin navigating from current location (0.04, -0.00) to (0.20, 1.00)
+430:[component_container_isolated-6] [INFO] [1792249360.174202073] [controller_server]: Received a goal, begin computing control effort.
+431:[component_container_isolated-6] [WARN] [1792249360.174510878] [controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded general_goal_checker . This warning will appear once.
+432:[component_container_isolated-6] [WARN] [1792249360.174561321] [controller_server]: No progress checker was specified in parameter 'current_progress_checker'. Server will use only plugin loaded progress_checker . This warning will appear once.
+434:[component_container_isolated-6] [INFO] [1792249361.224816024] [controller_server]: Passing new path to controller.
+435:[component_container_isolated-6] [WARN] [1792249361.981743450] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 20.8333 Hz.
+436:[component_container_isolated-6] [WARN] [1792249362.039812762] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 25.6410 Hz.
+437:[component_container_isolated-6] [WARN] [1792249362.096292700] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 20.8333 Hz.
+438:[component_container_isolated-6] [WARN] [1792249362.205589866] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 20.8333 Hz.
+439:[component_container_isolated-6] [WARN] [1792249362.272502847] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 19.6078 Hz.
+440:[component_container_isolated-6] [INFO] [1792249362.275565384] [controller_server]: Passing new path to controller.
+441:[component_container_isolated-6] [WARN] [1792249362.330838727] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 25.6410 Hz.
+442:[component_container_isolated-6] [WARN] [1792249362.497428368] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 20.8333 Hz.
+443:[component_container_isolated-6] [WARN] [1792249362.558257993] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 23.8095 Hz.
+444:[component_container_isolated-6] [WARN] [1792249362.611308155] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 22.2222 Hz.
+445:[component_container_isolated-6] [WARN] [1792249362.666198153] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 20.8333 Hz.
+446:[component_container_isolated-6] [WARN] [1792249362.823671296] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 23.8095 Hz.
+447:[component_container_isolated-6] [WARN] [1792249362.878944068] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 30.3030 Hz.
+448:[component_container_isolated-6] [INFO] [1792249363.279336862] [controller_server]: Passing new path to controller.
+449:[component_container_isolated-6] [WARN] [1792249363.943385708] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 18.5185 Hz.
+450:[component_container_isolated-6] [WARN] [1792249363.999795355] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 25.6410 Hz.
+451:[component_container_isolated-6] [WARN] [1792249364.060198174] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 18.5185 Hz.
+452:[component_container_isolated-6] [WARN] [1792249364.114585275] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 27.7778 Hz.
+453:[component_container_isolated-6] [WARN] [1792249364.170739860] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 30.3030 Hz.
+454:[component_container_isolated-6] [WARN] [1792249364.231937070] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 25.6410 Hz.
+455:[component_container_isolated-6] [WARN] [1792249364.293646948] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 30.3030 Hz.
+456:[component_container_isolated-6] [INFO] [1792249364.293910673] [controller_server]: Passing new path to controller.
+457:[component_container_isolated-6] [WARN] [1792249364.396382065] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 25.6410 Hz.
+458:[component_container_isolated-6] [WARN] [1792249364.501714398] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 37.0370 Hz.
+459:[component_container_isolated-6] [WARN] [1792249364.563333045] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 37.0370 Hz.
+460:[component_container_isolated-6] [WARN] [1792249364.614660365] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 25.6410 Hz.
+461:[component_container_isolated-6] [WARN] [1792249364.672891327] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 20.8333 Hz.
+462:[component_container_isolated-6] [WARN] [1792249364.932868340] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 30.3030 Hz.
+463:[component_container_isolated-6] [WARN] [1792249364.990407994] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 33.3333 Hz.
+464:[component_container_isolated-6] [WARN] [1792249365.049353412] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 23.8095 Hz.
+465:[component_container_isolated-6] [WARN] [1792249365.104034238] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 25.6410 Hz.
+466:[component_container_isolated-6] [WARN] [1792249365.158704403] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 25.6410 Hz.
+467:[component_container_isolated-6] [WARN] [1792249365.268973984] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 25.6410 Hz.
+468:[component_container_isolated-6] [WARN] [1792249365.330121880] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 27.7778 Hz.
+469:[component_container_isolated-6] [INFO] [1792249365.330385283] [controller_server]: Passing new path to controller.
+470:[component_container_isolated-6] [WARN] [1792249365.408646638] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 25.6410 Hz.
+471:[component_container_isolated-6] [WARN] [1792249365.463530765] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 27.7778 Hz.
+472:[component_container_isolated-6] [WARN] [1792249365.523617892] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 20.8333 Hz.
+473:[component_container_isolated-6] [WARN] [1792249365.684208318] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 27.7778 Hz.
+474:[component_container_isolated-6] [WARN] [1792249365.745292913] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 27.7778 Hz.
+475:[component_container_isolated-6] [WARN] [1792249365.798014502] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 27.7778 Hz.
+476:[component_container_isolated-6] [WARN] [1792249365.904716939] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 27.7778 Hz.
+477:[component_container_isolated-6] [INFO] [1792249366.354999489] [controller_server]: Passing new path to controller.
+478:[component_container_isolated-6] [WARN] [1792249367.305441702] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 19.6078 Hz.
+479:[component_container_isolated-6] [INFO] [1792249367.405903281] [controller_server]: Passing new path to controller.
+480:[component_container_isolated-6] [WARN] [1792249367.809333451] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 27.7778 Hz.
+481:[component_container_isolated-6] [WARN] [1792249367.864574718] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 23.8095 Hz.
+482:[component_container_isolated-6] [WARN] [1792249367.966320246] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 27.7778 Hz.
+483:[component_container_isolated-6] [WARN] [1792249368.267624257] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 27.7778 Hz.
+484:[component_container_isolated-6] [WARN] [1792249368.372455265] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 22.2222 Hz.
+485:[component_container_isolated-6] [INFO] [1792249368.422772255] [controller_server]: Passing new path to controller.
+486:[component_container_isolated-6] [WARN] [1792249369.277019428] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 25.6410 Hz.
+487:[component_container_isolated-6] [WARN] [1792249369.327400374] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 27.7778 Hz.
+488:[component_container_isolated-6] [INFO] [1792249369.427782859] [controller_server]: Passing new path to controller.
+489:[component_container_isolated-6] [WARN] [1792249369.684484235] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 25.6410 Hz.
+490:[component_container_isolated-6] [INFO] [1792249370.434827801] [controller_server]: Passing new path to controller.
+491:[component_container_isolated-6] [INFO] [1792249370.734900401] [controller_server]: Reached the goal!
+492:[component_container_isolated-6] [INFO] [1792249370.740296747] [controller_server]: Optimizer reset
+493:[component_container_isolated-6] [INFO] [1792249370.763210284] [bt_navigator]: Goal succeeded

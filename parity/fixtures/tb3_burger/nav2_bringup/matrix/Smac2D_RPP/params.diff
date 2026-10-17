@@ -1,0 +1,24 @@
+# Smac2D x RPP: changes against /opt/ros/jazzy/share/nav2_bringup/params/nav2_params.yaml
+# written by parity/scripts/generate_matrix_configs.py; 2 key(s) changed
+# planner_server.GridBased.plugin: 'nav2_navfn_planner::NavfnPlanner' -> 'nav2_smac_planner::SmacPlanner2D'  (plugin name)
+# controller_server.FollowPath.plugin: 'nav2_mppi_controller::MPPIController' -> 'nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController'  (plugin name)
+--- installed/nav2_params.yaml
++++ Smac2D_RPP/params.yaml
+@@ -196,7 +196,7 @@
+       iteration_count: 1
+       model_dt: 0.05
+       motion_model: DiffDrive
+-      plugin: nav2_mppi_controller::MPPIController
++      plugin: nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController
+       prune_distance: 1.7
+       regenerate_noises: true
+       temperature: 0.3
+@@ -375,7 +375,7 @@
+   ros__parameters:
+     GridBased:
+       allow_unknown: true
+-      plugin: nav2_navfn_planner::NavfnPlanner
++      plugin: nav2_smac_planner::SmacPlanner2D
+       tolerance: 0.5
+       use_astar: false
+     costmap_update_timeout: 1.0

@@ -1,0 +1,20 @@
+{
+  "pair": "SmacLattice_MPPI",
+  "planner": "SmacLattice",
+  "controller": "MPPI",
+  "complete": true,
+  "start_wall": "2026-10-17T21:16:42+0530",
+  "localized": "ready: localized, /amcl_pose (0.056, 0.003)",
+  "active": true,
+  "status": "SUCCEEDED",
+  "accepted": true,
+  "error_code": 0,
+  "error_msg": "",
+  "duration_sim_s": 5.516999999999996,
+  "timed_out_after_sim_s": null,
+  "goal_error": null,
+  "domain_empty_after_stop": true,
+  "bag": "parity/fixtures/tb3_burger/nav2_bringup/bags/matrix/SmacLattice_MPPI",
+  "bag_bytes": 14383935,
+  "end_wall": "2026-10-17T21:18:42+0530"
+}

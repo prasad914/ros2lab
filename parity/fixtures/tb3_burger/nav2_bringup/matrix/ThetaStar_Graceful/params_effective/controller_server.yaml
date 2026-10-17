@@ -1,0 +1,65 @@
+# ros2 param dump --no-daemon /controller_server
+/controller_server:
+  ros__parameters:
+    /bond_disable_heartbeat_timeout: true
+    FollowPath:
+      allow_backward: false
+      beta: 0.4
+      in_place_collision_resolution: 0.1
+      initial_rotation: true
+      initial_rotation_tolerance: 0.75
+      k_delta: 1.0
+      k_phi: 2.0
+      lambda: 2.0
+      max_lookahead: 1.0
+      max_robot_pose_search_dist: 1.4875
+      min_lookahead: 0.25
+      plugin: nav2_graceful_controller::GracefulController
+      prefer_final_rotation: true
+      rotation_scaling_factor: 0.5
+      slowdown_radius: 1.5
+      transform_tolerance: 0.1
+      v_angular_max: 1.0
+      v_angular_min_in_place: 0.25
+      v_linear_max: 0.5
+      v_linear_min: 0.1
+    action_server_result_timeout: 10.0
+    autostart_node: false
+    bond_heartbeat_period: 0.1
+    controller_frequency: 20.0
+    controller_plugins:
+    - FollowPath
+    costmap_update_timeout: 0.3
+    enable_stamped_cmd_vel: false
+    failure_tolerance: 0.3
+    general_goal_checker:
+      plugin: nav2_controller::SimpleGoalChecker
+      stateful: true
+      symmetric_yaw_tolerance: false
+      xy_goal_tolerance: 0.25
+      yaw_goal_tolerance: 0.25
+    goal_checker_plugins:
+    - general_goal_checker
+    min_theta_velocity_threshold: 0.001
+    min_x_velocity_threshold: 0.001
+    min_y_velocity_threshold: 0.5
+    odom_topic: odom
+    progress_checker:
+      movement_time_allowance: 10.0
+      plugin: nav2_controller::SimpleProgressChecker
+      required_movement_radius: 0.5
+    progress_checker_plugins:
+    - progress_checker
+    publish_zero_velocity: true
+    qos_overrides:
+      /clock:
+        subscription:
+          depth: 1
+          durability: volatile
+          history: keep_last
+          reliability: best_effort
+    speed_limit_topic: speed_limit
+    start_type_description_service: true
+    use_realtime_priority: false
+    use_sim_time: true
+

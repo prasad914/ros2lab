@@ -1,0 +1,83 @@
+# Excerpt of /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/SmacHybrid_RotationShimRPP/logs/nav2demo.log (gitignored)
+# Selection: [planner_server] [controller_server] [bt_navigator] lines stamped wall 1792251823.872 .. 1792251861.328 (send_wall - 1 s .. result_wall + 3 s from /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/SmacHybrid_RotationShimRPP/goal_goal1/result.json)
+# Generated 2026-10-17T21:14:30+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+382:[component_container_isolated-6] [INFO] [1792251824.875681967] [bt_navigator]: Begin navigating from current location (0.03, -0.01) to (0.20, 1.00)
+383:[component_container_isolated-6] [INFO] [1792251824.898708033] [controller_server]: Received a goal, begin computing control effort.
+384:[component_container_isolated-6] [WARN] [1792251824.898895068] [controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded general_goal_checker . This warning will appear once.
+385:[component_container_isolated-6] [WARN] [1792251824.898944810] [controller_server]: No progress checker was specified in parameter 'current_progress_checker'. Server will use only plugin loaded progress_checker . This warning will appear once.
+387:[component_container_isolated-6] [INFO] [1792251825.949125644] [controller_server]: Passing new path to controller.
+388:[component_container_isolated-6] [INFO] [1792251826.949133494] [controller_server]: Passing new path to controller.
+389:[component_container_isolated-6] [INFO] [1792251827.999261709] [controller_server]: Passing new path to controller.
+390:[component_container_isolated-6] [INFO] [1792251829.049164013] [controller_server]: Passing new path to controller.
+391:[component_container_isolated-6] [INFO] [1792251830.049166439] [controller_server]: Passing new path to controller.
+392:[component_container_isolated-6] [INFO] [1792251831.099159195] [controller_server]: Passing new path to controller.
+393:[component_container_isolated-6] [INFO] [1792251832.099170613] [controller_server]: Passing new path to controller.
+394:[component_container_isolated-6] [INFO] [1792251833.149154655] [controller_server]: Passing new path to controller.
+395:[component_container_isolated-6] [INFO] [1792251834.149140070] [controller_server]: Passing new path to controller.
+396:[component_container_isolated-6] [INFO] [1792251835.199155344] [controller_server]: Passing new path to controller.
+397:[component_container_isolated-6] [WARN] [1792251836.231579516] [planner_server]: Planner loop missed its desired rate of 20.0000 Hz. Current loop rate is 17.5439 Hz
+398:[component_container_isolated-6] [INFO] [1792251836.249158197] [controller_server]: Passing new path to controller.
+399:[component_container_isolated-6] [INFO] [1792251837.349215659] [controller_server]: Passing new path to controller.
+400:[component_container_isolated-6] [INFO] [1792251838.349190269] [controller_server]: Passing new path to controller.
+401:[component_container_isolated-6] [INFO] [1792251839.399314717] [controller_server]: Passing new path to controller.
+402:[component_container_isolated-6] [WARN] [1792251840.000851220] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+403:[component_container_isolated-6] [WARN] [1792251840.049848489] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+404:[component_container_isolated-6] [WARN] [1792251840.099684245] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+405:[component_container_isolated-6] [WARN] [1792251840.149687582] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+406:[component_container_isolated-6] [WARN] [1792251840.199647620] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+407:[component_container_isolated-6] [WARN] [1792251840.249766620] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+408:[component_container_isolated-6] [WARN] [1792251840.299788059] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+409:[component_container_isolated-6] [ERROR] [1792251840.299899367] [controller_server]: Controller patience exceeded
+410:[component_container_isolated-6] [WARN] [1792251840.300094514] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+412:[component_container_isolated-6] [INFO] [1792251840.317783695] [controller_server]: Received a goal, begin computing control effort.
+413:[component_container_isolated-6] [WARN] [1792251840.410715510] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+414:[component_container_isolated-6] [WARN] [1792251840.411211146] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 11.1111 Hz.
+415:[component_container_isolated-6] [WARN] [1792251840.412127241] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+416:[component_container_isolated-6] [INFO] [1792251840.461456993] [controller_server]: Passing new path to controller.
+417:[component_container_isolated-6] [WARN] [1792251840.473453978] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+418:[component_container_isolated-6] [WARN] [1792251840.511865677] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+419:[component_container_isolated-6] [WARN] [1792251840.564221681] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+420:[component_container_isolated-6] [WARN] [1792251840.612557771] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+421:[component_container_isolated-6] [WARN] [1792251840.661889410] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+422:[component_container_isolated-6] [ERROR] [1792251840.662017892] [controller_server]: Controller patience exceeded
+423:[component_container_isolated-6] [WARN] [1792251840.662586037] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+426:[component_container_isolated-6] [WARN] [1792251841.551410830] [planner_server]: Planner loop missed its desired rate of 20.0000 Hz. Current loop rate is 1.1455 Hz
+427:[component_container_isolated-6] [INFO] [1792251841.567099735] [controller_server]: Received a goal, begin computing control effort.
+428:[component_container_isolated-6] [WARN] [1792251841.598227566] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+429:[component_container_isolated-6] [WARN] [1792251841.617747806] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+430:[component_container_isolated-6] [WARN] [1792251841.668042604] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+431:[component_container_isolated-6] [WARN] [1792251841.717775588] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+432:[component_container_isolated-6] [WARN] [1792251841.769463018] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+433:[component_container_isolated-6] [WARN] [1792251841.818133314] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+434:[component_container_isolated-6] [WARN] [1792251841.867854478] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+435:[component_container_isolated-6] [WARN] [1792251841.917936132] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+436:[component_container_isolated-6] [ERROR] [1792251841.918102331] [controller_server]: Controller patience exceeded
+437:[component_container_isolated-6] [WARN] [1792251841.918383375] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+439:[component_container_isolated-6] [INFO] [1792251841.938816418] [controller_server]: Received a goal, begin computing control effort.
+440:[component_container_isolated-6] [WARN] [1792251841.990716315] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+441:[component_container_isolated-6] [WARN] [1792251841.991197572] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 19.6078 Hz.
+442:[component_container_isolated-6] [WARN] [1792251841.991984668] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+443:[component_container_isolated-6] [WARN] [1792251842.041896730] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+444:[component_container_isolated-6] [WARN] [1792251842.092695282] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+445:[component_container_isolated-6] [WARN] [1792251842.142889047] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+446:[component_container_isolated-6] [WARN] [1792251842.191711881] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+447:[component_container_isolated-6] [WARN] [1792251842.242265259] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+448:[component_container_isolated-6] [WARN] [1792251842.292157196] [controller_server]: RegulatedPurePursuitController detected collision ahead!
+449:[component_container_isolated-6] [ERROR] [1792251842.292296902] [controller_server]: Controller patience exceeded
+450:[component_container_isolated-6] [WARN] [1792251842.292569686] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+454:[component_container_isolated-6] [WARN] [1792251844.230323844] [planner_server]: GridBased plugin failed to plan from (1.06, 0.03) to (0.20, 1.00): "no valid path found"
+455:[component_container_isolated-6] [WARN] [1792251844.230580517] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+457:[component_container_isolated-6] [WARN] [1792251844.550387020] [planner_server]: GridBased plugin failed to plan from (1.06, 0.04) to (0.20, 1.00): "Start occupied"
+458:[component_container_isolated-6] [WARN] [1792251844.550691189] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+461:[component_container_isolated-6] [WARN] [1792251849.587966755] [planner_server]: GridBased plugin failed to plan from (1.07, 0.03) to (0.20, 1.00): "no valid path found"
+462:[component_container_isolated-6] [WARN] [1792251849.588092991] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+464:[component_container_isolated-6] [WARN] [1792251850.538506012] [planner_server]: GridBased plugin failed to plan from (1.07, 0.03) to (0.20, 1.00): "no valid path found"
+465:[component_container_isolated-6] [WARN] [1792251850.538729838] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+468:[component_container_isolated-6] [INFO] [1792251852.797279963] [controller_server]: Received a goal, begin computing control effort.
+469:[component_container_isolated-6] [INFO] [1792251853.847583938] [controller_server]: Passing new path to controller.
+470:[component_container_isolated-6] [INFO] [1792251854.897563043] [controller_server]: Passing new path to controller.
+471:[component_container_isolated-6] [INFO] [1792251855.897591067] [controller_server]: Passing new path to controller.
+472:[component_container_isolated-6] [INFO] [1792251856.947835320] [controller_server]: Passing new path to controller.
+473:[component_container_isolated-6] [INFO] [1792251857.947544985] [controller_server]: Passing new path to controller.
+474:[component_container_isolated-6] [INFO] [1792251858.297622648] [controller_server]: Reached the goal!
+475:[component_container_isolated-6] [INFO] [1792251858.327002084] [bt_navigator]: Goal succeeded

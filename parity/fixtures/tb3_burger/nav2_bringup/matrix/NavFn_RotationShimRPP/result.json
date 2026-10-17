@@ -1,0 +1,20 @@
+{
+  "pair": "NavFn_RotationShimRPP",
+  "planner": "NavFn",
+  "controller": "RotationShimRPP",
+  "complete": true,
+  "start_wall": "2026-10-17T20:39:08+0530",
+  "localized": "ready: localized, /amcl_pose (0.052, 0.001)",
+  "active": true,
+  "status": "SUCCEEDED",
+  "accepted": true,
+  "error_code": 0,
+  "error_msg": "",
+  "duration_sim_s": 5.972999999999999,
+  "timed_out_after_sim_s": null,
+  "goal_error": null,
+  "domain_empty_after_stop": true,
+  "bag": "parity/fixtures/tb3_burger/nav2_bringup/bags/matrix/NavFn_RotationShimRPP",
+  "bag_bytes": 20637857,
+  "end_wall": "2026-10-17T20:42:09+0530"
+}

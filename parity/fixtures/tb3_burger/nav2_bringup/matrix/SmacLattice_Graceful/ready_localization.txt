@@ -1,0 +1,13 @@
+# wait_nav_ready.py --managers lifecycle_manager_localization: exit 0
+ready: /clock advancing (sim 0.0 s)
+ready: navigate_to_pose action server
+ready: lifecycle_manager_localization is_active
+READY after 3.7 s wall
+
+# wait_nav_ready.py --managers lifecycle_manager_localization --localize --localize-limit 120: exit 0
+ready: /clock advancing (sim 15.8 s)
+ready: navigate_to_pose action server
+ready: lifecycle_manager_localization is_active
+ready: localized, /amcl_pose (0.033, -0.001)
+READY after 1.3 s wall
+

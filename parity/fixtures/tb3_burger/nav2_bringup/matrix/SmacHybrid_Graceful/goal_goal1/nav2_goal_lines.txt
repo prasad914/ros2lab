@@ -1,0 +1,16 @@
+# Excerpt of /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/SmacHybrid_Graceful/logs/nav2demo.log (gitignored)
+# Selection: [planner_server] [controller_server] [bt_navigator] lines stamped wall 1792251979.578 .. 1792251991.035 (send_wall - 1 s .. result_wall + 3 s from /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/SmacHybrid_Graceful/goal_goal1/result.json)
+# Generated 2026-10-17T21:16:42+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+397:[component_container_isolated-6] [INFO] [1792251980.581364561] [bt_navigator]: Begin navigating from current location (0.03, 0.00) to (0.20, 1.00)
+398:[component_container_isolated-6] [INFO] [1792251980.604211567] [controller_server]: Received a goal, begin computing control effort.
+399:[component_container_isolated-6] [WARN] [1792251980.604448974] [controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded general_goal_checker . This warning will appear once.
+400:[component_container_isolated-6] [WARN] [1792251980.604527962] [controller_server]: No progress checker was specified in parameter 'current_progress_checker'. Server will use only plugin loaded progress_checker . This warning will appear once.
+402:[component_container_isolated-6] [INFO] [1792251981.654788543] [controller_server]: Passing new path to controller.
+403:[component_container_isolated-6] [INFO] [1792251982.704790949] [controller_server]: Passing new path to controller.
+404:[component_container_isolated-6] [INFO] [1792251983.704791997] [controller_server]: Passing new path to controller.
+405:[component_container_isolated-6] [INFO] [1792251984.704863091] [controller_server]: Passing new path to controller.
+406:[component_container_isolated-6] [INFO] [1792251985.754780687] [controller_server]: Passing new path to controller.
+407:[component_container_isolated-6] [INFO] [1792251986.804811595] [controller_server]: Passing new path to controller.
+408:[component_container_isolated-6] [INFO] [1792251987.804790644] [controller_server]: Passing new path to controller.
+409:[component_container_isolated-6] [INFO] [1792251988.004949997] [controller_server]: Reached the goal!
+410:[component_container_isolated-6] [INFO] [1792251988.032712273] [bt_navigator]: Goal succeeded

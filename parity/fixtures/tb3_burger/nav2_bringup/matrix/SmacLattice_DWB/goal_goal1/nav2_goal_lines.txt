@@ -1,0 +1,145 @@
+# Excerpt of /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/SmacLattice_DWB/logs/nav2demo.log (gitignored)
+# Selection: [planner_server] [controller_server] [bt_navigator] lines stamped wall 1792252218.939 .. 1792252240.824 (send_wall - 1 s .. result_wall + 3 s from /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/SmacLattice_DWB/goal_goal1/result.json)
+# Generated 2026-10-17T21:21:11+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+396:[component_container_isolated-6] [INFO] [1792252219.940827193] [bt_navigator]: Begin navigating from current location (0.03, -0.01) to (0.20, 1.00)
+397:[component_container_isolated-6] [INFO] [1792252219.972765187] [controller_server]: Received a goal, begin computing control effort.
+398:[component_container_isolated-6] [WARN] [1792252219.972916753] [controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded general_goal_checker . This warning will appear once.
+399:[component_container_isolated-6] [WARN] [1792252219.972971197] [controller_server]: No progress checker was specified in parameter 'current_progress_checker'. Server will use only plugin loaded progress_checker . This warning will appear once.
+400:[component_container_isolated-6] [WARN] [1792252219.978020007] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+401:[component_container_isolated-6] [WARN] [1792252220.033370517] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+403:[component_container_isolated-6] [WARN] [1792252220.077664675] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+404:[component_container_isolated-6] [WARN] [1792252220.126999524] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+405:[component_container_isolated-6] [WARN] [1792252220.176850267] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+406:[component_container_isolated-6] [WARN] [1792252220.230897453] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+407:[component_container_isolated-6] [WARN] [1792252220.276039461] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+408:[component_container_isolated-6] [ERROR] [1792252220.276211694] [controller_server]: Controller patience exceeded
+409:[component_container_isolated-6] [WARN] [1792252220.276574525] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+411:[component_container_isolated-6] [INFO] [1792252220.293634750] [controller_server]: Received a goal, begin computing control effort.
+412:[component_container_isolated-6] [WARN] [1792252220.442688409] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+413:[component_container_isolated-6] [WARN] [1792252220.443227386] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 6.6667 Hz.
+414:[component_container_isolated-6] [WARN] [1792252220.450404042] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+415:[component_container_isolated-6] [WARN] [1792252220.498633899] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+416:[component_container_isolated-6] [WARN] [1792252220.548454113] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+417:[component_container_isolated-6] [WARN] [1792252220.600307805] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+418:[component_container_isolated-6] [ERROR] [1792252220.600495655] [controller_server]: Controller patience exceeded
+419:[component_container_isolated-6] [WARN] [1792252220.600886837] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+422:[component_container_isolated-6] [WARN] [1792252221.573968873] [planner_server]: Planner loop missed its desired rate of 20.0000 Hz. Current loop rate is 1.0616 Hz
+423:[component_container_isolated-6] [INFO] [1792252221.592760378] [controller_server]: Received a goal, begin computing control effort.
+424:[component_container_isolated-6] [WARN] [1792252221.597284221] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+425:[component_container_isolated-6] [WARN] [1792252221.648506511] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+426:[component_container_isolated-6] [WARN] [1792252221.698313723] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+427:[component_container_isolated-6] [WARN] [1792252221.748689764] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+428:[component_container_isolated-6] [WARN] [1792252221.798709108] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+429:[component_container_isolated-6] [WARN] [1792252221.849826868] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+430:[component_container_isolated-6] [WARN] [1792252221.899120543] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+431:[component_container_isolated-6] [ERROR] [1792252221.899327487] [controller_server]: Controller patience exceeded
+432:[component_container_isolated-6] [WARN] [1792252221.899677719] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+434:[component_container_isolated-6] [INFO] [1792252221.913656308] [controller_server]: Received a goal, begin computing control effort.
+435:[component_container_isolated-6] [WARN] [1792252222.041486660] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+436:[component_container_isolated-6] [WARN] [1792252222.041985178] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 7.7519 Hz.
+437:[component_container_isolated-6] [WARN] [1792252222.046868492] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+438:[component_container_isolated-6] [WARN] [1792252222.096568473] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+439:[component_container_isolated-6] [WARN] [1792252222.148986477] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+440:[component_container_isolated-6] [WARN] [1792252222.198267137] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+441:[component_container_isolated-6] [WARN] [1792252222.248867614] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+442:[component_container_isolated-6] [ERROR] [1792252222.249187292] [controller_server]: Controller patience exceeded
+443:[component_container_isolated-6] [WARN] [1792252222.249708502] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+447:[component_container_isolated-6] [INFO] [1792252224.302768292] [controller_server]: Received a goal, begin computing control effort.
+448:[component_container_isolated-6] [WARN] [1792252224.305770775] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+449:[component_container_isolated-6] [WARN] [1792252224.357224272] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+450:[component_container_isolated-6] [WARN] [1792252224.407391034] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+451:[component_container_isolated-6] [WARN] [1792252224.458363840] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+452:[component_container_isolated-6] [WARN] [1792252224.508665241] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+453:[component_container_isolated-6] [WARN] [1792252224.557526208] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+454:[component_container_isolated-6] [WARN] [1792252224.608860679] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+455:[component_container_isolated-6] [ERROR] [1792252224.609039607] [controller_server]: Controller patience exceeded
+456:[component_container_isolated-6] [WARN] [1792252224.609305714] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+458:[component_container_isolated-6] [INFO] [1792252224.623576975] [controller_server]: Received a goal, begin computing control effort.
+459:[component_container_isolated-6] [WARN] [1792252224.639581842] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+460:[component_container_isolated-6] [WARN] [1792252224.678112636] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+461:[component_container_isolated-6] [WARN] [1792252224.727037229] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+462:[component_container_isolated-6] [WARN] [1792252224.777609532] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+463:[component_container_isolated-6] [WARN] [1792252224.831062978] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+464:[component_container_isolated-6] [WARN] [1792252224.877020513] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+465:[component_container_isolated-6] [WARN] [1792252224.928272755] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+466:[component_container_isolated-6] [ERROR] [1792252224.928461461] [controller_server]: Controller patience exceeded
+467:[component_container_isolated-6] [WARN] [1792252224.928798766] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+470:[component_container_isolated-6] [INFO] [1792252229.983369367] [controller_server]: Received a goal, begin computing control effort.
+471:[component_container_isolated-6] [WARN] [1792252229.988790961] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+472:[component_container_isolated-6] [WARN] [1792252230.040330352] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+473:[component_container_isolated-6] [WARN] [1792252230.090882145] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+474:[component_container_isolated-6] [WARN] [1792252230.139792799] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+475:[component_container_isolated-6] [WARN] [1792252230.191533132] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+476:[component_container_isolated-6] [WARN] [1792252230.237596706] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+477:[component_container_isolated-6] [WARN] [1792252230.287882523] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+478:[component_container_isolated-6] [ERROR] [1792252230.288037978] [controller_server]: Controller patience exceeded
+479:[component_container_isolated-6] [WARN] [1792252230.288297950] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+481:[component_container_isolated-6] [INFO] [1792252230.303433886] [controller_server]: Received a goal, begin computing control effort.
+482:[component_container_isolated-6] [WARN] [1792252230.435677104] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+483:[component_container_isolated-6] [WARN] [1792252230.435886391] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 7.5758 Hz.
+484:[component_container_isolated-6] [WARN] [1792252230.437701637] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+485:[component_container_isolated-6] [WARN] [1792252230.487786804] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+486:[component_container_isolated-6] [WARN] [1792252230.538114840] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+487:[component_container_isolated-6] [WARN] [1792252230.591470402] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+488:[component_container_isolated-6] [WARN] [1792252230.642404484] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+489:[component_container_isolated-6] [ERROR] [1792252230.642566730] [controller_server]: Controller patience exceeded
+490:[component_container_isolated-6] [WARN] [1792252230.642791891] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+493:[component_container_isolated-6] [INFO] [1792252232.912517035] [controller_server]: Received a goal, begin computing control effort.
+494:[component_container_isolated-6] [WARN] [1792252232.919704672] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+495:[component_container_isolated-6] [WARN] [1792252232.969067438] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+496:[component_container_isolated-6] [WARN] [1792252233.019296664] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+497:[component_container_isolated-6] [WARN] [1792252233.069226951] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+498:[component_container_isolated-6] [WARN] [1792252233.117284902] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+499:[component_container_isolated-6] [WARN] [1792252233.166994212] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+500:[component_container_isolated-6] [WARN] [1792252233.218986594] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+501:[component_container_isolated-6] [ERROR] [1792252233.219185814] [controller_server]: Controller patience exceeded
+502:[component_container_isolated-6] [WARN] [1792252233.219797147] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+504:[component_container_isolated-6] [INFO] [1792252233.234125505] [controller_server]: Received a goal, begin computing control effort.
+505:[component_container_isolated-6] [WARN] [1792252233.440021706] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+506:[component_container_isolated-6] [WARN] [1792252233.440563989] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 4.9020 Hz.
+507:[component_container_isolated-6] [WARN] [1792252233.445457609] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+508:[component_container_isolated-6] [WARN] [1792252233.495794154] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+509:[component_container_isolated-6] [WARN] [1792252233.547337109] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+510:[component_container_isolated-6] [ERROR] [1792252233.548334799] [controller_server]: Controller patience exceeded
+511:[component_container_isolated-6] [WARN] [1792252233.548756379] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+514:[component_container_isolated-6] [WARN] [1792252234.571341346] [planner_server]: Planner loop missed its desired rate of 20.0000 Hz. Current loop rate is 0.9950 Hz
+515:[component_container_isolated-6] [INFO] [1792252234.572428299] [controller_server]: Received a goal, begin computing control effort.
+516:[component_container_isolated-6] [WARN] [1792252234.575348336] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+517:[component_container_isolated-6] [WARN] [1792252234.624888167] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+518:[component_container_isolated-6] [WARN] [1792252234.676275280] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+519:[component_container_isolated-6] [WARN] [1792252234.728708149] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+520:[component_container_isolated-6] [WARN] [1792252234.777950865] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+521:[component_container_isolated-6] [WARN] [1792252234.826009327] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+522:[component_container_isolated-6] [WARN] [1792252234.877796367] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+523:[component_container_isolated-6] [ERROR] [1792252234.877991337] [controller_server]: Controller patience exceeded
+524:[component_container_isolated-6] [WARN] [1792252234.878311755] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+526:[component_container_isolated-6] [INFO] [1792252234.893971107] [controller_server]: Received a goal, begin computing control effort.
+527:[component_container_isolated-6] [WARN] [1792252235.041001232] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+528:[component_container_isolated-6] [WARN] [1792252235.041475307] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 6.8027 Hz.
+529:[component_container_isolated-6] [WARN] [1792252235.046251945] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+530:[component_container_isolated-6] [WARN] [1792252235.097295401] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+531:[component_container_isolated-6] [WARN] [1792252235.147914605] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+532:[component_container_isolated-6] [WARN] [1792252235.196780296] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+533:[component_container_isolated-6] [ERROR] [1792252235.198316730] [controller_server]: Controller patience exceeded
+534:[component_container_isolated-6] [WARN] [1792252235.198894472] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+538:[component_container_isolated-6] [INFO] [1792252237.163480714] [controller_server]: Received a goal, begin computing control effort.
+539:[component_container_isolated-6] [WARN] [1792252237.170133786] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+540:[component_container_isolated-6] [WARN] [1792252237.220193671] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+541:[component_container_isolated-6] [WARN] [1792252237.270158797] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+542:[component_container_isolated-6] [WARN] [1792252237.319568192] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+543:[component_container_isolated-6] [WARN] [1792252237.368268591] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+544:[component_container_isolated-6] [WARN] [1792252237.420004372] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+545:[component_container_isolated-6] [WARN] [1792252237.469324420] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+546:[component_container_isolated-6] [ERROR] [1792252237.470603555] [controller_server]: Controller patience exceeded
+547:[component_container_isolated-6] [WARN] [1792252237.471317625] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+549:[component_container_isolated-6] [INFO] [1792252237.484027050] [controller_server]: Received a goal, begin computing control effort.
+550:[component_container_isolated-6] [WARN] [1792252237.641387333] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+551:[component_container_isolated-6] [WARN] [1792252237.642552815] [controller_server]: Control loop missed its desired rate of 20.0000 Hz. Current loop rate is 6.2893 Hz.
+552:[component_container_isolated-6] [WARN] [1792252237.649463588] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+553:[component_container_isolated-6] [WARN] [1792252237.700118115] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+554:[component_container_isolated-6] [WARN] [1792252237.746116410] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+555:[component_container_isolated-6] [WARN] [1792252237.799186568] [controller_server]: Could not find a legal trajectory: No valid trajectories out of 0! 
+556:[component_container_isolated-6] [ERROR] [1792252237.799398270] [controller_server]: Controller patience exceeded
+557:[component_container_isolated-6] [WARN] [1792252237.799721670] [controller_server]: [follow_path] [ActionServer] Aborting handle.
+558:[component_container_isolated-6] [WARN] [1792252237.821329897] [bt_navigator]: [navigate_to_pose] [ActionServer] Aborting handle.
+559:[component_container_isolated-6] [ERROR] [1792252237.822200158] [bt_navigator]: Goal failed

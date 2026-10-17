@@ -1,0 +1,20 @@
+{
+  "pair": "SmacHybrid_Graceful",
+  "planner": "SmacHybrid",
+  "controller": "Graceful",
+  "complete": true,
+  "start_wall": "2026-10-17T21:14:30+0530",
+  "localized": "ready: localized, /amcl_pose (0.031, 0.002)",
+  "active": true,
+  "status": "SUCCEEDED",
+  "accepted": true,
+  "error_code": 0,
+  "error_msg": "",
+  "duration_sim_s": 7.439999999999998,
+  "timed_out_after_sim_s": null,
+  "goal_error": null,
+  "domain_empty_after_stop": true,
+  "bag": "parity/fixtures/tb3_burger/nav2_bringup/bags/matrix/SmacHybrid_Graceful",
+  "bag_bytes": 15718905,
+  "end_wall": "2026-10-17T21:16:42+0530"
+}

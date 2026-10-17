@@ -1,0 +1,20 @@
+{
+  "pair": "Smac2D_RPP",
+  "planner": "Smac2D",
+  "controller": "RPP",
+  "complete": true,
+  "start_wall": "2026-10-17T20:49:17+0530",
+  "localized": "ready: localized, /amcl_pose (0.031, 0.005)",
+  "active": true,
+  "status": "SUCCEEDED",
+  "accepted": true,
+  "error_code": 0,
+  "error_msg": "",
+  "duration_sim_s": 3.353999999999999,
+  "timed_out_after_sim_s": null,
+  "goal_error": null,
+  "domain_empty_after_stop": true,
+  "bag": "parity/fixtures/tb3_burger/nav2_bringup/bags/matrix/Smac2D_RPP",
+  "bag_bytes": 13368721,
+  "end_wall": "2026-10-17T20:51:09+0530"
+}

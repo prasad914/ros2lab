@@ -1,0 +1,6 @@
+# wait_nav_ready.py --managers lifecycle_manager_navigation: exit 0
+ready: /clock advancing (sim 34.6 s)
+ready: navigate_to_pose action server
+ready: lifecycle_manager_navigation is_active
+READY after 2.8 s wall
+
