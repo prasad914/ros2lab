@@ -9,16 +9,18 @@ source "$(dirname "$0")/env.sh"
 export ROS_DOMAIN_ID=$DOMAIN
 OUT=${OUT_DIR:-parity/fixtures/$ROBOT/$SCEN}; mkdir -p "$OUT/qos" "$OUT/params" "$OUT/errors"
 
-ros2 topic list -t   > "$OUT/topic_list.txt"
-ros2 node list       > "$OUT/node_list.txt"
-ros2 action list -t  > "$OUT/action_list.txt"
-ros2 service list -t > "$OUT/service_list.txt"
+# Lists without the ROS 2 daemon (5 s of direct discovery): through the daemon a fresh launch was listed with
+# 3 of its nodes (tb3_waffle nav_robotis, 2026-10-17). ros2 action list has no --no-daemon option.
+ros2 topic list -t --no-daemon --spin-time 5   > "$OUT/topic_list.txt"
+ros2 node list --no-daemon --spin-time 5       > "$OUT/node_list.txt"
+ros2 action list -t                            > "$OUT/action_list.txt"
+ros2 service list -t --no-daemon --spin-time 5 > "$OUT/service_list.txt"
 
 # QoS (reliability/durability/depth) and publisher/subscriber counts per topic
 while read -r topic _; do
   f=$(echo "$topic" | sed 's#^/##; s#/#__#g')
-  timeout -k 2s 10 ros2 topic info -v "$topic" > "$OUT/qos/$f.txt" 2>&1
-done < <(ros2 topic list)
+  timeout -k 2s 15 ros2 topic info -v --no-daemon --spin-time 2 "$topic" > "$OUT/qos/$f.txt" 2>&1
+done < <(ros2 topic list --no-daemon --spin-time 5)
 
 # Message rates for the sensor and nav topics that exist, in sim time (ros2 topic hz --use-sim-time: the rate per
 # simulated second, from /clock). The 12 s timeout is wall clock; each file's first line names the clock used.
