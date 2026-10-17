@@ -69,7 +69,7 @@ export const LEVELS = { 1: "Beginner", 2: "Intermediate", 3: "Advanced" };
 
 export const TRACKS = [
   { id: "basics", title: "ROS 2 basics", blurb: "One idea each, from the terminal to topics, services and actions." },
-  { id: "robots", title: "Robot Missions & Parity Games", blurb: "Verified robot challenges and playground games." },
+  { id: "robots", title: "Robot Missions & Parity Games", blurb: "Robot challenges and playground games. Not yet validated against real ROS 2." },
 ];
 
 export const gameById = (id) => GAMES.find((g) => g.id === id);
