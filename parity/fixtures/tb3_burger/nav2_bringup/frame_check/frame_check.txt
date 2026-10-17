@@ -1,0 +1,15 @@
+# frame_check.py 2026-10-17T20:28:41+0530  map=/home/prasad/ros2lab-course/parity/fixtures/maps/turtlebot3_world.yaml  goals=parity/fixtures/goals.yaml
+# criterion: hit >= 0.8 within 2 cells (0.10 m), |amcl - start_pose| < 0.10 m, |TF - amcl| < 0.05 m
+scan stamp 13.002000000 frame base_scan: TF (-0.025, -0.005, yaw -0.010); 360 valid ranges, 359 near occupied, control 19
+scan stamp 13.200000000 frame base_scan: TF (-0.025, -0.005, yaw -0.010); 360 valid ranges, 359 near occupied, control 19
+scan stamp 13.401000000 frame base_scan: TF (-0.025, -0.005, yaw -0.010); 360 valid ranges, 359 near occupied, control 19
+scan stamp 13.602000000 frame base_scan: TF (-0.025, -0.005, yaw -0.010); 360 valid ranges, 359 near occupied, control 19
+scan 11.802000000: no TF map->base_scan within 2 s sim
+scan stamp 13.800000000 frame base_scan: TF (-0.025, -0.005, yaw -0.010); 360 valid ranges, 359 near occupied, control 19
+goals.yaml start_pose: (0.000, 0.000, yaw 0.000) frame map
+/amcl_pose: (0.039, -0.005, yaw -0.010) frame map stamp 2.802000000; cov xx 0.1799 yy 0.2167 yawyaw 0.0599
+TF map->base_footprint (latest): (0.039, -0.005, yaw -0.010)
+|amcl - start_pose| = 0.039 m; |TF - amcl| = 0.000 m
+scan hit fraction: 1795/1800 = 0.997 over 5 scans
+control (robot shifted by -2.0, -0.5): 95/1800 = 0.053
+VERDICT: VALID
