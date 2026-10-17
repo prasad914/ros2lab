@@ -42,6 +42,7 @@ Status values:
 - NOT BUILT / NOT VERIFIED – work in progress; never tested for parity.
 - FAILED – could not be made to work; the exact blocking error is recorded.
 "Verified" means all three evidence files exist in `parity/fixtures/<robot>/install_check/`: controllers active (`ros2 control list_controllers`), topic list, and motion proof (mobile: `/odom` changes under TwistStamped `/cmd_vel`; arm: `/joint_states` changes after a trajectory or MoveIt execution).
+Robots that drive through a Gazebo system plugin declared in the installed model.sdf instead of ros2_control (e.g. the TurtleBot3 Jazzy simulation, `gz::sim::systems::DiffDrive`) have no controller_manager, so `ros2 control list_controllers` cannot report one. For them the controller evidence is that SDF plugin line, saved in `controllers.txt` with its file line number, together with the topic list and the motion proof (instructor decision, 2026-10-17).
 Mobile robots (TurtleBot3 models, TurtleBot4, Scout) are judged with the navigation checks. Arms (UR5e, Franka FR3, xArm Lite 6, Interbotix WX250s, Dobot CR5) are NOT judged with navigation checks; they wait for the manipulation prompts (M-series, not in this kit yet).
 Order of work: TurtleBot3 first (P3 … P11), then other verified mobile robots.
 
