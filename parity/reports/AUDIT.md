@@ -168,3 +168,29 @@ Evidence commands were run from the repo root on branch `review-2026-10-17`. Not
   - Result: PASS, exit 0.
 - Still missing before a merge: the repo's own `tests/terminal-env-assignment.mjs` has not been run on that branch, and `master` has not been checked against it. The `git log` output for that branch also does not show whether the change was reviewed.
 - **Recommendation: do not merge yet.** It is a candidate, not a finished fix. Cherry-pick it onto `review-2026-10-17` in a separate commit, once the repo test runs on that branch and passes, and the rest of `tests/` (at least `node tools/security-check.mjs` and the Vitest suites) still passes.
+
+---
+
+## (g) Domain-41 captures written while stale stacks were running (21:02–05:39)
+
+Method (2026-10-17): `run_info.txt` header lines were read for every scenario under `parity/fixtures/tb3_burger/`. Files with mtime 2026-10-16 20:50 to 2026-10-17 05:45 were listed with `find -newermt`. The listing is by file mtime, so it is not the same as the content-based list in the earlier draft, and it counts only `parity/fixtures`.
+
+Domain recorded in every tb3_burger `run_info.txt`: `domain=41 partition=ref41` (5 of 5 scenarios).
+
+| Scenario | run_info `date=` | Files with mtime in window | Domain 41 confirmed? |
+|---|---|---|---|
+| `nav2_bringup` | 2026-10-16T21:02:50 | 18 | Yes, by `run_info.txt`. Stale-stack overlap is the question for the window. |
+| `nav_robotis` | 2026-10-16T21:03:01 | 22 | Yes, by `run_info.txt`. |
+| `sensors` | 2026-10-15T20:55:59 | 21 | `run_info.txt` says domain 41, but its date conflicts with the log (see below). |
+| `slam` | 2026-10-15T21:30:02 | 0 | Outside the window by mtime. |
+| `cartographer` | 2026-10-15T21:44:50 | 0 | Outside the window by mtime. |
+
+Total in window: 61 files (18 + 22 + 21), all under `parity/fixtures/tb3_burger/{nav2_bringup,nav_robotis,sensors}`.
+
+Two sensors files are in the window and do not confirm their domain:
+- `parity/fixtures/tb3_burger/sensors/action_list.txt` (mtime 2026-10-16 22:45): 0 lines. It is empty, so it cannot show which domain it came from.
+- `parity/fixtures/tb3_burger/sensors/logs/gazebo.log` (mtime 2026-10-16 22:49): the launch header is `/home/prasad/.ros/log/2026-10-16-22-45-16-948617-prasad-127149`. The header does not name a domain or partition.
+
+**Conflict to record:** `sensors/run_info.txt` has `date=2026-10-15T20:55:59`, but `sensors/logs/gazebo.log` shows a launch at 2026-10-16 22:45:16. The run_info file was also rewritten at 2026-10-17 05:44. The `date=` line therefore cannot be used alone to place the sensors capture before or after the stale-stack window. The gazebo.log launch time is inside the window.
+
+**Answer:** Captures written during the window are the 61 files above. Only the two sensors files can be placed by timestamp alone, and their domain is not confirmed from their content. Treat all 61 as contaminated until they are re-captured on a clean domain. Do not rely on the `date=` values in the three `run_info.txt` files that fall in the window until that is done.
