@@ -45,3 +45,26 @@ All 7 poses of `parity/fixtures/goals.yaml` on all 6 maps: `check_goals_on_map.p
 agrees with nav2_map_server's /map in 42 of 42 cases (`map/goals_check.md`, `map/goals_check_mapserver.txt`).
 `obstacle_goal` (1.87, 0.40) is FREE on both burger maps, OCCUPIED on the waffle and waffle_pi SLAM maps,
 and UNKNOWN on the waffle and waffle_pi Cartographer maps. goals.yaml is unchanged.
+
+## Provenance of the nav map (`parity/fixtures/maps/turtlebot3_world.yaml` / `.pgm`)
+
+This is the map the nav scenarios load (`start_reference.sh`, `MAP` default). It was not recaptured in this step.
+
+- Added in commit 17d3edc (2026-10-16 13:50 +0530, "P2 (partial): TB3 sensors, SLAM, cartographer, map, goals, …").
+- Step that made it: P2 step 2 in that commit's `parity/KICKOFF_PROMPT.md` (lines 53–54): tb3_burger slam, 3-minute timed
+  coverage route, "save the map with map_saver_cli to parity/fixtures/maps/turtlebot3_world".
+- Run: the tb3_burger `slam` run on domain 41 started `2026-10-15T21:30:02+05:30` (`tb3_burger/slam/run_info.txt` at 17d3edc).
+  That run's /map sample (`tb3_burger/slam/samples/map.yaml` at 17d3edc) has width 111, height 103, resolution
+  0.05000000074505806, origin (-0.9321783703860571, -2.0951667695681584); the yaml has 111 x 103 px, 0.050,
+  [-0.932, -2.095, 0].
+- Package versions recorded for that run: slam_toolbox 2.8.5-1noble.20260915.204151,
+  nav2_map_server 1.3.11-1noble.20260412.054646, turtlebot3_gazebo 2.3.7-1noble.20261006.041329, i.e. before the
+  2026-10-17 apt upgrade (nav2 1.3.13 now).
+- **UNVERIFIED:** that the .pgm pixels come from that exact moment of the run. The /map sample was echoed without
+  `--full-length` (data truncated, so the pixels cannot be compared), and that run's map_saver_cli output/log is not
+  committed (`*.log` is gitignored). Only the metadata (size, resolution, origin) can be tied to the run.
+- It is not the map shipped by an installed package: `turtlebot3_navigation2` 2.3.6-1noble.20261006.044113 ships
+  `map/map.yaml` with origin [-10, -10] and a different pgm.
+- Frame: the SLAM map frame starts at the robot's spawn pose; the 9 cylinders of the installed `turtlebot3_world/model.sdf`,
+  shifted by the spawn pose (-2.0, -0.5) from `turtlebot3_world.launch.py`, fall within 0.06 m of the occupied-cell
+  centroids in this map. goals.yaml positions are in this frame (start_pose = (0, 0)).
