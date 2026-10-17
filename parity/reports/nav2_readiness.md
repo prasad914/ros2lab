@@ -3,7 +3,8 @@
 Real ROS 2 Jazzy, tb3_burger, `nav_robotis` (`turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True`,
 map `parity/fixtures/maps/turtlebot3_world.yaml`), domain 41, REF_RENDER=egl. No `/initialpose` was published.
 Evidence: `parity/fixtures/tb3_burger/nav_robotis/readiness_deadlock_2026-10-17/excerpt.txt` (grep output with line
-numbers; the full `nav2.log`, `gazebo.log` and `runner.log` beside it are gitignored and kept on this machine).
+numbers) and `runner.txt` (every line of runner.log, from `log_excerpts.py`); the full `nav2.log`, `gazebo.log` and
+`runner.log` beside them are gitignored and kept on this machine.
 
 ## What real ROS does
 
@@ -20,8 +21,8 @@ numbers; the full `nav2.log`, `gazebo.log` and `runner.log` beside it are gitign
    - `[ERROR] [lifecycle_manager_navigation]: Failed to bring up all requested nodes. Aborting bringup.` (609)
 4. At 301 s wall: `lifecycle_manager_navigation` `is_active` is false; controller_server and smoother_server are
    active, planner_server, route_server, behavior_server, velocity_smoother, collision_monitor, bt_navigator,
-   waypoint_follower and docking_server are inactive (runner.log 10–11). The `navigate_to_pose` action server
-   exists (runner.log 8) although bt_navigator is inactive.
+   waypoint_follower and docking_server are inactive (`runner.txt` 10–11). The `navigate_to_pose` action server
+   exists (`runner.txt` 8) although bt_navigator is inactive.
 
 The timeout matches the global costmap's `initial_transform_timeout: 60.0` (captured params, 2026-10-15 snapshot;
 not set in the installed `burger.yaml`, so the Nav2 default). rviz2 message stamps put the activation at about
