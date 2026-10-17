@@ -2,7 +2,8 @@
 # run_nav_session.sh - One nav_robotis session: start, wait for Nav2 and localize, capture, send one goal, stop.
 # Usage: run_nav_session.sh <robot> <goal> [snapshot] [cmdvel]
 #   snapshot: capture_reference.sh snapshot and which nav2 params yaml the launch loaded
-#   cmdvel:   ros2 topic info /cmd_vel -v and ros2 interface show nav2_msgs/action/NavigateToPose
+#   cmdvel:   ros2 topic info /cmd_vel -v (with the daemon, and --no-daemon before and after the goal),
+#             ros2 interface show nav2_msgs/action/NavigateToPose
 # Out: parity/fixtures/<robot>/nav_robotis/session_<goal>/ (run_info.txt, logs/, snapshot/, goal_<goal>/,
 #      collision_monitor.log = its lines from logs/nav2.log)
 # The goal's result and feedback come from send_goal_capture.py; its planner_server / controller_server /
@@ -58,11 +59,19 @@ OUT_DIR=$S bash parity/scripts/start_reference.sh "$ROBOT" "$SCEN" $DOMAIN $PART
   if [ $CMDVEL = 1 ]; then
     say "/cmd_vel info and NavigateToPose interface"
     timeout -k 2s 15 ros2 topic info /cmd_vel -v > "$S/cmd_vel_info.txt" 2>&1
+    # Also without the ROS 2 daemon (direct discovery for 5 s): the daemon's graph can lag behind a fresh launch
+    timeout -k 2s 30 ros2 topic info /cmd_vel -v --no-daemon --spin-time 5 > "$S/cmd_vel_info_no_daemon.txt" 2>&1
+    timeout -k 2s 30 ros2 topic list -t --no-daemon --spin-time 5 > "$S/topic_list_no_daemon.txt" 2>&1
     timeout -k 2s 15 ros2 interface show nav2_msgs/action/NavigateToPose > "$S/NavigateToPose_interface.txt" 2>&1
   fi
 
   say "send $GOAL"
   python3 parity/scripts/send_goal_capture.py --goal "$GOAL" --out-dir "$G"
+  GRC=$?
+  if [ $CMDVEL = 1 ]; then
+    timeout -k 2s 30 ros2 topic info /cmd_vel -v --no-daemon --spin-time 5 > "$S/cmd_vel_info_no_daemon_after_goal.txt" 2>&1
+  fi
+  exit $GRC
 )
 RC=$?
 
