@@ -289,7 +289,6 @@ export function planPath(g, start, goal, opts = {}) {
   if (!s) return { code: 203, message: `Start Coordinates of(${start.x.toFixed(6)}, ${start.y.toFixed(6)}) was outside bounds` };
   const gm = g.toMap(goal.x, goal.y);
   if (!gm) return { code: 204, message: `Goal Coordinates of(${goal.x.toFixed(6)}, ${goal.y.toFixed(6)}) was outside bounds` };
-  if (g.data[gm[1] * W + gm[0]] >= INSCRIBED) return { code: 208, message: `GridBased: failed to create plan with tolerance of: ${tolerance.toFixed(6)}` };
   if (tolerance === 0 && g.data[gm[1] * W + gm[0]] === LETHAL) return { code: 206, message: `Goal Coordinates of(${goal.x.toFixed(6)}, ${goal.y.toFixed(6)}) was in lethal cost` };
   const passable = (c) => c < INSCRIBED || (c === NO_INFO && allowUnknown);
   const stepCost = (c) => {

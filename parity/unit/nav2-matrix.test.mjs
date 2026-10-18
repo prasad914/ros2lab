@@ -52,15 +52,17 @@ describe("Nav2 Algorithm & Matrix Parity (Spec S4 / Prompt P4)", () => {
     expect(navfnStr).not.toEqual(smacStr);
   });
 
-  it("fails planning when goal is in lethal/inscribed obstacle cell, returning error code 208", () => {
+  // tolerance 0 and a lethal goal cell: the planner's GOAL_OCCUPIED branch (206). With a tolerance the planner searches
+  // around the goal instead (parity/unit/nav2-obstacle-goal.test.mjs, expert_review_2026-10-18 must-fix 4)
+  it("fails planning when goal is in a lethal obstacle cell with tolerance 0, returning error code 206", () => {
     const grid = createMockGrid();
     const start = { x: 0.5, y: 0.5, yaw: 0 };
     // Obstacle is placed at grid cells [45..55, 45..55] -> world [2.25..2.75, 2.25..2.75]
     const obstacleGoal = { x: 2.5, y: 2.5, yaw: 0 };
 
     const res = C.planPath(grid, start, obstacleGoal, { kind: "navfn", tolerance: 0.0 });
-    expect(res.code).toBe(208);
-    expect(res.message).toContain("failed to create plan");
+    expect(res.code).toBe(206);
+    expect(res.message).toBe("Goal Coordinates of(2.500000, 2.500000) was in lethal cost");
   });
 
   it("RotationShim controller commands pure rotation when heading error > threshold", () => {
