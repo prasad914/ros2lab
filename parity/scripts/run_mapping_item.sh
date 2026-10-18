@@ -5,7 +5,8 @@
 # ROS_DOMAIN_ID=41 process is alive before start and after every stop.
 # Usage: run_mapping_item.sh <robot> <slam|cartographer|scenario>
 # Optional env: DOMAIN (default 41), PARTITION (default ref41), GOALS_YAML (default parity/fixtures/goals.yaml;
-#   "none" skips the goals checks, e.g. when the robot's goals are defined on a different map)
+#   "none" skips the goals checks, e.g. when the robot's goals are defined on a different map),
+#   MAP_SAVE_TIMEOUT (map_saver_cli save_map_timeout in s; unset = the program's default)
 set -u
 ROBOT=$1; SCEN=$2; D=${DOMAIN:-41}; P=${PARTITION:-ref41}; GOALS=${GOALS_YAML:-parity/fixtures/goals.yaml}
 cd "$(dirname "$0")/../.." || exit 1
@@ -39,7 +40,7 @@ parity/scripts/start_reference.sh "$ROBOT" "$SCEN" $D $P || exit 1
   timeout -k 2s 6 ros2 run tf2_ros tf2_echo map odom > "$OUT/tf_echo_map_odom.txt" 2>&1
   mkdir -p "$MAPD"
   say "map_saver_cli"
-  timeout -k 2s 30 ros2 run nav2_map_server map_saver_cli -f "$MAPD/map" --ros-args -p use_sim_time:=True > "$MAPD/map_saver.log" 2>&1
+  timeout -k 2s 60 ros2 run nav2_map_server map_saver_cli -f "$MAPD/map" --ros-args -p use_sim_time:=True ${MAP_SAVE_TIMEOUT:+-p save_map_timeout:=$MAP_SAVE_TIMEOUT} > "$MAPD/map_saver.log" 2>&1
   echo "map_saver_cli exit=$?" >> "$MAPD/map_saver.log"
 ) 2>&1
 say "stop_reference.sh $D"
