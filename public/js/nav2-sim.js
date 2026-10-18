@@ -694,7 +694,7 @@ class VelocitySmoother extends NavNode {
   }
 }
 class CollisionMonitor extends NavNode {
-  constructor(sys, desc) { super(sys, "collision", desc); this.announce(); this.stateTxt = ""; }
+  constructor(sys, desc) { super(sys, "collision", desc); this.announce(null); this.stateTxt = ""; }   // no "Creating" line (nav_robotis/logs/nav2.log:147-275)
   stamped() { return bool(this.P.enable_stamped_cmd_vel, false); }   // Jazzy default false (nav2_util twist_publisher.hpp)
   endpoints() {
     const T = this.stamped() ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist", e = { subs: [[String(this.P.cmd_vel_in_topic || "cmd_vel_smoothed"), T]], pubs: [[String(this.P.cmd_vel_out_topic || "cmd_vel"), T], [String(this.P.state_topic || "collision_monitor_state"), "nav2_msgs/msg/CollisionMonitorState"]] };
@@ -709,7 +709,17 @@ class CollisionMonitor extends NavNode {
       return { name, type: String(p.type || "polygon"), action: String(p.action_type || "stop"), radius: num(p.radius, 0), pts, min: num(p.min_points, 4), slow: num(p.slowdown_ratio, 0.5), lin: num(p.linear_limit, 0.5), ang: num(p.angular_limit, 0.5), tbc: num(p.time_before_collision, 2.0), step: num(p.simulation_time_step, 0.1), enabled: bool(p.enabled, true), visualize: bool(p.visualize, false), pubTopic: String(p.polygon_pub_topic || name), footprintTopic: p.footprint_topic ? String(p.footprint_topic) : null };
     }).filter((p) => p.enabled);
   }
-  onConfigure() { this.polys = this.polygons(); return true; }
+  // the setup lines of nav2_collision_monitor (tb3_burger/nav_robotis/logs/nav2.log:275-282): sources, then polygons
+  onConfigure() {
+    for (const src of [].concat(this.P.observation_sources || [])) { const t = String((this.P[src] || {}).type || "scan"); this.info(`[${src}]: Creating ${{ scan: "Scan", pointcloud: "PointCloud", range: "Range", polygon: "PolygonSource" }[t] || t}`); }
+    for (const name of [].concat(this.P.polygons || [])) {
+      const p = this.P[name] || {};
+      this.info(`[${name}]: Creating Polygon`);
+      if (String(p.type || "polygon") === "circle") this.info(`[${name}]: Creating Circle`);
+      else if (!p.points && p.footprint_topic) { this.info(`[${name}]: Polygon points are not defined. Using dynamic subscription instead.`); this.info(`[${name}]: Making footprint subscriber on ${p.footprint_topic} topic`); }
+    }
+    this.polys = this.polygons(); return true;
+  }
   cmdIn() { return this.state === "active" ? this.resolve(String(this.P.cmd_vel_in_topic || "cmd_vel_smoothed")) : null; }
   onTwist(v) {
     let out = { ...v }, why = "Robot to continue normal operation";
