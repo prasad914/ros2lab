@@ -3,6 +3,7 @@
   "note": "joint1 +0.0000 -> +0.3000, others held, plan + execute",
   "group": "lite6",
   "plan_only": false,
+  "num_planning_attempts": 1,
   "velocity_scaling": 0.5,
   "goal_joints": {
     "joint1": 0.3,
@@ -21,7 +22,7 @@
     "joint5": 0.0,
     "joint6": 0.0
   },
-  "send_wall": 1792302066.8516142,
+  "send_wall": 1792344179.3779945,
   "accepted": true,
   "status": 4,
   "error_code": 1,
@@ -38,15 +39,15 @@
       "joint6"
     ],
     "points": 6,
-    "last_time_from_start": 0.494333974
+    "last_time_from_start": 0.494470732
   },
-  "result_wall": 1792302067.6949918,
+  "result_wall": 1792344180.1109028,
   "joint_states_after": {
-    "joint1": 0.2999333441257477,
-    "joint2": -0.0005899009993299842,
-    "joint3": 0.0009401163551956415,
-    "joint4": 0.0006602296489290893,
-    "joint5": 0.00023588618205394596,
-    "joint6": -0.00032480803201906383
+    "joint1": 0.2999604642391205,
+    "joint2": -0.00014544784789904952,
+    "joint3": 0.00020559913536999375,
+    "joint4": 0.00033191475085914135,
+    "joint5": -0.0005798348574899137,
+    "joint6": 0.0004261830181349069
   }
 }

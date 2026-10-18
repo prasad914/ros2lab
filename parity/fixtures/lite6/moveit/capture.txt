@@ -7,9 +7,10 @@ pose_goal: accepted=True error_code=1 SUCCESS points=9
 fail_unreachable_pose: accepted=True error_code=-6 TIMED_OUT points=0
 fail_joint_outside_limits: accepted=True error_code=1 SUCCESS points=30
 reset_before_collision: accepted=True error_code=1 SUCCESS points=9
-fail_goal_in_collision: accepted=True error_code=-10 START_STATE_IN_COLLISION points=0
+collision case not run: no goal offset with a valid start state and an invalid goal state
+collision checks: start valid True, used offset None, box removed None
 reset_before_wrong_group: accepted=True error_code=1 SUCCESS points=2
 fail_wrong_group: accepted=True error_code=-1 PLANNING_FAILED points=0
-reset_before_controller_inactive: accepted=True error_code=1 SUCCESS points=1
-fail_controller_inactive: accepted=True error_code=-4 CONTROL_FAILED points=6
+reset_before_controller_inactive: accepted=True error_code=1 SUCCESS points=2
+fail_controller_inactive: accepted=True error_code=-4 CONTROL_FAILED points=5
 controller lite6_traj_controller reactivated: True

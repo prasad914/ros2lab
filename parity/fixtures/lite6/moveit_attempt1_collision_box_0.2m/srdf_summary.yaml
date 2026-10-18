@@ -1,0 +1,28 @@
+source: parameters robot_description_semantic / robot_description of /move_group
+robot: UF_ROBOT
+groups:
+  lite6:
+    joints:
+    - world_joint
+    - joint1
+    - joint2
+    - joint3
+    - joint4
+    - joint5
+    - joint6
+    - joint_eef
+    chains: []
+    links: []
+    subgroups: []
+group_states:
+- name: home
+  group: lite6
+  joints:
+    joint1: 0.0
+    joint2: 0.0
+    joint3: 0.0
+    joint4: 0.0
+    joint5: 0.0
+    joint6: 0.0
+end_effectors: []
+virtual_joints: []

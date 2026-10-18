@@ -1,0 +1,52 @@
+{
+  "name": "fail_joint_outside_limits",
+  "note": "joint1 = URDF upper limit 3.1101767270538954 + 0.5 rad, plan only (MoveIt may clamp it to the bound)",
+  "group": "lite6",
+  "plan_only": true,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "joint1": 3.6101767270538954,
+    "joint2": 0.6096532344818115,
+    "joint3": 0.13049493730068207,
+    "joint4": -0.010565369389951229,
+    "joint5": -0.48783525824546814,
+    "joint6": 0.0074652452021837234
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "joint1": 0.30255138874053955,
+    "joint2": 0.6096532344818115,
+    "joint3": 0.13049493730068207,
+    "joint4": -0.010565369389951229,
+    "joint5": -0.48783525824546814,
+    "joint6": 0.0074652452021837234
+  },
+  "send_wall": 1792302077.0045514,
+  "accepted": true,
+  "status": 4,
+  "error_code": 1,
+  "error_code_name": "SUCCESS",
+  "error_message": "",
+  "planning_time": 0.012180874999999999,
+  "trajectory": {
+    "joint_names": [
+      "joint1",
+      "joint2",
+      "joint3",
+      "joint4",
+      "joint5",
+      "joint6"
+    ],
+    "points": 30,
+    "last_time_from_start": 2.837948914
+  },
+  "result_wall": 1792302077.0584846,
+  "joint_states_after": {
+    "joint1": 0.30255138874053955,
+    "joint2": 0.6096532344818115,
+    "joint3": 0.13049493730068207,
+    "joint4": -0.010565369389951229,
+    "joint5": -0.48783525824546814,
+    "joint6": 0.0074652452021837234
+  }
+}
