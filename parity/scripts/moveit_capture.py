@@ -45,7 +45,7 @@ class Cap(Node):
         super().__init__('parity_moveit_capture')
         self.a = a
         self.js = None
-        self.create_subscription(JointState, '/joint_states', lambda m: setattr(self, 'js', m), 10)
+        self.create_subscription(JointState, a.joint_states, lambda m: setattr(self, 'js', m), 10)
         self.ac = ActionClient(self, MoveGroup, '/move_action')
         # /rosout of every node (move_group logs there even when its launch file sends its output to "log" only)
         from rcl_interfaces.msg import Log
@@ -128,7 +128,7 @@ class Cap(Node):
     def switch(self, activate, deactivate):
         req = SwitchController.Request(activate_controllers=activate, deactivate_controllers=deactivate,
                                        strictness=SwitchController.Request.STRICT)
-        r = self.call(self.create_client(SwitchController, '/controller_manager/switch_controller'), req)
+        r = self.call(self.create_client(SwitchController, f'{self.a.controller_manager}/switch_controller'), req)
         return bool(r and r.ok)
 
     def goal(self, group, joints=None, pose=None, plan_only=False):
@@ -278,6 +278,8 @@ def main():
     ap.add_argument('--ee-link', required=True)
     ap.add_argument('--controller', required=True)
     ap.add_argument('--log', default='')
+    ap.add_argument('--joint-states', default='/joint_states', help='e.g. /wx250s/joint_states')
+    ap.add_argument('--controller-manager', default='/controller_manager', help='e.g. /wx250s/controller_manager')
     ap.add_argument('--velocity-scaling', type=float, default=0.5)
     ap.add_argument('--skip', default='', help='comma-separated run names to skip')
     ap.add_argument('--excerpts-only', action='store_true', help='only rewrite move_group_lines.txt of the runs in --out')

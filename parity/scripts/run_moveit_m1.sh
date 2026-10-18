@@ -4,6 +4,7 @@
 # MoveIt config files of <moveit_pkg> to parity/fixtures/_installed/<moveit_pkg>/ with the package version, run
 # moveit_capture.py, stop, and check the domain is empty before start and after stop.
 # Usage: run_moveit_m1.sh <arm> <scenario> <domain> <partition> <moveit_pkg> <group> <ee_link> <controller> [capture args]
+# env CM=<controller manager> (default /controller_manager) is used for list_controllers.
 # ROS_DOMAIN_ID is set only on the ROS commands, never exported in this shell (stop_reference.sh would find it).
 set -u
 ARM=$1 SCEN=$2 D=$3 P=$4 PKG=$5 GROUP=$6 EE=$7 CTRL=$8; shift 8
@@ -33,7 +34,7 @@ say "move_group params: $(grep -c '' "$OUT/move_group_params.yaml") lines"
 { echo "# ros2 topic list -t --no-daemon --spin-time 5"; R timeout 30 ros2 topic list -t --no-daemon --spin-time 5; } > "$OUT/topic_list.txt" 2>&1
 { echo "# ros2 action list -t (no --no-daemon option)"; R timeout 30 ros2 action list -t; } > "$OUT/action_list.txt" 2>&1
 { echo "# ros2 service list -t --no-daemon --spin-time 5"; R timeout 30 ros2 service list -t --no-daemon --spin-time 5; } > "$OUT/service_list.txt" 2>&1
-{ echo "# ros2 control list_controllers"; R timeout 30 ros2 control list_controllers; } > "$OUT/controllers.txt" 2>&1
+{ echo "# ros2 control list_controllers ${CM:+-c $CM}"; R timeout 30 ros2 control list_controllers ${CM:+-c $CM}; } > "$OUT/controllers.txt" 2>&1
 ( cd "$OUT" && R timeout -k 2s 20 ros2 run tf2_tools view_frames > view_frames.log 2>&1 )
 # installed MoveIt config files (srdf, kinematics, joint_limits, ompl, controllers) with the package version
 SHARE=$(R ros2 pkg prefix "$PKG" 2>/dev/null)/share/$PKG
