@@ -161,6 +161,7 @@ class NavNode {
     const dbl = C.doubleParams(this.sources, ...this.paramKey);
     n.ptypes = { ...(n.ptypes || {}) }; for (const k of dbl) if (typeof n.params[k] === "number") n.ptypes[k] = "double";
     if (n.params.use_sim_time === undefined) n.params.use_sim_time = false;
+    if (typeof this.stamped === "function" && n.params.enable_stamped_cmd_vel === undefined) n.params.enable_stamped_cmd_vel = false;   // declared with its default (cmd_vel_params.txt: "Boolean value is: False")
     n.remaps = this.remaps; n.nav2 = this; n.lstate = this.lifecycleNode ? this.state : undefined;
     n.info = { pubs: [], subs: [], srvs: [], cli: [], acts: [], actc: [], lifecycle: this.lifecycleNode, lcLogs: {} };
     this.n = n; this.refreshEndpoints();
@@ -538,7 +539,7 @@ class ControllerServer extends NavNode {
     this.vel = { vx: 0, wz: 0 };
   }
   get ids() { return [].concat(this.P.controller_plugins || ["FollowPath"]); }
-  stamped() { return bool(this.P.enable_stamped_cmd_vel, true); }
+  stamped() { return bool(this.P.enable_stamped_cmd_vel, false); }   // Jazzy default false (nav2_util twist_publisher.hpp)
   endpoints() { return { subs: [["odom", "nav_msgs/msg/Odometry", BE], ["speed_limit", "nav2_msgs/msg/SpeedLimit"]], pubs: [["cmd_vel", this.stamped() ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist"], ["local_plan", "nav_msgs/msg/Path"], ["received_global_plan", "nav_msgs/msg/Path"], ["transformed_global_plan", "nav_msgs/msg/Path"], ["evaluation", "dwb_msgs/msg/LocalPlanEvaluation"], ["marker", "visualization_msgs/msg/MarkerArray"], ["cost_cloud", "sensor_msgs/msg/PointCloud2"]], acts: [["follow_path", "nav2_msgs/action/FollowPath"]] }; }
   onConfigure() {
     const P = this.P;
@@ -623,7 +624,7 @@ class ControllerServer extends NavNode {
 class BehaviorServer extends NavNode {
   constructor(sys, desc) { super(sys, "behavior", desc); this.announce(); }
   get ids() { return [].concat(this.P.behavior_plugins || ["spin", "backup", "drive_on_heading", "wait"]); }
-  stamped() { return bool(this.P.enable_stamped_cmd_vel, true); }
+  stamped() { return bool(this.P.enable_stamped_cmd_vel, false); }   // Jazzy default false (nav2_util twist_publisher.hpp)
   actionType(id) { const pl = String((this.P[id] || {}).plugin || id); const t = pl.split(/::|\//).pop(); return `nav2_msgs/action/${{ Spin: "Spin", BackUp: "BackUp", DriveOnHeading: "DriveOnHeading", Wait: "Wait", AssistedTeleop: "AssistedTeleop" }[t] || t}`; }
   endpoints() { return { pubs: [["cmd_vel", this.stamped() ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist"]], subs: [[String(this.P.local_costmap_topic || "local_costmap/costmap_raw"), "nav2_msgs/msg/Costmap", TL], [String(this.P.local_footprint_topic || "local_costmap/published_footprint"), "geometry_msgs/msg/PolygonStamped", BE], [String(this.P.global_costmap_topic || "global_costmap/costmap_raw"), "nav2_msgs/msg/Costmap", TL], [String(this.P.global_footprint_topic || "global_costmap/published_footprint"), "geometry_msgs/msg/PolygonStamped", BE]], acts: this.ids.map((id) => [id, this.actionType(id)]) }; }
   onConfigure() { for (const id of this.ids) this.info(`Creating behavior plugin ${id} of type ${(this.P[id] || {}).plugin || id}`); for (const id of this.ids) this.info(`Configuring ${id}`); return true; }
@@ -672,7 +673,7 @@ class BehaviorServer extends NavNode {
 // ---------------------------------------------------------------- velocity_smoother / collision_monitor
 class VelocitySmoother extends NavNode {
   constructor(sys, desc) { super(sys, "velsmoother", desc); this.announce(); this.out = { vx: 0, wz: 0 }; this.target = null; }
-  stamped() { return bool(this.P.enable_stamped_cmd_vel, true); }
+  stamped() { return bool(this.P.enable_stamped_cmd_vel, false); }   // Jazzy default false (nav2_util twist_publisher.hpp)
   endpoints() { const T = this.stamped() ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist"; return { subs: [["cmd_vel", T], ...(String(this.P.feedback || "OPEN_LOOP") === "CLOSED_LOOP" ? [[String(this.P.odom_topic || "odom"), "nav_msgs/msg/Odometry"]] : [])], pubs: [["cmd_vel_smoothed", T]] }; }
   onConfigure() { this.info("Configuring velocity smoother"); const fb = String(this.P.feedback || "OPEN_LOOP"); if (!["OPEN_LOOP", "CLOSED_LOOP"].includes(fb)) { this.error("Invalid feedback_type, options are OPEN_LOOP and CLOSED_LOOP."); return false; } return true; }
   cmdIn() { return this.state === "active" ? this.resolve("cmd_vel") : null; }
@@ -694,7 +695,7 @@ class VelocitySmoother extends NavNode {
 }
 class CollisionMonitor extends NavNode {
   constructor(sys, desc) { super(sys, "collision", desc); this.announce(); this.stateTxt = ""; }
-  stamped() { return bool(this.P.enable_stamped_cmd_vel, true); }
+  stamped() { return bool(this.P.enable_stamped_cmd_vel, false); }   // Jazzy default false (nav2_util twist_publisher.hpp)
   endpoints() {
     const T = this.stamped() ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist", e = { subs: [[String(this.P.cmd_vel_in_topic || "cmd_vel_smoothed"), T]], pubs: [[String(this.P.cmd_vel_out_topic || "cmd_vel"), T], [String(this.P.state_topic || "collision_monitor_state"), "nav2_msgs/msg/CollisionMonitorState"]] };
     for (const s of [].concat(this.P.observation_sources || [])) { const sp = this.P[s] || {}; e.subs.push([String(sp.topic || "/scan"), sp.type === "pointcloud" ? "sensor_msgs/msg/PointCloud2" : sp.type === "range" ? "sensor_msgs/msg/Range" : "sensor_msgs/msg/LaserScan", BE]); }
