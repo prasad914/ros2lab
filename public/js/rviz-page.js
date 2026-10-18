@@ -13,6 +13,7 @@ import { PKG_SOURCES } from "./pkg-sources.js";
 import { licenseStatus, cachedLicense, licensed, licenseMessage, requestLicense } from "./hw-license.js";
 import { TfBuffer } from "./tf-buffer.js";
 import { FrameManager } from "./frame-manager.js";
+import { FIXTURE_STATUS } from "./games/fixture-status.js";
 
 const ROBOT = typeof location !== "undefined" ? (new URLSearchParams(location.search).get("robot") || "") : "";
 const tfRegistry = new TfBuffer({ robotId: ROBOT });
@@ -586,6 +587,28 @@ function loadCfg() {
 function saveCfg() {
   try { localStorage.setItem(CFG_KEY, JSON.stringify({ what: document.querySelector("input[name=what]:checked").value, lf: document.querySelector("input[name=lf]:checked").value })); } catch { /* storage off */ }
 }
+// "Not yet validated against real ROS 2" (expert_review_robots_2026-10-18 site-wide #2): a robot is validated only
+// where its fixture parity checks passed against real ROS 2 Jazzy (games/fixture-status.js, generated from
+// parity/reports/fixture_parity.md). TurtleBot3 is labelled per command: a page command is validated only when
+// the fixture checks it depends on passed.
+const UNVALIDATED = "Not yet validated against real ROS 2";
+const fixtureChecks = (id) => (FIXTURE_STATUS.robots || {})[id] || null;
+const robotValidated = (id) => { const f = fixtureChecks(id); return !!f && Object.values(f).some((c) => c && c.pass); };
+// the TurtleBot3 page commands that the fixture suites cover (sensors / TF of turtlebot3_world, SLAM, Nav2, teleop)
+const CMD_CHECKS = [[/turtlebot3_gazebo turtlebot3_world\.launch\.py/, ["SENS", "TF"]], [/turtlebot3_cartographer cartographer\.launch\.py/, ["SLAM"]],
+  [/nav2_map_server map_saver_cli/, ["SLAM"]], [/turtlebot3_navigation2 navigation2\.launch\.py/, ["NAV", "AMCL"]], [/turtlebot3_teleop teleop_keyboard/, ["SENS"]]];
+function cmdValidated(id, cmd) {
+  const f = fixtureChecks(id); if (!f) return false;
+  const c = CMD_CHECKS.find(([re]) => re.test(cmd));
+  return !!c && c[1].every((k) => f[k] && f[k].pass);
+}
+// a line of labels on the robot card (data-badges: the card's labels are painted)
+function cardBadges(texts) {
+  const box = $("robot-card").querySelector("[data-badges]") || Object.assign(document.createElement("p"), { className: "rvp-badges small" });
+  box.setAttribute("data-badges", "");
+  box.replaceChildren(...texts.map((t) => Object.assign(document.createElement("span"), { className: "rvp-badge", textContent: t })));
+  const host = $("robot-name").parentElement; if (!box.parentElement) host.insertBefore(box, $("pkg-about"));
+}
 async function robotCard(g) {
   const { categoryOf, CATEGORIES } = await import("./sim-catalog.js");
   const cat = categoryOf(g), C = CATEGORIES.find((c) => c.id === cat);
@@ -618,6 +641,9 @@ gallery().then(async (list) => {
     const W = await workspaceFor(g.id);
     if (W) { await openRealWorkspace(g, W); return; }
   } catch (e) { term.say(`(The official workspace of ${g.title} could not load: ${e.message}. Using the practice packages instead.)`); }
+  // no maker workspace
+  cardBadges(robotValidated(g.id) ? [] : [UNVALIDATED]);
+  if (!robotValidated(g.id)) { const p = Object.assign(document.createElement("p"), { className: "small rvp-unval", textContent: `${UNVALIDATED}: these launch files and configs were made by ROS2Lab and have not been compared with a real ROS 2 run.` }); $("go").parentElement.before(p); }
   try { const p = await galleryPackage(g); p.mainPath = `urdf/${p.main}`; p.robotId = g.id; await usePackage(p, g.title); loadCfg(); paintCommands(); }
   catch (e) { term.say(`(Could not load ${g.title}: ${e.message})`); }
 });
@@ -634,6 +660,8 @@ async function openRealWorkspace(g, W) {
   if (lead) lead.textContent = `This page has the maker's own ROS 2 Jazzy workspace for ${g.title}, cloned from GitHub at pinned commits. Build it with colcon, source it, and start it with the same ros2 launch commands as on Ubuntu: the real launch files run, and Gazebo, RViz2, ros2_control, Nav2 and MoveIt 2 are ROS2Lab's models of those programs.`;
   $("pkg-about").textContent = `${(g.about || "").replace(/\s*sim(_control)?\.launch\.py[^.]*\./g, "").trim()} `;
   $("real-about").textContent = `${ws.title}. ${ws.repos.length} repositor${ws.repos.length === 1 ? "y" : "ies"} at pinned commits, ${ws.packages.length} packages, in ~/ros2_ws/src.`;
+  cardBadges(robotValidated(g.id) ? [] : [UNVALIDATED]);
+  if (ws.honesty && !$("real-honesty")) { const h = Object.assign(document.createElement("p"), { id: "real-honesty", className: "small muted", textContent: ws.honesty }); $("real-about").after(h); }
   $("real-repos").replaceChildren(...ws.repos.map((r) => { const li = document.createElement("li"), a = document.createElement("a"); a.href = `${r.url}/tree/${r.commit}`; a.target = "_blank"; a.rel = "noopener"; a.textContent = r.url.replace(/^https:\/\/github.com\//, ""); li.append(a, ` @ ${r.commit.slice(0, 8)} (${r.branch}, ${r.license})`); return li; }));
   // environment the maker's instructions ask for (e.g. TURTLEBOT3_MODEL)
   const envCmds = Object.entries(R.env).map(([k, v]) => `export ${k}=${v}`);
@@ -649,6 +677,7 @@ async function openRealWorkspace(g, W) {
   const button = (e, isReal) => {
     const b = document.createElement("button"); b.type = "button"; b.className = `btn btn-small ${isReal ? "btn-hw" : "btn-white"}`; b.setAttribute("role", "listitem");
     b.replaceChildren(Object.assign(document.createElement("b"), { textContent: e.title || e.kind }), document.createElement("br"), Object.assign(document.createElement("code"), { textContent: e.cmd }));
+    if (isReal || !cmdValidated(g.id, e.cmd)) { b.append(document.createElement("br"), Object.assign(document.createElement("span"), { className: "rvp-unval", textContent: UNVALIDATED })); }
     b.addEventListener("click", () => runEntry(e, isReal));
     return b;
   };

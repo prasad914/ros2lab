@@ -90,5 +90,8 @@
 .rvp-entries .btn br { display: none; }
 .rvp-entries .btn code { font-size: .72rem; overflow-wrap: anywhere; background: none; padding: 0; color: var(--ink-soft); }
 .rvp-entries .btn-hw { border-color: #C2410C; }
+.rvp-badges { display: flex; flex-wrap: wrap; gap: .3rem; margin: .2rem 0 .4rem; }
+.rvp-badge { display: inline-block; padding: .1rem .5rem; border: 1px solid #B45309; border-radius: 999px; color: #92400E; background: #FFFBEB; font-weight: 600; }
+.rvp-unval { color: #92400E; font-size: .85em; font-weight: 600; }
 .rvp-entries .btn-hw b::before { content: "⚠ "; color: #C2410C; }
 .cat-facts li.off { background: #E8F5EC; }
