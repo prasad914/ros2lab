@@ -13,6 +13,10 @@ state, inside its limits), one pose goal (--ee-link 0.05 m lower than now, orien
 Failure runs: unreachable pose (10 m away), joint goal outside the joint limits (upper + 0.5 rad), a goal colliding
 with a box added through /apply_planning_scene, a wrong planning group name, and execution with the arm controller
 deactivated (controller_manager/switch_controller; reactivated afterwards).
+Collision case: the start state is checked with /check_state_validity first; a small box is placed around the end
+effector at the goal only, and the start state must still be valid with the box (else the next goal offset is tried);
+the goal is planned with 1 and with 10 planning attempts; then the box is removed and /get_planning_scene must no
+longer list it. Every check is written to runs/collision_checks.json.
 OMPL is random: only codes, states, counts and durations are recorded, never paths. Nothing is estimated.
 Usage: moveit_capture.py --out DIR --group G --ee-link L --controller C [--log FILE] [--velocity-scaling 0.5]
 """
@@ -28,8 +32,8 @@ from controller_manager_msgs.srv import SwitchController
 from geometry_msgs.msg import Pose, PoseStamped
 from moveit_msgs.action import MoveGroup
 from moveit_msgs.msg import (CollisionObject, Constraints, JointConstraint, MoveItErrorCodes, OrientationConstraint,
-                             PlanningScene, PositionConstraint, RobotState)
-from moveit_msgs.srv import ApplyPlanningScene, GetPositionFK
+                             PlanningScene, PlanningSceneComponents, PositionConstraint, RobotState)
+from moveit_msgs.srv import ApplyPlanningScene, GetPlanningScene, GetPositionFK, GetStateValidity
 from rcl_interfaces.msg import ParameterType
 from rcl_interfaces.srv import GetParameters, ListParameters
 from rclpy.action import ActionClient
@@ -125,17 +129,34 @@ class Cap(Node):
         r = self.call(self.create_client(ApplyPlanningScene, '/apply_planning_scene'), ApplyPlanningScene.Request(scene=ps))
         return bool(r and r.success)
 
+    def valid(self, group, joints):
+        """/check_state_validity of a full joint state: (valid, contacts as 'a - b' strings), or (None, []) without answer"""
+        req = GetStateValidity.Request(group_name=group)
+        req.robot_state.joint_state.name = list(joints)
+        req.robot_state.joint_state.position = [float(v) for v in joints.values()]
+        r = self.call(self.create_client(GetStateValidity, '/check_state_validity'), req)
+        if r is None:
+            return None, []
+        return bool(r.valid), sorted({f'{c.contact_body_1} - {c.contact_body_2}' for c in r.contacts})
+
+    def world_objects(self):
+        """ids of the collision objects in move_group's planning scene (/get_planning_scene), or None without answer"""
+        req = GetPlanningScene.Request()
+        req.components.components = PlanningSceneComponents.WORLD_OBJECT_NAMES
+        r = self.call(self.create_client(GetPlanningScene, '/get_planning_scene'), req)
+        return None if r is None else [o.id for o in r.scene.world.collision_objects]
+
     def switch(self, activate, deactivate):
         req = SwitchController.Request(activate_controllers=activate, deactivate_controllers=deactivate,
                                        strictness=SwitchController.Request.STRICT)
         r = self.call(self.create_client(SwitchController, f'{self.a.controller_manager}/switch_controller'), req)
         return bool(r and r.ok)
 
-    def goal(self, group, joints=None, pose=None, plan_only=False):
+    def goal(self, group, joints=None, pose=None, plan_only=False, attempts=1):
         g = MoveGroup.Goal()
         r = g.request
         r.group_name = group
-        r.num_planning_attempts = 1
+        r.num_planning_attempts = attempts
         r.allowed_planning_time = 5.0
         r.max_velocity_scaling_factor = self.a.velocity_scaling
         r.max_acceleration_scaling_factor = self.a.velocity_scaling
@@ -165,6 +186,7 @@ class Cap(Node):
         os.makedirs(d, exist_ok=True)
         before = self.joints_now()
         res = {'name': name, 'note': note, 'group': goal.request.group_name, 'plan_only': goal.planning_options.plan_only,
+               'num_planning_attempts': goal.request.num_planning_attempts,
                'velocity_scaling': goal.request.max_velocity_scaling_factor,
                'goal_joints': {c.joint_name: c.position for c in goal.request.goal_constraints[0].joint_constraints},
                'goal_pose': None, 'joint_states_before': before}
@@ -363,19 +385,53 @@ def main():
             n.run(f'reset_{tag}', n.goal(a.group, joints=states[0]['joints']), f"back to named state {states[0]['name']}")
     reset('before_collision')
     cur = n.joints_now()
-    # collision: a box around the end effector position of a joint goal, then plan to that goal
-    tgt2 = {j: cur[j] for j in gj}
-    tgt2[j0] = cur[j0] + 0.4 if not ('upper' in L[j0] and cur[j0] + 0.4 > L[j0]['upper']) else cur[j0] - 0.4
-    pe = n.fk(a.ee_link, {**cur, **tgt2})
-    if pe:
-        box = CollisionObject(id='parity_box', operation=CollisionObject.ADD)
-        box.header = pe.header
-        box.primitives.append(SolidPrimitive(type=SolidPrimitive.BOX, dimensions=[0.2, 0.2, 0.2]))
-        box.primitive_poses.append(pe.pose)
-        added = n.scene([box])
-        r = n.run('fail_goal_in_collision', n.goal(a.group, joints=tgt2),
-                  f'box 0.2 m around {a.ee_link} at the goal, added through /apply_planning_scene (success={added})')
+    # collision: a box around the end effector at a joint goal only; the start state stays valid
+    chk = {'box_size_m': 0.08, 'start_without_box': None, 'tries': [], 'used': None, 'removed': None}
+    full = {j: cur[j] for j in cur}
+    v0, c0 = n.valid(a.group, full)
+    chk['start_without_box'] = {'valid': v0, 'contacts': c0}
+    used = None
+    if v0:
+        for dj in (0.4, 0.6, 0.8, -0.4, -0.6, -0.8):
+            t = cur[j0] + dj
+            if ('upper' in L[j0] and t > L[j0]['upper']) or ('lower' in L[j0] and t < L[j0]['lower']):
+                continue
+            tgt2 = {j: cur[j] for j in gj}
+            tgt2[j0] = t
+            pe = n.fk(a.ee_link, {**full, **tgt2})
+            if not pe:
+                chk['tries'].append({'offset_rad': dj, 'fk': False})
+                continue
+            box = CollisionObject(id='parity_box', operation=CollisionObject.ADD)
+            box.header = pe.header
+            box.primitives.append(SolidPrimitive(type=SolidPrimitive.BOX, dimensions=[chk['box_size_m']] * 3))
+            box.primitive_poses.append(pe.pose)
+            added = n.scene([box])
+            vs, cs = n.valid(a.group, full)
+            vg, cg = n.valid(a.group, {**full, **tgt2})
+            tr = {'offset_rad': dj, 'box_frame': pe.header.frame_id,
+                  'box_center': [pe.pose.position.x, pe.pose.position.y, pe.pose.position.z], 'added': added,
+                  'start_with_box': {'valid': vs, 'contacts': cs}, 'goal_with_box': {'valid': vg, 'contacts': cg}}
+            chk['tries'].append(tr)
+            if added and vs and vg is False:
+                used = (dj, tgt2, pe, added)
+                break
+            n.scene([CollisionObject(id='parity_box', operation=CollisionObject.REMOVE, header=pe.header)])
+    if used:
+        dj, tgt2, pe, added = used
+        chk['used'] = dj
+        for k in (1, 10):
+            n.run(f'fail_goal_in_collision_attempts{k}', n.goal(a.group, joints=tgt2, attempts=k),
+                  f"{j0} {dj:+.1f} rad; box {chk['box_size_m']} m around {a.ee_link} at the goal only "
+                  f"(start state valid with the box: /check_state_validity), {k} planning attempt(s)")
         n.scene([CollisionObject(id='parity_box', operation=CollisionObject.REMOVE, header=pe.header)])
+        objs = n.world_objects()
+        chk['removed'] = {'world_objects_after_remove': objs, 'box_gone': objs is not None and 'parity_box' not in objs}
+    else:
+        print('collision case not run: no goal offset with a valid start state and an invalid goal state', flush=True)
+    os.makedirs(os.path.join(a.out, 'runs'), exist_ok=True)
+    json.dump(chk, open(os.path.join(a.out, 'runs', 'collision_checks.json'), 'w'), indent=2)
+    print(f"collision checks: start valid {v0}, used offset {chk['used']}, box removed {chk['removed']}", flush=True)
     reset('before_wrong_group')
     cur = n.joints_now()
     n.run('fail_wrong_group', n.goal('parity_no_such_group', joints={j: cur[j] for j in gj}), 'group name that the SRDF does not have')
