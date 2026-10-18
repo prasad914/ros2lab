@@ -1,0 +1,52 @@
+{
+  "name": "joint_goal",
+  "note": "joint1 -0.0007 -> +0.2993, others held, plan + execute",
+  "group": "xarm6",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "joint1": 0.29933356582187115,
+    "joint2": -0.000643274572212249,
+    "joint3": 0.0005223596235737205,
+    "joint4": -0.00060410046717152,
+    "joint5": -1.5696827173233032,
+    "joint6": 0.0009310925379395485
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "joint1": -0.0006664341781288385,
+    "joint2": -0.000643274572212249,
+    "joint3": 0.0005223596235737205,
+    "joint4": -0.00060410046717152,
+    "joint5": -1.5696827173233032,
+    "joint6": 0.0009310925379395485
+  },
+  "send_wall": 1792301400.5910113,
+  "accepted": true,
+  "status": 4,
+  "error_code": 1,
+  "error_code_name": "SUCCESS",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [
+      "joint1",
+      "joint2",
+      "joint3",
+      "joint4",
+      "joint5",
+      "joint6"
+    ],
+    "points": 6,
+    "last_time_from_start": 0.494183507
+  },
+  "result_wall": 1792301401.3151674,
+  "joint_states_after": {
+    "joint1": 0.29908180236816406,
+    "joint2": -0.0014055455103516579,
+    "joint3": 0.0007069742423482239,
+    "joint4": -0.00033260133932344615,
+    "joint5": -1.5691449642181396,
+    "joint6": 0.0011410031002014875
+  }
+}

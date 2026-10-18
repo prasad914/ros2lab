@@ -1,0 +1,45 @@
+{
+  "name": "fail_controller_inactive",
+  "note": "xarm6_traj_controller deactivated with switch_controller (ok=True)",
+  "group": "xarm6",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "joint1": 2.9101772785186766,
+    "joint2": -0.00022187370632309467,
+    "joint3": -0.0009252898162230849,
+    "joint4": -0.0022056959569454193,
+    "joint5": -1.5713541507720947,
+    "joint6": -0.0008726193336769938
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "joint1": 3.1101772785186768,
+    "joint2": -0.00022188133152667433,
+    "joint3": -0.0009252820163965225,
+    "joint4": -0.002205869182944298,
+    "joint5": -1.5713541507720947,
+    "joint6": -0.0008725998923182487
+  },
+  "send_wall": 1792300813.4536626,
+  "accepted": true,
+  "status": 6,
+  "error_code": -26,
+  "error_code_name": "START_STATE_INVALID",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [],
+    "points": 0,
+    "last_time_from_start": null
+  },
+  "result_wall": 1792300813.4626203,
+  "joint_states_after": {
+    "joint1": 3.1101772785186768,
+    "joint2": -0.00022825600171927363,
+    "joint3": -0.0009187613613903522,
+    "joint4": -0.0023506861180067062,
+    "joint5": -1.5713541507720947,
+    "joint6": -0.0008563469164073467
+  }
+}

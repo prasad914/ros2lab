@@ -1,0 +1,45 @@
+{
+  "name": "fail_goal_in_collision",
+  "note": "box 0.2 m around link_eef at the goal, added through /apply_planning_scene (success=True)",
+  "group": "xarm6",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "joint1": 0.4006615395541303,
+    "joint2": -0.0005776883335784078,
+    "joint3": 0.00014872278552502394,
+    "joint4": -0.0007880062912590802,
+    "joint5": -0.0005708230892196298,
+    "joint6": 0.0006497437134385109
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "joint1": 0.000661539554130286,
+    "joint2": -0.0005776883335784078,
+    "joint3": 0.00014872278552502394,
+    "joint4": -0.0007880062912590802,
+    "joint5": -0.0005708230892196298,
+    "joint6": 0.0006497437134385109
+  },
+  "send_wall": 1792301418.8164628,
+  "accepted": true,
+  "status": 6,
+  "error_code": -10,
+  "error_code_name": "START_STATE_IN_COLLISION",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [],
+    "points": 0,
+    "last_time_from_start": null
+  },
+  "result_wall": 1792301418.8236778,
+  "joint_states_after": {
+    "joint1": 0.000661539554130286,
+    "joint2": -0.0005776883335784078,
+    "joint3": 0.00014872278552502394,
+    "joint4": -0.0007880062912590802,
+    "joint5": -0.0005708230892196298,
+    "joint6": 0.0006497437134385109
+  }
+}

@@ -157,3 +157,16 @@ below; nothing in public/ is touched.
   wrong group −1 PLANNING_FAILED ("Cannot find planning configuration for group 'parity_no_such_group'");
   controller inactive −4 CONTROL_FAILED ("Goal was rejected by server", "Failed to send trajectory part 1 of 1 to
   controller scaled_joint_trajectory_controller"); the controller was reactivated afterwards.
+
+## M1 – xarm6 (domain 48)
+- Scenario `xvfb-run -a ros2 launch xarm_moveit_config xarm6_moveit_gazebo.launch.py` (README 5.8).
+- Attempt 1 (`fixtures/xarm6/moveit_attempt1_start_state_after_limit/`): the out-of-limits joint goal (joint1 = upper +
+  0.5) was clamped and executed (SUCCESS, 30 points); every later failure run then got −26 START_STATE_INVALID.
+  Decision (applies to the next arms; ur5e was captured before): that case is plan-only, and the arm returns to the
+  first named state before the collision, wrong-group and controller-inactive cases (`reset_*` runs).
+- `parity/fixtures/xarm6/moveit/` (attempt 2): group xarm6 (joints joint1–6), states home, hold-up; 100 move_group
+  parameters (`move_group_params_rclpy.yaml`; `ros2 param dump` again `{}`, `ros2 param list` works).
+  home, hold-up, joint goal: SUCCESS; pose goal (link_eef −0.05 m z): −27 GOAL_STATE_INVALID; unreachable pose −27;
+  joint outside limits (plan only): SUCCESS 30 points (clamped to the bound, as on attempt 1); goal-in-collision
+  (0.2 m box at the goal's link_eef pose): −10 START_STATE_IN_COLLISION; wrong group −1 PLANNING_FAILED;
+  controller inactive −4 CONTROL_FAILED. Installed config: `fixtures/_installed/xarm_moveit_config/` (source repo, see SOURCE.txt).

@@ -1,0 +1,30 @@
+# lines of parity/fixtures/xarm6/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792301422.336 .. 1792301425.469
+636:[move_group-3] [INFO] [1792301423.337450850] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+637:[move_group-3] [INFO] [1792301423.338366312] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+638:[move_group-3] [INFO] [1792301423.339122833] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+639:[move_group-3] [WARN] [1792301423.339211317] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+640:[move_group-3] [INFO] [1792301423.339240390] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+641:[move_group-3] [INFO] [1792301423.339498575] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+642:[move_group-3] [INFO] [1792301423.339549884] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+643:[move_group-3] [WARN] [1792301423.339562682] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+644:[move_group-3] [INFO] [1792301423.339599705] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+645:[move_group-3] [INFO] [1792301423.339639051] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+646:[move_group-3] [INFO] [1792301423.340241325] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'xarm6' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+647:[move_group-3] [INFO] [1792301423.340422654] [move_group]: Calling Planner 'OMPL'
+648:[move_group-3] [INFO] [1792301423.359334365] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
+649:[move_group-3] [INFO] [1792301423.361293924] [move_group]: Calling PlanningResponseAdapter 'ValidateSolution'
+650:[move_group-3] [INFO] [1792301423.361632201] [move_group]: Calling PlanningResponseAdapter 'DisplayMotionPath'
+651:[move_group-3] [WARN] [1792301423.363319011] [move_group.moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
+652:[move_group-3] [INFO] [1792301423.363617022] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 1 controllers in list
+653:[move_group-3] [INFO] [1792301423.363688762] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 1 controllers in list
+654:[move_group-3] [INFO] [1792301423.363950381] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Validating trajectory with allowed_start_tolerance 0.01
+655:[move_group-3] [INFO] [1792301423.364260779] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Starting trajectory execution ...
+656:[move_group-3] [INFO] [1792301423.364398611] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 1 controllers in list
+657:[move_group-3] [INFO] [1792301423.364510142] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 1 controllers in list
+658:[move_group-3] [INFO] [1792301423.364836841] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: sending trajectory to xarm6_traj_controller
+661:[move_group-3] [INFO] [1792301423.366286497] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: xarm6_traj_controller started execution
+662:[move_group-3] [WARN] [1792301423.366341864] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Goal request rejected
+663:[move_group-3] [ERROR] [1792301423.367268653] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Goal was rejected by server
+664:[move_group-3] [ERROR] [1792301423.367405081] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Failed to send trajectory part 1 of 1 to controller xarm6_traj_controller
+665:[move_group-3] [INFO] [1792301423.367486765] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Completed trajectory execution with status ABORTED ...
+666:[move_group-3] [INFO] [1792301423.464327524] [move_group.moveit.moveit.ros.move_group.move_action]: CONTROL_FAILED

@@ -1,0 +1,13 @@
+# lines of parity/fixtures/xarm6/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792301417.816 .. 1792301420.824
+545:[move_group-3] [INFO] [1792301418.817792825] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+546:[move_group-3] [INFO] [1792301418.818193915] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+547:[move_group-3] [INFO] [1792301418.819488415] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+548:[move_group-3] [WARN] [1792301418.819581236] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+549:[move_group-3] [INFO] [1792301418.819602293] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+550:[move_group-3] [INFO] [1792301418.819855393] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+551:[move_group-3] [INFO] [1792301418.819896332] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+552:[move_group-3] [WARN] [1792301418.819908088] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+553:[move_group-3] [INFO] [1792301418.819942125] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+554:[move_group-3] [INFO] [1792301418.819977219] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+555:[move_group-3] [ERROR] [1792301418.820379344] [move_group]: PlanningRequestAdapter 'CheckStartStateCollision' failed, because '3 contact(s) detected : link4 - parity_box, link5 - parity_box, link6 - parity_box, '. Aborting planning pipeline.
+556:[move_group-3] [INFO] [1792301418.820489361] [move_group.moveit.moveit.ros.move_group.move_action]: START_STATE_IN_COLLISION

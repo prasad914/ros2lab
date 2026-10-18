@@ -1,0 +1,18 @@
+# lines of parity/fixtures/xarm6/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792300799.709 .. 1792300807.742
+478:[move_group-3] [INFO] [1792300800.710378222] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+479:[move_group-3] [INFO] [1792300800.710873548] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+480:[move_group-3] [INFO] [1792300800.713955419] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+481:[move_group-3] [WARN] [1792300800.714868863] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+482:[move_group-3] [INFO] [1792300800.714939034] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+483:[move_group-3] [INFO] [1792300800.715255353] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+484:[move_group-3] [INFO] [1792300800.715317609] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+485:[move_group-3] [WARN] [1792300800.715329380] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+486:[move_group-3] [INFO] [1792300800.715371811] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+487:[move_group-3] [INFO] [1792300800.715410422] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+488:[move_group-3] [INFO] [1792300800.716040022] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'xarm6' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+489:[move_group-3] [INFO] [1792300800.716232714] [move_group]: Calling Planner 'OMPL'
+490:[move_group-3] [ERROR] [1792300805.719309619] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:265 - xarm6/xarm6: Unable to sample any valid states for goal tree
+491:[move_group-3] [WARN] [1792300805.719782229] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Invalid goal state
+492:[move_group-3] [ERROR] [1792300805.739655411] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Unable to solve the planning problem
+493:[move_group-3] [ERROR] [1792300805.739860712] [move_group]: Planner 'OMPL' failed with error code GOAL_STATE_INVALID
+494:[move_group-3] [INFO] [1792300805.739928601] [move_group.moveit.moveit.ros.move_group.move_action]: GOAL_STATE_INVALID

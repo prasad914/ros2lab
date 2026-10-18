@@ -1,0 +1,13 @@
+# lines of parity/fixtures/xarm6/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792300811.422 .. 1792300814.428
+540:[move_group-3] [INFO] [1792300812.423345488] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+541:[move_group-3] [INFO] [1792300812.423822473] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+542:[move_group-3] [INFO] [1792300812.424737992] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+543:[move_group-3] [WARN] [1792300812.424856012] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+544:[move_group-3] [INFO] [1792300812.424887820] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+545:[move_group-3] [INFO] [1792300812.425159143] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+546:[move_group-3] [INFO] [1792300812.425209853] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+547:[move_group-3] [WARN] [1792300812.425222212] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+548:[move_group-3] [INFO] [1792300812.425257136] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+549:[move_group-3] [ERROR] [1792300812.425297213] [move_group.moveit.moveit.ros.check_start_state_bounds]: Joint 'joint1' from the starting state is outside bounds by: [3.11018 ] should be in the range [-3.11018 ], [3.11018 ].
+550:[move_group-3] [ERROR] [1792300812.425387634] [move_group]: PlanningRequestAdapter 'CheckStartStateBounds' failed, because 'Start state out of bounds.'. Aborting planning pipeline.
+551:[move_group-3] [INFO] [1792300812.425456744] [move_group.moveit.moveit.ros.move_group.move_action]: START_STATE_INVALID
