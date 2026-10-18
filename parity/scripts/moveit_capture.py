@@ -47,6 +47,12 @@ class Cap(Node):
         self.js = None
         self.create_subscription(JointState, '/joint_states', lambda m: setattr(self, 'js', m), 10)
         self.ac = ActionClient(self, MoveGroup, '/move_action')
+        # /rosout of every node (move_group logs there even when its launch file sends its output to "log" only)
+        from rcl_interfaces.msg import Log
+        from rclpy.qos import DurabilityPolicy, QoSProfile
+        self.rosout = []
+        self.create_subscription(Log, '/rosout', lambda m: self.rosout.append((time.time(), m)),
+                                 QoSProfile(depth=1000, durability=DurabilityPolicy.VOLATILE))
 
     def spin_until(self, pred, secs):
         t0 = time.time()
@@ -194,6 +200,12 @@ class Cap(Node):
         json.dump(res, open(os.path.join(d, 'result.json'), 'w'), indent=2)
         if self.a.log and os.path.exists(self.a.log):
             write_excerpt(d, res, self.a.log)
+        lv = {10: 'DEBUG', 20: 'INFO', 30: 'WARN', 40: 'ERROR', 50: 'FATAL'}
+        with open(os.path.join(d, 'rosout_lines.txt'), 'w') as f:
+            f.write(f"# /rosout messages received between send - 1 s and result + 1 s (wall); [level] [stamp] [name]: msg\n")
+            for tw, m in self.rosout:
+                if res['send_wall'] - 1.0 <= tw <= res['result_wall'] + 1.0 and ('move_group' in m.name or 'moveit' in m.name):
+                    f.write(f"[{lv.get(m.level, m.level)}] [{m.stamp.sec}.{m.stamp.nanosec:09d}] [{m.name}]: {m.msg}\n")
         print(f"{name}: accepted={res['accepted']} error_code={res.get('error_code')} {res.get('error_code_name', '')}"
               f" points={res.get('trajectory', {}).get('points')}", flush=True)
         return res
