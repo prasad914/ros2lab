@@ -356,3 +356,18 @@ b307219 ur5e: OFFICIAL-JAZZY, verified in Gazebo Harmonic (controllers active, t
 93535c4 Add arm_motion_proof.py and mobile_motion_proof.py (P2b rule 7c evidence)
 799a910 P2B_PHASE_A: instructor ran the sudo steps; checked (apt sources, 10 packages, rosdep check); OVERNIGHT_ROBOTS.md started
 ```
+
+## Overnight 2026-10-18/19 (B1–B6; full log in ~/ros2lab-course parity/reports/OVERNIGHT_2026-10-19.md)
+- B1 `moveit_capture.py` collision case (16d8d66, 4fbb6e8): start state checked with /check_state_validity; 0.08 m box
+  around the EE at the goal only, kept only if the start stays valid and the goal is invalid (next offset, then next
+  joint otherwise); planned with 1 and 10 attempts; box removal verified with /get_planning_scene;
+  `runs/collision_checks.json`.
+- B2 M1 recapture, domain 48 (earlier captures kept as `moveit_attempt*_`): collision goal 1 / 10 attempts —
+  ur5e, xarm6, cr5, fr3, wx250s: -27 GOAL_STATE_INVALID / 99999 FAILURE; lite6: -6 TIMED_OUT / 99999 (joint3);
+  gen3: -26 START_STATE_INVALID / -26 and -26 for every later run with the box gone (cause UNVERIFIED, move_group
+  log-level fatal). gen3 attempt 4 (spawner lock, no controllers) overwritten by the rerun: README only.
+- B3 tb4 EGL /scan marked invalid (a388fb0): README.md in p2c_sensors and p2c_nav/run1.
+- B4 ogre render engine under EGL (6b73d44): still 640/640 ranges = range_min, RTF 0.43 → 0.07. SLAM / nav not rerun.
+- B5 nav2_bringup tb4_simulation_launch.py headless:=True (ed896c8): Fuel 502 for the Depot model → gz server exits,
+  create waits for world names (no "unknown command line flag" error), spawn UNVERIFIED; amcl / map_server active.
+- Domains 41, 46, 47, 48 empty at the end of B5.
