@@ -1,0 +1,21 @@
+# python3 parity/scripts/arm_motion_proof.py --controller scaled_joint_trajectory_controller --joint-index 0 --delta 0.3 --duration 3 (domain 46, 2026-10-18T06:55:42+05:30)
+# controller scaled_joint_trajectory_controller joints parameter: ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']
+# /joint_states before (stamp 38.360)
+shoulder_pan_joint: 0.000000
+shoulder_lift_joint: -1.570000
+elbow_joint: 0.000000
+wrist_1_joint: -1.570000
+wrist_2_joint: -0.000000
+wrist_3_joint: 0.000000
+# FollowJointTrajectory /scaled_joint_trajectory_controller/follow_joint_trajectory: shoulder_pan_joint 0.000000 -> 0.300000 in 3.0 s
+accepted: True
+status: 4 error_code: 0 error_string: 'Goal successfully reached!'
+# /joint_states after (stamp 42.320)
+shoulder_pan_joint: 0.300000
+shoulder_lift_joint: -1.570000
+elbow_joint: 0.000000
+wrist_1_joint: -1.570000
+wrist_2_joint: -0.000000
+wrist_3_joint: 0.000000
+# moved shoulder_pan_joint: +0.300000 rad (commanded +0.300000)
+exit 0
