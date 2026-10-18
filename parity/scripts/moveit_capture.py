@@ -30,7 +30,8 @@ from moveit_msgs.action import MoveGroup
 from moveit_msgs.msg import (CollisionObject, Constraints, JointConstraint, MoveItErrorCodes, OrientationConstraint,
                              PlanningScene, PositionConstraint, RobotState)
 from moveit_msgs.srv import ApplyPlanningScene, GetPositionFK
-from rcl_interfaces.srv import GetParameters
+from rcl_interfaces.msg import ParameterType
+from rcl_interfaces.srv import GetParameters, ListParameters
 from rclpy.action import ActionClient
 from rclpy.node import Node
 from sensor_msgs.msg import JointState
@@ -65,6 +66,27 @@ class Cap(Node):
     def param(self, node, name):
         r = self.call(self.create_client(GetParameters, f'{node}/get_parameters'), GetParameters.Request(names=[name]))
         return r.values[0].string_value if r and r.values else ''
+
+    def dump_params(self, node):
+        """All parameters of a node through its ListParameters / GetParameters services (ros2 param dump returned {}
+        for /move_group on this machine). Values as Python types; byte arrays as lists."""
+        lr = self.call(self.create_client(ListParameters, f'{node}/list_parameters'), ListParameters.Request(depth=0), 60)
+        names = list(lr.result.names) if lr else []
+        out = {}
+        cli = self.create_client(GetParameters, f'{node}/get_parameters')
+        F = {ParameterType.PARAMETER_BOOL: 'bool_value', ParameterType.PARAMETER_INTEGER: 'integer_value',
+             ParameterType.PARAMETER_DOUBLE: 'double_value', ParameterType.PARAMETER_STRING: 'string_value',
+             ParameterType.PARAMETER_BYTE_ARRAY: 'byte_array_value', ParameterType.PARAMETER_BOOL_ARRAY: 'bool_array_value',
+             ParameterType.PARAMETER_INTEGER_ARRAY: 'integer_array_value', ParameterType.PARAMETER_DOUBLE_ARRAY: 'double_array_value',
+             ParameterType.PARAMETER_STRING_ARRAY: 'string_array_value'}
+        for i in range(0, len(names), 50):
+            chunk = names[i:i + 50]
+            r = self.call(cli, GetParameters.Request(names=chunk), 60)
+            for nm, v in zip(chunk, r.values if r else []):
+                f = F.get(v.type)
+                val = getattr(v, f) if f else None
+                out[nm] = list(val) if isinstance(val, (list, tuple)) or (f and f.endswith('array_value')) else val
+        return out
 
     def latched(self, topic, secs=30.0):
         """One message of a transient_local std_msgs/String topic (robot_description, robot_description_semantic)."""
@@ -253,6 +275,12 @@ def main():
     if not srdf or not urdf:
         print('ERROR: /move_group has no robot_description_semantic / robot_description parameter')
         return 2
+    P = n.dump_params('/move_group')
+    P = {k: (v if not (isinstance(v, str) and len(v) > 2000) else f'<{len(v)} characters, see srdf_summary.yaml / the source package>') for k, v in P.items()}
+    import yaml as _y
+    _y.safe_dump({'source': 'rclpy ListParameters + GetParameters on /move_group', 'count': len(P), 'parameters': P},
+                 open(os.path.join(a.out, 'move_group_params_rclpy.yaml'), 'w'), sort_keys=True)
+    print(f'/move_group parameters: {len(P)}', flush=True)
     S = parse_srdf(srdf)
     L = urdf_limits(urdf)
     n.frame = next((v['parent'] for v in S['virtual_joints']), None) or ''   # empty: move_group answers in its model frame
@@ -294,7 +322,15 @@ def main():
     bad = {j: cur[j] for j in gj}
     if 'upper' in L[j0]:
         bad[j0] = L[j0]['upper'] + 0.5
-        n.run('fail_joint_outside_limits', n.goal(a.group, joints=bad), f'{j0} = URDF upper limit {L[j0]["upper"]} + 0.5 rad')
+        n.run('fail_joint_outside_limits', n.goal(a.group, joints=bad, plan_only=True),
+              f'{j0} = URDF upper limit {L[j0]["upper"]} + 0.5 rad, plan only (MoveIt may clamp it to the bound)')
+    states = [s for s in S['group_states'] if s['group'] == a.group]
+
+    def reset(tag):   # back to the first named state, so a failure case starts from a valid state
+        if states:
+            n.run(f'reset_{tag}', n.goal(a.group, joints=states[0]['joints']), f"back to named state {states[0]['name']}")
+    reset('before_collision')
+    cur = n.joints_now()
     # collision: a box around the end effector position of a joint goal, then plan to that goal
     tgt2 = {j: cur[j] for j in gj}
     tgt2[j0] = cur[j0] + 0.4 if not ('upper' in L[j0] and cur[j0] + 0.4 > L[j0]['upper']) else cur[j0] - 0.4
@@ -308,7 +344,10 @@ def main():
         r = n.run('fail_goal_in_collision', n.goal(a.group, joints=tgt2),
                   f'box 0.2 m around {a.ee_link} at the goal, added through /apply_planning_scene (success={added})')
         n.scene([CollisionObject(id='parity_box', operation=CollisionObject.REMOVE, header=pe.header)])
-    n.run('fail_wrong_group', n.goal('parity_no_such_group', joints=tgt), 'group name that the SRDF does not have')
+    reset('before_wrong_group')
+    cur = n.joints_now()
+    n.run('fail_wrong_group', n.goal('parity_no_such_group', joints={j: cur[j] for j in gj}), 'group name that the SRDF does not have')
+    reset('before_controller_inactive')
     off = n.switch([], [a.controller])
     cur = n.joints_now()
     tgt3 = {j: cur[j] for j in gj}
