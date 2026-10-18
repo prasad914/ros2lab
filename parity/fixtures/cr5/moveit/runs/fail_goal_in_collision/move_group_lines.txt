@@ -1,0 +1,13 @@
+# lines of parity/fixtures/cr5/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792302748.947 .. 1792302751.985
+477:[move_group-5] [INFO] [1792302749.949742680] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+478:[move_group-5] [INFO] [1792302749.950346939] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+479:[move_group-5] [INFO] [1792302749.960002746] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+480:[move_group-5] [WARN] [1792302749.960235132] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+481:[move_group-5] [INFO] [1792302749.960282041] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+482:[move_group-5] [INFO] [1792302749.960786083] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+483:[move_group-5] [INFO] [1792302749.960875992] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+484:[move_group-5] [WARN] [1792302749.960897547] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+485:[move_group-5] [INFO] [1792302749.960987145] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+486:[move_group-5] [INFO] [1792302749.961051700] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+487:[move_group-5] [ERROR] [1792302749.974849696] [move_group]: PlanningRequestAdapter 'CheckStartStateCollision' failed, because '3 contact(s) detected : Link3 - parity_box, Link5 - parity_box, Link6 - parity_box, '. Aborting planning pipeline.
+488:[move_group-5] [INFO] [1792302749.975368375] [move_group.moveit.moveit.ros.move_group.move_action]: START_STATE_IN_COLLISION

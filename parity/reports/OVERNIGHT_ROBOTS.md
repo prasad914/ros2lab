@@ -177,3 +177,10 @@ below; nothing in public/ is touched.
   TIMED_OUT; joint outside limits (plan only): SUCCESS 30 points (clamped); goal-in-collision −10
   START_STATE_IN_COLLISION; wrong group −1 PLANNING_FAILED; controller inactive −4 CONTROL_FAILED.
   `parity/fixtures/lite6/moveit/`.
+
+## M1 – cr5 (domain 48)
+- Scenario `DOBOT_TYPE=cr5 xvfb-run -a ros2 launch dobot_gazebo sim.launch.py` (README scenario 4); group cr5_group
+  (chain base_link -> Link6), state home; 150 move_group parameters. home, joint goal, pose goal (Link6 −0.05 m z):
+  SUCCESS; unreachable pose −27 GOAL_STATE_INVALID; joint outside limits (plan only): SUCCESS 45 points (clamped);
+  goal-in-collision −10 START_STATE_IN_COLLISION; wrong group −1 PLANNING_FAILED; controller inactive −4
+  CONTROL_FAILED. `parity/fixtures/cr5/moveit/`, installed config `fixtures/_installed/cr5_moveit/`.

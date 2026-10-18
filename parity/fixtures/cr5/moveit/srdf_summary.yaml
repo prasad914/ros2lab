@@ -1,0 +1,22 @@
+source: parameters robot_description_semantic / robot_description of /move_group
+robot: cr5_robot
+groups:
+  cr5_group:
+    joints: []
+    chains:
+    - base: base_link
+      tip: Link6
+    links: []
+    subgroups: []
+group_states:
+- name: home
+  group: cr5_group
+  joints:
+    joint1: 0.0
+    joint2: 0.4337
+    joint3: -1.4695
+    joint4: -0.2602
+    joint5: 1.7175
+    joint6: 0.0
+end_effectors: []
+virtual_joints: []

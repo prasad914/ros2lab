@@ -1,0 +1,13 @@
+package: cr5_moveit
+share: /home/prasad/robots_ws/install/cr5_moveit/share/cr5_moveit
+version (package.xml): 0.3.0
+dpkg: not an apt package
+source: /home/prasad/robots_ws/src/dobot/DOBOT_6Axis_ROS2_V4/cr5_moveit/package.xml
+git: https://github.com/Dobot-Arm/DOBOT_6Axis_ROS2_V4.git 89d47c66a6e0c654dbbe6819f2291132ad0ce979
+copied config/ompl_planning.yaml
+copied config/kinematics.yaml
+copied config/cr5_robot.srdf
+copied config/joint_limits.yaml
+copied config/moveit_controllers.yaml
+copied config/pilz_cartesian_limits.yaml
+copied config/ros2_controllers.yaml
