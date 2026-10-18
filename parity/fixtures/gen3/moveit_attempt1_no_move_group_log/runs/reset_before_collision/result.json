@@ -1,0 +1,56 @@
+{
+  "name": "reset_before_collision",
+  "note": "back to named state Home",
+  "group": "manipulator",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "joint_1": 0.0,
+    "joint_2": 0.26,
+    "joint_3": 3.14,
+    "joint_4": -2.27,
+    "joint_5": 0.0,
+    "joint_6": 0.96,
+    "joint_7": 1.57
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "joint_1": 0.1540120244026184,
+    "joint_2": 0.2995205521583557,
+    "joint_3": -0.0053217909298837185,
+    "joint_4": -0.7224404811859131,
+    "joint_5": 0.0017742556519806385,
+    "joint_6": 0.42876768112182617,
+    "joint_7": 0.15722864866256714
+  },
+  "send_wall": 1792304683.2566164,
+  "accepted": true,
+  "status": 4,
+  "error_code": 1,
+  "error_code_name": "SUCCESS",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [
+      "joint_1",
+      "joint_2",
+      "joint_3",
+      "joint_4",
+      "joint_5",
+      "joint_6",
+      "joint_7"
+    ],
+    "points": 48,
+    "last_time_from_start": 4.657642082
+  },
+  "result_wall": 1792304692.027191,
+  "joint_states_after": {
+    "joint_1": -0.0006138143362477422,
+    "joint_2": 0.2592413127422333,
+    "joint_3": -3.143702745437622,
+    "joint_4": -2.2692954540252686,
+    "joint_5": -0.0005127715412527323,
+    "joint_6": 0.9605980515480042,
+    "joint_7": 1.5695167779922485
+  }
+}

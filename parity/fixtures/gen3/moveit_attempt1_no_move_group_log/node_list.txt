@@ -1,0 +1,24 @@
+# ros2 node list --no-daemon --spin-time 5
+WARNING: Be aware that there are nodes in the graph that share an exact name, which can have unintended side effects.
+/controller_manager
+/gz_ros_control
+/interactive_marker_display_95492707384912
+/joint_group_velocity_controller
+/joint_state_broadcaster
+/joint_trajectory_controller
+/move_group
+/move_group/moveit
+/move_group_private_96943053312656
+/moveit_4109386959
+/moveit_simple_controller_manager
+/robot_state_publisher
+/robotiq_gripper_controller
+/ros_gz_bridge
+/ros_gz_bridge
+/rviz2
+/rviz2
+/rviz2_private_137458688251008
+/transform_listener_impl_56d9a09c62e0
+/transform_listener_impl_582b509d8500
+/transform_listener_impl_7d05501dbe50
+/twist_controller

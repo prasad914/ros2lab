@@ -1,0 +1,16 @@
+SRDF/URDF from parameters robot_description_semantic / robot_description of /move_group
+/move_group parameters: 151
+group manipulator joints ['joint_1', 'joint_2', 'joint_3', 'joint_4', 'joint_5', 'joint_6', 'joint_7']; frame 
+state_Home: accepted=True error_code=1 SUCCESS points=48
+state_Retract: accepted=True error_code=1 SUCCESS points=33
+state_Vertical: accepted=True error_code=1 SUCCESS points=48
+joint_goal: accepted=True error_code=1 SUCCESS points=7
+pose_goal: accepted=True error_code=1 SUCCESS points=13
+fail_unreachable_pose: accepted=True error_code=-27 GOAL_STATE_INVALID points=0
+reset_before_collision: accepted=True error_code=1 SUCCESS points=48
+fail_goal_in_collision: accepted=True error_code=-26 START_STATE_INVALID points=0
+reset_before_wrong_group: accepted=True error_code=-26 START_STATE_INVALID points=0
+fail_wrong_group: accepted=True error_code=-26 START_STATE_INVALID points=0
+reset_before_controller_inactive: accepted=True error_code=-26 START_STATE_INVALID points=0
+fail_controller_inactive: accepted=True error_code=-26 START_STATE_INVALID points=0
+controller joint_trajectory_controller reactivated: True

@@ -1,0 +1,48 @@
+{
+  "name": "fail_goal_in_collision",
+  "note": "box 0.2 m around end_effector_link at the goal, added through /apply_planning_scene (success=True)",
+  "group": "manipulator",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "joint_1": 0.4005512872594409,
+    "joint_2": 0.2590719759464264,
+    "joint_3": -3.142216205596924,
+    "joint_4": -2.2703137397766113,
+    "joint_5": 0.0007689571939408779,
+    "joint_6": 0.9608425498008728,
+    "joint_7": 1.5691697597503662
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "joint_1": 0.0005512872594408691,
+    "joint_2": 0.2590719759464264,
+    "joint_3": -3.142216205596924,
+    "joint_4": -2.2703137397766113,
+    "joint_5": 0.0007689571939408779,
+    "joint_6": 0.9608425498008728,
+    "joint_7": 1.5691697597503662
+  },
+  "send_wall": 1792306213.1195328,
+  "accepted": true,
+  "status": 6,
+  "error_code": -26,
+  "error_code_name": "START_STATE_INVALID",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [],
+    "points": 0,
+    "last_time_from_start": null
+  },
+  "result_wall": 1792306213.1355572,
+  "joint_states_after": {
+    "joint_1": 0.0005512872594408691,
+    "joint_2": 0.2590719759464264,
+    "joint_3": -3.142216205596924,
+    "joint_4": -2.2703137397766113,
+    "joint_5": 0.0007689571939408779,
+    "joint_6": 0.9608425498008728,
+    "joint_7": 1.5691697597503662
+  }
+}

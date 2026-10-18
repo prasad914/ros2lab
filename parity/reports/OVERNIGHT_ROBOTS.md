@@ -196,3 +196,18 @@ below; nothing in public/ is touched.
   close); 100 move_group parameters. ready, extended, joint goal, pose goal (fr3_link8 −0.05 m z): SUCCESS;
   unreachable pose −27; joint outside limits (plan only): SUCCESS 31 points (clamped); goal-in-collision −10
   START_STATE_IN_COLLISION; wrong group −1 PLANNING_FAILED; controller inactive −4 CONTROL_FAILED.
+
+## M1 – gen3 (domain 48)
+- Scenario `parity/robots/gen3/scenarios/moveit.sh`: kortex_sim_control.launch.py (Gazebo) then
+  kinova_gen3_7dof_robotiq_2f_85_moveit_config sim.launch.py use_sim_time:=true (README), both under xvfb-run.
+- Log text: the maker's sim.launch.py starts move_group with `--ros-args --log-level fatal` and `output="log"`
+  (comment in the file: "MoveIt is spamming the log because of unknown '*_mimic' joints"), so real move_group logs
+  nothing for these runs – no move_group lines in the launch log, its ~/.ros/log file (0 lines) or /rosout.
+  Attempts 1 and 2 (`moveit_attempt1_no_move_group_log/`, `moveit_attempt2_no_move_group_log/`, with
+  RCUTILS_LOGGING_BUFFERED_STREAM=0) and attempt 3 (/rosout recorder) gave the same codes.
+- `parity/fixtures/gen3/moveit/` (attempt 3): group manipulator (joint_1–7; chain base_link -> end_effector_link),
+  states Home, Retract, Vertical (+ gripper Open, Close); 151 move_group parameters. Home, Retract, Vertical, joint
+  goal, pose goal: SUCCESS; unreachable pose −27; joint outside limits: not run (joint_1 is continuous, no upper limit
+  in the URDF); goal-in-collision −26 START_STATE_INVALID, and every later run (reset to Home, wrong group,
+  controller inactive) −26 START_STATE_INVALID in all three attempts. Cause UNVERIFIED (no log text); the box is
+  removed with a REMOVE CollisionObject after the collision case, success not checked.

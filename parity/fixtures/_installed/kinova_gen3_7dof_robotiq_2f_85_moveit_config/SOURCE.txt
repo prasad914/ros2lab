@@ -1,0 +1,13 @@
+package: kinova_gen3_7dof_robotiq_2f_85_moveit_config
+share: /home/prasad/robots_ws/install/kinova_gen3_7dof_robotiq_2f_85_moveit_config/share/kinova_gen3_7dof_robotiq_2f_85_moveit_config
+version (package.xml): 0.2.6
+dpkg: not an apt package
+source: /home/prasad/robots_ws/src/kinova/ros2_kortex/kortex_moveit_config/kinova_gen3_7dof_robotiq_2f_85_moveit_config/package.xml
+git: https://github.com/Kinovarobotics/ros2_kortex.git 462dab9aa4732d733be55e1846530dd920c7c7d3
+copied config/ompl_planning.yaml
+copied config/kinematics.yaml
+copied config/joint_limits.yaml
+copied config/moveit_controllers.yaml
+copied config/pilz_cartesian_limits.yaml
+copied config/ros2_controllers.yaml
+copied config/gen3.srdf

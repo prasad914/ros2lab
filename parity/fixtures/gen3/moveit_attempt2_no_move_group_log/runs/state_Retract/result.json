@@ -1,0 +1,56 @@
+{
+  "name": "state_Retract",
+  "note": "named state from the SRDF, plan + execute",
+  "group": "manipulator",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "joint_1": 0.0,
+    "joint_2": -0.35,
+    "joint_3": 3.14,
+    "joint_4": -2.54,
+    "joint_5": 0.0,
+    "joint_6": -0.87,
+    "joint_7": 1.57
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "joint_1": -0.00035658967681229115,
+    "joint_2": 0.2604207396507263,
+    "joint_3": 3.139070510864258,
+    "joint_4": -2.2692532539367676,
+    "joint_5": 0.0008177729323506355,
+    "joint_6": 0.9608733654022217,
+    "joint_7": 1.5693962574005127
+  },
+  "send_wall": 1792305439.4374866,
+  "accepted": true,
+  "status": 4,
+  "error_code": 1,
+  "error_code_name": "SUCCESS",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [
+      "joint_1",
+      "joint_2",
+      "joint_3",
+      "joint_4",
+      "joint_5",
+      "joint_6",
+      "joint_7"
+    ],
+    "points": 33,
+    "last_time_from_start": 3.139792383
+  },
+  "result_wall": 1792305444.7556155,
+  "joint_states_after": {
+    "joint_1": 0.0005681761540472507,
+    "joint_2": -0.3509320616722107,
+    "joint_3": 3.1406874656677246,
+    "joint_4": -2.5391061305999756,
+    "joint_5": 1.6311661966028623e-05,
+    "joint_6": -0.8704349994659424,
+    "joint_7": 1.5704869031906128
+  }
+}

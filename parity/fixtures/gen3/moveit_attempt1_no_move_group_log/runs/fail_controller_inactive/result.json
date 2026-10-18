@@ -1,0 +1,48 @@
+{
+  "name": "fail_controller_inactive",
+  "note": "joint_trajectory_controller deactivated with switch_controller (ok=True)",
+  "group": "manipulator",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "joint_1": 0.19938618566375227,
+    "joint_2": 0.2592413127422333,
+    "joint_3": -3.143702745437622,
+    "joint_4": -2.2692954540252686,
+    "joint_5": -0.0005127715412527323,
+    "joint_6": 0.9605980515480042,
+    "joint_7": 1.5695167779922485
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "joint_1": -0.0006138143362477422,
+    "joint_2": 0.2592413127422333,
+    "joint_3": -3.143702745437622,
+    "joint_4": -2.2692954540252686,
+    "joint_5": -0.0005127715412527323,
+    "joint_6": 0.9605980515480042,
+    "joint_7": 1.5695167779922485
+  },
+  "send_wall": 1792304697.3653193,
+  "accepted": true,
+  "status": 6,
+  "error_code": -26,
+  "error_code_name": "START_STATE_INVALID",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [],
+    "points": 0,
+    "last_time_from_start": null
+  },
+  "result_wall": 1792304697.3780196,
+  "joint_states_after": {
+    "joint_1": -0.0006105115753598511,
+    "joint_2": 0.2592413127422333,
+    "joint_3": -3.1438677310943604,
+    "joint_4": -2.2692954540252686,
+    "joint_5": -0.0005127715412527323,
+    "joint_6": 0.9605980515480042,
+    "joint_7": 1.5695167779922485
+  }
+}

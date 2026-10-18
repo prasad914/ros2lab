@@ -1,0 +1,70 @@
+joint_1:
+  effort: 39.0
+  type: continuous
+  velocity: 1.3963
+joint_2:
+  effort: 39.0
+  lower: -2.24
+  type: revolute
+  upper: 2.24
+  velocity: 1.3963
+joint_3:
+  effort: 39.0
+  type: continuous
+  velocity: 1.3963
+joint_4:
+  effort: 39.0
+  lower: -2.57
+  type: revolute
+  upper: 2.57
+  velocity: 1.3963
+joint_5:
+  effort: 9.0
+  type: continuous
+  velocity: 1.2218
+joint_6:
+  effort: 9.0
+  lower: -2.09
+  type: revolute
+  upper: 2.09
+  velocity: 1.2218
+joint_7:
+  effort: 9.0
+  type: continuous
+  velocity: 1.2218
+robotiq_85_left_finger_tip_joint:
+  effort: 50.0
+  lower: -0.8
+  type: revolute
+  upper: 0.0
+  velocity: 0.5
+robotiq_85_left_inner_knuckle_joint:
+  effort: 50.0
+  lower: 0.0
+  type: revolute
+  upper: 0.8
+  velocity: 0.5
+robotiq_85_left_knuckle_joint:
+  effort: 50.0
+  lower: 0.0
+  type: revolute
+  upper: 0.8
+  velocity: 0.5
+robotiq_85_right_finger_tip_joint:
+  effort: 50.0
+  lower: 0.0
+  type: revolute
+  upper: 0.8
+  velocity: 0.5
+robotiq_85_right_inner_knuckle_joint:
+  effort: 50.0
+  lower: -0.8
+  type: revolute
+  upper: 0.0
+  velocity: 0.5
+robotiq_85_right_knuckle_joint:
+  effort: 50.0
+  lower: -0.8
+  type: revolute
+  upper: 0.0
+  velocity: 0.5

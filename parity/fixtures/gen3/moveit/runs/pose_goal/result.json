@@ -1,0 +1,62 @@
+{
+  "name": "pose_goal",
+  "note": "end_effector_link 0.05 m lower than the current pose, orientation kept",
+  "group": "manipulator",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {},
+  "goal_pose": {
+    "frame": "world",
+    "link": "end_effector_link",
+    "position": [
+      -0.008075814125844367,
+      -0.023522516474004485,
+      1.1373843859563704
+    ],
+    "orientation_xyzw": [
+      -1.8138302311454277e-05,
+      -0.00014262294573652202,
+      -0.15005809951202498,
+      0.9886771698084957
+    ]
+  },
+  "joint_states_before": {
+    "joint_1": 0.30098316073417664,
+    "joint_2": -0.001293548964895308,
+    "joint_3": -4.3189862481085584e-05,
+    "joint_4": 0.0008178213029168546,
+    "joint_5": -0.0006076107383705676,
+    "joint_6": 0.00018608821847010404,
+    "joint_7": 0.0009217156912200153
+  },
+  "send_wall": 1792306194.8395364,
+  "accepted": true,
+  "status": 4,
+  "error_code": 1,
+  "error_code_name": "SUCCESS",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [
+      "joint_1",
+      "joint_2",
+      "joint_3",
+      "joint_4",
+      "joint_5",
+      "joint_6",
+      "joint_7"
+    ],
+    "points": 15,
+    "last_time_from_start": 1.382981644
+  },
+  "result_wall": 1792306197.267364,
+  "joint_states_after": {
+    "joint_1": 1.072073221206665,
+    "joint_2": -0.29324546456336975,
+    "joint_3": -0.018484510481357574,
+    "joint_4": 0.7402332425117493,
+    "joint_5": -0.006962673272937536,
+    "joint_6": -0.4587419927120209,
+    "joint_7": -0.7554634809494019
+  }
+}

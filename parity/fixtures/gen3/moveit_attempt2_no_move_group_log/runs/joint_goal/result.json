@@ -1,0 +1,56 @@
+{
+  "name": "joint_goal",
+  "note": "joint_1 -0.0001 -> +0.2999, others held, plan + execute",
+  "group": "manipulator",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "joint_1": 0.2998755428532604,
+    "joint_2": -0.000949113629758358,
+    "joint_3": 0.0006120810867287219,
+    "joint_4": -0.00022021515178494155,
+    "joint_5": 0.00013820029562339187,
+    "joint_6": -0.00046874090912751853,
+    "joint_7": 0.0007785140187479556
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "joint_1": -0.0001244571467395872,
+    "joint_2": -0.000949113629758358,
+    "joint_3": 0.0006120810867287219,
+    "joint_4": -0.00022021515178494155,
+    "joint_5": 0.00013820029562339187,
+    "joint_6": -0.00046874090912751853,
+    "joint_7": 0.0007785140187479556
+  },
+  "send_wall": 1792305455.2035704,
+  "accepted": true,
+  "status": 4,
+  "error_code": 1,
+  "error_code_name": "SUCCESS",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [
+      "joint_1",
+      "joint_2",
+      "joint_3",
+      "joint_4",
+      "joint_5",
+      "joint_6",
+      "joint_7"
+    ],
+    "points": 7,
+    "last_time_from_start": 0.591259616
+  },
+  "result_wall": 1792305456.270427,
+  "joint_states_after": {
+    "joint_1": 0.2993108630180359,
+    "joint_2": -0.0008461229153908789,
+    "joint_3": 0.0012937485007569194,
+    "joint_4": 0.00031117539037950337,
+    "joint_5": -0.00043955325963906944,
+    "joint_6": 0.00023449418949894607,
+    "joint_7": 1.1444453775766306e-05
+  }
+}
