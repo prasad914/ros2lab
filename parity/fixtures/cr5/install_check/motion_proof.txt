@@ -1,0 +1,21 @@
+# python3 parity/scripts/arm_motion_proof.py --controller cr5_group_controller --joint-index 0 --delta 0.3 --duration 3 (domain 46, 2026-10-18T07:34:10+05:30)
+# controller cr5_group_controller joints parameter: ['joint1', 'joint2', 'joint3', 'joint4', 'joint5', 'joint6']
+# /joint_states before (stamp 25.479)
+joint1: 0.000000
+joint2: 0.000000
+joint3: 0.000000
+joint4: 0.000000
+joint5: 0.000000
+joint6: 0.000000
+# FollowJointTrajectory /cr5_group_controller/follow_joint_trajectory: joint1 0.000000 -> 0.300000 in 3.0 s
+accepted: True
+status: 4 error_code: 0 error_string: 'Goal successfully reached!'
+# /joint_states after (stamp 29.790)
+joint1: 0.300000
+joint2: -0.000000
+joint3: -0.000000
+joint4: -0.000000
+joint5: 0.000000
+joint6: 0.000000
+# moved joint1: +0.300000 rad (commanded +0.300000)
+exit 0

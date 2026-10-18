@@ -40,3 +40,17 @@ below; nothing in public/ is touched.
   joint1 0.000000 -> 0.299897 rad, error_code 0.
 - stop_reference.sh 46 reported one process left after KILL (pid 518673, already gone a moment later); a second
   stop_reference.sh run found the domain empty.
+
+## cr5 – OFFICIAL-JAZZY (verified)
+- Source: https://github.com/Dobot-Arm/DOBOT_6Axis_ROS2_V4 branch jazzy 89d47c66 (git ls-remote shows refs/heads/jazzy;
+  README: "| ROS Version | ROS2 Jazzy |", "| Simulation | Gazebo Sim (Harmonic) |"). P2b rule 9 expected Humble only:
+  a maker Jazzy branch exists now, so no port (OFFICIAL-JAZZY).
+- Build: `--packages-up-to dobot_gazebo dobot_moveit cr5_moveit` → "Summary: 6 packages finished [10min 8s]".
+- Attempt 1 failed: `ros2 run dobot_gazebo controller_loader.py cr5` → "No executable found": upstream file mode is
+  100644, and --symlink-install links the installed program to it. Decision: rebuilt dobot_gazebo alone without
+  --symlink-install (install(PROGRAMS) copies it executable). No upstream change. Attempt 1 in fixtures/cr5/sim_attempt1_symlink_install.
+- Scenario: README scenario 3, `DOBOT_TYPE=cr5`, launch file's own `gui:=false`.
+- Evidence `parity/fixtures/cr5/install_check/`: cr5_group_controller + joint_state_broadcaster active; 21 topics;
+  joint1 0.000000 -> 0.300000 rad, error_code 0.
+- Note: the earlier "process left after KILL" (lite6) and this one were my own shell, which had ROS_DOMAIN_ID=46
+  exported; stop_reference.sh is now run from a shell without it.

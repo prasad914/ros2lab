@@ -1,0 +1,4 @@
+# ros2 control list_controllers (domain 46, cr5 sim, 2026-10-18T07:33:58+05:30)
+[INFO] [1792289040.809052543] [_ros2cli_536809]: waiting for service /controller_manager/list_controllers to become available...
+joint_state_broadcaster joint_state_broadcaster/JointStateBroadcaster          active
+cr5_group_controller    joint_trajectory_controller/JointTrajectoryController  active
