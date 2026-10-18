@@ -352,9 +352,11 @@ class Costmap extends NavNode {
     // Costmap2DROS::on_activate waits for global_frame <- robot_base_frame (2 Hz, initial_transform_timeout 60 s)
     if (!this.sys.basePose(this.frame)) {
       const w = this.sys.wall();
-      if (this.tfWait === undefined) { this.tfWait = w; this.info("Checking transform"); this.tfLast = -1; }
+      // the 2 Hz message is on the wall clock, the timeout on the node clock (sim time): on Jazzy it failed after
+      // ~57.6 s sim / 98 s wall (nav_robotis/readiness_deadlock_2026-10-17/excerpt.txt: 197 lines, stamps 9.0 .. 66.6)
+      if (this.tfWait === undefined) { this.tfWait = w; this.tfWaitSim = this.sys.now(); this.info("Checking transform"); this.tfLast = -1; }
       if (w - this.tfLast >= 0.5) { this.tfLast = w; this.info(`Timed out waiting for transform from ${this.baseFrame} to ${this.frame} to become available, tf error: Invalid frame ID "${this.frame}" passed to canTransform argument target_frame - frame does not exist`); }
-      if (w - this.tfWait > num(this.P.initial_transform_timeout, 60)) { this.error(`Failed to activate ${this.which} because transform from ${this.baseFrame} to ${this.frame} did not become available before timeout`); this.tfWait = undefined; this.actLogged = false; return false; }
+      if (this.sys.now() - this.tfWaitSim > num(this.P.initial_transform_timeout, 60)) { this.error(`Failed to activate ${this.which} because transform from ${this.baseFrame} to ${this.frame} did not become available before timeout`); this.tfWait = undefined; this.actLogged = false; return false; }
       return "pending";
     }
     if (this.tfWait === undefined) this.info("Checking transform");
