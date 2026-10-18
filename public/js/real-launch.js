@@ -238,6 +238,12 @@ export function asyncResolver(sh) {
 }
 
 // ---------------------------------------------------------------- ros2 launch / ros2 run
+// launch files that run here but whose programs are not modelled well enough to behave like Jazzy (expert review
+// 2026-10-18 must-fix 6: on the reference machine tb3_simulation_launch.py reached READY in all 25 matrix runs; the
+// site printed a local_costmap TF failure and "Aborting bringup")
+const NOT_SIMULATED = {
+  "nav2_bringup tb3_simulation_launch.py": "On Ubuntu it starts Nav2's own TurtleBot3 demo (the nav2_minimal_tb3_sim world and robot) with the whole Nav2 stack. Here, use the ROBOTIS launch files: ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py, then in a second terminal ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True map:=<your map .yaml>.",
+};
 // ui: { print(text, cls), nodes(fulls), paint(), done(rc), status?(text) }   returns { ctrlC(), done: Promise<rc> }
 export function startRealLaunch(sh, argv, ui) {
   const R = sh.realWs;
@@ -260,6 +266,9 @@ export function startRealLaunch(sh, argv, ui) {
   let badMap = null;
   ctx.onLine = (l) => { if (/\[(map_io|lifecycle_manager_localization)\]/.test(l)) envHint(l); };   // nav2 models print to the terminal directly
   ctl.done = (async () => {
+    // launches whose world or robot ROS2Lab does not model yet: an honest note instead of a real-looking failure
+    const ns = NOT_SIMULATED[`${argv[0]} ${argv[1]}`];
+    if (ns) { ctx.emit(`(ROS2Lab: \`ros2 launch ${argv[0]} ${argv[1]}\` is not simulated on ROS2Lab yet. ${ns} Nothing was started.)`, "hint"); ui.done(1); return 1; }
     let rt;
     try { rt = await prepareRuntime(sh, (s) => ui.status && ui.status(s && s.text ? s.text : String(s))); }
     catch (e) { ctx.emit(`[ERROR] [launch]: the launch system could not start in this browser: ${e.message}`, "err"); ui.done(1); return 1; }
