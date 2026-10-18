@@ -46,5 +46,28 @@ What is compared: `ros2 launch interbotix_xsarm_ros_control xsarm_ros_control.la
 hardware_type:=fake use_rviz:=false` – the maker's ros2_control stack with mock hardware, namespace `/wx250s`
 (controllers under `/wx250s/controller_manager`, joint states on `/wx250s/joint_states`). This is NOT a physics
 simulation: the maker's simulation is Gazebo Classic (`interbotix_xsarm_sim/launch/xsarm_gz_classic.launch.py`,
-`hardware_type='gz_classic'`), which Jazzy does not have. A Gazebo Harmonic port was not done (PENDING).
+`hardware_type='gz_classic'`), which Jazzy does not have. Gazebo Harmonic port (done after M1; ROS2LAB-PORT, three more commits):
+  7. 039e288 interbotix_ros_toolboxes `xs_launch.py`: `hardware_type` accepts `gz_harmonic`, which uses sim time.
+  8. 7ed1d43 interbotix_ros_manipulators `control.urdf.xacro` + `wx250s.urdf.xacro`: `gz_harmonic` gets the same branches
+     as `gz_classic`:
+     - the gripper and right_finger interfaces;
+     - no mimic on right_finger;
+     - gazebo_configs.
+     The hardware plugin is `gz_ros2_control/GazeboSimSystem` (from gz_ros2_control 1.2.20 `gz_hardware_plugins.xml`), and
+     the world plugin is `gz_ros2_control-system` / `gz_ros2_control::GazeboSimROS2ControlPlugin` with namespace
+     /<robot_name> and the maker's `interbotix_xsarm_sim/config/trajectory_controllers/wx250s_trajectory_controllers.yaml`.
+     Only wx250s.urdf.xacro was changed. The other xsarm models keep Classic-only conditions.
+  9. 86951bf `interbotix_xsarm_sim/launch/xsarm_gz_harmonic.launch.py` (new) + package.xml exec_depends
+     (ros_gz_sim, ros_gz_bridge, gz_ros2_control). It follows xsarm_gz_classic.launch.py:
+     - the same description include and spawner order;
+     - ros_gz_sim gz_sim.launch.py (`empty.sdf -r -s -v 2`) instead of gazebo_ros;
+     - ros_gz_sim create from /wx250s/robot_description;
+     - a /clock bridge;
+     - GZ_SIM_RESOURCE_PATH set to the share parents.
+     Gazebo Classic material names in gazebo_configs are kept (Harmonic does not use them).
+  Evidence `parity/fixtures/wx250s/gz/install_check/` (scenario gz):
+  - controllers.txt: three controllers active;
+  - topics.txt;
+  - motion_proof.txt: waist −0.003343 → 0.293883 rad, error_code 0;
+  - gz_world.txt: models ground_plane and wx250s, real_time_factor 0.388 / 0.398.
 M1 compares against `xsarm_moveit.launch.py robot_model:=wx250s hardware_type:=fake use_moveit_rviz:=false` with fixes 4–6.

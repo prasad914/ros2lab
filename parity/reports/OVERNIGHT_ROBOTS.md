@@ -255,3 +255,18 @@ below; nothing in public/ is touched.
     right_finger). The mock hardware starts the fingers at 0.
   - fail_controller_inactive: −4 CONTROL_FAILED; arm_controller reactivated: True.
   - Domain 48 empty after stop.
+
+## wx250s – Gazebo Harmonic port (domain 46, done after M1)
+- Decision: time remained, so the maker's Gazebo Classic launch was ported to Harmonic. These are commits 7–9 in
+  `parity/robots/wx250s/PORTING.md`, on the jazzy-ros2lab branches. Only wx250s.urdf.xacro was changed; the other xsarm
+  models were not touched.
+- Scenario `parity/robots/wx250s/scenarios/gz.sh`: `ros2 launch interbotix_xsarm_sim xsarm_gz_harmonic.launch.py
+  robot_model:=wx250s use_rviz:=false`. The first launch activated joint_state_broadcaster, arm_controller and
+  gripper_controller.
+- Evidence `parity/fixtures/wx250s/gz/install_check/`:
+  - controllers.txt: three controllers active;
+  - topics.txt: 25 topics;
+  - motion_proof.txt: waist −0.003343 → 0.293883 rad, +0.297226 for a commanded +0.3, error_code 0;
+  - gz_world.txt: models ground_plane and wx250s, real_time_factor 0.388 / 0.398.
+- The M1 MoveIt ground truth above stays on the fake hardware: xsarm_moveit.launch.py has no gz_harmonic mode, and adding
+  one was not done. Domain 46 empty after stop.

@@ -1,0 +1,21 @@
+# python3 parity/scripts/arm_motion_proof.py --controller wx250s/arm_controller --joint-states /wx250s/joint_states --joint-index 0 --delta 0.3 --duration 3 (domain 46, Gazebo Harmonic, 2026-10-18T13:14:41+05:30)
+# controller wx250s/arm_controller joints parameter: ['waist', 'shoulder', 'elbow', 'forearm_roll', 'wrist_angle', 'wrist_rotate']
+# /joint_states before (stamp 39.944)
+waist: -0.003343
+shoulder: 0.000000
+elbow: 0.000000
+forearm_roll: -0.000000
+wrist_angle: 0.000000
+wrist_rotate: -0.000000
+# FollowJointTrajectory /wx250s/arm_controller/follow_joint_trajectory: waist -0.003343 -> 0.296657 in 3.0 s
+accepted: True
+status: 4 error_code: 0 error_string: 'Goal successfully reached!'
+# /joint_states after (stamp 43.643)
+waist: 0.293883
+shoulder: 0.000000
+elbow: 0.000000
+forearm_roll: -0.000000
+wrist_angle: 0.000000
+wrist_rotate: -0.000000
+# moved waist: +0.297226 rad (commanded +0.300000)
+exit 0
