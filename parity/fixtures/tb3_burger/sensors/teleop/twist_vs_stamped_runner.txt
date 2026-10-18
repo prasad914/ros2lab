@@ -1,0 +1,27 @@
+# Excerpt of parity/fixtures/tb3_burger/sensors/teleop/twist_vs_stamped_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-18T18:56:53+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# 2026-10-18T18:56:18+05:30 ROS_DOMAIN_ID=41 GZ_PARTITION=review_41 TURTLEBOT3_MODEL=<unset>
+2:# cmd: ros2 topic echo /odom --once --no-daemon --field pose.pose.position
+3:x: 9.600770259177322e-09
+4:y: -2.214041751455895e-21
+5:z: 0.0
+6:---
+7:# cmd: timeout -s INT 6 ros2 topic pub -r 10 /cmd_vel geometry_msgs/msg/Twist '{linear: {x: 0.2}}'
+8:publisher: beginning loop
+9:publishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=0.2, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0))
+10:
+11:# cmd: ros2 topic echo /odom --once --no-daemon --field pose.pose.position
+12:x: 9.600830852388243e-09
+13:y: -2.2140671971877853e-21
+14:z: 0.0
+15:---
+16:# cmd: timeout -s INT 6 ros2 topic pub -r 10 /cmd_vel geometry_msgs/msg/TwistStamped '{twist: {linear: {x: 0.2}}}'
+17:publisher: beginning loop
+18:publishing #1: geometry_msgs.msg.TwistStamped(header=std_msgs.msg.Header(stamp=builtin_interfaces.msg.Time(sec=0, nanosec=0), frame_id=''), twist=geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=0.2, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0)))
+19:
+20:# cmd: ros2 topic echo /odom --once --no-daemon --field pose.pose.position
+21:x: 1.2343000095971604
+22:y: 5.7713843787439625e-12
+23:z: 0.0
+24:---

@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 # Real-ROS captures asked for by parity/reports/expert_review_2026-10-18.md (item 1 of the follow-up task).
-# Usage: capture_review_items.sh <a|b|c|d|e> [domain=41]
+# Usage: capture_review_items.sh <a|b|c|d|e|f> [domain=41]
 #   a  turtlebot3_world.launch.py with TURTLEBOT3_MODEL unset   -> tb3_burger/sensors/errors/no_tb3_model/
 #   b  navigation2.launch.py with map:= a missing file (timeout 180) -> tb3_burger/nav_robotis/errors/bad_map_path/
 #   c  ros2 topic info /cmd_vel -v while each teleop runs        -> tb3_burger/sensors/teleop/
 #   d  ros2 topic hz /map --use-sim-time under slam_toolbox      -> tb3_burger/slam/samples/map_hz_runner.log
 #   e  one /imu sample                                           -> tb3_burger/sensors/samples/imu_runner.log
+#   f  /odom before/after 6 s of Twist, then TwistStamped, on /cmd_vel -> tb3_burger/sensors/teleop/twist_vs_stamped_runner.log
 # Logs are named *runner*.log so parity/scripts/log_excerpts.py writes tracked .txt copies of every line.
 # The domain must be empty before and after (checked); the simulators are always stopped with stop_reference.sh.
 set -u
-ITEM=${1:?a|b|c|d|e}; DOMAIN=${2:-41}; PART=review_$DOMAIN
+ITEM=${1:?a|b|c|d|e|f}; DOMAIN=${2:-41}; PART=review_$DOMAIN
 HERE=$(cd "$(dirname "$0")" && pwd)
 source "$HERE/domain_procs.sh"
 check_empty() {
@@ -113,6 +114,20 @@ case $ITEM in
       timeout 30 ros2 topic echo /imu --once --no-daemon 2>&1
       echo "# cmd: ros2 topic info /imu -v --no-daemon"; timeout 30 ros2 topic info /imu -v --no-daemon 2>&1
     } > "$OUT/imu_runner.log"
+    ;;
+  f)
+    OUT=$F/sensors/teleop; mkdir -p "$OUT"
+    OUT_DIR=$OUT/world_f bash "$HERE/start_reference.sh" tb3_burger sensors "$DOMAIN" "$PART" > /dev/null || exit 1
+    wait_topic /odom 90 || echo "warning: /odom not seen after 90 s"
+    export ROS_DOMAIN_ID=$DOMAIN GZ_PARTITION=$PART
+    sleep 5
+    pos() { echo "# cmd: ros2 topic echo /odom --once --no-daemon --field pose.pose.position"; timeout 30 ros2 topic echo /odom --once --no-daemon --field pose.pose.position 2>&1; }
+    { stamp; pos
+      echo "# cmd: timeout -s INT 6 ros2 topic pub -r 10 /cmd_vel geometry_msgs/msg/Twist '{linear: {x: 0.2}}'"
+      timeout -s INT 6 ros2 topic pub -r 10 /cmd_vel geometry_msgs/msg/Twist '{linear: {x: 0.2}}' 2>&1 | head -3; sleep 1; pos
+      echo "# cmd: timeout -s INT 6 ros2 topic pub -r 10 /cmd_vel geometry_msgs/msg/TwistStamped '{twist: {linear: {x: 0.2}}}'"
+      timeout -s INT 6 ros2 topic pub -r 10 /cmd_vel geometry_msgs/msg/TwistStamped '{twist: {linear: {x: 0.2}}}' 2>&1 | head -3; sleep 1; pos
+    } > "$OUT/twist_vs_stamped_runner.log"
     ;;
   *) echo "unknown item $ITEM" >&2; exit 2 ;;
 esac
