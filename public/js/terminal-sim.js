@@ -521,7 +521,7 @@ export class Shell {
           if (long) {
             for (const n of names) {
               const nd = this.node(full(n)) || { type: "d", mode: "rwxr-xr-x" };
-              const size = nd.type === "d" ? 4096 : (nd.content || "").length;
+              const size = nd.type === "d" ? 4096 : nd.bytes ? nd.bytes.length : new TextEncoder().encode(nd.content || "").length;   // binary files (a saved map.pgm) by their bytes
               L.push({ text: `${nd.type === "d" ? "d" : "-"}${nd.mode} 1 ${USER} ${USER} ${String(size).padStart(5)} Oct  2 10:15 ${n}`,
                 cls: nd.type === "d" ? "dir" : nd.mode[2] === "x" ? "exe" : undefined });
             }

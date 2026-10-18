@@ -71,3 +71,12 @@ test("tb3_burger nav2: the initial transform timeout counts sim time, not wall t
   await page.waitForTimeout(70000);
   expect(await screen(page)).not.toMatch(/Failed to activate global_costmap/);
 });
+
+test("ls -l shows a binary file's real size (a saved map.pgm is not 31 bytes)", async ({ page }) => {
+  await page.goto("/rviz.html?robot=tb3_burger");
+  await page.waitForFunction(() => !!(window as any).__ros2lab?.term, null, { timeout: 60000 });
+  await page.evaluate(() => { const sh = (window as any).__ros2lab.sh; sh.fs.set("/home/student/m.pgm", { type: "f", mode: "rw-r--r--", content: "(binary PGM image, 1234 bytes)", bytes: new Uint8Array(1234) }); });
+  await run(page, "ls -l ~/m.pgm");
+  await page.waitForTimeout(500);
+  expect(after(await screen(page), "ls -l ~/m.pgm")).toMatch(/ 1234 .*m\.pgm/);
+});
