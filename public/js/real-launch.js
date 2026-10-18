@@ -249,7 +249,16 @@ export function startRealLaunch(sh, argv, ui) {
   const envHint = (l) => {
     const m = l.match(/^\[ERROR\] \[launch\]: Caught exception in launch \(see debug for traceback\): '(\w+)'$/);
     if (m && R.env && R.env[m[1]] !== undefined) ctx.emit(`(The launch file reads ${m[1]} from the environment, and this terminal has not set it. Set it first, then launch again: export ${m[1]}=${R.env[m[1]]})`, "hint");
+    // map_server could not read map:= (missing file): after the localization bring-up aborts, say what to do
+    const bad = l.match(/\[map_io\]: Failed processing YAML file (\S+) at position \(-1:-1\) for reason: bad file:/);
+    if (bad) badMap = bad[1];
+    if (badMap && /\[lifecycle_manager_localization\]: Failed to bring up all requested nodes\. Aborting bringup\./.test(l)) {
+      ctx.emit(`(The map file ${badMap} does not exist, so map_server cannot start and Nav2 waits for a map that never comes; this launch keeps running until you press Ctrl+C. Save a map first with ros2 run nav2_map_server map_saver_cli -f ~/map, or pass map:= the path of an existing map .yaml file.)`, "hint");
+      badMap = null;
+    }
   };
+  let badMap = null;
+  ctx.onLine = (l) => { if (/\[(map_io|lifecycle_manager_localization)\]/.test(l)) envHint(l); };   // nav2 models print to the terminal directly
   ctl.done = (async () => {
     let rt;
     try { rt = await prepareRuntime(sh, (s) => ui.status && ui.status(s && s.text ? s.text : String(s))); }
@@ -323,7 +332,7 @@ function makeContext(sh, ui, getJob) {
   let finished = false;
   const fs = fsFor(sh), resolve = syncResolver(sh), resolveAsync = asyncResolver(sh);
   g.gzResolve = resolve;
-  const emit = (text, cls) => ui.print(text, cls);
+  const emit = (text, cls) => { ui.print(text, cls); if (ctx.onLine && cls !== "hint") ctx.onLine(String(text)); };
   const lines = (arr) => { for (const l of arr || []) { if (l == null) continue; if (typeof l === "string") emit(l, /\[(ERROR|FATAL)\]|\[Err\]/.test(l) ? "err" : /\[(WARN)\]|\[Wrn\]/.test(l) ? "warn" : ""); else emit(l.text, l.cls); } };
   const slot = (pid) => byPid.get(pid) || byPid.set(pid, { fulls: [], nav2: [] }).get(pid);
   const track = (pid, full) => { if (!full) return; fulls.add(full); slot(pid).fulls.push(full); ui.nodes([...fulls]); };

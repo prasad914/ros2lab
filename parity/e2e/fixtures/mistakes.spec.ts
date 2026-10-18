@@ -8,7 +8,8 @@ test.describe.configure({ timeout: 600000 });
 const B = path.join(FIX, "tb3_burger");
 // "<source line>:<log line>" excerpt -> [level, logger, message] of the lines that match `keep`
 function fixtureLines(file: string, keep: RegExp) {
-  return text(file).split("\n").filter((l) => !l.startsWith("#")).map((l) => l.replace(/^\d+:/, ""))
+  // the colour codes some loggers print (lifecycle_manager) are not text on a terminal
+  return text(file).split("\n").filter((l) => !l.startsWith("#")).map((l) => l.replace(/^\d+:/, "").replace(/\x1b?\[[0-9;]+m/g, ""))
     .map((l) => l.match(/\[(INFO|WARN|ERROR|FATAL)\] (?:\[\d+\.\d+\] )?\[([^\]]+)\]: (.*)$/)).filter((m): m is RegExpMatchArray => !!m && keep.test(m[0]))
     .map((m) => ({ level: m[1], logger: m[2], msg: m[3].replace(/\/home\/prasad/g, "/home/student") }));
 }

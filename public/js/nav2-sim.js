@@ -225,7 +225,14 @@ class MapServer extends NavNode {
     const p = path.startsWith("~/") ? home + path.slice(1) : path;
     const read = (x) => (this.fs ? this.fs.read(x) : null);
     const y = read(p);
-    if (y == null) { this.info(`Loading yaml file: ${p}`, "map_io"); this.error(`Failed processing YAML file ${p} at position (0:0) for reason: bad file: ${p}`, "map_io"); this.error(`Caught exception in configure: Failed to load map yaml file: ${p}`); return false; }
+    // a missing file, as on Jazzy (parity/fixtures/tb3_burger/nav_robotis/errors/bad_map_path/nav2_runner.txt:64-69):
+    // yaml-cpp's BadFile, then rclcpp_lifecycle reports the exception thrown by on_configure
+    if (y == null) {
+      this.info(`Loading yaml file: ${p}`, "map_io"); this.error(`Failed processing YAML file ${p} at position (-1:-1) for reason: bad file: ${p}`, "map_io");
+      this.error("Caught exception in callback for transition 10"); this.error(`Original error: Failed to load map yaml file: ${p}`);
+      this.warn("Callback returned ERROR during the transition: configure"); this.log("FATAL", `Lifecycle node ${this.name} does not have error state implemented`);
+      return false;
+    }
     const r = C.loadMap(typeof y === "string" ? y : new TextDecoder().decode(y), p, read);
     for (const [lv, lg, t] of r.logs) this.log(lv, t, lg);
     if (r.error) return false;
