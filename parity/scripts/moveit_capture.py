@@ -235,6 +235,19 @@ def parse_srdf(text):
     return {'robot': root.get('name'), 'groups': groups, 'group_states': states, 'end_effectors': ees, 'virtual_joints': vj}
 
 
+def chain_joints(text, base, tip):
+    """Movable joints on the URDF path base -> tip (what an SRDF <chain> group contains), in order from the base."""
+    root = ET.fromstring(text)
+    by_child = {j.find('child').get('link'): j for j in root.findall('joint')}
+    path, link = [], tip
+    while link != base and link in by_child:
+        j = by_child[link]
+        if j.get('type') in ('revolute', 'prismatic', 'continuous'):
+            path.append(j.get('name'))
+        link = j.find('parent').get('link')
+    return list(reversed(path)) if link == base else []
+
+
 def urdf_limits(text):
     root = ET.fromstring(text)
     out = {}
@@ -291,8 +304,13 @@ def main():
     if not n.ac.wait_for_server(timeout_sec=60):
         print('ERROR: /move_action not available')
         return 2
-    gj = S['groups'].get(a.group, {}).get('joints', [])
-    gj = [j for j in gj if j in L] or [j for j in n.joints_now() if j in L]
+    G = S['groups'].get(a.group, {})
+    gj = [j for j in G.get('joints', []) if j in L]
+    for c in G.get('chains', []):
+        gj += [j for j in chain_joints(urdf, c['base'], c['tip']) if j not in gj]
+    if not gj:
+        print(f'ERROR: no joints found for group {a.group}')
+        return 2
     print(f'group {a.group} joints {gj}; frame {n.frame}', flush=True)
     # successful runs
     for st in [s for s in S['group_states'] if s['group'] == a.group]:
