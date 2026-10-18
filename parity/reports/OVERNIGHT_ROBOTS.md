@@ -117,8 +117,9 @@ below; nothing in public/ is touched.
   - attempt 1: map_saver_cli "Failed to spin map subscription" 2 s after start (default save_map_timeout) →
     `fixtures/tb4/p2c_slam_attempt1_map_saver_timeout/`. Decision: MAP_SAVE_TIMEOUT=20.0 for attempt 2.
   - attempt 2 `fixtures/tb4/p2c_slam/`: map saved and reloaded by map_server (active), but it is 11 × 22 cells at
-    0.05 m (0.55 × 1.10 m): slam_toolbox dropped scans all run long ("Message Filter dropping message: frame
-    'turtlebot4/rplidar_link/rplidar' … discarding message because the queue is full", `excerpts/slam_dropping.txt`);
-    tf2_echo map odom (6 s) saw no map frame, view_frames later showed map -> odom. real_time_factor about 0.2.
-  - Result: SLAM run captured, the map is NOT usable as a navigation map (failed twice to give a full map). UNVERIFIED
-    whether the low real-time factor causes the dropped scans. Navigation uses the maker's warehouse map instead.
+    0.05 m (0.55 × 1.10 m). The launch log has 23 lines "Message Filter dropping message: frame
+    'turtlebot4/rplidar_link/rplidar' … discarding message because the queue is full" (`excerpts/slam_dropping.txt`)
+    and 1 "Registering sensor"; tf2_echo map odom (6 s) saw no map frame, view_frames later showed map -> odom.
+    A 12 m lidar would map more than this even standing still, so the cause is UNVERIFIED (not the 23 drops alone;
+    whether the robot left its dock was not recorded).
+  - Result: SLAM run captured, the map is NOT usable as a navigation map (two attempts). Navigation uses the maker's warehouse map instead.
