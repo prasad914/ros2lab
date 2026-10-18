@@ -37,7 +37,7 @@ Status definitions:
 | **g1** | mobile | Unitree G1 | no | no | NOT BUILT | - | - |
 | **h1** | mobile | Unitree H1 | no | no | NOT BUILT | - | - |
 | **spot** | mobile | Boston Dynamics Spot | no | no | NOT BUILT | - | - |
-| **crazyflie** | mobile | Bitcraze Crazyflie | no | no | NOT BUILT | - | - |
+| **crazyflie** | mobile | `https://github.com/IMRCLab/crazyswarm2` main f1e09954 | no | no | NOT BUILT | (would be `ros2 launch crazyflie launch.py backend:=sim`) | needs parity/scripts/robots_sudo.sh: swig (apt, for the cffirmware Python bindings of crazyflie-firmware 2025.02 that crazyflie_sim imports) and rowan (pip only) |
 | **arm3** | arm | ROS2Lab course robot | no | no | NOT BUILT | - | - |
 | **arm6** | arm | ROS2Lab course robot | no | no | NOT BUILT | - | - |
 | **chiku** | mobile | ROS2Lab course robot | no | no | NOT BUILT | - | - |

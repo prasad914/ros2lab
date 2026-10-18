@@ -90,3 +90,11 @@ below; nothing in public/ is touched.
   own --base-paths for the same reason.
 - Evidence `parity/fixtures/scout/install_check/`: controllers.txt = the DiffDrive system line (no controller_manager,
   as for TurtleBot3); 9 topics; TwistStamped 0.2 m/s for 5 s: /odom x 0.000000 -> 0.548800 m, Gazebo model pose x 0.551800.
+
+## crazyflie – NOT BUILT (needs robots_sudo.sh)
+- Source: https://github.com/IMRCLab/crazyswarm2 main f1e09954 (only branch).
+- The software-in-the-loop sim (`crazyflie launch.py backend:=sim`) imports `cffirmware` in crazyflie_sim/crazyflie_sil.py;
+  the bindings come from crazyflie-firmware 2025.02 built with swig (docs2/installation.rst step 6). swig is not
+  installed (`apt-cache policy swig`: Candidate 4.2.0-2ubuntu1). `rowan` (step 2, pip) is not installed and has no apt
+  package. transforms3d is installed (python3-transforms3d 0.4.1+ds-1).
+- Decision: not built; `sudo apt-get install -y swig` added to robots_sudo.sh section 4 with the rowan note.
