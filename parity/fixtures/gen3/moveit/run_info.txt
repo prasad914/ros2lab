@@ -1,9 +1,9 @@
 robot=gen3 scenario=moveit domain=48 partition=ref48 model=n/a
-date=2026-10-18T12:08:53+05:30
+date=2026-10-18T23:32:36+05:30
 ros_distro=jazzy tb3_ws=none robots_ws=/home/prasad/robots_ws
 status_row=| **gen3** | arm | `https://github.com/Kinovarobotics/ros2_kortex` jazzy 462dab9a + `https://github.com/PickNikRobotics/ros2_robotiq_gripper` main a74d007d | yes | yes | OFFICIAL-JAZZY | `xvfb-run -a ros2 launch kortex_bringup kortex_sim_control.launch.py sim_gazebo:=true use_sim_time:=true launch_rviz:=false` | build: `parity/robots/gen3/build_summary.txt` (6 packages); install_check/ 2026-10-18 (domain 46): `controllers.txt` (joint_trajectory_controller, joint_state_broadcaster active; gripper, twist, velocity controllers inactive as launched), `topics.txt`, `motion_proof.txt` (joint_1 0.0 -> 0.3 rad, error_code 0) |
 render=egl tb3_world_cmd=ros2 launch parity/scripts/launch/tb3_world_headless.launch.py
-git_commit=46dc31e3a617d10d30ab3ae8f57ffd514946c2a6
+git_commit=f8000c5d42a619b58208f399f8b9418399420cc9
 git_uncommitted_scripts=
 ros-jazzy-cartographer 2.0.9004-1noble.20260225.051215
 ros-jazzy-cartographer-ros 2.0.9003-2noble.20260920.232954

@@ -1,0 +1,7 @@
+# ros2 control list_controllers
+[INFO] [1792306145.716905966] [_ros2cli_678561]: waiting for service /controller_manager/list_controllers to become available...
+twist_controller                picknik_twist_controller/PicknikTwistController             inactive
+joint_state_broadcaster         joint_state_broadcaster/JointStateBroadcaster               active  
+joint_group_velocity_controller velocity_controllers/JointGroupVelocityController           inactive
+robotiq_gripper_controller      parallel_gripper_action_controller/GripperActionController  inactive
+joint_trajectory_controller     joint_trajectory_controller/JointTrajectoryController       active  

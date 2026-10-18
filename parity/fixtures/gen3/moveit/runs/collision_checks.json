@@ -1,0 +1,39 @@
+{
+  "box_size_m": 0.08,
+  "start_without_box": {
+    "valid": true,
+    "contacts": []
+  },
+  "tries": [
+    {
+      "joint": "joint_1",
+      "offset_rad": 0.4,
+      "box_frame": "world",
+      "box_center": [
+        0.4208818404733736,
+        -0.17576634008329675,
+        0.43483016396179375
+      ],
+      "added": true,
+      "start_with_box": {
+        "valid": true,
+        "contacts": []
+      },
+      "goal_with_box": {
+        "valid": false,
+        "contacts": [
+          "bracelet_link - parity_box",
+          "robotiq_85_base_link - parity_box"
+        ]
+      }
+    }
+  ],
+  "used": {
+    "joint": "joint_1",
+    "offset_rad": 0.4
+  },
+  "removed": {
+    "world_objects_after_remove": [],
+    "box_gone": true
+  }
+}

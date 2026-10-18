@@ -1,0 +1,54 @@
+{
+  "name": "fail_unreachable_pose",
+  "note": "end_effector_link 10 m beyond the current pose in x",
+  "group": "manipulator",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {},
+  "goal_pose": {
+    "frame": "world",
+    "link": "end_effector_link",
+    "position": [
+      9.991924185874156,
+      -0.023522516474004485,
+      1.1373843859563704
+    ],
+    "orientation_xyzw": [
+      -1.8138302311454277e-05,
+      -0.00014262294573652202,
+      -0.15005809951202498,
+      0.9886771698084957
+    ]
+  },
+  "joint_states_before": {
+    "joint_1": 1.072073221206665,
+    "joint_2": -0.29324546456336975,
+    "joint_3": -0.018484510481357574,
+    "joint_4": 0.7402332425117493,
+    "joint_5": -0.006962673272937536,
+    "joint_6": -0.4587419927120209,
+    "joint_7": -0.7554634809494019
+  },
+  "send_wall": 1792306198.2736928,
+  "accepted": true,
+  "status": 6,
+  "error_code": -27,
+  "error_code_name": "GOAL_STATE_INVALID",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [],
+    "points": 0,
+    "last_time_from_start": null
+  },
+  "result_wall": 1792306203.319587,
+  "joint_states_after": {
+    "joint_1": 1.072073221206665,
+    "joint_2": -0.29324546456336975,
+    "joint_3": -0.018484510481357574,
+    "joint_4": 0.7402332425117493,
+    "joint_5": -0.006962673272937536,
+    "joint_6": -0.4587419927120209,
+    "joint_7": -0.7554634809494019
+  }
+}
