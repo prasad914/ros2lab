@@ -3,7 +3,7 @@ share: /home/prasad/robots_ws/install/interbotix_xsarm_moveit/share/interbotix_x
 version (package.xml): 0.3.0
 dpkg: not an apt package
 source: /home/prasad/robots_ws/src/interbotix/interbotix_ros_manipulators/interbotix_ros_xsarms/interbotix_xsarm_moveit/package.xml
-git: https://github.com/Interbotix/interbotix_ros_manipulators.git e5087dab5928cc016fdb9bd36413644da4ef5518
+git: https://github.com/Interbotix/interbotix_ros_manipulators.git 86951bfdbe2ce40bb4dd63cc8ea46060083a5553
 copied config/controllers/vx300_controllers.yaml
 copied config/controllers/rx150_controllers.yaml
 copied config/controllers/px150_controllers.yaml
