@@ -1,0 +1,52 @@
+{
+  "name": "state_home",
+  "note": "named state from the SRDF, plan + execute",
+  "group": "ur_manipulator",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "elbow_joint": 0.0,
+    "shoulder_lift_joint": -1.5707,
+    "shoulder_pan_joint": 0.0,
+    "wrist_1_joint": 0.0,
+    "wrist_2_joint": 0.0,
+    "wrist_3_joint": 0.0
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "elbow_joint": 3.061531848441984e-15,
+    "shoulder_lift_joint": -1.5699999999999965,
+    "shoulder_pan_joint": 6.856365060092462e-22,
+    "wrist_1_joint": -1.56999999999999,
+    "wrist_2_joint": -5.068581908403095e-15,
+    "wrist_3_joint": 1.4947875886198455e-21
+  },
+  "send_wall": 1792300142.0971506,
+  "accepted": true,
+  "status": 4,
+  "error_code": 1,
+  "error_code_name": "SUCCESS",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [
+      "shoulder_pan_joint",
+      "shoulder_lift_joint",
+      "elbow_joint",
+      "wrist_1_joint",
+      "wrist_2_joint",
+      "wrist_3_joint"
+    ],
+    "points": 18,
+    "last_time_from_start": 1.6274145500000001
+  },
+  "result_wall": 1792300144.534657,
+  "joint_states_after": {
+    "elbow_joint": 2.5645634881277385e-05,
+    "shoulder_lift_joint": -1.5699586446031353,
+    "shoulder_pan_joint": -0.00023277520807459922,
+    "wrist_1_joint": -0.0006239130700483817,
+    "wrist_2_joint": 0.0007296641135827924,
+    "wrist_3_joint": 0.0007898875982500617
+  }
+}

@@ -3,32 +3,33 @@
   "note": "tool0 10 m beyond the current pose in x",
   "group": "ur_manipulator",
   "plan_only": false,
+  "num_planning_attempts": 1,
   "velocity_scaling": 0.5,
   "goal_joints": {},
   "goal_pose": {
     "frame": "world",
     "link": "tool0",
     "position": [
-      9.883177295647709,
-      0.42105209389650655,
-      0.37283984799047754
+      9.755809723073398,
+      0.39491440263955335,
+      0.509752353667763
     ],
     "orientation_xyzw": [
-      0.9739296677132538,
-      0.041255617405119176,
-      -0.0019092686794282038,
-      0.2230590304685803
+      0.9790010968620487,
+      0.1890549397494825,
+      0.020470686887152,
+      0.07345769583640074
     ]
   },
   "joint_states_before": {
-    "elbow_joint": 1.8206568779193686,
-    "shoulder_lift_joint": -1.603220575495151,
-    "shoulder_pan_joint": 1.530343106044815,
-    "wrist_1_joint": -1.348045773014866,
-    "wrist_2_joint": -1.5994290317609527,
-    "wrist_3_joint": -0.11567269915515799
+    "elbow_joint": 1.5396344636631862,
+    "shoulder_lift_joint": -1.6418032401130356,
+    "shoulder_pan_joint": 1.8416412179191954,
+    "wrist_1_joint": -1.312312478252913,
+    "wrist_2_joint": -1.597989824805721,
+    "wrist_3_joint": -0.10467754007611302
   },
-  "send_wall": 1792300156.1728804,
+  "send_wall": 1792342934.390371,
   "accepted": true,
   "status": 6,
   "error_code": -27,
@@ -40,13 +41,13 @@
     "points": 0,
     "last_time_from_start": null
   },
-  "result_wall": 1792300161.2213614,
+  "result_wall": 1792342939.4263864,
   "joint_states_after": {
-    "elbow_joint": 1.8206568779193686,
-    "shoulder_lift_joint": -1.603220575495151,
-    "shoulder_pan_joint": 1.530343106044815,
-    "wrist_1_joint": -1.348045773014866,
-    "wrist_2_joint": -1.5994290317609527,
-    "wrist_3_joint": -0.11567269915515799
+    "elbow_joint": 1.5396344636631862,
+    "shoulder_lift_joint": -1.6418032401130356,
+    "shoulder_pan_joint": 1.8416412179191954,
+    "wrist_1_joint": -1.312312478252913,
+    "wrist_2_joint": -1.597989824805721,
+    "wrist_3_joint": -0.10467754007611302
   }
 }

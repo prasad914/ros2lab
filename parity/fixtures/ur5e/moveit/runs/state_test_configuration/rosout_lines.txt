@@ -1,0 +1,26 @@
+# /rosout messages received between send - 1 s and result + 1 s (wall); [level] [stamp] [name]: msg
+[INFO] [1792342924.552976032] [move_group.moveit.moveit.ros.move_group.move_action]: Solution was found and executed.
+[INFO] [1792342925.567769523] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+[INFO] [1792342925.568489275] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+[INFO] [1792342925.568674243] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+[WARN] [1792342925.568743579] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+[INFO] [1792342925.568778261] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+[INFO] [1792342925.568984274] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+[INFO] [1792342925.569046925] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+[WARN] [1792342925.569064926] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+[INFO] [1792342925.569123403] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+[INFO] [1792342925.569171677] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+[INFO] [1792342925.572491332] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'ur_manipulator' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+[INFO] [1792342925.573521079] [move_group]: Calling Planner 'OMPL'
+[INFO] [1792342925.594467145] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
+[INFO] [1792342925.612787280] [move_group]: Calling PlanningResponseAdapter 'ValidateSolution'
+[INFO] [1792342925.614005324] [move_group]: Calling PlanningResponseAdapter 'DisplayMotionPath'
+[WARN] [1792342925.614323088] [move_group.moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
+[INFO] [1792342925.614567338] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[INFO] [1792342925.614656012] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[INFO] [1792342925.614793961] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Validating trajectory with allowed_start_tolerance 0.01
+[INFO] [1792342925.616949468] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Starting trajectory execution ...
+[INFO] [1792342925.621280380] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[INFO] [1792342925.623539799] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[INFO] [1792342928.928627803] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Completed trajectory execution with status SUCCEEDED ...
+[INFO] [1792342928.933061888] [move_group.moveit.moveit.ros.move_group.move_action]: Solution was found and executed.

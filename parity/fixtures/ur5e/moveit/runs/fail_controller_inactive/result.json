@@ -3,25 +3,26 @@
   "note": "scaled_joint_trajectory_controller deactivated with switch_controller (ok=True)",
   "group": "ur_manipulator",
   "plan_only": false,
+  "num_planning_attempts": 1,
   "velocity_scaling": 0.5,
   "goal_joints": {
-    "elbow_joint": 2.0206568779193685,
-    "shoulder_lift_joint": -1.603220575495151,
-    "shoulder_pan_joint": 1.530343106044815,
-    "wrist_1_joint": -1.348045773014866,
-    "wrist_2_joint": -1.5994290317609527,
-    "wrist_3_joint": -0.11567269915515799
+    "shoulder_pan_joint": 0.2004662679126486,
+    "shoulder_lift_joint": -1.5703271937451626,
+    "elbow_joint": 0.0006181793625495465,
+    "wrist_1_joint": 0.0008328469260252996,
+    "wrist_2_joint": -0.00029317336073295006,
+    "wrist_3_joint": -0.0007057946138082976
   },
   "goal_pose": null,
   "joint_states_before": {
-    "elbow_joint": 1.8206568779193686,
-    "shoulder_lift_joint": -1.603220575495151,
-    "shoulder_pan_joint": 1.530343106044815,
-    "wrist_1_joint": -1.348045773014866,
-    "wrist_2_joint": -1.5994290317609527,
-    "wrist_3_joint": -0.11567269915515799
+    "elbow_joint": 0.0006181793625752213,
+    "shoulder_lift_joint": -1.5703271937451568,
+    "shoulder_pan_joint": 0.0004662679126485884,
+    "wrist_1_joint": 0.0008328469263185138,
+    "wrist_2_joint": -0.00029317336103789,
+    "wrist_3_joint": -0.0007057946138082976
   },
-  "send_wall": 1792300165.500613,
+  "send_wall": 1792342955.9751444,
   "accepted": true,
   "status": 6,
   "error_code": -4,
@@ -38,15 +39,15 @@
       "wrist_3_joint"
     ],
     "points": 7,
-    "last_time_from_start": 0.5652268
+    "last_time_from_start": 0.565545286
   },
-  "result_wall": 1792300165.565367,
+  "result_wall": 1792342956.0470154,
   "joint_states_after": {
-    "elbow_joint": 1.820656877955576,
-    "shoulder_lift_joint": -1.60322057548585,
-    "shoulder_pan_joint": 1.530343106044815,
-    "wrist_1_joint": -1.3480457729361397,
-    "wrist_2_joint": -1.5994290317586275,
-    "wrist_3_joint": -0.11567269915515799
+    "elbow_joint": 0.0006181793705857511,
+    "shoulder_lift_joint": -1.5703271937433556,
+    "shoulder_pan_joint": 0.0004662679126485884,
+    "wrist_1_joint": 0.0008328470178013541,
+    "wrist_2_joint": -0.00029317345617915796,
+    "wrist_3_joint": -0.0007057946138082959
   }
 }

@@ -1,13 +1,19 @@
 SRDF/URDF from latched topics /robot_description_semantic and /robot_description
-group ur_manipulator joints ['elbow_joint', 'shoulder_lift_joint', 'shoulder_pan_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']; frame 
+/move_group parameters: 184
+group ur_manipulator joints ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']; frame 
 state_home: accepted=True error_code=1 SUCCESS points=18
 state_up: accepted=True error_code=1 SUCCESS points=18
 state_test_configuration: accepted=True error_code=1 SUCCESS points=18
 joint_goal: accepted=True error_code=1 SUCCESS points=8
 pose_goal: accepted=True error_code=1 SUCCESS points=6
 fail_unreachable_pose: accepted=True error_code=-27 GOAL_STATE_INVALID points=0
-fail_joint_outside_limits: accepted=True error_code=-27 GOAL_STATE_INVALID points=0
-fail_goal_in_collision: accepted=True error_code=-27 GOAL_STATE_INVALID points=0
+fail_joint_outside_limits: accepted=True error_code=1 SUCCESS points=35
+reset_before_collision: accepted=True error_code=1 SUCCESS points=20
+fail_goal_in_collision_attempts1: accepted=True error_code=-27 GOAL_STATE_INVALID points=0
+fail_goal_in_collision_attempts10: accepted=True error_code=99999 FAILURE points=0
+collision checks: start valid True, used offset 0.4, box removed {'world_objects_after_remove': [], 'box_gone': True}
+reset_before_wrong_group: accepted=True error_code=1 SUCCESS points=2
 fail_wrong_group: accepted=True error_code=-1 PLANNING_FAILED points=0
+reset_before_controller_inactive: accepted=True error_code=1 SUCCESS points=2
 fail_controller_inactive: accepted=True error_code=-4 CONTROL_FAILED points=7
 controller scaled_joint_trajectory_controller reactivated: True

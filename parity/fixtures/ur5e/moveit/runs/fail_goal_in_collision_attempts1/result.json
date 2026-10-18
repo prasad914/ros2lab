@@ -1,0 +1,46 @@
+{
+  "name": "fail_goal_in_collision_attempts1",
+  "note": "shoulder_pan_joint +0.4 rad; box 0.08 m around tool0 at the goal only (start state valid with the box: /check_state_validity), 1 planning attempt(s)",
+  "group": "ur_manipulator",
+  "plan_only": false,
+  "num_planning_attempts": 1,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "shoulder_pan_joint": 0.3994345225476019,
+    "shoulder_lift_joint": -1.5703872543735657,
+    "elbow_joint": -0.00016609866888122942,
+    "wrist_1_joint": -0.0008454953835258325,
+    "wrist_2_joint": -0.0005261613437567103,
+    "wrist_3_joint": 0.000356477267317985
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "elbow_joint": -0.0001660986726124358,
+    "shoulder_lift_joint": -1.5703872543733934,
+    "shoulder_pan_joint": -0.0005654774568620927,
+    "wrist_1_joint": -0.0008454953803479185,
+    "wrist_2_joint": -0.0005261613398857759,
+    "wrist_3_joint": 0.00035647726757250106
+  },
+  "send_wall": 1792342947.7235458,
+  "accepted": true,
+  "status": 6,
+  "error_code": -27,
+  "error_code_name": "GOAL_STATE_INVALID",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [],
+    "points": 0,
+    "last_time_from_start": null
+  },
+  "result_wall": 1792342949.11781,
+  "joint_states_after": {
+    "elbow_joint": -0.00016609867264197683,
+    "shoulder_lift_joint": -1.5703872543733934,
+    "shoulder_pan_joint": -0.0005654774568974349,
+    "wrist_1_joint": -0.0008454953803227587,
+    "wrist_2_joint": -0.0005261613398551292,
+    "wrist_3_joint": 0.00035647726757451594
+  }
+}

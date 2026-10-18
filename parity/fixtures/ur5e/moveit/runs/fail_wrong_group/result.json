@@ -3,25 +3,26 @@
   "note": "group name that the SRDF does not have",
   "group": "parity_no_such_group",
   "plan_only": false,
+  "num_planning_attempts": 1,
   "velocity_scaling": 0.5,
   "goal_joints": {
-    "elbow_joint": 1.699554534553847,
-    "shoulder_lift_joint": -1.6197254602087046,
-    "shoulder_pan_joint": 1.5391943516149167,
-    "wrist_1_joint": -1.2005931652456736,
-    "wrist_2_joint": -1.6001809395229645,
-    "wrist_3_joint": -0.1104022018057293
+    "shoulder_pan_joint": 0.0002177275973239672,
+    "shoulder_lift_joint": -1.5710504619760683,
+    "elbow_joint": -0.0004717751133476574,
+    "wrist_1_joint": 0.0008201676398681108,
+    "wrist_2_joint": 0.00037626560424392673,
+    "wrist_3_joint": 9.334489936454207e-05
   },
   "goal_pose": null,
   "joint_states_before": {
-    "elbow_joint": 1.8206568779193686,
-    "shoulder_lift_joint": -1.603220575495151,
-    "shoulder_pan_joint": 1.530343106044815,
-    "wrist_1_joint": -1.348045773014866,
-    "wrist_2_joint": -1.5994290317609527,
-    "wrist_3_joint": -0.11567269915515799
+    "elbow_joint": -0.00047177511334817445,
+    "shoulder_lift_joint": -1.5710504619760697,
+    "shoulder_pan_joint": 0.0002177275973252921,
+    "wrist_1_joint": 0.0008201676398709284,
+    "wrist_2_joint": 0.00037626560424545335,
+    "wrist_3_joint": 9.334489936409698e-05
   },
-  "send_wall": 1792300164.4709082,
+  "send_wall": 1792342953.7409928,
   "accepted": true,
   "status": 6,
   "error_code": -1,
@@ -33,13 +34,13 @@
     "points": 0,
     "last_time_from_start": null
   },
-  "result_wall": 1792300164.4775786,
+  "result_wall": 1792342953.7547998,
   "joint_states_after": {
-    "elbow_joint": 1.8206568779193686,
-    "shoulder_lift_joint": -1.603220575495151,
-    "shoulder_pan_joint": 1.530343106044815,
-    "wrist_1_joint": -1.348045773014866,
-    "wrist_2_joint": -1.5994290317609527,
-    "wrist_3_joint": -0.11567269915515799
+    "elbow_joint": -0.00047177511335282795,
+    "shoulder_lift_joint": -1.5710504619760777,
+    "shoulder_pan_joint": 0.00021772759733721593,
+    "wrist_1_joint": 0.0008201676398962867,
+    "wrist_2_joint": 0.00037626560425919225,
+    "wrist_3_joint": 9.334489936009122e-05
   }
 }

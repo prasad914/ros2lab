@@ -1,0 +1,34 @@
+{
+  "box_size_m": 0.08,
+  "start_without_box": {
+    "valid": true,
+    "contacts": []
+  },
+  "tries": [
+    {
+      "offset_rad": 0.4,
+      "box_frame": "world",
+      "box_center": [
+        0.0015254877021168636,
+        0.25344409678711055,
+        0.9797076185604983
+      ],
+      "added": true,
+      "start_with_box": {
+        "valid": true,
+        "contacts": []
+      },
+      "goal_with_box": {
+        "valid": false,
+        "contacts": [
+          "wrist_3_link - parity_box"
+        ]
+      }
+    }
+  ],
+  "used": 0.4,
+  "removed": {
+    "world_objects_after_remove": [],
+    "box_gone": true
+  }
+}

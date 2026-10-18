@@ -1,9 +1,9 @@
 robot=ur5e scenario=moveit domain=48 partition=ref48 model=n/a
-date=2026-10-18T10:30:34+05:30
+date=2026-10-18T22:22:56+05:30
 ros_distro=jazzy tb3_ws=none robots_ws=/home/prasad/robots_ws
 status_row=| **ur5e** | arm | apt: `ros-jazzy-ur-simulation-gz` 2.5.0, `ros-jazzy-ur-moveit-config` | yes | yes | OFFICIAL-JAZZY | `ros2 launch ur_simulation_gz ur_sim_control.launch.py ur_type:=ur5e gazebo_gui:=false launch_rviz:=false` | install_check/ 2026-10-18 (domain 46): `controllers.txt` (scaled_joint_trajectory_controller, joint_state_broadcaster active), `topics.txt`, `motion_proof.txt` (shoulder_pan_joint 0.0 -> 0.3 rad, FollowJointTrajectory error_code 0) |
 render=egl tb3_world_cmd=ros2 launch parity/scripts/launch/tb3_world_headless.launch.py
-git_commit=dcf6122e4c14d5dbcb7d13fb103018afbcb4a66c
+git_commit=16d8d66a588456805df514eece1f560caa8075c4
 git_uncommitted_scripts=
 ros-jazzy-cartographer 2.0.9004-1noble.20260225.051215
 ros-jazzy-cartographer-ros 2.0.9003-2noble.20260920.232954

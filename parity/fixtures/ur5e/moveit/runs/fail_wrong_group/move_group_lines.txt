@@ -1,43 +1,14 @@
-# lines of parity/fixtures/ur5e/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792300163.471 .. 1792300166.478
-743:[move_group-8] [INFO] [1792300164.472127014] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
-744:[move_group-8] [INFO] [1792300164.472540649] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
-745:[move_group-8] [INFO] [1792300164.474063746] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
-746:[move_group-8] [WARN] [1792300164.474196288] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
-747:[move_group-8] [INFO] [1792300164.474237055] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
-748:[move_group-8] [INFO] [1792300164.474552001] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
-749:[move_group-8] [INFO] [1792300164.474625140] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
-750:[move_group-8] [WARN] [1792300164.474639140] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
-751:[move_group-8] [INFO] [1792300164.474677672] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
-752:[move_group-8] [INFO] [1792300164.474715596] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
-753:[move_group-8] [ERROR] [1792300164.474863132] [move_group.moveit.moveit.planners.ompl.planning_context_manager]: Cannot find planning configuration for group 'parity_no_such_group'
-754:[move_group-8] [ERROR] [1792300164.474926900] [move_group]: Failed to create PlanningContext for planner 'OMPL'. Aborting planning pipeline.
-755:[move_group-8] [INFO] [1792300164.475001536] [move_group.moveit.moveit.ros.move_group.move_action]: No motion plan found. No execution attempted.
-760:[move_group-8] [INFO] [1792300165.505047978] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
-761:[move_group-8] [INFO] [1792300165.505810548] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
-762:[move_group-8] [INFO] [1792300165.518252194] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
-763:[move_group-8] [WARN] [1792300165.518415828] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
-764:[move_group-8] [INFO] [1792300165.518449822] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
-765:[move_group-8] [INFO] [1792300165.518706901] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
-766:[move_group-8] [INFO] [1792300165.518751019] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
-767:[move_group-8] [WARN] [1792300165.518762740] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
-768:[move_group-8] [INFO] [1792300165.518798064] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
-769:[move_group-8] [INFO] [1792300165.518836433] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
-770:[move_group-8] [INFO] [1792300165.519478737] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'ur_manipulator' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
-771:[move_group-8] [INFO] [1792300165.519634694] [move_group]: Calling Planner 'OMPL'
-772:[move_group-8] [INFO] [1792300165.548977742] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
-773:[move_group-8] [INFO] [1792300165.550746598] [move_group]: Calling PlanningResponseAdapter 'ValidateSolution'
-774:[move_group-8] [INFO] [1792300165.551051437] [move_group]: Calling PlanningResponseAdapter 'DisplayMotionPath'
-775:[move_group-8] [WARN] [1792300165.551439388] [move_group.moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
-776:[move_group-8] [INFO] [1792300165.551853580] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
-777:[move_group-8] [INFO] [1792300165.551937759] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
-778:[move_group-8] [INFO] [1792300165.552040795] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Validating trajectory with allowed_start_tolerance 0.01
-779:[move_group-8] [INFO] [1792300165.552504498] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Starting trajectory execution ...
-780:[move_group-8] [INFO] [1792300165.552631251] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
-781:[move_group-8] [INFO] [1792300165.552711084] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
-782:[move_group-8] [INFO] [1792300165.553173530] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: sending trajectory to scaled_joint_trajectory_controller
-785:[move_group-8] [INFO] [1792300165.554041037] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: scaled_joint_trajectory_controller started execution
-786:[move_group-8] [WARN] [1792300165.554107079] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Goal request rejected
-787:[move_group-8] [ERROR] [1792300165.554051256] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Goal was rejected by server
-788:[move_group-8] [ERROR] [1792300165.554221861] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Failed to send trajectory part 1 of 1 to controller scaled_joint_trajectory_controller
-789:[move_group-8] [INFO] [1792300165.554273326] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Completed trajectory execution with status ABORTED ...
-790:[move_group-8] [INFO] [1792300165.562681264] [move_group.moveit.moveit.ros.move_group.move_action]: CONTROL_FAILED
+# lines of parity/fixtures/ur5e/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792342952.741 .. 1792342955.755
+833:[move_group-8] [INFO] [1792342953.743494955] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+834:[move_group-8] [INFO] [1792342953.744127576] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+835:[move_group-8] [INFO] [1792342953.745531752] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+836:[move_group-8] [WARN] [1792342953.745886507] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+837:[move_group-8] [INFO] [1792342953.746000717] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+838:[move_group-8] [INFO] [1792342953.746335449] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+839:[move_group-8] [INFO] [1792342953.746488605] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+840:[move_group-8] [WARN] [1792342953.746557908] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+841:[move_group-8] [INFO] [1792342953.746659511] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+842:[move_group-8] [INFO] [1792342953.746762810] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+843:[move_group-8] [ERROR] [1792342953.747005832] [move_group.moveit.moveit.planners.ompl.planning_context_manager]: Cannot find planning configuration for group 'parity_no_such_group'
+844:[move_group-8] [ERROR] [1792342953.747173650] [move_group]: Failed to create PlanningContext for planner 'OMPL'. Aborting planning pipeline.
+845:[move_group-8] [INFO] [1792342953.747343137] [move_group.moveit.moveit.ros.move_group.move_action]: No motion plan found. No execution attempted.

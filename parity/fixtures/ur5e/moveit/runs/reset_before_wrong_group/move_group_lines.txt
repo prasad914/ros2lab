@@ -1,0 +1,29 @@
+# lines of parity/fixtures/ur5e/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792342951.451 .. 1792342954.712
+802:[move_group-8] [INFO] [1792342952.452975411] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+803:[move_group-8] [INFO] [1792342952.453557284] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+804:[move_group-8] [INFO] [1792342952.456567922] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+805:[move_group-8] [WARN] [1792342952.456915279] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+806:[move_group-8] [INFO] [1792342952.457217250] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+807:[move_group-8] [INFO] [1792342952.458857873] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+808:[move_group-8] [INFO] [1792342952.459350544] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+809:[move_group-8] [WARN] [1792342952.459608195] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+810:[move_group-8] [INFO] [1792342952.459874839] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+811:[move_group-8] [INFO] [1792342952.460123166] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+812:[move_group-8] [INFO] [1792342952.461589920] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'ur_manipulator' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+813:[move_group-8] [INFO] [1792342952.462197653] [move_group]: Calling Planner 'OMPL'
+814:[move_group-8] [INFO] [1792342952.529214664] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
+815:[move_group-8] [INFO] [1792342952.529670415] [move_group]: Calling PlanningResponseAdapter 'ValidateSolution'
+816:[move_group-8] [INFO] [1792342952.530023244] [move_group]: Calling PlanningResponseAdapter 'DisplayMotionPath'
+817:[move_group-8] [WARN] [1792342952.530258686] [move_group.moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
+818:[move_group-8] [INFO] [1792342952.530602929] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+819:[move_group-8] [INFO] [1792342952.530780150] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+820:[move_group-8] [INFO] [1792342952.530968642] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Validating trajectory with allowed_start_tolerance 0.01
+821:[move_group-8] [INFO] [1792342952.537355603] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Starting trajectory execution ...
+822:[move_group-8] [INFO] [1792342952.537673354] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+823:[move_group-8] [INFO] [1792342952.537844604] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+824:[move_group-8] [INFO] [1792342952.538266663] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: sending trajectory to scaled_joint_trajectory_controller
+827:[move_group-8] [INFO] [1792342952.541575111] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: scaled_joint_trajectory_controller started execution
+828:[move_group-8] [INFO] [1792342952.541647386] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Goal request accepted!
+830:[move_group-8] [INFO] [1792342952.692444976] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Controller 'scaled_joint_trajectory_controller' successfully finished
+831:[move_group-8] [INFO] [1792342952.697466382] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Completed trajectory execution with status SUCCEEDED ...
+832:[move_group-8] [INFO] [1792342952.707627550] [move_group.moveit.moveit.ros.move_group.move_action]: Solution was found and executed.
