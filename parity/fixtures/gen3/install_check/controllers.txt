@@ -1,0 +1,7 @@
+# ros2 control list_controllers (domain 46, gen3 sim, 2026-10-18T07:47:20+05:30)
+[INFO] [1792289843.227531817] [_ros2cli_553751]: waiting for service /controller_manager/list_controllers to become available...
+robotiq_gripper_controller      parallel_gripper_action_controller/GripperActionController  inactive
+joint_trajectory_controller     joint_trajectory_controller/JointTrajectoryController       active  
+twist_controller                picknik_twist_controller/PicknikTwistController             inactive
+joint_group_velocity_controller velocity_controllers/JointGroupVelocityController           inactive
+joint_state_broadcaster         joint_state_broadcaster/JointStateBroadcaster               active  

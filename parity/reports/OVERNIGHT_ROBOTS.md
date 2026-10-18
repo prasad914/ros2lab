@@ -67,3 +67,15 @@ below; nothing in public/ is touched.
   joint trajectory controller for the arm); new `parity/scripts/joint_states_motion.py` samples /joint_states.
 - Evidence `parity/fixtures/fr3/install_check/`: both controllers active; 18 topics; all 7 joints changed by
   ±0.005299 rad between stamps 9.832 and 10.975 (5 s wall; real_time_factor about 0.23).
+
+## gen3 – OFFICIAL-JAZZY (verified)
+- Source: https://github.com/Kinovarobotics/ros2_kortex jazzy 462dab9a (README: "For this branch, ROS2 Jazzy has to be installed
+  on Ubuntu 24.04"); gripper https://github.com/PickNikRobotics/ros2_robotiq_gripper main a74d007d.
+- Decision: README's simulation.jazzy.repos (ros_gz, gz_ros2_control from source) not imported: the apt packages are
+  installed (P2b rule 3a); the build and the simulation worked with them.
+- Build: `--packages-up-to kortex_bringup kinova_gen3_7dof_robotiq_2f_85_moveit_config --cmake-args -DBUILD_TESTING=OFF`
+  → "Summary: 6 packages finished [1min 30s]".
+- Scenario: README "Simulation" with sim_gazebo:=true, launch_rviz:=false, under xvfb-run (GUI always started).
+- Evidence `parity/fixtures/gen3/install_check/`: joint_trajectory_controller + joint_state_broadcaster active
+  (robotiq_gripper_controller, twist_controller, joint_group_velocity_controller inactive, as the launch leaves them);
+  30 topics; joint_1 0.000000 -> 0.300000 rad, error_code 0.
