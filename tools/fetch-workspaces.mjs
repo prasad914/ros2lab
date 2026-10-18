@@ -634,7 +634,9 @@ async function main() {
     const f = path.join(OUT, id, "workspace.json");
     if (!fs.existsSync(f)) continue;
     const ws = JSON.parse(fs.readFileSync(f, "utf8"));
-    index[id] = { title: ws.title, robots: ws.robots, bytes: ws.stats.bytes, files: ws.stats.files };
+    // gazebo: a page command starts Gazebo (the catalog shows "Gazebo ..." badges only then)
+    const cmds = Object.entries(ws.entry || {}).filter(([k]) => k !== "real" && !/note|issues/.test(k)).flatMap(([, v]) => (Array.isArray(v) ? v : [v])).filter((e) => e && e.cmd).map((e) => e.cmd);
+    index[id] = { title: ws.title, robots: ws.robots, bytes: ws.stats.bytes, files: ws.stats.files, gazebo: cmds.some((c) => /gazebo|\bgz\b|_gz\b|gz_|_sim_control/.test(c)) };
   }
   fs.writeFileSync(path.join(OUT, "index.json"), JSON.stringify({ distro: "jazzy", workspaces: index }, null, 1) + "\n");
   const total = Object.values(index).reduce((s, w) => s + w.bytes, 0);

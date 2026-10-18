@@ -29,12 +29,15 @@ export function openRobot(id, ev) {
 }
 
 let OFFICIAL = new Set();   // gallery ids with an official ROS 2 Jazzy workspace (public/robots/ws/index.json)
+let NO_GAZEBO = new Set();   // ... whose page has no Gazebo simulation (index.json gazebo: false, e.g. Scout, Crazyflie)
 const facts = (g) => {
   const out = [];
   if (OFFICIAL.has(g.id)) out.push("Official Jazzy workspace");
   if (g.vendor) out.push(g.vendor); else out.push("ROS2Lab course robot");
   if (g.moveit) out.push("MoveIt 2");
-  out.push(g.category === "manipulator" || /arm/.test(g.id) ? "Gazebo + ros2_control" : "Gazebo sensors");
+  const arm = g.category === "manipulator" || /arm/.test(g.id);
+  if (!NO_GAZEBO.has(g.id)) out.push(arm ? "Gazebo + ros2_control" : "Gazebo sensors");
+  else if (arm) out.push("ros2_control");
   return out;
 };
 const firstSentence = (t) => { const m = String(t || "").match(/^.*?[.!?](\s|$)/); return (m ? m[0] : String(t || "")).trim(); };
@@ -76,6 +79,7 @@ function card(g) {
 export async function mountCatalog() {
   const [list, wsIdx] = await Promise.all([gallery(), fetch("/robots/ws/index.json").then((r) => (r.ok ? r.json() : { workspaces: {} })).catch(() => ({ workspaces: {} }))]);
   OFFICIAL = new Set(Object.values(wsIdx.workspaces || {}).flatMap((w) => w.robots || []));
+  NO_GAZEBO = new Set(Object.values(wsIdx.workspaces || {}).filter((w) => w.gazebo === false).flatMap((w) => w.robots || []));
   const tabs = document.getElementById("cat-tabs"), box = document.getElementById("cat-list"), q = document.getElementById("cat-q");
   const by = new Map(CATEGORIES.map((c) => [c.id, []]));
   for (const g of list) { const c = categoryOf(g); if (!by.has(c)) by.set(c, []); by.get(c).push(g); }

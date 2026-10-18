@@ -9,7 +9,8 @@
     "tb3_waffle_pi"
    ],
    "bytes": 28203431,
-   "files": 461
+   "files": 461,
+   "gazebo": true
   },
   "ur": {
    "title": "Universal Robots UR5e - ROS 2 Jazzy",
@@ -17,7 +18,8 @@
     "ur5e"
    ],
    "bytes": 10948389,
-   "files": 288
+   "files": 288,
+   "gazebo": true
   },
   "franka": {
    "title": "Franka Research 3 (FR3) - ROS 2 Jazzy",
@@ -25,7 +27,8 @@
     "fr3"
    ],
    "bytes": 29137723,
-   "files": 456
+   "files": 456,
+   "gazebo": true
   },
   "kortex": {
    "title": "Kinova Gen3 7-DoF - ROS 2 Jazzy",
@@ -33,7 +36,8 @@
     "gen3"
    ],
    "bytes": 9195868,
-   "files": 225
+   "files": 225,
+   "gazebo": true
   },
   "xarm": {
    "title": "UFACTORY xArm6 and Lite 6 - ROS 2 Jazzy",
@@ -42,7 +46,8 @@
     "lite6"
    ],
    "bytes": 11113764,
-   "files": 472
+   "files": 472,
+   "gazebo": true
   },
   "interbotix": {
    "title": "Trossen/Interbotix WidowX 250 s - ROS 2 Jazzy",
@@ -50,7 +55,8 @@
     "wx250s"
    ],
    "bytes": 2127164,
-   "files": 351
+   "files": 351,
+   "gazebo": false
   },
   "dobot": {
    "title": "Dobot CR5 (DOBOT_6Axis_ROS2_V4) - ROS 2 Jazzy",
@@ -58,7 +64,8 @@
     "cr5"
    ],
    "bytes": 3864069,
-   "files": 545
+   "files": 545,
+   "gazebo": true
   },
   "crazyswarm2": {
    "title": "Bitcraze Crazyflie (Crazyswarm2) - ROS 2 Jazzy",
@@ -66,7 +73,8 @@
     "crazyflie"
    ],
    "bytes": 654690,
-   "files": 129
+   "files": 129,
+   "gazebo": false
   },
   "scout": {
    "title": "AgileX Scout - ROS 2 Jazzy",
@@ -74,7 +82,8 @@
     "scout"
    ],
    "bytes": 64117,
-   "files": 27
+   "files": 27,
+   "gazebo": false
   }
  }
 }
