@@ -53,6 +53,7 @@ rosdep install --rosdistro jazzy --from-paths ~/robots_ws/src --ignore-src -y -r
 #    crazyflie (crazyswarm2 main f1e09954): the simulation backend (crazyflie_sim/crazyflie_sil.py: `import cffirmware`)
 #    needs the Python bindings of crazyflie-firmware 2025.02 (docs2/installation.rst step 6), which are built with swig.
 #    apt-cache policy swig: Candidate 4.2.0-2ubuntu1, not installed. rowan (docs2/installation.rst step 2,
-#    "pip3 install rowan") has no apt package; Ubuntu 24.04's system Python refuses a plain pip install (PEP 668),
+#    "pip3 install rowan") has no apt package; the system Python is marked externally managed
+#    (/usr/lib/python3.12/EXTERNALLY-MANAGED exists, PEP 668), so a plain pip install into it is not possible;
 #    so the instructor chooses how to install it (e.g. pip3 install --user --break-system-packages rowan).
 sudo apt-get install -y swig
