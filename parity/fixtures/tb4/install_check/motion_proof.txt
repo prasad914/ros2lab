@@ -1,0 +1,7 @@
+# python3 parity/scripts/mobile_motion_proof.py --cmd /cmd_vel --odom /odom --vx 0.2 --secs 10 (domain 46, 2026-10-18T07:02:04+05:30; real_time_factor about 0.2)
+# /cmd_vel types in the graph: ['geometry_msgs/msg/TwistStamped']
+# /odom before: x=-0.000000 y=-0.000000 yaw=0.000000
+# publish TwistStamped /cmd_vel linear.x=0.2 angular.z=0.0 at 10 Hz for 10.0 s
+# /odom after: x=0.042637 y=-0.000000 yaw=-0.000000 twist.linear.x=0.200000
+# moved 0.042637 m, turned -0.000000 rad
+exit 0

@@ -1,0 +1,4 @@
+# ros2 control list_controllers (domain 46, tb4 sim headless EGL, 2026-10-18T07:01:50+05:30)
+[INFO] [1792287115.041624680] [_ros2cli_495399]: waiting for service /controller_manager/list_controllers to become available...
+diffdrive_controller    diff_drive_controller/DiffDriveController      active
+joint_state_broadcaster joint_state_broadcaster/JointStateBroadcaster  active
