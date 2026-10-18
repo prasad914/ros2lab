@@ -1,0 +1,23 @@
+/ui_mgr:
+  ros__parameters:
+    audio_topic: cmd_audio
+    button_topic: interface_buttons
+    buttons_publish_rate: 1.0
+    gazebo: ignition
+    lightring_topic: cmd_lightring
+    qos_overrides:
+      /clock:
+        subscription:
+          depth: 1
+          durability: volatile
+          history: keep_last
+          reliability: best_effort
+      /parameter_events:
+        publisher:
+          depth: 1000
+          durability: volatile
+          history: keep_last
+          reliability: reliable
+    start_type_description_service: true
+    use_sim_time: true
+

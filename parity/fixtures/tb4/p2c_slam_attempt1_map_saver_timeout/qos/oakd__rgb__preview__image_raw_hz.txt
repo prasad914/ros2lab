@@ -1,0 +1,5 @@
+# clock: sim time (ros2 topic hz --use-sim-time --window 50)
+WARNING: topic [/oakd/rgb/preview/image_raw] does not appear to be published yet
+average rate: 30.303
+	min: 0.030s max: 0.039s std dev: 0.00212s window: 32
+failed to shutdown: rcl_shutdown already called on the given context, at ./src/rcl/init.c:333

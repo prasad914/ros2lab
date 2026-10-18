@@ -1,0 +1,29 @@
+/hazards_vector_publisher:
+  ros__parameters:
+    publish_rate: 62.0
+    publisher_topic: hazard_detection
+    qos_overrides:
+      /clock:
+        subscription:
+          depth: 1
+          durability: volatile
+          history: keep_last
+          reliability: best_effort
+      /parameter_events:
+        publisher:
+          depth: 1000
+          durability: volatile
+          history: keep_last
+          reliability: reliable
+    start_type_description_service: true
+    subscription_topics:
+    - _internal/bumper/event
+    - _internal/cliff_front_left/event
+    - _internal/cliff_front_right/event
+    - _internal/cliff_side_left/event
+    - _internal/cliff_side_right/event
+    - _internal/wheel_drop/left_wheel/event
+    - _internal/wheel_drop/right_wheel/event
+    - _internal/backup_limit
+    use_sim_time: true
+

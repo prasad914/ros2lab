@@ -1,0 +1,60 @@
+/hmi_led_msg_bridge:
+  ros__parameters:
+    bridge_names: []
+    config_file: ''
+    expand_gz_topic_names: false
+    lazy: false
+    override_frame_id: ''
+    override_timestamps_with_wall_time: false
+    qos_overrides:
+      /clock:
+        subscription:
+          depth: 1
+          durability: volatile
+          history: keep_last
+          reliability: best_effort
+      /hmi/led/_battery:
+        subscription:
+          depth: 10
+          history: keep_last
+          reliability: reliable
+      /hmi/led/_comms:
+        subscription:
+          depth: 10
+          history: keep_last
+          reliability: reliable
+      /hmi/led/_motors:
+        subscription:
+          depth: 10
+          history: keep_last
+          reliability: reliable
+      /hmi/led/_power:
+        subscription:
+          depth: 10
+          history: keep_last
+          reliability: reliable
+      /hmi/led/_user1:
+        subscription:
+          depth: 10
+          history: keep_last
+          reliability: reliable
+      /hmi/led/_user2:
+        subscription:
+          depth: 10
+          history: keep_last
+          reliability: reliable
+      /hmi/led/_wifi:
+        subscription:
+          depth: 10
+          history: keep_last
+          reliability: reliable
+      /parameter_events:
+        publisher:
+          depth: 1000
+          durability: volatile
+          history: keep_last
+          reliability: reliable
+    start_type_description_service: true
+    subscription_heartbeat: 1000
+    use_sim_time: true
+

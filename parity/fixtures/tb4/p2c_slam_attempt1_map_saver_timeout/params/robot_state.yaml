@@ -1,0 +1,28 @@
+/robot_state:
+  ros__parameters:
+    angular_velocity_tolerance: 0.1
+    battery_high_percentage: 0.9
+    battery_state_publish_rate: 0.1
+    battery_state_topic: battery_state
+    dock_topic: dock_status
+    full_charge_percentage: 1.0
+    linear_velocity_tolerance: 0.01
+    qos_overrides:
+      /clock:
+        subscription:
+          depth: 1
+          durability: volatile
+          history: keep_last
+          reliability: best_effort
+      /parameter_events:
+        publisher:
+          depth: 1000
+          durability: volatile
+          history: keep_last
+          reliability: reliable
+    start_type_description_service: true
+    stop_status_topic: stop_status
+    undocked_charge_limit: 0.03
+    use_sim_time: true
+    wheel_vels_topic: odom
+

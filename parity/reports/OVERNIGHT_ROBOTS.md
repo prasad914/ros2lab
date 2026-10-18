@@ -112,3 +112,13 @@ below; nothing in public/ is touched.
 - Sensors snapshot `parity/fixtures/tb4/p2c_sensors/` (headless launch, warehouse world): 52 topics, 44 nodes; /scan
   frame turtlebot4/rplidar_link/rplidar, angle ±3.1415927, range 0.164–12.0, 62.422 Hz sim; OAK-D preview image, depth,
   points, camera_info sample. (`samples/scan_meta.yaml` added by hand with ros2 topic echo, best-effort QoS.)
+- SLAM (`run_mapping_item.sh` with DOMAIN=47 PARTITION=ref47 GOALS_YAML=none, scenario p2c_slam = the maker's
+  slam.launch.py through turtlebot4_spawn slam:=true; coverage drive 180 sim s):
+  - attempt 1: map_saver_cli "Failed to spin map subscription" 2 s after start (default save_map_timeout) →
+    `fixtures/tb4/p2c_slam_attempt1_map_saver_timeout/`. Decision: MAP_SAVE_TIMEOUT=20.0 for attempt 2.
+  - attempt 2 `fixtures/tb4/p2c_slam/`: map saved and reloaded by map_server (active), but it is 11 × 22 cells at
+    0.05 m (0.55 × 1.10 m): slam_toolbox dropped scans all run long ("Message Filter dropping message: frame
+    'turtlebot4/rplidar_link/rplidar' … discarding message because the queue is full", `excerpts/slam_dropping.txt`);
+    tf2_echo map odom (6 s) saw no map frame, view_frames later showed map -> odom. real_time_factor about 0.2.
+  - Result: SLAM run captured, the map is NOT usable as a navigation map (failed twice to give a full map). UNVERIFIED
+    whether the low real-time factor causes the dropped scans. Navigation uses the maker's warehouse map instead.

@@ -1,0 +1,441 @@
+Type: rcl_interfaces/msg/ParameterEvent
+
+Publisher count: 16
+
+Node name: launch_ros_574211
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.03.c3.0c.88.00.00.00.00.00.00.04.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _ros2cli_daemon_47_e6202e360a584446b891ce9363588e02
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.38.c3.49.39.00.00.00.00.00.00.04.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: robot_state_publisher
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.7c.c3.a7.03.00.00.00.00.00.00.10.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: joint_state_publisher
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.7e.c3.d5.95.00.00.00.00.00.00.04.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: tf_odom_std_dock_link_publisher
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.80.c3.45.1f.00.00.00.00.00.00.10.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: odom_base_tf_bridge
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.85.c3.27.65.00.00.00.00.00.00.10.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: cliff_side_right_bridge
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.8e.c3.68.c0.00.00.00.00.00.00.10.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: ir_intensity_front_left_bridge
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.91.c3.93.d3.00.00.00.00.00.00.10.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: buttons_msg_bridge
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.9a.c3.ed.80.00.00.00.00.00.00.10.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _ros2cli_578719
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.9f.d4.de.c2.00.00.00.00.00.00.04.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: lidar_bridge
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.a2.c3.35.98.00.00.00.00.00.00.10.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: motion_control
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.c4.c3.fb.7e.00.00.00.00.00.00.10.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: mock_publisher
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.cb.c3.89.05.00.00.00.00.00.00.10.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: kidnap_estimator_publisher
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.d1.c3.28.12.00.00.00.00.00.00.10.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: ui_mgr
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.d5.c3.0f.db.00.00.00.00.00.00.10.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: rplidar_stf
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.da.c3.5a.c9.00.00.00.00.00.00.10.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 13
+
+Node name: robot_state_publisher
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.7c.c3.a7.03.00.00.00.00.00.00.12.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: robot_state_publisher
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.7c.c3.a7.03.00.00.00.00.00.00.19.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: tf_odom_std_dock_link_publisher
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.80.c3.45.1f.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: odom_base_tf_bridge
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.85.c3.27.65.00.00.00.00.00.00.12.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: cliff_side_right_bridge
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.8e.c3.68.c0.00.00.00.00.00.00.12.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: ir_intensity_front_left_bridge
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.91.c3.93.d3.00.00.00.00.00.00.12.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: buttons_msg_bridge
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.9a.c3.ed.80.00.00.00.00.00.00.12.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: lidar_bridge
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.a2.c3.35.98.00.00.00.00.00.00.12.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: motion_control
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.c4.c3.fb.7e.00.00.00.00.00.00.12.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: mock_publisher
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.cb.c3.89.05.00.00.00.00.00.00.12.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: kidnap_estimator_publisher
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.d1.c3.28.12.00.00.00.00.00.00.12.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: ui_mgr
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.d5.c3.0f.db.00.00.00.00.00.00.12.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: rplidar_stf
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.da.c3.5a.c9.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+

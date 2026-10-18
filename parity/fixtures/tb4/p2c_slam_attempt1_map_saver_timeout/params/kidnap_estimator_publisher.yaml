@@ -1,0 +1,20 @@
+/kidnap_estimator_publisher:
+  ros__parameters:
+    hazard_topic: hazard_detection
+    kidnap_status_topic: kidnap_status
+    qos_overrides:
+      /clock:
+        subscription:
+          depth: 1
+          durability: volatile
+          history: keep_last
+          reliability: best_effort
+      /parameter_events:
+        publisher:
+          depth: 1000
+          durability: volatile
+          history: keep_last
+          reliability: reliable
+    start_type_description_service: true
+    use_sim_time: true
+

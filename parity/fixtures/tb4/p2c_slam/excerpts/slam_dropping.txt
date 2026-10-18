@@ -1,0 +1,8 @@
+# grep -n 'Message Filter dropping message' logs/p2c_slam.log (gitignored): first 3 and last 3 of 23
+290:[sync_slam_toolbox_node-46] [INFO] [1792294589.702283070] [slam_toolbox]: Message Filter dropping message: frame 'turtlebot4/rplidar_link/rplidar' at time 2.850 for reason 'discarding message because the queue is full'
+317:[sync_slam_toolbox_node-46] [INFO] [1792295748.510872689] [slam_toolbox]: Message Filter dropping message: frame 'turtlebot4/rplidar_link/rplidar' at time 197.667 for reason 'discarding message because the queue is full'
+320:[sync_slam_toolbox_node-46] [INFO] [1792295767.457203349] [slam_toolbox]: Message Filter dropping message: frame 'turtlebot4/rplidar_link/rplidar' at time 200.385 for reason 'discarding message because the queue is full'
+...
+416:[sync_slam_toolbox_node-46] [INFO] [1792296295.702520726] [slam_toolbox]: Message Filter dropping message: frame 'turtlebot4/rplidar_link/rplidar' at time 281.265 for reason 'discarding message because the queue is full'
+424:[sync_slam_toolbox_node-46] [INFO] [1792296343.597005139] [slam_toolbox]: Message Filter dropping message: frame 'turtlebot4/rplidar_link/rplidar' at time 288.753 for reason 'discarding message because the queue is full'
+431:[sync_slam_toolbox_node-46] [INFO] [1792296386.964872272] [slam_toolbox]: Message Filter dropping message: frame 'turtlebot4/rplidar_link/rplidar' at time 295.377 for reason 'discarding message because the queue is full'

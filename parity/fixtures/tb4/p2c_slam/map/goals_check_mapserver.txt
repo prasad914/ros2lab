@@ -1,0 +1,4 @@
+nav2_map_server 1.3.13-1noble.20260921.024942
+command: ros2 run nav2_map_server map_server --ros-args -p yaml_filename:=parity/fixtures/tb4/p2c_slam/map/map.yaml; lifecycle configure + activate
+echo: ros2 topic echo --once --full-length --qos-durability transient_local --qos-reliability reliable /map (raw: map_server_map_echo.yaml)
+

@@ -1,0 +1,21 @@
+Type: irobot_create_msgs/msg/WheelTicks
+
+Publisher count: 1
+
+Node name: wheel_status_publisher
+Node namespace: /
+Topic type: irobot_create_msgs/msg/WheelTicks
+Topic type hash: RIHS01_6a141b670f39bb473228f5747bdf0919f22a5039786a015c2b44f0f9446ba2b8
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.78.ec.5b.67.00.00.00.00.00.00.16.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 0
+

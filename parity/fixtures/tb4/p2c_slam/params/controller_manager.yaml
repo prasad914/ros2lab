@@ -1,0 +1,85 @@
+/controller_manager:
+  ros__parameters:
+    defaults:
+      allow_controller_activation_with_inactive_hardware: false
+      deactivate_controllers_on_hardware_self_deactivate: true
+      switch_controller:
+        strictness: best_effort
+    diagnostic_updater:
+      period: 1.0
+      use_fqn: false
+    diagnostics:
+      threshold:
+        controller_manager:
+          periodicity:
+            mean_error:
+              error: 10.0
+              warn: 5.0
+            standard_deviation:
+              error: 10.0
+              warn: 5.0
+        controllers:
+          execution_time:
+            mean_error:
+              error: 2000.0
+              warn: 1000.0
+            standard_deviation:
+              error: 200.0
+              warn: 100.0
+          periodicity:
+            mean_error:
+              error: 10.0
+              warn: 5.0
+            standard_deviation:
+              error: 10.0
+              warn: 5.0
+        hardware_components:
+          execution_time:
+            mean_error:
+              error: 2000.0
+              warn: 1000.0
+            standard_deviation:
+              error: 200.0
+              warn: 100.0
+          periodicity:
+            mean_error:
+              error: 10.0
+              warn: 5.0
+            standard_deviation:
+              error: 10.0
+              warn: 5.0
+    diffdrive_controller:
+      fallback_controllers: []
+      node_options_args: []
+      params_file:
+      - /opt/ros/jazzy/share/irobot_create_control/config/control.yaml
+      type: diff_drive_controller/DiffDriveController
+    enforce_command_limits: false
+    handle_exceptions: true
+    hardware_components_initial_state:
+      inactive: []
+      shutdown_on_initial_state_failure: true
+      unconfigured: []
+    joint_state_broadcaster:
+      fallback_controllers: []
+      node_options_args: []
+      type: joint_state_broadcaster/JointStateBroadcaster
+    overruns:
+      print_warnings: false
+    qos_overrides:
+      /clock:
+        subscription:
+          depth: 1
+          durability: volatile
+          history: keep_last
+          reliability: best_effort
+      /parameter_events:
+        publisher:
+          depth: 1000
+          durability: volatile
+          history: keep_last
+          reliability: reliable
+    start_type_description_service: true
+    update_rate: 1000
+    use_sim_time: true
+

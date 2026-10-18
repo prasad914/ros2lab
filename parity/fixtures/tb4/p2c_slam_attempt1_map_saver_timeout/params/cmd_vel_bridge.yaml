@@ -1,0 +1,38 @@
+/cmd_vel_bridge:
+  ros__parameters:
+    bridge_names: []
+    config_file: ''
+    expand_gz_topic_names: false
+    lazy: false
+    override_frame_id: ''
+    override_timestamps_with_wall_time: false
+    qos_overrides:
+      /clock:
+        subscription:
+          depth: 1
+          durability: volatile
+          history: keep_last
+          reliability: best_effort
+      /cmd_vel:
+        publisher:
+          deadline: 0
+          depth: 10
+          durability: volatile
+          history: keep_last
+          liveliness: system_default
+          reliability: reliable
+      /diffdrive_controller/cmd_vel:
+        subscription:
+          depth: 10
+          history: keep_last
+          reliability: reliable
+      /parameter_events:
+        publisher:
+          depth: 1000
+          durability: volatile
+          history: keep_last
+          reliability: reliable
+    start_type_description_service: true
+    subscription_heartbeat: 1000
+    use_sim_time: true
+
