@@ -102,3 +102,44 @@ no page errors on main pages.
 
 RViz panel clicks; Nav2 on waffle / waffle_pi; IMU `frame_id` (`burger/imu_link/tb3_imu` on the site – plausible, but
 no `imu.yaml` fixture; capture one).
+
+## Fix summary (branch parity-fixes, 2026-10-18)
+
+Real-ROS captures (domain 41, `parity/fixtures/tb3_burger/REVIEW_CAPTURES_2026-10-18.md`): a no TURTLEBOT3_MODEL,
+b missing map file, c teleop `/cmd_vel` types, d `/map` hz, e `/imu` sample, f Twist vs TwistStamped motion; commits
+6561f7f, 10bea0f. Real planner failure text: `nav_robotis/runs/planner_failure_lines.txt` (6cc3f38).
+
+### Fixed (must fix)
+1. waffle_pi page: catalog `about`, official base mesh, picture – 240134c. Waffle_pi fixture counts unchanged.
+2. 15 placeholder mission games locked as "Not yet validated" (no games invented) – a845db4.
+3. No TURTLEBOT3_MODEL: real `Caught exception in launch ...: 'TURTLEBOT3_MODEL'`, no process started, hint – c54c9c7.
+4. Goals on/next to an obstacle: planner searches the tolerance; obstacle_goal and cylinder_centre rows PASS – fc88dc2.
+5. Missing map file: the captured map_io / map_server / lifecycle_manager lines, then a hint – 3333242.
+   The review's "silent hang >127 s" did not reproduce: real Jazzy prints the errors and keeps running (capture b,
+   killed by timeout, exit 124); the site now does the same.
+6. `nav2_bringup tb3_simulation_launch.py`: honest "not simulated on ROS2Lab yet" note, exit 1 – e9eb2aa.
+7. `ros2 topic info` per-endpoint types (e8ea8be) and course text: TwistStamped teleop, `export TURTLEBOT3_MODEL`
+   (f670327). **`content/course-content.json` must be uploaded on the admin page to go live.**
+
+### Fixed (should fix)
+- Shell `;` – 84bd8fa. Burger camera hint – af4238b. slam_toolbox/Nav2 double params – 4d7ad70.
+- `ros2 topic hz /map` under slam_toolbox, windows from 2 – e1a46be.
+- Playground intro text for the locked missions – a892477.
+- `ls -l` size of binary files (saved map.pgm) – eaa63e4.
+
+### Left, and why
+- **Initial-pose timeout on sim time:** done in 385cbcd, reverted in c2ce85e. Headless Chromium runs `gz.time` at
+  ~0.17x (probe: 20.4 s sim in 155 s wall), so the abort took ~360 s wall and broke
+  `fixtures/nav_robotis.spec.ts:137` (waits 300 s). Needs an instructor decision (accept the long wait, or speed up sim).
+- Saved SLAM map extent (210×201 at (-4, -4) vs real 112×103 at (-0.945, -2.084)): needs a real map model; time.
+- `/scan` 0.015 m steps, first all-`.inf` scans, `--full-length`; view_frames .gv fields and file name; AMCL 128
+  particles; collision_monitor logs; RViz "Not yet validated" labels; playground unlock rules (Teleop Time Trial,
+  Kidnapped Robot, Mapping Race, waffle NAV); all Low items: not reached in the time.
+- `/map` hz value: site 0.2 (1/map_update_interval) vs real 0.323–0.351; PENDING until `thresholds.yaml` has a limit.
+
+### Gate (final)
+Site tests (real-tb3, real-tb3-nav, real-mobile-audit, tb3-catalog), security check: pass. Parity e2e 46/46, vitest
+35/35. Fixture suite: the 6 baseline failures only (nav_robotis ×3, nav2_bringup graph, matrix, matrix_dwb_burger:
+Nav2 parts not modelled). `tests/launch-runtime.mjs` cannot run here (it fetches Pyodide from the jsdelivr CDN).
+Totals (`fixture_parity.md`): PASS 500, FAIL 180, PENDING-THRESHOLD 10, NOT-VALIDATED 53.
+Not edited: `frame_check.py`, `run_mapping_item.sh`, `robots_sudo.sh`, `parity/robots/STATUS.md`.
