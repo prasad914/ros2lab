@@ -341,14 +341,15 @@ export class RosGraph {
       if (!t.by.pubs.length) return [this.out(`WARNING: topic [${name}] does not appear to be published yet`)];
       const paused = this.gzRunning() && this.gz.paused;
       const gr = paused ? null : (this.gzRunning() ? this.gzRate(name) : null) || this.cmRate(name) || this.fakeRate(name) || this.cfRate(name)
-        || (() => { const g = this.nav2 && this.nav2.models.find((m) => m.role === "slam_carto_grid" && !m.dead && m.count && m.resolve("map") === name); return g ? 1 / g.period : null; })();   // cartographer_occupancy_grid_node: one /map per -publish_period_sec
+        || (() => { const g = this.nav2 && this.nav2.models.find((m) => m.role === "slam_carto_grid" && !m.dead && m.count && m.resolve("map") === name); return g ? 1 / g.period : null; })()   // cartographer_occupancy_grid_node: one /map per -publish_period_
+        || (() => { const m = this.nav2 && this.nav2.models.find((x) => /^slam_toolbox/.test(x.role) && !x.dead && x.state === "active" && x.nodes && x.resolve("map") === name); return m ? 1 / (Number(m.P.map_update_interval) || 5.0) : null; })();   // slam_toolbox: one /map per map_update_interval once mapping started (slam/samples/map_hz_runner.txt)sec
       const kinds = t.by.pubs.map((f) => (this.node(f) || {}).kind);
       // the default rates of the real nodes: joint_state_publisher(_gui) 10 Hz, robot_state_publisher sends /tf when joints change,
       // servo_node 100 Hz status, a ros2 topic pub -r N publisher N Hz
       const pubcli = t.by.pubs.map((f) => this.node(f)).find((n) => n && n.kind === "pubcli" && n.pub);
       const rate = gr ? gr : pubcli ? pubcli.pub.rate || 1 : /pose|color_sensor/.test(name) ? 62.5 : name.endsWith("chatter") ? 1 : name === "/joint_states" && kinds.some((k) => k === "jsp" || k === "jsp_gui") ? 10 : name === "/tf" && kinds.includes("rsp") && this.nodes.some((n) => n.kind === "jsp" || n.kind === "jsp_gui") ? 10 : null;
       if (!rate) return [this.hint(`(Nothing is published on ${name} right now, so there is no rate to measure.)`)];
-      const lines = [0, 1].map((i) => `average rate: ${(rate + (i ? 0.004 : -0.002)).toFixed(3)}\n\tmin: ${(1 / rate - 0.001).toFixed(3)}s max: ${(1 / rate + 0.001).toFixed(3)}s std dev: 0.00041s window: ${Math.round(rate * (i + 1))}`).join("\n");
+      const lines = [0, 1].map((i) => `average rate: ${(rate + (i ? 0.004 : -0.002)).toFixed(3)}\n\tmin: ${(1 / rate - 0.001).toFixed(3)}s max: ${(1 / rate + 0.001).toFixed(3)}s std dev: 0.00041s window: ${rate >= 1 ? Math.round(rate * (i + 1)) : i + 2}`).join("\n");   // slower than 1 Hz: one line per new message, from window 2
       return [...this.lines(lines), this.out("^C"), this.hint(`About ${rate} messages per second. On a real computer it keeps measuring until you press Ctrl+C.`)];
     }
     if (a === "echo") {

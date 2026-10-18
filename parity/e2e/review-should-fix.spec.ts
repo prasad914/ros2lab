@@ -34,3 +34,23 @@ test("tb3_burger: echo of a camera topic says the Burger has no camera", async (
   expect(s).toMatch(/Burger has no camera/);
   expect(s).not.toMatch(/Check the spelling/);
 });
+
+// slam/samples/map_hz_runner.txt: real `ros2 topic hz /map --use-sim-time` under slam_toolbox prints average rate
+// lines from window 2 (0.323 .. 0.351 there; the value depends on the real-time factor, no threshold yet)
+test("tb3_burger slam_toolbox: ros2 topic hz /map reports a rate", async ({ page }) => {
+  test.setTimeout(300000);
+  await page.goto("/rviz.html?robot=tb3_burger");
+  await page.waitForFunction(() => (window as any).__ros2lab?.sh?.realWs && (window as any).__ros2lab?.term, null, { timeout: 60000 });
+  for (const c of ["cd ~/ros2_ws", "colcon build --symlink-install", "source install/setup.bash", "export TURTLEBOT3_MODEL=burger", "ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py"]) await run(page, c);
+  await page.waitForFunction(() => [...document.querySelectorAll(".term-screen")].some((x) => /\[create-\d+\]: process has finished cleanly/.test((x as HTMLElement).innerText)), null, { timeout: 120000 });
+  await page.evaluate(() => (window as any).__ros2lab.term.newTerminal());
+  await run(page, "ros2 launch slam_toolbox online_async_launch.py use_sim_time:=True");
+  await page.waitForFunction(() => (window as any).__ros2lab.tf.edges.some((e: any) => e.parent === "map" && e.child === "odom"), null, { timeout: 120000 });
+  await page.waitForTimeout(8000);
+  await page.evaluate(() => (window as any).__ros2lab.term.newTerminal());
+  await run(page, "ros2 topic hz /map --use-sim-time");
+  await page.waitForTimeout(2000);
+  const s = after(await screen(page), "ros2 topic hz /map --use-sim-time");
+  expect(s).toMatch(/^average rate: \d+\.\d{3}$/m);
+  expect(s).toMatch(/window: 2$/m);
+});
