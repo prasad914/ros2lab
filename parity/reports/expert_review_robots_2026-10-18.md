@@ -384,3 +384,45 @@ sim (correct); default `backend=cpp` launch locked; `/cf231/takeoff` with nothin
   5. Error codes for UR5e: joint goal in collision (1 and 10 attempts), out-of-limit joint goal, unknown group,
      unreachable pose goal, inactive controller (MF3, MF6)
   6. What RViz MotionPlanning shows when Plan is pressed after a failed pose goal (MF8)
+
+---
+
+## Fix summary (branch parity-fixes, overnight 2026-10-18/19)
+
+Log with every decision and its evidence: `parity/reports/OVERNIGHT_2026-10-19.md`. MoveIt planning behaviour was
+not changed (that is step M2); real MoveIt ground truth for it was recaptured on robots-p2b (below).
+
+### Fixed
+- **Site-wide #1, real-hardware lock bypass** – a7c297f. The lock goes by what a launch starts: a real driver node or
+  ros2_control_node with a hardware plugin the workspace declares (not fake/mock/sim). All six launches of the list
+  and the nine card real-hardware commands are locked; mock/sim variants stay open (`parity/e2e/hw-lock.spec.ts`).
+  The made-up "class ... does not exist" error for the declared plugins is gone.
+- **Site-wide #2, "Not yet validated against real ROS 2"** – 9338382. Card, launch and real-hardware buttons of every
+  robot without passing fixture checks; TB3 per command; workspace.json honesty text on the card.
+- **Site-wide #3, ROS2Lab-generated packages** – ccd1bbb. "ROS2Lab-made config – not from the maker" on the card.
+- **Site-wide #4, license hint** – 19c94f1. Names this page's own sim / mock commands.
+- **Site-wide #7, catalog "Gazebo sensors"** – 5b99139. Only for robots whose page has a Gazebo simulation.
+- **TB4 #1-#3** – 6914094. tb4_simulation_launch.py / tb4_loopback_simulation.launch.py print "TB4 simulation is not
+  modelled on ROS2Lab yet", nothing starts. No TB4 page.
+- **TB4 #4, enable_stamped_cmd_vel** – 587dfd1. From the params file, default false; TB3 fixtures unchanged.
+
+### Real-ROS captures behind this review (branch robots-p2b, not on this branch)
+- Review "capture first" #5 (error codes, UR5e): joint goal in collision with 1 / 10 planning attempts:
+  -27 GOAL_STATE_INVALID / 99999 FAILURE on ur5e, xarm6, cr5, fr3, wx250s; lite6 -6 TIMED_OUT / 99999; gen3 -26
+  START_STATE_INVALID (cause UNVERIFIED). Out-of-limit joint goal (plan only): SUCCESS on ur5e, xarm6, lite6, cr5,
+  fr3, wx250s (gen3: not run, joint_1 is continuous). Unknown group: -1 PLANNING_FAILED on ur5e, xarm6, lite6, cr5,
+  fr3 (wx250s and gen3: -26 START_STATE_INVALID first). Inactive controller: -4 CONTROL_FAILED on all but gen3 (-26).
+  (`parity/fixtures/<arm>/moveit/runs/` on robots-p2b.)
+- "Capture first" #1 (TB4 create flags): not answered – the real Depot world did not load (Fuel HTTP 502), create
+  waited for world names for 300 s and printed no "unknown command line flag" error
+  (`parity/fixtures/tb4/nav2_bringup_tb4_sim/README.md` on robots-p2b).
+
+### Left, and why
+- MoveIt must-fix 1-15 (pipelines, joint-list groups, error codes, INVALID_LINK_NAME, send_goal result, execution
+  checks, mock hardware command interfaces, RViz Fixed Frame, startup texts, missing services): step M2, not tonight.
+  Fixtures for the error codes now exist (above).
+- Site-wide #5 (apt hint for typos / unsourced packages), #6 (list_controllers hint on robots without
+  ros2_control): not in tonight's list.
+- Scout #4-#9, Crazyflie #2, #4-#11, phone layout: not in tonight's list; Crazyflie multiranger Nav2 and wx250s
+  Jazzy pipeline loading still need captures.
+- TB4 #6 (/undefined node), #7 (discoverability): no TB4 page by decision.
