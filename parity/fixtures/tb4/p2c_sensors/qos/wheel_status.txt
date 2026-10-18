@@ -1,0 +1,38 @@
+[37;1m2026-10-18 08:24:18.844 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7015: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[37;1m2026-10-18 08:24:18.851 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7020: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+Type: irobot_create_msgs/msg/WheelStatus
+
+Publisher count: 1
+
+Node name: motion_control
+Node namespace: /
+Topic type: irobot_create_msgs/msg/WheelStatus
+Topic type hash: RIHS01_549f08c7642509374a3845ff694a451c90ecde896cb407029508ae10d285e538
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.94.9c.78.55.00.00.00.00.00.00.5e.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: turtlebot4_node
+Node namespace: /
+Topic type: irobot_create_msgs/msg/WheelStatus
+Topic type hash: RIHS01_549f08c7642509374a3845ff694a451c90ecde896cb407029508ae10d285e538
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.7a.9c.8a.6f.00.00.00.00.00.00.16.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+

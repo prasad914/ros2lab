@@ -1,0 +1,24 @@
+[37;1m2026-10-18 08:30:46.885 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7015: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[37;1m2026-10-18 08:30:46.890 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7020: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+/wheel_status_publisher:
+  ros__parameters:
+    encoder_resolution: 508.8
+    publish_rate: 62.0
+    qos_overrides:
+      /clock:
+        subscription:
+          depth: 1
+          durability: volatile
+          history: keep_last
+          reliability: best_effort
+      /parameter_events:
+        publisher:
+          depth: 1000
+          durability: volatile
+          history: keep_last
+          reliability: reliable
+    start_type_description_service: true
+    ticks_topic: wheel_ticks
+    use_sim_time: true
+    velocity_topic: wheel_vels
+

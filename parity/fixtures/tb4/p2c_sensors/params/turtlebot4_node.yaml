@@ -1,0 +1,76 @@
+[37;1m2026-10-18 08:30:34.628 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7015: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[37;1m2026-10-18 08:30:34.635 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7020: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+/turtlebot4_node:
+  ros__parameters:
+    buttons:
+      create3_1:
+      - Dock
+      - Wall Follow Left
+      - '2000'
+      create3_2:
+      - Undock
+      - Wall Follow Right
+      - '2000'
+      create3_power:
+      - EStop
+      - Power
+      - '3000'
+      hmi_1:
+      - Select
+      hmi_2:
+      - Back
+      hmi_3:
+      - Scroll Up
+      hmi_4:
+      - Scroll Down
+    controller:
+      a:
+      - Select
+      b:
+      - EStop
+      down:
+      - Scroll Down
+      home:
+      - Dock
+      - Undock
+      - '3000'
+      l1: []
+      l2:
+      - Wall Follow Left
+      l3: []
+      left: []
+      options: []
+      r1: []
+      r2:
+      - Wall Follow Right
+      r3: []
+      right: []
+      share: []
+      up:
+      - Scroll Up
+      x:
+      - Back
+      y: []
+    menu:
+      entries:
+      - Dock
+      - Undock
+      - EStop
+      - Wall Follow Left
+      - Wall Follow Right
+      - Power
+      - Help
+    model: standard
+    power_saver: true
+    qos_overrides:
+      /parameter_events:
+        publisher:
+          depth: 1000
+          durability: volatile
+          history: keep_last
+          reliability: reliable
+    start_type_description_service: true
+    use_sim_time: false
+    wifi:
+      interface: wlan0
+

@@ -1,0 +1,23 @@
+[37;1m2026-10-18 08:24:28.645 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7015: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[37;1m2026-10-18 08:24:28.650 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7020: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+Type: irobot_create_msgs/msg/WheelVels
+
+Publisher count: 1
+
+Node name: wheel_status_publisher
+Node namespace: /
+Topic type: irobot_create_msgs/msg/WheelVels
+Topic type hash: RIHS01_b677dd868527dd36c5fd00bfadd3f0eb695d0f0a640f9a2e90d4327c93e1a204
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.95.9c.cb.0a.00.00.00.00.00.00.15.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 0
+

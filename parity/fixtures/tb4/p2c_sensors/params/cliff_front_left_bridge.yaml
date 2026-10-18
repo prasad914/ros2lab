@@ -1,0 +1,35 @@
+[37;1m2026-10-18 08:26:22.123 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7015: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[37;1m2026-10-18 08:26:22.132 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7020: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+/cliff_front_left_bridge:
+  ros__parameters:
+    bridge_names: []
+    config_file: ''
+    expand_gz_topic_names: false
+    lazy: true
+    override_frame_id: ''
+    override_timestamps_with_wall_time: false
+    qos_overrides:
+      /_internal/cliff_front_left/scan:
+        publisher:
+          deadline: 0
+          depth: 10
+          durability: volatile
+          history: keep_last
+          liveliness: system_default
+          reliability: reliable
+      /clock:
+        subscription:
+          depth: 1
+          durability: volatile
+          history: keep_last
+          reliability: best_effort
+      /parameter_events:
+        publisher:
+          depth: 1000
+          durability: volatile
+          history: keep_last
+          reliability: reliable
+    start_type_description_service: true
+    subscription_heartbeat: 1000
+    use_sim_time: true
+

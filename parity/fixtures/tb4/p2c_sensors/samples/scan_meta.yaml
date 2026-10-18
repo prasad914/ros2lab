@@ -1,0 +1,15 @@
+# ros2 topic echo --once --qos-reliability best_effort /scan
+[37;1m2026-10-18 08:31:52.740 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7015: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[37;1m2026-10-18 08:31:52.744 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7020: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+stamp:
+  sec: 141
+  nanosec: 603000000
+frame_id: turtlebot4/rplidar_link/rplidar
+---
+angle_min: -3.1415927410125732
+angle_max: 3.1415927410125732
+angle_increment: 0.009832840412855148
+time_increment: 0.0
+scan_time: 0.0
+range_min: 0.164000004529953
+range_max: 12.0

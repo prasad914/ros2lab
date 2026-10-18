@@ -1,0 +1,29 @@
+[37;1m2026-10-18 08:29:53.623 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7015: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[37;1m2026-10-18 08:29:53.627 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7020: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+/pose_republisher_node:
+  ros__parameters:
+    dock_name: standard_dock
+    dock_publisher_topic: sim_ground_truth_dock_pose
+    dock_subscriber_topic: _internal/sim_ground_truth_dock_pose
+    ir_emitter_publisher_topic: _internal/sim_ground_truth_ir_emitter_pose
+    ir_receiver_publisher_topic: _internal/sim_ground_truth_ir_receiver_pose
+    mouse_publisher_topic: _internal/sim_ground_truth_mouse_pose
+    qos_overrides:
+      /clock:
+        subscription:
+          depth: 1
+          durability: volatile
+          history: keep_last
+          reliability: best_effort
+      /parameter_events:
+        publisher:
+          depth: 1000
+          durability: volatile
+          history: keep_last
+          reliability: reliable
+    robot_name: turtlebot4
+    robot_publisher_topic: sim_ground_truth_pose
+    robot_subscriber_topic: _internal/sim_ground_truth_pose
+    start_type_description_service: true
+    use_sim_time: true
+

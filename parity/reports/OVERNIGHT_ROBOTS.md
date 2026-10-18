@@ -107,3 +107,8 @@ below; nothing in public/ is touched.
   camera or IMU (scout_v2.xacro has no sensor), so there are no sensor samples beyond robot_description.
 - SLAM and Nav2: not captured – the maker provides neither for Scout on ROS 2 (scout_ros2 jazzy: driver only;
   ugv_gazebo_sim: simulation only). PENDING until a maker SLAM/Nav2 configuration exists.
+
+## P2c – tb4 (domain 47)
+- Sensors snapshot `parity/fixtures/tb4/p2c_sensors/` (headless launch, warehouse world): 52 topics, 44 nodes; /scan
+  frame turtlebot4/rplidar_link/rplidar, angle ±3.1415927, range 0.164–12.0, 62.422 Hz sim; OAK-D preview image, depth,
+  points, camera_info sample. (`samples/scan_meta.yaml` added by hand with ros2 topic echo, best-effort QoS.)

@@ -1,0 +1,58 @@
+[37;1m2026-10-18 08:31:27.905 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7015: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[37;1m2026-10-18 08:31:27.908 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7020: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+header:
+  stamp:
+    sec: 136
+    nanosec: 620000000
+  frame_id: oakd_rgb_camera_optical_frame
+height: 240
+width: 320
+distortion_model: plumb_bob
+d:
+- 0.0
+- 0.0
+- 0.0
+- 0.0
+- 0.0
+k:
+- 221.76500407999384
+- 0.0
+- 160.0
+- 0.0
+- 221.76500407999382
+- 120.0
+- 0.0
+- 0.0
+- 1.0
+r:
+- 1.0
+- 0.0
+- 0.0
+- 0.0
+- 1.0
+- 0.0
+- 0.0
+- 0.0
+- 1.0
+p:
+- 221.76500407999384
+- 0.0
+- 160.0
+- 0.0
+- 0.0
+- 221.76500407999382
+- 120.0
+- 0.0
+- 0.0
+- 0.0
+- 1.0
+- 0.0
+binning_x: 0
+binning_y: 0
+roi:
+  x_offset: 0
+  y_offset: 0
+  height: 0
+  width: 0
+  do_rectify: false
+---

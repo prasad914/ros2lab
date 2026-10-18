@@ -1,0 +1,79 @@
+[37;1m2026-10-18 08:27:09.816 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7015: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[37;1m2026-10-18 08:27:09.820 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7020: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+/diffdrive_controller:
+  ros__parameters:
+    angular:
+      z:
+        has_acceleration_limits: true
+        has_jerk_limits: false
+        has_velocity_limits: true
+        max_acceleration: 7.725
+        max_acceleration_reverse: .nan
+        max_deceleration: .nan
+        max_deceleration_reverse: .nan
+        max_jerk: .nan
+        max_velocity: 1.9
+        min_acceleration: -7.725
+        min_jerk: .nan
+        min_velocity: -1.9
+    base_frame_id: base_link
+    cmd_vel_timeout: 0.5
+    enable_odom_tf: true
+    is_async: false
+    left_wheel_names:
+    - left_wheel_joint
+    left_wheel_radius_multiplier: 1.0
+    linear:
+      x:
+        has_acceleration_limits: true
+        has_jerk_limits: false
+        has_velocity_limits: true
+        max_acceleration: 0.9
+        max_acceleration_reverse: .nan
+        max_deceleration: .nan
+        max_deceleration_reverse: .nan
+        max_jerk: .nan
+        max_velocity: 0.46
+        min_acceleration: .nan
+        min_jerk: .nan
+        min_velocity: -0.46
+    odom_frame_id: odom
+    open_loop: false
+    pose_covariance_diagonal:
+    - 0.001
+    - 0.001
+    - 0.001
+    - 0.001
+    - 0.001
+    - 0.01
+    position_feedback: true
+    publish_limited_velocity: false
+    publish_rate: 62.0
+    qos_overrides:
+      /clock:
+        subscription:
+          depth: 1
+          durability: volatile
+          history: keep_last
+          reliability: best_effort
+    right_wheel_names:
+    - right_wheel_joint
+    right_wheel_radius_multiplier: 1.0
+    start_type_description_service: true
+    tf_frame_prefix: ''
+    tf_frame_prefix_enable: true
+    thread_priority: -100
+    twist_covariance_diagonal:
+    - 0.001
+    - 0.001
+    - 0.001
+    - 0.001
+    - 0.001
+    - 0.01
+    update_rate: 1000
+    use_sim_time: true
+    velocity_rolling_window_size: 10
+    wheel_radius: 0.03575
+    wheel_separation: 0.233
+    wheel_separation_multiplier: 1.0
+

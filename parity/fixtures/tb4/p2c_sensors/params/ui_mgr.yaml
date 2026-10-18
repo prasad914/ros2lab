@@ -1,0 +1,25 @@
+[37;1m2026-10-18 08:30:40.525 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7015: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+[37;1m2026-10-18 08:30:40.535 [31;1m[[37;1mRTPS_TRANSPORT_SHM[31;1m Error] [37mFailed init_port fastrtps_port7020: open_and_lock_file failed[34;1m -> Function [36mopen_port_internal[m
+/ui_mgr:
+  ros__parameters:
+    audio_topic: cmd_audio
+    button_topic: interface_buttons
+    buttons_publish_rate: 1.0
+    gazebo: ignition
+    lightring_topic: cmd_lightring
+    qos_overrides:
+      /clock:
+        subscription:
+          depth: 1
+          durability: volatile
+          history: keep_last
+          reliability: best_effort
+      /parameter_events:
+        publisher:
+          depth: 1000
+          durability: volatile
+          history: keep_last
+          reliability: reliable
+    start_type_description_service: true
+    use_sim_time: true
+
