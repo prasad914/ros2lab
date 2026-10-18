@@ -1,0 +1,10 @@
+# Excerpt of parity/fixtures/tb3_burger/nav_robotis/runs/run5_logs/nav2.log and run7_logs/nav2.log (gitignored)
+# Selection: grep -n 'failed to plan\|Failed to create a plan\|compute_path_to_pose\] \[ActionServer\] Aborting' (made 2026-10-18 for expert_review item 4)
+## run5_logs/nav2.log
+448:[component_container_isolated-1] [ERROR] [1792240114.806098031] [planner_server]: Failed to create a plan from potential when a legal potential was found. This shouldn't happen.
+449:[component_container_isolated-1] [WARN] [1792240114.806438781] [planner_server]: GridBased plugin failed to plan from (0.28, 1.21) to (2.50, 1.95): "Failed to create plan with tolerance of: 0.500000"
+450:[component_container_isolated-1] [WARN] [1792240114.806497387] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+## run7_logs/nav2.log
+435:[component_container_isolated-1] [ERROR] [1792240320.015732367] [planner_server]: Failed to create a plan from potential when a legal potential was found. This shouldn't happen.
+437:[component_container_isolated-1] [WARN] [1792240320.022871330] [planner_server]: GridBased plugin failed to plan from (0.25, 0.77) to (2.50, 1.95): "Failed to create plan with tolerance of: 0.500000"
+438:[component_container_isolated-1] [WARN] [1792240320.023008305] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
