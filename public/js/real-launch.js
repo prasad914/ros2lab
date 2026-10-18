@@ -247,6 +247,10 @@ export function asyncResolver(sh) {
 // site printed a local_costmap TF failure and "Aborting bringup")
 const NOT_SIMULATED = {
   "nav2_bringup tb3_simulation_launch.py": "On Ubuntu it starts Nav2's own TurtleBot3 demo (the nav2_minimal_tb3_sim world and robot) with the whole Nav2 stack. Here, use the ROBOTIS launch files: ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py, then in a second terminal ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True map:=<your map .yaml>.",
+  // expert_review_robots_2026-10-18 TB4 #1-#3: the robot never spawned and nothing drove; the site printed a made-up
+  // "unknown command line flag 'robot_namespace'" spawn error (exit code 255)
+  "nav2_bringup tb4_simulation_launch.py": "TB4 simulation is not modelled on ROS2Lab yet. On Ubuntu this starts Nav2's own TurtleBot 4 demo (nav2_minimal_tb4_sim: the Gazebo world, the TurtleBot 4 and the whole Nav2 stack); ROS2Lab has no TurtleBot 4 page. For Nav2 here, use a TurtleBot3 page: ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py, then ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True.",
+  "nav2_bringup tb4_loopback_simulation.launch.py": "TB4 simulation is not modelled on ROS2Lab yet. On Ubuntu this starts Nav2's own TurtleBot 4 demo with nav2_loopback_sim instead of Gazebo (the robot moves by the commanded velocity, no physics) and the whole Nav2 stack; ROS2Lab has no TurtleBot 4 page. For Nav2 here, use a TurtleBot3 page: ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py, then ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True.",
 };
 // ui: { print(text, cls), nodes(fulls), paint(), done(rc), status?(text) }   returns { ctrlC(), done: Promise<rc> }
 export function startRealLaunch(sh, argv, ui) {
