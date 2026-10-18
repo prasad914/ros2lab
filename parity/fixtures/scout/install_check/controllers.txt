@@ -1,0 +1,8 @@
+# No controller_manager: the robot drives through a Gazebo system plugin (instructor decision 2026-10-17).
+# /home/prasad/robots_ws/src/agilex/ugv_gazebo_sim/scout/scout_description/urdf/scout_v2.gazebo (branch jazzy-ros2lab d5068ecc):
+132:    <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+146:    <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+# ros2 control list_controllers (domain 46, 2026-10-18T07:51:39+05:30):
+[WARN] [1792290111.012734791] [_ros2cli_556029]: Could not contact service /controller_manager/list_controllers
+[INFO] [1792290111.015522864] [_ros2cli_556029]: waiting for service /controller_manager/list_controllers to become available...
+failed to check service availability: rcl node's context is invalid, at ./src/rcl/node.c:404

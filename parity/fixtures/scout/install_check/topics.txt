@@ -1,0 +1,10 @@
+# ros2 topic list -t --no-daemon --spin-time 5 (domain 46, scout sim)
+/clock [rosgraph_msgs/msg/Clock]
+/cmd_vel [geometry_msgs/msg/TwistStamped]
+/joint_states [sensor_msgs/msg/JointState]
+/odom [nav_msgs/msg/Odometry]
+/parameter_events [rcl_interfaces/msg/ParameterEvent]
+/robot_description [std_msgs/msg/String]
+/rosout [rcl_interfaces/msg/Log]
+/tf [tf2_msgs/msg/TFMessage]
+/tf_static [tf2_msgs/msg/TFMessage]

@@ -79,3 +79,14 @@ below; nothing in public/ is touched.
 - Evidence `parity/fixtures/gen3/install_check/`: joint_trajectory_controller + joint_state_broadcaster active
   (robotiq_gripper_controller, twist_controller, joint_group_velocity_controller inactive, as the launch leaves them);
   30 topics; joint_1 0.000000 -> 0.300000 rad, error_code 0.
+
+## scout – ROS2LAB-PORT (verified)
+- scout_ros2 origin/jazzy has only the hardware driver; the maker's simulation (ugv_gazebo_sim, humble only) is Gazebo
+  Classic. Decision: port it (branch jazzy-ros2lab d5068ecc, 2 commits, `parity/robots/scout/PORTING.md`).
+- Decision: DiffDrive wheel geometry from the xacro (the Classic plugin values did not match the model); /cmd_vel
+  bridged as TwistStamped.
+- Build: `--base-paths src/agilex/ugv_gazebo_sim/scout --packages-up-to scout_gazebo_sim` (duplicate package name
+  scout_description in scout_ros2) → "Summary: 2 packages finished [12.2s]". Later builds of other robots use their
+  own --base-paths for the same reason.
+- Evidence `parity/fixtures/scout/install_check/`: controllers.txt = the DiffDrive system line (no controller_manager,
+  as for TurtleBot3); 9 topics; TwistStamped 0.2 m/s for 5 s: /odom x 0.000000 -> 0.548800 m, Gazebo model pose x 0.551800.

@@ -32,7 +32,7 @@ Status definitions:
 | **irb120** | arm | ABB IRB 120 | no | no | NOT BUILT | - | - |
 | **kr6** | arm | KUKA KR 6 | no | no | NOT BUILT | - | - |
 | **lrmate** | arm | FANUC LR Mate 200iD | no | no | NOT BUILT | - | - |
-| **scout** | mobile | `https://github.com/agilexrobotics/scout_ros2` | no | no | NOT BUILT | - | - |
+| **scout** | mobile | `https://github.com/agilexrobotics/ugv_gazebo_sim` humble 9d7888af ported on jazzy-ros2lab d5068ecc (`parity/robots/scout/PORTING.md`); driver repo scout_ros2 origin/jazzy 48f70cbe not used (hardware only) | yes | yes | ROS2LAB-PORT | `ros2 launch scout_gazebo_sim scout_v2_gz.launch.py` | build: `parity/robots/scout/build_summary.txt` (2 packages); install_check/ 2026-10-18 (domain 46): `controllers.txt` (no controller_manager; scout_v2.gazebo line 132 `gz-sim-diff-drive-system`), `topics.txt`, `motion_proof.txt` (/odom x 0.0 -> 0.5488 m under TwistStamped /cmd_vel, Gazebo pose x 0.5518) |
 | **go2** | mobile | Unitree Go2 | no | no | NOT BUILT | - | - |
 | **g1** | mobile | Unitree G1 | no | no | NOT BUILT | - | - |
 | **h1** | mobile | Unitree H1 | no | no | NOT BUILT | - | - |

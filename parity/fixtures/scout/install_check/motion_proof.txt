@@ -1,0 +1,16 @@
+# python3 parity/scripts/mobile_motion_proof.py --cmd /cmd_vel --odom /odom --vx 0.2 --secs 5 (domain 46, 2026-10-18T07:52:01+05:30)
+# /cmd_vel types in the graph: ['geometry_msgs/msg/TwistStamped']
+# /odom before: x=0.000000 y=-0.000000 yaw=-0.000000
+# publish TwistStamped /cmd_vel linear.x=0.2 angular.z=0.0 at 10 Hz for 5.0 s
+# /odom after: x=0.548800 y=-0.000000 yaw=-0.000000 twist.linear.x=0.200000
+# moved 0.548800 m, turned -0.000000 rad
+exit 0
+
+# gz model -m scout_v2 -p (GZ_PARTITION=ref46), right after the motion:
+Requesting state for world [empty]...
+
+Model: [10]
+  - Name: scout_v2
+  - Pose [ XYZ (m) ] [ RPY (rad) ]:
+    [0.551800 0.000038 0.234845]
+    [-0.000159 -0.000000 -0.000000]
