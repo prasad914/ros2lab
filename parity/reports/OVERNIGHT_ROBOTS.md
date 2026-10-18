@@ -54,3 +54,16 @@ below; nothing in public/ is touched.
   joint1 0.000000 -> 0.300000 rad, error_code 0.
 - Note: the earlier "process left after KILL" (lite6) and this one were my own shell, which had ROS_DOMAIN_ID=46
   exported; stop_reference.sh is now run from a shell without it.
+
+## fr3 – OFFICIAL-JAZZY (verified)
+- Source: https://github.com/frankaemika/franka_ros2 jazzy 4acc05c0 (README: "franka_ros2 is built upon ROS 2 jazzy").
+  Versions from its dependency.repos: libfranka 0.20.5 (the earlier clone was 0.14.0 with the common submodule not
+  initialized; switched to tag 0.20.5 3cc708ca + submodule common 2e090a65), franka_description 2.9.0 (7aeeddc4).
+  dependency.repos also lists gz_ros2_control / ros2_control jazzy from source: not cloned, the apt versions built.
+- Build: `colcon build --symlink-install --packages-up-to franka_gazebo_bringup --cmake-args -DBUILD_TESTS=OFF
+  -DBUILD_TESTING=OFF` → "Summary: 12 packages finished [6min 23s]" (libfranka built by colcon, no make install).
+  Decision: tests off (not needed to run the simulation).
+- Decision: motion proof with the maker's `joint_position_example_controller` (franka_gazebo_controllers.yaml has no
+  joint trajectory controller for the arm); new `parity/scripts/joint_states_motion.py` samples /joint_states.
+- Evidence `parity/fixtures/fr3/install_check/`: both controllers active; 18 topics; all 7 joints changed by
+  ±0.005299 rad between stamps 9.832 and 10.975 (5 s wall; real_time_factor about 0.23).
