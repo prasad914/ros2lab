@@ -50,7 +50,7 @@ test.describe("Playground Readiness and Robot Mission Games (Prompt P12)", () =>
         expect(evaluation.waffleColorFinderUnlocked).toBe(evaluation.waffleCamFixture);
         expect(evaluation.dockUnlocked).toBe(false);
         expect(evaluation.burgerCFUnlocked).toBe(false);
-        expect(evaluation.waffleCFUnlocked).toBe(evaluation.waffleCamFixture);
+        expect(evaluation.waffleCFUnlocked).toBe(false); // placeholder mission game: "Not yet validated" (must-fix 2)
         expect(evaluation.dockGameUnlocked).toBe(false); // DOCK is PENDING -> locked
     });
 
@@ -60,5 +60,27 @@ test.describe("Playground Readiness and Robot Mission Games (Prompt P12)", () =>
         await page.waitForSelector("#stage");
         const stageText = await page.locator("#stage").innerText();
         expect(stageText).toMatch(/Locked|missing check|Camera works/i);
+    });
+
+    // expert_review_2026-10-18 must-fix 2: the robot mission games are placeholders (no real game yet), so they are
+    // locked as "Not yet validated" for every robot and never load the cd folder game or award a badge
+    test("robot mission games are locked as Not yet validated", async ({ page }) => {
+        await page.goto("/playground.html");
+        const r = await page.evaluate(async () => {
+            const { GAMES, getGamesForRobot } = await import("./js/games/registry.js");
+            const missions = GAMES.filter((g: any) => g.track === "robots");
+            const per = ["tb3_burger", "tb3_waffle", "tb3_waffle_pi"].flatMap((id) => getGamesForRobot(id).filter((g: any) => g.track === "robots").map((g: any) => ({ id: g.id, robot: id, unlocked: g.unlocked, why: g.lockReason })));
+            return { n: missions.length, loaders: missions.filter((g: any) => g.load).map((g: any) => g.id), per };
+        });
+        expect(r.n).toBe(15);
+        expect(r.loaders).toEqual([]);
+        for (const g of r.per) { expect(g.unlocked, `${g.robot} ${g.id}`).toBe(false); expect(g.why).toBe("Not yet validated"); }
+        for (const id of ["tf_detective", "mapping_race", "kidnapped_robot", "teleop_trial"]) {
+            await page.goto(`/playground.html#${id}`);
+            await expect(page.locator("#stage")).toContainText("Not yet validated");
+            await expect(page.locator("#stage")).not.toContainText("cd command");
+        }
+        const tile = page.locator('.pg-tile[href="#tf_detective"]');
+        await expect(tile).toContainText("Not yet validated");
     });
 });

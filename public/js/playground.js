@@ -1,5 +1,5 @@
 import { el } from "./dom.js";
-import { GAMES, LEVELS, gameById, mountGame } from "./games/registry.js";
+import { GAMES, LEVELS, NOT_VALIDATED, gameById, mountGame } from "./games/registry.js";
 import { badges } from "./games/shell.js";
 import { scene, glyph, stamp, svgNode, INKS } from "./games/art.js";
 import { ANIMS, animById, mountAnim } from "./anims/registry.js";
@@ -17,16 +17,18 @@ const rememberGame = (id) => { try { localStorage.setItem(LAST_KEY, id); } catch
 const where = (g) => (g.week > 6 ? "with the Simulator" : `Week ${g.week}, ${g.lesson}`);
 const tilts = [-9, 6, -4, 10, -7, 3];
 
-// the badge card: one slot per game; an earned badge is a rubber stamp in the game's ink, the rest are outlines
+// the badge card: one slot per playable game (placeholders without a game have no badge yet); an earned badge is a
+// rubber stamp in the game's ink, the rest are outlines
+const PLAYABLE = GAMES.filter((g) => g.load);
 function paintCard() {
-  const got = badges(), n = GAMES.filter((g) => got[g.id]).length;
+  const got = badges(), n = PLAYABLE.filter((g) => got[g.id]).length;
   card.replaceChildren(
-    el("div", { class: "pg-card-head" }, el("b", { text: "Badge card" }), el("span", { text: `${n} of ${GAMES.length}` })),
-    el("ul", { class: "pg-slots" }, GAMES.map((g, k) => el("li", { class: `pg-slot${got[g.id] ? " got" : ""}`, title: `${g.badge}: ${got[g.id] ? "earned" : "not earned yet"}`, style: `color: ${INKS[g.id]}` },
+    el("div", { class: "pg-card-head" }, el("b", { text: "Badge card" }), el("span", { text: `${n} of ${PLAYABLE.length}` })),
+    el("ul", { class: "pg-slots" }, PLAYABLE.map((g, k) => el("li", { class: `pg-slot${got[g.id] ? " got" : ""}`, title: `${g.badge}: ${got[g.id] ? "earned" : "not earned yet"}`, style: `color: ${INKS[g.id]}` },
       got[g.id] ? svgNode(stamp(g, { tilt: tilts[k % tilts.length] })) : el("span", { class: "pg-slot-empty" }, svgNode(glyph(g.id))),
       el("span", { class: "pg-slot-name", text: g.badge }),
       el("span", { class: "sr-only", text: got[g.id] ? " (earned)" : " (not earned yet)" })))),
-    el("p", { class: "pg-card-note", text: n === GAMES.length ? "Every stamp collected. You are ready for real ROS 2 on Ubuntu." : "Win a game to stamp its badge. Badges are saved in this browser." }));
+    el("p", { class: "pg-card-note", text: n === PLAYABLE.length ? "Every stamp collected. You are ready for real ROS 2 on Ubuntu." : "Win a game to stamp its badge. Badges are saved in this browser." }));
 }
 
 // the collection: one tile per game, in course order, each with its own drawing
@@ -34,10 +36,11 @@ function paintPick(active) {
   const got = badges();
   pick.replaceChildren(el("ul", { class: "pg-row" }, GAMES.map((g) => el("li", {},
     el("a", { href: `#${g.id}`, class: `pg-tile${g.id === active ? " on" : ""}${got[g.id] ? " done" : ""}`, style: `--g-ink: ${INKS[g.id]}`, "aria-current": g.id === active ? "true" : null,
-      "aria-label": `${g.title}. ${g.concept}. ${where(g)}, ${LEVELS[g.level]}, about ${g.minutes} minutes${got[g.id] ? ". Badge earned" : ""}` },
+      "aria-label": `${g.title}. ${g.concept}. ${g.load ? `${where(g)}, ${LEVELS[g.level]}, about ${g.minutes} minutes` : `Locked: ${NOT_VALIDATED}`}${got[g.id] ? ". Badge earned" : ""}` },
       el("span", { class: "pg-art" }, svgNode(scene(g.id))),
       el("span", { class: "pg-text" }, el("b", { text: g.title }), el("span", { class: "pg-concept", text: g.concept }),
-        el("span", { class: "pg-where", "aria-hidden": "true", text: `${where(g)}, ${g.minutes} min` })),
+        g.load ? el("span", { class: "pg-where", "aria-hidden": "true", text: `${where(g)}, ${g.minutes} min` })
+          : el("span", { class: "pg-where pg-lock", "aria-hidden": "true", text: `🔒 ${NOT_VALIDATED}` })),
       got[g.id] ? el("span", { class: "pg-done", "aria-hidden": "true" }, svgNode(glyph(g.id))) : null)))));
 }
 

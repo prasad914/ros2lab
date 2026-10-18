@@ -112,7 +112,7 @@ new IntersectionObserver((entries, obs) => {
   mountGame(demo, "radio");
 }, { rootMargin: "200px" }).observe(demo);
 
-document.getElementById("game-links").replaceChildren(...GAMES.filter((g) => g.id !== "radio").map((g) =>
+document.getElementById("game-links").replaceChildren(...GAMES.filter((g) => g.id !== "radio" && g.load).map((g) =>   // placeholders: not yet validated
   el("li", {}, el("a", { href: `playground.html#${g.id}` }, el("span", { class: "gl-icon", "aria-hidden": "true", text: g.badgeIcon }),
     el("span", {}, el("b", { text: g.title }), el("span", { class: "small muted", text: g.concept }))))));
 
