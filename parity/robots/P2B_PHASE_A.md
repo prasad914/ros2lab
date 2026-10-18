@@ -52,3 +52,13 @@ as pointers to them (no site files were used as sources).
 | crazyflie | crazyswarm2 | 1 apt key | motion-capture-tracking-interfaces | – |
 | magician, so101, irb120, kr6, lrmate, go2, g1, h1, spot | not cloned | not run | – | STATUS.md lists no maker repository; finding one was not done in this phase |
 | arm3, arm6, chiku, chiku_mesh, quadcopter, quadruped, hexapod, humanoid, mobile_manipulator, legged_manipulator, ackermann, mecanum | ROS2Lab course robots | not applicable | – | no upstream maker workspace exists |
+
+## Instructor step (2026-10-18, reported by the instructor)
+
+The instructor did robots_sudo.sh's steps by hand: `/etc/apt/sources.list.d/ros2.list` moved to `~/ros2.list.bak`,
+`apt-get update` clean, the 10 packages installed (0 upgraded, 0 removed), `rosdep install --from-paths
+~/robots_ws/src` reported "All required rosdeps installed successfully".
+Checked on this machine afterwards: `ros2.list` is gone from sources.list.d and `~/ros2.list.bak` exists;
+`apt-cache policy` works again; all 10 packages are installed (`p2b_rosdep/installed_after_sudo.txt`, dpkg-query);
+`rosdep check` over ~/robots_ws/src ends with "All system dependencies have been satisfied", the remaining lines are
+the keys without a rosdep definition listed above (`p2b_rosdep/ALL.check_after_sudo.txt`).
