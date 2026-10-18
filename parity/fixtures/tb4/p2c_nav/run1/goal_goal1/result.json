@@ -1,0 +1,60 @@
+{
+  "goal_name": "goal1",
+  "goal_source": "parity/fixtures/tb4/goals.yaml",
+  "goal_yaml": {
+    "description": "picked: clearance >= 0.6 m, reachable from start",
+    "frame_id": "map",
+    "position": {
+      "x": 3.875,
+      "y": -0.985,
+      "z": 0.0
+    },
+    "orientation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0,
+      "w": 1.0
+    },
+    "yaw": 0.0,
+    "status": "FREE"
+  },
+  "goal_msg": {
+    "pose": {
+      "header": {
+        "stamp": {
+          "sec": 228,
+          "nanosec": 258000000
+        },
+        "frame_id": "map"
+      },
+      "pose": {
+        "position": {
+          "x": 3.875,
+          "y": -0.985,
+          "z": 0.0
+        },
+        "orientation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "w": 1.0
+        }
+      }
+    },
+    "behavior_tree": ""
+  },
+  "send_wall": 1792298627.138258,
+  "send_sim": 228.258,
+  "accepted": true,
+  "response_wall": 1792298627.1485865,
+  "response_sim": 228.258,
+  "status": 6,
+  "status_name": "ABORTED",
+  "result": {
+    "error_code": 105,
+    "error_msg": ""
+  },
+  "result_wall": 1792299366.681174,
+  "result_sim": 414.363,
+  "duration_sim_s": 186.105
+}

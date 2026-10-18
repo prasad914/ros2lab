@@ -1,0 +1,10 @@
+# frame_check.py 2026-10-18T09:43:23+0530  map=parity/fixtures/_installed/turtlebot4_navigation/maps/warehouse.yaml  goals=parity/fixtures/tb4/goals.yaml
+# criterion: hit >= 0.8 within 2 cells (0.06 m), |amcl - start_pose| < 0.10 m, |TF - amcl| < 0.05 m
+scan stamp 5.808000000 frame turtlebot4/rplidar_link/rplidar: TF (-0.041, 0.005, yaw 1.578); 0 valid ranges, 0 near occupied, control 0
+scan stamp 5.826000000 frame turtlebot4/rplidar_link/rplidar: TF (-0.041, 0.005, yaw 1.578); 0 valid ranges, 0 near occupied, control 0
+scan stamp 5.841000000 frame turtlebot4/rplidar_link/rplidar: TF (-0.041, 0.005, yaw 1.578); 0 valid ranges, 0 near occupied, control 0
+scan stamp 5.859000000 frame turtlebot4/rplidar_link/rplidar: TF (-0.041, 0.005, yaw 1.578); 0 valid ranges, 0 near occupied, control 0
+scan stamp 5.874000000 frame turtlebot4/rplidar_link/rplidar: TF (-0.041, 0.005, yaw 1.578); 0 valid ranges, 0 near occupied, control 0
+goals.yaml start_pose: (0.000, 0.000, yaw 0.000) frame map
+NO DATA: amcl_pose=yes tf_base=yes scan ranges=0
+VERDICT: NO DATA

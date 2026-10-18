@@ -1,0 +1,531 @@
+Type: rosgraph_msgs/msg/Clock
+
+Publisher count: 1
+
+Node name: clock_bridge
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.8a.25.ab.b4.00.00.00.00.00.00.14.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 34
+
+Node name: lifecycle_manager_localization
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.04.26.b5.55.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: controller_server
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.08.26.80.60.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: local_costmap
+Node namespace: /local_costmap
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.08.26.80.60.00.00.00.00.00.00.2e.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: transform_listener_impl_62b2516c13f0
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.08.26.80.60.00.00.00.00.00.00.3e.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: smoother_server
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.0c.26.dc.e9.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: planner_server
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.13.26.aa.40.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: route_server
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.1e.26.41.15.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: bt_navigator
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.26.26.54.ef.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: bt_navigator_navigate_to_pose_rclcpp_node
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.26.26.54.ef.00.00.00.00.00.00.31.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: bt_navigator_navigate_through_poses_rclcpp_node
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.26.26.54.ef.00.00.00.00.00.00.54.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: waypoint_follower
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.4a.26.1b.36.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: velocity_smoother
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.54.26.a9.0f.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: collision_monitor
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.5c.26.fc.21.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: robot_state_publisher
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.8c.25.fb.2a.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: joint_state_publisher
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.8d.25.12.8f.00.00.00.00.00.00.05.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: dock_state_publisher
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.8e.25.b6.7e.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.94.25.db.ce.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: cliff_front_right_bridge
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.97.25.49.b7.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.9b.25.fc.0b.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: ir_intensity_front_center_left_bridge
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.9c.25.9a.c2.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: ir_intensity_front_center_right_bridge
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.9f.25.72.c7.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.a2.25.f0.4d.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.a5.25.74.be.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: buttons_msg_bridge
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.a7.25.58.fb.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: hmi_display_msg_bridge
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.ae.25.97.f4.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: hmi_led_msg_bridge
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.b4.25.40.69.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: camera_bridge
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.ba.25.71.4e.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: hazards_vector_publisher
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.ca.25.aa.30.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.dc.25.ae.c3.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _NODE_NAME_UNKNOWN_
+Node namespace: _NODE_NAMESPACE_UNKNOWN_
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.e0.25.6d.81.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: ui_mgr
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.e2.25.0b.6e.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: pose_republisher_node
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.e5.25.6c.5e.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: sensors_node
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.e7.25.06.f3.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: interface_buttons_node
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.ea.25.c4.3d.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+

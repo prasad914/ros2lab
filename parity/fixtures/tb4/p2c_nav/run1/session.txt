@@ -1,0 +1,51 @@
+[2026-10-18T09:42:11+05:30] domain 47 empty before start
+Started p2c_nav for tb4 on domain 47. Logs: parity/fixtures/tb4/p2c_nav/run1/logs  PIDs: /tmp/ros2lab_ref/47-p2c_nav-20261018T094215-599093.pids
+Note: TB4 Gazebo may start paused – if /clock does not advance, unpause it (gz service on the world control service) and record that in run_info.txt.
+ready: /clock advancing (sim 0.0 s)
+ready: navigate_to_pose action server
+ready: lifecycle_manager_localization is_active
+ready: localized, /amcl_pose (-0.001, 0.005)
+READY after 40.5 s wall
+ready: /clock advancing (sim 3.5 s)
+ready: navigate_to_pose action server
+ready: lifecycle_manager_navigation is_active
+READY after 2.4 s wall
+[2026-10-18T09:43:13+05:30] frame_check.py
+# frame_check.py 2026-10-18T09:43:23+0530  map=parity/fixtures/_installed/turtlebot4_navigation/maps/warehouse.yaml  goals=parity/fixtures/tb4/goals.yaml
+# criterion: hit >= 0.8 within 2 cells (0.06 m), |amcl - start_pose| < 0.10 m, |TF - amcl| < 0.05 m
+scan stamp 5.808000000 frame turtlebot4/rplidar_link/rplidar: TF (-0.041, 0.005, yaw 1.578); 0 valid ranges, 0 near occupied, control 0
+scan stamp 5.826000000 frame turtlebot4/rplidar_link/rplidar: TF (-0.041, 0.005, yaw 1.578); 0 valid ranges, 0 near occupied, control 0
+scan stamp 5.841000000 frame turtlebot4/rplidar_link/rplidar: TF (-0.041, 0.005, yaw 1.578); 0 valid ranges, 0 near occupied, control 0
+scan stamp 5.859000000 frame turtlebot4/rplidar_link/rplidar: TF (-0.041, 0.005, yaw 1.578); 0 valid ranges, 0 near occupied, control 0
+scan stamp 5.874000000 frame turtlebot4/rplidar_link/rplidar: TF (-0.041, 0.005, yaw 1.578); 0 valid ranges, 0 near occupied, control 0
+goals.yaml start_pose: (0.000, 0.000, yaw 0.000) frame map
+NO DATA: amcl_pose=yes tf_base=yes scan ranges=0
+VERDICT: NO DATA
+[2026-10-18T09:43:32+05:30] capture_reference.sh snapshot
+Captured snapshot to parity/fixtures/tb4/p2c_nav/run1/snapshot
+[2026-10-18T10:12:44+05:30] undock
+[2026-10-18T10:13:36+05:30] undock exit 0
+[2026-10-18T10:13:36+05:30] send goal1
+{"goal_name": "goal1", "accepted": true, "status": 6, "status_name": "ABORTED", "result": {"error_code": 105, "error_msg": ""}, "duration_sim_s": 186.105}
+[2026-10-18T10:26:07+05:30] goal1: ABORTED 105 186.105
+[2026-10-18T10:26:07+05:30] send goal2
+Traceback (most recent call last):
+  File "/home/prasad/ros2lab-course/parity/scripts/send_goal_capture.py", line 121, in <module>
+    main()
+  File "/home/prasad/ros2lab-course/parity/scripts/send_goal_capture.py", line 96, in main
+    rclpy.spin_once(node, timeout_sec=0.2)
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/__init__.py", line 226, in spin_once
+    executor.spin_once(timeout_sec=timeout_sec)
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 926, in spin_once
+    self._spin_once_impl(timeout_sec)
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 907, in _spin_once_impl
+    handler, entity, node = self.wait_for_ready_callbacks(
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 877, in wait_for_ready_callbacks
+    return next(self._cb_iter)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/executors.py", line 757, in _wait_for_ready_callbacks
+    wait_set = _rclpy.WaitSet(
+               ^^^^^^^^^^^^^^^
+rclpy._rclpy_pybind11.RCLError: failed to initialize wait set: the given context is not valid, either rcl_init() was not called or rcl_shutdown() was called., at ./src/rcl/wait.c:130
+[2026-10-18T10:26:56+05:30] session stopped by hand after goal1 (lidar ranges all 0.164 = range_min under EGL; see OVERNIGHT_ROBOTS.md)

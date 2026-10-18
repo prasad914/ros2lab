@@ -1,0 +1,28 @@
+/camera_stf:
+  ros__parameters:
+    child_frame_id: turtlebot4/oakd_rgb_camera_frame/rgbd_camera
+    frame_id: oakd_rgb_camera_optical_frame
+    qos_overrides:
+      /parameter_events:
+        publisher:
+          depth: 1000
+          durability: volatile
+          history: keep_last
+          reliability: reliable
+      /tf_static:
+        publisher:
+          depth: 1
+          history: keep_last
+          reliability: reliable
+    rotation:
+      w: 0.5000481633973738
+      x: 0.49995183660262615
+      y: -0.49999999768028713
+      z: 0.49999999768028713
+    start_type_description_service: true
+    translation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+    use_sim_time: false
+

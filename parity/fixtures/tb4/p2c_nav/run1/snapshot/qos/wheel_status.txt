@@ -1,0 +1,36 @@
+Type: irobot_create_msgs/msg/WheelStatus
+
+Publisher count: 1
+
+Node name: motion_control
+Node namespace: /
+Topic type: irobot_create_msgs/msg/WheelStatus
+Topic type hash: RIHS01_549f08c7642509374a3845ff694a451c90ecde896cb407029508ae10d285e538
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.d4.25.32.2a.00.00.00.00.00.00.5e.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: turtlebot4_node
+Node namespace: /
+Topic type: irobot_create_msgs/msg/WheelStatus
+Topic type hash: RIHS01_549f08c7642509374a3845ff694a451c90ecde896cb407029508ae10d285e538
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.bc.25.84.bb.00.00.00.00.00.00.16.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+

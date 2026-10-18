@@ -1,0 +1,21 @@
+Type: control_msgs/msg/DynamicJointState
+
+Publisher count: 1
+
+Node name: pose_republisher_node
+Node namespace: /
+Topic type: control_msgs/msg/DynamicJointState
+Topic type hash: RIHS01_18024c98a62697680f581108eeed40b28fb4542fa0ac5a8e36f56c62b6813d26
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.e5.25.6c.5e.00.00.00.00.00.00.1d.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 0
+

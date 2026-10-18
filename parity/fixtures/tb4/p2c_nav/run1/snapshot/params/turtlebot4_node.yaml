@@ -1,0 +1,74 @@
+/turtlebot4_node:
+  ros__parameters:
+    buttons:
+      create3_1:
+      - Dock
+      - Wall Follow Left
+      - '2000'
+      create3_2:
+      - Undock
+      - Wall Follow Right
+      - '2000'
+      create3_power:
+      - EStop
+      - Power
+      - '3000'
+      hmi_1:
+      - Select
+      hmi_2:
+      - Back
+      hmi_3:
+      - Scroll Up
+      hmi_4:
+      - Scroll Down
+    controller:
+      a:
+      - Select
+      b:
+      - EStop
+      down:
+      - Scroll Down
+      home:
+      - Dock
+      - Undock
+      - '3000'
+      l1: []
+      l2:
+      - Wall Follow Left
+      l3: []
+      left: []
+      options: []
+      r1: []
+      r2:
+      - Wall Follow Right
+      r3: []
+      right: []
+      share: []
+      up:
+      - Scroll Up
+      x:
+      - Back
+      y: []
+    menu:
+      entries:
+      - Dock
+      - Undock
+      - EStop
+      - Wall Follow Left
+      - Wall Follow Right
+      - Power
+      - Help
+    model: standard
+    power_saver: true
+    qos_overrides:
+      /parameter_events:
+        publisher:
+          depth: 1000
+          durability: volatile
+          history: keep_last
+          reliability: reliable
+    start_type_description_service: true
+    use_sim_time: false
+    wifi:
+      interface: wlan0
+

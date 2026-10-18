@@ -123,3 +123,19 @@ below; nothing in public/ is touched.
     A 12 m lidar would map more than this even standing still, so the cause is UNVERIFIED (not the 23 drops alone;
     whether the robot left its dock was not recorded).
   - Result: SLAM run captured, the map is NOT usable as a navigation map (two attempts). Navigation uses the maker's warehouse map instead.
+- Goals: `parity/fixtures/tb4/goals.yaml` from `pick_goals.py` on the maker's warehouse map (start (0, 0), clearance
+  ≥ 0.6 m, spacing ≥ 1.5 m, within 4 m – decision: 4 m keeps a goal short at real_time_factor 0.2), checked FREE by
+  check_goals_on_map.py (`goals_check.md`, 6/6 FREE).
+- Navigation run 1 (`run_nav_p2c.sh`, `fixtures/tb4/p2c_nav/run1/`): localization and navigation lifecycles active,
+  AMCL localized at (-0.001, 0.005); frame_check.py VERDICT NO DATA ("0 valid ranges"); snapshot captured; /undock
+  exit 0; goal1 (3.875, -0.985) ABORTED error_code 105 (FollowPath FAILED_TO_MAKE_PROGRESS) after 186.105 s sim,
+  controller_server "Failed to make progress", then spin recovery "Exceeded time allowance" (`goal_goal1/nav2_goal_lines.txt`).
+  Decision: run stopped after goal1.
+- Cause found: under the EGL headless launch every /scan range is 0.164 m = range_min (640/640, rclpy probe during
+  run 1). With the maker's GUI launch under xvfb-run the same lidar gives 440 finite ranges, min 1.337 m
+  (`fixtures/tb4/p2c_scan_xvfb/scan_probe.txt`; check_goals_on_map.py puts the nearest occupied cell 1.315 m from the
+  start). So the headless EGL rendering breaks the TurtleBot4 gpu_lidar on this machine (TB3's lidar works under EGL),
+  while xvfb runs at real_time_factor 0.0049.
+- Result: tb4 SLAM and navigation ground truth BLOCKED (UNVERIFIED): no rendering mode on this machine gives both a
+  valid lidar and a usable speed. The P2b verification (diffdrive, /odom under TwistStamped) is not affected. The
+  sensors snapshot's /scan data under EGL is not valid lidar data.
