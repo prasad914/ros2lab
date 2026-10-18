@@ -1968,8 +1968,19 @@ RosGraph.prototype.hwLocked = function (msg) {
 RosGraph.prototype.hwLockNote = function (msg, what) {
   return [this.err(`[ERROR] [ros2lab_hardware_license]: ${msg}`), this.err(`[ERROR] [ros2lab_hardware_license]: real hardware is locked: this launch starts ${what}, which drives the real robot, so ROS2Lab stopped the launch`), this.hint(this.hwSimHint())];
 };
+// the license hint names what runs without a robot on THIS page (expert_review_robots_2026-10-18 site-wide #4):
+// the card's own simulation / mock commands, or the launch files of the packages in the workspace
 RosGraph.prototype.hwSimHint = function () {
-  return "(Simulation needs no license: use sim.launch.py / gazebo.launch.py / demo.launch.py. For the real robot, ask your course administrator for a hardware license: RViz page → Connect to ROS 2 → Ask for a hardware license.)";
+  const R = this.sh.realWs, list = (v) => (Array.isArray(v) ? v : v ? [v] : []);
+  let cmds = [];
+  if (R && R.json) {
+    for (const [kind, v] of Object.entries(R.json.entry || {})) if (kind !== "real" && !/note|issues/.test(kind)) for (const e of list(v)) if (e && e.cmd && (!e.robot || e.robot === R.robot) && /^ros2 launch /.test(e.cmd)) cmds.push(e.cmd);
+  } else {
+    for (const p of this.sh.wsPkgs ? this.sh.wsPkgs.values() : []) for (const f of Object.keys(p.launch || {})) if (/sim|gazebo|demo|mock|display/.test(f)) cmds.push(`ros2 launch ${p.name} ${f}`);
+  }
+  cmds = [...new Set(cmds)].slice(0, 3);
+  const sim = cmds.length ? `Simulation and mock hardware need no license. On this page: ${cmds.join("  |  ")}.` : "Simulation needs no license.";
+  return `(${sim} For the real robot, ask your course administrator for a hardware license: RViz page → Connect to ROS 2 → Ask for a hardware license.)`;
 };
 // ros2 launch <driver package> <file> straight from the terminal
 RosGraph.prototype.driverDirect = function (pkg, file, extra = []) {
