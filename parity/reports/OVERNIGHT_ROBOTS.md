@@ -21,3 +21,15 @@ below; nothing in public/ is touched.
   The TurtleBot4 HMI GUI plugins are therefore absent. real_time_factor 0.20.
 - Evidence `parity/fixtures/tb4/install_check/`: diffdrive_controller + joint_state_broadcaster active; 53 topics
   (`/cmd_vel [geometry_msgs/msg/TwistStamped]`); 10 s of TwistStamped 0.2 m/s moved /odom x 0.000000 -> 0.042637 m.
+
+## xarm6 – OFFICIAL-JAZZY (verified)
+- Source: https://github.com/xArm-Developer/xarm_ros2 branch jazzy 3dc2b5e8 (earlier clone, clean), submodule
+  xarm_sdk/cxx v1.18.1. README: "Ubuntu 24.04 + ROS Jazzy", "(2024-11-05) Support Jazzy version … Gazebo Harmonic is
+  supported instead".
+- Decision: the earlier attempt's `~/robots_ws/{build,install,log}` broke the build ("failed to create symbolic link …
+  existing path cannot be removed: Is a directory"); moved to `~/robots_ws/_earlier_attempt_before_2026-10-18/`
+  (COLCON_IGNORE, kept). Rebuild: `colcon build --symlink-install --packages-up-to xarm_gazebo xarm_moveit_config`
+  → "Summary: 8 packages finished [11min 59s]" (deprecation warnings in xarm_controller).
+- Decision: `load_controller:=true` (the launch file's own argument; default false loads no controllers – attempt 1).
+- Evidence `parity/fixtures/xarm6/install_check/`: xarm6_traj_controller + joint_state_broadcaster active; 20 topics;
+  joint1 0.000000 -> 0.299897 rad, error_code 0.

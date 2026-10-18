@@ -23,7 +23,7 @@ Status definitions:
 | **ur5e** | arm | apt: `ros-jazzy-ur-simulation-gz` 2.5.0, `ros-jazzy-ur-moveit-config` | yes | yes | OFFICIAL-JAZZY | `ros2 launch ur_simulation_gz ur_sim_control.launch.py ur_type:=ur5e gazebo_gui:=false launch_rviz:=false` | install_check/ 2026-10-18 (domain 46): `controllers.txt` (scaled_joint_trajectory_controller, joint_state_broadcaster active), `topics.txt`, `motion_proof.txt` (shoulder_pan_joint 0.0 -> 0.3 rad, FollowJointTrajectory error_code 0) |
 | **fr3** | arm | `https://github.com/frankaemika/franka_ros2` | no | no | NOT BUILT | - | - |
 | **gen3** | arm | `https://github.com/Kinovarobotics/ros2_kortex` | no | no | NOT BUILT | - | - |
-| **xarm6** | arm | `https://github.com/xArm-Developer/xarm_ros2` | no | no | NOT BUILT | - | - |
+| **xarm6** | arm | `https://github.com/xArm-Developer/xarm_ros2` jazzy 3dc2b5e8 (submodule xarm_sdk/cxx v1.18.1 d84a2b7d) | yes | yes | OFFICIAL-JAZZY | `xvfb-run -a ros2 launch xarm_gazebo xarm6_beside_table_gazebo.launch.py load_controller:=true` | build: `parity/robots/xarm6/build_summary.txt` ("8 packages finished"); install_check/ 2026-10-18 (domain 46): `controllers.txt` (xarm6_traj_controller, joint_state_broadcaster active), `topics.txt`, `motion_proof.txt` (joint1 0.0 -> 0.299897 rad, error_code 0) |
 | **lite6** | arm | `https://github.com/xArm-Developer/xarm_ros2` | no | no | NOT BUILT | - | - |
 | **cr5** | arm | `https://github.com/Dobot-Arm/DOBOT_6Axis_ROS2` | no | no | NOT BUILT | - | - |
 | **magician** | arm | Dobot Magician | no | no | NOT BUILT | - | - |
