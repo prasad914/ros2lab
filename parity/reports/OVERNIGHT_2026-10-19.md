@@ -131,3 +131,70 @@ renamed with `git mv` (kept, not edited). Collision results (`runs/fail_goal_in_
 - `tb4_headless_ogre.launch.py` (gz server `--render-engine-server ogre`, headless EGL). `p2c_scan_ogre/scan_probe.txt`:
   3/3 scans with 640/640 ranges == range_min 0.164; `stats.txt` real_time_factor 0.430 then 0.072; OGRE 1 confirmed
   (`OgreGpuRays.cc` warning "Horizontal FOV for GPU rays is capped at 180 degrees"). FAILED → SLAM / nav not rerun.
+
+### A8 – final gate and regeneration
+- Final gate (`run_regression.sh`, after all Part A commits, no real simulation running): parity e2e 77/77,
+  vitest 38/38, security pass, real-tb3 / real-tb3-nav / real-mobile-audit 0 FAIL lines, tb3-catalog exit 0.
+- Full fixture suite: 14 passed / 6 failed = the 6 baseline specs (nav_robotis ×3, nav2_bringup graph, matrix,
+  matrix_dwb_burger). Regenerated fixture_parity.md + fixture-status.js (29438de): totals unchanged.
+- Fix summary appended to expert_review_robots_2026-10-18.md (c421978). parity/browser_out restored, not committed.
+- Not reverted anything: no item produced a new gate failure.
+
+## END
+Domains at the end (pids): 41:[] 46:[] 47:[] 48:[] (empty = nothing running).
+
+### git log --oneline -15 parity-fixes
+```
+c421978 Expert review (robots): fix summary (fixed / left / why)
+29438de Regenerate fixture_parity.md and fixture-status.js after the overnight fixes
+fafab51 view_frames: file name from the local time and the four real log lines (TB3 review should-fix, part)
+79dd44f collision_monitor setup log lines as real Nav2 prints them (TB3 review should-fix)
+5b99139 Catalog: "Gazebo" badges only for robots whose page has a Gazebo simulation (robots review site-wide #7)
+19c94f1 License-lock hint names this page's own simulation / mock commands (robots review site-wide #4)
+587dfd1 Nav2 enable_stamped_cmd_vel from the loaded params file, default false (robots review TB4 #4, TB3 review Low)
+6914094 nav2_bringup tb4_simulation_launch.py / tb4_loopback_simulation.launch.py: honest "TB4 simulation is not modelled on ROS2Lab yet" note, nothing started (robots review TB4 #1-#3)
+ccd1bbb "ROS2Lab-made config – not from the maker" on the card of robots without a maker workspace (robots review site-wide #3)
+9338382 "Not yet validated against real ROS 2" on robot cards, launch and real-hardware buttons; honesty text on the card (robots review site-wide #2, TB3 review should-fix "RViz pages")
+a7c297f Real-hardware lock by what a launch starts, not by the card's command string (robots review site-wide #1)
+dc6828d OVERNIGHT_2026-10-19: start log
+0f11c41 Expert review of the non-TB3 robot pages (MoveIt arms, Scout, Crazyflie, TB4), 2026-10-18
+51df796 Expert review: fix summary (fixed / left / why)
+40ed4d7 Regenerate fixture_parity.md and fixture-status.js after the expert-review fixes
+```
+### git log --oneline -15 robots-p2b
+```
+848765c _installed/interbotix_xsarm_moveit/SOURCE.txt as written by run_moveit_m1.sh for the wx250s recapture (source at port commit 86951bf; copied config files unchanged)
+935c60c STATUS.md and OVERNIGHT_ROBOTS.md: overnight B1-B5 results (M1 recapture, tb4 lidar invalid under EGL, nav2_bringup tb4 demo)
+ed896c8 B5 tb4: real nav2_bringup tb4_simulation_launch.py headless:=True (timeout 300): world not loaded (Fuel 502 for Depot), create waits, spawn UNVERIFIED
+6b73d44 B4 tb4 lidar under headless EGL with the ogre (OGRE 1) engine: still invalid, every range = range_min
+c82809b M1 lite6: recapture with the collision search over the group's joints (4fbb6e8); previous capture kept as moveit_attempt2_collision_case_not_run
+7888b6a M1 gen3: recapture with the collision protocol (16d8d66, 4fbb6e8); earlier capture kept as moveit_attempt3_collision_box_0.2m
+8ce04f4 M1 wx250s (ROS2LAB-PORT, fake hardware): recapture with the collision protocol (16d8d66, 4fbb6e8); earlier capture kept as moveit_attempt3_collision_box_0.2m
+f8000c5 M1 fr3: recapture with the collision protocol (16d8d66, 4fbb6e8); earlier capture kept as moveit_attempt2_collision_box_0.2m
+f8b64fe M1 cr5: recapture with the collision protocol (16d8d66, 4fbb6e8); earlier capture kept as moveit_attempt1_collision_box_0.2m
+245844b B4 tools: tb4 headless launch with the ogre render engine for the server sensors, scenario p2c_scan_ogre, scan_probe.py
+2a005bf capture_tb4_nav2_bringup.sh: real nav2_bringup tb4_simulation_launch.py headless:=True under timeout 300 (spawn, errors, lifecycle)
+73394bc M1 lite6: recapture with the collision protocol of 16d8d66 (collision case not run); earlier capture kept as moveit_attempt1_collision_box_0.2m
+4fbb6e8 moveit_capture.py collision case: try the next joints of the group when the first joint leaves the EE in the box
+cea7588 M1 xarm6: recapture with the collision protocol of 16d8d66; earlier capture kept as moveit_attempt2_collision_box_0.2m
+02f518a M1 ur5e: recapture with the collision protocol of 16d8d66; earlier capture kept as moveit_attempt2_collision_box_0.2m
+```
+
+### Totals (parity/reports/fixture_parity.md, TB3 fixture suites)
+PASS 500 · FAIL 180 · PENDING (PENDING-THRESHOLD) 10 · NOT-VALIDATED 53 — unchanged by tonight's fixes.
+Site-wide: every non-TB3 robot is now labelled "Not yet validated against real ROS 2" (no fixture suite).
+
+### Owner must do
+1. Review and push both branches (nothing was pushed or deployed). Deploy the site with
+   `firebase deploy --only hosting` when satisfied (rviz-page.js, real-launch.js, ros-graph.js, nav2-sim.js,
+   sim-catalog.js, ws/index.json changed).
+2. gen3 M1: cause of -26 START_STATE_INVALID from the collision case on is UNVERIFIED; it needs move_group logs
+   (the maker's sim.launch.py sets --log-level fatal). Decide whether a capture with a higher log level is allowed.
+3. tb4: no rendering mode here gives a valid lidar at a usable speed (EGL ogre2 and ogre: all range_min; xvfb: RTF
+   0.0049). Options: a GPU / another machine, or accept xvfb runs of several hours. SLAM / nav ground truth BLOCKED.
+4. B5: rerun `parity/scripts/capture_tb4_nav2_bringup.sh 47 ref47 <out>` when fuel.gazebosim.org serves the Depot
+   model (HTTP 502 tonight), or pre-fill the Fuel cache, to answer whether create spawns the TB4.
+5. Site shell: `export X=1 && ros2 launch ...` runs and prints nothing (bash exports and launches). Not fixed.
+6. Earlier open decision still open: initial-pose timeout on sim time (expert_review_2026-10-18 "Left").
+7. moveit_capture.py crashes (KeyError) when /joint_states is empty; harmless tonight, fix before the next M-run.
+8. Instructor: MoveIt must-fix list (M2) now has real error-code fixtures for 7 arms on robots-p2b.
