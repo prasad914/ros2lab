@@ -98,3 +98,12 @@ below; nothing in public/ is touched.
   installed (`apt-cache policy swig`: Candidate 4.2.0-2ubuntu1). `rowan` (step 2, pip) is not installed and has no apt
   package. transforms3d is installed (python3-transforms3d 0.4.1+ds-1).
 - Decision: not built; `sudo apt-get install -y swig` added to robots_sudo.sh section 4 with the rowan note.
+
+## P2c – scout (domain 47)
+- Decision: scenario name `p2c_sensors` (scenarios/p2c_sensors.sh = sim.sh). `sensors` is a TurtleBot3 case inside
+  start_reference.sh (it started the TB3 world and failed on TURTLEBOT3_MODEL; that run was discarded).
+- Sensors snapshot `parity/fixtures/scout/p2c_sensors/` (capture_reference.sh, no daemon): 9 topics, 2 nodes, TF
+  odom -> base_link -> 4 wheel links + inertial_link, /odom 29.412 Hz sim. The ported Scout V2 model has no lidar,
+  camera or IMU (scout_v2.xacro has no sensor), so there are no sensor samples beyond robot_description.
+- SLAM and Nav2: not captured – the maker provides neither for Scout on ROS 2 (scout_ros2 jazzy: driver only;
+  ugv_gazebo_sim: simulation only). PENDING until a maker SLAM/Nav2 configuration exists.
