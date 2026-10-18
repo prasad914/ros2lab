@@ -132,7 +132,7 @@ def main():
         t = buf.lookup_transform('map', args.base_frame, Time())
         tf_base = (t.transform.translation.x, t.transform.translation.y, yaw_of(t.transform.rotation))
     except Exception as e:  # noqa: BLE001
-        lines.append(f'TF map->base_footprint: {e}')
+        lines.append(f'TF map->{args.base_frame}: {e}')
     node.destroy_node()
     rclpy.shutdown()
 
@@ -151,7 +151,7 @@ def main():
         lines += [f'/amcl_pose: ({axy[0]:.3f}, {axy[1]:.3f}, yaw {axy[2]:.3f}) frame {a.header.frame_id} '
                   f'stamp {a.header.stamp.sec}.{a.header.stamp.nanosec:09d}; cov xx {a.pose.covariance[0]:.4f} '
                   f'yy {a.pose.covariance[7]:.4f} yawyaw {a.pose.covariance[35]:.4f}',
-                  f'TF map->base_footprint (latest): ({tf_base[0]:.3f}, {tf_base[1]:.3f}, yaw {tf_base[2]:.3f})',
+                  f'TF map->{args.base_frame} (latest): ({tf_base[0]:.3f}, {tf_base[1]:.3f}, yaw {tf_base[2]:.3f})',
                   f'|amcl - start_pose| = {d_start:.3f} m; |TF - amcl| = {d_tf:.3f} m',
                   f'scan hit fraction: {hits}/{total} = {frac:.3f} over {used} scans',
                   f'control (robot shifted by {args.control_dx}, {args.control_dy}): {ctrl_hits}/{total} = {cfrac:.3f}']
