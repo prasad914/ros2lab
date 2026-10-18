@@ -1,0 +1,36 @@
+elbow_joint:
+  effort: 150.0
+  lower: -3.141592653589793
+  type: revolute
+  upper: 3.141592653589793
+  velocity: 3.141592653589793
+shoulder_lift_joint:
+  effort: 150.0
+  lower: -6.283185307179586
+  type: revolute
+  upper: 6.283185307179586
+  velocity: 3.141592653589793
+shoulder_pan_joint:
+  effort: 150.0
+  lower: -6.283185307179586
+  type: revolute
+  upper: 6.283185307179586
+  velocity: 3.141592653589793
+wrist_1_joint:
+  effort: 28.0
+  lower: -6.283185307179586
+  type: revolute
+  upper: 6.283185307179586
+  velocity: 3.141592653589793
+wrist_2_joint:
+  effort: 28.0
+  lower: -6.283185307179586
+  type: revolute
+  upper: 6.283185307179586
+  velocity: 3.141592653589793
+wrist_3_joint:
+  effort: 28.0
+  lower: -6.283185307179586
+  type: revolute
+  upper: 6.283185307179586
+  velocity: 3.141592653589793

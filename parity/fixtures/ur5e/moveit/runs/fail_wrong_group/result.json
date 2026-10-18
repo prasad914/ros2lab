@@ -1,0 +1,45 @@
+{
+  "name": "fail_wrong_group",
+  "note": "group name that the SRDF does not have",
+  "group": "parity_no_such_group",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "elbow_joint": 1.699554534553847,
+    "shoulder_lift_joint": -1.6197254602087046,
+    "shoulder_pan_joint": 1.5391943516149167,
+    "wrist_1_joint": -1.2005931652456736,
+    "wrist_2_joint": -1.6001809395229645,
+    "wrist_3_joint": -0.1104022018057293
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "elbow_joint": 1.8206568779193686,
+    "shoulder_lift_joint": -1.603220575495151,
+    "shoulder_pan_joint": 1.530343106044815,
+    "wrist_1_joint": -1.348045773014866,
+    "wrist_2_joint": -1.5994290317609527,
+    "wrist_3_joint": -0.11567269915515799
+  },
+  "send_wall": 1792300164.4709082,
+  "accepted": true,
+  "status": 6,
+  "error_code": -1,
+  "error_code_name": "PLANNING_FAILED",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [],
+    "points": 0,
+    "last_time_from_start": null
+  },
+  "result_wall": 1792300164.4775786,
+  "joint_states_after": {
+    "elbow_joint": 1.8206568779193686,
+    "shoulder_lift_joint": -1.603220575495151,
+    "shoulder_pan_joint": 1.530343106044815,
+    "wrist_1_joint": -1.348045773014866,
+    "wrist_2_joint": -1.5994290317609527,
+    "wrist_3_joint": -0.11567269915515799
+  }
+}

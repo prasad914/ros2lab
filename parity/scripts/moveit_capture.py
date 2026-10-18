@@ -171,23 +171,28 @@ class Cap(Node):
         res['joint_states_after'] = self.joints_now()
         json.dump(res, open(os.path.join(d, 'result.json'), 'w'), indent=2)
         if self.a.log and os.path.exists(self.a.log):
-            lo, hi = res['send_wall'] - 1.0, res['result_wall'] + 2.0
-            out = []
-            for i, l in enumerate(open(self.a.log, errors='replace'), 1):
-                if '[move_group' not in l and 'moveit' not in l.lower():
-                    continue
-                try:
-                    st = float(l.split('] [', 2)[1].split(']')[0]) if '] [' in l else None
-                except (ValueError, IndexError):
-                    st = None
-                if st is not None and lo <= st <= hi:
-                    out.append(f'{i}:{l.rstrip()}')
-            with open(os.path.join(d, 'move_group_lines.txt'), 'w') as f:
-                f.write(f'# lines of {self.a.log} (gitignored) with [move_group] or moveit, stamped wall {lo:.3f} .. {hi:.3f}\n')
-                f.write('\n'.join(out) + '\n')
+            write_excerpt(d, res, self.a.log)
         print(f"{name}: accepted={res['accepted']} error_code={res.get('error_code')} {res.get('error_code_name', '')}"
               f" points={res.get('trajectory', {}).get('points')}", flush=True)
         return res
+
+
+STAMP = __import__('re').compile(r'\[(\d{9,}\.\d+)\]')
+
+
+def write_excerpt(d, res, log):
+    """move_group / moveit lines of the launch log stamped send - 1 s .. result + 2 s (wall) -> move_group_lines.txt"""
+    lo, hi = res['send_wall'] - 1.0, res['result_wall'] + 2.0
+    out = []
+    for i, l in enumerate(open(log, errors='replace'), 1):
+        if '[move_group' not in l and 'moveit' not in l.lower():
+            continue
+        m = STAMP.search(l)
+        if m and lo <= float(m.group(1)) <= hi:
+            out.append(f'{i}:{l.rstrip()}')
+    with open(os.path.join(d, 'move_group_lines.txt'), 'w') as f:
+        f.write(f'# lines of {os.path.relpath(log)} (gitignored) with [move_group or moveit, stamped wall {lo:.3f} .. {hi:.3f}\n')
+        f.write('\n'.join(out) + '\n')
 
 
 def parse_srdf(text):
@@ -228,7 +233,13 @@ def main():
     ap.add_argument('--log', default='')
     ap.add_argument('--velocity-scaling', type=float, default=0.5)
     ap.add_argument('--skip', default='', help='comma-separated run names to skip')
+    ap.add_argument('--excerpts-only', action='store_true', help='only rewrite move_group_lines.txt of the runs in --out')
     a = ap.parse_args()
+    if a.excerpts_only:
+        for name in sorted(os.listdir(os.path.join(a.out, 'runs'))):
+            d = os.path.join(a.out, 'runs', name)
+            write_excerpt(d, json.load(open(os.path.join(d, 'result.json'))), a.log)
+        return 0
     os.makedirs(a.out, exist_ok=True)
     rclpy.init()
     n = Cap(a)

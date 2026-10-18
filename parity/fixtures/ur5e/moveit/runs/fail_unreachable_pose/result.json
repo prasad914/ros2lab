@@ -1,0 +1,52 @@
+{
+  "name": "fail_unreachable_pose",
+  "note": "tool0 10 m beyond the current pose in x",
+  "group": "ur_manipulator",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {},
+  "goal_pose": {
+    "frame": "world",
+    "link": "tool0",
+    "position": [
+      9.883177295647709,
+      0.42105209389650655,
+      0.37283984799047754
+    ],
+    "orientation_xyzw": [
+      0.9739296677132538,
+      0.041255617405119176,
+      -0.0019092686794282038,
+      0.2230590304685803
+    ]
+  },
+  "joint_states_before": {
+    "elbow_joint": 1.8206568779193686,
+    "shoulder_lift_joint": -1.603220575495151,
+    "shoulder_pan_joint": 1.530343106044815,
+    "wrist_1_joint": -1.348045773014866,
+    "wrist_2_joint": -1.5994290317609527,
+    "wrist_3_joint": -0.11567269915515799
+  },
+  "send_wall": 1792300156.1728804,
+  "accepted": true,
+  "status": 6,
+  "error_code": -27,
+  "error_code_name": "GOAL_STATE_INVALID",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [],
+    "points": 0,
+    "last_time_from_start": null
+  },
+  "result_wall": 1792300161.2213614,
+  "joint_states_after": {
+    "elbow_joint": 1.8206568779193686,
+    "shoulder_lift_joint": -1.603220575495151,
+    "shoulder_pan_joint": 1.530343106044815,
+    "wrist_1_joint": -1.348045773014866,
+    "wrist_2_joint": -1.5994290317609527,
+    "wrist_3_joint": -0.11567269915515799
+  }
+}

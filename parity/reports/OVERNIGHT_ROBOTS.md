@@ -139,3 +139,21 @@ below; nothing in public/ is touched.
 - Result: tb4 SLAM and navigation ground truth BLOCKED (UNVERIFIED): no rendering mode on this machine gives both a
   valid lidar and a usable speed. The P2b verification (diffdrive, /odom under TwistStamped) is not affected. The
   sensors snapshot's /scan data under EGL is not valid lidar data.
+
+## M1 – ur5e (domain 48)
+- Scenario `parity/robots/ur5e/scenarios/moveit.sh`: `xvfb-run -a ros2 launch ur_simulation_gz ur_sim_moveit.launch.py
+  ur_type:=ur5e` (the launch file starts RViz and the Gazebo GUI itself). Tools: run_moveit_m1.sh + moveit_capture.py.
+- Attempt 1 stopped at "ERROR: /move_group has no robot_description_semantic / robot_description parameter"
+  (`ros2 param dump /move_group` = `ros__parameters: {}`); decision: read SRDF and URDF from move_group's latched
+  topics /robot_description_semantic and /robot_description. `ros2 param dump /move_group` stayed `{}` for 300 s on
+  attempt 2 as well: move_group parameters UNVERIFIED (the param list is captured from the next arm on).
+- `parity/fixtures/ur5e/moveit/`: lists, view_frames .gv, controllers (both active), srdf_summary.yaml (group
+  ur_manipulator, chain base_link -> tool0, states home, up, test_configuration), urdf_joint_limits.yaml; installed
+  ur_moveit_config 3.9.0 files in `fixtures/_installed/ur_moveit_config/`.
+- Runs (`runs/<name>/result.json`, `move_group_lines.txt`), velocity/acceleration scaling 0.5, OMPL default pipeline:
+  home, up, test_configuration, joint goal, pose goal (tool0 −0.05 m z): 1 SUCCESS; unreachable pose −27
+  GOAL_STATE_INVALID; joint outside limits −27 GOAL_STATE_INVALID ("Joint elbow_joint is constrained to be above the
+  maximum bounds. Assuming maximum bounds instead."); goal in collision with a 0.2 m box −27 GOAL_STATE_INVALID;
+  wrong group −1 PLANNING_FAILED ("Cannot find planning configuration for group 'parity_no_such_group'");
+  controller inactive −4 CONTROL_FAILED ("Goal was rejected by server", "Failed to send trajectory part 1 of 1 to
+  controller scaled_joint_trajectory_controller"); the controller was reactivated afterwards.

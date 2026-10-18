@@ -1,0 +1,14 @@
+package: ur_moveit_config
+share: /opt/ros/jazzy/share/ur_moveit_config
+version (package.xml): 3.9.0
+dpkg: 3.9.0-1noble.20261006.043609
+source: /opt/ros/jazzy/share/ur_moveit_config/package.xml
+git:  
+copied config/ompl_planning.yaml
+copied config/kinematics.yaml
+copied config/joint_limits.yaml
+copied config/pilz_industrial_motion_planner_planning.yaml
+copied config/moveit_controllers.yaml
+copied config/pilz_cartesian_limits.yaml
+copied srdf/ur_macro.srdf.xacro
+copied srdf/ur.srdf.xacro

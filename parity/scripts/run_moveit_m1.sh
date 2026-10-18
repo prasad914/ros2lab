@@ -28,6 +28,7 @@ for i in $(seq 1 30); do
   sleep 10
 done
 say "move_group params: $(grep -c '' "$OUT/move_group_params.yaml") lines"
+{ echo "# ros2 param list /move_group --no-daemon --spin-time 5"; R timeout 60 ros2 param list /move_group --no-daemon --spin-time 5; } > "$OUT/move_group_param_list.txt" 2>&1
 { echo "# ros2 node list --no-daemon --spin-time 5"; R timeout 30 ros2 node list --no-daemon --spin-time 5; } > "$OUT/node_list.txt" 2>&1
 { echo "# ros2 topic list -t --no-daemon --spin-time 5"; R timeout 30 ros2 topic list -t --no-daemon --spin-time 5; } > "$OUT/topic_list.txt" 2>&1
 { echo "# ros2 action list -t (no --no-daemon option)"; R timeout 30 ros2 action list -t; } > "$OUT/action_list.txt" 2>&1
