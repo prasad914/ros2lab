@@ -1,0 +1,31 @@
+# lines of parity/fixtures/cr5/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792302753.465 .. 1792302756.533
+569:[move_group-5] [INFO] [1792302754.467298490] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+570:[move_group-5] [INFO] [1792302754.467829640] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+571:[move_group-5] [INFO] [1792302754.478109379] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+572:[move_group-5] [WARN] [1792302754.478279758] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+573:[move_group-5] [INFO] [1792302754.478794175] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+574:[move_group-5] [INFO] [1792302754.479297174] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+575:[move_group-5] [INFO] [1792302754.479431914] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+576:[move_group-5] [WARN] [1792302754.479462568] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+577:[move_group-5] [INFO] [1792302754.479533678] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+578:[move_group-5] [INFO] [1792302754.479607832] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+579:[move_group-5] [ERROR] [1792302754.480458417] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: cr5_group: Attempted to set projection evaluator with respect to value of joint 'oint1', but that joint is not known to the group 'cr5_group'.
+580:[move_group-5] [INFO] [1792302754.480843279] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'cr5_group' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+581:[move_group-5] [INFO] [1792302754.481177523] [move_group]: Calling Planner 'OMPL'
+582:[move_group-5] [INFO] [1792302754.505160095] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
+583:[move_group-5] [INFO] [1792302754.506019084] [move_group]: Calling PlanningResponseAdapter 'ValidateSolution'
+584:[move_group-5] [INFO] [1792302754.507678901] [move_group]: Calling PlanningResponseAdapter 'DisplayMotionPath'
+585:[move_group-5] [WARN] [1792302754.507977653] [move_group.moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
+586:[move_group-5] [INFO] [1792302754.508349584] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 1 controllers in list
+587:[move_group-5] [INFO] [1792302754.508457499] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 1 controllers in list
+588:[move_group-5] [INFO] [1792302754.508562440] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Validating trajectory with allowed_start_tolerance 0.01
+589:[move_group-5] [INFO] [1792302754.518677694] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Starting trajectory execution ...
+590:[move_group-5] [INFO] [1792302754.518965538] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 1 controllers in list
+591:[move_group-5] [INFO] [1792302754.519122841] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 1 controllers in list
+592:[move_group-5] [INFO] [1792302754.519493681] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: sending trajectory to cr5_group_controller
+595:[move_group-5] [INFO] [1792302754.525251217] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: cr5_group_controller started execution
+596:[move_group-5] [WARN] [1792302754.525308411] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Goal request rejected
+597:[move_group-5] [ERROR] [1792302754.525783970] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Goal was rejected by server
+598:[move_group-5] [ERROR] [1792302754.525877696] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Failed to send trajectory part 1 of 1 to controller cr5_group_controller
+599:[move_group-5] [INFO] [1792302754.525985670] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Completed trajectory execution with status ABORTED ...
+600:[move_group-5] [INFO] [1792302754.528874225] [move_group.moveit.moveit.ros.move_group.move_action]: CONTROL_FAILED

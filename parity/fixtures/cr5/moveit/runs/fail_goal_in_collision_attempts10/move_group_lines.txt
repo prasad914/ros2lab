@@ -1,0 +1,38 @@
+# lines of parity/fixtures/cr5/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792344762.190 .. 1792344765.523
+504:[move_group-5] [INFO] [1792344763.192906727] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+505:[move_group-5] [INFO] [1792344763.193503663] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+506:[move_group-5] [INFO] [1792344763.202349297] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+507:[move_group-5] [WARN] [1792344763.202580489] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+508:[move_group-5] [INFO] [1792344763.202681625] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+509:[move_group-5] [INFO] [1792344763.202949868] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+510:[move_group-5] [INFO] [1792344763.203047905] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+511:[move_group-5] [WARN] [1792344763.203107315] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+512:[move_group-5] [INFO] [1792344763.203155444] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+513:[move_group-5] [INFO] [1792344763.203202496] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+514:[move_group-5] [ERROR] [1792344763.204174220] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: cr5_group: Attempted to set projection evaluator with respect to value of joint 'oint1', but that joint is not known to the group 'cr5_group'.
+515:[move_group-5] [INFO] [1792344763.204406874] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'cr5_group' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+516:[move_group-5] [INFO] [1792344763.204642276] [move_group]: Calling Planner 'OMPL'
+517:[move_group-5] [INFO] [1792344763.356841956] [move_group.moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'joint1', actual value: 0.400914, desired value: 0.400361, tolerance_above: 0.001000, tolerance_below: 0.001000
+518:[move_group-5] [INFO] [1792344763.357130144] [move_group.moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'joint2', actual value: 0.433246, desired value: 0.433314, tolerance_above: 0.001000, tolerance_below: 0.001000
+519:[move_group-5] [INFO] [1792344763.357196973] [move_group.moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'joint3', actual value: -1.468673, desired value: -1.469435, tolerance_above: 0.001000, tolerance_below: 0.001000
+520:[move_group-5] [INFO] [1792344763.357245493] [move_group.moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'joint4', actual value: -0.260202, desired value: -0.260092, tolerance_above: 0.001000, tolerance_below: 0.001000
+521:[move_group-5] [INFO] [1792344763.357286456] [move_group.moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'joint5', actual value: 1.718841, desired value: 1.718173, tolerance_above: 0.001000, tolerance_below: 0.001000
+522:[move_group-5] [INFO] [1792344763.357323132] [move_group.moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'joint6', actual value: 0.000327, desired value: -0.000517, tolerance_above: 0.001000, tolerance_below: 0.001000
+523:[move_group-5] [INFO] [1792344763.357707424] [move_group.moveit.moveit.core.moveit_collision_detection_fcl]: Found a contact between 'parity_box' (type 'Object') and 'Link5' (type 'Robot link'), which constitutes a collision. Contact information is not stored.
+524:[move_group-5] [INFO] [1792344763.357770216] [move_group.moveit.moveit.core.moveit_collision_detection_fcl]: Collision checking is considered complete (collision was found and 0 contacts are stored)
+525:[move_group-5] [ERROR] [1792344763.510616166] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:265 - cr5_group/cr5_group: Unable to sample any valid states for goal tree
+526:[move_group-5] [ERROR] [1792344763.511836025] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:265 - cr5_group/cr5_group: Unable to sample any valid states for goal tree
+527:[move_group-5] [ERROR] [1792344763.512246820] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:265 - cr5_group/cr5_group: Unable to sample any valid states for goal tree
+528:[move_group-5] [ERROR] [1792344763.515580277] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:265 - cr5_group/cr5_group: Unable to sample any valid states for goal tree
+529:[move_group-5] [WARN] [1792344763.516235395] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/tools/multiplan/src/ParallelPlan.cpp:138 - ParallelPlan::solve(): Unable to find solution by any of the threads in 0.311296 seconds
+530:[move_group-5] [ERROR] [1792344763.516911414] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:225 - cr5_group/cr5_group: Insufficient states in sampleable goal region
+531:[move_group-5] [ERROR] [1792344763.517440894] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:225 - cr5_group/cr5_group: Insufficient states in sampleable goal region
+532:[move_group-5] [ERROR] [1792344763.517746361] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:225 - cr5_group/cr5_group: Insufficient states in sampleable goal region
+533:[move_group-5] [ERROR] [1792344763.517959774] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:225 - cr5_group/cr5_group: Insufficient states in sampleable goal region
+534:[move_group-5] [WARN] [1792344763.518323077] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/tools/multiplan/src/ParallelPlan.cpp:138 - ParallelPlan::solve(): Unable to find solution by any of the threads in 0.001621 seconds
+535:[move_group-5] [ERROR] [1792344763.518933298] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:225 - cr5_group/cr5_group: Insufficient states in sampleable goal region
+536:[move_group-5] [ERROR] [1792344763.519187161] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:225 - cr5_group/cr5_group: Insufficient states in sampleable goal region
+537:[move_group-5] [WARN] [1792344763.519535475] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/tools/multiplan/src/ParallelPlan.cpp:138 - ParallelPlan::solve(): Unable to find solution by any of the threads in 0.000846 seconds
+538:[move_group-5] [ERROR] [1792344763.519820867] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Unable to solve the planning problem
+539:[move_group-5] [ERROR] [1792344763.520042437] [move_group]: Planner 'OMPL' failed with error code FAILURE
+540:[move_group-5] [INFO] [1792344763.520277712] [move_group.moveit.moveit.ros.move_group.move_action]: FAILURE

@@ -1,0 +1,19 @@
+# lines of parity/fixtures/cr5/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792302745.896 .. 1792302748.965
+427:[move_group-5] [INFO] [1792302746.897294587] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+428:[move_group-5] [INFO] [1792302746.897837630] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+429:[move_group-5] [INFO] [1792302746.905613884] [move_group.moveit.moveit.ros.move_group.move_action]: Planning request received for MoveGroup action. Forwarding to planning pipeline.
+430:[move_group-5] [INFO] [1792302746.906168694] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+431:[move_group-5] [INFO] [1792302746.906338424] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+432:[move_group-5] [WARN] [1792302746.906376427] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+433:[move_group-5] [INFO] [1792302746.906454646] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+434:[move_group-5] [INFO] [1792302746.906563891] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+435:[move_group-5] [WARN] [1792302746.907114960] [move_group.moveit.moveit.core.kinematic_constraints]: Joint joint1 is constrained to be above the maximum bounds. Assuming maximum bounds instead.
+436:[move_group-5] [WARN] [1792302746.907403749] [move_group.moveit.moveit.core.kinematic_constraints]: Joint joint1 is constrained to be above the maximum bounds. Assuming maximum bounds instead.
+437:[move_group-5] [ERROR] [1792302746.908063124] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: cr5_group: Attempted to set projection evaluator with respect to value of joint 'oint1', but that joint is not known to the group 'cr5_group'.
+438:[move_group-5] [INFO] [1792302746.908358376] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'cr5_group' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+439:[move_group-5] [INFO] [1792302746.908696456] [move_group]: Calling Planner 'OMPL'
+440:[move_group-5] [INFO] [1792302746.932131352] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
+441:[move_group-5] [INFO] [1792302746.945234181] [move_group]: Calling PlanningResponseAdapter 'ValidateSolution'
+442:[move_group-5] [INFO] [1792302746.947604628] [move_group]: Calling PlanningResponseAdapter 'DisplayMotionPath'
+443:[move_group-5] [WARN] [1792302746.948093777] [move_group.moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
+444:[move_group-5] [INFO] [1792302746.948324366] [move_group.moveit.moveit.ros.move_group.move_action]: Motion plan was computed successfully.

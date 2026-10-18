@@ -1,14 +1,14 @@
-# lines of parity/fixtures/cr5/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792302751.179 .. 1792302754.188
-521:[move_group-5] [INFO] [1792302752.180748941] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
-522:[move_group-5] [INFO] [1792302752.181601576] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
-523:[move_group-5] [INFO] [1792302752.183300011] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
-524:[move_group-5] [WARN] [1792302752.183514595] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
-525:[move_group-5] [INFO] [1792302752.183583595] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
-526:[move_group-5] [INFO] [1792302752.184226630] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
-527:[move_group-5] [INFO] [1792302752.184403620] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
-528:[move_group-5] [WARN] [1792302752.184443645] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
-529:[move_group-5] [INFO] [1792302752.184547839] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
-530:[move_group-5] [INFO] [1792302752.184646538] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
-531:[move_group-5] [ERROR] [1792302752.184859747] [move_group.moveit.moveit.planners.ompl.planning_context_manager]: Cannot find planning configuration for group 'parity_no_such_group'
-532:[move_group-5] [ERROR] [1792302752.184962385] [move_group]: Failed to create PlanningContext for planner 'OMPL'. Aborting planning pipeline.
-533:[move_group-5] [INFO] [1792302752.185104281] [move_group.moveit.moveit.ros.move_group.move_action]: No motion plan found. No execution attempted.
+# lines of parity/fixtures/cr5/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792344764.673 .. 1792344767.685
+573:[move_group-5] [INFO] [1792344765.674897453] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+574:[move_group-5] [INFO] [1792344765.675460798] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+575:[move_group-5] [INFO] [1792344765.681861917] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+576:[move_group-5] [WARN] [1792344765.682116164] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+577:[move_group-5] [INFO] [1792344765.682227408] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+578:[move_group-5] [INFO] [1792344765.682433707] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+579:[move_group-5] [INFO] [1792344765.682503851] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+580:[move_group-5] [WARN] [1792344765.682522034] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+581:[move_group-5] [INFO] [1792344765.682585673] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+582:[move_group-5] [INFO] [1792344765.682628471] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+583:[move_group-5] [ERROR] [1792344765.682755976] [move_group.moveit.moveit.planners.ompl.planning_context_manager]: Cannot find planning configuration for group 'parity_no_such_group'
+584:[move_group-5] [ERROR] [1792344765.682834009] [move_group]: Failed to create PlanningContext for planner 'OMPL'. Aborting planning pipeline.
+585:[move_group-5] [INFO] [1792344765.682924667] [move_group.moveit.moveit.ros.move_group.move_action]: No motion plan found. No execution attempted.

@@ -1,0 +1,4 @@
+# /rosout messages received between send - 1 s and result + 1 s (wall); [level] [stamp] [name]: msg
+[INFO] [1792344765.674897453] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+[INFO] [1792344765.675460798] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+[INFO] [1792344765.681861917] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.

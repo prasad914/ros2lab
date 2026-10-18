@@ -1,0 +1,46 @@
+{
+  "name": "fail_goal_in_collision_attempts1",
+  "note": "joint1 +0.4 rad; box 0.08 m around Link6 at the goal only (start state valid with the box: /check_state_validity), 1 planning attempt(s)",
+  "group": "cr5_group",
+  "plan_only": false,
+  "num_planning_attempts": 1,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "joint1": 0.40036149340162935,
+    "joint2": 0.4333141062451128,
+    "joint3": -1.469435209424366,
+    "joint4": -0.26009187741265677,
+    "joint5": 1.7181726578009024,
+    "joint6": -0.0005168391507303469
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "joint1": 0.000350516502980095,
+    "joint2": 0.43331211943160863,
+    "joint3": -1.4694288923838106,
+    "joint4": -0.2600964977355725,
+    "joint5": 1.71817264769043,
+    "joint6": -0.0005172877540166444
+  },
+  "send_wall": 1792344761.8686566,
+  "accepted": true,
+  "status": 6,
+  "error_code": -27,
+  "error_code_name": "GOAL_STATE_INVALID",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [],
+    "points": 0,
+    "last_time_from_start": null
+  },
+  "result_wall": 1792344762.1750135,
+  "joint_states_after": {
+    "joint1": 0.000348802213283872,
+    "joint2": 0.4333118091459792,
+    "joint3": -1.4694279058357962,
+    "joint4": -0.26009721930295054,
+    "joint5": 1.718172646111453,
+    "joint6": -0.0005173578135130867
+  }
+}

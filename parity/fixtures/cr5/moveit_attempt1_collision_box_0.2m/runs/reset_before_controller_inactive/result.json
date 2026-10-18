@@ -1,0 +1,52 @@
+{
+  "name": "reset_before_controller_inactive",
+  "note": "back to named state home",
+  "group": "cr5_group",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "joint1": 0.0,
+    "joint2": 0.4337,
+    "joint3": -1.4695,
+    "joint4": -0.2602,
+    "joint5": 1.7175,
+    "joint6": 0.0
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "joint1": -0.0008181047289039522,
+    "joint2": 0.43438122520362066,
+    "joint3": -1.4693315492378085,
+    "joint4": -0.2606754855723743,
+    "joint5": 1.7175516651037934,
+    "joint6": 0.0008017825387409323
+  },
+  "send_wall": 1792302753.195009,
+  "accepted": true,
+  "status": 4,
+  "error_code": 1,
+  "error_code_name": "SUCCESS",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [
+      "joint1",
+      "joint2",
+      "joint3",
+      "joint4",
+      "joint5",
+      "joint6"
+    ],
+    "points": 2,
+    "last_time_from_start": 0.046113831
+  },
+  "result_wall": 1792302753.3787153,
+  "joint_states_after": {
+    "joint1": 0.0008496338589637131,
+    "joint2": 0.4338640806837986,
+    "joint3": -1.4685965661566893,
+    "joint4": -0.2606989806142279,
+    "joint5": 1.7184399599017617,
+    "joint6": 0.00030992536778963074
+  }
+}

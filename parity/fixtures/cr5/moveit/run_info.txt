@@ -1,9 +1,9 @@
 robot=cr5 scenario=moveit domain=48 partition=ref48 model=n/a
-date=2026-10-18T11:12:01+05:30
+date=2026-10-18T22:53:33+05:30
 ros_distro=jazzy tb3_ws=none robots_ws=/home/prasad/robots_ws
 status_row=| **cr5** | arm | `https://github.com/Dobot-Arm/DOBOT_6Axis_ROS2_V4` jazzy 89d47c66 | yes | yes | OFFICIAL-JAZZY | `DOBOT_TYPE=cr5 ros2 launch dobot_gazebo dobot_gazebo.launch.py gui:=false` | build: `parity/robots/cr5/build_summary.txt` (6 packages; dobot_gazebo rebuilt without --symlink-install); install_check/ 2026-10-18 (domain 46): `controllers.txt` (cr5_group_controller, joint_state_broadcaster active), `topics.txt`, `motion_proof.txt` (joint1 0.0 -> 0.3 rad, error_code 0) |
 render=egl tb3_world_cmd=ros2 launch parity/scripts/launch/tb3_world_headless.launch.py
-git_commit=d09e7f36f6d64b744061237f6eb4c9e115ea5fde
+git_commit=cea75889ad70eb1ae60981398d7a7a8798466116
 git_uncommitted_scripts=
 ros-jazzy-cartographer 2.0.9004-1noble.20260225.051215
 ros-jazzy-cartographer-ros 2.0.9003-2noble.20260920.232954

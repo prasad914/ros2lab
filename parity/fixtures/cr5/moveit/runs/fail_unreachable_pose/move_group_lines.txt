@@ -1,19 +1,19 @@
-# lines of parity/fixtures/cr5/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792302739.768 .. 1792302747.888
-409:[move_group-5] [INFO] [1792302740.770456428] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
-410:[move_group-5] [INFO] [1792302740.771174302] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
-411:[move_group-5] [INFO] [1792302740.776401026] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
-412:[move_group-5] [WARN] [1792302740.776545768] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
-413:[move_group-5] [INFO] [1792302740.776578297] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
-414:[move_group-5] [INFO] [1792302740.779335359] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
-415:[move_group-5] [INFO] [1792302740.779463294] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
-416:[move_group-5] [WARN] [1792302740.779480859] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
-417:[move_group-5] [INFO] [1792302740.779528559] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
-418:[move_group-5] [INFO] [1792302740.779572508] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
-419:[move_group-5] [ERROR] [1792302740.780326429] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: cr5_group: Attempted to set projection evaluator with respect to value of joint 'oint1', but that joint is not known to the group 'cr5_group'.
-420:[move_group-5] [INFO] [1792302740.780511196] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'cr5_group' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
-421:[move_group-5] [INFO] [1792302740.780709513] [move_group]: Calling Planner 'OMPL'
-422:[move_group-5] [ERROR] [1792302745.790254074] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:265 - cr5_group/cr5_group: Unable to sample any valid states for goal tree
-423:[move_group-5] [WARN] [1792302745.790534688] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Invalid goal state
-424:[move_group-5] [ERROR] [1792302745.884275472] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Unable to solve the planning problem
-425:[move_group-5] [ERROR] [1792302745.884627952] [move_group]: Planner 'OMPL' failed with error code GOAL_STATE_INVALID
-426:[move_group-5] [INFO] [1792302745.884739703] [move_group.moveit.moveit.ros.move_group.move_action]: GOAL_STATE_INVALID
+# lines of parity/fixtures/cr5/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792344751.568 .. 1792344759.657
+410:[move_group-5] [INFO] [1792344752.569640662] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+411:[move_group-5] [INFO] [1792344752.570093828] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+412:[move_group-5] [INFO] [1792344752.571558961] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+413:[move_group-5] [WARN] [1792344752.571712626] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+414:[move_group-5] [INFO] [1792344752.571779375] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+415:[move_group-5] [INFO] [1792344752.572007360] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+416:[move_group-5] [INFO] [1792344752.572141577] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+417:[move_group-5] [WARN] [1792344752.572181343] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+418:[move_group-5] [INFO] [1792344752.572229190] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+419:[move_group-5] [INFO] [1792344752.572307549] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+420:[move_group-5] [ERROR] [1792344752.572956133] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: cr5_group: Attempted to set projection evaluator with respect to value of joint 'oint1', but that joint is not known to the group 'cr5_group'.
+421:[move_group-5] [INFO] [1792344752.573182483] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'cr5_group' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+422:[move_group-5] [INFO] [1792344752.573416991] [move_group]: Calling Planner 'OMPL'
+423:[move_group-5] [ERROR] [1792344757.576943052] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:265 - cr5_group/cr5_group: Unable to sample any valid states for goal tree
+424:[move_group-5] [WARN] [1792344757.577230487] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Invalid goal state
+425:[move_group-5] [ERROR] [1792344757.653889117] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Unable to solve the planning problem
+426:[move_group-5] [ERROR] [1792344757.654199129] [move_group]: Planner 'OMPL' failed with error code GOAL_STATE_INVALID
+427:[move_group-5] [INFO] [1792344757.654321504] [move_group.moveit.moveit.ros.move_group.move_action]: GOAL_STATE_INVALID

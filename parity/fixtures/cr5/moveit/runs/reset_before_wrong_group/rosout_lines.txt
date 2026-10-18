@@ -1,0 +1,32 @@
+# /rosout messages received between send - 1 s and result + 1 s (wall); [level] [stamp] [name]: msg
+[ERROR] [1792344763.518933298] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:225 - cr5_group/cr5_group: Insufficient states in sampleable goal region
+[ERROR] [1792344763.519187161] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:225 - cr5_group/cr5_group: Insufficient states in sampleable goal region
+[WARN] [1792344763.519535475] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/tools/multiplan/src/ParallelPlan.cpp:138 - ParallelPlan::solve(): Unable to find solution by any of the threads in 0.000846 seconds
+[ERROR] [1792344763.519820867] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Unable to solve the planning problem
+[ERROR] [1792344763.520042437] [move_group]: Planner 'OMPL' failed with error code FAILURE
+[INFO] [1792344763.520277712] [move_group.moveit.moveit.ros.move_group.move_action]: FAILURE
+[INFO] [1792344764.549126757] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+[INFO] [1792344764.550954303] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+[INFO] [1792344764.573550562] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+[WARN] [1792344764.573759422] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+[INFO] [1792344764.573954475] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+[INFO] [1792344764.574331180] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+[INFO] [1792344764.574424592] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+[WARN] [1792344764.574446133] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+[INFO] [1792344764.574493317] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+[INFO] [1792344764.574538144] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+[ERROR] [1792344764.575389011] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: cr5_group: Attempted to set projection evaluator with respect to value of joint 'oint1', but that joint is not known to the group 'cr5_group'.
+[INFO] [1792344764.575581889] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'cr5_group' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+[INFO] [1792344764.575817948] [move_group]: Calling Planner 'OMPL'
+[INFO] [1792344764.591626120] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
+[INFO] [1792344764.591892637] [move_group]: Calling PlanningResponseAdapter 'ValidateSolution'
+[INFO] [1792344764.592001105] [move_group]: Calling PlanningResponseAdapter 'DisplayMotionPath'
+[WARN] [1792344764.592215121] [move_group.moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
+[INFO] [1792344764.592420558] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 1 controllers in list
+[INFO] [1792344764.592488814] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 1 controllers in list
+[INFO] [1792344764.592989608] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Validating trajectory with allowed_start_tolerance 0.01
+[INFO] [1792344764.597497439] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Starting trajectory execution ...
+[INFO] [1792344764.597711771] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 1 controllers in list
+[INFO] [1792344764.597799583] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 1 controllers in list
+[INFO] [1792344764.655192066] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Completed trajectory execution with status SUCCEEDED ...
+[INFO] [1792344764.657663450] [move_group.moveit.moveit.ros.move_group.move_action]: Solution was found and executed.
