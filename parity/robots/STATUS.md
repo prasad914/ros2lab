@@ -28,7 +28,7 @@ Status definitions:
 | **cr5** | arm | `https://github.com/Dobot-Arm/DOBOT_6Axis_ROS2_V4` jazzy 89d47c66 | yes | yes | OFFICIAL-JAZZY | `DOBOT_TYPE=cr5 ros2 launch dobot_gazebo dobot_gazebo.launch.py gui:=false` | build: `parity/robots/cr5/build_summary.txt` (6 packages; dobot_gazebo rebuilt without --symlink-install); install_check/ 2026-10-18 (domain 46): `controllers.txt` (cr5_group_controller, joint_state_broadcaster active), `topics.txt`, `motion_proof.txt` (joint1 0.0 -> 0.3 rad, error_code 0) |
 | **magician** | arm | Dobot Magician | no | no | NOT BUILT | - | - |
 | **so101** | arm | The Robot Studio / SO-ARM100 | no | no | NOT BUILT | - | - |
-| **wx250s** | arm | `https://github.com/Interbotix/interbotix_ros_manipulators` | no | no | NOT BUILT | - | - |
+| **wx250s** | arm | `https://github.com/Interbotix/interbotix_ros_manipulators` jazzy 01c557d6 + `interbotix_ros_toolboxes` jazzy 27f7628e + `interbotix_ros_core` jazzy 41ca7357, build/launch fixes on jazzy-ros2lab (`parity/robots/wx250s/PORTING.md`); fake (mock) hardware, not Gazebo | yes | yes | ROS2LAB-PORT | `ros2 launch interbotix_xsarm_ros_control xsarm_ros_control.launch.py robot_model:=wx250s hardware_type:=fake use_rviz:=false` | build: `parity/robots/wx250s/build_summary.txt` (13 packages); install_check/ 2026-10-18 (domain 46): `controllers.txt` (`-c /wx250s/controller_manager`: arm_controller, gripper_controller, joint_state_broadcaster active), `topics.txt`, `motion_proof.txt` (waist 0.0 -> 0.3 rad on /wx250s/joint_states, error_code 0); Gazebo Harmonic port PENDING | |
 | **irb120** | arm | ABB IRB 120 | no | no | NOT BUILT | - | - |
 | **kr6** | arm | KUKA KR 6 | no | no | NOT BUILT | - | - |
 | **lrmate** | arm | FANUC LR Mate 200iD | no | no | NOT BUILT | - | - |

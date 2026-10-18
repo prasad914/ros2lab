@@ -29,6 +29,7 @@ def main():
     ap.add_argument("--delta", type=float, default=0.2)
     ap.add_argument("--duration", type=float, default=3.0)
     ap.add_argument("--timeout", type=float, default=60.0)
+    ap.add_argument("--joint-states", default="/joint_states", help="joint states topic (e.g. /wx250s/joint_states)")
     a = ap.parse_args()
     rclpy.init()
     n = Node("parity_arm_motion_proof")
@@ -38,7 +39,7 @@ def main():
         for nm, p in zip(m.name, m.position):
             last[nm] = p
         last["_stamp"] = m.header.stamp.sec + m.header.stamp.nanosec * 1e-9
-    n.create_subscription(JointState, "/joint_states", on_js, 10)
+    n.create_subscription(JointState, a.joint_states, on_js, 10)
 
     def spin_until(pred, secs):
         t0 = time.time()

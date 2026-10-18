@@ -1,0 +1,91 @@
+# ~/robots_ws/src/interbotix/interbotix_ros_core before any P2b build, 2026-10-18T11:56:50+05:30
+# remote: https://github.com/Interbotix/interbotix_ros_core.git  branch: jazzy  commit: 41ca7357935bb06b3f21f518ad5b0a88529ba395
+## git status
+On branch jazzy
+Your branch is up to date with 'origin/jazzy'.
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	deleted:    interbotix_ros_xseries/COLCON_IGNORE
+	deleted:    interbotix_ros_xseries/README.md
+	deleted:    interbotix_ros_xseries/dynamixel_workbench_toolbox
+	deleted:    interbotix_ros_xseries/interbotix_ros_xseries/CMakeLists.txt
+	deleted:    interbotix_ros_xseries/interbotix_ros_xseries/README.md
+	deleted:    interbotix_ros_xseries/interbotix_ros_xseries/package.xml
+	deleted:    interbotix_ros_xseries/interbotix_xs_driver
+	deleted:    interbotix_ros_xseries/interbotix_xs_msgs/CMakeLists.txt
+	deleted:    interbotix_ros_xseries/interbotix_xs_msgs/README.md
+	deleted:    interbotix_ros_xseries/interbotix_xs_msgs/msg/ArmJoy.msg
+	deleted:    interbotix_ros_xseries/interbotix_xs_msgs/msg/HexJoy.msg
+	deleted:    interbotix_ros_xseries/interbotix_xs_msgs/msg/JointGroupCommand.msg
+	deleted:    interbotix_ros_xseries/interbotix_xs_msgs/msg/JointSingleCommand.msg
+	deleted:    interbotix_ros_xseries/interbotix_xs_msgs/msg/JointTemps.msg
+	deleted:    interbotix_ros_xseries/interbotix_xs_msgs/msg/JointTrajectoryCommand.msg
+	deleted:    interbotix_ros_xseries/interbotix_xs_msgs/msg/LocobotJoy.msg
+	deleted:    interbotix_ros_xseries/interbotix_xs_msgs/msg/TurretJoy.msg
+	deleted:    interbotix_ros_xseries/interbotix_xs_msgs/package.xml
+	deleted:    interbotix_ros_xseries/interbotix_xs_msgs/srv/MotorGains.srv
+	deleted:    interbotix_ros_xseries/interbotix_xs_msgs/srv/OperatingModes.srv
+	deleted:    interbotix_ros_xseries/interbotix_xs_msgs/srv/Reboot.srv
+	deleted:    interbotix_ros_xseries/interbotix_xs_msgs/srv/RegisterValues.srv
+	deleted:    interbotix_ros_xseries/interbotix_xs_msgs/srv/RobotInfo.srv
+	deleted:    interbotix_ros_xseries/interbotix_xs_msgs/srv/TorqueEnable.srv
+	deleted:    interbotix_ros_xseries/interbotix_xs_sdk/99-interbotix-udev.rules
+	deleted:    interbotix_ros_xseries/interbotix_xs_sdk/CMakeLists.txt
+	deleted:    interbotix_ros_xseries/interbotix_xs_sdk/README.md
+	deleted:    interbotix_ros_xseries/interbotix_xs_sdk/TROUBLESHOOTING.md
+	deleted:    interbotix_ros_xseries/interbotix_xs_sdk/config/mode_configs_template.yaml
+	deleted:    interbotix_ros_xseries/interbotix_xs_sdk/config/motor_configs_template.yaml
+	deleted:    interbotix_ros_xseries/interbotix_xs_sdk/images/wizard_options.png
+	deleted:    interbotix_ros_xseries/interbotix_xs_sdk/images/xs_sdk_banner.png
+	deleted:    interbotix_ros_xseries/interbotix_xs_sdk/include/interbotix_xs_sdk/xs_sdk_obj.hpp
+	deleted:    interbotix_ros_xseries/interbotix_xs_sdk/package.xml
+	deleted:    interbotix_ros_xseries/interbotix_xs_sdk/scripts/xs_sdk_sim.py
+	deleted:    interbotix_ros_xseries/interbotix_xs_sdk/src/xs_sdk.cpp
+	deleted:    interbotix_ros_xseries/interbotix_xs_sdk/src/xs_sdk_obj.cpp
+
+no changes added to commit (use "git add" and/or "git commit -a")
+## git diff --stat
+ interbotix_ros_xseries/COLCON_IGNORE               |   0
+ interbotix_ros_xseries/README.md                   |   3 -
+ interbotix_ros_xseries/dynamixel_workbench_toolbox |   1 -
+ .../interbotix_ros_xseries/CMakeLists.txt          |  10 -
+ .../interbotix_ros_xseries/README.md               |   3 -
+ .../interbotix_ros_xseries/package.xml             |  23 -
+ interbotix_ros_xseries/interbotix_xs_driver        |   1 -
+ .../interbotix_xs_msgs/CMakeLists.txt              |  48 --
+ .../interbotix_xs_msgs/README.md                   |  37 -
+ .../interbotix_xs_msgs/msg/ArmJoy.msg              |  76 --
+ .../interbotix_xs_msgs/msg/HexJoy.msg              |  93 ---
+ .../interbotix_xs_msgs/msg/JointGroupCommand.msg   |   5 -
+ .../interbotix_xs_msgs/msg/JointSingleCommand.msg  |   5 -
+ .../interbotix_xs_msgs/msg/JointTemps.msg          |   6 -
+ .../msg/JointTrajectoryCommand.msg                 |   6 -
+ .../interbotix_xs_msgs/msg/LocobotJoy.msg          |  94 ---
+ .../interbotix_xs_msgs/msg/TurretJoy.msg           |  35 -
+ .../interbotix_xs_msgs/package.xml                 |  30 -
+ .../interbotix_xs_msgs/srv/MotorGains.srv          |  16 -
+ .../interbotix_xs_msgs/srv/OperatingModes.srv      |  39 -
+ .../interbotix_xs_msgs/srv/Reboot.srv              |  13 -
+ .../interbotix_xs_msgs/srv/RegisterValues.srv      |  12 -
+ .../interbotix_xs_msgs/srv/RobotInfo.srv           |  18 -
+ .../interbotix_xs_msgs/srv/TorqueEnable.srv        |   6 -
+ .../interbotix_xs_sdk/99-interbotix-udev.rules     |  27 -
+ .../interbotix_xs_sdk/CMakeLists.txt               |  67 --
+ interbotix_ros_xseries/interbotix_xs_sdk/README.md |  68 --
+ .../interbotix_xs_sdk/TROUBLESHOOTING.md           |   3 -
+ .../config/mode_configs_template.yaml              |  21 -
+ .../config/motor_configs_template.yaml             | 148 ----
+ .../interbotix_xs_sdk/images/wizard_options.png    | Bin 42204 -> 0 bytes
+ .../interbotix_xs_sdk/images/xs_sdk_banner.png     | Bin 709370 -> 0 bytes
+ .../include/interbotix_xs_sdk/xs_sdk_obj.hpp       | 287 -------
+ .../interbotix_xs_sdk/package.xml                  |  27 -
+ .../interbotix_xs_sdk/scripts/xs_sdk_sim.py        | 855 ---------------------
+ .../interbotix_xs_sdk/src/xs_sdk.cpp               |  52 --
+ .../interbotix_xs_sdk/src/xs_sdk_obj.cpp           | 558 --------------
+ 37 files changed, 2693 deletions(-)
+## git submodule status
+ 4ef4e0b3844b822e6602c295e23647db03beacbf interbotix_ros_slate/trossen_slate (v1.0.0-1-g4ef4e0b)
+-3ed8229d2382c4d0931b471fbe1c83a4888da6a8 interbotix_ros_xseries/dynamixel_workbench_toolbox
+-da27b8b2b6c7677844f74581b82c01829a834e1c interbotix_ros_xseries/interbotix_xs_driver

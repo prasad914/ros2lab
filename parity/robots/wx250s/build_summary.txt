@@ -1,0 +1,12 @@
+Summary: 13 packages finished [44.2s]
+exit 0
+# attempt 1 (stops at the first failure):
+/home/prasad/robots_ws/src/interbotix/interbotix_ros_toolboxes/interbotix_xs_toolbox/interbotix_xs_ros_control/include/interbotix_xs_ros_control/xs_hardware_interface.hpp:43:10: fatal error: hardware_interface/visibility_control.h: No such file or directory
+Summary: 5 packages finished [1min 57s]
+  1 package failed: interbotix_xs_ros_control
+  1 package aborted: interbotix_xs_sdk
+# attempt 2 (--continue-on-error):
+  1 package failed: interbotix_xs_ros_control
+  3 packages not processed
+/home/prasad/robots_ws/src/interbotix/interbotix_ros_toolboxes/interbotix_xs_toolbox/interbotix_xs_ros_control/include/interbotix_xs_ros_control/xs_hardware_interface.hpp:43:10: fatal error: hardware_interface/visibility_control.h: No such file or directory
+Summary: 9 packages finished [28.6s]

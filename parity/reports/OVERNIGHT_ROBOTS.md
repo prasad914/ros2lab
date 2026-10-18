@@ -99,6 +99,23 @@ below; nothing in public/ is touched.
   package. transforms3d is installed (python3-transforms3d 0.4.1+ds-1).
 - Decision: not built; `sudo apt-get install -y swig` added to robots_sudo.sh section 4 with the rowan note.
 
+## wx250s – ROS2LAB-PORT (verified, fake hardware)
+- Before building: `git status` + `git diff --stat` of interbotix_ros_core saved to `parity/robots/wx250s/pre_build_state.txt`,
+  then `git stash push -u -m pre-p2b-2026-10-18` (stash@{0}, recoverable, nothing discarded).
+- Earlier non-git copies and the old build/install/log were moved aside to `~/robots_ws/_earlier_attempt_before_2026-10-18/` (COLCON_IGNORE).
+- Build attempt 1/2 failed: `xs_hardware_interface.hpp:43:10: fatal error: hardware_interface/visibility_control.h: No such
+  file or directory`. Decision: port it, because this is the maker's own jazzy branch and only Jazzy API drift
+  breaks it. Two commits on interbotix_ros_toolboxes jazzy-ros2lab (drop the include; drop the `get_name() final` override)
+  → "Summary: 13 packages finished [44.2s]".
+- Launch attempt 1 (`parity/fixtures/wx250s/sim_attempt1_fake_components/`): `class fake_components/GenericSystem ...
+  does not exist`, so the spawners failed. Fix: commit e8c748c on interbotix_ros_manipulators jazzy-ros2lab (mock_components).
+  Attempt 2: all three controllers active.
+- Decision: the comparison target is the maker's fake-hardware ros2_control launch, NOT a simulation. The maker's sim is
+  Gazebo Classic (xsarm_gz_classic.launch.py). The Gazebo Harmonic port is PENDING (not started in this run).
+- Evidence `parity/fixtures/wx250s/install_check/`: controllers.txt (namespace /wx250s), topics.txt, motion_proof.txt
+  (FollowJointTrajectory on /wx250s/arm_controller: waist 0.000000 -> 0.300000, error_code 0). `arm_motion_proof.py`
+  got a `--joint-states` option for the namespaced topic.
+
 ## P2c – scout (domain 47)
 - Decision: scenario name `p2c_sensors` (scenarios/p2c_sensors.sh = sim.sh). `sensors` is a TurtleBot3 case inside
   start_reference.sh (it started the TB3 world and failed on TURTLEBOT3_MODEL; that run was discarded).
