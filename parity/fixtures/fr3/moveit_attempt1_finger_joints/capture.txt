@@ -1,0 +1,16 @@
+SRDF/URDF from parameters robot_description_semantic / robot_description of /move_group
+/move_group parameters: 100
+group fr3_arm joints ['fr3_joint1', 'fr3_joint2', 'fr3_joint3', 'fr3_joint4', 'fr3_joint5', 'fr3_joint6', 'fr3_joint7', 'fr3_finger_joint1', 'fr3_finger_joint2']; frame world
+state_ready: accepted=True error_code=1 SUCCESS points=1
+state_extended: accepted=True error_code=1 SUCCESS points=27
+joint_goal: accepted=True error_code=1 SUCCESS points=10
+pose_goal: accepted=True error_code=1 SUCCESS points=8
+fail_unreachable_pose: accepted=True error_code=-27 GOAL_STATE_INVALID points=0
+fail_joint_outside_limits: accepted=True error_code=1 SUCCESS points=31
+reset_before_collision: accepted=True error_code=1 SUCCESS points=1
+fail_goal_in_collision: accepted=True error_code=-10 START_STATE_IN_COLLISION points=0
+reset_before_wrong_group: accepted=True error_code=1 SUCCESS points=1
+fail_wrong_group: accepted=True error_code=-1 PLANNING_FAILED points=0
+reset_before_controller_inactive: accepted=True error_code=1 SUCCESS points=1
+fail_controller_inactive: accepted=True error_code=-4 CONTROL_FAILED points=8
+controller fr3_arm_controller reactivated: True

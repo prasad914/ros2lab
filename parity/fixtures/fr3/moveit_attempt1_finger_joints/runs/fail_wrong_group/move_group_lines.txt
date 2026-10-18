@@ -1,0 +1,14 @@
+# lines of parity/fixtures/fr3/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792303361.769 .. 1792303364.795
+436:[move_group-3] [INFO] [1792303362.770658165] [moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+437:[move_group-3] [INFO] [1792303362.771659583] [moveit.moveit.ros.move_group.move_action]: executing..
+438:[move_group-3] [INFO] [1792303362.790451516] [moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+439:[move_group-3] [WARN] [1792303362.790740922] [moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+440:[move_group-3] [INFO] [1792303362.790802537] [moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+441:[move_group-3] [INFO] [1792303362.791191983] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+442:[move_group-3] [INFO] [1792303362.791250302] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+443:[move_group-3] [WARN] [1792303362.791263068] [moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+444:[move_group-3] [INFO] [1792303362.791302904] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+445:[move_group-3] [INFO] [1792303362.791359943] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+446:[move_group-3] [ERROR] [1792303362.791683177] [moveit.moveit.planners.ompl.planning_context_manager]: Cannot find planning configuration for group 'parity_no_such_group'
+447:[move_group-3] [ERROR] [1792303362.791744634] [move_group]: Failed to create PlanningContext for planner 'OMPL'. Aborting planning pipeline.
+448:[move_group-3] [INFO] [1792303362.791843701] [moveit.moveit.ros.move_group.move_action]: No motion plan found. No execution attempted.

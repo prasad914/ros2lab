@@ -1,0 +1,30 @@
+# lines of parity/fixtures/fr3/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792303347.307 .. 1792303351.335
+259:[move_group-3] [INFO] [1792303348.313431817] [moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+260:[move_group-3] [INFO] [1792303348.314359435] [moveit.moveit.ros.move_group.move_action]: executing..
+261:[move_group-3] [INFO] [1792303348.326846248] [moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+262:[move_group-3] [WARN] [1792303348.326993560] [moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+263:[move_group-3] [INFO] [1792303348.327029805] [moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+264:[move_group-3] [INFO] [1792303348.329088829] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+265:[move_group-3] [INFO] [1792303348.329230811] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+266:[move_group-3] [WARN] [1792303348.329249560] [moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+267:[move_group-3] [INFO] [1792303348.329303817] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+268:[move_group-3] [INFO] [1792303348.329365988] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+269:[move_group-3] [INFO] [1792303348.330346750] [moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'fr3_arm' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+270:[move_group-3] [INFO] [1792303348.330553038] [move_group]: Calling Planner 'OMPL'
+271:[move_group-3] [INFO] [1792303348.355357774] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
+272:[move_group-3] [INFO] [1792303348.357472987] [move_group]: Calling PlanningResponseAdapter 'ValidateSolution'
+273:[move_group-3] [INFO] [1792303348.358999230] [move_group]: Calling PlanningResponseAdapter 'DisplayMotionPath'
+274:[move_group-3] [WARN] [1792303348.359593909] [moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
+275:[move_group-3] [INFO] [1792303348.359842530] [moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+276:[move_group-3] [INFO] [1792303348.359915458] [moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+277:[move_group-3] [INFO] [1792303348.360015293] [moveit.moveit.ros.trajectory_execution_manager]: Validating trajectory with allowed_start_tolerance 0.01
+278:[move_group-3] [INFO] [1792303348.390031210] [moveit.moveit.ros.trajectory_execution_manager]: Starting trajectory execution ...
+279:[move_group-3] [INFO] [1792303348.390572330] [moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+280:[move_group-3] [INFO] [1792303348.390723884] [moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+281:[move_group-3] [INFO] [1792303348.391020888] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: sending trajectory to fr3_arm_controller
+284:[move_group-3] [INFO] [1792303348.393029423] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: fr3_arm_controller started execution
+285:[move_group-3] [INFO] [1792303348.393104835] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Goal request accepted!
+286:[rviz2-1] [ERROR] [1792303348.454469499] [rviz2.moveit.ros.trajectory_visualization]: No robot state or robot model loaded
+288:[move_group-3] [INFO] [1792303349.244172826] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Controller 'fr3_arm_controller' successfully finished
+289:[move_group-3] [INFO] [1792303349.324813891] [moveit.moveit.ros.trajectory_execution_manager]: Completed trajectory execution with status SUCCEEDED ...
+290:[move_group-3] [INFO] [1792303349.330443609] [moveit.moveit.ros.move_group.move_action]: Solution was found and executed.

@@ -1,0 +1,5 @@
+# ros2 action list -t (no --no-daemon option)
+/execute_trajectory [moveit_msgs/action/ExecuteTrajectory]
+/fr3_arm_controller/follow_joint_trajectory [control_msgs/action/FollowJointTrajectory]
+/franka_gripper/gripper_action [control_msgs/action/GripperCommand]
+/move_action [moveit_msgs/action/MoveGroup]

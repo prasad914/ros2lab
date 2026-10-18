@@ -1,0 +1,14 @@
+# lines of parity/fixtures/fr3/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792303359.520 .. 1792303362.562
+391:[move_group-3] [ERROR] [1792303360.509400828] [moveit.moveit.ros.move_group.capability]: TF Problem: "world" passed to lookupTransform argument source_frame does not exist.
+392:[move_group-3] [INFO] [1792303360.522053416] [moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+393:[move_group-3] [INFO] [1792303360.522501888] [moveit.moveit.ros.move_group.move_action]: executing..
+394:[move_group-3] [INFO] [1792303360.555488395] [moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+395:[move_group-3] [WARN] [1792303360.555626740] [moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+396:[move_group-3] [INFO] [1792303360.555656955] [moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+397:[move_group-3] [INFO] [1792303360.555956574] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+398:[move_group-3] [INFO] [1792303360.556002427] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+399:[move_group-3] [WARN] [1792303360.556015097] [moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+400:[move_group-3] [INFO] [1792303360.556051777] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+401:[move_group-3] [INFO] [1792303360.556118533] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+402:[move_group-3] [ERROR] [1792303360.559778967] [move_group]: PlanningRequestAdapter 'CheckStartStateCollision' failed, because '5 contact(s) detected : fr3_hand - parity_box, fr3_link5 - parity_box, fr3_link6 - parity_box, fr3_link7 - parity_box, fr3_rightfinger - parity_box, '. Aborting planning pipeline.
+403:[move_group-3] [INFO] [1792303360.559971519] [moveit.moveit.ros.move_group.move_action]: START_STATE_IN_COLLISION

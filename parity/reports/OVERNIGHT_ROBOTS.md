@@ -184,3 +184,15 @@ below; nothing in public/ is touched.
   SUCCESS; unreachable pose −27 GOAL_STATE_INVALID; joint outside limits (plan only): SUCCESS 45 points (clamped);
   goal-in-collision −10 START_STATE_IN_COLLISION; wrong group −1 PLANNING_FAILED; controller inactive −4
   CONTROL_FAILED. `parity/fixtures/cr5/moveit/`, installed config `fixtures/_installed/cr5_moveit/`.
+
+## M1 – fr3 (domain 48)
+- Scenario `xvfb-run -a ros2 launch franka_fr3_moveit_config moveit.launch.py robot_ip:=dont-care use_fake_hardware:=true`
+  (the maker's fake hardware; franka_gazebo_controllers.yaml has no trajectory controller for MoveIt). Built
+  `franka_fr3_moveit_config` up-to: "Summary: 19 packages finished [2min 33s]" (`parity/robots/fr3/build_moveit.log`, gitignored).
+- Attempt 1 (`moveit_attempt1_finger_joints/`): joint goals also constrained the finger joints (chain group joints were
+  taken from /joint_states). Decision: chain groups resolve to the URDF joints base -> tip (applies to fr3 attempt 2
+  and gen3; ur5e was captured with its 6 arm joints from /joint_states, joint goal on elbow_joint).
+- Attempt 2 `parity/fixtures/fr3/moveit/`: group fr3_arm (fr3_joint1–7), states ready, extended (+ hand states open,
+  close); 100 move_group parameters. ready, extended, joint goal, pose goal (fr3_link8 −0.05 m z): SUCCESS;
+  unreachable pose −27; joint outside limits (plan only): SUCCESS 31 points (clamped); goal-in-collision −10
+  START_STATE_IN_COLLISION; wrong group −1 PLANNING_FAILED; controller inactive −4 CONTROL_FAILED.

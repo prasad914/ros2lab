@@ -1,0 +1,4 @@
+# ros2 control list_controllers
+[INFO] [1792303325.355745845] [_ros2cli_653944]: waiting for service /controller_manager/list_controllers to become available...
+fr3_arm_controller      joint_trajectory_controller/JointTrajectoryController  active
+joint_state_broadcaster joint_state_broadcaster/JointStateBroadcaster          active

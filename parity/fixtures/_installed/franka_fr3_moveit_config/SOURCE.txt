@@ -1,0 +1,10 @@
+package: franka_fr3_moveit_config
+share: /home/prasad/robots_ws/install/franka_fr3_moveit_config/share/franka_fr3_moveit_config
+version (package.xml): 3.6.0
+dpkg: not an apt package
+source: /home/prasad/robots_ws/src/franka/franka_ros2/franka_fr3_moveit_config/package.xml
+git: https://github.com/frankaemika/franka_ros2.git 4acc05c01ebfcdf916ee6b3df966df0ad7b2f9ec
+copied config/fr3_controllers.yaml
+copied config/ompl_planning.yaml
+copied config/kinematics.yaml
+copied config/fr3_ros_controllers.yaml

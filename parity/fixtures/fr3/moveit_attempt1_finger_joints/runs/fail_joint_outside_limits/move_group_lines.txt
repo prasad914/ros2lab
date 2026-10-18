@@ -1,0 +1,19 @@
+# lines of parity/fixtures/fr3/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792303357.220 .. 1792303360.306
+341:[move_group-3] [INFO] [1792303358.221415778] [moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+342:[move_group-3] [INFO] [1792303358.221800209] [moveit.moveit.ros.move_group.move_action]: executing..
+343:[move_group-3] [INFO] [1792303358.257956731] [moveit.moveit.ros.move_group.move_action]: Planning request received for MoveGroup action. Forwarding to planning pipeline.
+344:[move_group-3] [INFO] [1792303358.258633358] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+345:[move_group-3] [INFO] [1792303358.258708148] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+346:[move_group-3] [WARN] [1792303358.258724973] [moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+347:[move_group-3] [INFO] [1792303358.258767484] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+348:[move_group-3] [INFO] [1792303358.258824328] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+349:[move_group-3] [WARN] [1792303358.259356053] [moveit.moveit.core.kinematic_constraints]: Joint fr3_joint1 is constrained to be above the maximum bounds. Assuming maximum bounds instead.
+350:[move_group-3] [WARN] [1792303358.259488476] [moveit.moveit.core.kinematic_constraints]: Joint fr3_joint1 is constrained to be above the maximum bounds. Assuming maximum bounds instead.
+351:[move_group-3] [INFO] [1792303358.259882647] [moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'fr3_arm' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+352:[move_group-3] [INFO] [1792303358.260045918] [move_group]: Calling Planner 'OMPL'
+353:[move_group-3] [INFO] [1792303358.292977988] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
+354:[move_group-3] [INFO] [1792303358.300577254] [move_group]: Calling PlanningResponseAdapter 'ValidateSolution'
+355:[move_group-3] [INFO] [1792303358.302979824] [move_group]: Calling PlanningResponseAdapter 'DisplayMotionPath'
+356:[move_group-3] [WARN] [1792303358.303407998] [moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
+357:[move_group-3] [INFO] [1792303358.303608469] [moveit.moveit.ros.move_group.move_action]: Motion plan was computed successfully.
+358:[rviz2-1] [ERROR] [1792303358.325804292] [rviz2.moveit.ros.trajectory_visualization]: No robot state or robot model loaded
