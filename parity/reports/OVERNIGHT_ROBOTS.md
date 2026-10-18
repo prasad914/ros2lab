@@ -170,3 +170,10 @@ below; nothing in public/ is touched.
   joint outside limits (plan only): SUCCESS 30 points (clamped to the bound, as on attempt 1); goal-in-collision
   (0.2 m box at the goal's link_eef pose): −10 START_STATE_IN_COLLISION; wrong group −1 PLANNING_FAILED;
   controller inactive −4 CONTROL_FAILED. Installed config: `fixtures/_installed/xarm_moveit_config/` (source repo, see SOURCE.txt).
+
+## M1 – lite6 (domain 48)
+- Scenario `xvfb-run -a ros2 launch xarm_moveit_config lite6_moveit_gazebo.launch.py`; group lite6 (joint1–6), state
+  home; 100 move_group parameters. home, joint goal, pose goal (link_eef −0.05 m z): SUCCESS; unreachable pose −6
+  TIMED_OUT; joint outside limits (plan only): SUCCESS 30 points (clamped); goal-in-collision −10
+  START_STATE_IN_COLLISION; wrong group −1 PLANNING_FAILED; controller inactive −4 CONTROL_FAILED.
+  `parity/fixtures/lite6/moveit/`.

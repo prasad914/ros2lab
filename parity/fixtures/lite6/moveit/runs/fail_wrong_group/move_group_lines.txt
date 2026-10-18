@@ -1,0 +1,14 @@
+# lines of parity/fixtures/lite6/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792302081.673 .. 1792302084.704
+569:[move_group-3] [INFO] [1792302082.675687996] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+570:[move_group-3] [INFO] [1792302082.676456187] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+571:[move_group-3] [INFO] [1792302082.678491096] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+572:[move_group-3] [WARN] [1792302082.678675688] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+573:[move_group-3] [INFO] [1792302082.678728609] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+574:[move_group-3] [INFO] [1792302082.679062349] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+575:[move_group-3] [INFO] [1792302082.679184314] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+576:[move_group-3] [WARN] [1792302082.679208411] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+577:[move_group-3] [INFO] [1792302082.679271013] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+578:[move_group-3] [INFO] [1792302082.679336808] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+579:[move_group-3] [ERROR] [1792302082.680349661] [move_group.moveit.moveit.planners.ompl.planning_context_manager]: Cannot find planning configuration for group 'parity_no_such_group'
+580:[move_group-3] [ERROR] [1792302082.680493171] [move_group]: Failed to create PlanningContext for planner 'OMPL'. Aborting planning pipeline.
+581:[move_group-3] [INFO] [1792302082.680636886] [move_group.moveit.moveit.ros.move_group.move_action]: No motion plan found. No execution attempted.

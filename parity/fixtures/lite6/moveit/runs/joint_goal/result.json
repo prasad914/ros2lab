@@ -1,0 +1,52 @@
+{
+  "name": "joint_goal",
+  "note": "joint1 +0.0000 -> +0.3000, others held, plan + execute",
+  "group": "lite6",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "joint1": 0.3,
+    "joint2": 0.0,
+    "joint3": 0.0,
+    "joint4": 0.0,
+    "joint5": 0.0,
+    "joint6": 0.0
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "joint1": 0.0,
+    "joint2": 0.0,
+    "joint3": 0.0,
+    "joint4": 0.0,
+    "joint5": 0.0,
+    "joint6": 0.0
+  },
+  "send_wall": 1792302066.8516142,
+  "accepted": true,
+  "status": 4,
+  "error_code": 1,
+  "error_code_name": "SUCCESS",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [
+      "joint1",
+      "joint2",
+      "joint3",
+      "joint4",
+      "joint5",
+      "joint6"
+    ],
+    "points": 6,
+    "last_time_from_start": 0.494333974
+  },
+  "result_wall": 1792302067.6949918,
+  "joint_states_after": {
+    "joint1": 0.2999333441257477,
+    "joint2": -0.0005899009993299842,
+    "joint3": 0.0009401163551956415,
+    "joint4": 0.0006602296489290893,
+    "joint5": 0.00023588618205394596,
+    "joint6": -0.00032480803201906383
+  }
+}

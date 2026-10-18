@@ -1,0 +1,13 @@
+# lines of parity/fixtures/lite6/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792302079.338 .. 1792302082.360
+526:[move_group-3] [INFO] [1792302080.340304860] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+527:[move_group-3] [INFO] [1792302080.348024742] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+528:[move_group-3] [INFO] [1792302080.350852752] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+529:[move_group-3] [WARN] [1792302080.351020802] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+530:[move_group-3] [INFO] [1792302080.351114947] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+531:[move_group-3] [INFO] [1792302080.351489039] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+532:[move_group-3] [INFO] [1792302080.353346143] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+533:[move_group-3] [WARN] [1792302080.353372062] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+534:[move_group-3] [INFO] [1792302080.353431643] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+535:[move_group-3] [INFO] [1792302080.353776447] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+536:[move_group-3] [ERROR] [1792302080.355446295] [move_group]: PlanningRequestAdapter 'CheckStartStateCollision' failed, because '6 contact(s) detected : link1 - parity_box, link2 - parity_box, link4 - parity_box, link5 - parity_box, link6 - parity_box, link_base - parity_box, '. Aborting planning pipeline.
+537:[move_group-3] [INFO] [1792302080.355936946] [move_group.moveit.moveit.ros.move_group.move_action]: START_STATE_IN_COLLISION

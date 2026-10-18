@@ -1,0 +1,52 @@
+{
+  "name": "fail_controller_inactive",
+  "note": "lite6_traj_controller deactivated with switch_controller (ok=True)",
+  "group": "lite6",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "joint1": 0.20015366054140032,
+    "joint2": 0.0001348385849269107,
+    "joint3": 0.00048266720841638744,
+    "joint4": -0.00046246370766311884,
+    "joint5": 0.0008459736709482968,
+    "joint6": -7.449132681358606e-05
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "joint1": 0.00015366054140031338,
+    "joint2": 0.0001348385849269107,
+    "joint3": 0.00048266720841638744,
+    "joint4": -0.00046246370766311884,
+    "joint5": 0.0008459736709482968,
+    "joint6": -7.449132681358606e-05
+  },
+  "send_wall": 1792302084.983094,
+  "accepted": true,
+  "status": 6,
+  "error_code": -4,
+  "error_code_name": "CONTROL_FAILED",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [
+      "joint1",
+      "joint2",
+      "joint3",
+      "joint4",
+      "joint5",
+      "joint6"
+    ],
+    "points": 6,
+    "last_time_from_start": 0.40080636000000003
+  },
+  "result_wall": 1792302085.1234336,
+  "joint_states_after": {
+    "joint1": 0.00015366054140031338,
+    "joint2": 0.0001348385849269107,
+    "joint3": 0.00048266720841638744,
+    "joint4": -0.00046246370766311884,
+    "joint5": 0.0008459736709482968,
+    "joint6": -7.449132681358606e-05
+  }
+}

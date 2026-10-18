@@ -1,0 +1,52 @@
+{
+  "name": "fail_unreachable_pose",
+  "note": "link_eef 10 m beyond the current pose in x",
+  "group": "lite6",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {},
+  "goal_pose": {
+    "frame": "world",
+    "link": "link_eef",
+    "position": [
+      10.083411911520894,
+      0.025795503736524835,
+      0.1037227535307416
+    ],
+    "orientation_xyzw": [
+      0.988800073505849,
+      0.14924476767378844,
+      0.0006364173674089364,
+      -9.449740541695587e-05
+    ]
+  },
+  "joint_states_before": {
+    "joint1": 0.30255138874053955,
+    "joint2": 0.6096532344818115,
+    "joint3": 0.13049493730068207,
+    "joint4": -0.010565369389951229,
+    "joint5": -0.48783525824546814,
+    "joint6": 0.0074652452021837234
+  },
+  "send_wall": 1792302070.9562678,
+  "accepted": true,
+  "status": 6,
+  "error_code": -6,
+  "error_code_name": "TIMED_OUT",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [],
+    "points": 0,
+    "last_time_from_start": null
+  },
+  "result_wall": 1792302075.9901533,
+  "joint_states_after": {
+    "joint1": 0.30255138874053955,
+    "joint2": 0.6096532344818115,
+    "joint3": 0.13049493730068207,
+    "joint4": -0.010565369389951229,
+    "joint5": -0.48783525824546814,
+    "joint6": 0.0074652452021837234
+  }
+}

@@ -1,0 +1,36 @@
+joint1:
+  effort: 50.0
+  lower: -3.1101767270538954
+  type: revolute
+  upper: 3.1101767270538954
+  velocity: 3.14
+joint2:
+  effort: 50.0
+  lower: -2.61799
+  type: revolute
+  upper: 2.61799
+  velocity: 3.14
+joint3:
+  effort: 32.0
+  lower: -0.061087
+  type: revolute
+  upper: 3.1101767270538954
+  velocity: 3.14
+joint4:
+  effort: 32.0
+  lower: -3.1101767270538954
+  type: revolute
+  upper: 3.1101767270538954
+  velocity: 3.14
+joint5:
+  effort: 32.0
+  lower: -2.1642
+  type: revolute
+  upper: 2.1642
+  velocity: 3.14
+joint6:
+  effort: 20.0
+  lower: -3.1101767270538954
+  type: revolute
+  upper: 3.1101767270538954
+  velocity: 3.14

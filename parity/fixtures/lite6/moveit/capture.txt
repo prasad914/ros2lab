@@ -1,0 +1,15 @@
+SRDF/URDF from parameters robot_description_semantic / robot_description of /move_group
+/move_group parameters: 100
+group lite6 joints ['joint1', 'joint2', 'joint3', 'joint4', 'joint5', 'joint6']; frame 
+state_home: accepted=True error_code=1 SUCCESS points=1
+joint_goal: accepted=True error_code=1 SUCCESS points=6
+pose_goal: accepted=True error_code=1 SUCCESS points=9
+fail_unreachable_pose: accepted=True error_code=-6 TIMED_OUT points=0
+fail_joint_outside_limits: accepted=True error_code=1 SUCCESS points=30
+reset_before_collision: accepted=True error_code=1 SUCCESS points=9
+fail_goal_in_collision: accepted=True error_code=-10 START_STATE_IN_COLLISION points=0
+reset_before_wrong_group: accepted=True error_code=1 SUCCESS points=2
+fail_wrong_group: accepted=True error_code=-1 PLANNING_FAILED points=0
+reset_before_controller_inactive: accepted=True error_code=1 SUCCESS points=1
+fail_controller_inactive: accepted=True error_code=-4 CONTROL_FAILED points=6
+controller lite6_traj_controller reactivated: True

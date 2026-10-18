@@ -1,0 +1,45 @@
+{
+  "name": "fail_wrong_group",
+  "note": "group name that the SRDF does not have",
+  "group": "parity_no_such_group",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "joint1": 0.00015366054140031338,
+    "joint2": 0.0001348385849269107,
+    "joint3": 0.00048266720841638744,
+    "joint4": -0.00046246370766311884,
+    "joint5": 0.0008459736709482968,
+    "joint6": -7.449132681358606e-05
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "joint1": 0.00015366054140031338,
+    "joint2": 0.0001348385849269107,
+    "joint3": 0.00048266720841638744,
+    "joint4": -0.00046246370766311884,
+    "joint5": 0.0008459736709482968,
+    "joint6": -7.449132681358606e-05
+  },
+  "send_wall": 1792302082.6732404,
+  "accepted": true,
+  "status": 6,
+  "error_code": -1,
+  "error_code_name": "PLANNING_FAILED",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [],
+    "points": 0,
+    "last_time_from_start": null
+  },
+  "result_wall": 1792302082.703504,
+  "joint_states_after": {
+    "joint1": 0.00015366054140031338,
+    "joint2": 0.0001348385849269107,
+    "joint3": 0.00048266720841638744,
+    "joint4": -0.00046246370766311884,
+    "joint5": 0.0008459736709482968,
+    "joint6": -7.449132681358606e-05
+  }
+}

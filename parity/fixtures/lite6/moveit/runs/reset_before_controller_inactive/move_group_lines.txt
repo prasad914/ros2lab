@@ -1,0 +1,29 @@
+# lines of parity/fixtures/lite6/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792302082.711 .. 1792302085.954
+582:[move_group-3] [INFO] [1792302083.715865457] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+583:[move_group-3] [INFO] [1792302083.717268535] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+584:[move_group-3] [INFO] [1792302083.718650021] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+585:[move_group-3] [WARN] [1792302083.718784058] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+586:[move_group-3] [INFO] [1792302083.718825065] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+587:[move_group-3] [INFO] [1792302083.719164106] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+588:[move_group-3] [INFO] [1792302083.719451678] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+589:[move_group-3] [WARN] [1792302083.719474191] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+590:[move_group-3] [INFO] [1792302083.719523325] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+591:[move_group-3] [INFO] [1792302083.719571120] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+592:[move_group-3] [INFO] [1792302083.721182510] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'lite6' will use planner 'geometric::RRT'. Additional configuration parameters will be set when the planner is constructed.
+593:[move_group-3] [INFO] [1792302083.721685009] [move_group]: Calling Planner 'OMPL'
+594:[move_group-3] [INFO] [1792302083.737250074] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
+595:[move_group-3] [INFO] [1792302083.737421923] [move_group]: Calling PlanningResponseAdapter 'ValidateSolution'
+596:[move_group-3] [INFO] [1792302083.739429540] [move_group]: Calling PlanningResponseAdapter 'DisplayMotionPath'
+597:[move_group-3] [WARN] [1792302083.739662560] [move_group.moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
+598:[move_group-3] [INFO] [1792302083.739889035] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 1 controllers in list
+599:[move_group-3] [INFO] [1792302083.739943223] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 1 controllers in list
+600:[move_group-3] [INFO] [1792302083.740194519] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Validating trajectory with allowed_start_tolerance 0.01
+601:[move_group-3] [INFO] [1792302083.740371434] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Starting trajectory execution ...
+602:[move_group-3] [INFO] [1792302083.740567395] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 1 controllers in list
+603:[move_group-3] [INFO] [1792302083.740657829] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 1 controllers in list
+604:[move_group-3] [INFO] [1792302083.740948856] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: sending trajectory to lite6_traj_controller
+607:[move_group-3] [INFO] [1792302083.742007867] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: lite6_traj_controller started execution
+608:[move_group-3] [INFO] [1792302083.742053667] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Goal request accepted!
+610:[move_group-3] [INFO] [1792302083.845114494] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Controller 'lite6_traj_controller' successfully finished
+611:[move_group-3] [INFO] [1792302083.845636931] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Completed trajectory execution with status SUCCEEDED ...
+612:[move_group-3] [INFO] [1792302083.942523234] [move_group.moveit.moveit.ros.move_group.move_action]: Solution was found and executed.
