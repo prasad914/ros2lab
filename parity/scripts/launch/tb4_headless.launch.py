@@ -25,6 +25,10 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument('world', default_value='warehouse'),
         DeclareLaunchArgument('model', default_value='standard'),
+        # passed to the installed turtlebot4_spawn.launch.py, which includes turtlebot4_navigation's launch files
+        DeclareLaunchArgument('slam', default_value='false'),
+        DeclareLaunchArgument('localization', default_value='false'),
+        DeclareLaunchArgument('nav2', default_value='false'),
         SetEnvironmentVariable('GZ_SIM_RESOURCE_PATH', ':'.join([
             os.path.join(tb4, 'worlds'), os.path.join(create_bringup, 'worlds'),
             str(Path(tb4_desc).parent.resolve()), str(Path(create_desc).parent.resolve())])),
@@ -33,5 +37,6 @@ def generate_launch_description():
         Node(package='ros_gz_bridge', executable='parameter_bridge', name='clock_bridge', output='screen',
              arguments=['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock']),
         inc(os.path.join(tb4, 'launch', 'turtlebot4_spawn.launch.py'),
-            [('rviz', 'false'), ('model', LaunchConfiguration('model'))]),
+            [('rviz', 'false'), ('model', LaunchConfiguration('model')), ('slam', LaunchConfiguration('slam')),
+             ('localization', LaunchConfiguration('localization')), ('nav2', LaunchConfiguration('nav2'))]),
     ])
