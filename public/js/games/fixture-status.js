@@ -2,7 +2,7 @@
 // report parity/reports/fixture_parity.md). Do not edit by hand. A check is passed only when every fixture item
 // it depends on passed against real ROS 2 Jazzy; everything else keeps its games locked.
 export const FIXTURE_STATUS = {
-  "generated": "2026-10-17T23:30:47Z",
+  "generated": "2026-10-18T16:04:23Z",
   "robots": {
     "tb3_burger": {
       "TF": {
@@ -31,9 +31,9 @@ export const FIXTURE_STATUS = {
         "notPassed": 0
       },
       "NAV": {
-        "pass": false,
+        "pass": true,
         "items": 20,
-        "notPassed": 4
+        "notPassed": 0
       },
       "FIXED_FRAME": {
         "pass": false,
