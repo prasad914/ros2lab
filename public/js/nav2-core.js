@@ -138,6 +138,28 @@ function setDotted(o, k, v) {
   if (v && typeof v === "object" && !Array.isArray(v)) { if (!cur[last] || typeof cur[last] !== "object") cur[last] = {}; deepMerge(cur[last], v); }
   else cur[last] = v;
 }
+// keys ("a.b.c") whose value a parameter file wrote as a float (20.0, 5.0, 1e-3): rclcpp declares them as doubles,
+// which a JS number cannot tell apart from an integer (slam_toolbox max_laser_range: 20.0 -> "Double value is: 20.0")
+export function doubleParams(sources, name, ns = "") {
+  const fqn = `${ns && ns !== "/" ? "/" + ns.replace(/^\/+|\/+$/g, "") : ""}/${name}`, out = new Set();
+  const FLOAT = /^[-+]?(\d+\.\d*|\.\d+|\d+(\.\d*)?[eE][-+]?\d+)$/;
+  for (const src of [].concat(sources || [])) {
+    if (typeof src !== "string") continue;
+    const stack = [];   // [indent, key]
+    for (const raw of src.split("\n")) {
+      const line = raw.replace(/\s+#.*$/, "");
+      const m = line.match(/^(\s*)([^\s:#][^:]*?|"[^"]*"|'[^']*'):(?:\s+(.*))?$/);
+      if (!m) continue;
+      const ind = m[1].length, key = m[2].replace(/^(["'])(.*)\1$/, "$2"), val = (m[3] || "").trim();
+      while (stack.length && stack[stack.length - 1][0] >= ind) stack.pop();
+      stack.push([ind, key]);
+      if (!FLOAT.test(val)) continue;
+      const keys = stack.map((x) => x[1]), r = keys.indexOf("ros__parameters");
+      if (r > 0 && matchNode(keys.slice(0, r), fqn)) out.add(keys.slice(r + 1).join("."));
+    }
+  }
+  return out;
+}
 // nested -> {"a.b.c": v} (what `ros2 param list/get` shows)
 export function flatParams(o, pre = "", out = {}) {
   for (const [k, v] of Object.entries(o || {})) { const key = pre ? `${pre}.${k}` : k; if (v && typeof v === "object" && !Array.isArray(v)) flatParams(v, key, out); else out[key] = v; }

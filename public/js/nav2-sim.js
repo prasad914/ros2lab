@@ -150,12 +150,16 @@ class NavNode {
     this.fs = desc.fs || null; this.write = desc.write || null; this.exitFn = desc.exit || null; this.pid = desc.pid;
     this.sources = [].concat(desc.params ?? desc.parameters ?? []);
     for (const t of Object.values(desc.parameter_files || desc.files || {})) if (typeof t === "string" && /ros__parameters/.test(t)) this.sources.unshift(t);
-    this.P = C.nodeParams(this.sources, opts.paramName || this.name, opts.paramNs ?? this.ns);
+    this.paramKey = [opts.paramName || this.name, opts.paramNs ?? this.ns];
+    this.P = C.nodeParams(this.sources, ...this.paramKey);
     this.state = "unconfigured"; this.lifecycleNode = opts.lifecycle !== false; this.n = null;
   }
   attach() {
     const n = this.G.add("nav2", this.name, this.ns.replace(/^\//, ""), {}, this.remaps);
     n.params = { ...(n.params || {}), ...C.flatParams(this.P) };
+    // floats of the parameter files stay doubles for ros2 param get (20.0, not "Integer value is: 20")
+    const dbl = C.doubleParams(this.sources, ...this.paramKey);
+    n.ptypes = { ...(n.ptypes || {}) }; for (const k of dbl) if (typeof n.params[k] === "number") n.ptypes[k] = "double";
     if (n.params.use_sim_time === undefined) n.params.use_sim_time = false;
     n.remaps = this.remaps; n.nav2 = this; n.lstate = this.lifecycleNode ? this.state : undefined;
     n.info = { pubs: [], subs: [], srvs: [], cli: [], acts: [], actc: [], lifecycle: this.lifecycleNode, lcLogs: {} };
