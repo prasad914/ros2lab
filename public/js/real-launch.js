@@ -183,9 +183,10 @@ async function prepareRuntime(sh, onStatus) {
   }
   return rt;
 }
-// the environment of this terminal, as `source install/setup.bash` makes it
+// the environment of this terminal, as `source install/setup.bash` makes it. The workspace's own variables
+// (R.env, e.g. TURTLEBOT3_MODEL) are only what the page's buttons export: a terminal without them launches without them.
 function launchEnv(sh) {
-  const R = sh.realWs, env = { ...DEFAULT_ENV, ...R.env };
+  const R = sh.realWs, env = { ...DEFAULT_ENV };
   for (const [k, v] of Object.entries(sh.env || {})) if (typeof v === "string") env[k] = v;
   const sourcedWs = String(sh.env.COLCON_PREFIX_PATH || "").split(":").includes(`${WSDIR}/install`);
   const prefixes = sourcedWs ? [...R.built.keys()].map((n) => `${WSDIR}/install/${n}`) : [];
@@ -242,7 +243,13 @@ export function startRealLaunch(sh, argv, ui) {
   const R = sh.realWs;
   let job = null, cancelled = false;
   const ctx = makeContext(sh, ui, () => job);
+  const adapting = new Map();   // node fqn -> promise of its model being started (lifecycle requests wait for it)
   const ctl = { ctrlC: () => { if (job) job.ctrlC(); else cancelled = true; }, done: null };
+  // a launch file read os.environ['X'] for a variable this workspace needs (KeyError): the real error, then a hint
+  const envHint = (l) => {
+    const m = l.match(/^\[ERROR\] \[launch\]: Caught exception in launch \(see debug for traceback\): '(\w+)'$/);
+    if (m && R.env && R.env[m[1]] !== undefined) ctx.emit(`(The launch file reads ${m[1]} from the environment, and this terminal has not set it. Set it first, then launch again: export ${m[1]}=${R.env[m[1]]})`, "hint");
+  };
   ctl.done = (async () => {
     let rt;
     try { rt = await prepareRuntime(sh, (s) => ui.status && ui.status(s && s.text ? s.text : String(s))); }
@@ -250,11 +257,15 @@ export function startRealLaunch(sh, argv, ui) {
     if (cancelled) { ui.done(130); return 130; }
     job = rt.launch(["ros2", "launch", ...argv], {
       env: launchEnv(sh), cwd: sh.cwd,
-      onOutput: (text, stream) => { for (const l of String(text).replace(/\n$/, "").split("\n")) { const m = l.match(/^\[INFO\] \[launch\]: All log files can be found below \S*-(\d+)$/); if (m) ctx.launchPid = Number(m[1]); ctx.emit(l, stream === "err" ? "err" : ""); } },
-      onProcess: (info) => { ctx.adapt(info, { exit: (rc) => job.exit(info.pid, rc), prefix: true }).catch((e) => { ctx.emit(`(ROS2Lab could not model ${info.name || "a process"}: ${e.message})`, "hint"); console.error(e); }); },
+      onOutput: (text, stream) => { for (const l of String(text).replace(/\n$/, "").split("\n")) { const m = l.match(/^\[INFO\] \[launch\]: All log files can be found below \S*-(\d+)$/); if (m) ctx.launchPid = Number(m[1]); ctx.emit(l, stream === "err" ? "err" : ""); envHint(l); } },
+      onProcess: (info) => { const a = ctx.adapt(info, { exit: (rc) => job.exit(info.pid, rc), prefix: true }).catch((e) => { ctx.emit(`(ROS2Lab could not model ${info.name || "a process"}: ${e.message})`, "hint"); console.error(e); }); if (info.ros && info.ros.fqn) adapting.set(info.ros.fqn, a); },
       onExit: (pid) => ctx.cleanup(pid),
       onLoadComposable: (req) => { ctx.launchNode(); return ctx.loadComposable(req); },
-      onLifecycle: (req) => { ctx.launchNode(`/${String(req.node || "").replace(/^\/+/, "")}/transition_event`); return nav2Lifecycle(sh.graph, req.node, req.transition) || null; },
+      onLifecycle: async (req) => {
+        const full = `/${String(req.node || "").replace(/^\/+/, "")}`, a = adapting.get(full);
+        if (a) await Promise.race([a, new Promise((r) => setTimeout(r, 5000))]);   // the node's model is being started
+        ctx.launchNode(`${full}/transition_event`); return nav2Lifecycle(sh.graph, req.node, req.transition) || null;
+      },
     });
     R.jobs.add(job);
     const rc = await job.done;

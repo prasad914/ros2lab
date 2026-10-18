@@ -349,6 +349,14 @@ async def _fake_execute_process(protocol_class, cmd, cwd=None, env=None, shell=F
     # the ExecuteLocal action and its event args are in the closure of the protocol factory
     nl = inspect.getclosurevars(protocol_class).nonlocals
     action, ev_args = nl.get("self"), nl.get("process_event_args") or {}
+    # A real subprocess takes a few loop turns to start. When the launch fails while its entities are still being
+    # visited (e.g. KeyError 'TURTLEBOT3_MODEL' in a later include), ros2 launch logs the error and shuts down before
+    # any process is started: no "process started" line (parity/fixtures/tb3_burger/sensors/errors/no_tb3_model).
+    for _ in range(3):
+        await asyncio.sleep(0)
+    context = nl.get("context")
+    if context is not None and context.is_shutdown:
+        raise asyncio.CancelledError()
     err = _exec_error("/bin/sh" if shell else cmd[0], env)
     if err is not None:
         raise err                          # like asyncio.create_subprocess_exec / execve()
@@ -701,6 +709,14 @@ def _transition_msg(label, tid, start, goal):
 async def _change_state(job, manager, node_action, transition_id, context):
     from launch_ros.events.lifecycle import StateTransition
     label, start, mid, goal = _TRANSITIONS.get(int(transition_id), ("unknown", "unknown", "unknown", "unknown"))
+    # like launch_ros, which waits for the node's change_state service: wait until its process has started (and the
+    # host has been told, HOST.started is call_soon'ed) before asking the host for the transition
+    fqn = _fqn("/", node_action.node_name)
+    for _ in range(250):
+        if fqn in job.node_procs or context.is_shutdown:
+            break
+        await asyncio.sleep(0.02)
+    await asyncio.sleep(0)
     res = await _host_call("lifecycle", job, {"node": node_action.node_name, "transition": label,
                                               "transition_id": int(transition_id)}) or {}
     if not res.get("success", True):
