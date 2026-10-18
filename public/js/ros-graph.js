@@ -2227,9 +2227,13 @@ RosGraph.prototype.rspMessages = function (n) {
 // ros2 run tf2_tools view_frames
 RosGraph.prototype.viewFrames = function () {
   const E = this.tfTree();
-  const stamp = "2026-10-12_09.30.00";
-  const lines = ["[INFO] [view_frames]: Listening to tf data for 5.0 seconds..."];
-  if (!E.length) return [...lines.map((t) => this.out(t)), this.out("[INFO] [view_frames]: Generating graph in frames.pdf file..."), this.out(`[INFO] [view_frames]: Result:tf2_msgs.srv.FrameGraph_Response(frame_yaml='[]')`), this.hint("No TF frames are being published. Start robot_state_publisher (and joint_state_publisher) or a static_transform_publisher first.")];
+  // file name and log lines as tf2_tools view_frames prints them (tb3_burger/sensors/view_frames.log): local wall
+  // time of the export, frames_<YYYY-MM-DD_HH.MM.SS>; each line with its [stamp]
+  const d = new Date(), z = (v) => String(v).padStart(2, "0");
+  const stamp = `${d.getFullYear()}-${z(d.getMonth() + 1)}-${z(d.getDate())}_${z(d.getHours())}.${z(d.getMinutes())}.${z(d.getSeconds())}`;
+  const ts = () => { const t = Date.now() / 1000; return `${Math.floor(t)}.${String(Math.floor((t % 1) * 1e9)).padStart(9, "0")}`; };
+  const lines = [`[INFO] [${ts()}] [view_frames]: Listening to tf data for 5.0 seconds...`];
+  if (!E.length) return [...lines.map((t) => this.out(t)), this.out(`[INFO] [${ts()}] [view_frames]: Generating graph...`), this.out(`[INFO] [view_frames]: Result:tf2_msgs.srv.FrameGraph_Response(frame_yaml='[]')`), this.hint("No TF frames are being published. Start robot_state_publisher (and joint_state_publisher) or a static_transform_publisher first.")];
   const gv = "digraph G {\n" + E.map((e) => `"${e.parent}" -> "${e.child}"[label="Broadcaster: default_authority"];`).join("\n") + "\n}\n";
   const dir = this.sh.cwd;
   this.sh.fs.set(`${dir}/frames_${stamp}.gv`, { type: "f", mode: "rw-r--r--", content: gv });
@@ -2238,8 +2242,9 @@ RosGraph.prototype.viewFrames = function () {
   const roots = [...new Set(E.map((e) => e.parent))].filter((p) => !E.some((e) => e.child === p));
   const tree = []; const rec = (f, depth) => { tree.push(depth ? "   ".repeat(depth - 1) + "└─ " + f : f); (kids[f] || []).sort().forEach((c) => rec(c, depth + 1)); };
   roots.forEach((r) => rec(r, 0));
-  return [...lines, "[INFO] [view_frames]: Generating graph in frames.pdf file..."].map((t) => this.out(t))
-    .concat([this.out(`[INFO] [view_frames]: Result:tf2_msgs.srv.FrameGraph_Response(frame_yaml="${E.slice(0, 2).map((e) => `${e.child}: \\n  parent: '${e.parent}'`).join(" ")} ...")`),
+  return [...lines, `[INFO] [${ts()}] [view_frames]: Generating graph...`].map((t) => this.out(t))
+    .concat([this.out(`[INFO] [${ts()}] [view_frames]: Result:tf2_msgs.srv.FrameGraph_Response(frame_yaml="${E.slice(0, 2).map((e) => `${e.child}: \\n  parent: '${e.parent}'`).join(" ")} ...")`),
+      this.out(`[INFO] [${ts()}] [view_frames]: Exporting graph in frames_${stamp}.pdf file...`),
       this.hint(`Created frames_${stamp}.pdf and frames_${stamp}.gv in this folder. The PDF shows this tree:`), ...tree.map((t) => this.hint("  " + t))]);
 };
 // read a .rviz config: Fixed Frame and the list of displays
