@@ -24,7 +24,7 @@ Status definitions:
 | **fr3** | arm | `https://github.com/frankaemika/franka_ros2` | no | no | NOT BUILT | - | - |
 | **gen3** | arm | `https://github.com/Kinovarobotics/ros2_kortex` | no | no | NOT BUILT | - | - |
 | **xarm6** | arm | `https://github.com/xArm-Developer/xarm_ros2` jazzy 3dc2b5e8 (submodule xarm_sdk/cxx v1.18.1 d84a2b7d) | yes | yes | OFFICIAL-JAZZY | `xvfb-run -a ros2 launch xarm_gazebo xarm6_beside_table_gazebo.launch.py load_controller:=true` | build: `parity/robots/xarm6/build_summary.txt` ("8 packages finished"); install_check/ 2026-10-18 (domain 46): `controllers.txt` (xarm6_traj_controller, joint_state_broadcaster active), `topics.txt`, `motion_proof.txt` (joint1 0.0 -> 0.299897 rad, error_code 0) |
-| **lite6** | arm | `https://github.com/xArm-Developer/xarm_ros2` | no | no | NOT BUILT | - | - |
+| **lite6** | arm | `https://github.com/xArm-Developer/xarm_ros2` jazzy 3dc2b5e8 (same build as xarm6) | yes | yes | OFFICIAL-JAZZY | `xvfb-run -a ros2 launch xarm_gazebo lite6_beside_table_gazebo.launch.py load_controller:=true` | build: `parity/robots/xarm6/build_summary.txt`; install_check/ 2026-10-18 (domain 46): `controllers.txt` (lite6_traj_controller, joint_state_broadcaster active), `topics.txt`, `motion_proof.txt` (joint1 0.0 -> 0.299897 rad, error_code 0) |
 | **cr5** | arm | `https://github.com/Dobot-Arm/DOBOT_6Axis_ROS2` | no | no | NOT BUILT | - | - |
 | **magician** | arm | Dobot Magician | no | no | NOT BUILT | - | - |
 | **so101** | arm | The Robot Studio / SO-ARM100 | no | no | NOT BUILT | - | - |

@@ -33,3 +33,10 @@ below; nothing in public/ is touched.
 - Decision: `load_controller:=true` (the launch file's own argument; default false loads no controllers – attempt 1).
 - Evidence `parity/fixtures/xarm6/install_check/`: xarm6_traj_controller + joint_state_broadcaster active; 20 topics;
   joint1 0.000000 -> 0.299897 rad, error_code 0.
+
+## lite6 – OFFICIAL-JAZZY (verified)
+- Same source and build as xarm6. `lite6_beside_table_gazebo.launch.py load_controller:=true` under xvfb-run.
+- Evidence `parity/fixtures/lite6/install_check/`: lite6_traj_controller + joint_state_broadcaster active; 20 topics;
+  joint1 0.000000 -> 0.299897 rad, error_code 0.
+- stop_reference.sh 46 reported one process left after KILL (pid 518673, already gone a moment later); a second
+  stop_reference.sh run found the domain empty.
