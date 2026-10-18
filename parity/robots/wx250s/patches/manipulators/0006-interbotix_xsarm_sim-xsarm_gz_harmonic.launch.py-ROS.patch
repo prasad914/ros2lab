@@ -1,0 +1,271 @@
+From 86951bfdbe2ce40bb4dd63cc8ea46060083a5553 Mon Sep 17 00:00:00 2001
+From: Prasad Prabhu <prasadprabhu@nitte.edu.in>
+Date: Sun, 18 Oct 2026 13:12:52 +0530
+Subject: [PATCH 6/6] interbotix_xsarm_sim: xsarm_gz_harmonic.launch.py
+ (ROS2Lab port of xsarm_gz_classic.launch.py to Gazebo Harmonic)
+
+---
+ .../launch/xsarm_gz_harmonic.launch.py        | 236 ++++++++++++++++++
+ .../interbotix_xsarm_sim/package.xml          |   3 +
+ 2 files changed, 239 insertions(+)
+ create mode 100644 interbotix_ros_xsarms/interbotix_xsarm_sim/launch/xsarm_gz_harmonic.launch.py
+
+diff --git a/interbotix_ros_xsarms/interbotix_xsarm_sim/launch/xsarm_gz_harmonic.launch.py b/interbotix_ros_xsarms/interbotix_xsarm_sim/launch/xsarm_gz_harmonic.launch.py
+new file mode 100644
+index 0000000..da8a973
+--- /dev/null
++++ b/interbotix_ros_xsarms/interbotix_xsarm_sim/launch/xsarm_gz_harmonic.launch.py
+@@ -0,0 +1,236 @@
++# ROS2Lab port (not by the maker): the Gazebo Classic launch xsarm_gz_classic.launch.py for Gazebo Harmonic, which is
++# what ROS 2 Jazzy ships with. Same robot description (hardware_type gz_harmonic), same controllers yaml and the same
++# spawner order (joint_state_broadcaster after the robot is created, then arm_controller and gripper_controller).
++# Gazebo runs as a server only (`-s`), with an empty world; set use_gazebo_gui:=true for the GUI.
++from pathlib import Path
++
++from interbotix_xs_modules.xs_common import (
++    get_interbotix_xsarm_models,
++)
++from interbotix_xs_modules.xs_launch import (
++    declare_interbotix_xsarm_robot_description_launch_arguments,
++)
++from interbotix_xs_modules.xs_launch.xs_launch import determine_use_sim_time_param
++from launch import LaunchDescription
++from launch.actions import (
++    DeclareLaunchArgument,
++    IncludeLaunchDescription,
++    OpaqueFunction,
++    RegisterEventHandler,
++    SetEnvironmentVariable,
++)
++from launch.event_handlers import OnProcessExit
++from launch.launch_description_sources import PythonLaunchDescriptionSource
++from launch.substitutions import (
++    EnvironmentVariable,
++    LaunchConfiguration,
++    PathJoinSubstitution,
++)
++from launch_ros.actions import Node
++from launch_ros.substitutions import FindPackageShare
++
++
++def launch_setup(context, *args, **kwargs):
++
++    robot_model_launch_arg = LaunchConfiguration('robot_model')
++    robot_name_launch_arg = LaunchConfiguration('robot_name')
++    use_rviz_launch_arg = LaunchConfiguration('use_rviz')
++    rviz_config_launch_arg = LaunchConfiguration('rvizconfig')
++    world_launch_arg = LaunchConfiguration('world')
++    use_gazebo_gui_launch_arg = LaunchConfiguration('use_gazebo_gui')
++    robot_description_launch_arg = LaunchConfiguration('robot_description')
++    hardware_type_launch_arg = LaunchConfiguration('hardware_type')
++    robot_name = robot_name_launch_arg.perform(context)
++
++    use_sim_time_param = determine_use_sim_time_param(
++        context=context,
++        hardware_type_launch_arg=hardware_type_launch_arg
++    )
++
++    # meshes are package://interbotix_xsarm_descriptions/... URIs: Gazebo resolves them on its resource path
++    gz_resource_path_env_var = SetEnvironmentVariable(
++        name='GZ_SIM_RESOURCE_PATH',
++        value=[
++            EnvironmentVariable('GZ_SIM_RESOURCE_PATH', default_value=''),
++            ':',
++            str(Path(
++                FindPackageShare('interbotix_common_sim').perform(context)
++            ).parent.resolve()),
++            ':',
++            str(Path(
++                FindPackageShare('interbotix_xsarm_descriptions').perform(context)
++            ).parent.resolve()),
++        ]
++    )
++
++    server_only = '' if use_gazebo_gui_launch_arg.perform(context) == 'true' else ' -s'
++    gz_sim_launch_include = IncludeLaunchDescription(
++        PythonLaunchDescriptionSource([
++            PathJoinSubstitution([
++                FindPackageShare('ros_gz_sim'),
++                'launch',
++                'gz_sim.launch.py'
++            ]),
++        ]),
++        launch_arguments={
++            'gz_args': [world_launch_arg, f' -r{server_only} -v 2'],
++            'on_exit_shutdown': 'true',
++        }.items(),
++    )
++
++    clock_bridge_node = Node(
++        package='ros_gz_bridge',
++        executable='parameter_bridge',
++        name='clock_bridge',
++        arguments=['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'],
++        output={'both': 'log'},
++    )
++
++    spawn_robot_node = Node(
++        package='ros_gz_sim',
++        executable='create',
++        name=f'spawn_{robot_name}',
++        arguments=[
++            '-name', robot_name,
++            '-topic', f'/{robot_name}/robot_description',
++            '-x', '0.0',
++            '-y', '0.0',
++            '-z', '0.0',
++            '-Y', '0.0',
++        ],
++        output={'both': 'log'},
++    )
++
++    def spawner(controller):
++        return Node(
++            name=f'{controller}_spawner',
++            package='controller_manager',
++            executable='spawner',
++            namespace=robot_name_launch_arg,
++            arguments=[
++                '-c',
++                'controller_manager',
++                controller,
++            ],
++            parameters=[{
++                'use_sim_time': use_sim_time_param,
++            }],
++        )
++    spawn_joint_state_broadcaster_node = spawner('joint_state_broadcaster')
++    spawn_arm_controller_node = spawner('arm_controller')
++    spawn_gripper_controller_node = spawner('gripper_controller')
++
++    xsarm_description_launch_include = IncludeLaunchDescription(
++        PythonLaunchDescriptionSource([
++            PathJoinSubstitution([
++                FindPackageShare('interbotix_xsarm_descriptions'),
++                'launch',
++                'xsarm_description.launch.py'
++            ])
++        ]),
++        launch_arguments={
++            'robot_model': robot_model_launch_arg,
++            'robot_name': robot_name_launch_arg,
++            'use_rviz': use_rviz_launch_arg,
++            'rvizconfig': rviz_config_launch_arg,
++            'use_sim_time': use_sim_time_param,
++            'robot_description': robot_description_launch_arg,
++        }.items(),
++    )
++
++    load_joint_state_broadcaster_event = RegisterEventHandler(
++        event_handler=OnProcessExit(
++            target_action=spawn_robot_node,
++            on_exit=[spawn_joint_state_broadcaster_node]
++        )
++    )
++    load_arm_controller_event = RegisterEventHandler(
++        event_handler=OnProcessExit(
++            target_action=spawn_joint_state_broadcaster_node,
++            on_exit=[spawn_arm_controller_node]
++        )
++    )
++    load_gripper_controller_event = RegisterEventHandler(
++        event_handler=OnProcessExit(
++            target_action=spawn_joint_state_broadcaster_node,
++            on_exit=[spawn_gripper_controller_node]
++        )
++    )
++
++    return [
++        gz_resource_path_env_var,
++        gz_sim_launch_include,
++        clock_bridge_node,
++        spawn_robot_node,
++        load_joint_state_broadcaster_event,
++        load_arm_controller_event,
++        load_gripper_controller_event,
++        xsarm_description_launch_include,
++    ]
++
++
++def generate_launch_description():
++    declared_arguments = []
++    declared_arguments.append(
++        DeclareLaunchArgument(
++            'robot_model',
++            choices=get_interbotix_xsarm_models(),
++            description='model type of the Interbotix Arm such as `wx200` or `rx150`.'
++        )
++    )
++    declared_arguments.append(
++        DeclareLaunchArgument(
++            'robot_name',
++            default_value=LaunchConfiguration('robot_model'),
++            description='name of the robot (typically equal to `robot_model`, but could be anything).',
++        )
++    )
++    declared_arguments.append(
++        DeclareLaunchArgument(
++            'use_rviz',
++            default_value='false',
++            choices=('true', 'false'),
++            description='launches RViz if set to `true`.',
++        )
++    )
++    declared_arguments.append(
++        DeclareLaunchArgument(
++            'rvizconfig',
++            default_value=PathJoinSubstitution([
++                FindPackageShare('interbotix_xsarm_sim'),
++                'rviz',
++                'xsarm_gz_classic.rviz',
++            ]),
++            description='file path to the config file RViz should load.',
++        )
++    )
++    declared_arguments.append(
++        DeclareLaunchArgument(
++            'world',
++            default_value='empty.sdf',
++            description='Gazebo Harmonic world (file name on the resource path or full path).',
++        )
++    )
++    declared_arguments.append(
++        DeclareLaunchArgument(
++            'use_gazebo_gui',
++            default_value='false',
++            choices=('true', 'false'),
++            description='launches the Gazebo GUI if set to `true` (default: server only).',
++        )
++    )
++    declared_arguments.append(
++        DeclareLaunchArgument(
++            'use_sim_time',
++            default_value='true',
++            choices=('true', 'false'),
++            description='use the simulation time published by Gazebo on /clock.',
++        )
++    )
++    declared_arguments.extend(
++        declare_interbotix_xsarm_robot_description_launch_arguments(
++            hardware_type='gz_harmonic',
++        )
++    )
++
++    return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
+diff --git a/interbotix_ros_xsarms/interbotix_xsarm_sim/package.xml b/interbotix_ros_xsarms/interbotix_xsarm_sim/package.xml
+index 7618cf6..72ac942 100644
+--- a/interbotix_ros_xsarms/interbotix_xsarm_sim/package.xml
++++ b/interbotix_ros_xsarms/interbotix_xsarm_sim/package.xml
+@@ -18,6 +18,9 @@
+   <depend>gazebo_ros</depend>
+   <depend>gazebo_ros2_control</depend>
+   <depend>joint_trajectory_controller</depend>
++  <exec_depend>ros_gz_sim</exec_depend>
++  <exec_depend>ros_gz_bridge</exec_depend>
++  <exec_depend>gz_ros2_control</exec_depend>
+ 
+   <test_depend>ament_lint_auto</test_depend>
+   <test_depend>ament_lint_common</test_depend>
+-- 
+2.43.0
+

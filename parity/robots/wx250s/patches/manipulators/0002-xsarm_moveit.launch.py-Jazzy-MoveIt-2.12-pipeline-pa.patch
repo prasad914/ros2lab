@@ -1,0 +1,43 @@
+From a1ad9047349989013df1b9e43895ebcb2cb235d6 Mon Sep 17 00:00:00 2001
+From: Prasad Prabhu <prasadprabhu@nitte.edu.in>
+Date: Sun, 18 Oct 2026 12:51:02 +0530
+Subject: [PATCH 2/6] xsarm_moveit.launch.py: Jazzy MoveIt 2.12 pipeline
+ parameters (planning_plugins / request_adapters / response_adapters as string
+ arrays; FixStartStatePathConstraints has no Jazzy plugin)
+
+---
+ .../launch/xsarm_moveit.launch.py              | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/interbotix_ros_xsarms/interbotix_xsarm_moveit/launch/xsarm_moveit.launch.py b/interbotix_ros_xsarms/interbotix_xsarm_moveit/launch/xsarm_moveit.launch.py
+index 5bccdf3..59ed99e 100644
+--- a/interbotix_ros_xsarms/interbotix_xsarm_moveit/launch/xsarm_moveit.launch.py
++++ b/interbotix_ros_xsarms/interbotix_xsarm_moveit/launch/xsarm_moveit.launch.py
+@@ -113,14 +113,16 @@ def launch_setup(context, *args, **kwargs):
+ 
+     ompl_planning_pipeline_config = {
+         'move_group': {
+-            'planning_plugin':
+-                'ompl_interface/OMPLPlanner',
+-            'request_adapters':
+-                'default_planner_request_adapters/AddTimeOptimalParameterization '
+-                'default_planner_request_adapters/FixWorkspaceBounds '
+-                'default_planner_request_adapters/FixStartStateBounds '
+-                'default_planner_request_adapters/FixStartStateCollision '
+-                'default_planner_request_adapters/FixStartStatePathConstraints',
++            'planning_plugins':
++                ['ompl_interface/OMPLPlanner'],
++            'request_adapters': [
++                'default_planning_request_adapters/ValidateWorkspaceBounds',
++                'default_planning_request_adapters/CheckStartStateBounds',
++                'default_planning_request_adapters/CheckStartStateCollision',
++            ],
++            'response_adapters': [
++                'default_planning_response_adapters/AddTimeOptimalParameterization',
++            ],
+             'start_state_max_bounds_error':
+                 0.1,
+         }
+-- 
+2.43.0
+

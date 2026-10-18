@@ -1,0 +1,28 @@
+From e8c748cb82ff3988abaab06e9ba4828af42961f5 Mon Sep 17 00:00:00 2001
+From: Prasad Prabhu <prasadrh91@gmail.com>
+Date: Sun, 18 Oct 2026 12:30:57 +0530
+Subject: [PATCH 1/6] xsarm control.urdf.xacro: fake hardware plugin
+ mock_components/GenericSystem (fake_components was removed)
+
+On Jazzy the controller manager fails with 'the class fake_components/GenericSystem with base class type
+hardware_interface::SystemInterface does not exist'; the declared type is mock_components/GenericSystem.
+---
+ .../interbotix_xsarm_descriptions/urdf/control.urdf.xacro       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/interbotix_ros_xsarms/interbotix_xsarm_descriptions/urdf/control.urdf.xacro b/interbotix_ros_xsarms/interbotix_xsarm_descriptions/urdf/control.urdf.xacro
+index 9a936a8..3362c71 100644
+--- a/interbotix_ros_xsarms/interbotix_xsarm_descriptions/urdf/control.urdf.xacro
++++ b/interbotix_ros_xsarms/interbotix_xsarm_descriptions/urdf/control.urdf.xacro
+@@ -16,7 +16,7 @@
+ 
+       <!-- If doing basic simulation of the robot -->
+       <xacro:if value="${hardware_type == 'fake'}">
+-        <plugin>fake_components/GenericSystem</plugin>
++        <plugin>mock_components/GenericSystem</plugin>
+       </xacro:if>
+ 
+       <!-- If simulating the robot in Gazebo Classic -->
+-- 
+2.43.0
+

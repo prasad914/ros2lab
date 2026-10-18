@@ -1,0 +1,27 @@
+From 9eae204e8ffd06b50812b1bd650aa6fbdd318715 Mon Sep 17 00:00:00 2001
+From: Prasad Prabhu <prasadrh91@gmail.com>
+Date: Sun, 18 Oct 2026 12:25:04 +0530
+Subject: [PATCH 1/3] interbotix_xs_ros_control: drop the
+ hardware_interface/visibility_control.h include
+
+The header is not in ROS 2 Jazzy's hardware_interface 4.48 (/opt/ros/jazzy/include/hardware_interface/hardware_interface/
+has no visibility_control.h); the file uses none of its macros.
+---
+ .../include/interbotix_xs_ros_control/xs_hardware_interface.hpp  | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/interbotix_xs_toolbox/interbotix_xs_ros_control/include/interbotix_xs_ros_control/xs_hardware_interface.hpp b/interbotix_xs_toolbox/interbotix_xs_ros_control/include/interbotix_xs_ros_control/xs_hardware_interface.hpp
+index b0c11a3..bd8574d 100644
+--- a/interbotix_xs_toolbox/interbotix_xs_ros_control/include/interbotix_xs_ros_control/xs_hardware_interface.hpp
++++ b/interbotix_xs_toolbox/interbotix_xs_ros_control/include/interbotix_xs_ros_control/xs_hardware_interface.hpp
+@@ -40,7 +40,6 @@
+ #include "hardware_interface/types/hardware_interface_return_values.hpp"
+ #include "hardware_interface/types/lifecycle_state_names.hpp"
+ #include "hardware_interface/types/hardware_interface_type_values.hpp"
+-#include "hardware_interface/visibility_control.h"
+ 
+ #include "interbotix_xs_msgs/msg/joint_group_command.hpp"
+ #include "interbotix_xs_msgs/msg/joint_single_command.hpp"
+-- 
+2.43.0
+

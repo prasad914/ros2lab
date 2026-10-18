@@ -1,0 +1,81 @@
+From 0372dded95be1d3ccf44852881f22cd5e8ac2439 Mon Sep 17 00:00:00 2001
+From: Prasad Prabhu <prasadrh91@gmail.com>
+Date: Sun, 18 Oct 2026 07:50:59 +0530
+Subject: [PATCH 1/2] scout_v2.gazebo: Gazebo Harmonic DiffDrive +
+ JointStatePublisher systems instead of libgazebo_ros_diff_drive.so
+
+Gazebo Classic plugins do not load in Gazebo Harmonic (ROS 2 Jazzy). Wheel geometry from the xacro's track and
+wheel_radius properties: the Classic plugin's wheel_separation 0.451 / wheel_diameter 0.08 did not match the model.
+---
+ scout/scout_description/urdf/scout_v2.gazebo | 54 ++++++++------------
+ 1 file changed, 21 insertions(+), 33 deletions(-)
+
+diff --git a/scout/scout_description/urdf/scout_v2.gazebo b/scout/scout_description/urdf/scout_v2.gazebo
+index ffc1d3a..3d0f187 100644
+--- a/scout/scout_description/urdf/scout_v2.gazebo
++++ b/scout/scout_description/urdf/scout_v2.gazebo
+@@ -125,40 +125,28 @@ Reference:
+         </plugin>
+     </gazebo> -->
+ 
++  <!-- jazzy-ros2lab: Gazebo Harmonic systems instead of the Gazebo Classic libgazebo_ros_diff_drive.so plugin
++       (see parity/robots/scout/PORTING.md in the ROS2Lab repo). Wheel geometry from this robot's xacro properties
++       (track, wheel_radius); the Classic plugin's 0.451 / 0.08 m did not match the model. -->
+   <gazebo>
+-    <plugin name='diff_drive' filename='libgazebo_ros_diff_drive.so'>
+-          <ros>
+-            <namespace>/</namespace>
+-            <remapping>cmd_vel:=cmd_vel</remapping>
+-            <remapping>odom:=odom</remapping>
+-          </ros>
+-
+-          <update_rate>30</update_rate>
+-          <num_wheel_pairs>2</num_wheel_pairs>
+-
+-          <left_joint>front_left_wheel</left_joint>
+-          <right_joint>front_right_wheel</right_joint>
+-          <left_joint>rear_left_wheel</left_joint>
+-          <right_joint>rear_right_wheel</right_joint>
+-
+-
+-
+-          <wheel_separation>0.451</wheel_separation>
+-          <wheel_separation>0.451</wheel_separation>
+-
+-          <wheel_diameter>0.08</wheel_diameter>
+-          <wheel_diameter>0.08</wheel_diameter>
+-
+-
+-          <max_wheel_torque>1000</max_wheel_torque>
+-          <max_wheel_acceleration>1.0</max_wheel_acceleration>
+-          <publish_odom>true</publish_odom>
+-          <publish_odom_tf>true</publish_odom_tf>
+-          <publish_wheel_tf>true</publish_wheel_tf>
+-          <odometry_frame>odom</odometry_frame>
+-          <robot_base_frame>base_link</robot_base_frame>
+-      </plugin>
+-    </gazebo> 
++    <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
++      <left_joint>front_left_wheel</left_joint>
++      <left_joint>rear_left_wheel</left_joint>
++      <right_joint>front_right_wheel</right_joint>
++      <right_joint>rear_right_wheel</right_joint>
++      <wheel_separation>${track}</wheel_separation>
++      <wheel_radius>${wheel_radius}</wheel_radius>
++      <odom_publish_frequency>30</odom_publish_frequency>
++      <topic>cmd_vel</topic>
++      <odom_topic>odom</odom_topic>
++      <tf_topic>tf</tf_topic>
++      <frame_id>odom</frame_id>
++      <child_frame_id>base_link</child_frame_id>
++    </plugin>
++    <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
++      <topic>joint_states</topic>
++    </plugin>
++  </gazebo> 
+ 
+     
+ </robot>
+-- 
+2.43.0
+

@@ -1,0 +1,33 @@
+From 9230216f3975ff1b20b7b71083f1b1686b37c468 Mon Sep 17 00:00:00 2001
+From: Prasad Prabhu <prasadrh91@gmail.com>
+Date: Sun, 18 Oct 2026 12:25:43 +0530
+Subject: [PATCH 2/3] interbotix_xs_ros_control: remove get_name() override
+
+Jazzy hardware_interface 4.48 declares a non-virtual 'const std::string & get_name() const' that returns info_.name
+(hardware_component_interface.hpp:318), so 'std::string get_name() const final' no longer compiles; the base class
+returns the same value.
+---
+ .../interbotix_xs_ros_control/xs_hardware_interface.hpp    | 7 -------
+ 1 file changed, 7 deletions(-)
+
+diff --git a/interbotix_xs_toolbox/interbotix_xs_ros_control/include/interbotix_xs_ros_control/xs_hardware_interface.hpp b/interbotix_xs_toolbox/interbotix_xs_ros_control/include/interbotix_xs_ros_control/xs_hardware_interface.hpp
+index bd8574d..52aa99f 100644
+--- a/interbotix_xs_toolbox/interbotix_xs_ros_control/include/interbotix_xs_ros_control/xs_hardware_interface.hpp
++++ b/interbotix_xs_toolbox/interbotix_xs_ros_control/include/interbotix_xs_ros_control/xs_hardware_interface.hpp
+@@ -82,13 +82,6 @@ public:
+   /// @brief Write data, publishes to the /commands/ topics
+   return_type write(const rclcpp::Time &, const rclcpp::Duration &) override;
+ 
+-  /// @brief Returns the name of this hardware interface
+-  /// @return The name of this hardware interface
+-  std::string get_name() const final
+-  {
+-    return info_.name;
+-  }
+-
+   /// @brief ROS Subscriber callback that stores joint_states
+   /// @param msg The JointState message from the joint_states topic
+   void joint_state_cb(const sensor_msgs::msg::JointState & msg);
+-- 
+2.43.0
+

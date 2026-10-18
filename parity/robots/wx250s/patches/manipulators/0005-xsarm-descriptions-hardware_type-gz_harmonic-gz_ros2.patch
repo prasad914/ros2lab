@@ -1,0 +1,90 @@
+From 7ed1d43fd9f9592cd3551d00d7e5be7a1186fbb0 Mon Sep 17 00:00:00 2001
+From: Prasad Prabhu <prasadprabhu@nitte.edu.in>
+Date: Sun, 18 Oct 2026 13:12:08 +0530
+Subject: [PATCH 5/6] xsarm descriptions: hardware_type gz_harmonic
+ (gz_ros2_control/GazeboSimSystem + gz_ros2_control-system plugin, same joints
+ and controllers yaml as gz_classic); wx250s only
+
+---
+ .../urdf/control.urdf.xacro                   | 21 +++++++++++++++++--
+ .../urdf/wx250s.urdf.xacro                    |  4 ++--
+ 2 files changed, 21 insertions(+), 4 deletions(-)
+
+diff --git a/interbotix_ros_xsarms/interbotix_xsarm_descriptions/urdf/control.urdf.xacro b/interbotix_ros_xsarms/interbotix_xsarm_descriptions/urdf/control.urdf.xacro
+index 3362c71..9718390 100644
+--- a/interbotix_ros_xsarms/interbotix_xsarm_descriptions/urdf/control.urdf.xacro
++++ b/interbotix_ros_xsarms/interbotix_xsarm_descriptions/urdf/control.urdf.xacro
+@@ -24,6 +24,11 @@
+         <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+       </xacro:if>
+ 
++      <!-- If simulating the robot in Gazebo Harmonic (ROS2Lab port) -->
++      <xacro:if value="${hardware_type == 'gz_harmonic'}">
++        <plugin>gz_ros2_control/GazeboSimSystem</plugin>
++      </xacro:if>
++
+     </hardware>
+ 
+     <joint name="waist">
+@@ -79,7 +84,7 @@
+     </xacro:if>
+ 
+     <xacro:if value="$(arg use_gripper)">
+-      <xacro:if value="${hardware_type in ('fake', 'gz_classic')}">
++      <xacro:if value="${hardware_type in ('fake', 'gz_classic', 'gz_harmonic')}">
+         <joint name="gripper">
+           <command_interface name="position"/>
+           <state_interface name="position"/>
+@@ -95,7 +100,7 @@
+           <state_interface name="position"/>
+         </joint>
+ 
+-        <xacro:if value="${hardware_type == 'gz_classic'}">
++        <xacro:if value="${hardware_type in ('gz_classic', 'gz_harmonic')}">
+           <joint name="right_finger">
+             <!-- <param name="mimic">left_finger</param>
+             <param name="multiplier">1</param> -->
+@@ -111,6 +116,18 @@
+ 
+   </ros2_control>
+ 
++  <!-- Load the gz_ros2_control plugin if using Gazebo Harmonic (ROS2Lab port) -->
++  <xacro:if value="${hardware_type == 'gz_harmonic'}">
++    <gazebo>
++      <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
++        <ros>
++          <namespace>/$(arg robot_name)</namespace>
++        </ros>
++        <parameters>$(find interbotix_xsarm_sim)/config/trajectory_controllers/${robot_model}_trajectory_controllers.yaml</parameters>
++      </plugin>
++    </gazebo>
++  </xacro:if>
++
+   <!-- Load the gazebo_ros2_control plugin if using Gazebo hardware -->
+   <xacro:if value="${hardware_type == 'gz_classic'}">
+     <gazebo>
+diff --git a/interbotix_ros_xsarms/interbotix_xsarm_descriptions/urdf/wx250s.urdf.xacro b/interbotix_ros_xsarms/interbotix_xsarm_descriptions/urdf/wx250s.urdf.xacro
+index 5e6272e..07168ea 100644
+--- a/interbotix_ros_xsarms/interbotix_xsarm_descriptions/urdf/wx250s.urdf.xacro
++++ b/interbotix_ros_xsarms/interbotix_xsarm_descriptions/urdf/wx250s.urdf.xacro
+@@ -688,7 +688,7 @@
+           <dynamics
+             friction="0.1"
+             damping="0.1"/>
+-          <xacro:if value="${hardware_type != 'gz_classic'}">
++          <xacro:if value="${hardware_type not in ('gz_classic', 'gz_harmonic')}">
+             <mimic
+               joint="left_finger"
+               multiplier="-1"
+@@ -766,7 +766,7 @@
+   <xacro:include filename="$(find interbotix_xsarm_descriptions)/urdf/control.urdf.xacro"/>
+   <xacro:include filename="$(find interbotix_xsarm_descriptions)/urdf/gazebo_configs.urdf.xacro"/>
+ 
+-  <xacro:if value="${hardware_type == 'gz_classic'}">
++  <xacro:if value="${hardware_type in ('gz_classic', 'gz_harmonic')}">
+     <xacro:gazebo_configs/>
+   </xacro:if>
+ 
+-- 
+2.43.0
+

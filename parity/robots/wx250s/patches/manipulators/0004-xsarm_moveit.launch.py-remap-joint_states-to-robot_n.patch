@@ -1,0 +1,30 @@
+From e5087dab5928cc016fdb9bd36413644da4ef5518 Mon Sep 17 00:00:00 2001
+From: Prasad Prabhu <prasadprabhu@nitte.edu.in>
+Date: Sun, 18 Oct 2026 13:00:48 +0530
+Subject: [PATCH 4/6] xsarm_moveit.launch.py: remap /joint_states to
+ /<robot_name>/joint_states for move_group
+ (planning_scene_monitor_options.joint_state_topic left move_group without a
+ robot state on Jazzy)
+
+---
+ .../interbotix_xsarm_moveit/launch/xsarm_moveit.launch.py     | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/interbotix_ros_xsarms/interbotix_xsarm_moveit/launch/xsarm_moveit.launch.py b/interbotix_ros_xsarms/interbotix_xsarm_moveit/launch/xsarm_moveit.launch.py
+index 59ed99e..55afade 100644
+--- a/interbotix_ros_xsarms/interbotix_xsarm_moveit/launch/xsarm_moveit.launch.py
++++ b/interbotix_ros_xsarms/interbotix_xsarm_moveit/launch/xsarm_moveit.launch.py
+@@ -185,6 +185,10 @@ def launch_setup(context, *args, **kwargs):
+             '/gripper_controller/follow_joint_trajectory',
+             f'/{robot_name_launch_arg.perform(context)}/gripper_controller/follow_joint_trajectory'
+         ),
++        (
++            '/joint_states',
++            f'/{robot_name_launch_arg.perform(context)}/joint_states'
++        ),
+     ]
+ 
+     move_group_node = Node(
+-- 
+2.43.0
+

@@ -1,0 +1,76 @@
+From d5068ecc5c26d15997458d1e908516ee406f1694 Mon Sep 17 00:00:00 2001
+From: Prasad Prabhu <prasadrh91@gmail.com>
+Date: Sun, 18 Oct 2026 07:50:59 +0530
+Subject: [PATCH 2/2] scout_gazebo_sim: scout_v2_gz.launch.py for Gazebo
+ Harmonic (ros_gz_sim, create, ros_gz_bridge)
+
+The existing launch files use gazebo_ros (Gazebo Classic), not available on Jazzy. /cmd_vel is bridged as
+geometry_msgs/msg/TwistStamped (Jazzy convention).
+---
+ .../launch/scout_v2_gz.launch.py              | 37 +++++++++++++++++++
+ scout/scout_gazebo_sim/package.xml            |  5 +++
+ 2 files changed, 42 insertions(+)
+ create mode 100644 scout/scout_gazebo_sim/launch/scout_v2_gz.launch.py
+
+diff --git a/scout/scout_gazebo_sim/launch/scout_v2_gz.launch.py b/scout/scout_gazebo_sim/launch/scout_v2_gz.launch.py
+new file mode 100644
+index 0000000..a0f76b3
+--- /dev/null
++++ b/scout/scout_gazebo_sim/launch/scout_v2_gz.launch.py
+@@ -0,0 +1,37 @@
++# jazzy-ros2lab: Scout V2 in Gazebo Harmonic (port of scout_v2_empty_world.launch.py, which used Gazebo Classic
++# gazebo_ros). Server only by default (gui:=true for the GUI), robot_state_publisher from scout_v2.xacro, spawned with
++# ros_gz_sim create, ros_gz_bridge for /clock, /cmd_vel (geometry_msgs/msg/TwistStamped), /odom, /tf, /joint_states.
++import os
++
++from ament_index_python.packages import get_package_share_directory
++from launch import LaunchDescription
++from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
++from launch.launch_description_sources import PythonLaunchDescriptionSource
++from launch.substitutions import Command, LaunchConfiguration, PythonExpression
++from launch_ros.actions import Node
++from launch_ros.parameter_descriptions import ParameterValue
++
++
++def generate_launch_description():
++    desc = get_package_share_directory('scout_description')
++    gz = get_package_share_directory('ros_gz_sim')
++    xacro_file = os.path.join(desc, 'urdf', 'scout_v2.xacro')
++    gui = LaunchConfiguration('gui')
++    robot_description = ParameterValue(Command(['xacro ', xacro_file]), value_type=str)
++    return LaunchDescription([
++        DeclareLaunchArgument('gui', default_value='false', description='Start the Gazebo GUI client'),
++        IncludeLaunchDescription(
++            PythonLaunchDescriptionSource(os.path.join(gz, 'launch', 'gz_sim.launch.py')),
++            launch_arguments={'gz_args': PythonExpression(["'-r empty.sdf' if '", gui, "' == 'true' else '-r -s empty.sdf'"])}.items()),
++        Node(package='robot_state_publisher', executable='robot_state_publisher', output='screen',
++             parameters=[{'robot_description': robot_description, 'use_sim_time': True}]),
++        Node(package='ros_gz_sim', executable='create', output='screen',
++             arguments=['-topic', 'robot_description', '-name', 'scout_v2', '-z', '0.3']),
++        Node(package='ros_gz_bridge', executable='parameter_bridge', output='screen',
++             parameters=[{'use_sim_time': True}],
++             arguments=['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
++                        '/cmd_vel@geometry_msgs/msg/TwistStamped]gz.msgs.Twist',
++                        '/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry',
++                        '/tf@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V',
++                        '/joint_states@sensor_msgs/msg/JointState[gz.msgs.Model']),
++    ])
+diff --git a/scout/scout_gazebo_sim/package.xml b/scout/scout_gazebo_sim/package.xml
+index 4f9c2b5..e353a88 100644
+--- a/scout/scout_gazebo_sim/package.xml
++++ b/scout/scout_gazebo_sim/package.xml
+@@ -16,6 +16,11 @@
+   <exec_depend>rviz2</exec_depend>
+   <exec_depend>xacro</exec_depend>
+   
++  <!-- jazzy-ros2lab: Gazebo Harmonic launch (scout_v2_gz.launch.py) -->
++  <exec_depend>ros_gz_sim</exec_depend>
++  <exec_depend>ros_gz_bridge</exec_depend>
++  <exec_depend>robot_state_publisher</exec_depend>
++  <exec_depend>scout_description</exec_depend>
+   <test_depend>ament_lint_auto</test_depend>
+   <test_depend>ament_lint_common</test_depend>
+ 
+-- 
+2.43.0
+
