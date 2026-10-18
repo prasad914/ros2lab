@@ -3,6 +3,7 @@
   "note": "named state from the SRDF, plan + execute",
   "group": "interbotix_arm",
   "plan_only": false,
+  "num_planning_attempts": 1,
   "velocity_scaling": 0.5,
   "goal_joints": {
     "elbow": 0.0,
@@ -23,7 +24,7 @@
     "wrist_angle": 0.0,
     "wrist_rotate": 0.0
   },
-  "send_wall": 1792309146.6318262,
+  "send_wall": 1792346495.044985,
   "accepted": true,
   "status": 4,
   "error_code": 1,
@@ -42,7 +43,7 @@
     "points": 1,
     "last_time_from_start": 0.0
   },
-  "result_wall": 1792309147.1481295,
+  "result_wall": 1792346495.652427,
   "joint_states_after": {
     "elbow": 0.0,
     "forearm_roll": 0.0,

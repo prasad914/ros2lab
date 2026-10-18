@@ -3,27 +3,28 @@
   "note": "arm_controller deactivated with switch_controller (ok=True)",
   "group": "interbotix_arm",
   "plan_only": false,
+  "num_planning_attempts": 1,
   "velocity_scaling": 0.5,
   "goal_joints": {
-    "waist": 0.19904500945424664,
-    "shoulder": -3.289724700152822e-07,
-    "elbow": 4.470453225076192e-05,
-    "forearm_roll": 0.0002767082112841309,
-    "wrist_angle": 0.00030432853288948534,
-    "wrist_rotate": -0.0006458300119265915
+    "waist": 0.20094430252257736,
+    "shoulder": 6.949900789186359e-05,
+    "elbow": 0.0005322310840710997,
+    "forearm_roll": 0.0004411190217360854,
+    "wrist_angle": 0.00028315092390403143,
+    "wrist_rotate": 0.00034707525093108415
   },
   "goal_pose": null,
   "joint_states_before": {
-    "elbow": 4.470453225076192e-05,
-    "forearm_roll": 0.0002767082112841309,
+    "elbow": 0.0005322310840710997,
+    "forearm_roll": 0.0004411190217360854,
     "gripper": 0.0,
     "left_finger": 0.0,
-    "shoulder": -3.289724700152822e-07,
-    "waist": -0.0009549905457533896,
-    "wrist_angle": 0.00030432853288948534,
-    "wrist_rotate": -0.0006458300119265915
+    "shoulder": 6.949900789186359e-05,
+    "waist": 0.0009443025225773455,
+    "wrist_angle": 0.00028315092390403143,
+    "wrist_rotate": 0.00034707525093108415
   },
-  "send_wall": 1792309180.2434695,
+  "send_wall": 1792346531.6392624,
   "accepted": true,
   "status": 6,
   "error_code": -4,
@@ -40,17 +41,17 @@
       "wrist_rotate"
     ],
     "points": 7,
-    "last_time_from_start": 0.5658151800000001
+    "last_time_from_start": 0.567095988
   },
-  "result_wall": 1792309180.4610884,
+  "result_wall": 1792346531.852704,
   "joint_states_after": {
-    "elbow": 4.470453225076192e-05,
-    "forearm_roll": 0.0002767082112841309,
+    "elbow": 0.0005322310840710997,
+    "forearm_roll": 0.0004411190217360854,
     "gripper": 0.0,
     "left_finger": 0.0,
-    "shoulder": -3.289724700152822e-07,
-    "waist": -0.0009549905457533896,
-    "wrist_angle": 0.00030432853288948534,
-    "wrist_rotate": -0.0006458300119265915
+    "shoulder": 6.949900789186359e-05,
+    "waist": 0.0009443025225773455,
+    "wrist_angle": 0.00028315092390403143,
+    "wrist_rotate": 0.00034707525093108415
   }
 }

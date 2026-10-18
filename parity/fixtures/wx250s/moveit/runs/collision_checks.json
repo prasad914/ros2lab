@@ -1,0 +1,40 @@
+{
+  "box_size_m": 0.08,
+  "start_without_box": {
+    "valid": true,
+    "contacts": []
+  },
+  "tries": [
+    {
+      "joint": "waist",
+      "offset_rad": 0.4,
+      "box_frame": "world",
+      "box_center": [
+        0.4219739947623067,
+        0.17835048765328096,
+        0.3609182787182385
+      ],
+      "added": true,
+      "start_with_box": {
+        "valid": true,
+        "contacts": []
+      },
+      "goal_with_box": {
+        "valid": false,
+        "contacts": [
+          "wx250s/gripper_bar_link - parity_box",
+          "wx250s/left_finger_link - parity_box",
+          "wx250s/right_finger_link - parity_box"
+        ]
+      }
+    }
+  ],
+  "used": {
+    "joint": "waist",
+    "offset_rad": 0.4
+  },
+  "removed": {
+    "world_objects_after_remove": [],
+    "box_gone": true
+  }
+}

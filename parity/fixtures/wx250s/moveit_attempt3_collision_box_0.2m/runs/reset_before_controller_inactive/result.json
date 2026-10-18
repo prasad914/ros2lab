@@ -1,0 +1,56 @@
+{
+  "name": "reset_before_controller_inactive",
+  "note": "back to named state Home",
+  "group": "interbotix_arm",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "elbow": 0.0,
+    "forearm_roll": 0.0,
+    "shoulder": 0.0,
+    "waist": 0.0,
+    "wrist_angle": 0.0,
+    "wrist_rotate": 0.0
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "elbow": -0.0009067170820198954,
+    "forearm_roll": -0.0005037582339718938,
+    "gripper": 0.0,
+    "left_finger": 0.0,
+    "shoulder": -0.0001519652446731925,
+    "waist": 8.715688111260531e-05,
+    "wrist_angle": -0.0009850825378671288,
+    "wrist_rotate": -0.00010208483133465054
+  },
+  "send_wall": 1792309178.2584753,
+  "accepted": true,
+  "status": 4,
+  "error_code": 1,
+  "error_code_name": "SUCCESS",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [
+      "waist",
+      "shoulder",
+      "elbow",
+      "forearm_roll",
+      "wrist_angle",
+      "wrist_rotate"
+    ],
+    "points": 2,
+    "last_time_from_start": 0.04542104
+  },
+  "result_wall": 1792309178.8508685,
+  "joint_states_after": {
+    "elbow": 4.470453225076192e-05,
+    "forearm_roll": 0.0002767082112841309,
+    "gripper": 0.0,
+    "left_finger": 0.0,
+    "shoulder": -3.289724700152822e-07,
+    "waist": -0.0009549905457533896,
+    "wrist_angle": 0.00030432853288948534,
+    "wrist_rotate": -0.0006458300119265915
+  }
+}

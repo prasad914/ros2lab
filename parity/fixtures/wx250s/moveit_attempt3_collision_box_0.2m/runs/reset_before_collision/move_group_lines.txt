@@ -1,0 +1,26 @@
+# lines of parity/fixtures/wx250s/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792309170.208 .. 1792309175.447
+344:[move_group-1] [INFO] [1792309171.209871585] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+345:[move_group-1] [INFO] [1792309171.210975798] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+346:[move_group-1] [INFO] [1792309171.242625818] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+347:[move_group-1] [WARN] [1792309171.243009822] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+348:[move_group-1] [INFO] [1792309171.243138337] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+349:[move_group-1] [INFO] [1792309171.243665021] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+350:[move_group-1] [WARN] [1792309171.243747224] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+351:[move_group-1] [INFO] [1792309171.243824479] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+352:[move_group-1] [INFO] [1792309171.243968644] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+353:[move_group-1] [INFO] [1792309171.245520599] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'interbotix_arm' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+354:[move_group-1] [INFO] [1792309171.246026629] [move_group]: Calling Planner 'OMPL'
+355:[move_group-1] [INFO] [1792309171.262534912] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
+356:[move_group-1] [WARN] [1792309171.268238800] [move_group.moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
+357:[move_group-1] [INFO] [1792309171.268507132] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+358:[move_group-1] [INFO] [1792309171.268690233] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+359:[move_group-1] [INFO] [1792309171.268861741] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Validating trajectory with allowed_start_tolerance 0.01
+360:[move_group-1] [INFO] [1792309171.343121352] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Starting trajectory execution ...
+361:[move_group-1] [INFO] [1792309171.343595446] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+362:[move_group-1] [INFO] [1792309171.343773384] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+363:[move_group-1] [INFO] [1792309171.344168066] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: sending trajectory to /wx250s/arm_controller
+366:[move_group-1] [INFO] [1792309171.346641214] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: /wx250s/arm_controller started execution
+367:[move_group-1] [INFO] [1792309171.346709565] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Goal request accepted!
+369:[move_group-1] [INFO] [1792309173.148005100] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Controller '/wx250s/arm_controller' successfully finished
+370:[move_group-1] [INFO] [1792309173.442607703] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Completed trajectory execution with status SUCCEEDED ...
+371:[move_group-1] [INFO] [1792309173.443384706] [move_group.moveit.moveit.ros.move_group.move_action]: Solution was found and executed.

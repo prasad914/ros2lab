@@ -1,29 +1,30 @@
 # /rosout messages received between send - 1 s and result + 1 s (wall); [level] [stamp] [name]: msg
-[WARN] [1792309177.243201546] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
-[INFO] [1792309177.243483225] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
-[INFO] [1792309177.244111303] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
-[WARN] [1792309177.244218422] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
-[INFO] [1792309177.244340503] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
-[ERROR] [1792309177.244519004] [move_group.moveit.moveit.ros.check_start_state_bounds]: Joint 'left_finger' from the starting state is outside bounds by: [0 ] should be in the range [0.015 ], [0.037 ].
-[ERROR] [1792309177.244632455] [move_group.moveit.moveit.ros.check_start_state_bounds]: Joint 'right_finger' from the starting state is outside bounds by: [0 ] should be in the range [-0.037 ], [-0.015 ].
-[ERROR] [1792309177.244744057] [move_group]: PlanningRequestAdapter 'CheckStartStateBounds' failed, because 'Start state out of bounds.'. Aborting planning pipeline.
-[INFO] [1792309177.244948700] [move_group.moveit.moveit.ros.move_group.move_action]: START_STATE_INVALID
-[INFO] [1792309178.260596934] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
-[INFO] [1792309178.261424949] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
-[INFO] [1792309178.342676727] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
-[WARN] [1792309178.343036466] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
-[INFO] [1792309178.343161516] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
-[INFO] [1792309178.343646271] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
-[WARN] [1792309178.343719062] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
-[INFO] [1792309178.343806651] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
-[INFO] [1792309178.343919450] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
-[INFO] [1792309178.345000912] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'interbotix_arm' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
-[INFO] [1792309178.345595480] [move_group]: Calling Planner 'OMPL'
-[INFO] [1792309178.354255949] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
-[WARN] [1792309178.354662142] [move_group.moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
-[INFO] [1792309178.354942904] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
-[INFO] [1792309178.355092583] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
-[INFO] [1792309178.355256457] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Validating trajectory with allowed_start_tolerance 0.01
-[INFO] [1792309178.443171413] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Starting trajectory execution ...
-[INFO] [1792309178.443549465] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
-[INFO] [1792309178.443672513] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[WARN] [1792346528.638844846] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+[INFO] [1792346528.639046509] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+[INFO] [1792346528.639565656] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+[WARN] [1792346528.639638427] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+[INFO] [1792346528.639753635] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+[ERROR] [1792346528.639911456] [move_group.moveit.moveit.ros.check_start_state_bounds]: Joint 'left_finger' from the starting state is outside bounds by: [0 ] should be in the range [0.015 ], [0.037 ].
+[ERROR] [1792346528.640101659] [move_group.moveit.moveit.ros.check_start_state_bounds]: Joint 'right_finger' from the starting state is outside bounds by: [0 ] should be in the range [-0.037 ], [-0.015 ].
+[ERROR] [1792346528.640216177] [move_group]: PlanningRequestAdapter 'CheckStartStateBounds' failed, because 'Start state out of bounds.'. Aborting planning pipeline.
+[INFO] [1792346528.640392631] [move_group.moveit.moveit.ros.move_group.move_action]: START_STATE_INVALID
+[INFO] [1792346529.657501999] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+[INFO] [1792346529.658197011] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+[INFO] [1792346529.738344306] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+[WARN] [1792346529.738676154] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+[INFO] [1792346529.738749518] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+[INFO] [1792346529.739222431] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+[WARN] [1792346529.739283204] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+[INFO] [1792346529.739368455] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+[INFO] [1792346529.739459144] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+[INFO] [1792346529.740502935] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'interbotix_arm' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+[INFO] [1792346529.740838599] [move_group]: Calling Planner 'OMPL'
+[INFO] [1792346529.762597338] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
+[WARN] [1792346529.762978708] [move_group.moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
+[INFO] [1792346529.763228464] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[INFO] [1792346529.763326408] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[INFO] [1792346529.763448708] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Validating trajectory with allowed_start_tolerance 0.01
+[INFO] [1792346529.838630779] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Starting trajectory execution ...
+[INFO] [1792346529.839214982] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[INFO] [1792346529.839541990] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[INFO] [1792346530.238312718] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Completed trajectory execution with status SUCCEEDED ...

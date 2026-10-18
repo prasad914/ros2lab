@@ -3,34 +3,35 @@
   "note": "wx250s/ee_gripper_link 10 m beyond the current pose in x",
   "group": "interbotix_arm",
   "plan_only": false,
+  "num_planning_attempts": 1,
   "velocity_scaling": 0.5,
   "goal_joints": {},
   "goal_pose": {
     "frame": "world",
     "link": "wx250s/ee_gripper_link",
     "position": [
-      10.117190215559999,
-      0.0364558710647717,
-      0.03146842142524184
+      10.117227681407677,
+      0.03634231232301316,
+      0.031563890207245884
     ],
     "orientation_xyzw": [
-      -0.03995923185809045,
-      0.2683908514529592,
-      0.14431766354366563,
-      0.9515997176517889
+      -0.04047317339808843,
+      0.26813185645078585,
+      0.14409188713825488,
+      0.9516852199400178
     ]
   },
   "joint_states_before": {
-    "elbow": 1.5494618019014597,
-    "forearm_roll": 0.0012031359178945422,
+    "elbow": 1.5492596483114178,
+    "forearm_roll": 0.00011293439008295528,
     "gripper": 0.0,
     "left_finger": 0.0,
-    "shoulder": -1.7985680973022247,
-    "waist": 0.3004795789024792,
-    "wrist_angle": 0.7986937336139381,
-    "wrist_rotate": 0.00029398791026324033
+    "shoulder": -1.7988699066792617,
+    "waist": 0.3005145877087489,
+    "wrist_angle": 0.7988254103725777,
+    "wrist_rotate": 0.000148163934238255
   },
-  "send_wall": 1792309164.0272593,
+  "send_wall": 1792346512.460324,
   "accepted": true,
   "status": 6,
   "error_code": -27,
@@ -42,15 +43,15 @@
     "points": 0,
     "last_time_from_start": null
   },
-  "result_wall": 1792309169.0717971,
+  "result_wall": 1792346517.5538678,
   "joint_states_after": {
-    "elbow": 1.5494618019014597,
-    "forearm_roll": 0.0012031359178945422,
+    "elbow": 1.5492596483114178,
+    "forearm_roll": 0.00011293439008295528,
     "gripper": 0.0,
     "left_finger": 0.0,
-    "shoulder": -1.7985680973022247,
-    "waist": 0.3004795789024792,
-    "wrist_angle": 0.7986937336139381,
-    "wrist_rotate": 0.00029398791026324033
+    "shoulder": -1.7988699066792617,
+    "waist": 0.3005145877087489,
+    "wrist_angle": 0.7988254103725777,
+    "wrist_rotate": 0.000148163934238255
   }
 }

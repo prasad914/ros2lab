@@ -1,10 +1,10 @@
 robot=wx250s scenario=moveit domain=48 partition=ref48 model=n/a
-date=2026-10-18T13:00:52+05:30
+date=2026-10-18T23:23:13+05:30
 ros_distro=jazzy tb3_ws=none robots_ws=/home/prasad/robots_ws
-status_row=| **wx250s** | arm | `https://github.com/Interbotix/interbotix_ros_manipulators` jazzy 01c557d6 + `interbotix_ros_toolboxes` jazzy 27f7628e + `interbotix_ros_core` jazzy 41ca7357, build/launch fixes on jazzy-ros2lab (`parity/robots/wx250s/PORTING.md`); fake (mock) hardware, not Gazebo | yes | yes | ROS2LAB-PORT | `ros2 launch interbotix_xsarm_ros_control xsarm_ros_control.launch.py robot_model:=wx250s hardware_type:=fake use_rviz:=false` | build: `parity/robots/wx250s/build_summary.txt` (13 packages); install_check/ 2026-10-18 (domain 46): `controllers.txt` (`-c /wx250s/controller_manager`: arm_controller, gripper_controller, joint_state_broadcaster active), `topics.txt`, `motion_proof.txt` (waist 0.0 -> 0.3 rad on /wx250s/joint_states, error_code 0); Gazebo Harmonic port PENDING | |
+status_row=| **wx250s** | arm | `https://github.com/Interbotix/interbotix_ros_manipulators` jazzy 01c557d6 + `interbotix_ros_toolboxes` jazzy 27f7628e + `interbotix_ros_core` jazzy 41ca7357, ported on jazzy-ros2lab (manipulators 86951bf, toolboxes 039e288; `parity/robots/wx250s/PORTING.md`) | yes | yes | ROS2LAB-PORT | Gazebo Harmonic (port): `ros2 launch interbotix_xsarm_sim xsarm_gz_harmonic.launch.py robot_model:=wx250s use_rviz:=false`; fake hardware: `ros2 launch interbotix_xsarm_ros_control xsarm_ros_control.launch.py robot_model:=wx250s hardware_type:=fake use_rviz:=false` | build: `parity/robots/wx250s/build_summary.txt` (13 packages); install_check/ 2026-10-18 (domain 46, fake hardware): `controllers.txt` (`-c /wx250s/controller_manager`: arm_controller, gripper_controller, joint_state_broadcaster active), `topics.txt`, `motion_proof.txt` (waist 0.0 -> 0.3 rad, error_code 0); Gazebo Harmonic: `parity/fixtures/wx250s/gz/install_check/` (3 controllers active, waist -0.003343 -> 0.293883 rad, error_code 0); M1 MoveIt on fake hardware | |
 render=egl tb3_world_cmd=ros2 launch parity/scripts/launch/tb3_world_headless.launch.py
-git_commit=487cfc798bb4b1a5b0be5465585bc1af58529893
-git_uncommitted_scripts= M parity/scripts/moveit_capture.py  M parity/scripts/run_moveit_m1.sh 
+git_commit=f8000c5d42a619b58208f399f8b9418399420cc9
+git_uncommitted_scripts=
 ros-jazzy-cartographer 2.0.9004-1noble.20260225.051215
 ros-jazzy-cartographer-ros 2.0.9003-2noble.20260920.232954
 ros-jazzy-cartographer-ros-msgs 2.0.9003-2noble.20260911.110311

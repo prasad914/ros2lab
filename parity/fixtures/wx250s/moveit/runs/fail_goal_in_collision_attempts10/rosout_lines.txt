@@ -1,0 +1,32 @@
+# /rosout messages received between send - 1 s and result + 1 s (wall); [level] [stamp] [name]: msg
+[WARN] [1792346524.012841236] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Invalid goal state
+[ERROR] [1792346524.012896741] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Unable to solve the planning problem
+[ERROR] [1792346524.012993434] [move_group]: Planner 'OMPL' failed with error code GOAL_STATE_INVALID
+[INFO] [1792346524.013061043] [move_group.moveit.moveit.ros.move_group.move_action]: GOAL_STATE_INVALID
+[INFO] [1792346525.027855003] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+[INFO] [1792346525.028923308] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+[INFO] [1792346525.038222814] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+[WARN] [1792346525.038516726] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+[INFO] [1792346525.038610172] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+[INFO] [1792346525.039132052] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+[WARN] [1792346525.039205963] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+[INFO] [1792346525.039317239] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+[INFO] [1792346525.039424342] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+[INFO] [1792346525.040525727] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'interbotix_arm' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+[INFO] [1792346525.040946957] [move_group]: Calling Planner 'OMPL'
+[INFO] [1792346525.554202936] [move_group.moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'waist', actual value: 0.399210, desired value: 0.399885, tolerance_above: 0.001000, tolerance_below: 0.001000
+[INFO] [1792346525.554324148] [move_group.moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'shoulder', actual value: 0.000090, desired value: -0.000833, tolerance_above: 0.001000, tolerance_below: 0.001000
+[INFO] [1792346525.554354323] [move_group.moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'elbow', actual value: 0.000349, desired value: 0.000214, tolerance_above: 0.001000, tolerance_below: 0.001000
+[INFO] [1792346525.554377951] [move_group.moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'forearm_roll', actual value: -0.000424, desired value: -0.000571, tolerance_above: 0.001000, tolerance_below: 0.001000
+[INFO] [1792346525.554403161] [move_group.moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'wrist_angle', actual value: 0.000053, desired value: 0.000162, tolerance_above: 0.001000, tolerance_below: 0.001000
+[INFO] [1792346525.554426951] [move_group.moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'wrist_rotate', actual value: -0.000130, desired value: -0.000568, tolerance_above: 0.001000, tolerance_below: 0.001000
+[INFO] [1792346525.555494904] [move_group.moveit.moveit.core.moveit_collision_detection_fcl]: Found a contact between 'parity_box' (type 'Object') and 'wx250s/gripper_bar_link' (type 'Robot link'), which constitutes a collision. Contact information is not stored.
+[INFO] [1792346525.555549171] [move_group.moveit.moveit.core.moveit_collision_detection_fcl]: Collision checking is considered complete (collision was found and 0 contacts are stored)
+[ERROR] [1792346525.932594596] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:265 - interbotix_arm/interbotix_arm: Unable to sample any valid states for goal tree
+[ERROR] [1792346525.933837362] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:265 - interbotix_arm/interbotix_arm: Unable to sample any valid states for goal tree
+[ERROR] [1792346525.934243150] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:265 - interbotix_arm/interbotix_arm: Unable to sample any valid states for goal tree
+[ERROR] [1792346525.936457257] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:265 - interbotix_arm/interbotix_arm: Unable to sample any valid states for goal tree
+[WARN] [1792346525.936786080] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/tools/multiplan/src/ParallelPlan.cpp:138 - ParallelPlan::solve(): Unable to find solution by any of the threads in 0.895418 seconds
+[ERROR] [1792346525.937303782] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:225 - interbotix_arm/interbotix_arm: Insufficient states in sampleable goal region
+[ERROR] [1792346525.937636150] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:225 - interbotix_arm/interbotix_arm: Insufficient states in sampleable goal region
+[ERROR] [1792346525.937804318] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:225 - interbotix_arm/interbotix_arm: Insufficient states in sampleable goal region

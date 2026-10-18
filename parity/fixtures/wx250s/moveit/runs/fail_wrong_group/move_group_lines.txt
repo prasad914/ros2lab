@@ -1,13 +1,13 @@
-# lines of parity/fixtures/wx250s/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792309176.159 .. 1792309179.249
-424:[move_group-1] [INFO] [1792309177.160966103] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
-425:[move_group-1] [INFO] [1792309177.161637524] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
-426:[move_group-1] [INFO] [1792309177.242786836] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
-427:[move_group-1] [WARN] [1792309177.243201546] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
-428:[move_group-1] [INFO] [1792309177.243483225] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
-429:[move_group-1] [INFO] [1792309177.244111303] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
-430:[move_group-1] [WARN] [1792309177.244218422] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
-431:[move_group-1] [INFO] [1792309177.244340503] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
-432:[move_group-1] [ERROR] [1792309177.244519004] [move_group.moveit.moveit.ros.check_start_state_bounds]: Joint 'left_finger' from the starting state is outside bounds by: [0 ] should be in the range [0.015 ], [0.037 ].
-433:[move_group-1] [ERROR] [1792309177.244632455] [move_group.moveit.moveit.ros.check_start_state_bounds]: Joint 'right_finger' from the starting state is outside bounds by: [0 ] should be in the range [-0.037 ], [-0.015 ].
-434:[move_group-1] [ERROR] [1792309177.244744057] [move_group]: PlanningRequestAdapter 'CheckStartStateBounds' failed, because 'Start state out of bounds.'. Aborting planning pipeline.
-435:[move_group-1] [INFO] [1792309177.244948700] [move_group.moveit.moveit.ros.move_group.move_action]: START_STATE_INVALID
+# lines of parity/fixtures/wx250s/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792346527.555 .. 1792346530.645
+461:[move_group-1] [INFO] [1792346528.556734529] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+462:[move_group-1] [INFO] [1792346528.557892699] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+463:[move_group-1] [INFO] [1792346528.638495299] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+464:[move_group-1] [WARN] [1792346528.638844846] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+465:[move_group-1] [INFO] [1792346528.639046509] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+466:[move_group-1] [INFO] [1792346528.639565656] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+467:[move_group-1] [WARN] [1792346528.639638427] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+468:[move_group-1] [INFO] [1792346528.639753635] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+469:[move_group-1] [ERROR] [1792346528.639911456] [move_group.moveit.moveit.ros.check_start_state_bounds]: Joint 'left_finger' from the starting state is outside bounds by: [0 ] should be in the range [0.015 ], [0.037 ].
+470:[move_group-1] [ERROR] [1792346528.640101659] [move_group.moveit.moveit.ros.check_start_state_bounds]: Joint 'right_finger' from the starting state is outside bounds by: [0 ] should be in the range [-0.037 ], [-0.015 ].
+471:[move_group-1] [ERROR] [1792346528.640216177] [move_group]: PlanningRequestAdapter 'CheckStartStateBounds' failed, because 'Start state out of bounds.'. Aborting planning pipeline.
+472:[move_group-1] [INFO] [1792346528.640392631] [move_group.moveit.moveit.ros.move_group.move_action]: START_STATE_INVALID

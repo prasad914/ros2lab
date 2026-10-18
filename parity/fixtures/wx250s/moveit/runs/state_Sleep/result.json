@@ -3,6 +3,7 @@
   "note": "named state from the SRDF, plan + execute",
   "group": "interbotix_arm",
   "plan_only": false,
+  "num_planning_attempts": 1,
   "velocity_scaling": 0.5,
   "goal_joints": {
     "elbow": 1.55,
@@ -14,16 +15,16 @@
   },
   "goal_pose": null,
   "joint_states_before": {
-    "elbow": -1.5708775175448506,
-    "forearm_roll": -0.0009429203071631492,
+    "elbow": -1.5707742324305698,
+    "forearm_roll": -0.000626702532172203,
     "gripper": 0.0,
     "left_finger": 0.0,
-    "shoulder": 0.0002893229252658785,
-    "waist": -0.0009030991564504803,
-    "wrist_angle": -6.832425016909923e-06,
-    "wrist_rotate": 0.0005388461747206747
+    "shoulder": -2.205399097874759e-05,
+    "waist": -0.0003803055295720696,
+    "wrist_angle": 0.00028008172009140247,
+    "wrist_rotate": -0.00039586210530251267
   },
-  "send_wall": 1792309151.3723087,
+  "send_wall": 1792346499.852492,
   "accepted": true,
   "status": 4,
   "error_code": 1,
@@ -40,17 +41,17 @@
       "wrist_rotate"
     ],
     "points": 28,
-    "last_time_from_start": 2.61608474
+    "last_time_from_start": 2.615698753
   },
-  "result_wall": 1792309154.5576324,
+  "result_wall": 1792346503.043933,
   "joint_states_after": {
-    "elbow": 1.5504151532724497,
-    "forearm_roll": 0.0008524212115444242,
+    "elbow": 1.5499123836094515,
+    "forearm_roll": 0.0006136252232827246,
     "gripper": 0.0,
     "left_finger": 0.0,
-    "shoulder": -1.7995624310397544,
-    "waist": -1.4732650015503194e-05,
-    "wrist_angle": 0.7995767464283854,
-    "wrist_rotate": 0.0004101759153418243
+    "shoulder": -1.7995986268068664,
+    "waist": 0.0006605678009800613,
+    "wrist_angle": 0.7994745391411707,
+    "wrist_rotate": 0.0006646208586171269
   }
 }

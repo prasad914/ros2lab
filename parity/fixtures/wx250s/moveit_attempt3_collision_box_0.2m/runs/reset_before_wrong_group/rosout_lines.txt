@@ -1,0 +1,24 @@
+# /rosout messages received between send - 1 s and result + 1 s (wall); [level] [stamp] [name]: msg
+[WARN] [1792309174.602247253] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Invalid goal state
+[ERROR] [1792309174.602490078] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Unable to solve the planning problem
+[ERROR] [1792309174.602822556] [move_group]: Planner 'OMPL' failed with error code GOAL_STATE_INVALID
+[INFO] [1792309174.603133093] [move_group.moveit.moveit.ros.move_group.move_action]: GOAL_STATE_INVALID
+[INFO] [1792309175.629181348] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+[INFO] [1792309175.630298354] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+[INFO] [1792309175.642835526] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+[WARN] [1792309175.643266511] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+[INFO] [1792309175.643342501] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+[INFO] [1792309175.643816497] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+[WARN] [1792309175.643876466] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+[INFO] [1792309175.643947014] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+[INFO] [1792309175.644044210] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+[INFO] [1792309175.645095130] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'interbotix_arm' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+[INFO] [1792309175.645503923] [move_group]: Calling Planner 'OMPL'
+[INFO] [1792309175.653923881] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
+[WARN] [1792309175.654239237] [move_group.moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
+[INFO] [1792309175.654426349] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[INFO] [1792309175.654525254] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[INFO] [1792309175.654659583] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Validating trajectory with allowed_start_tolerance 0.01
+[INFO] [1792309175.742992339] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Starting trajectory execution ...
+[INFO] [1792309175.743492163] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[INFO] [1792309175.743645790] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list

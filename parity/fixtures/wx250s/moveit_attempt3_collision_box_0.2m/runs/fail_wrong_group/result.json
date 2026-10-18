@@ -1,0 +1,49 @@
+{
+  "name": "fail_wrong_group",
+  "note": "group name that the SRDF does not have",
+  "group": "parity_no_such_group",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "waist": 8.715688111260531e-05,
+    "shoulder": -0.0001519652446731925,
+    "elbow": -0.0009067170820198954,
+    "forearm_roll": -0.0005037582339718938,
+    "wrist_angle": -0.0009850825378671288,
+    "wrist_rotate": -0.00010208483133465054
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "elbow": -0.0009067170820198954,
+    "forearm_roll": -0.0005037582339718938,
+    "gripper": 0.0,
+    "left_finger": 0.0,
+    "shoulder": -0.0001519652446731925,
+    "waist": 8.715688111260531e-05,
+    "wrist_angle": -0.0009850825378671288,
+    "wrist_rotate": -0.00010208483133465054
+  },
+  "send_wall": 1792309177.1586492,
+  "accepted": true,
+  "status": 6,
+  "error_code": -26,
+  "error_code_name": "START_STATE_INVALID",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [],
+    "points": 0,
+    "last_time_from_start": null
+  },
+  "result_wall": 1792309177.248943,
+  "joint_states_after": {
+    "elbow": -0.0009067170820198954,
+    "forearm_roll": -0.0005037582339718938,
+    "gripper": 0.0,
+    "left_finger": 0.0,
+    "shoulder": -0.0001519652446731925,
+    "waist": 8.715688111260531e-05,
+    "wrist_angle": -0.0009850825378671288,
+    "wrist_rotate": -0.00010208483133465054
+  }
+}
