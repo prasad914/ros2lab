@@ -64,3 +64,30 @@ test("tb3_burger nav2_bringup tb3_simulation_launch.py: honest note, no fake fai
   expect(s).toContain("not simulated on ROS2Lab yet");
   expect(s).not.toMatch(/Aborting bringup|Failed to activate/);
 });
+
+// must-fix 7: what each teleop publishes on /cmd_vel (sensors/teleop/topic_info_cmd_vel_*_runner.txt)
+function cmdVelInfo(t: string) {
+  const type = (t.match(/^Type: (.*)$/m) || [])[1] || "";
+  const pubs: string[] = [];
+  for (const b of t.split(/\n(?=Node name: )/)) {
+    const n = (b.match(/^Node name: (\S+)/m) || [])[1], ty = (b.match(/^Topic type: (\S+)/m) || [])[1], k = (b.match(/^Endpoint type: (\S+)/m) || [])[1];
+    if (n && k === "PUBLISHER") pubs.push(`${n} ${ty}`);
+  }
+  return { type, pubs: pubs.sort() };
+}
+test("tb3_burger teleop: /cmd_vel types of teleop_twist_keyboard and turtlebot3_teleop", async ({ page }) => {
+  const rec = new Recorder("tb3_burger", "mistakes_teleop");
+  try {
+    // one fresh page per teleop (the terminal API cannot stop one background terminal)
+    for (const [name, cmd] of [["teleop_twist_keyboard", "ros2 run teleop_twist_keyboard teleop_twist_keyboard"], ["teleop_keyboard", "ros2 run turtlebot3_teleop teleop_keyboard"],
+      ["teleop_twist_keyboard_stamped", "ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -p stamped:=true"]]) {
+      const fx = path.join(B, "sensors", "teleop", `topic_info_cmd_vel_${name}_runner.txt`), want = cmdVelInfo(text(fx).split("\n").map((l) => l.replace(/^\d+:/, "")).join("\n"));
+      expect(await openWorld(page, "tb3_burger")).toBe(true);
+      await prepTerm(page, "tb3_burger"); await run(page, cmd); await page.waitForTimeout(4000);
+      await prepTerm(page, "tb3_burger"); await run(page, "ros2 topic info /cmd_vel -v"); await page.waitForTimeout(3000);
+      const got = cmdVelInfo((await screens(page)).split("=====").pop()!.split("ros2 topic info /cmd_vel -v").pop()!);
+      rec.exact(`${name}: Type line`, want.type, got.type, fx);
+      rec.exact(`${name}: publishers`, want.pubs, got.pubs, fx);
+    }
+  } finally { rec.save(); }
+});

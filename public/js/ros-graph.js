@@ -210,7 +210,7 @@ export class RosGraph {
   collect(kinds) {
     this.syncTfListeners();
     const m = new Map();
-    for (const n of this.nodes) { if (this.unseen(n)) continue; const e = this.endpoints(n); for (const k of kinds) for (const [name, type, q] of e[k]) { if (!m.has(name)) m.set(name, { type, by: { pubs: [], subs: [], srvs: [], cli: [], acts: [], actc: [] }, qos: {} }); else if (k === "acts") m.get(name).type = type; m.get(name).by[k].push(n.full); if (q) m.get(name).qos[`${k}|${n.full}`] = q; } }
+    for (const n of this.nodes) { if (this.unseen(n)) continue; const e = this.endpoints(n); for (const k of kinds) for (const [name, type, q] of e[k]) { if (!m.has(name)) m.set(name, { type, by: { pubs: [], subs: [], srvs: [], cli: [], acts: [], actc: [] }, qos: {}, etype: {} }); else if (k === "acts") m.get(name).type = type; m.get(name).by[k].push(n.full); m.get(name).etype[`${k}|${n.full}`] = type; if (q) m.get(name).qos[`${k}|${n.full}`] = q; } }
     return new Map([...m.entries()].sort((a, b) => a[0].localeCompare(b[0])));
   }
   topics() { const t = this.collect(["pubs", "subs"]); if (this.lastPub && !t.has(this.lastPub.topic)) t.set(this.lastPub.topic, { type: this.lastPub.type, by: { pubs: [], subs: [] } }); return t; }
@@ -318,18 +318,23 @@ export class RosGraph {
     const t = T.get(name);
     if (!t) return [this.out(`WARNING: topic [${name}] does not appear to be published yet`), this.hint(`Nobody uses ${name}. Check the spelling (names are case-sensitive) with: ros2 topic list`)];
     if (a === "type") return [this.out(t.type)];
+    // each endpoint has its own type: a Twist publisher and a TwistStamped subscriber on one name are listed as
+    // Type: ['geometry_msgs/msg/Twist', 'geometry_msgs/msg/TwistStamped'] (sensors/teleop/topic_info_cmd_vel_*)
+    const etype = (k, w) => (t.etype && t.etype[`${k}|${w}`]) || t.type;
+    const types = [...new Set([...t.by.pubs.map((w) => etype("pubs", w)), ...t.by.subs.map((w) => etype("subs", w))])].sort();
+    const typeLine = `Type: ${types.length > 1 ? `[${types.map((x) => `'${x}'`).join(", ")}]` : t.type}`;
     if (a === "info" && (flags.includes("-v") || flags.includes("--verbose"))) {
-      const L = [`Type: ${t.type}`, "", `Publisher count: ${t.by.pubs.length}`, ""];
+      const L = [typeLine, "", `Publisher count: ${t.by.pubs.length}`, ""];
       const ep = (who, kind) => { const nm = who.split("/").pop(), ns = who.slice(0, who.length - nm.length - 1) || "/";
         const [rel, dur] = ((t.qos || {})[`${kind === "PUBLISHER" ? "pubs" : "subs"}|${who}`] || "RELIABLE/VOLATILE").split("/");
-        L.push(`Node name: ${nm}`, `Node namespace: ${ns}`, `Topic type: ${t.type}`, "Topic type hash: RIHS01_…", `Endpoint type: ${kind}`, `GID: ${hex().match(/../g).slice(0, 16).join(".")}`,
+        L.push(`Node name: ${nm}`, `Node namespace: ${ns}`, `Topic type: ${etype(kind === "PUBLISHER" ? "pubs" : "subs", who)}`, "Topic type hash: RIHS01_…", `Endpoint type: ${kind}`, `GID: ${hex().match(/../g).slice(0, 16).join(".")}`,
           "QoS profile:", `  Reliability: ${rel}`, "  History (Depth): UNKNOWN", `  Durability: ${dur}`, "  Lifespan: Infinite", "  Deadline: Infinite", "  Liveliness: AUTOMATIC", "  Liveliness lease duration: Infinite", ""); };
       t.by.pubs.forEach((w) => ep(w, "PUBLISHER"));
       L.push(`Subscription count: ${t.by.subs.length}`, "");
       t.by.subs.forEach((w) => ep(w, "SUBSCRIPTION"));
       return L.map((x) => this.out(x));
     }
-    if (a === "info") return [this.out(`Type: ${t.type}`), this.out(`Publisher count: ${t.by.pubs.length}`), this.out(`Subscription count: ${t.by.subs.length}`)];
+    if (a === "info") return [this.out(typeLine), this.out(`Publisher count: ${t.by.pubs.length}`), this.out(`Subscription count: ${t.by.subs.length}`)];
     if (a === "hz") {
       if (!t.by.pubs.length) return [this.out(`WARNING: topic [${name}] does not appear to be published yet`)];
       const paused = this.gzRunning() && this.gz.paused;
