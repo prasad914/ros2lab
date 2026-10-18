@@ -610,7 +610,7 @@ gallery().then(async (list) => {
   document.title = `${g.title} | Robotic Models Simulator | ROS2Lab`;
   $("bench-title").textContent = g.title; $("crumb-robot").textContent = g.title;
   robotCard(g);
-  const about = $("pkg-about"); about.replaceChildren(document.createTextNode(g.about + " "));
+  const about = $("pkg-about"); about.replaceChildren(document.createTextNode((g.about || "") + " "));
   if (g.source) { const a = document.createElement("a"); a.href = g.source.url; a.target = "_blank"; a.rel = "noopener"; a.textContent = `Source: ${g.source.url.replace(/^https:\/\/github.com\//, "")} (${g.source.license})`; about.append(a); }
   // an official ROS 2 Jazzy workspace from the maker's GitHub repositories, when there is one
   try {
@@ -632,7 +632,7 @@ async function openRealWorkspace(g, W) {
   document.querySelector(".rvp-intro").hidden = true;
   const lead = document.querySelector("#bench > .lead");
   if (lead) lead.textContent = `This page has the maker's own ROS 2 Jazzy workspace for ${g.title}, cloned from GitHub at pinned commits. Build it with colcon, source it, and start it with the same ros2 launch commands as on Ubuntu: the real launch files run, and Gazebo, RViz2, ros2_control, Nav2 and MoveIt 2 are ROS2Lab's models of those programs.`;
-  $("pkg-about").textContent = `${g.about.replace(/\s*sim(_control)?\.launch\.py[^.]*\./g, "").trim()} `;
+  $("pkg-about").textContent = `${(g.about || "").replace(/\s*sim(_control)?\.launch\.py[^.]*\./g, "").trim()} `;
   $("real-about").textContent = `${ws.title}. ${ws.repos.length} repositor${ws.repos.length === 1 ? "y" : "ies"} at pinned commits, ${ws.packages.length} packages, in ~/ros2_ws/src.`;
   $("real-repos").replaceChildren(...ws.repos.map((r) => { const li = document.createElement("li"), a = document.createElement("a"); a.href = `${r.url}/tree/${r.commit}`; a.target = "_blank"; a.rel = "noopener"; a.textContent = r.url.replace(/^https:\/\/github.com\//, ""); li.append(a, ` @ ${r.commit.slice(0, 8)} (${r.branch}, ${r.license})`); return li; }));
   // environment the maker's instructions ask for (e.g. TURTLEBOT3_MODEL)
