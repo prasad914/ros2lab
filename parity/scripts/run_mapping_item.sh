@@ -3,9 +3,11 @@
 # capture_reference, /map + /map_updates QoS, map->odom echo, map_saver_cli, stop, goals check, and a
 # nav2_map_server load of the saved map to compare /map with check_goals_on_map.py. Checks that no
 # ROS_DOMAIN_ID=41 process is alive before start and after every stop.
-# Usage: run_mapping_item.sh <robot> <slam|cartographer>
+# Usage: run_mapping_item.sh <robot> <slam|cartographer|scenario>
+# Optional env: DOMAIN (default 41), PARTITION (default ref41), GOALS_YAML (default parity/fixtures/goals.yaml;
+#   "none" skips the goals checks, e.g. when the robot's goals are defined on a different map)
 set -u
-ROBOT=$1; SCEN=$2; D=41; P=ref41
+ROBOT=$1; SCEN=$2; D=${DOMAIN:-41}; P=${PARTITION:-ref41}; GOALS=${GOALS_YAML:-parity/fixtures/goals.yaml}
 cd "$(dirname "$0")/../.." || exit 1
 OUT=parity/fixtures/$ROBOT/$SCEN; MAPD=$OUT/map
 source parity/scripts/domain_procs.sh
@@ -45,7 +47,7 @@ parity/scripts/stop_reference.sh $D
 empty_check "after stop"
 
 [ -f "$MAPD/map.yaml" ] || { say "NO MAP SAVED"; exit 2; }
-python3 parity/scripts/check_goals_on_map.py parity/fixtures/goals.yaml "$MAPD/map.yaml" > "$MAPD/goals_check.md"
+[ "$GOALS" != none ] && python3 parity/scripts/check_goals_on_map.py "$GOALS" "$MAPD/map.yaml" > "$MAPD/goals_check.md"
 
 say "map_server verification"
 ( source parity/scripts/env.sh; export ROS_DOMAIN_ID=$D GZ_PARTITION=$P
@@ -59,7 +61,7 @@ say "map_server verification"
     echo "command: ros2 run nav2_map_server map_server --ros-args -p yaml_filename:=$MAPD/map.yaml; lifecycle configure + activate"
     echo "echo: ros2 topic echo --once --full-length --qos-durability transient_local --qos-reliability reliable /map (raw: map_server_map_echo.yaml)"
     echo
-    python3 parity/scripts/compare_goals_mapserver.py parity/fixtures/goals.yaml "$MAPD/map_server_map_echo.yaml" "$MAPD/goals_check.md"; } > "$MAPD/goals_check_mapserver.txt" 2>&1
+    [ "$GOALS" != none ] && python3 parity/scripts/compare_goals_mapserver.py "$GOALS" "$MAPD/map_server_map_echo.yaml" "$MAPD/goals_check.md"; } > "$MAPD/goals_check_mapserver.txt" 2>&1
 )
 parity/scripts/stop_reference.sh $D
 empty_check "after map_server stop"
