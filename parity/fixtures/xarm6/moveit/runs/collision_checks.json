@@ -1,0 +1,58 @@
+{
+  "box_size_m": 0.08,
+  "start_without_box": {
+    "valid": true,
+    "contacts": []
+  },
+  "tries": [
+    {
+      "offset_rad": 0.4,
+      "box_frame": "world",
+      "box_center": [
+        0.1908649889932619,
+        0.0809198980696307,
+        0.1122451115285299
+      ],
+      "added": true,
+      "start_with_box": {
+        "valid": false,
+        "contacts": [
+          "link6 - parity_box"
+        ]
+      },
+      "goal_with_box": {
+        "valid": false,
+        "contacts": [
+          "link5 - parity_box",
+          "link6 - parity_box"
+        ]
+      }
+    },
+    {
+      "offset_rad": 0.6,
+      "box_frame": "world",
+      "box_center": [
+        0.17098409459483432,
+        0.11722590721586312,
+        0.1122451115285299
+      ],
+      "added": true,
+      "start_with_box": {
+        "valid": true,
+        "contacts": []
+      },
+      "goal_with_box": {
+        "valid": false,
+        "contacts": [
+          "link5 - parity_box",
+          "link6 - parity_box"
+        ]
+      }
+    }
+  ],
+  "used": 0.6,
+  "removed": {
+    "world_objects_after_remove": [],
+    "box_gone": true
+  }
+}

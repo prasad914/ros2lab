@@ -8,7 +8,9 @@ pose_goal: accepted=True error_code=-27 GOAL_STATE_INVALID points=0
 fail_unreachable_pose: accepted=True error_code=-27 GOAL_STATE_INVALID points=0
 fail_joint_outside_limits: accepted=True error_code=1 SUCCESS points=30
 reset_before_collision: accepted=True error_code=1 SUCCESS points=18
-fail_goal_in_collision: accepted=True error_code=-10 START_STATE_IN_COLLISION points=0
+fail_goal_in_collision_attempts1: accepted=True error_code=-27 GOAL_STATE_INVALID points=0
+fail_goal_in_collision_attempts10: accepted=True error_code=99999 FAILURE points=0
+collision checks: start valid True, used offset 0.6, box removed {'world_objects_after_remove': [], 'box_gone': True}
 reset_before_wrong_group: accepted=True error_code=1 SUCCESS points=2
 fail_wrong_group: accepted=True error_code=-1 PLANNING_FAILED points=0
 reset_before_controller_inactive: accepted=True error_code=1 SUCCESS points=2

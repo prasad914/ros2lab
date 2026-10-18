@@ -1,0 +1,46 @@
+{
+  "name": "fail_goal_in_collision_attempts10",
+  "note": "joint1 +0.6 rad; box 0.08 m around link_eef at the goal only (start state valid with the box: /check_state_validity), 10 planning attempt(s)",
+  "group": "xarm6",
+  "plan_only": false,
+  "num_planning_attempts": 10,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "joint1": 0.6009660260984674,
+    "joint2": -0.0007816431461833417,
+    "joint3": -0.0003410207573324442,
+    "joint4": -8.069066097959876e-05,
+    "joint5": -0.000404247606638819,
+    "joint6": -0.0007203458226285875
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "joint1": 0.0009660260984674096,
+    "joint2": -0.0007816431461833417,
+    "joint3": -0.0003410207573324442,
+    "joint4": -8.069066097959876e-05,
+    "joint5": -0.000404247606638819,
+    "joint6": -0.0007203458226285875
+  },
+  "send_wall": 1792343642.1411383,
+  "accepted": true,
+  "status": 6,
+  "error_code": 99999,
+  "error_code_name": "FAILURE",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [],
+    "points": 0,
+    "last_time_from_start": null
+  },
+  "result_wall": 1792343642.2312248,
+  "joint_states_after": {
+    "joint1": 0.0009660260984674096,
+    "joint2": -0.0007816431461833417,
+    "joint3": -0.0003410207573324442,
+    "joint4": -8.069066097959876e-05,
+    "joint5": -0.000404247606638819,
+    "joint6": -0.0007203458226285875
+  }
+}

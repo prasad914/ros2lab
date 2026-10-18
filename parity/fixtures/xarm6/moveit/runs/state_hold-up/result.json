@@ -3,6 +3,7 @@
   "note": "named state from the SRDF, plan + execute",
   "group": "xarm6",
   "plan_only": false,
+  "num_planning_attempts": 1,
   "velocity_scaling": 0.5,
   "goal_joints": {
     "joint1": 0.0,
@@ -21,7 +22,7 @@
     "joint5": 0.0,
     "joint6": 0.0
   },
-  "send_wall": 1792301397.3448112,
+  "send_wall": 1792343618.9204667,
   "accepted": true,
   "status": 4,
   "error_code": 1,
@@ -38,15 +39,15 @@
       "joint6"
     ],
     "points": 18,
-    "last_time_from_start": 1.6813316120000001
+    "last_time_from_start": 1.681963085
   },
-  "result_wall": 1792301399.5834842,
+  "result_wall": 1792343621.2603493,
   "joint_states_after": {
-    "joint1": -0.0006664341781288385,
-    "joint2": -0.000643274572212249,
-    "joint3": 0.0005223596235737205,
-    "joint4": -0.00060410046717152,
-    "joint5": -1.5696827173233032,
-    "joint6": 0.0009310925379395485
+    "joint1": -0.0008070409530773759,
+    "joint2": 0.0003540024918038398,
+    "joint3": -0.0004179443931207061,
+    "joint4": 0.000849313975777477,
+    "joint5": -1.570517897605896,
+    "joint6": -0.00040299497777596116
   }
 }

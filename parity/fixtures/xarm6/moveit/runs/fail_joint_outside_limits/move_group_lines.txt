@@ -1,18 +1,18 @@
-# lines of parity/fixtures/xarm6/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792301413.503 .. 1792301416.543
-497:[move_group-3] [INFO] [1792301414.504468068] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
-498:[move_group-3] [INFO] [1792301414.504904627] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
-499:[move_group-3] [INFO] [1792301414.506334392] [move_group.moveit.moveit.ros.move_group.move_action]: Planning request received for MoveGroup action. Forwarding to planning pipeline.
-500:[move_group-3] [INFO] [1792301414.506667081] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
-501:[move_group-3] [INFO] [1792301414.506757230] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
-502:[move_group-3] [WARN] [1792301414.506781284] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
-503:[move_group-3] [INFO] [1792301414.507048781] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
-504:[move_group-3] [INFO] [1792301414.507131208] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
-505:[move_group-3] [WARN] [1792301414.507487711] [move_group.moveit.moveit.core.kinematic_constraints]: Joint joint1 is constrained to be above the maximum bounds. Assuming maximum bounds instead.
-506:[move_group-3] [WARN] [1792301414.507597702] [move_group.moveit.moveit.core.kinematic_constraints]: Joint joint1 is constrained to be above the maximum bounds. Assuming maximum bounds instead.
-507:[move_group-3] [INFO] [1792301414.508159645] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'xarm6' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
-508:[move_group-3] [INFO] [1792301414.508399662] [move_group]: Calling Planner 'OMPL'
-509:[move_group-3] [INFO] [1792301414.527473022] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
-510:[move_group-3] [INFO] [1792301414.536246247] [move_group]: Calling PlanningResponseAdapter 'ValidateSolution'
-511:[move_group-3] [INFO] [1792301414.537041538] [move_group]: Calling PlanningResponseAdapter 'DisplayMotionPath'
-512:[move_group-3] [WARN] [1792301414.538905800] [move_group.moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
-513:[move_group-3] [INFO] [1792301414.539143678] [move_group.moveit.moveit.ros.move_group.move_action]: Motion plan was computed successfully.
+# lines of parity/fixtures/xarm6/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792343635.265 .. 1792343638.312
+497:[move_group-3] [INFO] [1792343636.267927878] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+498:[move_group-3] [INFO] [1792343636.271220340] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+499:[move_group-3] [INFO] [1792343636.272295809] [move_group.moveit.moveit.ros.move_group.move_action]: Planning request received for MoveGroup action. Forwarding to planning pipeline.
+500:[move_group-3] [INFO] [1792343636.273694547] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+501:[move_group-3] [INFO] [1792343636.273764352] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+502:[move_group-3] [WARN] [1792343636.273781945] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+503:[move_group-3] [INFO] [1792343636.273817447] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+504:[move_group-3] [INFO] [1792343636.275291562] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+505:[move_group-3] [WARN] [1792343636.278652103] [move_group.moveit.moveit.core.kinematic_constraints]: Joint joint1 is constrained to be above the maximum bounds. Assuming maximum bounds instead.
+506:[move_group-3] [WARN] [1792343636.278875815] [move_group.moveit.moveit.core.kinematic_constraints]: Joint joint1 is constrained to be above the maximum bounds. Assuming maximum bounds instead.
+507:[move_group-3] [INFO] [1792343636.279321736] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'xarm6' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+508:[move_group-3] [INFO] [1792343636.279851843] [move_group]: Calling Planner 'OMPL'
+509:[move_group-3] [INFO] [1792343636.298732232] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
+510:[move_group-3] [INFO] [1792343636.306449870] [move_group]: Calling PlanningResponseAdapter 'ValidateSolution'
+511:[move_group-3] [INFO] [1792343636.307378784] [move_group]: Calling PlanningResponseAdapter 'DisplayMotionPath'
+512:[move_group-3] [WARN] [1792343636.307762994] [move_group.moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
+513:[move_group-3] [INFO] [1792343636.308164197] [move_group.moveit.moveit.ros.move_group.move_action]: Motion plan was computed successfully.

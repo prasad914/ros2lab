@@ -1,9 +1,9 @@
 robot=xarm6 scenario=moveit domain=48 partition=ref48 model=n/a
-date=2026-10-18T10:51:08+05:30
+date=2026-10-18T22:33:55+05:30
 ros_distro=jazzy tb3_ws=none robots_ws=/home/prasad/robots_ws
 status_row=| **xarm6** | arm | `https://github.com/xArm-Developer/xarm_ros2` jazzy 3dc2b5e8 (submodule xarm_sdk/cxx v1.18.1 d84a2b7d) | yes | yes | OFFICIAL-JAZZY | `xvfb-run -a ros2 launch xarm_gazebo xarm6_beside_table_gazebo.launch.py load_controller:=true` | build: `parity/robots/xarm6/build_summary.txt` ("8 packages finished"); install_check/ 2026-10-18 (domain 46): `controllers.txt` (xarm6_traj_controller, joint_state_broadcaster active), `topics.txt`, `motion_proof.txt` (joint1 0.0 -> 0.299897 rad, error_code 0) |
 render=egl tb3_world_cmd=ros2 launch parity/scripts/launch/tb3_world_headless.launch.py
-git_commit=f18fac127942653e86c6f6120bda563c38d7aa40
+git_commit=02f518ac03d0d8381cd8171c4f347062ae6fa7fd
 git_uncommitted_scripts=
 ros-jazzy-cartographer 2.0.9004-1noble.20260225.051215
 ros-jazzy-cartographer-ros 2.0.9003-2noble.20260920.232954
