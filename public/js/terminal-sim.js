@@ -107,6 +107,21 @@ const baseName = (p) => p.split("/").filter(Boolean).pop() || "/";
 const sortNames = (a, b) => a.replace(/^\./, "").localeCompare(b.replace(/^\./, ""), "en", { sensitivity: "base" });
 
 // ========================= the shell (logic only) =========================
+// "a ; b" -> ["a", "b"]; quotes and \; keep their ;
+function splitSemicolons(line) {
+  const out = []; let cur = "", q = null;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (q) { cur += c; if (c === q) q = null; continue; }
+    if (c === '"' || c === "'") { q = c; cur += c; continue; }
+    if (c === "\\" && line[i + 1] === ";") { cur += "\\;"; i++; continue; }
+    if (c === ";") { if (cur.trim()) out.push(cur.trim()); cur = ""; continue; }
+    cur += c;
+  }
+  if (cur.trim()) out.push(cur.trim());
+  return out;
+}
+
 export class Shell {
   constructor(spec = {}) {
     this.spec = spec;
@@ -286,6 +301,19 @@ export class Shell {
     let line = rawLine.trim();
     this.lastError = false;
     if (!line) return { lines: [] };
+    // a ; b: run both, whatever a returns (a ; outside quotes, not \;)
+    const semi = splitSemicolons(line);
+    if (semi.length > 1) {
+      this.history.push(line);
+      const all = [];
+      for (const part of semi) {
+        const r = this.run(part);
+        this.history.pop();
+        all.push(...r.lines);
+        if (r.clear || r.nano || r.code || r.python) return this.result(all, r);
+      }
+      return this.result(all);
+    }
     // a && b: run b only if a worked
     if (/\s&&\s/.test(line) && !/["'][^"']*&&[^"']*["']/.test(line)) {
       this.history.push(line);
