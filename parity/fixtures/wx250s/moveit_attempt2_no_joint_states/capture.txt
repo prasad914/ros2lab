@@ -1,0 +1,17 @@
+SRDF/URDF from parameters robot_description_semantic / robot_description of /move_group
+/move_group parameters: 50
+group interbotix_arm joints ['waist', 'shoulder', 'elbow', 'forearm_roll', 'wrist_angle', 'wrist_rotate']; frame 
+state_Home: accepted=True error_code=-4 CONTROL_FAILED points=1
+state_Upright: accepted=True error_code=-4 CONTROL_FAILED points=18
+state_Sleep: accepted=True error_code=-4 CONTROL_FAILED points=19
+joint_goal: accepted=True error_code=-4 CONTROL_FAILED points=8
+pose_goal: accepted=True error_code=-4 CONTROL_FAILED points=7
+fail_unreachable_pose: accepted=True error_code=-27 GOAL_STATE_INVALID points=0
+fail_joint_outside_limits: accepted=True error_code=1 SUCCESS points=28
+reset_before_collision: accepted=True error_code=-4 CONTROL_FAILED points=1
+fail_goal_in_collision: accepted=True error_code=-27 GOAL_STATE_INVALID points=0
+reset_before_wrong_group: accepted=True error_code=-4 CONTROL_FAILED points=1
+fail_wrong_group: accepted=True error_code=-1 PLANNING_FAILED points=0
+reset_before_controller_inactive: accepted=True error_code=-4 CONTROL_FAILED points=1
+fail_controller_inactive: accepted=True error_code=-4 CONTROL_FAILED points=7
+controller arm_controller reactivated: True

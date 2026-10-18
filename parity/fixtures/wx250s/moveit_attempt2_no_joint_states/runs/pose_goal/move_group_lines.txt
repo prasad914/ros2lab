@@ -1,0 +1,22 @@
+# lines of parity/fixtures/wx250s/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792308578.641 .. 1792308583.676
+280:[move_group-1] [INFO] [1792308579.643271560] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+281:[move_group-1] [INFO] [1792308579.644036199] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+282:[move_group-1] [INFO] [1792308580.644556889] [move_group.moveit.moveit.ros.current_state_monitor]: Didn't receive robot state (joint angles) with recent timestamp within 1.000000 seconds. Requested time 1792308579.644416, but latest received state has time 0.000000.
+284:[move_group-1] [WARN] [1792308580.644916372] [move_group.moveit.moveit.ros.planning_scene_monitor]: Failed to fetch current robot state.
+285:[move_group-1] [INFO] [1792308580.645158461] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+286:[move_group-1] [WARN] [1792308580.645263606] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+287:[move_group-1] [INFO] [1792308580.645427057] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+288:[move_group-1] [INFO] [1792308580.646169134] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+289:[move_group-1] [WARN] [1792308580.646246063] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+290:[move_group-1] [INFO] [1792308580.646368506] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+291:[move_group-1] [INFO] [1792308580.646497905] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+292:[move_group-1] [INFO] [1792308580.647848189] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'interbotix_arm' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+293:[move_group-1] [INFO] [1792308580.648397685] [move_group]: Calling Planner 'OMPL'
+294:[move_group-1] [INFO] [1792308580.667719751] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
+295:[move_group-1] [WARN] [1792308580.669796318] [move_group.moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
+296:[move_group-1] [INFO] [1792308580.670210748] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+297:[move_group-1] [INFO] [1792308580.670326466] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+298:[move_group-1] [INFO] [1792308580.670470871] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Validating trajectory with allowed_start_tolerance 0.01
+299:[move_group-1] [INFO] [1792308581.670634134] [move_group.moveit.moveit.ros.current_state_monitor]: Didn't receive robot state (joint angles) with recent timestamp within 1.000000 seconds. Requested time 1792308580.670520, but latest received state has time 0.000000.
+301:[move_group-1] [WARN] [1792308581.670958884] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Failed to validate trajectory: couldn't receive full current joint state within 1s
+302:[move_group-1] [INFO] [1792308581.671208303] [move_group.moveit.moveit.ros.move_group.move_action]: CONTROL_FAILED

@@ -1,0 +1,7 @@
+# /rosout messages received between send - 1 s and result + 1 s (wall); [level] [stamp] [name]: msg
+[WARN] [1792308599.851674085] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Failed to validate trajectory: couldn't receive full current joint state within 1s
+[INFO] [1792308599.851875826] [move_group.moveit.moveit.ros.move_group.move_action]: CONTROL_FAILED
+[INFO] [1792308600.871499903] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+[INFO] [1792308600.872631218] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+[INFO] [1792308601.873112364] [move_group.moveit.moveit.ros.current_state_monitor]: Didn't receive robot state (joint angles) with recent timestamp within 1.000000 seconds. Requested time 1792308600.872956, but latest received state has time 0.000000.
+Check clock synchronization if your are running ROS across multiple machines!

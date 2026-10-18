@@ -1,0 +1,5 @@
+# ros2 action list -t (no --no-daemon option)
+/execute_trajectory [moveit_msgs/action/ExecuteTrajectory]
+/move_action [moveit_msgs/action/MoveGroup]
+/wx250s/arm_controller/follow_joint_trajectory [control_msgs/action/FollowJointTrajectory]
+/wx250s/gripper_controller/follow_joint_trajectory [control_msgs/action/FollowJointTrajectory]

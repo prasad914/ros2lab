@@ -1,0 +1,56 @@
+{
+  "name": "state_Sleep",
+  "note": "named state from the SRDF, plan + execute",
+  "group": "interbotix_arm",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "elbow": 1.55,
+    "forearm_roll": 0.0,
+    "shoulder": -1.8,
+    "waist": 0.0,
+    "wrist_angle": 0.8,
+    "wrist_rotate": 0.0
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "elbow": -1.5708775175448506,
+    "forearm_roll": -0.0009429203071631492,
+    "gripper": 0.0,
+    "left_finger": 0.0,
+    "shoulder": 0.0002893229252658785,
+    "waist": -0.0009030991564504803,
+    "wrist_angle": -6.832425016909923e-06,
+    "wrist_rotate": 0.0005388461747206747
+  },
+  "send_wall": 1792309151.3723087,
+  "accepted": true,
+  "status": 4,
+  "error_code": 1,
+  "error_code_name": "SUCCESS",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [
+      "waist",
+      "shoulder",
+      "elbow",
+      "forearm_roll",
+      "wrist_angle",
+      "wrist_rotate"
+    ],
+    "points": 28,
+    "last_time_from_start": 2.61608474
+  },
+  "result_wall": 1792309154.5576324,
+  "joint_states_after": {
+    "elbow": 1.5504151532724497,
+    "forearm_roll": 0.0008524212115444242,
+    "gripper": 0.0,
+    "left_finger": 0.0,
+    "shoulder": -1.7995624310397544,
+    "waist": -1.4732650015503194e-05,
+    "wrist_angle": 0.7995767464283854,
+    "wrist_rotate": 0.0004101759153418243
+  }
+}

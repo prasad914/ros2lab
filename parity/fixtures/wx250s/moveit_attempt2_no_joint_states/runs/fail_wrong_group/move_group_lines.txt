@@ -1,0 +1,15 @@
+# lines of parity/fixtures/wx250s/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792308599.869 .. 1792308603.880
+412:[move_group-1] [INFO] [1792308600.871499903] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+413:[move_group-1] [INFO] [1792308600.872631218] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+414:[move_group-1] [INFO] [1792308601.873112364] [move_group.moveit.moveit.ros.current_state_monitor]: Didn't receive robot state (joint angles) with recent timestamp within 1.000000 seconds. Requested time 1792308600.872956, but latest received state has time 0.000000.
+416:[move_group-1] [WARN] [1792308601.873561956] [move_group.moveit.moveit.ros.planning_scene_monitor]: Failed to fetch current robot state.
+417:[move_group-1] [INFO] [1792308601.873852640] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+418:[move_group-1] [WARN] [1792308601.874147814] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+419:[move_group-1] [INFO] [1792308601.874249390] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+420:[move_group-1] [INFO] [1792308601.874848000] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+421:[move_group-1] [WARN] [1792308601.874939092] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+422:[move_group-1] [INFO] [1792308601.875054347] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+423:[move_group-1] [INFO] [1792308601.875244667] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+424:[move_group-1] [ERROR] [1792308601.875568171] [move_group.moveit.moveit.planners.ompl.planning_context_manager]: Cannot find planning configuration for group 'parity_no_such_group'
+425:[move_group-1] [ERROR] [1792308601.875712789] [move_group]: Failed to create PlanningContext for planner 'OMPL'. Aborting planning pipeline.
+426:[move_group-1] [INFO] [1792308601.875910714] [move_group.moveit.moveit.ros.move_group.move_action]: No motion plan found. No execution attempted.

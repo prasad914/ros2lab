@@ -1,0 +1,52 @@
+elbow:
+  effort: 15.0
+  lower: -2.1467549799530254
+  type: revolute
+  upper: 1.6057029118347832
+  velocity: 3.141592653589793
+forearm_roll:
+  effort: 2.0
+  lower: -3.141582653589793
+  type: revolute
+  upper: 3.141582653589793
+  velocity: 3.141592653589793
+gripper:
+  effort: 1.0
+  type: continuous
+  velocity: 3.141592653589793
+left_finger:
+  effort: 5.0
+  lower: 0.015
+  type: prismatic
+  upper: 0.037
+  velocity: 1.0
+right_finger:
+  effort: 5.0
+  lower: -0.037
+  type: prismatic
+  upper: -0.015
+  velocity: 1.0
+shoulder:
+  effort: 20.0
+  lower: -1.8849555921538759
+  type: revolute
+  upper: 1.9896753472735358
+  velocity: 3.141592653589793
+waist:
+  effort: 10.0
+  lower: -3.141582653589793
+  type: revolute
+  upper: 3.141582653589793
+  velocity: 3.141592653589793
+wrist_angle:
+  effort: 5.0
+  lower: -1.7453292519943295
+  type: revolute
+  upper: 2.1467549799530254
+  velocity: 3.141592653589793
+wrist_rotate:
+  effort: 1.0
+  lower: -3.141582653589793
+  type: revolute
+  upper: 3.141582653589793
+  velocity: 3.141592653589793

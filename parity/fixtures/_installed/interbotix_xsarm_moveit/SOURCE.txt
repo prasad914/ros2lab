@@ -1,0 +1,34 @@
+package: interbotix_xsarm_moveit
+share: /home/prasad/robots_ws/install/interbotix_xsarm_moveit/share/interbotix_xsarm_moveit
+version (package.xml): 0.3.0
+dpkg: not an apt package
+source: /home/prasad/robots_ws/src/interbotix/interbotix_ros_manipulators/interbotix_ros_xsarms/interbotix_xsarm_moveit/package.xml
+git: https://github.com/Interbotix/interbotix_ros_manipulators.git e5087dab5928cc016fdb9bd36413644da4ef5518
+copied config/controllers/vx300_controllers.yaml
+copied config/controllers/rx150_controllers.yaml
+copied config/controllers/px150_controllers.yaml
+copied config/controllers/vx300s_controllers.yaml
+copied config/controllers/mobile_wx250s_controllers.yaml
+copied config/controllers/px100_controllers.yaml
+copied config/controllers/vx250_controllers.yaml
+copied config/controllers/mobile_px100_controllers.yaml
+copied config/controllers/rx200_controllers.yaml
+copied config/controllers/wx200_controllers.yaml
+copied config/controllers/wx250s_controllers.yaml
+copied config/controllers/mobile_wx200_controllers.yaml
+copied config/controllers/wx250_controllers.yaml
+copied config/ompl_planning.yaml
+copied config/srdf/vx250.srdf.xacro
+copied config/srdf/wx250s.srdf.xacro
+copied config/srdf/vx300.srdf.xacro
+copied config/srdf/wx250.srdf.xacro
+copied config/srdf/mobile_wx250s.srdf.xacro
+copied config/srdf/mobile_px100.srdf.xacro
+copied config/srdf/px100.srdf.xacro
+copied config/srdf/vx300s.srdf.xacro
+copied config/srdf/rx200.srdf.xacro
+copied config/srdf/wx200.srdf.xacro
+copied config/srdf/px150.srdf.xacro
+copied config/srdf/rx150.srdf.xacro
+copied config/srdf/mobile_wx200.srdf.xacro
+copied config/kinematics.yaml

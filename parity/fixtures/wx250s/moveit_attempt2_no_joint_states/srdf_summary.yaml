@@ -1,0 +1,74 @@
+source: parameters robot_description_semantic / robot_description of /move_group
+robot: wx250s
+groups:
+  interbotix_arm:
+    joints:
+    - waist
+    - shoulder
+    - elbow
+    - forearm_roll
+    - wrist_angle
+    - wrist_rotate
+    - ee_arm
+    - gripper_bar
+    - ee_bar
+    - ee_gripper
+    chains: []
+    links: []
+    subgroups: []
+  interbotix_gripper:
+    joints: []
+    chains: []
+    links:
+    - wx250s/left_finger_link
+    - wx250s/right_finger_link
+    subgroups: []
+group_states:
+- name: Home
+  group: interbotix_arm
+  joints:
+    elbow: 0.0
+    forearm_roll: 0.0
+    shoulder: 0.0
+    waist: 0.0
+    wrist_angle: 0.0
+    wrist_rotate: 0.0
+- name: Upright
+  group: interbotix_arm
+  joints:
+    elbow: -1.5708
+    forearm_roll: 0.0
+    shoulder: 0.0
+    waist: 0.0
+    wrist_angle: 0.0
+    wrist_rotate: 0.0
+- name: Sleep
+  group: interbotix_arm
+  joints:
+    elbow: 1.55
+    forearm_roll: 0.0
+    shoulder: -1.8
+    waist: 0.0
+    wrist_angle: 0.8
+    wrist_rotate: 0.0
+- name: Grasping
+  group: interbotix_gripper
+  joints:
+    left_finger: 0.015
+    right_finger: -0.015
+- name: Released
+  group: interbotix_gripper
+  joints:
+    left_finger: 0.037
+    right_finger: -0.037
+- name: Home
+  group: interbotix_gripper
+  joints:
+    left_finger: 0.0195
+    right_finger: -0.0195
+end_effectors:
+- name: interbotix_gripper
+  parent_link: wx250s/ee_gripper_link
+  group: interbotix_gripper
+  parent_group: null
+virtual_joints: []

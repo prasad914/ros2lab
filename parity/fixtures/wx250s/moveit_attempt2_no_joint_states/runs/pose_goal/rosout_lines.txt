@@ -1,0 +1,24 @@
+# /rosout messages received between send - 1 s and result + 1 s (wall); [level] [stamp] [name]: msg
+[WARN] [1792308578.615112847] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Failed to validate trajectory: couldn't receive full current joint state within 1s
+[INFO] [1792308578.615332666] [move_group.moveit.moveit.ros.move_group.move_action]: CONTROL_FAILED
+[INFO] [1792308579.643271560] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+[INFO] [1792308579.644036199] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+[INFO] [1792308580.644556889] [move_group.moveit.moveit.ros.current_state_monitor]: Didn't receive robot state (joint angles) with recent timestamp within 1.000000 seconds. Requested time 1792308579.644416, but latest received state has time 0.000000.
+Check clock synchronization if your are running ROS across multiple machines!
+[WARN] [1792308580.644916372] [move_group.moveit.moveit.ros.planning_scene_monitor]: Failed to fetch current robot state.
+[INFO] [1792308580.645158461] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+[WARN] [1792308580.645263606] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+[INFO] [1792308580.645427057] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+[INFO] [1792308580.646169134] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+[WARN] [1792308580.646246063] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+[INFO] [1792308580.646368506] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+[INFO] [1792308580.646497905] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+[INFO] [1792308580.647848189] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'interbotix_arm' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+[INFO] [1792308580.648397685] [move_group]: Calling Planner 'OMPL'
+[INFO] [1792308580.667719751] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
+[WARN] [1792308580.669796318] [move_group.moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
+[INFO] [1792308580.670210748] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[INFO] [1792308580.670326466] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[INFO] [1792308580.670470871] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Validating trajectory with allowed_start_tolerance 0.01
+[INFO] [1792308581.670634134] [move_group.moveit.moveit.ros.current_state_monitor]: Didn't receive robot state (joint angles) with recent timestamp within 1.000000 seconds. Requested time 1792308580.670520, but latest received state has time 0.000000.
+Check clock synchronization if your are running ROS across multiple machines!

@@ -1,0 +1,63 @@
+{
+  "name": "pose_goal",
+  "note": "wx250s/ee_gripper_link 0.05 m lower than the current pose, orientation kept",
+  "group": "interbotix_arm",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {},
+  "goal_pose": {
+    "frame": "world",
+    "link": "wx250s/ee_gripper_link",
+    "position": [
+      0.45832500000000004,
+      0.0,
+      0.31065000000000004
+    ],
+    "orientation_xyzw": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  "joint_states_before": {
+    "elbow": 0.0,
+    "forearm_roll": 0.0,
+    "gripper": 0.0,
+    "left_finger": 0.0,
+    "shoulder": 0.0,
+    "waist": 0.0,
+    "wrist_angle": 0.0,
+    "wrist_rotate": 0.0
+  },
+  "send_wall": 1792308579.640683,
+  "accepted": true,
+  "status": 6,
+  "error_code": -4,
+  "error_code_name": "CONTROL_FAILED",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [
+      "waist",
+      "shoulder",
+      "elbow",
+      "forearm_roll",
+      "wrist_angle",
+      "wrist_rotate"
+    ],
+    "points": 7,
+    "last_time_from_start": 0.578987877
+  },
+  "result_wall": 1792308581.6758664,
+  "joint_states_after": {
+    "elbow": 0.0,
+    "forearm_roll": 0.0,
+    "gripper": 0.0,
+    "left_finger": 0.0,
+    "shoulder": 0.0,
+    "waist": 0.0,
+    "wrist_angle": 0.0,
+    "wrist_rotate": 0.0
+  }
+}

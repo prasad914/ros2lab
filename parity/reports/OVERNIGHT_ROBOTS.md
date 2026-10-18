@@ -228,3 +228,30 @@ below; nothing in public/ is touched.
   in the URDF); goal-in-collision −26 START_STATE_INVALID, and every later run (reset to Home, wrong group,
   controller inactive) −26 START_STATE_INVALID in all three attempts. Cause UNVERIFIED (no log text); the box is
   removed with a REMOVE CollisionObject after the collision case, success not checked.
+
+## M1 – wx250s (domain 48, ROS2LAB-PORT, fake hardware)
+- Scenario `parity/robots/wx250s/scenarios/moveit.sh`: `ros2 launch interbotix_xsarm_moveit xsarm_moveit.launch.py
+  robot_model:=wx250s hardware_type:=fake use_moveit_rviz:=false`. Capture: group interbotix_arm, ee wx250s/ee_gripper_link,
+  arm_controller on /wx250s/controller_manager. New options `--joint-states` / `--controller-manager` (moveit_capture.py)
+  and `CM=` (run_moveit_m1.sh) handle the /wx250s namespace.
+- Attempt 1 (`fixtures/wx250s/moveit_attempt1_move_group_crash/`): move_group died at start with `rclcpp::ParameterTypeException
+  ... expected [string_array] got [string]`, and the LMA kinematics plugin is not in Jazzy. /move_action never appeared.
+  Decision: port fixes 4 and 5 (PORTING.md).
+- Attempt 2 (`moveit_attempt2_no_joint_states/`): plans were made, but every execution ended CONTROL_FAILED because move_group
+  received no robot state. Decision: port fix 6 (remap /joint_states).
+- Attempt 3 `fixtures/wx250s/moveit/` (installed configs: `_installed/interbotix_xsarm_moveit/`, 0.3.0, git e5087da):
+  - Home: SUCCESS, 1 point, last time_from_start 0.0.
+  - Upright: SUCCESS, 18 points, 1.629 s.
+  - Sleep: SUCCESS, 28 points, 2.616 s.
+  - joint_goal (waist +0.3): SUCCESS, 8 points, 0.693 s.
+  - pose_goal (ee 0.05 m lower, orientation kept): −27 GOAL_STATE_INVALID, "Unable to sample any valid states for goal tree"
+    (KDL IK, 6 joints). Measured, not explained further.
+  - fail_unreachable_pose: −27 GOAL_STATE_INVALID.
+  - fail_joint_outside_limits (plan only): 1 SUCCESS, 26 points, after "Joint waist is constrained to be above the maximum
+    bounds. Assuming maximum bounds instead." This is the same clamping seen on the other arms.
+  - fail_goal_in_collision: −27 GOAL_STATE_INVALID.
+  - fail_wrong_group: −26 START_STATE_INVALID, because CheckStartStateBounds rejects the start: "Joint 'left_finger' from
+    the starting state is outside bounds by: [0 ] should be in the range [0.015 ], [0.037 ]" (and the same for
+    right_finger). The mock hardware starts the fingers at 0.
+  - fail_controller_inactive: −4 CONTROL_FAILED; arm_controller reactivated: True.
+  - Domain 48 empty after stop.

@@ -1,0 +1,49 @@
+{
+  "name": "fail_wrong_group",
+  "note": "group name that the SRDF does not have",
+  "group": "parity_no_such_group",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "waist": 0.0,
+    "shoulder": 0.0,
+    "elbow": 0.0,
+    "forearm_roll": 0.0,
+    "wrist_angle": 0.0,
+    "wrist_rotate": 0.0
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "elbow": 0.0,
+    "forearm_roll": 0.0,
+    "gripper": 0.0,
+    "left_finger": 0.0,
+    "shoulder": 0.0,
+    "waist": 0.0,
+    "wrist_angle": 0.0,
+    "wrist_rotate": 0.0
+  },
+  "send_wall": 1792308600.8691702,
+  "accepted": true,
+  "status": 6,
+  "error_code": -1,
+  "error_code_name": "PLANNING_FAILED",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [],
+    "points": 0,
+    "last_time_from_start": null
+  },
+  "result_wall": 1792308601.8798447,
+  "joint_states_after": {
+    "elbow": 0.0,
+    "forearm_roll": 0.0,
+    "gripper": 0.0,
+    "left_finger": 0.0,
+    "shoulder": 0.0,
+    "waist": 0.0,
+    "wrist_angle": 0.0,
+    "wrist_rotate": 0.0
+  }
+}

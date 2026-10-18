@@ -1,0 +1,49 @@
+{
+  "name": "fail_goal_in_collision",
+  "note": "box 0.2 m around wx250s/ee_gripper_link at the goal, added through /apply_planning_scene (success=True)",
+  "group": "interbotix_arm",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "waist": 0.3997549067568034,
+    "shoulder": -0.0009025619365274906,
+    "elbow": 0.0001076658270321787,
+    "forearm_roll": -0.0006590632176958025,
+    "wrist_angle": -0.0005932462471537292,
+    "wrist_rotate": 0.0005384622341953217
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "elbow": 0.0001076658270321787,
+    "forearm_roll": -0.0006590632176958025,
+    "gripper": 0.0,
+    "left_finger": 0.0,
+    "shoulder": -0.0009025619365274906,
+    "waist": -0.00024509324319660667,
+    "wrist_angle": -0.0005932462471537292,
+    "wrist_rotate": 0.0005384622341953217
+  },
+  "send_wall": 1792309174.4736364,
+  "accepted": true,
+  "status": 6,
+  "error_code": -27,
+  "error_code_name": "GOAL_STATE_INVALID",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [],
+    "points": 0,
+    "last_time_from_start": null
+  },
+  "result_wall": 1792309174.606386,
+  "joint_states_after": {
+    "elbow": 0.0001076658270321787,
+    "forearm_roll": -0.0006590632176958025,
+    "gripper": 0.0,
+    "left_finger": 0.0,
+    "shoulder": -0.0009025619365274906,
+    "waist": -0.00024509324319660667,
+    "wrist_angle": -0.0005932462471537292,
+    "wrist_rotate": 0.0005384622341953217
+  }
+}

@@ -19,6 +19,26 @@ Sources (maker only, ~/robots_ws/src/interbotix/):
      `According to the loaded plugin descriptions the class fake_components/GenericSystem with base class type
      hardware_interface::SystemInterface does not exist. Declared types are ... mock_components/GenericSystem ...`
 
+  For M1 (MoveIt), three more commits on the same branch (no rebuild: the launch and config files are symlinked):
+  4. a1ad904 `interbotix_xsarm_moveit/launch/xsarm_moveit.launch.py`: pipeline parameters in the Jazzy MoveIt 2.12 form.
+     Error before (`parity/fixtures/wx250s/moveit_attempt1_move_group_crash/logs`): move_group `terminate called after
+     throwing an instance of 'rclcpp::ParameterTypeException' what(): expected [string_array] got [string]`. The maker's
+     `planning_plugin` string became `planning_plugins: [ompl_interface/OMPLPlanner]`. Its request_adapters string
+     mapped onto the installed adapter plugins as follows:
+     - FixWorkspaceBounds → ValidateWorkspaceBounds
+     - FixStartStateBounds → CheckStartStateBounds
+     - FixStartStateCollision → CheckStartStateCollision
+     - AddTimeOptimalParameterization → `response_adapters`
+     - FixStartStatePathConstraints: no Jazzy plugin (`default_request_adapters_plugin_description.xml`), so it was dropped.
+  5. 7f38b2d `interbotix_xsarm_moveit/config/kinematics.yaml`: `lma_kinematics_plugin/LMAKinematicsPlugin` →
+     `kdl_kinematics_plugin/KDLKinematicsPlugin`. Error before: `The kinematics plugin
+     (lma_kinematics_plugin/LMAKinematicsPlugin) failed to load ... Declared types are cached_ik_kinematics_plugin/...
+     kdl_kinematics_plugin/KDLKinematicsPlugin ...`. IK results therefore come from KDL, not the maker's LMA choice.
+  6. e5087da `xsarm_moveit.launch.py`: remap `/joint_states` → `/<robot_name>/joint_states` for move_group. Before
+     (`moveit_attempt2_no_joint_states/`): every execution CONTROL_FAILED, `Didn't receive robot state (joint angles)
+     with recent timestamp within 1.000000 seconds ... latest received state has time 0.000000`, while the joint states
+     were on /wx250s/joint_states (the maker's `planning_scene_monitor_options.joint_state_topic` did not take effect).
+
 Build: `colcon build --symlink-install --packages-up-to interbotix_xsarm_ros_control interbotix_xsarm_moveit` →
 `Summary: 13 packages finished [44.2s]` (build_summary.txt).
 
@@ -27,3 +47,4 @@ hardware_type:=fake use_rviz:=false` – the maker's ros2_control stack with moc
 (controllers under `/wx250s/controller_manager`, joint states on `/wx250s/joint_states`). This is NOT a physics
 simulation: the maker's simulation is Gazebo Classic (`interbotix_xsarm_sim/launch/xsarm_gz_classic.launch.py`,
 `hardware_type='gz_classic'`), which Jazzy does not have. A Gazebo Harmonic port was not done (PENDING).
+M1 compares against `xsarm_moveit.launch.py robot_model:=wx250s hardware_type:=fake use_moveit_rviz:=false` with fixes 4–6.

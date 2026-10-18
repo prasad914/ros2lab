@@ -1,0 +1,49 @@
+{
+  "name": "fail_goal_in_collision",
+  "note": "box 0.2 m around wx250s/ee_gripper_link at the goal, added through /apply_planning_scene (success=True)",
+  "group": "interbotix_arm",
+  "plan_only": false,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "waist": 0.4,
+    "shoulder": 0.0,
+    "elbow": 0.0,
+    "forearm_roll": 0.0,
+    "wrist_angle": 0.0,
+    "wrist_rotate": 0.0
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "elbow": 0.0,
+    "forearm_roll": 0.0,
+    "gripper": 0.0,
+    "left_finger": 0.0,
+    "shoulder": 0.0,
+    "waist": 0.0,
+    "wrist_angle": 0.0,
+    "wrist_rotate": 0.0
+  },
+  "send_wall": 1792308594.8442519,
+  "accepted": true,
+  "status": 6,
+  "error_code": -27,
+  "error_code_name": "GOAL_STATE_INVALID",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [],
+    "points": 0,
+    "last_time_from_start": null
+  },
+  "result_wall": 1792308596.804793,
+  "joint_states_after": {
+    "elbow": 0.0,
+    "forearm_roll": 0.0,
+    "gripper": 0.0,
+    "left_finger": 0.0,
+    "shoulder": 0.0,
+    "waist": 0.0,
+    "wrist_angle": 0.0,
+    "wrist_rotate": 0.0
+  }
+}

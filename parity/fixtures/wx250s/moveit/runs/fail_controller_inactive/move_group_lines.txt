@@ -1,0 +1,27 @@
+# lines of parity/fixtures/wx250s/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792309179.243 .. 1792309182.461
+468:[move_group-1] [INFO] [1792309180.245514060] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+469:[move_group-1] [INFO] [1792309180.246060651] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+470:[move_group-1] [INFO] [1792309180.342823115] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+471:[move_group-1] [WARN] [1792309180.343316288] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+472:[move_group-1] [INFO] [1792309180.343519821] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+473:[move_group-1] [INFO] [1792309180.344233322] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+474:[move_group-1] [WARN] [1792309180.344431594] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+475:[move_group-1] [INFO] [1792309180.344700232] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+476:[move_group-1] [INFO] [1792309180.345138063] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+477:[move_group-1] [INFO] [1792309180.346851642] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'interbotix_arm' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+478:[move_group-1] [INFO] [1792309180.347631994] [move_group]: Calling Planner 'OMPL'
+479:[move_group-1] [INFO] [1792309180.371845916] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
+480:[move_group-1] [WARN] [1792309180.373646620] [move_group.moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
+481:[move_group-1] [INFO] [1792309180.374174009] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+482:[move_group-1] [INFO] [1792309180.374294196] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+483:[move_group-1] [INFO] [1792309180.374453463] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Validating trajectory with allowed_start_tolerance 0.01
+484:[move_group-1] [INFO] [1792309180.443133181] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Starting trajectory execution ...
+485:[move_group-1] [INFO] [1792309180.443612579] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+486:[move_group-1] [INFO] [1792309180.443909583] [move_group.moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+487:[move_group-1] [INFO] [1792309180.444463407] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: sending trajectory to /wx250s/arm_controller
+490:[move_group-1] [INFO] [1792309180.446882998] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: /wx250s/arm_controller started execution
+491:[move_group-1] [WARN] [1792309180.446968684] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Goal request rejected
+492:[move_group-1] [ERROR] [1792309180.446907495] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Goal was rejected by server
+493:[move_group-1] [ERROR] [1792309180.447256781] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Failed to send trajectory part 1 of 1 to controller /wx250s/arm_controller
+494:[move_group-1] [INFO] [1792309180.447568116] [move_group.moveit.moveit.ros.trajectory_execution_manager]: Completed trajectory execution with status ABORTED ...
+495:[move_group-1] [INFO] [1792309180.453446339] [move_group.moveit.moveit.ros.move_group.move_action]: CONTROL_FAILED
