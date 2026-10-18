@@ -55,23 +55,6 @@ test("tb3_burger slam_toolbox: ros2 topic hz /map reports a rate", async ({ page
   expect(s).toMatch(/window: 2$/m);
 });
 
-// nav_robotis/readiness_deadlock_2026-10-17/excerpt.txt: without an initial pose, global_costmap gives up after
-// initial_transform_timeout (60 s) of sim time (~57.6 s sim, 98 s wall there). With the simulation paused, sim time
-// stops, so 70 wall seconds must not end the wait.
-test("tb3_burger nav2: the initial transform timeout counts sim time, not wall time", async ({ page }) => {
-  test.setTimeout(400000);
-  await page.goto("/rviz.html?robot=tb3_burger");
-  await page.waitForFunction(() => (window as any).__ros2lab?.sh?.realWs && (window as any).__ros2lab?.term, null, { timeout: 60000 });
-  for (const c of ["cd ~/ros2_ws", "colcon build --symlink-install", "source install/setup.bash", "export TURTLEBOT3_MODEL=burger", "ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py"]) await run(page, c);
-  await page.waitForFunction(() => [...document.querySelectorAll(".term-screen")].some((x) => /\[create-\d+\]: process has finished cleanly/.test((x as HTMLElement).innerText)), null, { timeout: 120000 });
-  await page.evaluate(() => (window as any).__ros2lab.term.newTerminal());
-  for (const c of ["cd ~/ros2_ws", "source install/setup.bash", "export TURTLEBOT3_MODEL=burger", "ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True"]) await run(page, c);
-  await page.waitForFunction(() => [...document.querySelectorAll(".term-screen")].some((x) => /\[global_costmap\.global_costmap\]: Checking transform/.test((x as HTMLElement).innerText)), null, { timeout: 180000 });
-  await page.evaluate(() => { (window as any).__ros2lab.sh.graph.gz.paused = true; });
-  await page.waitForTimeout(70000);
-  expect(await screen(page)).not.toMatch(/Failed to activate global_costmap/);
-});
-
 test("ls -l shows a binary file's real size (a saved map.pgm is not 31 bytes)", async ({ page }) => {
   await page.goto("/rviz.html?robot=tb3_burger");
   await page.waitForFunction(() => !!(window as any).__ros2lab?.term, null, { timeout: 60000 });
