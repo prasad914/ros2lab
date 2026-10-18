@@ -1,0 +1,24 @@
+# /rosout messages received between send - 1 s and result + 1 s (wall); [level] [stamp] [name]: msg
+[INFO] [1792345280.103507110] [moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+[INFO] [1792345280.105267637] [moveit.moveit.ros.move_group.move_action]: executing..
+[INFO] [1792345280.135696552] [moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+[WARN] [1792345280.135881282] [moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+[INFO] [1792345280.135932653] [moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+[INFO] [1792345280.136464794] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+[INFO] [1792345280.136574444] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+[WARN] [1792345280.136606838] [moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+[INFO] [1792345280.136659809] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+[INFO] [1792345280.136733545] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+[INFO] [1792345280.138510655] [moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'fr3_arm' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+[INFO] [1792345280.139221620] [move_group]: Calling Planner 'OMPL'
+[INFO] [1792345280.163133735] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
+[INFO] [1792345280.163496404] [move_group]: Calling PlanningResponseAdapter 'ValidateSolution'
+[INFO] [1792345280.163886607] [move_group]: Calling PlanningResponseAdapter 'DisplayMotionPath'
+[WARN] [1792345280.164111828] [moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
+[INFO] [1792345280.164405163] [moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[INFO] [1792345280.164515673] [moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[INFO] [1792345280.164711912] [moveit.moveit.ros.trajectory_execution_manager]: Validating trajectory with allowed_start_tolerance 0.01
+[INFO] [1792345280.169936868] [moveit.moveit.ros.trajectory_execution_manager]: Starting trajectory execution ...
+[INFO] [1792345280.170274395] [moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[INFO] [1792345280.170414149] [moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+[ERROR] [1792345280.300872738] [rviz2.moveit.ros.trajectory_visualization]: No robot state or robot model loaded

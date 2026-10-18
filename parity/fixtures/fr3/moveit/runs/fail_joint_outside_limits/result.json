@@ -3,6 +3,7 @@
   "note": "fr3_joint1 = URDF upper limit 2.9007 + 0.5 rad, plan only (MoveIt may clamp it to the bound)",
   "group": "fr3_arm",
   "plan_only": true,
+  "num_planning_attempts": 1,
   "velocity_scaling": 0.5,
   "goal_joints": {
     "fr3_joint1": 3.4007,
@@ -25,13 +26,13 @@
     "fr3_finger_joint1": 0.035,
     "fr3_finger_joint2": 0.035
   },
-  "send_wall": 1792303944.9403336,
+  "send_wall": 1792345294.9838235,
   "accepted": true,
   "status": 4,
   "error_code": 1,
   "error_code_name": "SUCCESS",
   "error_message": "",
-  "planning_time": 0.039559858,
+  "planning_time": 0.031159584,
   "trajectory": {
     "joint_names": [
       "fr3_joint1",
@@ -45,7 +46,7 @@
     "points": 31,
     "last_time_from_start": 2.912941665
   },
-  "result_wall": 1792303945.0018146,
+  "result_wall": 1792345295.0549133,
   "joint_states_after": {
     "fr3_joint1": 0.0,
     "fr3_joint2": -0.7853981633974483,

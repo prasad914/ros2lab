@@ -3,6 +3,7 @@
   "note": "fr3_joint1 +0.0000 -> +0.3000, others held, plan + execute",
   "group": "fr3_arm",
   "plan_only": false,
+  "num_planning_attempts": 1,
   "velocity_scaling": 0.5,
   "goal_joints": {
     "fr3_joint1": 0.3,
@@ -25,7 +26,7 @@
     "fr3_finger_joint1": 0.035,
     "fr3_finger_joint2": 0.035
   },
-  "send_wall": 1792303935.0631845,
+  "send_wall": 1792345285.0865474,
   "accepted": true,
   "status": 4,
   "error_code": 1,
@@ -43,9 +44,9 @@
       "fr3_joint7"
     ],
     "points": 10,
-    "last_time_from_start": 0.8000381310000001
+    "last_time_from_start": 0.8005561440000001
   },
-  "result_wall": 1792303936.0183682,
+  "result_wall": 1792345286.0791483,
   "joint_states_after": {
     "fr3_joint1": 0.0,
     "fr3_joint2": -0.7853981633974483,

@@ -1,18 +1,18 @@
-# lines of parity/fixtures/fr3/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792303937.895 .. 1792303945.935
-324:[move_group-3] [INFO] [1792303938.896419520] [moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
-325:[move_group-3] [INFO] [1792303938.896779417] [moveit.moveit.ros.move_group.move_action]: executing..
-326:[move_group-3] [INFO] [1792303938.913954293] [moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
-327:[move_group-3] [WARN] [1792303938.914134686] [moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
-328:[move_group-3] [INFO] [1792303938.914163452] [moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
-329:[move_group-3] [INFO] [1792303938.915375086] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
-330:[move_group-3] [INFO] [1792303938.915492370] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
-331:[move_group-3] [WARN] [1792303938.915507984] [moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
-332:[move_group-3] [INFO] [1792303938.915551167] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
-333:[move_group-3] [INFO] [1792303938.915597231] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
-334:[move_group-3] [INFO] [1792303938.916487566] [moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'fr3_arm' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
-335:[move_group-3] [INFO] [1792303938.916669350] [move_group]: Calling Planner 'OMPL'
-336:[move_group-3] [ERROR] [1792303943.921386337] [moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:265 - fr3_arm/fr3_arm: Unable to sample any valid states for goal tree
-337:[move_group-3] [WARN] [1792303943.923004013] [moveit.moveit.planners.ompl.model_based_planning_context]: Invalid goal state
-338:[move_group-3] [ERROR] [1792303943.931513359] [moveit.moveit.planners.ompl.model_based_planning_context]: Unable to solve the planning problem
-339:[move_group-3] [ERROR] [1792303943.931783802] [move_group]: Planner 'OMPL' failed with error code GOAL_STATE_INVALID
-340:[move_group-3] [INFO] [1792303943.931888995] [moveit.moveit.ros.move_group.move_action]: GOAL_STATE_INVALID
+# lines of parity/fixtures/fr3/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792345287.908 .. 1792345295.976
+324:[move_group-3] [INFO] [1792345288.909464390] [moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+325:[move_group-3] [INFO] [1792345288.910246698] [moveit.moveit.ros.move_group.move_action]: executing..
+326:[move_group-3] [INFO] [1792345288.937575915] [moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+327:[move_group-3] [WARN] [1792345288.937805925] [moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+328:[move_group-3] [INFO] [1792345288.937926393] [moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+329:[move_group-3] [INFO] [1792345288.938201007] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+330:[move_group-3] [INFO] [1792345288.938283777] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+331:[move_group-3] [WARN] [1792345288.938310029] [moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+332:[move_group-3] [INFO] [1792345288.938360436] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+333:[move_group-3] [INFO] [1792345288.938409929] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+334:[move_group-3] [INFO] [1792345288.939035452] [moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'fr3_arm' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+335:[move_group-3] [INFO] [1792345288.939214151] [move_group]: Calling Planner 'OMPL'
+336:[move_group-3] [ERROR] [1792345293.946260353] [moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:265 - fr3_arm/fr3_arm: Unable to sample any valid states for goal tree
+337:[move_group-3] [WARN] [1792345293.946514185] [moveit.moveit.planners.ompl.model_based_planning_context]: Invalid goal state
+338:[move_group-3] [ERROR] [1792345293.956295115] [moveit.moveit.planners.ompl.model_based_planning_context]: Unable to solve the planning problem
+339:[move_group-3] [ERROR] [1792345293.972912601] [move_group]: Planner 'OMPL' failed with error code GOAL_STATE_INVALID
+340:[move_group-3] [INFO] [1792345293.973132691] [moveit.moveit.ros.move_group.move_action]: GOAL_STATE_INVALID

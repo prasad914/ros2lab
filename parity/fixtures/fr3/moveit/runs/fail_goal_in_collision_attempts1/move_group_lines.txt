@@ -1,0 +1,29 @@
+# lines of parity/fixtures/fr3/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792345296.407 .. 1792345299.621
+391:[move_group-3] [ERROR] [1792345297.261544396] [moveit.moveit.ros.move_group.capability]: TF Problem: "world" passed to lookupTransform argument source_frame does not exist.
+392:[move_group-3] [ERROR] [1792345297.372047142] [moveit.moveit.ros.move_group.capability]: TF Problem: "world" passed to lookupTransform argument source_frame does not exist.
+393:[move_group-3] [INFO] [1792345297.411057610] [moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+394:[move_group-3] [INFO] [1792345297.411698204] [moveit.moveit.ros.move_group.move_action]: executing..
+395:[move_group-3] [INFO] [1792345297.438200369] [moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+396:[move_group-3] [WARN] [1792345297.439054554] [moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+397:[move_group-3] [INFO] [1792345297.439175483] [moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+398:[move_group-3] [INFO] [1792345297.439488231] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+399:[move_group-3] [INFO] [1792345297.439648977] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+400:[move_group-3] [WARN] [1792345297.439687060] [moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+401:[move_group-3] [INFO] [1792345297.439759227] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+402:[move_group-3] [INFO] [1792345297.439834851] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+403:[move_group-3] [INFO] [1792345297.440621491] [moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'fr3_arm' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+404:[move_group-3] [INFO] [1792345297.440880881] [move_group]: Calling Planner 'OMPL'
+405:[move_group-3] [INFO] [1792345297.517888894] [moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'fr3_joint1', actual value: 0.600275, desired value: 0.600000, tolerance_above: 0.001000, tolerance_below: 0.001000
+406:[move_group-3] [INFO] [1792345297.518772925] [moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'fr3_joint2', actual value: -0.784483, desired value: -0.785398, tolerance_above: 0.001000, tolerance_below: 0.001000
+407:[move_group-3] [INFO] [1792345297.518911763] [moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'fr3_joint3', actual value: -0.000415, desired value: 0.000000, tolerance_above: 0.001000, tolerance_below: 0.001000
+408:[move_group-3] [INFO] [1792345297.518964436] [moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'fr3_joint4', actual value: -2.355378, desired value: -2.356194, tolerance_above: 0.001000, tolerance_below: 0.001000
+409:[move_group-3] [INFO] [1792345297.519010336] [moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'fr3_joint5', actual value: -0.000986, desired value: 0.000000, tolerance_above: 0.001000, tolerance_below: 0.001000
+410:[move_group-3] [INFO] [1792345297.519055036] [moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'fr3_joint6', actual value: 1.571049, desired value: 1.570796, tolerance_above: 0.001000, tolerance_below: 0.001000
+411:[move_group-3] [INFO] [1792345297.519116052] [moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'fr3_joint7', actual value: 0.785457, desired value: 0.785398, tolerance_above: 0.001000, tolerance_below: 0.001000
+412:[move_group-3] [INFO] [1792345297.519377323] [moveit.moveit.core.moveit_collision_detection_fcl]: Found a contact between 'parity_box' (type 'Object') and 'fr3_link7' (type 'Robot link'), which constitutes a collision. Contact information is not stored.
+413:[move_group-3] [INFO] [1792345297.519465262] [moveit.moveit.core.moveit_collision_detection_fcl]: Collision checking is considered complete (collision was found and 0 contacts are stored)
+414:[move_group-3] [ERROR] [1792345297.608932513] [moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:265 - fr3_arm/fr3_arm: Unable to sample any valid states for goal tree
+415:[move_group-3] [WARN] [1792345297.611410416] [moveit.moveit.planners.ompl.model_based_planning_context]: Invalid goal state
+416:[move_group-3] [ERROR] [1792345297.611607097] [moveit.moveit.planners.ompl.model_based_planning_context]: Unable to solve the planning problem
+417:[move_group-3] [ERROR] [1792345297.612268232] [move_group]: Planner 'OMPL' failed with error code GOAL_STATE_INVALID
+418:[move_group-3] [INFO] [1792345297.612482295] [moveit.moveit.ros.move_group.move_action]: GOAL_STATE_INVALID

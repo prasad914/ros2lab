@@ -3,6 +3,7 @@
   "note": "fr3_link8 0.05 m lower than the current pose, orientation kept",
   "group": "fr3_arm",
   "plan_only": false,
+  "num_planning_attempts": 1,
   "velocity_scaling": 0.5,
   "goal_joints": {},
   "goal_pose": {
@@ -31,7 +32,7 @@
     "fr3_finger_joint1": 0.035,
     "fr3_finger_joint2": 0.035
   },
-  "send_wall": 1792303937.0442839,
+  "send_wall": 1792345287.098456,
   "accepted": true,
   "status": 4,
   "error_code": 1,
@@ -48,10 +49,10 @@
       "fr3_joint6",
       "fr3_joint7"
     ],
-    "points": 8,
-    "last_time_from_start": 0.6230647260000001
+    "points": 7,
+    "last_time_from_start": 0.581865264
   },
-  "result_wall": 1792303937.8900127,
+  "result_wall": 1792345287.876354,
   "joint_states_after": {
     "fr3_joint1": 0.0,
     "fr3_joint2": -0.7853981633974483,

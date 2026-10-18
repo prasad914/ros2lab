@@ -1,0 +1,60 @@
+source: parameters robot_description_semantic / robot_description of /move_group
+robot: fr3
+groups:
+  fr3_arm:
+    joints: []
+    chains:
+    - base: fr3_link0
+      tip: fr3_hand_tcp
+    links: []
+    subgroups: []
+  fr3_hand:
+    joints:
+    - fr3_finger_joint1
+    chains: []
+    links:
+    - fr3_hand
+    - fr3_leftfinger
+    - fr3_rightfinger
+    subgroups: []
+group_states:
+- name: ready
+  group: fr3_arm
+  joints:
+    fr3_joint1: 0.0
+    fr3_joint2: -0.7853981633974483
+    fr3_joint3: 0.0
+    fr3_joint4: -2.356194490192345
+    fr3_joint5: 0.0
+    fr3_joint6: 1.5707963267948966
+    fr3_joint7: 0.7853981633974483
+- name: extended
+  group: fr3_arm
+  joints:
+    fr3_joint1: 0.0
+    fr3_joint2: 0.0
+    fr3_joint3: 0.0
+    fr3_joint4: -0.1
+    fr3_joint5: 0.0
+    fr3_joint6: 1.5707963267948966
+    fr3_joint7: 0.7853981633974483
+- name: open
+  group: fr3_hand
+  joints:
+    fr3_finger_joint1: 0.035
+    fr3_finger_joint2: 0.035
+- name: close
+  group: fr3_hand
+  joints:
+    fr3_finger_joint1: 0.0
+    fr3_finger_joint2: 0.0
+end_effectors:
+- name: fr3_hand
+  parent_link: fr3_hand_tcp
+  group: fr3_hand
+  parent_group: fr3_arm
+virtual_joints:
+- name: virtual_joint
+  type: fixed
+  parent: world
+  child: base

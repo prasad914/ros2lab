@@ -1,0 +1,30 @@
+# /rosout messages received between send - 1 s and result + 1 s (wall); [level] [stamp] [name]: msg
+[ERROR] [1792345297.611607097] [moveit.moveit.planners.ompl.model_based_planning_context]: Unable to solve the planning problem
+[ERROR] [1792345297.612268232] [move_group]: Planner 'OMPL' failed with error code GOAL_STATE_INVALID
+[INFO] [1792345297.612482295] [moveit.moveit.ros.move_group.move_action]: GOAL_STATE_INVALID
+[INFO] [1792345298.636482198] [moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+[INFO] [1792345298.637037136] [moveit.moveit.ros.move_group.move_action]: executing..
+[INFO] [1792345298.669750838] [moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+[WARN] [1792345298.669981044] [moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+[INFO] [1792345298.671294110] [moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+[INFO] [1792345298.671668445] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+[INFO] [1792345298.671801752] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+[WARN] [1792345298.671853507] [moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+[INFO] [1792345298.671928525] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+[INFO] [1792345298.672037509] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+[INFO] [1792345298.672843286] [moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'fr3_arm' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+[INFO] [1792345298.673114504] [move_group]: Calling Planner 'OMPL'
+[INFO] [1792345298.743853346] [moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'fr3_joint1', actual value: 0.599241, desired value: 0.600000, tolerance_above: 0.001000, tolerance_below: 0.001000
+[INFO] [1792345298.745520896] [moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'fr3_joint2', actual value: -0.786119, desired value: -0.785398, tolerance_above: 0.001000, tolerance_below: 0.001000
+[INFO] [1792345298.745604163] [moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'fr3_joint3', actual value: 0.000490, desired value: 0.000000, tolerance_above: 0.001000, tolerance_below: 0.001000
+[INFO] [1792345298.745672502] [moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'fr3_joint4', actual value: -2.357185, desired value: -2.356194, tolerance_above: 0.001000, tolerance_below: 0.001000
+[INFO] [1792345298.745719318] [moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'fr3_joint5', actual value: -0.000449, desired value: 0.000000, tolerance_above: 0.001000, tolerance_below: 0.001000
+[INFO] [1792345298.745766609] [moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'fr3_joint6', actual value: 1.571723, desired value: 1.570796, tolerance_above: 0.001000, tolerance_below: 0.001000
+[INFO] [1792345298.745813552] [moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'fr3_joint7', actual value: 0.785413, desired value: 0.785398, tolerance_above: 0.001000, tolerance_below: 0.001000
+[INFO] [1792345298.746122892] [moveit.moveit.core.moveit_collision_detection_fcl]: Found a contact between 'parity_box' (type 'Object') and 'fr3_link7' (type 'Robot link'), which constitutes a collision. Contact information is not stored.
+[INFO] [1792345298.746180733] [moveit.moveit.core.moveit_collision_detection_fcl]: Collision checking is considered complete (collision was found and 0 contacts are stored)
+[ERROR] [1792345298.868517895] [moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:265 - fr3_arm/fr3_arm: Unable to sample any valid states for goal tree
+[ERROR] [1792345298.872129092] [moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:265 - fr3_arm/fr3_arm: Unable to sample any valid states for goal tree
+[ERROR] [1792345298.876352072] [moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:265 - fr3_arm/fr3_arm: Unable to sample any valid states for goal tree
+[ERROR] [1792345298.878342715] [moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/geometric/planners/rrt/src/RRTConnect.cpp:265 - fr3_arm/fr3_arm: Unable to sample any valid states for goal tree
+[WARN] [1792345298.879195487] [moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/tools/multiplan/src/ParallelPlan.cpp:138 - ParallelPlan::solve(): Unable to find solution by any of the threads in 0.205810 seconds

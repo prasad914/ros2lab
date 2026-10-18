@@ -1,31 +1,31 @@
-# lines of parity/fixtures/fr3/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792303936.044 .. 1792303939.890
-291:[move_group-3] [ERROR] [1792303937.039454862] [moveit.moveit.ros.move_group.capability]: TF Problem: "world" passed to lookupTransform argument source_frame does not exist.
-292:[move_group-3] [INFO] [1792303937.046768330] [moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
-293:[move_group-3] [INFO] [1792303937.048690968] [moveit.moveit.ros.move_group.move_action]: executing..
-294:[move_group-3] [INFO] [1792303937.081135942] [moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
-295:[move_group-3] [WARN] [1792303937.081359907] [moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
-296:[move_group-3] [INFO] [1792303937.081438155] [moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
-297:[move_group-3] [INFO] [1792303937.082313074] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
-298:[move_group-3] [INFO] [1792303937.082519197] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
-299:[move_group-3] [WARN] [1792303937.082560113] [moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
-300:[move_group-3] [INFO] [1792303937.082659085] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
-301:[move_group-3] [INFO] [1792303937.082771676] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
-302:[move_group-3] [INFO] [1792303937.084247524] [moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'fr3_arm' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
-303:[move_group-3] [INFO] [1792303937.084544814] [move_group]: Calling Planner 'OMPL'
-304:[move_group-3] [INFO] [1792303937.114876233] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
-305:[move_group-3] [INFO] [1792303937.115805503] [move_group]: Calling PlanningResponseAdapter 'ValidateSolution'
-306:[move_group-3] [INFO] [1792303937.116516322] [move_group]: Calling PlanningResponseAdapter 'DisplayMotionPath'
-307:[move_group-3] [WARN] [1792303937.116750979] [moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
-308:[move_group-3] [INFO] [1792303937.117054557] [moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
-309:[move_group-3] [INFO] [1792303937.117155014] [moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
-310:[move_group-3] [INFO] [1792303937.117229145] [moveit.moveit.ros.trajectory_execution_manager]: Validating trajectory with allowed_start_tolerance 0.01
-311:[move_group-3] [INFO] [1792303937.147296949] [moveit.moveit.ros.trajectory_execution_manager]: Starting trajectory execution ...
-312:[move_group-3] [INFO] [1792303937.147462453] [moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
-313:[move_group-3] [INFO] [1792303937.147541094] [moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
-314:[move_group-3] [INFO] [1792303937.147768102] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: sending trajectory to fr3_arm_controller
-317:[move_group-3] [INFO] [1792303937.148677286] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: fr3_arm_controller started execution
-318:[move_group-3] [INFO] [1792303937.148733087] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Goal request accepted!
-319:[rviz2-1] [ERROR] [1792303937.265578200] [rviz2.moveit.ros.trajectory_visualization]: No robot state or robot model loaded
-321:[move_group-3] [INFO] [1792303937.799357346] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Controller 'fr3_arm_controller' successfully finished
-322:[move_group-3] [INFO] [1792303937.881213934] [moveit.moveit.ros.trajectory_execution_manager]: Completed trajectory execution with status SUCCEEDED ...
-323:[move_group-3] [INFO] [1792303937.887502510] [moveit.moveit.ros.move_group.move_action]: Solution was found and executed.
+# lines of parity/fixtures/fr3/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792345286.098 .. 1792345289.876
+291:[move_group-3] [ERROR] [1792345287.095063987] [moveit.moveit.ros.move_group.capability]: TF Problem: "world" passed to lookupTransform argument source_frame does not exist.
+292:[move_group-3] [INFO] [1792345287.099905576] [moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+293:[move_group-3] [INFO] [1792345287.100319617] [moveit.moveit.ros.move_group.move_action]: executing..
+294:[move_group-3] [INFO] [1792345287.102405247] [moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+295:[move_group-3] [WARN] [1792345287.102562261] [moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+296:[move_group-3] [INFO] [1792345287.102600513] [moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+297:[move_group-3] [INFO] [1792345287.102987615] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+298:[move_group-3] [INFO] [1792345287.103067346] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+299:[move_group-3] [WARN] [1792345287.103120754] [moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+300:[move_group-3] [INFO] [1792345287.103171931] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+301:[move_group-3] [INFO] [1792345287.103243233] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+302:[move_group-3] [INFO] [1792345287.104261776] [moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'fr3_arm' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+303:[move_group-3] [INFO] [1792345287.104560399] [move_group]: Calling Planner 'OMPL'
+304:[move_group-3] [INFO] [1792345287.134096228] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
+305:[move_group-3] [INFO] [1792345287.134975262] [move_group]: Calling PlanningResponseAdapter 'ValidateSolution'
+306:[move_group-3] [INFO] [1792345287.136758836] [move_group]: Calling PlanningResponseAdapter 'DisplayMotionPath'
+307:[move_group-3] [WARN] [1792345287.137734604] [moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
+308:[move_group-3] [INFO] [1792345287.138487679] [moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+309:[move_group-3] [INFO] [1792345287.138552506] [moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+310:[move_group-3] [INFO] [1792345287.138643812] [moveit.moveit.ros.trajectory_execution_manager]: Validating trajectory with allowed_start_tolerance 0.01
+311:[move_group-3] [INFO] [1792345287.173300746] [moveit.moveit.ros.trajectory_execution_manager]: Starting trajectory execution ...
+312:[move_group-3] [INFO] [1792345287.173565347] [moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+313:[move_group-3] [INFO] [1792345287.173642842] [moveit.moveit.plugins.simple_controller_manager]: Returned 2 controllers in list
+314:[move_group-3] [INFO] [1792345287.173850883] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: sending trajectory to fr3_arm_controller
+316:[rviz2-1] [ERROR] [1792345287.176842179] [rviz2.moveit.ros.trajectory_visualization]: No robot state or robot model loaded
+318:[move_group-3] [INFO] [1792345287.181260916] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: fr3_arm_controller started execution
+319:[move_group-3] [INFO] [1792345287.181312912] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Goal request accepted!
+321:[move_group-3] [INFO] [1792345287.779141055] [moveit.simple_controller_manager.follow_joint_trajectory_controller_handle]: Controller 'fr3_arm_controller' successfully finished
+322:[move_group-3] [INFO] [1792345287.868853540] [moveit.moveit.ros.trajectory_execution_manager]: Completed trajectory execution with status SUCCEEDED ...
+323:[move_group-3] [INFO] [1792345287.873469889] [moveit.moveit.ros.move_group.move_action]: Solution was found and executed.

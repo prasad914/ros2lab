@@ -1,14 +1,14 @@
-# lines of parity/fixtures/fr3/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792303948.462 .. 1792303951.485
-436:[move_group-3] [INFO] [1792303949.462825275] [moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
-437:[move_group-3] [INFO] [1792303949.463240337] [moveit.moveit.ros.move_group.move_action]: executing..
-438:[move_group-3] [INFO] [1792303949.480939854] [moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
-439:[move_group-3] [WARN] [1792303949.481153760] [moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
-440:[move_group-3] [INFO] [1792303949.481293903] [moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
-441:[move_group-3] [INFO] [1792303949.481850671] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
-442:[move_group-3] [INFO] [1792303949.481929261] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
-443:[move_group-3] [WARN] [1792303949.481942724] [moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
-444:[move_group-3] [INFO] [1792303949.481981906] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
-445:[move_group-3] [INFO] [1792303949.482031302] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
-446:[move_group-3] [ERROR] [1792303949.482414667] [moveit.moveit.planners.ompl.planning_context_manager]: Cannot find planning configuration for group 'parity_no_such_group'
-447:[move_group-3] [ERROR] [1792303949.482477454] [move_group]: Failed to create PlanningContext for planner 'OMPL'. Aborting planning pipeline.
-448:[move_group-3] [INFO] [1792303949.482586359] [moveit.moveit.ros.move_group.move_action]: No motion plan found. No execution attempted.
+# lines of parity/fixtures/fr3/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792345300.359 .. 1792345303.391
+488:[move_group-3] [INFO] [1792345301.361478378] [moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+489:[move_group-3] [INFO] [1792345301.369172337] [moveit.moveit.ros.move_group.move_action]: executing..
+490:[move_group-3] [INFO] [1792345301.384230510] [moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+491:[move_group-3] [WARN] [1792345301.384470192] [moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+492:[move_group-3] [INFO] [1792345301.384611976] [moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+493:[move_group-3] [INFO] [1792345301.384874317] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+494:[move_group-3] [INFO] [1792345301.384968841] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+495:[move_group-3] [WARN] [1792345301.385000922] [moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+496:[move_group-3] [INFO] [1792345301.385064276] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+497:[move_group-3] [INFO] [1792345301.385167577] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+498:[move_group-3] [ERROR] [1792345301.385457937] [moveit.moveit.planners.ompl.planning_context_manager]: Cannot find planning configuration for group 'parity_no_such_group'
+499:[move_group-3] [ERROR] [1792345301.385639220] [move_group]: Failed to create PlanningContext for planner 'OMPL'. Aborting planning pipeline.
+500:[move_group-3] [INFO] [1792345301.385762721] [moveit.moveit.ros.move_group.move_action]: No motion plan found. No execution attempted.

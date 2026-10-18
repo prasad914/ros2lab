@@ -1,0 +1,63 @@
+{
+  "box_size_m": 0.08,
+  "start_without_box": {
+    "valid": true,
+    "contacts": []
+  },
+  "tries": [
+    {
+      "joint": "fr3_joint1",
+      "offset_rad": 0.4,
+      "box_frame": "base",
+      "box_center": [
+        0.2826649303162027,
+        0.11950881571278607,
+        0.5902820523028393
+      ],
+      "added": true,
+      "start_with_box": {
+        "valid": false,
+        "contacts": [
+          "fr3_hand - parity_box"
+        ]
+      },
+      "goal_with_box": {
+        "valid": false,
+        "contacts": [
+          "fr3_hand - parity_box",
+          "fr3_link7 - parity_box"
+        ]
+      }
+    },
+    {
+      "joint": "fr3_joint1",
+      "offset_rad": 0.6,
+      "box_frame": "base",
+      "box_center": [
+        0.25328771448896437,
+        0.17328344858264255,
+        0.5902820523028393
+      ],
+      "added": true,
+      "start_with_box": {
+        "valid": true,
+        "contacts": []
+      },
+      "goal_with_box": {
+        "valid": false,
+        "contacts": [
+          "fr3_hand - parity_box",
+          "fr3_link7 - parity_box"
+        ]
+      }
+    }
+  ],
+  "used": {
+    "joint": "fr3_joint1",
+    "offset_rad": 0.6
+  },
+  "removed": {
+    "world_objects_after_remove": [],
+    "box_gone": true
+  }
+}

@@ -1,9 +1,9 @@
 robot=fr3 scenario=moveit domain=48 partition=ref48 model=n/a
-date=2026-10-18T11:33:33+05:30
+date=2026-10-18T23:02:57+05:30
 ros_distro=jazzy tb3_ws=none robots_ws=/home/prasad/robots_ws
 status_row=| **fr3** | arm | `https://github.com/frankaemika/franka_ros2` jazzy 4acc05c0 + franka_description 2.9.0 (7aeeddc4) + libfranka 0.20.5 (3cc708ca, built by colcon) | yes | yes | OFFICIAL-JAZZY | `ros2 launch franka_gazebo_bringup gazebo_franka_arm_example_controller.launch.py robot_type:=fr3 controller:=joint_position_example_controller gz_args:='-r -s empty.sdf' rviz:=false` | build: `parity/robots/fr3/build_summary.txt` (12 packages); install_check/ 2026-10-18 (domain 46): `controllers.txt` (joint_position_example_controller, joint_state_broadcaster active), `topics.txt`, `motion_proof.txt` (/joint_states: 7 joints moved ±0.0053 rad in 1.14 s sim under the maker's example controller) |
 render=egl tb3_world_cmd=ros2 launch parity/scripts/launch/tb3_world_headless.launch.py
-git_commit=4b7e37da67904376992acb309a5c5f1ac9b69267
+git_commit=245844bfb6c9965116da4b16b9539f3b99b3b8a7
 git_uncommitted_scripts=
 ros-jazzy-cartographer 2.0.9004-1noble.20260225.051215
 ros-jazzy-cartographer-ros 2.0.9003-2noble.20260920.232954

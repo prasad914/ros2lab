@@ -3,6 +3,7 @@
   "note": "back to named state ready",
   "group": "fr3_arm",
   "plan_only": false,
+  "num_planning_attempts": 1,
   "velocity_scaling": 0.5,
   "goal_joints": {
     "fr3_joint1": 0.0,
@@ -25,7 +26,7 @@
     "fr3_finger_joint1": 0.035,
     "fr3_finger_joint2": 0.035
   },
-  "send_wall": 1792303948.2627578,
+  "send_wall": 1792345300.1082566,
   "accepted": true,
   "status": 4,
   "error_code": 1,
@@ -45,7 +46,7 @@
     "points": 1,
     "last_time_from_start": 0.0
   },
-  "result_wall": 1792303948.456565,
+  "result_wall": 1792345300.3494475,
   "joint_states_after": {
     "fr3_joint1": 0.0,
     "fr3_joint2": -0.7853981633974483,
