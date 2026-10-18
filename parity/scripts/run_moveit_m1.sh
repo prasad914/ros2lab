@@ -21,13 +21,18 @@ for i in $(seq 1 100); do
   sleep 3
 done
 say "/move_action present: $ok"
-sleep 10   # controllers are spawned after the robot appears; list_controllers below shows their state
+# move_group answers its parameter service only once it has loaded; wait until the dump has parameters (max 300 s)
+for i in $(seq 1 30); do
+  R timeout 60 ros2 param dump /move_group > "$OUT/move_group_params.yaml" 2>&1
+  grep -q "ros__parameters: {}" "$OUT/move_group_params.yaml" || break
+  sleep 10
+done
+say "move_group params: $(grep -c '' "$OUT/move_group_params.yaml") lines"
 { echo "# ros2 node list --no-daemon --spin-time 5"; R timeout 30 ros2 node list --no-daemon --spin-time 5; } > "$OUT/node_list.txt" 2>&1
 { echo "# ros2 topic list -t --no-daemon --spin-time 5"; R timeout 30 ros2 topic list -t --no-daemon --spin-time 5; } > "$OUT/topic_list.txt" 2>&1
 { echo "# ros2 action list -t (no --no-daemon option)"; R timeout 30 ros2 action list -t; } > "$OUT/action_list.txt" 2>&1
 { echo "# ros2 service list -t --no-daemon --spin-time 5"; R timeout 30 ros2 service list -t --no-daemon --spin-time 5; } > "$OUT/service_list.txt" 2>&1
 { echo "# ros2 control list_controllers"; R timeout 30 ros2 control list_controllers; } > "$OUT/controllers.txt" 2>&1
-R timeout 60 ros2 param dump /move_group > "$OUT/move_group_params.yaml" 2>&1
 ( cd "$OUT" && R timeout -k 2s 20 ros2 run tf2_tools view_frames > view_frames.log 2>&1 )
 # installed MoveIt config files (srdf, kinematics, joint_limits, ompl, controllers) with the package version
 SHARE=$(R ros2 pkg prefix "$PKG" 2>/dev/null)/share/$PKG
@@ -44,6 +49,6 @@ done
 say "moveit_capture.py"
 R timeout 1800 python3 parity/scripts/moveit_capture.py --out "$OUT" --group "$GROUP" --ee-link "$EE" --controller "$CTRL" --log "$PWD/$LOGF" "$@" > "$OUT/capture.txt" 2>&1
 say "capture exit $?"
-cp parity/fixtures/$ARM/$SCEN/run_info.txt "$OUT/run_info.txt"
+[ "parity/fixtures/$ARM/$SCEN" = "$OUT" ] || cp parity/fixtures/$ARM/$SCEN/run_info.txt "$OUT/run_info.txt"
 env -u ROS_DOMAIN_ID bash parity/scripts/stop_reference.sh "$D"
 [ -z "$(domain_pids $D)" ] && say "domain $D empty after stop" || say "domain $D NOT empty after stop"

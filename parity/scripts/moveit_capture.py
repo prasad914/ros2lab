@@ -66,6 +66,17 @@ class Cap(Node):
         r = self.call(self.create_client(GetParameters, f'{node}/get_parameters'), GetParameters.Request(names=[name]))
         return r.values[0].string_value if r and r.values else ''
 
+    def latched(self, topic, secs=30.0):
+        """One message of a transient_local std_msgs/String topic (robot_description, robot_description_semantic)."""
+        from rclpy.qos import DurabilityPolicy, QoSProfile, ReliabilityPolicy
+        from std_msgs.msg import String
+        box = []
+        q = QoSProfile(depth=1, durability=DurabilityPolicy.TRANSIENT_LOCAL, reliability=ReliabilityPolicy.RELIABLE)
+        sub = self.create_subscription(String, topic, lambda m: box.append(m.data), q)
+        self.spin_until(lambda: bool(box), secs)
+        self.destroy_subscription(sub)
+        return box[0] if box else ''
+
     def joints_now(self):
         self.js = None
         self.spin_until(lambda: self.js is not None, 10)
@@ -222,8 +233,12 @@ def main():
     rclpy.init()
     n = Cap(a)
     skip = set(filter(None, a.skip.split(',')))
-    srdf = n.param('/move_group', 'robot_description_semantic')
-    urdf = n.param('/move_group', 'robot_description')
+    srdf, urdf = n.param('/move_group', 'robot_description_semantic'), n.param('/move_group', 'robot_description')
+    src = 'parameters robot_description_semantic / robot_description of /move_group'
+    if not srdf or not urdf:   # move_group also publishes both on latched topics
+        srdf, urdf = n.latched('/robot_description_semantic'), n.latched('/robot_description')
+        src = 'latched topics /robot_description_semantic and /robot_description'
+    print(f'SRDF/URDF from {src}', flush=True)
     if not srdf or not urdf:
         print('ERROR: /move_group has no robot_description_semantic / robot_description parameter')
         return 2
@@ -231,7 +246,7 @@ def main():
     L = urdf_limits(urdf)
     n.frame = next((v['parent'] for v in S['virtual_joints']), None) or ''   # empty: move_group answers in its model frame
     import yaml
-    yaml.safe_dump({'source': 'parameters robot_description_semantic / robot_description of /move_group', **S},
+    yaml.safe_dump({'source': src, **S},
                    open(os.path.join(a.out, 'srdf_summary.yaml'), 'w'), sort_keys=False)
     yaml.safe_dump(L, open(os.path.join(a.out, 'urdf_joint_limits.yaml'), 'w'), sort_keys=True)
     if not n.ac.wait_for_server(timeout_sec=60):
