@@ -6,12 +6,13 @@
   },
   "tries": [
     {
+      "joint": "joint1",
       "offset_rad": 0.4,
       "box_frame": "world",
       "box_center": [
-        0.08004765966590689,
-        0.033773032777630024,
-        0.15349472997459393
+        0.08003191207751242,
+        0.03394837682968927,
+        0.1534858737985552
       ],
       "added": true,
       "start_with_box": {
@@ -31,12 +32,13 @@
       }
     },
     {
+      "joint": "joint1",
       "offset_rad": 0.6,
       "box_frame": "world",
       "box_center": [
-        0.07174237005211434,
-        0.04900283563522848,
-        0.15349472997459393
+        0.07169210088156582,
+        0.04917155591742702,
+        0.1534858737985552
       ],
       "added": true,
       "start_with_box": {
@@ -56,12 +58,13 @@
       }
     },
     {
+      "joint": "joint1",
       "offset_rad": 0.8,
       "box_frame": "world",
       "box_center": [
-        0.06057693854048443,
-        0.06227905007344042,
-        0.15349472997459393
+        0.060494151860978104,
+        0.062434420240554685,
+        0.1534858737985552
       ],
       "added": true,
       "start_with_box": {
@@ -81,12 +84,13 @@
       }
     },
     {
+      "joint": "joint1",
       "offset_rad": -0.4,
       "box_frame": "world",
       "box_center": [
-        0.07999703232795793,
-        -0.0338927776924138,
-        0.15349472997459393
+        0.08011184500121518,
+        -0.03375931768644824,
+        0.1534858737985552
       ],
       "added": true,
       "start_with_box": {
@@ -105,12 +109,13 @@
       }
     },
     {
+      "joint": "joint1",
       "offset_rad": -0.6,
       "box_frame": "world",
       "box_center": [
-        0.07166896224817929,
-        -0.04911013552472425,
-        0.15349472997459393
+        0.07180800072202438,
+        -0.04900214559036172,
+        0.1534858737985552
       ],
       "added": true,
       "start_with_box": {
@@ -129,12 +134,13 @@
       }
     },
     {
+      "joint": "joint1",
       "offset_rad": -0.8,
       "box_frame": "world",
       "box_center": [
-        0.06048367680805448,
-        -0.06236962722965835,
-        0.15349472997459393
+        0.06064139805729653,
+        -0.06229141258479996,
+        0.1534858737985552
       ],
       "added": true,
       "start_with_box": {
@@ -143,6 +149,188 @@
           "link5 - parity_box",
           "link6 - parity_box"
         ]
+      },
+      "goal_with_box": {
+        "valid": false,
+        "contacts": [
+          "link5 - parity_box",
+          "link6 - parity_box"
+        ]
+      }
+    },
+    {
+      "joint": "joint2",
+      "offset_rad": 0.4,
+      "box_frame": "world",
+      "box_center": [
+        0.04501875211824817,
+        5.234049019288809e-05,
+        0.126737628603425
+      ],
+      "added": true,
+      "start_with_box": {
+        "valid": false,
+        "contacts": [
+          "link1 - parity_box",
+          "link6 - parity_box"
+        ]
+      },
+      "goal_with_box": {
+        "valid": false,
+        "contacts": [
+          "link1 - parity_box",
+          "link5 - link1",
+          "link5 - parity_box",
+          "link6 - parity_box",
+          "link_base - link5",
+          "link_base - link6"
+        ]
+      }
+    },
+    {
+      "joint": "joint2",
+      "offset_rad": 0.6,
+      "box_frame": "world",
+      "box_center": [
+        0.020924288876359297,
+        2.343178163003168e-05,
+        0.12012125084953576
+      ],
+      "added": true,
+      "start_with_box": {
+        "valid": false,
+        "contacts": [
+          "link1 - parity_box"
+        ]
+      },
+      "goal_with_box": {
+        "valid": false,
+        "contacts": [
+          "link1 - parity_box",
+          "link5 - link1",
+          "link5 - parity_box",
+          "link6 - parity_box",
+          "link_base - link5",
+          "link_base - link6"
+        ]
+      }
+    },
+    {
+      "joint": "joint2",
+      "offset_rad": 0.8,
+      "box_frame": "world",
+      "box_center": [
+        -0.004004359652578594,
+        -6.477788449519133e-06,
+        0.11842359448011805
+      ],
+      "added": true,
+      "start_with_box": {
+        "valid": false,
+        "contacts": [
+          "link1 - parity_box"
+        ]
+      },
+      "goal_with_box": {
+        "valid": false,
+        "contacts": [
+          "link1 - parity_box",
+          "link5 - link1",
+          "link5 - parity_box",
+          "link6 - parity_box",
+          "link_base - link5",
+          "link_base - link6"
+        ]
+      }
+    },
+    {
+      "joint": "joint2",
+      "offset_rad": -0.4,
+      "box_frame": "world",
+      "box_center": [
+        0.11512500527744664,
+        0.0001364544712728638,
+        0.1944453702897671
+      ],
+      "added": true,
+      "start_with_box": {
+        "valid": false,
+        "contacts": [
+          "link5 - parity_box",
+          "link6 - parity_box"
+        ]
+      },
+      "goal_with_box": {
+        "valid": false,
+        "contacts": [
+          "link5 - parity_box",
+          "link6 - parity_box"
+        ]
+      }
+    },
+    {
+      "joint": "joint2",
+      "offset_rad": -0.6,
+      "box_frame": "world",
+      "box_center": [
+        0.1225758134285683,
+        0.00014539400365206728,
+        0.21829502075241047
+      ],
+      "added": true,
+      "start_with_box": {
+        "valid": false,
+        "contacts": [
+          "link5 - parity_box",
+          "link6 - parity_box"
+        ]
+      },
+      "goal_with_box": {
+        "valid": false,
+        "contacts": [
+          "link5 - parity_box",
+          "link6 - parity_box"
+        ]
+      }
+    },
+    {
+      "joint": "joint2",
+      "offset_rad": -0.8,
+      "box_frame": "world",
+      "box_center": [
+        0.1251399107886798,
+        0.00014847042559660548,
+        0.24314951419874375
+      ],
+      "added": true,
+      "start_with_box": {
+        "valid": false,
+        "contacts": [
+          "link4 - parity_box",
+          "link5 - parity_box"
+        ]
+      },
+      "goal_with_box": {
+        "valid": false,
+        "contacts": [
+          "link5 - parity_box",
+          "link6 - parity_box"
+        ]
+      }
+    },
+    {
+      "joint": "joint3",
+      "offset_rad": 0.4,
+      "box_frame": "world",
+      "box_center": [
+        0.19310908663854653,
+        0.00023043763224896342,
+        0.21013712792516134
+      ],
+      "added": true,
+      "start_with_box": {
+        "valid": true,
+        "contacts": []
       },
       "goal_with_box": {
         "valid": false,
@@ -153,6 +341,12 @@
       }
     }
   ],
-  "used": null,
-  "removed": null
+  "used": {
+    "joint": "joint3",
+    "offset_rad": 0.4
+  },
+  "removed": {
+    "world_objects_after_remove": [],
+    "box_gone": true
+  }
 }

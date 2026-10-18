@@ -1,0 +1,18 @@
+# /rosout messages received between send - 1 s and result + 1 s (wall); [level] [stamp] [name]: msg
+[ERROR] [1792344188.297117603] [move_group]: Planner 'OMPL' failed with error code TIMED_OUT
+[INFO] [1792344188.297285905] [move_group.moveit.moveit.ros.move_group.move_action]: TIMED_OUT
+[INFO] [1792344189.309377083] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+[INFO] [1792344189.309851667] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+[INFO] [1792344189.311047843] [move_group.moveit.moveit.ros.move_group.move_action]: Planning request received for MoveGroup action. Forwarding to planning pipeline.
+[INFO] [1792344189.311435496] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+[INFO] [1792344189.311494722] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+[WARN] [1792344189.311507617] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+[INFO] [1792344189.311531831] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+[INFO] [1792344189.311560343] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+[WARN] [1792344189.322994207] [move_group.moveit.moveit.core.kinematic_constraints]: Joint joint1 is constrained to be above the maximum bounds. Assuming maximum bounds instead.
+[WARN] [1792344189.323306397] [move_group.moveit.moveit.core.kinematic_constraints]: Joint joint1 is constrained to be above the maximum bounds. Assuming maximum bounds instead.
+[INFO] [1792344189.323751792] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'lite6' will use planner 'geometric::RRT'. Additional configuration parameters will be set when the planner is constructed.
+[INFO] [1792344189.324032752] [move_group]: Calling Planner 'OMPL'
+[INFO] [1792344189.327669343] [move_group]: Calling PlanningResponseAdapter 'AddTimeOptimalParameterization'
+[INFO] [1792344189.333848984] [move_group]: Calling PlanningResponseAdapter 'ValidateSolution'
+[INFO] [1792344189.336964094] [move_group]: Calling PlanningResponseAdapter 'DisplayMotionPath'

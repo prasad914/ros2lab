@@ -1,0 +1,46 @@
+{
+  "name": "fail_goal_in_collision_attempts1",
+  "note": "joint3 +0.4 rad; box 0.08 m around link_eef at the goal only (start state valid with the box: /check_state_validity), 1 planning attempt(s)",
+  "group": "lite6",
+  "plan_only": false,
+  "num_planning_attempts": 1,
+  "velocity_scaling": 0.5,
+  "goal_joints": {
+    "joint1": 0.0011887869331985712,
+    "joint2": 0.001430561300367117,
+    "joint3": 0.4002409559674561,
+    "joint4": -0.00025462103076279163,
+    "joint5": 8.592002996010706e-05,
+    "joint6": 0.000809331308118999
+  },
+  "goal_pose": null,
+  "joint_states_before": {
+    "joint1": 0.0011887869331985712,
+    "joint2": 0.001430561300367117,
+    "joint3": 0.00024095596745610237,
+    "joint4": -0.00025462103076279163,
+    "joint5": 8.592002996010706e-05,
+    "joint6": 0.000809331308118999
+  },
+  "send_wall": 1792347739.4529624,
+  "accepted": true,
+  "status": 6,
+  "error_code": -6,
+  "error_code_name": "TIMED_OUT",
+  "error_message": "",
+  "planning_time": 0.0,
+  "trajectory": {
+    "joint_names": [],
+    "points": 0,
+    "last_time_from_start": null
+  },
+  "result_wall": 1792347744.4851892,
+  "joint_states_after": {
+    "joint1": 0.0011887869331985712,
+    "joint2": 0.001430561300367117,
+    "joint3": 0.00024095596745610237,
+    "joint4": -0.00025462103076279163,
+    "joint5": 8.592002996010706e-05,
+    "joint6": 0.000809331308118999
+  }
+}

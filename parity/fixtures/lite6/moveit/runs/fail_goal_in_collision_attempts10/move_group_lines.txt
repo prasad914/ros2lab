@@ -1,0 +1,25 @@
+# lines of parity/fixtures/lite6/moveit/logs/moveit.log (gitignored) with [move_group or moveit, stamped wall 1792347744.508 .. 1792347752.542
+552:[move_group-3] [INFO] [1792347745.509429979] [move_group.moveit.moveit.ros.move_group.move_action]: MoveGroupMoveAction: Received request
+553:[move_group-3] [INFO] [1792347745.510178845] [move_group.moveit.moveit.ros.move_group.move_action]: executing..
+554:[move_group-3] [INFO] [1792347745.515451285] [move_group.moveit.moveit.ros.move_group.move_action]: Combined planning and execution request received for MoveGroup action. Forwarding to planning and execution pipeline.
+555:[move_group-3] [WARN] [1792347745.515828360] [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+556:[move_group-3] [INFO] [1792347745.515881716] [move_group.moveit.moveit.ros.plan_execution]: Planning attempt 1 of at most 1
+557:[move_group-3] [INFO] [1792347745.516127148] [move_group]: Calling PlanningRequestAdapter 'ResolveConstraintFrames'
+558:[move_group-3] [INFO] [1792347745.516179176] [move_group]: Calling PlanningRequestAdapter 'ValidateWorkspaceBounds'
+559:[move_group-3] [WARN] [1792347745.516197747] [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+560:[move_group-3] [INFO] [1792347745.516246797] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateBounds'
+561:[move_group-3] [INFO] [1792347745.516292078] [move_group]: Calling PlanningRequestAdapter 'CheckStartStateCollision'
+562:[move_group-3] [INFO] [1792347745.530411485] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Planner configuration 'lite6' will use planner 'geometric::RRT'. Additional configuration parameters will be set when the planner is constructed.
+563:[move_group-3] [INFO] [1792347745.530762629] [move_group]: Calling Planner 'OMPL'
+564:[move_group-3] [INFO] [1792347745.703927986] [move_group.moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'joint1', actual value: 0.001819, desired value: 0.001189, tolerance_above: 0.001000, tolerance_below: 0.001000
+565:[move_group-3] [INFO] [1792347745.707251106] [move_group.moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'joint2', actual value: 0.002419, desired value: 0.001431, tolerance_above: 0.001000, tolerance_below: 0.001000
+566:[move_group-3] [INFO] [1792347745.707353068] [move_group.moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'joint3', actual value: 0.400831, desired value: 0.400241, tolerance_above: 0.001000, tolerance_below: 0.001000
+567:[move_group-3] [INFO] [1792347745.707406921] [move_group.moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'joint4', actual value: -0.000047, desired value: -0.000255, tolerance_above: 0.001000, tolerance_below: 0.001000
+568:[move_group-3] [INFO] [1792347745.707455302] [move_group.moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'joint5', actual value: 0.000323, desired value: 0.000086, tolerance_above: 0.001000, tolerance_below: 0.001000
+569:[move_group-3] [INFO] [1792347745.707512353] [move_group.moveit.moveit.core.kinematic_constraints]: Constraint satisfied:: Joint name: 'joint6', actual value: 0.000629, desired value: 0.000809, tolerance_above: 0.001000, tolerance_below: 0.001000
+570:[move_group-3] [INFO] [1792347745.707769926] [move_group.moveit.moveit.core.moveit_collision_detection_fcl]: Found a contact between 'parity_box' (type 'Object') and 'link5' (type 'Robot link'), which constitutes a collision. Contact information is not stored.
+571:[move_group-3] [INFO] [1792347745.707822468] [move_group.moveit.moveit.core.moveit_collision_detection_fcl]: Collision checking is considered complete (collision was found and 0 contacts are stored)
+572:[move_group-3] [WARN] [1792347750.532238666] [move_group.moveit.moveit.planners.ompl.planner_manager]: ./src/ompl/tools/multiplan/src/ParallelPlan.cpp:138 - ParallelPlan::solve(): Unable to find solution by any of the threads in 5.001133 seconds
+573:[move_group-3] [ERROR] [1792347750.532689648] [move_group.moveit.moveit.planners.ompl.model_based_planning_context]: Unable to solve the planning problem
+574:[move_group-3] [ERROR] [1792347750.532908102] [move_group]: Planner 'OMPL' failed with error code FAILURE
+575:[move_group-3] [INFO] [1792347750.533005921] [move_group.moveit.moveit.ros.move_group.move_action]: FAILURE
