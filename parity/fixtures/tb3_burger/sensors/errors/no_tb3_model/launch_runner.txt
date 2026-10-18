@@ -1,0 +1,10 @@
+# Excerpt of parity/fixtures/tb3_burger/sensors/errors/no_tb3_model/launch_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-18T14:53:41+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# 2026-10-18T14:43:30+05:30 ROS_DOMAIN_ID=41 GZ_PARTITION=review_41 TURTLEBOT3_MODEL=<unset>
+2:# cmd: env -u TURTLEBOT3_MODEL timeout 120 xvfb-run -a ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py
+3:# (runs in the background; this file captures stdout+stderr, then the exit code)
+4:[INFO] [launch]: All log files can be found below /home/prasad/.ros/log/2026-10-18-14-43-33-410555-prasad-721745
+5:[INFO] [launch]: Default logging verbosity is set to INFO
+6:[ERROR] [launch]: Caught exception in launch (see debug for traceback): 'TURTLEBOT3_MODEL'
+7:# exit code: 1
