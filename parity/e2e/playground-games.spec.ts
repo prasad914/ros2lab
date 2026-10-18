@@ -80,6 +80,7 @@ test.describe("Playground Readiness and Robot Mission Games (Prompt P12)", () =>
             await expect(page.locator("#stage")).toContainText("Not yet validated");
             await expect(page.locator("#stage")).not.toContainText("cd command");
         }
+        await expect(page.locator(".pg-intro")).toContainText("15 robot missions after them are locked");
         const tile = page.locator('.pg-tile[href="#tf_detective"]');
         await expect(tile).toContainText("Not yet validated");
     });
