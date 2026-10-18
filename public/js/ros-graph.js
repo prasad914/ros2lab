@@ -316,7 +316,9 @@ export class RosGraph {
     if (a === "pub") return this.topicPub(rest);
     const bad = need(); if (bad) return bad;
     const t = T.get(name);
-    if (!t) return [this.out(`WARNING: topic [${name}] does not appear to be published yet`), this.hint(`Nobody uses ${name}. Check the spelling (names are case-sensitive) with: ros2 topic list`)];
+    // the TurtleBot3 Burger has no camera (only Waffle and Waffle Pi publish /camera/...): say so instead of "spelling"
+    const burger = /^\/camera\//.test(name) && this.nodes.some((n) => n.kind === "rsp" && /name="turtlebot3_burger"/.test(String((n.params || {}).robot_description || "")));
+    if (!t) return [this.out(`WARNING: topic [${name}] does not appear to be published yet`), this.hint(burger ? `The TurtleBot3 Burger has no camera, so nothing publishes ${name}: only the Waffle and the Waffle Pi have one. See this robot's topics with: ros2 topic list` : `Nobody uses ${name}. Check the spelling (names are case-sensitive) with: ros2 topic list`)];
     if (a === "type") return [this.out(t.type)];
     // each endpoint has its own type: a Twist publisher and a TwistStamped subscriber on one name are listed as
     // Type: ['geometry_msgs/msg/Twist', 'geometry_msgs/msg/TwistStamped'] (sensors/teleop/topic_info_cmd_vel_*)
