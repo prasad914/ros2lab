@@ -14,7 +14,7 @@ Failure runs: unreachable pose (10 m away), joint goal outside the joint limits 
 with a box added through /apply_planning_scene, a wrong planning group name, and execution with the arm controller
 deactivated (controller_manager/switch_controller; reactivated afterwards).
 Collision case: the start state is checked with /check_state_validity first; a small box is placed around the end
-effector at the goal only, and the start state must still be valid with the box (else the next goal offset is tried);
+effector at the goal only, and the start state must still be valid with the box (else the next goal offset, then the next joint of the group, is tried);
 the goal is planned with 1 and with 10 planning attempts; then the box is removed and /get_planning_scene must no
 longer list it. Every check is written to runs/collision_checks.json.
 OMPL is random: only codes, states, counts and durations are recorded, never paths. Nothing is estimated.
@@ -392,15 +392,17 @@ def main():
     chk['start_without_box'] = {'valid': v0, 'contacts': c0}
     used = None
     if v0:
-        for dj in (0.4, 0.6, 0.8, -0.4, -0.6, -0.8):
-            t = cur[j0] + dj
-            if ('upper' in L[j0] and t > L[j0]['upper']) or ('lower' in L[j0] and t < L[j0]['lower']):
+        # first joint first; when its rotation leaves the end effector inside the box (e.g. a folded home pose on
+        # the joint's axis), the next joints of the group are tried
+        for jx, dj in [(jx, dj) for jx in gj[:3] for dj in (0.4, 0.6, 0.8, -0.4, -0.6, -0.8)]:
+            t = cur[jx] + dj
+            if ('upper' in L[jx] and t > L[jx]['upper']) or ('lower' in L[jx] and t < L[jx]['lower']):
                 continue
             tgt2 = {j: cur[j] for j in gj}
-            tgt2[j0] = t
+            tgt2[jx] = t
             pe = n.fk(a.ee_link, {**full, **tgt2})
             if not pe:
-                chk['tries'].append({'offset_rad': dj, 'fk': False})
+                chk['tries'].append({'joint': jx, 'offset_rad': dj, 'fk': False})
                 continue
             box = CollisionObject(id='parity_box', operation=CollisionObject.ADD)
             box.header = pe.header
@@ -409,20 +411,20 @@ def main():
             added = n.scene([box])
             vs, cs = n.valid(a.group, full)
             vg, cg = n.valid(a.group, {**full, **tgt2})
-            tr = {'offset_rad': dj, 'box_frame': pe.header.frame_id,
+            tr = {'joint': jx, 'offset_rad': dj, 'box_frame': pe.header.frame_id,
                   'box_center': [pe.pose.position.x, pe.pose.position.y, pe.pose.position.z], 'added': added,
                   'start_with_box': {'valid': vs, 'contacts': cs}, 'goal_with_box': {'valid': vg, 'contacts': cg}}
             chk['tries'].append(tr)
             if added and vs and vg is False:
-                used = (dj, tgt2, pe, added)
+                used = (jx, dj, tgt2, pe, added)
                 break
             n.scene([CollisionObject(id='parity_box', operation=CollisionObject.REMOVE, header=pe.header)])
     if used:
-        dj, tgt2, pe, added = used
-        chk['used'] = dj
+        jx, dj, tgt2, pe, added = used
+        chk['used'] = {'joint': jx, 'offset_rad': dj}
         for k in (1, 10):
             n.run(f'fail_goal_in_collision_attempts{k}', n.goal(a.group, joints=tgt2, attempts=k),
-                  f"{j0} {dj:+.1f} rad; box {chk['box_size_m']} m around {a.ee_link} at the goal only "
+                  f"{jx} {dj:+.1f} rad; box {chk['box_size_m']} m around {a.ee_link} at the goal only "
                   f"(start state valid with the box: /check_state_validity), {k} planning attempt(s)")
         n.scene([CollisionObject(id='parity_box', operation=CollisionObject.REMOVE, header=pe.header)])
         objs = n.world_objects()
