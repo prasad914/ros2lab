@@ -63,6 +63,7 @@ def main():
     ap.add_argument('--control-dx', type=float, default=-2.0)
     ap.add_argument('--control-dy', type=float, default=-0.5)
     ap.add_argument('--limit', type=float, default=60.0, help='wall-clock seconds to collect the data')
+    ap.add_argument('--base-frame', default='base_footprint', help="the robot base frame of the Nav2 config")
     args = ap.parse_args()
 
     with open(args.map) as f:
@@ -128,7 +129,7 @@ def main():
             used += 1
             total, hits, ctrl_hits = total + n, hits + hit, ctrl_hits + chit
     try:
-        t = buf.lookup_transform('map', 'base_footprint', Time())
+        t = buf.lookup_transform('map', args.base_frame, Time())
         tf_base = (t.transform.translation.x, t.transform.translation.y, yaw_of(t.transform.rotation))
     except Exception as e:  # noqa: BLE001
         lines.append(f'TF map->base_footprint: {e}')
