@@ -270,3 +270,89 @@ below; nothing in public/ is touched.
   - gz_world.txt: models ground_plane and wx250s, real_time_factor 0.388 / 0.398.
 - The M1 MoveIt ground truth above stays on the fake hardware: xsarm_moveit.launch.py has no gz_harmonic mode, and adding
   one was not done. Domain 46 empty after stop.
+
+## Final summary (2026-10-18)
+Simulations: `stop_reference.sh` 46, 47 and 48 each reported "nothing running"; `domain_pids` empty for all three; no gz
+processes left.
+
+### Per robot (STATUS.md rows updated)
+| Robot | Built | Verified | Status | Evidence |
+|---|---|---|---|---|
+| ur5e | yes | yes | OFFICIAL-JAZZY | `parity/fixtures/ur5e/install_check/`, M1 `parity/fixtures/ur5e/moveit/` |
+| tb4 | yes | yes | OFFICIAL-JAZZY | `parity/fixtures/tb4/install_check/`; P2c `tb4/p2c_sensors`, `p2c_slam` (map too small), `p2c_nav/run1` (goal1 ABORTED 105), `p2c_scan_xvfb` |
+| xarm6 | yes | yes | OFFICIAL-JAZZY | `parity/fixtures/xarm6/install_check/`, M1 `xarm6/moveit/` |
+| lite6 | yes | yes | OFFICIAL-JAZZY | `parity/fixtures/lite6/install_check/`, M1 `lite6/moveit/` |
+| cr5 | yes | yes | OFFICIAL-JAZZY | `parity/fixtures/cr5/install_check/`, M1 `cr5/moveit/` |
+| fr3 | yes | yes | OFFICIAL-JAZZY | `parity/fixtures/fr3/install_check/`, M1 `fr3/moveit/` (fake hardware) |
+| gen3 | yes | yes | OFFICIAL-JAZZY | `parity/fixtures/gen3/install_check/`, M1 `gen3/moveit/` |
+| scout | yes | yes | ROS2LAB-PORT | `parity/fixtures/scout/install_check/`, P2c `scout/p2c_sensors`; `parity/robots/scout/PORTING.md` |
+| crazyflie | no | no | NOT BUILT | needs swig (apt) + rowan (pip): `parity/scripts/robots_sudo.sh` section 4 |
+| wx250s | yes | yes | ROS2LAB-PORT | fake hardware `parity/fixtures/wx250s/install_check/`, Gazebo Harmonic `wx250s/gz/install_check/`, M1 `wx250s/moveit/`; `parity/robots/wx250s/PORTING.md` |
+
+### What failed and why
+- crazyflie: not built. The SIL backend needs the cffirmware bindings (swig is not installed) and rowan (pip; the system
+  Python is EXTERNALLY-MANAGED). No sudo was allowed in this run.
+- tb4 SLAM / navigation: BLOCKED. Under the EGL headless launch every /scan range is range_min (0.164). Under xvfb the
+  ranges are valid but real_time_factor is 0.0049. The SLAM map is 0.55 × 1.10 m; nav goal1 ABORTED 105.
+- gen3 M1: move_group runs at `--log-level fatal` in the maker's launch, so there are no planner log excerpts. The −26
+  cascade after the collision case is UNVERIFIED.
+- wx250s needed nine port commits (PORTING.md). Without them it fails on Jazzy at three points:
+  - build: hardware_interface API;
+  - launch: fake_components;
+  - MoveIt: pipeline parameter types, the LMA plugin and the joint_states topic.
+  wx250s pose_goal: −27 GOAL_STATE_INVALID with KDL IK (measured; not investigated further).
+
+### What the instructor must do next
+1. Run `parity/scripts/robots_sudo.sh` section 4 (swig) and install rowan (pip, in a venv or `--user`
+   `--break-system-packages` as you prefer), then rebuild crazyswarm2 and verify crazyflie.
+2. TB4 lidar under EGL: check the GPU / EGL driver (or a software EGL such as llvmpipe) so the gpu_lidar returns real
+   ranges at a usable speed. Then rerun P2c SLAM and nav for tb4 (`run_mapping_item.sh`, `run_nav_p2c.sh`).
+3. Review the ports before parity reports rely on them: scout (ugv_gazebo_sim jazzy-ros2lab d5068ec) and wx250s
+   (interbotix_ros_toolboxes jazzy-ros2lab 039e288, interbotix_ros_manipulators jazzy-ros2lab 86951bf).
+4. Review the stash `pre-p2b-2026-10-18` in ~/robots_ws/src/interbotix/interbotix_ros_core. It holds the earlier working
+   tree (see `parity/robots/wx250s/pre_build_state.txt`); pop or drop it as you decide.
+5. Old build trees were moved aside to ~/robots_ws/_earlier_attempt_before_2026-10-18/ (COLCON_IGNORE); delete them
+   when no longer needed.
+6. Nothing was pushed or deployed. Branch robots-p2b; public/ was not touched.
+
+### Commits on robots-p2b (git log --oneline parity-fixes..HEAD, before this report commit)
+```
+f29dd57 wx250s: Gazebo Harmonic ROS2LAB-PORT (gz_ros2_control, xsarm_gz_harmonic.launch.py), verified: controllers active, motion proof
+4375587 M1 wx250s: MoveIt ground truth on fake hardware after three Jazzy MoveIt port fixes (pipeline params, KDL, joint_states remap)
+725b154 M1 tools: --joint-states / --controller-manager (moveit_capture.py) and CM= (run_moveit_m1.sh) for namespaced arms
+487cfc7 P2b wx250s: ROS2LAB-PORT build/launch fixes on the maker's jazzy branches, verified on fake hardware
+347df77 M1 gen3: MoveIt ground truth (move_group runs at --log-level fatal by the maker's launch; START_STATE_INVALID after the collision case UNVERIFIED)
+46dc31e moveit_capture.py: record move_group /rosout per run (rosout_lines.txt); gen3 scenario unbuffered logging
+a196a21 M1 fr3: MoveIt ground truth (fake hardware)
+4b7e37d moveit_capture.py: joints of an SRDF chain group from the URDF path base -> tip
+1aabd71 M1 cr5: MoveIt ground truth
+d09e7f3 M1 lite6: MoveIt ground truth
+115f94b M1 xarm6: MoveIt ground truth (attempt 2 with reset runs)
+f18fac1 moveit_capture.py: out-of-limits goal plan only, return to the first named state before later failure cases, rclpy dump of /move_group parameters
+c72bb5d M1 ur5e: MoveIt ground truth (5 successful runs, 5 failure runs with MoveItErrorCodes and log excerpts)
+dcf6122 M1 tools: SRDF/URDF from move_group's latched topics if its parameters are empty; wait for move_group parameters
+3339bbd P2c tb4 nav: run 1 goal1 ABORTED 105; EGL headless gives /scan all range_min, xvfb gives valid ranges at RTF 0.0049: SLAM/nav blocked
+48e2607 frame_check.py: report labels use --base-frame
+ba74188 P2c nav tools: run_nav_p2c.sh, frame_check.py --base-frame; tb4 goals.yaml picked on the warehouse map and checked
+3e8c8f6 OVERNIGHT_ROBOTS: tb4 SLAM wording (23 drop lines, cause UNVERIFIED)
+d0e6a8a P2c tb4 SLAM: two attempts; map saved on attempt 2 but only 0.55 x 1.10 m (slam_toolbox dropped scans)
+8966c6d M1 tools: moveit_capture.py, run_moveit_m1.sh, moveit scenarios for the six arms
+6da5276 run_mapping_item.sh: optional MAP_SAVE_TIMEOUT (map_saver_cli save_map_timeout)
+0498a26 pick_goals.py (deterministic goal proposals on a robot's map); installed turtlebot4_navigation warehouse map copied with its source
+b5ccc71 run_mapping_item.sh: DOMAIN, PARTITION, GOALS_YAML overridable (defaults unchanged)
+6456dc7 P2c tb4: sensors snapshot (warehouse, headless)
+e121e39 tb4_headless.launch.py: pass slam/localization/nav2 to turtlebot4_spawn; P2c scenarios for tb4
+1c0732c P2c scout: sensors snapshot (no sensors on the model; maker has no SLAM/Nav2 for Scout)
+5c6b97e robots_sudo.sh: cite the EXTERNALLY-MANAGED marker for the rowan note
+b2ed1b6 crazyflie: NOT BUILT, the sim needs swig (apt) for the cffirmware bindings and rowan (pip); robots_sudo.sh section 4
+7018318 scout: ROS2LAB-PORT of ugv_gazebo_sim (Gazebo Classic -> Harmonic), built and verified (/odom moves under TwistStamped)
+abe3e53 gen3: OFFICIAL-JAZZY, built and verified in Gazebo Harmonic (joint_trajectory_controller active, motion proof)
+1287daf fr3: OFFICIAL-JAZZY, libfranka 0.20.5 built by colcon, verified in Gazebo Harmonic (example controller moves the joints)
+ef3a400 cr5: OFFICIAL-JAZZY (maker jazzy branch), built and verified in Gazebo Harmonic (group controller active, motion proof)
+1654964 lite6: OFFICIAL-JAZZY, verified in Gazebo Harmonic (traj controller active, motion proof)
+07422d2 xarm6: OFFICIAL-JAZZY, built (8 packages) and verified in Gazebo Harmonic (traj controller active, motion proof)
+ff41703 tb4: OFFICIAL-JAZZY, verified headless (EGL) in Gazebo Harmonic: diffdrive active, topics, /odom moves under TwistStamped
+b307219 ur5e: OFFICIAL-JAZZY, verified in Gazebo Harmonic (controllers active, topics, FollowJointTrajectory motion proof)
+93535c4 Add arm_motion_proof.py and mobile_motion_proof.py (P2b rule 7c evidence)
+799a910 P2B_PHASE_A: instructor ran the sudo steps; checked (apt sources, 10 packages, rosdep check); OVERNIGHT_ROBOTS.md started
+```
