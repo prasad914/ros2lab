@@ -1210,9 +1210,7 @@ export class Shell {
     }
     // an official robot workspace (real-launch.js): the real launch system, and its models for ros2 run
     if (sub === "launch" && a && !a.startsWith("-") && this.realWs && this.realWs.api.owns(this, a)) {
-      const R = this.realWs;   // the maker's real-robot launch needs the course administrator's hardware license
-      const simulated = args.some((x) => /^(use_mock_hardware|use_fake_hardware|mock_hardware|fake_hardware|sim|use_sim):=(true|True|1)$|^hardware_type:=(fake|mock|gz|gz_classic|sim)$|^backend:=(sim|cflib_sim)$/.test(x));
-      if (!simulated && R.realCmds && R.realCmds.includes(`${a} ${b}`) && R.hwGate) { const gt = R.hwGate(); if (!gt.ok) { if (!this.graph) this.graph = new RosGraph(this, []); return this.graph.hwLocked(gt.message); } }
+      // the real-hardware license lock goes by what the launch starts (real-launch.js hwLock), not by the command typed
       return { lines: [], realLaunch: args.slice(1) };
     }
     if (sub === "run" && a && b && this.realWs && this.realWs.api.runnable(this, a, b)) {

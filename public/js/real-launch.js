@@ -67,7 +67,11 @@ export async function loadRealWorkspace(sh, wsid, robotId, { onStatus } = {}) {
   try { const { registerControllerTypes } = await import("./ros2-control.js"); for (const [rel, t] of Object.entries(text)) if (/\.xml$/.test(rel) && /controller_interface::/.test(t)) registerControllerTypes(t); } catch { /* the defaults */ }
   const env = { ...(ws.env && ws.env[robotId] ? ws.env[robotId] : ws.env && !Object.values(ws.env).some((v) => typeof v === "object") ? ws.env : {}) };
   const pkgs = new Map((ws.packages || []).map((p) => [p.name, { ...p, dir: `${WSDIR}/${p.path}` }]));
-  sh.realWs = { id: wsid, json: ws, robot: robotId, base, env, pkgs, jazzy, built: new Map(), mounted: new Map(), jobs: new Set(),
+  // the makers' hardware plugins (pluginlib XML with a hardware_interface:: base class) that drive a real robot:
+  // ros2_control_node with one of them needs the hardware license (the fake / mock ones do not)
+  const hwPlugins = new Set();
+  for (const [rel, t] of Object.entries(text)) if (/\.xml$/.test(rel) && /hardware_interface::/.test(t)) for (const m of String(t).matchAll(/<class\b[^>]*?\bname\s*=\s*"([^"]+)"[^>]*?base_class_type\s*=\s*"hardware_interface::\w+"/g)) if (!/fake|mock|sim/i.test(m[1])) hwPlugins.add(m[1]);
+  sh.realWs = { id: wsid, json: ws, robot: robotId, base, env, pkgs, jazzy, hwPlugins, built: new Map(), mounted: new Map(), jobs: new Set(),
     // what terminal-sim.js calls (it does not import this module: only robot pages with an official workspace load it)
     api: { owns: realOwns, colcon: realColconBuild, packagesIn: realPackagesIn, runnable: realRunnable, startLaunch: startRealLaunch, startRun: startRealRun } };
   for (const n of Object.keys(jazzy.index.packages || {})) sh.rosPkgs.add(n);   // apt packages the workspace needs are installed
@@ -385,8 +389,23 @@ function makeContext(sh, ui, getJob) {
       const job = getJob(); if (!job || !job.readFile) return;
       for (const q of paths) { try { const r = await Promise.race([job.readFile(q), new Promise((res) => setTimeout(() => res(null), 3000))]); const t = r && (r.text ?? r.content ?? (typeof r === "string" ? r : null)); if (t != null) { sh.mkdirP("/tmp"); sh.fs.set(q, { type: "f", mode: "rw-------", content: String(t) }); } } catch { /* not there */ } }
     },
+    // the real-hardware license lock (expert_review_robots_2026-10-18 site-wide #1) goes by what a launch starts: a
+    // driver node of a real robot, or ros2_control_node with a real hardware plugin. Locked: this process is not
+    // started, the lock note is printed once and the launch is stopped (like Ctrl+C).
+    hwLock(what, exit) {
+      const gt = R && R.hwGate ? R.hwGate() : { ok: true };
+      if (gt.ok) return false;
+      if (!ctx.hwLocked) {
+        ctx.hwLocked = true;
+        lines(g.hwLockNote(gt.message, what));
+        const job = getJob(); if (job) setTimeout(() => job.ctrlC(), 0);
+      }
+      exit(1); return true;
+    },
     async adapt(info, { exit, prefix }) {
       const ros = info.ros || {}, pkg = ros.package, exe = ros.executable, tag = info.name || `${exe}`;
+      if (HW_NODES[`${pkg} ${exe}`] && ctx.hwLock(`${pkg}/${exe} (${HW_NODES[`${pkg} ${exe}`]})`, exit)) return;
+      if (ctx.hwLocked) { exit(1); return; }   // the launch is being stopped: start nothing more
       const pid = info.pid, params = info.params || {};
       if (ros.fqn) fqnPid.set(ros.fqn, pid);
       const P = (t) => (prefix ? `[${tag}] ${t}` : t);
@@ -530,6 +549,8 @@ function makeContext(sh, ui, getJob) {
           // Jazzy's controller_manager waits for /robot_description (robot_state_publisher may start after it)
           await waitFor(() => g.nodes.some((x) => x.kind === "rsp" && x.params.robot_description), 30000, 200);
           await ctx.pullTmp(JSON.stringify(params) + (g.nodes.find((x) => x.kind === "rsp" && x.params.robot_description) || { params: {} }).params.robot_description);
+          const realHw = hwPluginsOf(sh, (g.nodes.find((x) => x.kind === "rsp" && x.params.robot_description) || { params: {} }).params.robot_description)[0];
+          if (realHw && ctx.hwLock(`ros2_control_node with the hardware plugin ${realHw}`, exit)) return;
           // every --params-file in order, as rcl reads them (later files add to and override earlier ones; repeated keys merge)
           const pf = []; for (let i = 0; i < info.cmd.length; i++) if (info.cmd[i] === "--params-file" && info.files && info.files[info.cmd[i + 1]] != null) pf.push([info.cmd[i + 1], info.files[info.cmd[i + 1]]]);
           const withCm = pf.filter(([, t]) => /^\s*\/?controller_manager:\s*$/m.test(t));
@@ -634,6 +655,21 @@ CTRL-C to quit
 `;
 const stamp = () => { const t = Date.now() / 1000; return `${Math.floor(t)}.${String(Math.floor((t % 1) * 1e9)).padStart(9, "0")}`; };
 
+// driver programs of real robots (what they talk to); the makers' launch files start them only for the real robot
+const HW_NODES = {
+  "ur_robot_driver dashboard_client": "the UR robot's dashboard server", "ur_robot_driver urscript_interface": "the UR robot's URScript port",
+  "ur_robot_driver controller_stopper_node": "the UR robot's program state", "ur_robot_driver robot_state_helper": "the UR robot's safety and robot mode",
+  "xarm_api xarm_driver_node": "the xArm controller over Ethernet", "scout_base scout_base_node": "the Scout's CAN bus",
+  "crazyflie_server_cpp crazyflie_server": "the Crazyradio (backend cpp)", "crazyflie_server_py crazyflie_server": "the Crazyradio (backend cflib)",
+  "turtlebot3_node turtlebot3_ros": "the OpenCR board", "hls_lfcd_lds_driver hlds_laser_publisher": "the LDS-01 lidar", "ld08_driver ld08_driver": "the LDS-02 lidar",
+  "coin_d4_driver coin_d4_driver": "the LDS-03 lidar", "interbotix_xs_sdk xs_sdk": "the U2D2 / Dynamixel servos", "franka_gripper franka_gripper_node": "the Franka Hand",
+  "kortex_driver kortex_driver": "the Kinova arm over Ethernet", "dobot_bringup_v4 dobot_bringup_v4_node": "the Dobot controller over TCP/IP",
+};
+// real hardware plugins (sh.realWs.hwPlugins) in the <ros2_control> blocks of a URDF
+function hwPluginsOf(sh, urdf) {
+  const set = (sh.realWs && sh.realWs.hwPlugins) || new Set();
+  return [...String(urdf || "").matchAll(/<hardware\b[^>]*>(?:(?!<\/hardware>)[\s\S])*?<plugin>\s*([^<\s]+)\s*<\/plugin>/g)].map((m) => m[1]).filter((p) => set.has(p));
+}
 // What the makers' drivers print when the robot is not connected (the practice computer has no USB / Ethernet robot)
 const REAL_DRIVERS = {
   "turtlebot3_node turtlebot3_ros": () => [`[INFO] [${stamp()}] [turtlebot3_node]: Init TurtleBot3 Node Main`, `[INFO] [${stamp()}] [turtlebot3_node]: Init DynamixelSDKWrapper`, `[ERROR] [${stamp()}] [DynamixelSDKWrapper]: Failed to open the port(/dev/ttyACM0)!`, `[ERROR] [${stamp()}] [DynamixelSDKWrapper]: Failed to init DynamixelSDKWrapper`],

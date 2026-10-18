@@ -129,6 +129,11 @@ export const rcMethods = {
       // the makers' fake / mock hardware plugins (official workspaces) behave like mock_components/GenericSystem
       const FAKE = ["mock_components/GenericSystem", "fake_components/GenericSystem", "uf_robot_hardware/UFRobotFakeSystemHardware", "interbotix_xs_ros_control/XSHardwareInterface/fake", "dobot_ros2_control/DobotFakeHardware"];
       const known = FAKE.includes(sys.plugin) || sys.plugin === "ros2lab_hardware/BridgeSystem";
+      if (sys.plugin && this.sh.realWs && this.sh.realWs.hwPlugins && this.sh.realWs.hwPlugins.has(sys.plugin)) {   // the maker's driver for the real robot
+        lines.push(this.hint(`(ROS2Lab: ${sys.plugin} is the maker's ros2_control driver for the real robot. The practice computer cannot run it: run this launch on your Ubuntu computer with the robot connected, and see it here with "Connect to ROS 2 on your Ubuntu computer".)`));
+        this.nodes = this.nodes.filter((x) => x !== node); const i = fulls.indexOf(node.full); if (i >= 0) fulls.splice(i, 1);
+        return { lines, died: true };
+      }
       if (!sys.plugin || !known) {
         const gz = /^gz_ros2_control\/|^ign_ros2_control\/|gazebo_ros2_control/.test(sys.plugin || "");
         P("ERROR", "resource_manager", `Caught exception of type : N9pluginlib20LibraryLoadExceptionE while loading hardware: According to the loaded plugin descriptions the class ${sys.plugin || "''"} with base class type hardware_interface::SystemInterface does not exist. Declared types are  mock_components/GenericSystem ros2lab_hardware/BridgeSystem`);

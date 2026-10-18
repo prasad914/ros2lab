@@ -1962,8 +1962,14 @@ RosGraph.prototype.hwGate = function (robots) {
   return sh.spec.hardwareGate(robots.filter(Boolean));
 };
 RosGraph.prototype.hwLocked = function (msg) {
-  return [this.out("[INFO] [launch]: Default logging verbosity is set to INFO"), this.err(`[ERROR] [ros2lab_hardware_license]: ${msg}`), this.err("[ERROR] [launch]: real hardware is locked: nothing was started"),
-    this.hint("(Simulation needs no license: use sim.launch.py / gazebo.launch.py / demo.launch.py. For the real robot, ask your course administrator for a hardware license: RViz page → Connect to ROS 2 → Ask for a hardware license.)")];
+  return [this.out("[INFO] [launch]: Default logging verbosity is set to INFO"), this.err(`[ERROR] [ros2lab_hardware_license]: ${msg}`), this.err("[ERROR] [launch]: real hardware is locked: nothing was started"), this.hint(this.hwSimHint())];
+};
+// a launch that started a real driver or a real hardware plugin (real-launch.js): it is stopped there
+RosGraph.prototype.hwLockNote = function (msg, what) {
+  return [this.err(`[ERROR] [ros2lab_hardware_license]: ${msg}`), this.err(`[ERROR] [ros2lab_hardware_license]: real hardware is locked: this launch starts ${what}, which drives the real robot, so ROS2Lab stopped the launch`), this.hint(this.hwSimHint())];
+};
+RosGraph.prototype.hwSimHint = function () {
+  return "(Simulation needs no license: use sim.launch.py / gazebo.launch.py / demo.launch.py. For the real robot, ask your course administrator for a hardware license: RViz page → Connect to ROS 2 → Ask for a hardware license.)";
 };
 // ros2 launch <driver package> <file> straight from the terminal
 RosGraph.prototype.driverDirect = function (pkg, file, extra = []) {
