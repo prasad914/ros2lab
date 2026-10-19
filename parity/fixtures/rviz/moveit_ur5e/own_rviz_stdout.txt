@@ -1,0 +1,26 @@
+QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-prasad'
+[INFO] [1792442912.347304145] [rviz2]: Stereo is NOT SUPPORTED
+[INFO] [1792442912.347529077] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)
+[INFO] [1792442912.436926260] [rviz2]: Stereo is NOT SUPPORTED
+Warning: class_loader.impl: SEVERE WARNING!!! A namespace collision has occurred with plugin factory for class rviz_default_plugins::displays::InteractiveMarkerDisplay. New factory will OVERWRITE existing one. This situation occurs when libraries containing plugins are directly linked against an executable (the one running right now generating this message). Please separate plugins out into their own library or just don't link against the library and use either class_loader::ClassLoader/MultiLibraryClassLoader to open.
+         at line 321 in /opt/ros/jazzy/include/class_loader/class_loader/class_loader_core.hpp
+[ERROR] [1792442915.687005744] [moveit_3151593975.moveit.ros.motion_planning_frame]: Action server: /recognize_objects not available
+[INFO] [1792442915.760922991] [moveit_3151593975.moveit.ros.motion_planning_frame]: MoveGroup namespace changed: / -> . Reloading params.
+Error:   Semantic description is not specified for the same robot as the URDF
+         at line 681 in ./src/model.cpp
+[INFO] [1792442916.034580506] [moveit_3151593975.moveit.ros.rdf_loader]: Loaded robot model in 0.118 seconds
+[INFO] [1792442916.034852811] [moveit_3151593975.moveit.core.robot_model]: Loading robot model 'ur'...
+[INFO] [1792442916.034969553] [moveit_3151593975.moveit.core.robot_model]: No root/virtual joint specified in SRDF. Assuming fixed joint
+[WARN] [1792442916.075290164] [moveit_3151593975.moveit.ros.robot_model_loader]: No kinematics plugins defined. Fill and load kinematics.yaml!
+[INFO] [1792442916.206734992] [moveit_3151593975.moveit.ros.planning_scene_monitor]: Starting planning scene monitor
+[INFO] [1792442916.209238842] [moveit_3151593975.moveit.ros.planning_scene_monitor]: Listening to '/monitored_planning_scene'
+[INFO] [1792442916.869947809] [interactive_marker_display_105360671856624]: Connected on namespace: /rviz_moveit_motion_planning_display/robot_interaction_interactive_marker_topic
+[INFO] [1792442916.875038425] [moveit_3151593975.moveit.ros.robot_interaction]: No active joints or end effectors found for group 'ur_manipulator'. Make sure that kinematics.yaml is loaded in this node's namespace.
+[INFO] [1792442916.881813853] [moveit_3151593975.moveit.ros.motion_planning_frame]: group ur_manipulator
+[INFO] [1792442916.881935740] [moveit_3151593975.moveit.ros.motion_planning_frame]: Constructing new MoveGroup connection for group 'ur_manipulator' in namespace ''
+[INFO] [1792442916.911970571] [moveit_3151593975.moveit.ros.move_group_interface]: Ready to take commands for planning group ur_manipulator.
+[INFO] [1792442917.312148071] [interactive_marker_display_105360671856624]: Sending request for interactive markers
+[INFO] [1792442917.441993772] [interactive_marker_display_105360671856624]: Service response received for initialization
+[INFO] [1792442961.072433034] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[WARN] [1792442961.195267203] [interactive_marker_display_105360671856624]: Server not available while running, resetting
+[INFO] [1792442961.376860367] [moveit_3151593975.moveit.ros.planning_scene_monitor]: Stopping planning scene monitor

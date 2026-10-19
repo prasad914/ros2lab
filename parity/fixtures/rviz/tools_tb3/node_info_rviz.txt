@@ -1,0 +1,30 @@
+/robot_state_publisher
+/ros_gz_bridge
+/rviz
+/transform_listener_impl_5d7fa3ccb830
+/rviz
+  Subscribers:
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+    /robot_description: std_msgs/msg/String
+    /scan: sensor_msgs/msg/LaserScan
+  Publishers:
+    /clicked_point: geometry_msgs/msg/PointStamped
+    /goal_pose: geometry_msgs/msg/PoseStamped
+    /initialpose: geometry_msgs/msg/PoseWithCovarianceStamped
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+    /rosout: rcl_interfaces/msg/Log
+  Service Servers:
+    /rviz/describe_parameters: rcl_interfaces/srv/DescribeParameters
+    /rviz/get_parameter_types: rcl_interfaces/srv/GetParameterTypes
+    /rviz/get_parameters: rcl_interfaces/srv/GetParameters
+    /rviz/get_type_description: type_description_interfaces/srv/GetTypeDescription
+    /rviz/list_parameters: rcl_interfaces/srv/ListParameters
+    /rviz/reset_time: std_srvs/srv/Empty
+    /rviz/set_parameters: rcl_interfaces/srv/SetParameters
+    /rviz/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically
+  Service Clients:
+
+  Action Servers:
+
+  Action Clients:
+
