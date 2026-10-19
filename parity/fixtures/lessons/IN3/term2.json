@@ -1,0 +1,93 @@
+{
+ "lesson": "IN3",
+ "term": 2,
+ "title": "Practice: find all five parts on a live turtle",
+ "sourced": true,
+ "running": [
+  "turtlesim"
+ ],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/IN3_t2",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:23:27+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 node list",
+   "out": "/turtlesim\n",
+   "exit": 0,
+   "secs": 1.7,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 topic echo --once /turtle1/pose",
+   "out": "x: 5.544444561004639\ny: 5.544444561004639\ntheta: 0.0\nlinear_velocity: 0.0\nangular_velocity: 0.0\n---\n",
+   "exit": 0,
+   "secs": 2.3,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 service call /spawn turtlesim/srv/Spawn \"{x: 3, y: 3, theta: 0.0, name: 'buddy'}\"",
+   "out": "requester: making request: turtlesim.srv.Spawn_Request(x=3.0, y=3.0, theta=0.0, name='buddy')\n\nresponse:\nturtlesim.srv.Spawn_Response(name='buddy')\n\n",
+   "exit": 0,
+   "secs": 2.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "100": "[INFO] [1792425222.321693732] [turtlesim]: Spawning turtle [buddy] at x=[3.000000], y=[3.000000], theta=[0.000000]\n"
+   }
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 action send_goal /turtle1/rotate_absolute turtlesim/action/RotateAbsolute \"{theta: 1.57}\"",
+   "out": "Waiting for an action server to become available...\nSending goal:\n     theta: 1.57\n\nGoal accepted with ID: 695bbb18e7284d5d93c609f11839509e\n\nResult:\n    delta: -1.5520000457763672\n\nGoal finished with status: SUCCEEDED\n",
+   "exit": 0,
+   "secs": 3.3,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "100": "[INFO] [1792425226.085320330] [turtlesim]: Rotation goal completed successfully\n"
+   }
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 param set /turtlesim background_r 230",
+   "out": "Set parameter successful\n",
+   "exit": 0,
+   "secs": 2.1,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  }
+ ],
+ "pre": [
+  {
+   "name": "turtlesim",
+   "cmd": "ros2 run turtlesim turtlesim_node",
+   "out": "[INFO] [1792425209.319628095] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792425209.334544207] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
+   "state": "still running after 4 s"
+  }
+ ],
+ "notes": [
+  "pre-running terminal 100 output during block: "
+ ],
+ "finished": "2026-10-19T21:23:50+0530"
+}

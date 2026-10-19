@@ -1,0 +1,38 @@
+# Excerpt of parity/fixtures/lessons/IN1/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson IN1 terminal 1: Practice: see a standard message
+2:# scratch HOME /home/prasad/lesson_ws/homes/IN1_t1 shown as /home/student; sourced=False running=[] start=None
+3:## [term 1] $ source /opt/ros/jazzy/setup.bash   (exit=0, 0.8 s, finished, cwd=/home/student)
+4:
+5:## [term 1] $ ros2 run turtlesim turtlesim_node   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+6:[INFO] [1792425143.602648066] [turtlesim]: Starting turtlesim with node name /turtlesim
+7:[INFO] [1792425143.618375976] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+8:
+9:## [new terminal 2]
+10:## [term 2] $ source /opt/ros/jazzy/setup.bash   (exit=0, 0.9 s, finished, cwd=/home/student)
+11:
+12:## [term 2] $ ros2 topic list -t   (exit=0, 1.2 s, finished, cwd=/home/student)
+13:/parameter_events [rcl_interfaces/msg/ParameterEvent]
+14:/rosout [rcl_interfaces/msg/Log]
+15:/turtle1/cmd_vel [geometry_msgs/msg/Twist]
+16:/turtle1/color_sensor [turtlesim/msg/Color]
+17:/turtle1/pose [turtlesim/msg/Pose]
+18:
+19:## [term 2] $ ros2 interface show geometry_msgs/msg/Twist   (exit=0, 1.1 s, finished, cwd=/home/student)
+20:# This expresses velocity in free space broken into its linear and angular parts.
+21:
+22:Vector3  linear
+23:	float64 x
+24:	float64 y
+25:	float64 z
+26:Vector3  angular
+27:	float64 x
+28:	float64 y
+29:	float64 z
+30:
+31:## [term 1] Ctrl+C to stop: ros2 run turtlesim turtlesim_node  (exit=0)
+32:[INFO] [1792425143.602648066] [turtlesim]: Starting turtlesim with node name /turtlesim
+33:[INFO] [1792425143.618375976] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+34:[INFO] [1792425156.575211532] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+35:

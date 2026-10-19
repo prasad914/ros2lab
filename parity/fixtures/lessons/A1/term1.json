@@ -1,0 +1,66 @@
+{
+ "lesson": "A1",
+ "term": 1,
+ "title": "Practice terminal: your first commands",
+ "sourced": false,
+ "running": [],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/A1_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T19:42:26+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "whoami",
+   "out": "prasad\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "pwd",
+   "out": "/home/student\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ls",
+   "out": "Desktop  Documents  Downloads  Music  Pictures\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ls -a",
+   "out": ".  ..  .bashrc  Desktop  Documents  Downloads  Music  Pictures  .profile\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  }
+ ],
+ "pre": [],
+ "notes": [
+  "leftover processes killed after the block: [(1133306, '/usr/bin/python3 -c from ros2cli.daemon.daemonize import main; main() --name ros2-daemon --ros-domain-id 52 --rmw-implem')]"
+ ],
+ "finished": "2026-10-19T19:42:30+0530"
+}

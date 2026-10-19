@@ -1,0 +1,110 @@
+[
+ {
+  "lesson": "P1",
+  "block": 9,
+  "code": "name = \"Chiku\"        # text (str)\nbattery = 80          # whole number (int)\nspeed = 0.5           # decimal number (float)\nis_charging = False   # True or False (bool)\nprint(name, battery, speed, is_charging)",
+  "shown": "Chiku 80 0.5 False",
+  "real": "Chiku 80 0.5 False",
+  "stderr": "",
+  "match": true
+ },
+ {
+  "lesson": "P1",
+  "block": 13,
+  "code": "name = \"Chiku\"\nbattery = 80\nprint(f\"{name} has {battery}% battery\")",
+  "shown": "Chiku has 80% battery",
+  "real": "Chiku has 80% battery",
+  "stderr": "",
+  "match": true
+ },
+ {
+  "lesson": "P2",
+  "block": 4,
+  "code": "distance = 0.4\nprint(distance < 0.5)    # True\nprint(distance == 1.0)   # False",
+  "shown": "True\nFalse",
+  "real": "True\nFalse",
+  "stderr": "",
+  "match": true
+ },
+ {
+  "lesson": "P2",
+  "block": 8,
+  "code": "distance = 0.8\nif distance < 0.5:\n    print(\"STOP\")\nelif distance < 1.0:\n    print(\"SLOW\")\nelse:\n    print(\"GO\")",
+  "shown": "SLOW",
+  "real": "SLOW",
+  "stderr": "",
+  "match": true
+ },
+ {
+  "lesson": "P2",
+  "block": 12,
+  "code": "for i in range(3):        # i = 0, then 1, then 2\n    print(\"Beep\", i)\n\ncount = 3\nwhile count > 0:          # repeat while this is True\n    print(count)\n    count = count - 1\nprint(\"Lift-off!\")",
+  "shown": "Beep 0\nBeep 1\nBeep 2\n3\n2\n1\nLift-off!",
+  "real": "Beep 0\nBeep 1\nBeep 2\n3\n2\n1\nLift-off!",
+  "stderr": "",
+  "match": true
+ },
+ {
+  "lesson": "P2",
+  "block": 15,
+  "code": "readings = [1.2, 0.9, 0.4, 1.5]\nfor d in readings:\n    if d < 0.5:\n        print(\"Obstacle at\", d)\n        break             # leave the loop now\n    print(\"Clear:\", d)",
+  "shown": "Clear: 1.2\nClear: 0.9\nObstacle at 0.4",
+  "real": "Clear: 1.2\nClear: 0.9\nObstacle at 0.4",
+  "stderr": "",
+  "match": true
+ },
+ {
+  "lesson": "P3",
+  "block": 10,
+  "code": "def is_safe(distance):\n    return distance > 0.5\n\nprint(is_safe(0.8))   # True\nprint(is_safe(0.2))   # False",
+  "shown": "True\nFalse",
+  "real": "True\nFalse",
+  "stderr": "",
+  "match": true
+ },
+ {
+  "lesson": "B3",
+  "block": 4,
+  "code": "class Robot:\n    def __init__(self, name, battery):\n        self.name = name          # store the name inside this robot\n        self.battery = battery    # store the battery inside this robot\n\nr1 = Robot(\"Chiku\", 90)\nr2 = Robot(\"Bolt\", 40)\nprint(r1.name, r1.battery)\nprint(r2.name, r2.battery)",
+  "shown": "Chiku 90\nBolt 40",
+  "real": "Chiku 90\nBolt 40",
+  "stderr": "",
+  "match": true
+ },
+ {
+  "lesson": "B4",
+  "block": 3,
+  "code": "class Robot:\n    def __init__(self, name):\n        self.name = name\n        self.distance = 0\n\n    def move(self, steps):\n        self.distance = self.distance + steps\n        print(self.name, \"moved\", steps, \"steps\")\n\n    def report(self):\n        print(self.name, \"total distance:\", self.distance)\n\nr = Robot(\"Chiku\")\nr.move(3)\nr.move(2)\nr.report()",
+  "shown": "Chiku moved 3 steps\nChiku moved 2 steps\nChiku total distance: 5",
+  "real": "Chiku moved 3 steps\nChiku moved 2 steps\nChiku total distance: 5",
+  "stderr": "",
+  "match": true
+ },
+ {
+  "lesson": "B5",
+  "block": 3,
+  "code": "class Motor:\n    def __init__(self, side):\n        self.side = side\n\n    def spin(self):\n        print(self.side, \"motor spinning\")\n\nclass Robot:\n    def __init__(self):\n        self.left = Motor(\"left\")      # a Motor object inside the robot\n        self.right = Motor(\"right\")\n\n    def forward(self):\n        self.left.spin()\n        self.right.spin()\n\nr = Robot()\nr.forward()",
+  "shown": "left motor spinning\nright motor spinning",
+  "real": "left motor spinning\nright motor spinning",
+  "stderr": "",
+  "match": true
+ },
+ {
+  "lesson": "B6",
+  "block": 4,
+  "code": "class Vehicle:                   # parent class\n    def __init__(self, name):\n        self.name = name\n\n    def start(self):\n        print(self.name, \"engine started\")\n\nclass Rover(Vehicle):            # child class: a Rover is a Vehicle\n    def __init__(self, name):\n        super().__init__(name)   # run the parent's setup first\n        self.wheels = 6\n\n    def explore(self):\n        print(self.name, \"exploring on\", self.wheels, \"wheels\")\n\nr = Rover(\"Pragyan\")\nr.start()     # inherited from Vehicle\nr.explore()   # Rover's own method",
+  "shown": "Pragyan engine started\nPragyan exploring on 6 wheels",
+  "real": "Pragyan engine started\nPragyan exploring on 6 wheels",
+  "stderr": "",
+  "match": true
+ },
+ {
+  "lesson": "B7",
+  "block": 4,
+  "code": "def wave():\n    print(\"Waving!\")\n\nmy_callback = wave      # no brackets: the function itself, not run yet\nmy_callback()           # now it runs",
+  "shown": "Waving!",
+  "real": "Waving!",
+  "stderr": "",
+  "match": true
+ }
+]

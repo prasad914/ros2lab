@@ -1,0 +1,105 @@
+{
+ "lesson": "N20",
+ "term": 1,
+ "title": "Live terminal: launch the chase",
+ "sourced": true,
+ "running": [],
+ "start": "~/ros2_ws",
+ "scratch_home": "/home/prasad/lesson_ws/homes/N20_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:59:01+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "colcon build --packages-select chiku_control",
+   "out": "[0.5s] [0/0 complete]\n                     \nStarting >>> chiku_control\n[0.6s] [0/1 complete] [chiku_control - 0.1s]\n                                            \n[0.7s] [0/1 complete] [chiku_control - 0.2s]\n                                            \n[0.8s] [0/1 complete] [chiku_control - 0.3s]\n                                            \n[0.9s] [0/1 complete] [chiku_control - 0.4s]\n                                            \n[1.0s] [0/1 complete] [chiku_control - 0.5s]\n                                            \n[1.1s] [0/1 complete] [chiku_control - 0.6s]\n                                            \n[1.2s] [0/1 complete] [chiku_control - 0.7s]\n                                            \n[1.3s] [0/1 complete] [chiku_control - 0.8s]\n                                            \n[1.4s] [0/1 complete] [chiku_control - 0.9s]\n                                            \n[1.5s] [0/1 complete] [chiku_control - 1.0s]\n                                            \n[1.6s] [0/1 complete] [chiku_control - 1.1s]\n                                            \n[1.7s] [0/1 complete] [chiku_control - 1.2s]\n                                            \n[1.8s] [0/1 complete] [chiku_control - 1.3s]\n                                            \n[1.9s] [0/1 complete] [chiku_control - 1.4s]\n                                            \n[2.0s] [0/1 complete] [chiku_control - 1.5s]\n                                            \n[2.1s] [0/1 complete] [chiku_control - 1.6s]\n                                            \n[2.2s] [0/1 complete] [chiku_control - 1.7s]\n                                            \n[2.3s] [0/1 complete] [chiku_control - 1.8s]\n                                            \n[2.4s] [0/1 complete] [chiku_control - 1.9s]\n                                            \n[2.5s] [0/1 complete] [chiku_control - 2.0s]\n                                            \n[2.6s] [0/1 complete] [chiku_control - 2.1s]\n                                            \n[2.7s] [0/1 complete] [chiku_control - 2.2s]\n                                            \n[2.8s] [0/1 complete] [chiku_control - 2.3s]\n                                            \n[2.9s] [0/1 complete] [chiku_control - 2.4s]\n                                            \n[3.0s] [0/1 complete] [chiku_control - 2.5s]\n                                            \n[3.1s] [0/1 complete] [chiku_control - 2.6s]\n                                            \n[3.2s] [0/1 complete] [chiku_control - 2.7s]\n                                            \n[3.3s] [0/1 complete] [chiku_control - 2.8s]\n                                            \n[3.4s] [0/1 complete] [chiku_control - 2.9s]\n                                            \n[3.5s] [0/1 complete] [chiku_control - 3.0s]\n                                            \n[3.6s] [0/1 complete] [chiku_control - 3.1s]\n                                            \n[3.7s] [0/1 complete] [chiku_control - 3.2s]\n                                            \n[3.8s] [0/1 complete] [chiku_control - 3.3s]\n                                            \n[3.9s] [0/1 complete] [chiku_control - 3.4s]\n                                            \nFinished <<< chiku_control [3.48s]\n\nSummary: 1 package finished [3.96s]\n",
+   "exit": 0,
+   "secs": 4.7,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "source install/setup.bash",
+   "out": "",
+   "exit": 0,
+   "secs": 0.9,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 launch chiku_control follow.launch.py",
+   "out": "[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-19-21-59-10-213350-prasad-1208418\n[INFO] [launch]: Default logging verbosity is set to INFO\n[INFO] [turtlesim_node-1]: process started with pid [1208422]\n[INFO] [turtle_tf_broadcaster-2]: process started with pid [1208423]\n[INFO] [turtle_tf_broadcaster-3]: process started with pid [1208424]\n[INFO] [turtle_follower-4]: process started with pid [1208425]\n[turtlesim_node-1] [INFO] [1792427350.511189190] [sim]: Starting turtlesim with node name /sim\n[turtlesim_node-1] [INFO] [1792427350.528852396] [sim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n[turtlesim_node-1] [INFO] [1792427352.165080515] [sim]: Spawning turtle [turtle2] at x=[1.000000], y=[1.000000], theta=[0.000000]\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 3,
+   "term": 2,
+   "kind": "newTerminal",
+   "status": "RAN"
+  },
+  {
+   "task": 3,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 node list",
+   "out": "/broadcaster1\n/broadcaster2\n/follower\n/sim\n",
+   "exit": 0,
+   "secs": 1.2,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 4,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 topic pub --times 3 /turtle1/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 2.0}, angular: {z: 1.0}}\"",
+   "out": "publisher: beginning loop\npublishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=1.0))\n\npublishing #2: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=1.0))\n\npublishing #3: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=1.0))\n\n",
+   "exit": 0,
+   "secs": 4.6,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 5,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 topic echo --once /turtle2/pose",
+   "out": "x: 6.683959007263184\ny: 8.910350799560547\ntheta: 2.2630183696746826\nlinear_velocity: 0.5665929913520813\nangular_velocity: 0.2947848439216614\n---\n",
+   "exit": 0,
+   "secs": 2.2,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "term": 1,
+   "kind": "interrupt-at-end",
+   "of": "ros2 launch chiku_control follow.launch.py",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-19-21-59-10-213350-prasad-1208418\n[INFO] [launch]: Default logging verbosity is set to INFO\n[INFO] [turtlesim_node-1]: process started with pid [1208422]\n[INFO] [turtle_tf_broadcaster-2]: process started with pid [1208423]\n[INFO] [turtle_tf_broadcaster-3]: process started with pid [1208424]\n[INFO] [turtle_follower-4]: process started with pid [1208425]\n[turtlesim_node-1] [INFO] [1792427350.511189190] [sim]: Starting turtlesim with node name /sim\n[turtlesim_node-1] [INFO] [1792427350.528852396] [sim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n[turtlesim_node-1] [INFO] [1792427352.165080515] [sim]: Spawning turtle [turtle2] at x=[1.000000], y=[1.000000], theta=[0.000000]\n[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)\n[turtlesim_node-1] [INFO] [1792427368.282055229] [rclcpp]: signal_handler(SIGINT/SIGTERM)\n[INFO] [turtlesim_node-1]: process has finished cleanly [pid 1208422]\n[INFO] [turtle_follower-4]: process has finished cleanly [pid 1208425]\n[INFO] [turtle_tf_broadcaster-2]: process has finished cleanly [pid 1208423]\n[INFO] [turtle_tf_broadcaster-3]: process has finished cleanly [pid 1208424]\n",
+   "exit": 0,
+   "status": "RAN"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T21:59:30+0530"
+}

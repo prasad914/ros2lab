@@ -1,0 +1,77 @@
+{
+ "lesson": "D8",
+ "term": 2,
+ "title": "Practice: point the turtle in every direction",
+ "sourced": true,
+ "running": [
+  "turtlesim",
+  "teleop"
+ ],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/D8_t2",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:32:19+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 action send_goal /turtle1/rotate_absolute turtlesim/action/RotateAbsolute \"{theta: 3.14}\" --feedback",
+   "out": "Waiting for an action server to become available...\nSending goal:\n     theta: 3.14\n\nGoal accepted with ID: 05f5f97631684af097457383617e5152\n\nFeedback:\n    remaining: 3.140000104904175\n\nFeedback:\n    remaining: 3.124000072479248\n\nFeedback:\n    remaining: 3.1080000400543213\n\nFeedback:\n    remaining: 3.0920000076293945\n\nFeedback:\n    remaining: 3.076000213623047\n\nFeedback:\n    remaining: 3.06000018119812\n\nFeedback:\n    remaining: 3.0440001487731934\n\nFeedback:\n    remaining: 3.0280001163482666\n\nFeedback:\n    remaining: 3.01200008392334\n\nFeedback:\n    remaining: 2.996000051498413\n\nFeedback:\n    remaining: 2.9800000190734863\n\nFeedback:\n    remaining: 2.9640002250671387\n\nFeedback:\n    remaining: 2.948000192642212\n\nFeedback:\n    remaining: 2.932000160217285\n\nFeedback:\n    remaining: 2.9160001277923584\n\nFeedback:\n    remaining: 2.9000000953674316\n\nFeedback:\n    remaining: 2.884000062942505\n\nFeedback:\n    remaining: 2.868000030517578\n\nFeedback:\n    remaining: 2.8520002365112305\n\nFeedback:\n    remaining: 2.8360002040863037\n\nFeedback:\n    remaining: 2.820000171661377\n\nFeedback:\n    remaining: 2.80400013923645\n\nFeedback:\n    remaining: 2.7880001068115234\n\nFeedback:\n    remaining: 2.7720000743865967\n\nFeedback:\n    remaining: 2.75600004196167\n\nFeedback:\n    remaining: 2.740000009536743\n\nFeedback:\n    remaining: 2.7239999771118164\n\nFeedback:\n    remaining: 2.7080001831054688\n\nFeedback:\n    remaining: 2.692000150680542\n\nFeedback:\n    remaining: 2.6760001182556152\n\nFeedback:\n    remaining: 2.6600000858306885\n\nFeedback:\n    remaining: 2.6440000534057617\n\nFeedback:\n    remaining: 2.628000020980835\n\nFeedback:\n    remaining: 2.611999988555908\n\nFeedback:\n    remaining: 2.5960001945495605\n\nFeedback:\n    remaining: 2.580000162124634\n\nFeedback:\n    remaining: 2.564000129699707\n\nFeedback:\n    remaining: 2.5480000972747803\n\nFeedback:\n    remaining: 2.5320000648498535\n\nFeedback:\n    remaining: 2.5160000324249268\n\nFeedback:\n    remaining: 2.5\n\nFeedback:\n    remaining: 2.4840002059936523\n\nFeedback:\n    remaining: 2.4680001735687256\n\nFeedback:\n    remaining: 2.452000141143799\n\nFeedback:\n    remaining: 2.436000108718872\n\nFeedback:\n    remaining: 2.4200000762939453\n\nFeedback:\n    remaining: 2.4040000438690186\n\nFeedback:\n    remaining: 2.388000011444092\n\nFeedback:\n    remaining: 2.372000217437744\n\nFeedback:\n    remaining: 2.3560001850128174\n\nFeedback:\n    remaining: 2.3400001525878906\n\nFeedback:\n    remaining: 2.324000120162964\n\nFeedback:\n    remaining: 2.308000087738037\n\nFeedback:\n    remaining: 2.2920000553131104\n\nFeedback:\n    remaining: 2.2760000228881836\n\nFeedback:\n    remaining: 2.260000228881836\n\nFeedback:\n    remaining: 2.24399995803833\n\nFeedback:\n    remaining: 2.2280001640319824\n\nFeedback:\n    remaining: 2.2120001316070557\n\nFeedback:\n    remaining: 2.196000099182129\n\nFeedback:\n    remaining: 2.180000066757202\n\nFeedback:\n    remaining: 2.1640000343322754\n\nFeedback:\n    remaining: 2.1480002403259277\n\nFeedback:\n    remaining: 2.131999969482422\n\nFeedback:\n    remaining: 2.116000175476074\n\nFeedback:\n    remaining: 2.1000001430511475\n\nFeedback:\n    remaining: 2.0840001106262207\n\nFeedback:\n    remaining: 2.068000078201294\n\nFeedback:\n    remaining: 2.052000045776367\n\nFeedback:\n    remaining: 2.0360002517700195\n\nFeedback:\n    remaining: 2.0199999809265137\n\nFeedback:\n    remaining: 2.004000186920166\n\nFeedback:\n    remaining: 1.9880001544952393\n\nFeedback:\n    remaining: 1.9720001220703125\n\nFeedback:\n    remaining: 1.9560000896453857\n\nFeedback:\n    remaining: 1.940000057220459\n\nFeedback:\n    remaining: 1.9240001440048218\n\nFeedback:\n    remaining: 1.908000111579895\n\nFeedback:\n    remaining: 1.8920000791549683\n\nFeedback:\n    remaining: 1.8760000467300415\n\nFeedback:\n    remaining: 1.8600001335144043\n\nFeedback:\n    remaining: 1.8440001010894775\n\nFeedback:\n    remaining: 1.8280000686645508\n\nFeedback:\n    remaining: 1.8120001554489136\n\nFeedback:\n    remaining: 1.7960001230239868\n\nFeedback:\n    remaining: 1.78000009059906\n\nFeedback:\n    remaining: 1.7640000581741333\n\nFeedback:\n    remaining: 1.748000144958496\n\nFeedback:\n    remaining: 1.7320001125335693\n\nFeedback:\n    remaining: 1.7160000801086426\n\nFeedback:\n    remaining: 1.7000000476837158\n\nFeedback:\n    remaining: 1.6840001344680786\n\nFeedback:\n    remaining: 1.6680001020431519\n\nFeedback:\n    remaining: 1.652000069618225\n\nFeedback:\n    remaining: 1.636000156402588\n\nFeedback:\n    remaining: 1.6200001239776611\n\nFeedback:\n    remaining: 1.6040000915527344\n\nFeedback:\n    remaining: 1.5880000591278076\n\nFeedback:\n    remaining: 1.5720001459121704\n\nFeedback:\n    remaining: 1.5560001134872437\n\nFeedback:\n    remaining: 1.540000081062317\n\nFeedback:\n    remaining: 1.5240000486373901\n\nFeedback:\n    remaining: 1.508000135421753\n\nFeedback:\n    remaining: 1.4920001029968262\n\nFeedback:\n    remaining: 1.4760000705718994\n\nFeedback:\n    remaining: 1.4600001573562622\n\nFeedback:\n    remaining: 1.4440001249313354\n\nFeedback:\n    remaining: 1.4280000925064087\n\nFeedback:\n    remaining: 1.412000060081482\n\nFeedback:\n    remaining: 1.3960001468658447\n\nFeedback:\n    remaining: 1.380000114440918\n\nFeedback:\n    remaining: 1.3640000820159912\n\nFeedback:\n    remaining: 1.3480000495910645\n\nFeedback:\n    remaining: 1.3320001363754272\n\nFeedback:\n    remaining: 1.3160001039505005\n\nFeedback:\n    remaining: 1.3000000715255737\n\nFeedback:\n    remaining: 1.2840001583099365\n\nFeedback:\n    remaining: 1.2680001258850098\n\nFeedback:\n    remaining: 1.252000093460083\n\nFeedback:\n    remaining: 1.2360000610351562\n\nFeedback:\n    remaining: 1.220000147819519\n\nFeedback:\n    remaining: 1.2040001153945923\n\nFeedback:\n    remaining: 1.1880000829696655\n\nFeedback:\n    remaining: 1.1720000505447388\n\nFeedback:\n    remaining: 1.1560001373291016\n\nFeedback:\n    remaining: 1.1400001049041748\n\nFeedback:\n    remaining: 1.124000072479248\n\nFeedback:\n    remaining: 1.1080000400543213\n\nFeedback:\n    remaining: 1.0920000076293945\n\nFeedback:\n    remaining: 1.0760002136230469\n\nFeedback:\n    remaining: 1.0600001811981201\n\nFeedback:\n    remaining: 1.0440001487731934\n\nFeedback:\n    remaining: 1.0280001163482666\n\nFeedback:\n    remaining: 1.0120000839233398\n\nFeedback:\n    remaining: 0.9960000514984131\n\nFeedback:\n    remaining: 0.9800000190734863\n\nFeedback:\n    remaining: 0.9639999866485596\n\nFeedback:\n    remaining: 0.9480001926422119\n\nFeedback:\n    remaining: 0.9320001602172852\n\nFeedback:\n    remaining: 0.9160001277923584\n\nFeedback:\n    remaining: 0.9000000953674316\n\nFeedback:\n    remaining: 0.8840000629425049\n\nFeedback:\n    remaining: 0.8680000305175781\n\nFeedback:\n    remaining: 0.8519999980926514\n\nFeedback:\n    remaining: 0.8360002040863037\n\nFeedback:\n    remaining: 0.820000171661377\n\nFeedback:\n    remaining: 0.8040001392364502\n\nFeedback:\n    remaining: 0.7880001068115234\n\nFeedback:\n    remaining: 0.7720000743865967\n\nFeedback:\n    remaining: 0.7560000419616699\n\nFeedback:\n    remaining: 0.7400000095367432\n\nFeedback:\n    remaining: 0.7240002155303955\n\nFeedback:\n    remaining: 0.7080001831054688\n\nFeedback:\n    remaining: 0.692000150680542\n\nFeedback:\n    remaining: 0.6760001182556152\n\nFeedback:\n    remaining: 0.6600000858306885\n\nFeedback:\n    remaining: 0.6440000534057617\n\nFeedback:\n    remaining: 0.628000020980835\n\nFeedback:\n    remaining: 0.6119999885559082\n\nFeedback:\n    remaining: 0.5960001945495605\n\nFeedback:\n    remaining: 0.5800001621246338\n\nFeedback:\n    remaining: 0.564000129699707\n\nFeedback:\n    remaining: 0.5480000972747803\n\nFeedback:\n    remaining: 0.5320000648498535\n\nFeedback:\n    remaining: 0.5160000324249268\n\nFeedback:\n    remaining: 0.5\n\nFeedback:\n    remaining: 0.48400020599365234\n\nFeedback:\n    remaining: 0.4680001735687256\n\nFeedback:\n    remaining: 0.45200014114379883\n\nFeedback:\n    remaining: 0.43600010871887207\n\nFeedback:\n    remaining: 0.4200000762939453\n\nFeedback:\n    remaining: 0.40400004386901855\n\nFeedback:\n    remaining: 0.3880000114440918\n\nFeedback:\n    remaining: 0.37200021743774414\n\nFeedback:\n    remaining: 0.3560001850128174\n\nFeedback:\n    remaining: 0.3400001525878906\n\nFeedback:\n    remaining: 0.32400012016296387\n\nFeedback:\n    remaining: 0.3080000877380371\n\nFeedback:\n    remaining: 0.29200005531311035\n\nFeedback:\n    remaining: 0.2760000228881836\n\nFeedback:\n    remaining: 0.25999999046325684\n\nFeedback:\n    remaining: 0.24400019645690918\n\nFeedback:\n    remaining: 0.22800016403198242\n\nFeedback:\n    remaining: 0.21200013160705566\n\nFeedback:\n    remaining: 0.1960000991821289\n\nFeedback:\n    remaining: 0.18000006675720215\n\nFeedback:\n    remaining: 0.1640000343322754\n\nFeedback:\n    remaining: 0.14800000190734863\n\nFeedback:\n    remaining: 0.13200020790100098\n\nFeedback:\n    remaining: 0.11600017547607422\n\nFeedback:\n    remaining: 0.10000014305114746\n\nFeedback:\n    remaining: 0.0840001106262207\n\nFeedback:\n    remaining: 0.06800007820129395\n\nFeedback:\n    remaining: 0.05200004577636719\n\nFeedback:\n    remaining: 0.03600001335144043\n\nFeedback:\n    remaining: 0.020000219345092773\n\nFeedback:\n    remaining: 0.004000186920166016\n\nResult:\n    delta: -3.135999917984009\n\nGoal finished with status: SUCCEEDED\n",
+   "exit": 0,
+   "secs": 4.6,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "100": "[INFO] [1792425757.775179588] [turtlesim]: Rotation goal completed successfully\n"
+   }
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 action send_goal /turtle1/rotate_absolute turtlesim/action/RotateAbsolute \"{theta: 0.0}\"",
+   "out": "Waiting for an action server to become available...\nSending goal:\n     theta: 0.0\n\nGoal accepted with ID: 5b972d2ec4fe4af888881b512b5cb12e\n\nResult:\n    delta: 3.119999885559082\n\nGoal finished with status: SUCCEEDED\n",
+   "exit": 0,
+   "secs": 5.4,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "100": "[INFO] [1792425763.759492970] [turtlesim]: Rotation goal completed successfully\n"
+   }
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 topic echo --once /turtle1/pose",
+   "out": "x: 5.544444561004639\ny: 5.544444561004639\ntheta: 0.01600000075995922\nlinear_velocity: 0.0\nangular_velocity: 0.0\n---\n",
+   "exit": 0,
+   "secs": 2.1,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  }
+ ],
+ "pre": [
+  {
+   "name": "turtlesim",
+   "cmd": "ros2 run turtlesim turtlesim_node",
+   "out": "[INFO] [1792425741.874976383] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792425741.903033590] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
+   "state": "still running after 4 s"
+  },
+  {
+   "name": "teleop",
+   "cmd": "ros2 run turtlesim turtle_teleop_key",
+   "out": "Reading from keyboard\n---------------------------\nUse arrow keys to move the turtle.\nUse g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.\n'q' to quit.\n",
+   "state": "still running after 4 s"
+  }
+ ],
+ "notes": [
+  "pre-running terminal 100 output during block: ",
+  "pre-running terminal 101 output during block: "
+ ],
+ "finished": "2026-10-19T21:32:49+0530"
+}

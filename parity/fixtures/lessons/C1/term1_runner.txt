@@ -1,0 +1,27 @@
+# Excerpt of parity/fixtures/lessons/C1/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson C1 terminal 1: Practice: compile and run C++
+2:# scratch HOME /home/prasad/lesson_ws/homes/C1_t1 shown as /home/student; sourced=False running=[] start=None
+3:## [term 1] $ cat hello.cpp   (exit=0, 0.0 s, finished, cwd=/home/student)
+4:#include <iostream>       // lets us use std::cout
+5:
+6:int main() {             // every C++ program starts here
+7:  std::cout << "Hello, I am Chiku!" << std::endl;
+8:  return 0;              // 0 means: finished without problems
+9:}
+10:
+11:## [term 1] $ g++ hello.cpp -o hello   (exit=0, 0.8 s, finished, cwd=/home/student)
+12:
+13:## [term 1] $ ./hello   (exit=0, 0.0 s, finished, cwd=/home/student)
+14:Hello, I am Chiku!
+15:
+16:## [term 1] nano /home/student/hello.cpp: RAN (edited like nano: first occurrence replaced)
+17:## [term 1] $ ./hello   (exit=0, 0.0 s, finished, cwd=/home/student)
+18:Hello, I am Chiku!
+19:
+20:## [term 1] $ g++ hello.cpp -o hello   (exit=0, 0.8 s, finished, cwd=/home/student)
+21:
+22:## [term 1] $ ./hello   (exit=0, 0.0 s, finished, cwd=/home/student)
+23:Hello, ROS 2!
+24:

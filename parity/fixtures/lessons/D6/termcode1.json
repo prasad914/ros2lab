@@ -1,0 +1,47 @@
+{
+ "lesson": "D6",
+ "term": "code1",
+ "title": "Lesson code block commands: interface show Spawn",
+ "sourced": true,
+ "running": [
+  "turtlesim",
+  "teleop"
+ ],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/D6_tcode1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T22:08:01+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 interface show turtlesim/srv/Spawn",
+   "out": "float32 x\nfloat32 y\nfloat32 theta\nstring name # Optional.  A unique name will be created and returned if this is empty\n---\nstring name\n",
+   "exit": 0,
+   "secs": 1.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  }
+ ],
+ "pre": [
+  {
+   "name": "turtlesim",
+   "cmd": "ros2 run turtlesim turtlesim_node",
+   "out": "[INFO] [1792427883.084779833] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792427883.100647146] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
+   "state": "still running after 4 s"
+  },
+  {
+   "name": "teleop",
+   "cmd": "ros2 run turtlesim turtle_teleop_key",
+   "out": "Reading from keyboard\n---------------------------\nUse arrow keys to move the turtle.\nUse g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.\n'q' to quit.\n",
+   "state": "still running after 4 s"
+  }
+ ],
+ "notes": [
+  "pre-running terminal 100 output during block: ",
+  "pre-running terminal 101 output during block: "
+ ],
+ "finished": "2026-10-19T22:08:18+0530"
+}

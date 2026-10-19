@@ -1,0 +1,195 @@
+# Excerpt of parity/fixtures/lessons/XT7/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson XT7 terminal 1: Live terminal: build and launch the description package
+2:# scratch HOME /home/prasad/lesson_ws/homes/XT7_t1 shown as /home/student; sourced=True running=[] start=~/ros2_ws
+3:## [term 1] $ colcon build --packages-select my_robot_description   (exit=0, 4.3 s, finished, cwd=/home/student/ros2_ws)
+4:[0.4s] [0/0 complete]
+5:                     
+6:Starting >>> my_robot_description
+7:[0.5s] [0/1 complete] [my_robot_description:cmake - 0.1s]
+8:                                                         
+9:[0.6s] [0/1 complete] [my_robot_description:cmake - 0.2s]
+10:                                                         
+11:[0.7s] [0/1 complete] [my_robot_description:cmake - 0.3s]
+12:                                                         
+13:[0.8s] [0/1 complete] [my_robot_description:cmake - 0.4s]
+14:                                                         
+15:[0.9s] [0/1 complete] [my_robot_description:cmake - 0.5s]
+16:                                                         
+17:[1.0s] [0/1 complete] [my_robot_description:cmake - 0.6s]
+18:                                                         
+19:[1.1s] [0/1 complete] [my_robot_description:cmake - 0.7s]
+20:                                                         
+21:[1.2s] [0/1 complete] [my_robot_description:cmake - 0.8s]
+22:                                                         
+23:[1.3s] [0/1 complete] [my_robot_description:cmake - 0.9s]
+24:                                                         
+25:[1.4s] [0/1 complete] [my_robot_description:cmake - 1.0s]
+26:                                                         
+27:[1.5s] [0/1 complete] [my_robot_description:cmake - 1.1s]
+28:                                                         
+29:[1.6s] [0/1 complete] [my_robot_description:cmake - 1.2s]
+30:                                                         
+31:[1.7s] [0/1 complete] [my_robot_description:cmake - 1.3s]
+32:                                                         
+33:[1.8s] [0/1 complete] [my_robot_description:cmake - 1.4s]
+34:                                                         
+35:[1.9s] [0/1 complete] [my_robot_description:cmake - 1.5s]
+36:                                                         
+37:[2.0s] [0/1 complete] [my_robot_description:cmake - 1.6s]
+38:                                                         
+39:[2.1s] [0/1 complete] [my_robot_description:cmake - 1.7s]
+40:                                                         
+41:[2.2s] [0/1 complete] [my_robot_description:cmake - 1.8s]
+42:                                                         
+43:[2.3s] [0/1 complete] [my_robot_description:cmake - 1.9s]
+44:                                                         
+45:[2.4s] [0/1 complete] [my_robot_description:cmake - 2.0s]
+46:                                                         
+47:[2.5s] [0/1 complete] [my_robot_description:cmake - 2.1s]
+48:                                                         
+49:[2.6s] [0/1 complete] [my_robot_description:cmake - 2.2s]
+50:                                                         
+51:[2.7s] [0/1 complete] [my_robot_description:cmake - 2.3s]
+52:                                                         
+53:[2.8s] [0/1 complete] [my_robot_description:cmake - 2.4s]
+54:                                                         
+55:[2.9s] [0/1 complete] [my_robot_description:cmake - 2.5s]
+56:                                                         
+57:[3.0s] [0/1 complete] [my_robot_description:cmake - 2.6s]
+58:                                                         
+59:[3.1s] [0/1 complete] [my_robot_description:cmake - 2.7s]
+60:                                                         
+61:[3.2s] [0/1 complete] [my_robot_description:cmake - 2.8s]
+62:                                                         
+63:[3.3s] [0/1 complete] [my_robot_description:build - 2.9s]
+64:                                                         
+65:[3.4s] [0/1 complete] [my_robot_description:build - 3.0s]
+66:                                                         
+67:[3.5s] [0/1 complete] [my_robot_description:install - 3.1s]
+68:                                                           
+69:[3.6s] [0/1 complete] [my_robot_description:install - 3.2s]
+70:                                                           
+71:Finished <<< my_robot_description [3.24s]
+72:
+73:Summary: 1 package finished [3.62s]
+74:
+75:## [term 1] $ source install/setup.bash   (exit=0, 1.0 s, finished, cwd=/home/student/ros2_ws)
+76:
+77:## [term 1] $ ros2 launch my_robot_description display.launch.py   (exit=1, 3.6 s, finished, cwd=/home/student/ros2_ws)
+78:[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-19-22-05-14-602376-prasad-1211814
+79:[INFO] [launch]: Default logging verbosity is set to INFO
+80:[ERROR] [launch]: Caught exception in launch (see debug for traceback): executed command failed. Command: xacro /home/student/ros2_ws/install/my_robot_description/share/my_robot_description/urdf/chiku.urdf.xacro
+81:Captured stderr output: Traceback (most recent call last):
+82:  File "/opt/ros/jazzy/lib/python3.12/site-packages/xacro/__init__.py", line 1026, in parse
+83:    inp = f = open(os.path.join(root_dir, filename))
+84:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+85:FileNotFoundError: [Errno 2] No such file or directory: '/home/student/ros2_ws/install/my_robot_description/share/my_robot_description/urdf/chiku.urdf.xacro'
+86:
+87:During handling of the above exception, another exception occurred:
+88:
+89:Traceback (most recent call last):
+90:  File "/opt/ros/jazzy/lib/python3.12/site-packages/xacro/__init__.py", line 1138, in _process
+91:    doc = process_file(input_file_name, **opts)
+92:          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+93:  File "/opt/ros/jazzy/lib/python3.12/site-packages/xacro/__init__.py", line 1110, in process_file
+94:    doc = parse(None, input_file_name)
+95:          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+96:  File "/opt/ros/jazzy/lib/python3.12/site-packages/xacro/__init__.py", line 1030, in parse
+97:    raise XacroException(e.strerror + ": " + e.filename, exc=e)
+98:xacro.XacroException: No such file or directory: /home/student/ros2_ws/install/my_robot_description/share/my_robot_description/urdf/chiku.urdf.xacro [Errno 2] No such file or directory: '/home/student/ros2_ws/install/my_robot_description/share/my_robot_description/urdf/chiku.urdf.xacro'
+99:
+100:During handling of the above exception, another exception occurred:
+101:
+102:Traceback (most recent call last):
+103:  File "/opt/ros/jazzy/bin/xacro", line 33, in <module>
+104:    sys.exit(load_entry_point('xacro==2.1.1', 'console_scripts', 'xacro')())
+105:             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+106:  File "/opt/ros/jazzy/lib/python3.12/site-packages/xacro/__init__.py", line 1190, in main
+107:    _process(input_file_name, vars(opts))
+108:  File "/opt/ros/jazzy/lib/python3.12/site-packages/xacro/__init__.py", line 1143, in _process
+109:    except xml.parsers.expat.ExpatError as e:
+110:           ^^^^^^^^^^^
+111:AttributeError: module 'xml' has no attribute 'parsers'
+112:
+113:
+114:## [term 1] nano /home/student/ros2_ws/src/my_robot_description/CMakeLists.txt: RAN (edited like nano: first occurrence replaced)
+115:## [term 1] $ colcon build --packages-select my_robot_description   (exit=0, 3.0 s, finished, cwd=/home/student/ros2_ws)
+116:[0.6s] [0/0 complete]
+117:                     
+118:Starting >>> my_robot_description
+119:[0.7s] [0/1 complete] [my_robot_description:build - 0.1s]
+120:                                                         
+121:[0.8s] [0/1 complete] [my_robot_description:build - 0.2s]
+122:                                                         
+123:[0.9s] [0/1 complete] [my_robot_description:build - 0.3s]
+124:                                                         
+125:[1.0s] [0/1 complete] [my_robot_description:build - 0.4s]
+126:                                                         
+127:[1.1s] [0/1 complete] [my_robot_description:build - 0.5s]
+128:                                                         
+129:[1.2s] [0/1 complete] [my_robot_description:build - 0.6s]
+130:                                                         
+131:[1.3s] [0/1 complete] [my_robot_description:build - 0.7s]
+132:                                                         
+133:[1.4s] [0/1 complete] [my_robot_description:build - 0.8s]
+134:                                                         
+135:[1.5s] [0/1 complete] [my_robot_description:build - 0.9s]
+136:                                                         
+137:[1.6s] [0/1 complete] [my_robot_description:build - 1.0s]
+138:                                                         
+139:[1.7s] [0/1 complete] [my_robot_description:build - 1.1s]
+140:                                                         
+141:[1.8s] [0/1 complete] [my_robot_description:build - 1.2s]
+142:                                                         
+143:[1.9s] [0/1 complete] [my_robot_description:build - 1.3s]
+144:                                                         
+145:[2.0s] [0/1 complete] [my_robot_description:build - 1.4s]
+146:                                                         
+147:[2.1s] [0/1 complete] [my_robot_description:install - 1.5s]
+148:                                                           
+149:[2.2s] [0/1 complete] [my_robot_description:install - 1.6s]
+150:                                                           
+151:Finished <<< my_robot_description [1.66s]
+152:
+153:Summary: 1 package finished [2.23s]
+154:
+155:## [term 1] $ source install/setup.bash   (exit=0, 0.8 s, finished, cwd=/home/student/ros2_ws)
+156:
+157:## [term 1] $ ros2 launch my_robot_description display.launch.py   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student/ros2_ws)
+158:[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-19-22-05-23-103842-prasad-1211873
+159:[INFO] [launch]: Default logging verbosity is set to INFO
+160:[INFO] [robot_state_publisher-1]: process started with pid [1211878]
+161:[INFO] [joint_state_publisher_gui-2]: process started with pid [1211879]
+162:[INFO] [rviz2-3]: process started with pid [1211880]
+163:[robot_state_publisher-1] [INFO] [1792427723.596309072] [robot_state_publisher]: Robot initialized
+164:[rviz2-3] [INFO] [1792427724.106272346] [rviz2]: Stereo is NOT SUPPORTED
+165:[rviz2-3] [INFO] [1792427724.106407437] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)
+166:[rviz2-3] [INFO] [1792427724.292153771] [rviz2]: Stereo is NOT SUPPORTED
+167:[joint_state_publisher_gui-2] [INFO] [1792427724.910905991] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...
+168:[joint_state_publisher_gui-2] [INFO] [1792427724.937036373] [joint_state_publisher]: Centering
+169:[joint_state_publisher_gui-2] [INFO] [1792427725.073932163] [joint_state_publisher]: Got description, configuring robot
+170:[joint_state_publisher_gui-2] [INFO] [1792427725.093641507] [joint_state_publisher]: Centering
+171:
+172:## [term 1] Ctrl+C to stop: ros2 launch my_robot_description display.launch.py  (exit=0)
+173:[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-19-22-05-23-103842-prasad-1211873
+174:[INFO] [launch]: Default logging verbosity is set to INFO
+175:[INFO] [robot_state_publisher-1]: process started with pid [1211878]
+176:[INFO] [joint_state_publisher_gui-2]: process started with pid [1211879]
+177:[INFO] [rviz2-3]: process started with pid [1211880]
+178:[robot_state_publisher-1] [INFO] [1792427723.596309072] [robot_state_publisher]: Robot initialized
+179:[rviz2-3] [INFO] [1792427724.106272346] [rviz2]: Stereo is NOT SUPPORTED
+180:[rviz2-3] [INFO] [1792427724.106407437] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)
+181:[rviz2-3] [INFO] [1792427724.292153771] [rviz2]: Stereo is NOT SUPPORTED
+182:[joint_state_publisher_gui-2] [INFO] [1792427724.910905991] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...
+183:[joint_state_publisher_gui-2] [INFO] [1792427724.937036373] [joint_state_publisher]: Centering
+184:[joint_state_publisher_gui-2] [INFO] [1792427725.073932163] [joint_state_publisher]: Got description, configuring robot
+185:[joint_state_publisher_gui-2] [INFO] [1792427725.093641507] [joint_state_publisher]: Centering
+186:[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+187:[robot_state_publisher-1] [INFO] [1792427730.550300786] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+188:[rviz2-3] [INFO] [1792427730.550438912] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+189:[ERROR] [joint_state_publisher_gui-2]: process has died [pid 1211879, exit code -2, cmd '/opt/ros/jazzy/lib/joint_state_publisher_gui/joint_state_publisher_gui --ros-args'].
+190:[INFO] [robot_state_publisher-1]: process has finished cleanly [pid 1211878]
+191:[INFO] [rviz2-3]: process has finished cleanly [pid 1211880]
+192:

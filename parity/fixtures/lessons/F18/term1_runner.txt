@@ -1,0 +1,518 @@
+# Excerpt of parity/fixtures/lessons/F18/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson F18 terminal 1: Live terminal: install and launch the C++ nodes
+2:# scratch HOME /home/prasad/lesson_ws/homes/F18_t1 shown as /home/student; sourced=True running=[] start=~/ros2_ws
+3:## [term 1] nano /home/student/ros2_ws/src/chiku_control_cpp/CMakeLists.txt: RAN (edited like nano: first occurrence replaced)
+4:## [term 1] $ colcon build --packages-select chiku_control_cpp   (exit=0, 23.3 s, finished, cwd=/home/student/ros2_ws)
+5:[0.4s] [0/0 complete]
+6:                     
+7:Starting >>> chiku_control_cpp
+8:[0.5s] [0/1 complete] [chiku_control_cpp:cmake - 0.1s]
+9:                                                      
+10:[0.6s] [0/1 complete] [chiku_control_cpp:cmake - 0.2s]
+11:                                                      
+12:[0.7s] [0/1 complete] [chiku_control_cpp:cmake - 0.3s]
+13:                                                      
+14:[0.8s] [0/1 complete] [chiku_control_cpp:cmake - 0.4s]
+15:                                                      
+16:[0.9s] [0/1 complete] [chiku_control_cpp:cmake - 0.5s]
+17:                                                      
+18:[1.0s] [0/1 complete] [chiku_control_cpp:cmake - 0.6s]
+19:                                                      
+20:[1.1s] [0/1 complete] [chiku_control_cpp:cmake - 0.7s]
+21:                                                      
+22:[1.2s] [0/1 complete] [chiku_control_cpp:cmake - 0.8s]
+23:                                                      
+24:[1.3s] [0/1 complete] [chiku_control_cpp:cmake - 0.9s]
+25:                                                      
+26:[1.4s] [0/1 complete] [chiku_control_cpp:cmake - 1.0s]
+27:                                                      
+28:[1.5s] [0/1 complete] [chiku_control_cpp:cmake - 1.1s]
+29:                                                      
+30:[1.6s] [0/1 complete] [chiku_control_cpp:cmake - 1.2s]
+31:                                                      
+32:[1.7s] [0/1 complete] [chiku_control_cpp:cmake - 1.3s]
+33:                                                      
+34:[1.8s] [0/1 complete] [chiku_control_cpp:cmake - 1.4s]
+35:                                                      
+36:[1.9s] [0/1 complete] [chiku_control_cpp:cmake - 1.5s]
+37:                                                      
+38:[2.0s] [0/1 complete] [chiku_control_cpp:cmake - 1.6s]
+39:                                                      
+40:[2.1s] [0/1 complete] [chiku_control_cpp:cmake - 1.7s]
+41:                                                      
+42:[2.2s] [0/1 complete] [chiku_control_cpp:cmake - 1.8s]
+43:                                                      
+44:[2.3s] [0/1 complete] [chiku_control_cpp:cmake - 1.9s]
+45:                                                      
+46:[2.4s] [0/1 complete] [chiku_control_cpp:cmake - 2.0s]
+47:                                                      
+48:[2.5s] [0/1 complete] [chiku_control_cpp:cmake - 2.1s]
+49:                                                      
+50:[2.6s] [0/1 complete] [chiku_control_cpp:cmake - 2.2s]
+51:                                                      
+52:[2.7s] [0/1 complete] [chiku_control_cpp:cmake - 2.3s]
+53:                                                      
+54:[2.8s] [0/1 complete] [chiku_control_cpp:cmake - 2.4s]
+55:                                                      
+56:[2.9s] [0/1 complete] [chiku_control_cpp:cmake - 2.5s]
+57:                                                      
+58:[3.1s] [0/1 complete] [chiku_control_cpp:cmake - 2.6s]
+59:                                                      
+60:[3.2s] [0/1 complete] [chiku_control_cpp:cmake - 2.7s]
+61:                                                      
+62:[3.3s] [0/1 complete] [chiku_control_cpp:cmake - 2.8s]
+63:                                                      
+64:[3.4s] [0/1 complete] [chiku_control_cpp:cmake - 2.9s]
+65:                                                      
+66:[3.5s] [0/1 complete] [chiku_control_cpp:cmake - 3.0s]
+67:                                                      
+68:[3.6s] [0/1 complete] [chiku_control_cpp:cmake - 3.1s]
+69:                                                      
+70:[3.7s] [0/1 complete] [chiku_control_cpp:cmake - 3.2s]
+71:                                                      
+72:[3.8s] [0/1 complete] [chiku_control_cpp:cmake - 3.3s]
+73:                                                      
+74:[3.9s] [0/1 complete] [chiku_control_cpp:cmake - 3.4s]
+75:                                                      
+76:[4.0s] [0/1 complete] [chiku_control_cpp:cmake - 3.5s]
+77:                                                      
+78:[4.1s] [0/1 complete] [chiku_control_cpp:cmake - 3.6s]
+79:                                                      
+80:[4.2s] [0/1 complete] [chiku_control_cpp:cmake - 3.7s]
+81:                                                      
+82:[4.3s] [0/1 complete] [chiku_control_cpp:cmake - 3.8s]
+83:                                                      
+84:[4.4s] [0/1 complete] [chiku_control_cpp:cmake - 3.9s]
+85:                                                      
+86:[4.5s] [0/1 complete] [chiku_control_cpp:cmake - 4.0s]
+87:                                                      
+88:[4.6s] [0/1 complete] [chiku_control_cpp:cmake - 4.1s]
+89:                                                      
+90:[4.7s] [0/1 complete] [chiku_control_cpp:cmake - 4.2s]
+91:                                                      
+92:[4.8s] [0/1 complete] [chiku_control_cpp:cmake - 4.3s]
+93:                                                      
+94:[4.9s] [0/1 complete] [chiku_control_cpp:cmake - 4.4s]
+95:                                                      
+96:[5.0s] [0/1 complete] [chiku_control_cpp:cmake - 4.5s]
+97:                                                      
+98:[5.1s] [0/1 complete] [chiku_control_cpp:cmake - 4.6s]
+99:                                                      
+100:[5.2s] [0/1 complete] [chiku_control_cpp:cmake - 4.7s]
+101:                                                      
+102:[5.3s] [0/1 complete] [chiku_control_cpp:cmake - 4.8s]
+103:                                                      
+104:[5.4s] [0/1 complete] [chiku_control_cpp:build - 4.9s]
+105:                                                      
+106:[5.5s] [0/1 complete] [chiku_control_cpp:build - 5.0s]
+107:                                                      
+108:[5.6s] [0/1 complete] [chiku_control_cpp:build - 5.1s]
+109:                                                      
+110:[5.7s] [0/1 complete] [chiku_control_cpp:build 50% - 5.2s]
+111:                                                          
+112:[5.8s] [0/1 complete] [chiku_control_cpp:build 50% - 5.3s]
+113:                                                          
+114:[5.9s] [0/1 complete] [chiku_control_cpp:build 50% - 5.4s]
+115:                                                          
+116:[6.0s] [0/1 complete] [chiku_control_cpp:build 50% - 5.5s]
+117:                                                          
+118:[6.1s] [0/1 complete] [chiku_control_cpp:build 50% - 5.6s]
+119:                                                          
+120:[6.2s] [0/1 complete] [chiku_control_cpp:build 50% - 5.7s]
+121:                                                          
+122:[6.3s] [0/1 complete] [chiku_control_cpp:build 50% - 5.8s]
+123:                                                          
+124:[6.4s] [0/1 complete] [chiku_control_cpp:build 50% - 5.9s]
+125:                                                          
+126:[6.5s] [0/1 complete] [chiku_control_cpp:build 50% - 6.0s]
+127:                                                          
+128:[6.6s] [0/1 complete] [chiku_control_cpp:build 50% - 6.1s]
+129:                                                          
+130:[6.7s] [0/1 complete] [chiku_control_cpp:build 50% - 6.2s]
+131:                                                          
+132:[6.8s] [0/1 complete] [chiku_control_cpp:build 50% - 6.3s]
+133:                                                          
+134:[6.9s] [0/1 complete] [chiku_control_cpp:build 50% - 6.4s]
+135:                                                          
+136:[7.0s] [0/1 complete] [chiku_control_cpp:build 50% - 6.5s]
+137:                                                          
+138:[7.1s] [0/1 complete] [chiku_control_cpp:build 50% - 6.6s]
+139:                                                          
+140:[7.2s] [0/1 complete] [chiku_control_cpp:build 50% - 6.7s]
+141:                                                          
+142:[7.3s] [0/1 complete] [chiku_control_cpp:build 50% - 6.8s]
+143:                                                          
+144:[7.4s] [0/1 complete] [chiku_control_cpp:build 50% - 6.9s]
+145:                                                          
+146:[7.5s] [0/1 complete] [chiku_control_cpp:build 50% - 7.0s]
+147:                                                          
+148:[7.6s] [0/1 complete] [chiku_control_cpp:build 50% - 7.1s]
+149:                                                          
+150:[7.7s] [0/1 complete] [chiku_control_cpp:build 50% - 7.2s]
+151:                                                          
+152:[7.8s] [0/1 complete] [chiku_control_cpp:build 50% - 7.3s]
+153:                                                          
+154:[7.9s] [0/1 complete] [chiku_control_cpp:build 50% - 7.4s]
+155:                                                          
+156:[8.0s] [0/1 complete] [chiku_control_cpp:build 50% - 7.5s]
+157:                                                          
+158:[8.1s] [0/1 complete] [chiku_control_cpp:build 50% - 7.6s]
+159:                                                          
+160:[8.2s] [0/1 complete] [chiku_control_cpp:build 50% - 7.7s]
+161:                                                          
+162:[8.3s] [0/1 complete] [chiku_control_cpp:build 50% - 7.8s]
+163:                                                          
+164:[8.4s] [0/1 complete] [chiku_control_cpp:build 50% - 7.9s]
+165:                                                          
+166:[8.5s] [0/1 complete] [chiku_control_cpp:build 50% - 8.0s]
+167:                                                          
+168:[8.6s] [0/1 complete] [chiku_control_cpp:build 50% - 8.1s]
+169:                                                          
+170:[8.7s] [0/1 complete] [chiku_control_cpp:build 50% - 8.2s]
+171:                                                          
+172:[8.8s] [0/1 complete] [chiku_control_cpp:build 50% - 8.4s]
+173:                                                          
+174:[8.9s] [0/1 complete] [chiku_control_cpp:build 50% - 8.5s]
+175:                                                          
+176:[9.0s] [0/1 complete] [chiku_control_cpp:build 50% - 8.6s]
+177:                                                          
+178:[9.1s] [0/1 complete] [chiku_control_cpp:build 50% - 8.7s]
+179:                                                          
+180:[9.2s] [0/1 complete] [chiku_control_cpp:build 50% - 8.8s]
+181:                                                          
+182:[9.3s] [0/1 complete] [chiku_control_cpp:build 50% - 8.9s]
+183:                                                          
+184:[9.4s] [0/1 complete] [chiku_control_cpp:build 50% - 9.0s]
+185:                                                          
+186:[9.5s] [0/1 complete] [chiku_control_cpp:build 50% - 9.1s]
+187:                                                          
+188:[9.6s] [0/1 complete] [chiku_control_cpp:build 50% - 9.2s]
+189:                                                          
+190:[9.7s] [0/1 complete] [chiku_control_cpp:build 50% - 9.3s]
+191:                                                          
+192:[9.8s] [0/1 complete] [chiku_control_cpp:build 50% - 9.4s]
+193:                                                          
+194:[9.9s] [0/1 complete] [chiku_control_cpp:build 50% - 9.5s]
+195:                                                          
+196:[10.0s] [0/1 complete] [chiku_control_cpp:build 50% - 9.6s]
+197:                                                           
+198:[10.1s] [0/1 complete] [chiku_control_cpp:build 50% - 9.7s]
+199:                                                           
+200:[10.2s] [0/1 complete] [chiku_control_cpp:build 50% - 9.8s]
+201:                                                           
+202:[10.3s] [0/1 complete] [chiku_control_cpp:build 50% - 9.9s]
+203:                                                           
+204:[10.4s] [0/1 complete] [chiku_control_cpp:build 50% - 10.0s]
+205:                                                            
+206:[10.5s] [0/1 complete] [chiku_control_cpp:build 50% - 10.1s]
+207:                                                            
+208:[10.6s] [0/1 complete] [chiku_control_cpp:build 50% - 10.2s]
+209:                                                            
+210:[10.7s] [0/1 complete] [chiku_control_cpp:build 50% - 10.3s]
+211:                                                            
+212:[10.8s] [0/1 complete] [chiku_control_cpp:build 50% - 10.4s]
+213:                                                            
+214:[10.9s] [0/1 complete] [chiku_control_cpp:build 50% - 10.5s]
+215:                                                            
+216:[11.0s] [0/1 complete] [chiku_control_cpp:build 50% - 10.6s]
+217:                                                            
+218:[11.1s] [0/1 complete] [chiku_control_cpp:build 50% - 10.7s]
+219:                                                            
+220:[11.2s] [0/1 complete] [chiku_control_cpp:build 50% - 10.8s]
+221:                                                            
+222:[11.3s] [0/1 complete] [chiku_control_cpp:build 50% - 10.9s]
+223:                                                            
+224:[11.4s] [0/1 complete] [chiku_control_cpp:build 50% - 11.0s]
+225:                                                            
+226:[11.5s] [0/1 complete] [chiku_control_cpp:build 50% - 11.1s]
+227:                                                            
+228:[11.6s] [0/1 complete] [chiku_control_cpp:build 50% - 11.2s]
+229:                                                            
+230:[11.7s] [0/1 complete] [chiku_control_cpp:build 50% - 11.3s]
+231:                                                            
+232:[11.8s] [0/1 complete] [chiku_control_cpp:build 50% - 11.4s]
+233:                                                            
+234:[11.9s] [0/1 complete] [chiku_control_cpp:build 50% - 11.5s]
+235:                                                            
+236:[12.0s] [0/1 complete] [chiku_control_cpp:build 50% - 11.6s]
+237:                                                            
+238:[12.1s] [0/1 complete] [chiku_control_cpp:build 50% - 11.7s]
+239:                                                            
+240:[12.2s] [0/1 complete] [chiku_control_cpp:build 50% - 11.8s]
+241:                                                            
+242:[12.3s] [0/1 complete] [chiku_control_cpp:build 50% - 11.9s]
+243:                                                            
+244:[12.4s] [0/1 complete] [chiku_control_cpp:build 50% - 12.0s]
+245:                                                            
+246:[12.5s] [0/1 complete] [chiku_control_cpp:build 50% - 12.1s]
+247:                                                            
+248:[12.6s] [0/1 complete] [chiku_control_cpp:build 50% - 12.2s]
+249:                                                            
+250:[12.7s] [0/1 complete] [chiku_control_cpp:build 50% - 12.3s]
+251:                                                            
+252:[12.8s] [0/1 complete] [chiku_control_cpp:build 50% - 12.4s]
+253:                                                            
+254:[12.9s] [0/1 complete] [chiku_control_cpp:build 50% - 12.5s]
+255:                                                            
+256:[13.0s] [0/1 complete] [chiku_control_cpp:build 50% - 12.6s]
+257:                                                            
+258:[13.1s] [0/1 complete] [chiku_control_cpp:build 50% - 12.7s]
+259:                                                            
+260:[13.2s] [0/1 complete] [chiku_control_cpp:build 50% - 12.8s]
+261:                                                            
+262:[13.3s] [0/1 complete] [chiku_control_cpp:build 50% - 12.9s]
+263:                                                            
+264:[13.4s] [0/1 complete] [chiku_control_cpp:build 50% - 13.0s]
+265:                                                            
+266:[13.5s] [0/1 complete] [chiku_control_cpp:build 50% - 13.1s]
+267:                                                            
+268:[13.6s] [0/1 complete] [chiku_control_cpp:build 50% - 13.2s]
+269:                                                            
+270:[13.7s] [0/1 complete] [chiku_control_cpp:build 50% - 13.3s]
+271:                                                            
+272:[13.8s] [0/1 complete] [chiku_control_cpp:build 50% - 13.4s]
+273:                                                            
+274:[13.9s] [0/1 complete] [chiku_control_cpp:build 50% - 13.5s]
+275:                                                            
+276:[14.0s] [0/1 complete] [chiku_control_cpp:build 50% - 13.6s]
+277:                                                            
+278:[14.1s] [0/1 complete] [chiku_control_cpp:build 50% - 13.7s]
+279:                                                            
+280:[14.2s] [0/1 complete] [chiku_control_cpp:build 50% - 13.8s]
+281:                                                            
+282:[14.3s] [0/1 complete] [chiku_control_cpp:build 50% - 13.9s]
+283:                                                            
+284:[14.4s] [0/1 complete] [chiku_control_cpp:build 50% - 14.0s]
+285:                                                            
+286:[14.5s] [0/1 complete] [chiku_control_cpp:build 50% - 14.1s]
+287:                                                            
+288:[14.6s] [0/1 complete] [chiku_control_cpp:build 50% - 14.2s]
+289:                                                            
+290:[14.7s] [0/1 complete] [chiku_control_cpp:build 50% - 14.3s]
+291:                                                            
+292:[14.8s] [0/1 complete] [chiku_control_cpp:build 75% - 14.4s]
+293:                                                            
+294:[14.9s] [0/1 complete] [chiku_control_cpp:build 75% - 14.5s]
+295:                                                            
+296:[15.0s] [0/1 complete] [chiku_control_cpp:build 75% - 14.6s]
+297:                                                            
+298:[15.1s] [0/1 complete] [chiku_control_cpp:build 75% - 14.7s]
+299:                                                            
+300:[15.2s] [0/1 complete] [chiku_control_cpp:build 75% - 14.8s]
+301:                                                            
+302:[15.3s] [0/1 complete] [chiku_control_cpp:build 75% - 14.9s]
+303:                                                            
+304:[15.4s] [0/1 complete] [chiku_control_cpp:build 75% - 15.0s]
+305:                                                            
+306:[15.5s] [0/1 complete] [chiku_control_cpp:build 75% - 15.1s]
+307:                                                            
+308:[15.6s] [0/1 complete] [chiku_control_cpp:build 75% - 15.2s]
+309:                                                            
+310:[15.7s] [0/1 complete] [chiku_control_cpp:build 75% - 15.3s]
+311:                                                            
+312:[15.8s] [0/1 complete] [chiku_control_cpp:build 75% - 15.4s]
+313:                                                            
+314:[15.9s] [0/1 complete] [chiku_control_cpp:build 75% - 15.5s]
+315:                                                            
+316:[16.0s] [0/1 complete] [chiku_control_cpp:build 75% - 15.6s]
+317:                                                            
+318:[16.1s] [0/1 complete] [chiku_control_cpp:build 75% - 15.7s]
+319:                                                            
+320:[16.2s] [0/1 complete] [chiku_control_cpp:build 75% - 15.8s]
+321:                                                            
+322:[16.3s] [0/1 complete] [chiku_control_cpp:build 75% - 15.9s]
+323:                                                            
+324:[16.4s] [0/1 complete] [chiku_control_cpp:build 75% - 16.0s]
+325:                                                            
+326:[16.5s] [0/1 complete] [chiku_control_cpp:build 75% - 16.1s]
+327:                                                            
+328:[16.6s] [0/1 complete] [chiku_control_cpp:build 75% - 16.2s]
+329:                                                            
+330:[16.7s] [0/1 complete] [chiku_control_cpp:build 75% - 16.3s]
+331:                                                            
+332:[16.8s] [0/1 complete] [chiku_control_cpp:build 75% - 16.4s]
+333:                                                            
+334:[16.9s] [0/1 complete] [chiku_control_cpp:build 75% - 16.5s]
+335:                                                            
+336:[17.0s] [0/1 complete] [chiku_control_cpp:build 75% - 16.6s]
+337:                                                            
+338:[17.1s] [0/1 complete] [chiku_control_cpp:build 75% - 16.7s]
+339:                                                            
+340:[17.2s] [0/1 complete] [chiku_control_cpp:build 75% - 16.8s]
+341:                                                            
+342:[17.3s] [0/1 complete] [chiku_control_cpp:build 75% - 16.9s]
+343:                                                            
+344:[17.4s] [0/1 complete] [chiku_control_cpp:build 75% - 17.0s]
+345:                                                            
+346:[17.5s] [0/1 complete] [chiku_control_cpp:build 75% - 17.1s]
+347:                                                            
+348:[17.6s] [0/1 complete] [chiku_control_cpp:build 75% - 17.2s]
+349:                                                            
+350:[17.7s] [0/1 complete] [chiku_control_cpp:build 75% - 17.3s]
+351:                                                            
+352:[17.8s] [0/1 complete] [chiku_control_cpp:build 75% - 17.4s]
+353:                                                            
+354:[17.9s] [0/1 complete] [chiku_control_cpp:build 75% - 17.5s]
+355:                                                            
+356:[18.0s] [0/1 complete] [chiku_control_cpp:build 75% - 17.6s]
+357:                                                            
+358:[18.1s] [0/1 complete] [chiku_control_cpp:build 75% - 17.7s]
+359:                                                            
+360:[18.2s] [0/1 complete] [chiku_control_cpp:build 75% - 17.8s]
+361:                                                            
+362:[18.3s] [0/1 complete] [chiku_control_cpp:build 75% - 17.9s]
+363:                                                            
+364:[18.4s] [0/1 complete] [chiku_control_cpp:build 75% - 18.0s]
+365:                                                            
+366:[18.5s] [0/1 complete] [chiku_control_cpp:build 75% - 18.1s]
+367:                                                            
+368:[18.6s] [0/1 complete] [chiku_control_cpp:build 75% - 18.2s]
+369:                                                            
+370:[18.7s] [0/1 complete] [chiku_control_cpp:build 75% - 18.3s]
+371:                                                            
+372:[18.8s] [0/1 complete] [chiku_control_cpp:build 75% - 18.4s]
+373:                                                            
+374:[18.9s] [0/1 complete] [chiku_control_cpp:build 75% - 18.5s]
+375:                                                            
+376:[19.0s] [0/1 complete] [chiku_control_cpp:build 75% - 18.6s]
+377:                                                            
+378:[19.1s] [0/1 complete] [chiku_control_cpp:build 75% - 18.7s]
+379:                                                            
+380:[19.2s] [0/1 complete] [chiku_control_cpp:build 75% - 18.8s]
+381:                                                            
+382:[19.4s] [0/1 complete] [chiku_control_cpp:build 75% - 18.9s]
+383:                                                            
+384:[19.5s] [0/1 complete] [chiku_control_cpp:build 75% - 19.0s]
+385:                                                            
+386:[19.6s] [0/1 complete] [chiku_control_cpp:build 75% - 19.1s]
+387:                                                            
+388:[19.7s] [0/1 complete] [chiku_control_cpp:build 75% - 19.2s]
+389:                                                            
+390:[19.8s] [0/1 complete] [chiku_control_cpp:build 75% - 19.3s]
+391:                                                            
+392:[19.9s] [0/1 complete] [chiku_control_cpp:build 75% - 19.4s]
+393:                                                            
+394:[20.0s] [0/1 complete] [chiku_control_cpp:build 75% - 19.5s]
+395:                                                            
+396:[20.1s] [0/1 complete] [chiku_control_cpp:build 75% - 19.6s]
+397:                                                            
+398:[20.2s] [0/1 complete] [chiku_control_cpp:build 75% - 19.7s]
+399:                                                            
+400:[20.3s] [0/1 complete] [chiku_control_cpp:build 75% - 19.8s]
+401:                                                            
+402:[20.4s] [0/1 complete] [chiku_control_cpp:build 75% - 19.9s]
+403:                                                            
+404:[20.5s] [0/1 complete] [chiku_control_cpp:build 75% - 20.0s]
+405:                                                            
+406:[20.6s] [0/1 complete] [chiku_control_cpp:build 75% - 20.1s]
+407:                                                            
+408:[20.7s] [0/1 complete] [chiku_control_cpp:build 75% - 20.2s]
+409:                                                            
+410:[20.8s] [0/1 complete] [chiku_control_cpp:build 75% - 20.3s]
+411:                                                            
+412:[20.9s] [0/1 complete] [chiku_control_cpp:build 75% - 20.4s]
+413:                                                            
+414:[21.0s] [0/1 complete] [chiku_control_cpp:build 75% - 20.5s]
+415:                                                            
+416:[21.1s] [0/1 complete] [chiku_control_cpp:build 75% - 20.6s]
+417:                                                            
+418:[21.2s] [0/1 complete] [chiku_control_cpp:build 75% - 20.7s]
+419:                                                            
+420:[21.3s] [0/1 complete] [chiku_control_cpp:build 75% - 20.8s]
+421:                                                            
+422:[21.4s] [0/1 complete] [chiku_control_cpp:build 75% - 20.9s]
+423:                                                            
+424:[21.5s] [0/1 complete] [chiku_control_cpp:build 75% - 21.0s]
+425:                                                            
+426:[21.6s] [0/1 complete] [chiku_control_cpp:build 100% - 21.1s]
+427:                                                             
+428:[21.7s] [0/1 complete] [chiku_control_cpp:build 100% - 21.2s]
+429:                                                             
+430:[21.8s] [0/1 complete] [chiku_control_cpp:build 100% - 21.3s]
+431:                                                             
+432:[21.9s] [0/1 complete] [chiku_control_cpp:build 100% - 21.4s]
+433:                                                             
+434:[22.0s] [0/1 complete] [chiku_control_cpp:build 100% - 21.5s]
+435:                                                             
+436:[22.1s] [0/1 complete] [chiku_control_cpp:build 100% - 21.6s]
+437:                                                             
+438:[22.2s] [0/1 complete] [chiku_control_cpp:build 100% - 21.7s]
+439:                                                             
+440:[22.3s] [0/1 complete] [chiku_control_cpp:build 100% - 21.8s]
+441:                                                             
+442:[22.4s] [0/1 complete] [chiku_control_cpp:install - 21.9s]
+443:                                                          
+444:[22.5s] [0/1 complete] [chiku_control_cpp:install - 22.0s]
+445:                                                          
+446:Finished <<< chiku_control_cpp [22.1s]
+447:
+448:Summary: 1 package finished [22.5s]
+449:
+450:## [term 1] $ source install/setup.bash   (exit=0, 0.9 s, finished, cwd=/home/student/ros2_ws)
+451:
+452:## [term 1] $ ros2 launch chiku_control_cpp circle.launch.xml   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student/ros2_ws)
+453:[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-19-21-49-52-714801-prasad-1203270
+454:[INFO] [launch]: Default logging verbosity is set to INFO
+455:[INFO] [turtlesim_node-1]: process started with pid [1203274]
+456:[INFO] [speed_driver-2]: process started with pid [1203275]
+457:[INFO] [pose_monitor-3]: process started with pid [1203276]
+458:[speed_driver-2] [INFO] [1792426793.122466706] [speed_driver]: chiku is ready to drive
+459:[turtlesim_node-1] [INFO] [1792426793.217376149] [sim]: Starting turtlesim with node name /sim
+460:[turtlesim_node-1] [INFO] [1792426793.229222894] [sim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+461:[pose_monitor-3] [INFO] [1792426794.133695899] [pose_monitor]: x=6.91 y=6.09 theta=0.75 travelled=1.50 m
+462:[pose_monitor-3] [INFO] [1792426795.133743223] [pose_monitor]: x=7.49 y=7.94 theta=1.76 travelled=3.52 m
+463:[pose_monitor-3] [INFO] [1792426796.133726149] [pose_monitor]: x=6.27 y=9.40 theta=2.75 travelled=5.50 m
+464:[pose_monitor-3] [INFO] [1792426797.133712538] [pose_monitor]: x=4.36 y=9.16 theta=-2.52 travelled=7.52 m
+465:[pose_monitor-3] [INFO] [1792426798.133807558] [pose_monitor]: x=3.53 y=7.45 theta=-1.53 travelled=9.50 m
+466:[pose_monitor-3] [INFO] [1792426799.133732039] [pose_monitor]: x=4.54 y=5.80 theta=-0.52 travelled=11.52 m
+467:
+468:## [new terminal 2]
+469:## [term 2] $ ros2 node list   (exit=0, 1.5 s, finished, cwd=/home/student)
+470:/pose_monitor
+471:/sim
+472:/speed_driver
+473:
+474:### output meanwhile in terminal 1:
+475:[pose_monitor-3] [INFO] [1792426802.133545104] [pose_monitor]: x=6.76 y=9.12 theta=2.47 travelled=17.50 m
+476:[pose_monitor-3] [INFO] [1792426803.133694645] [pose_monitor]: x=4.86 y=9.43 theta=-2.81 travelled=19.52 m
+477:
+478:## [term 2] $ ros2 param get /speed_driver turn   (exit=0, 2.0 s, finished, cwd=/home/student)
+479:Double value is: 1.0
+480:
+481:### output meanwhile in terminal 1:
+482:[pose_monitor-3] [INFO] [1792426804.133527236] [pose_monitor]: x=3.58 y=8.01 theta=-1.81 travelled=21.50 m
+483:[pose_monitor-3] [INFO] [1792426805.133637109] [pose_monitor]: x=4.10 y=6.15 theta=-0.81 travelled=23.52 m
+484:
+485:## [term 2] $ ros2 param set /speed_driver speed 1.0   (exit=0, 2.2 s, finished, cwd=/home/student)
+486:Set parameter successful
+487:
+488:### output meanwhile in terminal 1:
+489:[pose_monitor-3] [INFO] [1792426806.133583255] [pose_monitor]: x=5.91 y=5.58 theta=0.19 travelled=25.50 m
+490:[pose_monitor-3] [INFO] [1792426807.133604117] [pose_monitor]: x=7.39 y=6.82 theta=1.19 travelled=27.52 m
+491:[pose_monitor-3] [INFO] [1792426808.133684926] [pose_monitor]: x=7.26 y=8.53 theta=2.19 travelled=29.30 m
+492:
+493:## [term 1] Ctrl+C to stop: ros2 launch chiku_control_cpp circle.launch.xml  (exit=0)
+494:[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-19-21-49-52-714801-prasad-1203270
+495:[INFO] [launch]: Default logging verbosity is set to INFO
+496:[INFO] [turtlesim_node-1]: process started with pid [1203274]
+497:[INFO] [speed_driver-2]: process started with pid [1203275]
+498:[INFO] [pose_monitor-3]: process started with pid [1203276]
+499:[speed_driver-2] [INFO] [1792426793.122466706] [speed_driver]: chiku is ready to drive
+500:[turtlesim_node-1] [INFO] [1792426793.217376149] [sim]: Starting turtlesim with node name /sim
+501:[turtlesim_node-1] [INFO] [1792426793.229222894] [sim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+502:[pose_monitor-3] [INFO] [1792426794.133695899] [pose_monitor]: x=6.91 y=6.09 theta=0.75 travelled=1.50 m
+503:[pose_monitor-3] [INFO] [1792426795.133743223] [pose_monitor]: x=7.49 y=7.94 theta=1.76 travelled=3.52 m
+504:[pose_monitor-3] [INFO] [1792426796.133726149] [pose_monitor]: x=6.27 y=9.40 theta=2.75 travelled=5.50 m
+505:[pose_monitor-3] [INFO] [1792426797.133712538] [pose_monitor]: x=4.36 y=9.16 theta=-2.52 travelled=7.52 m
+506:[pose_monitor-3] [INFO] [1792426798.133807558] [pose_monitor]: x=3.53 y=7.45 theta=-1.53 travelled=9.50 m
+507:[pose_monitor-3] [INFO] [1792426799.133732039] [pose_monitor]: x=4.54 y=5.80 theta=-0.52 travelled=11.52 m
+508:[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+509:[turtlesim_node-1] [INFO] [1792426808.550154588] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+510:[speed_driver-2] [INFO] [1792426808.550160682] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+511:[pose_monitor-3] [INFO] [1792426808.552178364] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+512:[INFO] [pose_monitor-3]: process has finished cleanly [pid 1203276]
+513:[INFO] [speed_driver-2]: process has finished cleanly [pid 1203275]
+514:[INFO] [turtlesim_node-1]: process has finished cleanly [pid 1203274]
+515:

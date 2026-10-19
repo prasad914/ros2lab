@@ -1,0 +1,96 @@
+{
+ "lesson": "A4",
+ "term": 2,
+ "title": "Practice: be a log detective",
+ "sourced": false,
+ "running": [],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/A4_t2",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T19:42:59+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "wc -l robot.log",
+   "out": "10 robot.log\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "grep ERROR robot.log",
+   "out": "08:12 ERROR lidar timeout\n08:15 ERROR mission aborted\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "grep -i battery robot.log",
+   "out": "08:00 INFO Battery 92%\n08:09 INFO battery 88%\n08:13 INFO Battery 87%\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "tail -n 4 robot.log",
+   "out": "08:12 WARN stopping robot\n08:13 INFO Battery 87%\n08:15 ERROR mission aborted\n08:16 INFO waiting for help\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "cat robot.log | grep WARN",
+   "out": "08:07 WARN wifi weak\n08:12 WARN stopping robot\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 6,
+   "term": 1,
+   "kind": "nano",
+   "file": "/home/student/notes.txt",
+   "status": "RAN",
+   "out": "(edited like nano: first occurrence replaced)"
+  },
+  {
+   "task": 7,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "cat notes.txt",
+   "out": "checked today:\nlidar needs checking\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T19:43:04+0530"
+}

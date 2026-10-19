@@ -1,0 +1,155 @@
+{
+ "lesson": "N22b",
+ "term": 1,
+ "title": "Live terminal: load a component into a container",
+ "sourced": true,
+ "running": [
+  "turtlesim"
+ ],
+ "start": "~/ros2_ws",
+ "scratch_home": "/home/prasad/lesson_ws/homes/N22b_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T22:00:58+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "colcon build --packages-select chiku_control_cpp",
+   "out": "[0.5s] [0/0 complete]\n                     \nStarting >>> chiku_control_cpp\n[0.6s] [0/1 complete] [chiku_control_cpp:cmake - 0.1s]\n                                                      \n[0.7s] [0/1 complete] [chiku_control_cpp:cmake - 0.2s]\n                                                      \n[0.8s] [0/1 complete] [chiku_control_cpp:cmake - 0.3s]\n                                                      \n[0.9s] [0/1 complete] [chiku_control_cpp:cmake - 0.4s]\n                                                      \n[1.0s] [0/1 complete] [chiku_control_cpp:cmake - 0.5s]\n                                                      \n[1.1s] [0/1 complete] [chiku_control_cpp:cmake - 0.6s]\n                                                      \n[1.2s] [0/1 complete] [chiku_control_cpp:cmake - 0.7s]\n                                                      \n[1.3s] [0/1 complete] [chiku_control_cpp:cmake - 0.8s]\n                                                      \n[1.4s] [0/1 complete] [chiku_control_cpp:cmake - 0.9s]\n                                                      \n[1.5s] [0/1 complete] [chiku_control_cpp:cmake - 1.0s]\n                                                      \n[1.6s] [0/1 complete] [chiku_control_cpp:cmake - 1.1s]\n                                                      \n[1.7s] [0/1 complete] [chiku_control_cpp:cmake - 1.2s]\n                                                      \n[1.8s] [0/1 complete] [chiku_control_cpp:cmake - 1.3s]\n                                                      \n[1.9s] [0/1 complete] [chiku_control_cpp:cmake - 1.4s]\n                                                      \n[2.0s] [0/1 complete] [chiku_control_cpp:cmake - 1.5s]\n                                                      \n[2.1s] [0/1 complete] [chiku_control_cpp:cmake - 1.6s]\n                                                      \n[2.2s] [0/1 complete] [chiku_control_cpp:cmake - 1.7s]\n                                                      \n[2.3s] [0/1 complete] [chiku_control_cpp:cmake - 1.8s]\n                                                      \n[2.4s] [0/1 complete] [chiku_control_cpp:cmake - 1.9s]\n                                                      \n[2.5s] [0/1 complete] [chiku_control_cpp:cmake - 2.0s]\n                                                      \n[2.6s] [0/1 complete] [chiku_control_cpp:cmake - 2.1s]\n                                                      \n[2.7s] [0/1 complete] [chiku_control_cpp:cmake - 2.2s]\n                                                      \n[2.8s] [0/1 complete] [chiku_control_cpp:cmake - 2.3s]\n                                                      \n[2.9s] [0/1 complete] [chiku_control_cpp:cmake - 2.4s]\n                                                      \n[3.0s] [0/1 complete] [chiku_control_cpp:cmake - 2.5s]\n                                                      \n[3.1s] [0/1 complete] [chiku_control_cpp:cmake - 2.6s]\n                                                      \n[3.2s] [0/1 complete] [chiku_control_cpp:cmake - 2.7s]\n                                                      \n[3.3s] [0/1 complete] [chiku_control_cpp:cmake - 2.8s]\n                                                      \n[3.4s] [0/1 complete] [chiku_control_cpp:cmake - 2.9s]\n                                                      \n[3.5s] [0/1 complete] [chiku_control_cpp:cmake - 3.0s]\n                                                      \n[3.6s] [0/1 complete] [chiku_control_cpp:cmake - 3.1s]\n                                                      \n[3.7s] [0/1 complete] [chiku_control_cpp:cmake - 3.2s]\n                                                      \n[3.8s] [0/1 complete] [chiku_control_cpp:cmake - 3.3s]\n                                                      \n[3.9s] [0/1 complete] [chiku_control_cpp:cmake - 3.4s]\n                                                      \n[4.0s] [0/1 complete] [chiku_control_cpp:cmake - 3.5s]\n                                                      \n[4.1s] [0/1 complete] [chiku_control_cpp:cmake - 3.6s]\n                                                      \n[4.2s] [0/1 complete] [chiku_control_cpp:cmake - 3.7s]\n                                                      \n[4.3s] [0/1 complete] [chiku_control_cpp:cmake - 3.8s]\n                                                      \n[4.4s] [0/1 complete] [chiku_control_cpp:cmake - 3.9s]\n                                                      \n[4.5s] [0/1 complete] [chiku_control_cpp:cmake - 4.0s]\n                                                      \n[4.6s] [0/1 complete] [chiku_control_cpp:cmake - 4.1s]\n                                                      \n[4.7s] [0/1 complete] [chiku_control_cpp:cmake - 4.2s]\n                                                      \n[4.8s] [0/1 complete] [chiku_control_cpp:cmake - 4.3s]\n                                                      \n[4.9s] [0/1 complete] [chiku_control_cpp:cmake - 4.4s]\n                                                      \n[5.0s] [0/1 complete] [chiku_control_cpp:cmake - 4.5s]\n                                                      \n[5.1s] [0/1 complete] [chiku_control_cpp:cmake - 4.6s]\n                                                      \n[5.2s] [0/1 complete] [chiku_control_cpp:cmake - 4.7s]\n                                                      \n[5.3s] [0/1 complete] [chiku_control_cpp:build - 4.8s]\n                                                      \n[5.4s] [0/1 complete] [chiku_control_cpp:build - 4.9s]\n                                                      \n[5.5s] [0/1 complete] [chiku_control_cpp:build - 5.0s]\n                                                      \n[5.6s] [0/1 complete] [chiku_control_cpp:build 50% - 5.1s]\n                                                          \n[5.7s] [0/1 complete] [chiku_control_cpp:build 50% - 5.2s]\n                                                          \n[5.8s] [0/1 complete] [chiku_control_cpp:build 50% - 5.3s]\n                                                          \n[5.9s] [0/1 complete] [chiku_control_cpp:build 50% - 5.4s]\n                                                          \n[6.0s] [0/1 complete] [chiku_control_cpp:build 50% - 5.5s]\n                                                          \n[6.1s] [0/1 complete] [chiku_control_cpp:build 50% - 5.6s]\n                                                          \n[6.2s] [0/1 complete] [chiku_control_cpp:build 50% - 5.7s]\n                                                          \n[6.3s] [0/1 complete] [chiku_control_cpp:build 50% - 5.8s]\n                                                          \n[6.4s] [0/1 complete] [chiku_control_cpp:build 50% - 5.9s]\n                                                          \n[6.5s] [0/1 complete] [chiku_control_cpp:build 50% - 6.0s]\n                                                          \n[6.6s] [0/1 complete] [chiku_control_cpp:build 50% - 6.1s]\n                                                          \n[6.7s] [0/1 complete] [chiku_control_cpp:build 50% - 6.2s]\n                                                          \n[6.8s] [0/1 complete] [chiku_control_cpp:build 50% - 6.3s]\n                                                          \n[6.9s] [0/1 complete] [chiku_control_cpp:build 50% - 6.4s]\n                                                          \n[7.0s] [0/1 complete] [chiku_control_cpp:build 50% - 6.5s]\n                                                          \n[7.1s] [0/1 complete] [chiku_control_cpp:build 50% - 6.6s]\n                                                          \n[7.2s] [0/1 complete] [chiku_control_cpp:build 50% - 6.7s]\n                                                          \n[7.3s] [0/1 complete] [chiku_control_cpp:build 50% - 6.8s]\n                                                          \n[7.4s] [0/1 complete] [chiku_control_cpp:build 50% - 6.9s]\n                                                          \n[7.5s] [0/1 complete] [chiku_control_cpp:build 50% - 7.0s]\n                                                          \n[7.6s] [0/1 complete] [chiku_control_cpp:build 50% - 7.1s]\n                                                          \n[7.7s] [0/1 complete] [chiku_control_cpp:build 50% - 7.2s]\n                                                          \n[7.8s] [0/1 complete] [chiku_control_cpp:build 50% - 7.3s]\n                                                          \n[7.9s] [0/1 complete] [chiku_control_cpp:build 50% - 7.4s]\n                                                          \n[8.0s] [0/1 complete] [chiku_control_cpp:build 50% - 7.5s]\n                                                          \n[8.1s] [0/1 complete] [chiku_control_cpp:build 50% - 7.6s]\n                                                          \n[8.2s] [0/1 complete] [chiku_control_cpp:build 50% - 7.7s]\n                                                          \n[8.3s] [0/1 complete] [chiku_control_cpp:build 50% - 7.8s]\n                                                          \n[8.4s] [0/1 complete] [chiku_control_cpp:build 50% - 7.9s]\n                                                          \n[8.5s] [0/1 complete] [chiku_control_cpp:build 50% - 8.0s]\n                                                          \n[8.6s] [0/1 complete] [chiku_control_cpp:build 50% - 8.1s]\n                                                          \n[8.8s] [0/1 complete] [chiku_control_cpp:build 50% - 8.2s]\n                                                          \n[8.9s] [0/1 complete] [chiku_control_cpp:build 50% - 8.3s]\n                                                          \n[9.0s] [0/1 complete] [chiku_control_cpp:build 50% - 8.4s]\n                                                          \n[9.1s] [0/1 complete] [chiku_control_cpp:build 50% - 8.6s]\n                                                          \n[9.2s] [0/1 complete] [chiku_control_cpp:build 50% - 8.7s]\n                                                          \n[9.3s] [0/1 complete] [chiku_control_cpp:build 50% - 8.8s]\n                                                          \n[9.4s] [0/1 complete] [chiku_control_cpp:build 50% - 8.9s]\n                                                          \n[9.5s] [0/1 complete] [chiku_control_cpp:build 50% - 9.0s]\n                                                          \n[9.6s] [0/1 complete] [chiku_control_cpp:build 50% - 9.1s]\n                                                          \n[9.7s] [0/1 complete] [chiku_control_cpp:build 50% - 9.2s]\n                                                          \n[9.8s] [0/1 complete] [chiku_control_cpp:build 50% - 9.3s]\n                                                          \n[9.9s] [0/1 complete] [chiku_control_cpp:build 50% - 9.4s]\n                                                          \n[10.0s] [0/1 complete] [chiku_control_cpp:build 50% - 9.5s]\n                                                           \n[10.1s] [0/1 complete] [chiku_control_cpp:build 50% - 9.6s]\n                                                           \n[10.2s] [0/1 complete] [chiku_control_cpp:build 50% - 9.7s]\n                                                           \n[10.3s] [0/1 complete] [chiku_control_cpp:build 50% - 9.8s]\n                                                           \n[10.4s] [0/1 complete] [chiku_control_cpp:build 50% - 9.9s]\n                                                           \n[10.5s] [0/1 complete] [chiku_control_cpp:build 50% - 10.0s]\n                                                            \n[10.6s] [0/1 complete] [chiku_control_cpp:build 50% - 10.1s]\n                                                            \n[10.7s] [0/1 complete] [chiku_control_cpp:build 50% - 10.2s]\n                                                            \n[10.8s] [0/1 complete] [chiku_control_cpp:build 50% - 10.3s]\n                                                            \n[10.9s] [0/1 complete] [chiku_control_cpp:build 50% - 10.4s]\n                                                            \n[11.0s] [0/1 complete] [chiku_control_cpp:build 50% - 10.5s]\n                                                            \n[11.1s] [0/1 complete] [chiku_control_cpp:build 50% - 10.6s]\n                                                            \n[11.2s] [0/1 complete] [chiku_control_cpp:build 50% - 10.7s]\n                                                            \n[11.3s] [0/1 complete] [chiku_control_cpp:build 50% - 10.8s]\n                                                            \n[11.4s] [0/1 complete] [chiku_control_cpp:build 50% - 10.9s]\n                                                            \n[11.5s] [0/1 complete] [chiku_control_cpp:build 50% - 11.0s]\n                                                            \n[11.6s] [0/1 complete] [chiku_control_cpp:build 50% - 11.1s]\n                                                            \n[11.7s] [0/1 complete] [chiku_control_cpp:build 50% - 11.2s]\n                                                            \n[11.8s] [0/1 complete] [chiku_control_cpp:build 50% - 11.3s]\n                                                            \n[11.9s] [0/1 complete] [chiku_control_cpp:build 50% - 11.4s]\n                                                            \n[12.0s] [0/1 complete] [chiku_control_cpp:build 50% - 11.5s]\n                                                            \n[12.1s] [0/1 complete] [chiku_control_cpp:build 50% - 11.6s]\n                                                            \n[12.2s] [0/1 complete] [chiku_control_cpp:build 50% - 11.7s]\n                                                            \n[12.3s] [0/1 complete] [chiku_control_cpp:build 50% - 11.8s]\n                                                            \n[12.4s] [0/1 complete] [chiku_control_cpp:build 50% - 11.9s]\n                                                            \n[12.5s] [0/1 complete] [chiku_control_cpp:build 50% - 12.0s]\n                                                            \n[12.6s] [0/1 complete] [chiku_control_cpp:build 50% - 12.1s]\n                                                            \n[12.7s] [0/1 complete] [chiku_control_cpp:build 50% - 12.2s]\n                                                            \n[12.8s] [0/1 complete] [chiku_control_cpp:build 50% - 12.3s]\n                                                            \n[12.9s] [0/1 complete] [chiku_control_cpp:build 50% - 12.4s]\n                                                            \n[13.0s] [0/1 complete] [chiku_control_cpp:build 50% - 12.5s]\n                                                            \n[13.1s] [0/1 complete] [chiku_control_cpp:build 50% - 12.6s]\n                                                            \n[13.2s] [0/1 complete] [chiku_control_cpp:build 50% - 12.7s]\n                                                            \n[13.3s] [0/1 complete] [chiku_control_cpp:build 50% - 12.8s]\n                                                            \n[13.4s] [0/1 complete] [chiku_control_cpp:build 50% - 12.9s]\n                                                            \n[13.5s] [0/1 complete] [chiku_control_cpp:build 50% - 13.0s]\n                                                            \n[13.6s] [0/1 complete] [chiku_control_cpp:build 50% - 13.1s]\n                                                            \n[13.7s] [0/1 complete] [chiku_control_cpp:build 50% - 13.2s]\n                                                            \n[13.8s] [0/1 complete] [chiku_control_cpp:build 50% - 13.3s]\n                                                            \n[13.9s] [0/1 complete] [chiku_control_cpp:build 50% - 13.4s]\n                                                            \n[14.0s] [0/1 complete] [chiku_control_cpp:build 50% - 13.5s]\n                                                            \n[14.1s] [0/1 complete] [chiku_control_cpp:build 50% - 13.6s]\n                                                            \n[14.2s] [0/1 complete] [chiku_control_cpp:build 50% - 13.7s]\n                                                            \n[14.3s] [0/1 complete] [chiku_control_cpp:build 50% - 13.8s]\n                                                            \n[14.4s] [0/1 complete] [chiku_control_cpp:build 50% - 13.9s]\n                                                            \n[14.5s] [0/1 complete] [chiku_control_cpp:build 50% - 14.0s]\n                                                            \n[14.6s] [0/1 complete] [chiku_control_cpp:build 50% - 14.1s]\n                                                            \n[14.7s] [0/1 complete] [chiku_control_cpp:build 50% - 14.2s]\n                                                            \n[14.8s] [0/1 complete] [chiku_control_cpp:build 50% - 14.3s]\n                                                            \n[14.9s] [0/1 complete] [chiku_control_cpp:build 50% - 14.4s]\n                                                            \n[15.0s] [0/1 complete] [chiku_control_cpp:build 50% - 14.5s]\n                                                            \n[15.1s] [0/1 complete] [chiku_control_cpp:build 75% - 14.6s]\n                                                            \n[15.2s] [0/1 complete] [chiku_control_cpp:build 75% - 14.7s]\n                                                            \n[15.3s] [0/1 complete] [chiku_control_cpp:build 75% - 14.8s]\n                                                            \n[15.4s] [0/1 complete] [chiku_control_cpp:build 75% - 14.9s]\n                                                            \n[15.5s] [0/1 complete] [chiku_control_cpp:build 75% - 15.0s]\n                                                            \n[15.6s] [0/1 complete] [chiku_control_cpp:build 75% - 15.1s]\n                                                            \n[15.7s] [0/1 complete] [chiku_control_cpp:build 100% - 15.2s]\n                                                             \n[15.8s] [0/1 complete] [chiku_control_cpp:build 100% - 15.3s]\n                                                             \n[15.9s] [0/1 complete] [chiku_control_cpp:build 100% - 15.4s]\n                                                             \n[16.0s] [0/1 complete] [chiku_control_cpp:build 100% - 15.5s]\n                                                             \n[16.1s] [0/1 complete] [chiku_control_cpp:build 100% - 15.6s]\n                                                             \n[16.2s] [0/1 complete] [chiku_control_cpp:install - 15.7s]\n                                                          \n[16.3s] [0/1 complete] [chiku_control_cpp:install - 15.8s]\n                                                          \nFinished <<< chiku_control_cpp [15.9s]\n\nSummary: 1 package finished [16.4s]\n",
+   "exit": 0,
+   "secs": 17.1,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "source install/setup.bash",
+   "out": "",
+   "exit": 0,
+   "secs": 1.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 run rclcpp_components component_container",
+   "out": "",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 3,
+   "term": 2,
+   "kind": "newTerminal",
+   "status": "RAN"
+  },
+  {
+   "task": 3,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "cd ~/ros2_ws",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 3,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "source install/setup.bash",
+   "out": "",
+   "exit": 0,
+   "secs": 1.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 3,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 component types",
+   "out": "chiku_control_cpp\n  chiku_control_cpp::CircleComponent\nirobot_create_nodes\n  irobot_create_nodes::HazardsVectorPublisher\n  irobot_create_nodes::IrIntensityVectorPublisher\n  irobot_create_nodes::MotionControlNode\n  irobot_create_nodes::WheelsPublisher\n  irobot_create_nodes::RobotState\n  irobot_create_nodes::UIMgr\n  irobot_create_nodes::MockPublisher\n  irobot_create_nodes::KidnapEstimator\nmoveit_servo\n  moveit_servo::ServoNode\nquality_of_service_demo_cpp\n  quality_of_service_demo::MessageLostListener\n  quality_of_service_demo::MessageLostTalker\n  quality_of_service_demo::QosOverridesListener\n  quality_of_service_demo::QosOverridesTalker\nnav2_behaviors\n  behavior_server::BehaviorServer\nlogging_demo\n  logging_demo::LoggerConfig\n  logging_demo::LoggerUsage\npoint_cloud_transport\n  point_cloud_transport::Republisher\nimage_view\n  image_view::DisparityViewNode\n  image_view::ExtractImagesNode\n  image_view::ImageViewNode\n  image_view::ImageSaverNode\n  image_view::StereoViewNode\n  image_view::VideoRecorderNode\npointcloud_to_laserscan\n  pointcloud_to_laserscan::LaserScanToPointCloudNode\n  pointcloud_to_laserscan::PointCloudToLaserScanNode\napriltag_ros\n  AprilTagNode\nrtabmap_odom\n  rtabmap_odom::RGBDOdometry\n  rtabmap_odom::StereoOdometry\n  rtabmap_odom::ICPOdometry\nnav2_bt_navigator\n  nav2_bt_navigator::BtNavigator\nimage_tools\n  image_tools::Cam2Image\n  image_tools::ShowImage\nslam_toolbox\n  slam_toolbox::AsynchronousSlamToolbox\n  slam_toolbox::SynchronousSlamToolbox\n  slam_toolbox::LocalizationSlamToolbox\n  slam_toolbox::LifelongSlamToolbox\n  slam_toolbox::MapAndLocalizationSlamToolbox\nrtabmap_sync\n  rtabmap_sync::RGBDSync\n  rtabmap_sync::StereoSync\n  rtabmap_sync::RGBSync\n  rtabmap_sync::RGBDXSync\ndemo_nodes_cpp_native\n  demo_nodes_cpp_native::Talker\ntopic_tools\n  topic_tools::RelayNode\n  topic_tools::ThrottleNode\n  topic_tools::DropNode\n  topic_tools::MuxNode\n  topic_tools::DemuxNode\n  topic_tools::DelayNode\naction_tutorials_cpp\n  action_tutorials_cpp::FibonacciActionClient\n  action_tutorials_cpp::FibonacciActionServer\nrplidar_ros\n  rplidar_ros::rplidar_node\ntf2_ros\n  tf2_ros::StaticTransformBroadcasterNode\nnav2_map_server\n  nav2_map_server::CostmapFilterInfoServer\n  nav2_map_server::MapSaver\n  nav2_map_server::MapServer\ndemo_nodes_cpp\n  demo_nodes_cpp::OneOffTimerNode\n  demo_nodes_cpp::ReuseTimerNode\n  demo_nodes_cpp::ListParameters\n  demo_nodes_cpp::ParameterBlackboard\n  demo_nodes_cpp::SetAndGetParameters\n  demo_nodes_cpp::ParameterEventsAsyncNode\n  demo_nodes_cpp::EvenParameterNode\n  demo_nodes_cpp::SetParametersCallback\n  demo_nodes_cpp::ServerNode\n  demo_nodes_cpp::ClientNode\n  demo_nodes_cpp::IntrospectionServiceNode\n  demo_nodes_cpp::IntrospectionClientNode\n  demo_nodes_cpp::ContentFilteringPublisher\n  demo_nodes_cpp::ContentFilteringSubscriber\n  demo_nodes_cpp::Talker\n  demo_nodes_cpp::LoanedMessageTalker\n  demo_nodes_cpp::SerializedMessageTalker\n  demo_nodes_cpp::Listener\n  demo_nodes_cpp::SerializedMessageListener\n  demo_nodes_cpp::ListenerBestEffort\nmoveit_ros_planning\n  moveit_ros_planning::SrdfPublisher\nros_gz_bridge\n  ros_gz_bridge::RosGzBridge\nteleop_twist_joy\n  teleop_twist_joy::TeleopTwistJoy\nrosbag2_transport\n  rosbag2_transport::Player\n  rosbag2_transport::Recorder\nnav2_route\n  nav2_route::RouteServer\nrobot_state_publisher\n  robot_state_publisher::RobotStatePublisher\nexamples_rclcpp_minimal_subscriber\n  WaitSetSubscriber\n  StaticWaitSetSubscriber\n  TimeTriggeredWaitSetSubscriber\nnav2_controller\n  nav2_controller::ControllerServer\nnav2_amcl\n  nav2_amcl::AmclNode\nrtabmap_util\n  rtabmap_util::RGBDRelay\n  rtabmap_util::RGBDSplit\n  rtabmap_util::DisparityToDepth\n  rtabmap_util::ImuToTF\n  rtabmap_util::DbPlayer\n  rtabmap_util::LidarDeskewing\n  rtabmap_util::PointCloudXYZ\n  rtabmap_util::PointCloudXYZRGB\n  rtabmap_util::PointCloudToDepthImage\n  rtabmap_util::ObstaclesDetection\n  rtabmap_util::PointCloudAggregator\n  rtabmap_util::PointCloudAssembler\n  rtabmap_util::MapAssembler\nnav2_velocity_smoother\n  nav2_velocity_smoother::VelocitySmoother\nimu_filter_madgwick\n  ImuFilterMadgwickRos\nnav2_planner\n  nav2_planner::PlannerServer\nnav2_waypoint_follower\n  nav2_waypoint_follower::WaypointFollower\nimage_transport\n  image_transport::Republisher\npcl_ros\n  pcl_ros::ExtractIndices\n  pcl_ros::PassThrough\n  pcl_ros::ProjectInliers\n  pcl_ros::RadiusOutlierRemoval\n  pcl_ros::StatisticalOutlierRemoval\n  pcl_ros::CropBox\n  pcl_ros::VoxelGrid\n  pcl_ros::PCDPublisher\n  pcl_ros::PointCloudToPCD\n  pcl_ros::CombinedPointCloudToPCD\ncanopen_base_driver\n  ros2_canopen::LifecycleBaseDriver\n  ros2_canopen::BaseDriver\nnav2_lifecycle_manager\n  nav2_lifecycle_manager::LifecycleManager\ncanopen_402_driver\n  ros2_canopen::LifecycleCia402Driver\n  ros2_canopen::Cia402Driver\njoy\n  joy::Joy\n  joy::GameController\nvelodyne_laserscan\n  velodyne_laserscan::VelodyneLaserScan\nvelodyne_pointcloud\n  velodyne_pointcloud::Transform\nvelodyne_driver\n  velodyne_driver::VelodyneDriver\nros_gz_sim\n  ros_gz_sim::GzServer\nnav2_smoother\n  nav2_smoother::SmootherServer\nopennav_docking\n  opennav_docking::DockingServer\nfoxglove_bridge\n  foxglove_bridge::FoxgloveBridge\ncomposition\n  composition::Talker\n  composition::Listener\n  composition::NodeLikeListener\n  composition::Server\n  composition::Client\nrealsense2_camera\n  realsense2_camera::RealSenseNodeFactory\nlaser_filters\n  ScanToCloudFilterChain\n  ScanToScanFilterChain\ndepthimage_to_laserscan\n  depthimage_to_laserscan::DepthImageToLaserScanROS\ncanopen_proxy_driver\n  ros2_canopen::LifecycleProxyDriver\n  ros2_canopen::ProxyDriver\ncamera_ros\n  camera::CameraNode\nnav2_collision_monitor\n  nav2_collision_monitor::CollisionMonitor\n  nav2_collision_monitor::CollisionDetector\nimage_proc\n  image_proc::RectifyNode\n  image_proc::DebayerNode\n  image_proc::ResizeNode\n  image_proc::CropDecimateNode\n  image_proc::CropNonZeroNode\n  image_proc::TrackMarkerNode\nrtabmap_slam\n  rtabmap_slam::CoreWrapper\n",
+   "exit": 0,
+   "secs": 1.1,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 4,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 component load /ComponentManager chiku_control_cpp chiku_control_cpp::CircleComponent",
+   "out": "Loaded component 1 into '/ComponentManager' container node as '/circle_component'\n",
+   "exit": 0,
+   "secs": 2.2,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws",
+   "other_terminals": {
+    "1": "[INFO] [1792427500.788843601] [ComponentManager]: Load Library: /home/student/ros2_ws/install/chiku_control_cpp/lib/libcircle_component.so\n[INFO] [1792427500.793520279] [ComponentManager]: Found class: rclcpp_components::NodeFactoryTemplate<chiku_control_cpp::CircleComponent>\n[INFO] [1792427500.793626259] [ComponentManager]: Instantiate class: rclcpp_components::NodeFactoryTemplate<chiku_control_cpp::CircleComponent>\n[INFO] [1792427500.820578620] [circle_component]: CircleComponent loaded\n"
+   }
+  },
+  {
+   "task": 5,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 component list",
+   "out": "/ComponentManager\n  1  /circle_component\n",
+   "exit": 0,
+   "secs": 2.4,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 5,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 component unload /ComponentManager 1",
+   "out": "Unloaded component 1 from '/ComponentManager' container node\n",
+   "exit": 0,
+   "secs": 2.2,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "term": 1,
+   "kind": "interrupt-at-end",
+   "of": "ros2 run rclcpp_components component_container",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792427507.220444948] [rclcpp]: signal_handler(SIGINT/SIGTERM)\n",
+   "exit": 0,
+   "status": "RAN"
+  }
+ ],
+ "pre": [
+  {
+   "name": "turtlesim",
+   "cmd": "ros2 run turtlesim turtlesim_node",
+   "out": "[INFO] [1792427460.000913724] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792427460.013192743] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
+   "state": "still running after 4 s"
+  }
+ ],
+ "notes": [
+  "pre-running terminal 100 output during block: "
+ ],
+ "finished": "2026-10-19T22:01:49+0530"
+}

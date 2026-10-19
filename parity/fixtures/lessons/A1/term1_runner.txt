@@ -1,0 +1,18 @@
+# Excerpt of parity/fixtures/lessons/A1/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson A1 terminal 1: Practice terminal: your first commands
+2:# scratch HOME /home/prasad/lesson_ws/homes/A1_t1 shown as /home/student; sourced=False running=[] start=None
+3:## [term 1] $ whoami   (exit=0, 0.0 s, finished, cwd=/home/student)
+4:prasad
+5:
+6:## [term 1] $ pwd   (exit=0, 0.0 s, finished, cwd=/home/student)
+7:/home/student
+8:
+9:## [term 1] $ ls   (exit=0, 0.0 s, finished, cwd=/home/student)
+10:Desktop  Documents  Downloads  Music  Pictures
+11:
+12:## [term 1] $ ls -a   (exit=0, 0.0 s, finished, cwd=/home/student)
+13:.  ..  .bashrc  Desktop  Documents  Downloads  Music  Pictures  .profile
+14:
+15:# note: leftover processes killed after the block: [(1133306, '/usr/bin/python3 -c from ros2cli.daemon.daemonize import main; main() --name ros2-daemon --ros-domain-id 52 --rmw-implem')]

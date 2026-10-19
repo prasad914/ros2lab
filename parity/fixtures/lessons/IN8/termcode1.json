@@ -1,0 +1,42 @@
+{
+ "lesson": "IN8",
+ "term": "code1",
+ "title": "Lesson code block commands: ros2 doctor --report | grep middleware (talker running)",
+ "sourced": true,
+ "running": [
+  "talker"
+ ],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/IN8_tcode1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T22:06:53+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 doctor --report | grep middleware",
+   "out": "middleware name    : rmw_fastrtps_cpp\n",
+   "exit": 0,
+   "secs": 57.1,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "100": "[INFO] [1792427822.297813396] [talker]: Publishing: 'Hello World: 7'\n[INFO] [1792427823.297724690] [talker]: Publishing: 'Hello World: 8'\n[INFO] [1792427824.297738414] [talker]: Publishing: 'Hello World: 9'\n[INFO] [1792427825.297747971] [talker]: Publishing: 'Hello World: 10'\n[INFO] [1792427826.297741022] [talker]: Publishing: 'Hello World: 11'\n[INFO] [1792427827.297734918] [talker]: Publishing: 'Hello World: 12'\n[INFO] [1792427828.297801485] [talker]: Publishing: 'Hello World: 13'\n[INFO] [1792427829.297811177] [talker]: Publishing: 'Hello World: 14'\n[INFO] [1792427830.297908893] [talker]: Publishing: 'Hello World: 15'\n[INFO] [1792427831.297804700] [talker]: Publishing: 'Hello World: 16'\n[INFO] [1792427832.297835890] [talker]: Publishing: 'Hello World: 17'\n[INFO] [1792427833.297763578] [talker]: Publishing: 'Hello World: 18'\n[INFO] [1792427834.297952092] [talker]: Publishing: 'Hello World: 19'\n[INFO] [1792427835.297807555] [talker]: Publishing: 'Hello World: 20'\n[INFO] [1792427836.297832559] [talker]: Publishing: 'Hello World: 21'\n[INFO] [1792427837.297803513] [talker]: Publishing: 'Hello World: 22'\n[INFO] [1792427838.297796727] [talker]: Publishing: 'Hello World: 23'\n[INFO] [1792427839.297952088] [talker]: Publishing: 'Hello World: 24'\n[INFO] [1792427840.297891144] [talker]: Publishing: 'Hello World: 25'\n[INFO] [1792427841.297882872] [talker]: Publishing: 'Hello World: 26'\n[INFO] [1792427842.297954900] [talker]: Publishing: 'Hello World: 27'\n[INFO] [1792427843.297888283] [talker]: Publishing: 'Hello World: 28'\n[INFO] [1792427844.297915422] [talker]: Publishing: 'Hello World: 29'\n[INFO] [1792427845.297951758] [talker]: Publishing: 'Hello World: 30'\n[INFO] [1792427846.297918378] [talker]: Publishing: 'Hello World: 31'\n[INFO] [1792427847.297823798] [talker]: Publishing: 'Hello World: 32'\n[INFO] [1792427848.297880505] [talker]: Publishing: 'Hello World: 33'\n[INFO] [1792427849.297904003] [talker]: Publishing: 'Hello World: 34'\n[INFO] [1792427850.297827859] [talker]: Publishing: 'Hello World: 35'\n[INFO] [1792427851.297820418] [talker]: Publishing: 'Hello World: 36'\n[INFO] [1792427852.297930929] [talker]: Publishing: 'Hello World: 37'\n[INFO] [1792427853.297890061] [talker]: Publishing: 'Hello World: 38'\n[INFO] [1792427854.297835701] [talker]: Publishing: 'Hello World: 39'\n[INFO] [1792427855.297729789] [talker]: Publishing: 'Hello World: 40'\n[INFO] [1792427856.297797397] [talker]: Publishing: 'Hello World: 41'\n[INFO] [1792427857.297903552] [talker]: Publishing: 'Hello World: 42'\n[INFO] [1792427858.297837554] [talker]: Publishing: 'Hello World: 43'\n[INFO] [1792427859.297813119] [talker]: Publishing: 'Hello World: 44'\n[INFO] [1792427860.297929229] [talker]: Publishing: 'Hello World: 45'\n[INFO] [1792427861.297916722] [talker]: Publishing: 'Hello World: 46'\n[INFO] [1792427862.297907987] [talker]: Publishing: 'Hello World: 47'\n[INFO] [1792427863.297768717] [talker]: Publishing: 'Hello World: 48'\n[INFO] [1792427864.297849662] [talker]: Publishing: 'Hello World: 49'\n[INFO] [1792427865.297916846] [talker]: Publishing: 'Hello World: 50'\n[INFO] [1792427866.297901351] [talker]: Publishing: 'Hello World: 51'\n[INFO] [1792427867.297960168] [talker]: Publishing: 'Hello World: 52'\n[INFO] [1792427868.297803498] [talker]: Publishing: 'Hello World: 53'\n[INFO] [1792427869.297893515] [talker]: Publishing: 'Hello World: 54'\n[INFO] [1792427870.297900037] [talker]: Publishing: 'Hello World: 55'\n[INFO] [1792427871.297798820] [talker]: Publishing: 'Hello World: 56'\n[INFO] [1792427872.297893791] [talker]: Publishing: 'Hello World: 57'\n[INFO] [1792427873.297883454] [talker]: Publishing: 'Hello World: 58'\n[INFO] [1792427874.297905016] [talker]: Publishing: 'Hello World: 59'\n[INFO] [1792427875.297964542] [talker]: Publishing: 'Hello World: 60'\n[INFO] [1792427876.297925002] [talker]: Publishing: 'Hello World: 61'\n[INFO] [1792427877.297771120] [talker]: Publishing: 'Hello World: 62'\n[INFO] [1792427878.297879639] [talker]: Publishing: 'Hello World: 63'\n[INFO] [1792427879.297806685] [talker]: Publishing: 'Hello World: 64'\n"
+   }
+  }
+ ],
+ "pre": [
+  {
+   "name": "talker",
+   "cmd": "ros2 run demo_nodes_cpp talker",
+   "out": "[INFO] [1792427816.297787100] [talker]: Publishing: 'Hello World: 1'\n[INFO] [1792427817.297759443] [talker]: Publishing: 'Hello World: 2'\n[INFO] [1792427818.297731401] [talker]: Publishing: 'Hello World: 3'\n",
+   "state": "still running after 4 s"
+  }
+ ],
+ "notes": [
+  "pre-running terminal 100 output during block: "
+ ],
+ "finished": "2026-10-19T22:08:01+0530"
+}

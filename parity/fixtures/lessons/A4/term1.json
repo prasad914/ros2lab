@@ -1,0 +1,72 @@
+{
+ "lesson": "A4",
+ "term": 1,
+ "title": "Practice: read a robot log and edit a file",
+ "sourced": false,
+ "running": [],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/A4_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T19:42:56+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "cat robot.log",
+   "out": "boot: ok\nmotors: ok\ncamera: ok\nlidar: ok\nbattery: 86%\nwifi: connected\nmission: start\nobstacle: detected\nmission: paused\nbattery: 84%\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "head -n 3 robot.log",
+   "out": "boot: ok\nmotors: ok\ncamera: ok\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "tail -n 2 robot.log",
+   "out": "mission: paused\nbattery: 84%\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "nano",
+   "file": "/home/student/hello.py",
+   "status": "RAN",
+   "out": "(edited like nano: first occurrence replaced)"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "cat hello.py",
+   "out": "print(\"Hello from the ROS 2 robot\")\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T19:42:59+0530"
+}

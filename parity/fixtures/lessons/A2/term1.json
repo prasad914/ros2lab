@@ -1,0 +1,88 @@
+{
+ "lesson": "A2",
+ "term": 1,
+ "title": "Practice: walk around the computer",
+ "sourced": false,
+ "running": [],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/A2_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T19:42:35+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "cd robot_ws",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/robot_ws"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "cd src",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/robot_ws/src"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "pwd",
+   "out": "/home/student/robot_ws/src\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/robot_ws/src"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "cd ../..",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "cd /opt/ros/jazzy",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/opt/ros/jazzy"
+  },
+  {
+   "task": 6,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "cd ~",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T19:42:40+0530"
+}

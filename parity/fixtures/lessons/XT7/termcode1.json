@@ -1,0 +1,64 @@
+{
+ "lesson": "XT7",
+ "term": "code1",
+ "title": "Lesson code block commands: ros2 pkg create my_robot_description",
+ "sourced": true,
+ "running": [],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/XT7_tcode1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T22:12:40+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "mkdir -p ~/ros2_ws/src",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "cd ~/ros2_ws/src",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws/src"
+  },
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 pkg create my_robot_description --build-type ament_cmake",
+   "out": "going to create a new package\npackage name: my_robot_description\ndestination directory: /home/student/ros2_ws/src\npackage format: 3\nversion: 0.0.0\ndescription: TODO: Package description\nmaintainer: ['prasad <prasad@todo.todo>']\nlicenses: ['TODO: License declaration']\nbuild type: ament_cmake\ndependencies: []\ncreating folder ./my_robot_description\ncreating ./my_robot_description/package.xml\ncreating source and include folder\ncreating folder ./my_robot_description/src\ncreating folder ./my_robot_description/include/my_robot_description\ncreating ./my_robot_description/CMakeLists.txt\n\n[WARNING]: Unknown license 'TODO: License declaration'.  This has been set in the package.xml, but no LICENSE file has been created.\nIt is recommended to use one of the ament license identifiers:\nApache-2.0\nBSL-1.0\nBSD-2.0\nBSD-2-Clause\nBSD-3-Clause\nGPL-3.0-only\nLGPL-3.0-only\nMIT\nMIT-0\n",
+   "exit": 0,
+   "secs": 1.1,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws/src"
+  },
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ls my_robot_description",
+   "out": "CMakeLists.txt  include  package.xml  src\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws/src"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T22:12:44+0530"
+}

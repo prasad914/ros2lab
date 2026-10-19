@@ -1,0 +1,643 @@
+# Excerpt of parity/fixtures/lessons/D8/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson D8 terminal 1: Practice: give the turtle a long job
+2:# scratch HOME /home/prasad/lesson_ws/homes/D8_t1 shown as /home/student; sourced=True running=['turtlesim', 'teleop'] start=None
+3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
+4:[INFO] [1792425714.129196061] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792425714.141169263] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+6:
+7:## [pre-running terminal] $ ros2 run turtlesim turtle_teleop_key  (still running after 4 s)
+8:Reading from keyboard
+9:---------------------------
+10:Use arrow keys to move the turtle.
+11:Use g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.
+12:'q' to quit.
+13:
+14:## [term 1] $ ros2 action list -t   (exit=0, 1.2 s, finished, cwd=/home/student)
+15:/turtle1/rotate_absolute [turtlesim/action/RotateAbsolute]
+16:
+17:## [term 1] $ ros2 action info /turtle1/rotate_absolute   (exit=0, 1.3 s, finished, cwd=/home/student)
+18:Action: /turtle1/rotate_absolute
+19:Action clients: 1
+20:    /teleop_turtle
+21:Action servers: 1
+22:    /turtlesim
+23:
+24:## [term 1] $ ros2 action send_goal /turtle1/rotate_absolute turtlesim/action/RotateAbsolute "{theta: 1.57}"   (exit=0, 2.9 s, finished, cwd=/home/student)
+25:Waiting for an action server to become available...
+26:Sending goal:
+27:     theta: 1.57
+28:
+29:Goal accepted with ID: 57ba1e3bc8d3488a9c4a1525c30c7643
+30:
+31:Result:
+32:    delta: -1.5520000457763672
+33:
+34:Goal finished with status: SUCCEEDED
+35:
+36:### output meanwhile in terminal 100:
+37:[INFO] [1792425731.885952217] [turtlesim]: Rotation goal completed successfully
+38:
+39:## [term 1] $ ros2 action send_goal /turtle1/rotate_absolute turtlesim/action/RotateAbsolute "{theta: -1.57}" --feedback   (exit=0, 4.6 s, finished, cwd=/home/student)
+40:Waiting for an action server to become available...
+41:Sending goal:
+42:     theta: -1.57
+43:
+44:Goal accepted with ID: 5213c86a005444a3ae60ad6b1c3d420b
+45:
+46:Feedback:
+47:    remaining: -3.122000217437744
+48:
+49:Feedback:
+50:    remaining: -3.1059999465942383
+51:
+52:Feedback:
+53:    remaining: -3.0900001525878906
+54:
+55:Feedback:
+56:    remaining: -3.0739998817443848
+57:
+58:Feedback:
+59:    remaining: -3.058000087738037
+60:
+61:Feedback:
+62:    remaining: -3.0420000553131104
+63:
+64:Feedback:
+65:    remaining: -3.0260000228881836
+66:
+67:Feedback:
+68:    remaining: -3.010000228881836
+69:
+70:Feedback:
+71:    remaining: -2.99399995803833
+72:
+73:Feedback:
+74:    remaining: -2.9780001640319824
+75:
+76:Feedback:
+77:    remaining: -2.9619998931884766
+78:
+79:Feedback:
+80:    remaining: -2.946000099182129
+81:
+82:Feedback:
+83:    remaining: -2.930000066757202
+84:
+85:Feedback:
+86:    remaining: -2.9140000343322754
+87:
+88:Feedback:
+89:    remaining: -2.8980000019073486
+90:
+91:Feedback:
+92:    remaining: -2.881999969482422
+93:
+94:Feedback:
+95:    remaining: -2.866000175476074
+96:
+97:Feedback:
+98:    remaining: -2.8499999046325684
+99:
+100:Feedback:
+101:    remaining: -2.8340001106262207
+102:
+103:Feedback:
+104:    remaining: -2.818000078201294
+105:
+106:Feedback:
+107:    remaining: -2.802000045776367
+108:
+109:Feedback:
+110:    remaining: -2.7860000133514404
+111:
+112:Feedback:
+113:    remaining: -2.7699999809265137
+114:
+115:Feedback:
+116:    remaining: -2.754000186920166
+117:
+118:Feedback:
+119:    remaining: -2.73799991607666
+120:
+121:Feedback:
+122:    remaining: -2.7220001220703125
+123:
+124:Feedback:
+125:    remaining: -2.7060000896453857
+126:
+127:Feedback:
+128:    remaining: -2.690000057220459
+129:
+130:Feedback:
+131:    remaining: -2.6740000247955322
+132:
+133:Feedback:
+134:    remaining: -2.6579999923706055
+135:
+136:Feedback:
+137:    remaining: -2.642000198364258
+138:
+139:Feedback:
+140:    remaining: -2.625999927520752
+141:
+142:Feedback:
+143:    remaining: -2.6100001335144043
+144:
+145:Feedback:
+146:    remaining: -2.5940001010894775
+147:
+148:Feedback:
+149:    remaining: -2.578000068664551
+150:
+151:Feedback:
+152:    remaining: -2.562000036239624
+153:
+154:Feedback:
+155:    remaining: -2.5460000038146973
+156:
+157:Feedback:
+158:    remaining: -2.5299999713897705
+159:
+160:Feedback:
+161:    remaining: -2.5139999389648438
+162:
+163:Feedback:
+164:    remaining: -2.498000144958496
+165:
+166:Feedback:
+167:    remaining: -2.4820001125335693
+168:
+169:Feedback:
+170:    remaining: -2.4660000801086426
+171:
+172:Feedback:
+173:    remaining: -2.450000047683716
+174:
+175:Feedback:
+176:    remaining: -2.434000015258789
+177:
+178:Feedback:
+179:    remaining: -2.4179999828338623
+180:
+181:Feedback:
+182:    remaining: -2.4019999504089355
+183:
+184:Feedback:
+185:    remaining: -2.386000156402588
+186:
+187:Feedback:
+188:    remaining: -2.370000123977661
+189:
+190:Feedback:
+191:    remaining: -2.3540000915527344
+192:
+193:Feedback:
+194:    remaining: -2.3380000591278076
+195:
+196:Feedback:
+197:    remaining: -2.322000026702881
+198:
+199:Feedback:
+200:    remaining: -2.305999994277954
+201:
+202:Feedback:
+203:    remaining: -2.2899999618530273
+204:
+205:Feedback:
+206:    remaining: -2.2740001678466797
+207:
+208:Feedback:
+209:    remaining: -2.258000135421753
+210:
+211:Feedback:
+212:    remaining: -2.242000102996826
+213:
+214:Feedback:
+215:    remaining: -2.2260000705718994
+216:
+217:Feedback:
+218:    remaining: -2.2100000381469727
+219:
+220:Feedback:
+221:    remaining: -2.194000005722046
+222:
+223:Feedback:
+224:    remaining: -2.177999973297119
+225:
+226:Feedback:
+227:    remaining: -2.1620001792907715
+228:
+229:Feedback:
+230:    remaining: -2.1459999084472656
+231:
+232:Feedback:
+233:    remaining: -2.130000114440918
+234:
+235:Feedback:
+236:    remaining: -2.114000082015991
+237:
+238:Feedback:
+239:    remaining: -2.0980000495910645
+240:
+241:Feedback:
+242:    remaining: -2.0820000171661377
+243:
+244:Feedback:
+245:    remaining: -2.065999984741211
+246:
+247:Feedback:
+248:    remaining: -2.049999952316284
+249:
+250:Feedback:
+251:    remaining: -2.0339999198913574
+252:
+253:Feedback:
+254:    remaining: -2.0180001258850098
+255:
+256:Feedback:
+257:    remaining: -2.002000093460083
+258:
+259:Feedback:
+260:    remaining: -1.9860000610351562
+261:
+262:Feedback:
+263:    remaining: -1.9700000286102295
+264:
+265:Feedback:
+266:    remaining: -1.9539999961853027
+267:
+268:Feedback:
+269:    remaining: -1.9380000829696655
+270:
+271:Feedback:
+272:    remaining: -1.9220000505447388
+273:
+274:Feedback:
+275:    remaining: -1.906000018119812
+276:
+277:Feedback:
+278:    remaining: -1.8900001049041748
+279:
+280:Feedback:
+281:    remaining: -1.874000072479248
+282:
+283:Feedback:
+284:    remaining: -1.8580000400543213
+285:
+286:Feedback:
+287:    remaining: -1.8420000076293945
+288:
+289:Feedback:
+290:    remaining: -1.8260000944137573
+291:
+292:Feedback:
+293:    remaining: -1.8100000619888306
+294:
+295:Feedback:
+296:    remaining: -1.7940000295639038
+297:
+298:Feedback:
+299:    remaining: -1.7780001163482666
+300:
+301:Feedback:
+302:    remaining: -1.7620000839233398
+303:
+304:Feedback:
+305:    remaining: -1.746000051498413
+306:
+307:Feedback:
+308:    remaining: -1.7300000190734863
+309:
+310:Feedback:
+311:    remaining: -1.7139999866485596
+312:
+313:Feedback:
+314:    remaining: -1.6980000734329224
+315:
+316:Feedback:
+317:    remaining: -1.6820000410079956
+318:
+319:Feedback:
+320:    remaining: -1.6660000085830688
+321:
+322:Feedback:
+323:    remaining: -1.6500000953674316
+324:
+325:Feedback:
+326:    remaining: -1.6340000629425049
+327:
+328:Feedback:
+329:    remaining: -1.6180000305175781
+330:
+331:Feedback:
+332:    remaining: -1.6019999980926514
+333:
+334:Feedback:
+335:    remaining: -1.5860000848770142
+336:
+337:Feedback:
+338:    remaining: -1.5700000524520874
+339:
+340:Feedback:
+341:    remaining: -1.5540000200271606
+342:
+343:Feedback:
+344:    remaining: -1.5380001068115234
+345:
+346:Feedback:
+347:    remaining: -1.5220000743865967
+348:
+349:Feedback:
+350:    remaining: -1.50600004196167
+351:
+352:Feedback:
+353:    remaining: -1.4900000095367432
+354:
+355:Feedback:
+356:    remaining: -1.474000096321106
+357:
+358:Feedback:
+359:    remaining: -1.4580000638961792
+360:
+361:Feedback:
+362:    remaining: -1.4420000314712524
+363:
+364:Feedback:
+365:    remaining: -1.4260001182556152
+366:
+367:Feedback:
+368:    remaining: -1.4100000858306885
+369:
+370:Feedback:
+371:    remaining: -1.3940000534057617
+372:
+373:Feedback:
+374:    remaining: -1.378000020980835
+375:
+376:Feedback:
+377:    remaining: -1.3619999885559082
+378:
+379:Feedback:
+380:    remaining: -1.346000075340271
+381:
+382:Feedback:
+383:    remaining: -1.3300000429153442
+384:
+385:Feedback:
+386:    remaining: -1.3140000104904175
+387:
+388:Feedback:
+389:    remaining: -1.2980000972747803
+390:
+391:Feedback:
+392:    remaining: -1.2820000648498535
+393:
+394:Feedback:
+395:    remaining: -1.2660000324249268
+396:
+397:Feedback:
+398:    remaining: -1.25
+399:
+400:Feedback:
+401:    remaining: -1.2340000867843628
+402:
+403:Feedback:
+404:    remaining: -1.218000054359436
+405:
+406:Feedback:
+407:    remaining: -1.2020000219345093
+408:
+409:Feedback:
+410:    remaining: -1.186000108718872
+411:
+412:Feedback:
+413:    remaining: -1.1700000762939453
+414:
+415:Feedback:
+416:    remaining: -1.1540000438690186
+417:
+418:Feedback:
+419:    remaining: -1.1380000114440918
+420:
+421:Feedback:
+422:    remaining: -1.121999979019165
+423:
+424:Feedback:
+425:    remaining: -1.1060000658035278
+426:
+427:Feedback:
+428:    remaining: -1.090000033378601
+429:
+430:Feedback:
+431:    remaining: -1.0740001201629639
+432:
+433:Feedback:
+434:    remaining: -1.058000087738037
+435:
+436:Feedback:
+437:    remaining: -1.0420000553131104
+438:
+439:Feedback:
+440:    remaining: -1.0260000228881836
+441:
+442:Feedback:
+443:    remaining: -1.0099999904632568
+444:
+445:Feedback:
+446:    remaining: -0.9940000772476196
+447:
+448:Feedback:
+449:    remaining: -0.9780000448226929
+450:
+451:Feedback:
+452:    remaining: -0.9620000720024109
+453:
+454:Feedback:
+455:    remaining: -0.9460000395774841
+456:
+457:Feedback:
+458:    remaining: -0.9300000667572021
+459:
+460:Feedback:
+461:    remaining: -0.9140000343322754
+462:
+463:Feedback:
+464:    remaining: -0.8980000615119934
+465:
+466:Feedback:
+467:    remaining: -0.8820000290870667
+468:
+469:Feedback:
+470:    remaining: -0.8660000562667847
+471:
+472:Feedback:
+473:    remaining: -0.8500000238418579
+474:
+475:Feedback:
+476:    remaining: -0.8340000510215759
+477:
+478:Feedback:
+479:    remaining: -0.818000078201294
+480:
+481:Feedback:
+482:    remaining: -0.8020000457763672
+483:
+484:Feedback:
+485:    remaining: -0.7860000729560852
+486:
+487:Feedback:
+488:    remaining: -0.7700000405311584
+489:
+490:Feedback:
+491:    remaining: -0.7540000677108765
+492:
+493:Feedback:
+494:    remaining: -0.7380000352859497
+495:
+496:Feedback:
+497:    remaining: -0.7220000624656677
+498:
+499:Feedback:
+500:    remaining: -0.706000030040741
+501:
+502:Feedback:
+503:    remaining: -0.690000057220459
+504:
+505:Feedback:
+506:    remaining: -0.6740000247955322
+507:
+508:Feedback:
+509:    remaining: -0.6580000519752502
+510:
+511:Feedback:
+512:    remaining: -0.6420000791549683
+513:
+514:Feedback:
+515:    remaining: -0.6260000467300415
+516:
+517:Feedback:
+518:    remaining: -0.6100000739097595
+519:
+520:Feedback:
+521:    remaining: -0.5940000414848328
+522:
+523:Feedback:
+524:    remaining: -0.5780000686645508
+525:
+526:Feedback:
+527:    remaining: -0.562000036239624
+528:
+529:Feedback:
+530:    remaining: -0.5460000038146973
+531:
+532:Feedback:
+533:    remaining: -0.5300000905990601
+534:
+535:Feedback:
+536:    remaining: -0.5140000581741333
+537:
+538:Feedback:
+539:    remaining: -0.49800002574920654
+540:
+541:Feedback:
+542:    remaining: -0.4819999933242798
+543:
+544:Feedback:
+545:    remaining: -0.4660000801086426
+546:
+547:Feedback:
+548:    remaining: -0.4500000476837158
+549:
+550:Feedback:
+551:    remaining: -0.43400001525878906
+552:
+553:Feedback:
+554:    remaining: -0.41800010204315186
+555:
+556:Feedback:
+557:    remaining: -0.4020000696182251
+558:
+559:Feedback:
+560:    remaining: -0.38600003719329834
+561:
+562:Feedback:
+563:    remaining: -0.3700000047683716
+564:
+565:Feedback:
+566:    remaining: -0.3540000915527344
+567:
+568:Feedback:
+569:    remaining: -0.3380000591278076
+570:
+571:Feedback:
+572:    remaining: -0.32200002670288086
+573:
+574:Feedback:
+575:    remaining: -0.3059999942779541
+576:
+577:Feedback:
+578:    remaining: -0.2900000810623169
+579:
+580:Feedback:
+581:    remaining: -0.27400004863739014
+582:
+583:Feedback:
+584:    remaining: -0.2580000162124634
+585:
+586:Feedback:
+587:    remaining: -0.24200010299682617
+588:
+589:Feedback:
+590:    remaining: -0.22600007057189941
+591:
+592:Feedback:
+593:    remaining: -0.21000003814697266
+594:
+595:Feedback:
+596:    remaining: -0.1940000057220459
+597:
+598:Feedback:
+599:    remaining: -0.1780000925064087
+600:
+601:Feedback:
+602:    remaining: -0.16200006008148193
+603:
+604:Feedback:
+605:    remaining: -0.14600002765655518
+606:
+607:Feedback:
+608:    remaining: -0.12999999523162842
+609:
+610:Feedback:
+611:    remaining: -0.11400008201599121
+612:
+613:Feedback:
+614:    remaining: -0.09800004959106445
+615:
+616:Feedback:
+617:    remaining: -0.0820000171661377
+618:
+619:Feedback:
+620:    remaining: -0.06600010395050049
+621:
+622:Feedback:
+623:    remaining: -0.05000007152557373
+624:
+625:Feedback:
+626:    remaining: -0.03400003910064697
+627:
+628:Feedback:
+629:    remaining: -0.018000006675720215
+630:
+631:Result:
+632:    delta: 3.1040000915527344
+633:
+634:Goal finished with status: SUCCEEDED
+635:
+636:### output meanwhile in terminal 100:
+637:[INFO] [1792425737.037290299] [turtlesim]: Rotation goal completed successfully
+638:
+639:# note: pre-running terminal 100 output during block: 
+640:# note: pre-running terminal 101 output during block: 

@@ -1,0 +1,30 @@
+# Excerpt of parity/fixtures/lessons/A4/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson A4 terminal 1: Practice: read a robot log and edit a file
+2:# scratch HOME /home/prasad/lesson_ws/homes/A4_t1 shown as /home/student; sourced=False running=[] start=None
+3:## [term 1] $ cat robot.log   (exit=0, 0.0 s, finished, cwd=/home/student)
+4:boot: ok
+5:motors: ok
+6:camera: ok
+7:lidar: ok
+8:battery: 86%
+9:wifi: connected
+10:mission: start
+11:obstacle: detected
+12:mission: paused
+13:battery: 84%
+14:
+15:## [term 1] $ head -n 3 robot.log   (exit=0, 0.0 s, finished, cwd=/home/student)
+16:boot: ok
+17:motors: ok
+18:camera: ok
+19:
+20:## [term 1] $ tail -n 2 robot.log   (exit=0, 0.0 s, finished, cwd=/home/student)
+21:mission: paused
+22:battery: 84%
+23:
+24:## [term 1] nano /home/student/hello.py: RAN (edited like nano: first occurrence replaced)
+25:## [term 1] $ cat hello.py   (exit=0, 0.0 s, finished, cwd=/home/student)
+26:print("Hello from the ROS 2 robot")
+27:

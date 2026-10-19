@@ -1,0 +1,68 @@
+{
+ "lesson": "IN4",
+ "term": 2,
+ "title": "Practice: explore the ecosystem",
+ "sourced": false,
+ "running": [],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/IN4_t2",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:23:55+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "source /opt/ros/jazzy/setup.bash",
+   "out": "",
+   "exit": 0,
+   "secs": 0.8,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 pkg list | grep turtle",
+   "out": "turtlebot3\nturtlebot3_applications\nturtlebot3_applications_msgs\nturtlebot3_aruco_tracker\nturtlebot3_automatic_parking\nturtlebot3_automatic_parking_vision\nturtlebot3_autorace\nturtlebot3_autorace_camera\nturtlebot3_autorace_detect\nturtlebot3_autorace_mission\nturtlebot3_bringup\nturtlebot3_cartographer\nturtlebot3_description\nturtlebot3_example\nturtlebot3_fake_node\nturtlebot3_follower\nturtlebot3_gazebo\nturtlebot3_home_service_challenge\nturtlebot3_home_service_challenge_aruco\nturtlebot3_home_service_challenge_core\nturtlebot3_home_service_challenge_manipulator\nturtlebot3_home_service_challenge_tools\nturtlebot3_manipulation\nturtlebot3_manipulation_bringup\nturtlebot3_manipulation_cartographer\nturtlebot3_manipulation_description\nturtlebot3_manipulation_hardware\nturtlebot3_manipulation_moveit_config\nturtlebot3_manipulation_navigation2\nturtlebot3_manipulation_teleop\nturtlebot3_msgs\nturtlebot3_navigation2\nturtlebot3_node\nturtlebot3_panorama\nturtlebot3_simulations\nturtlebot3_teleop\nturtlebot3_yolo_object_detection\nturtlebot4_description\nturtlebot4_desktop\nturtlebot4_gz_bringup\nturtlebot4_gz_gui_plugins\nturtlebot4_gz_toolbox\nturtlebot4_msgs\nturtlebot4_navigation\nturtlebot4_node\nturtlebot4_simulator\nturtlebot4_viz\nturtlesim\n",
+   "exit": 0,
+   "secs": 0.9,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 pkg executables demo_nodes_py",
+   "out": "demo_nodes_py add_two_ints_client\ndemo_nodes_py add_two_ints_client_async\ndemo_nodes_py add_two_ints_server\ndemo_nodes_py async_param_client\ndemo_nodes_py introspection\ndemo_nodes_py listener\ndemo_nodes_py listener_qos\ndemo_nodes_py listener_serialized\ndemo_nodes_py matched_event_detect\ndemo_nodes_py set_parameters_callback\ndemo_nodes_py talker\ndemo_nodes_py talker_qos\ndemo_nodes_py use_logger_service\n",
+   "exit": 0,
+   "secs": 1.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "apt search slam",
+   "status": "PENDING",
+   "reason": "needs sudo/apt (run rules: never sudo or apt on this machine)"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "sudo apt install ros-jazzy-slam-toolbox",
+   "status": "PENDING",
+   "reason": "needs sudo/apt (run rules: never sudo or apt on this machine)"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T21:24:01+0530"
+}
