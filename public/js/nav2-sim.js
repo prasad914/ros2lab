@@ -350,12 +350,21 @@ class Costmap extends NavNode {
   }
   onActivate() {
     if (!this.actLogged) { this.info("Activating"); this.actLogged = true; }
-    // Costmap2DROS::on_activate waits for global_frame <- robot_base_frame (2 Hz, initial_transform_timeout 60 s)
+    // Costmap2DROS::on_activate waits for global_frame <- robot_base_frame: it tries every 0.5 s of wall time, and gives
+    // up after initial_transform_timeout (60 s) of the node's clock, sim time here (readiness_deadlock_2026-10-17:
+    // ~57.6 s sim, ~98 s wall, 197 "Timed out waiting" lines)
     if (!this.sys.basePose(this.frame)) {
-      const w = this.sys.wall();
-      if (this.tfWait === undefined) { this.tfWait = w; this.info("Checking transform"); this.tfLast = -1; }
+      const w = this.sys.wall(), t = this.sys.now(), limit = num(this.P.initial_transform_timeout, 60);
+      if (this.tfWait === undefined) { this.tfWait = t; this.info("Checking transform"); this.tfLast = -1; this.noteT = -1e9; }
+      // AMCL makes map -> odom only after an initial pose: say so while Nav2 waits (every 10 s of sim time, so the
+      // note stays on screen between the 2 Hz "Timed out waiting" lines)
+      const amcl = this.sys.model("amcl");
+      if (t - this.tfWait <= limit && t - this.noteT >= 10 && amcl && this.frame === String(amcl.P.global_frame_id || "map") && this.write) {
+        this.noteT = t;
+        this.write(`(ROS2Lab: Nav2 is waiting for the ${this.frame} -> ${this.baseFrame} transform. AMCL makes it only after it gets the robot's starting pose: in RViz, click "2D Pose Estimate" and drag on the map where the robot is. Without it, Nav2 stops the bring-up after initial_transform_timeout, ${limit} s of simulation time (${Math.max(0, Math.ceil(limit - (t - this.tfWait)))} s left).)\n`, "hint");
+      }
       if (w - this.tfLast >= 0.5) { this.tfLast = w; this.info(`Timed out waiting for transform from ${this.baseFrame} to ${this.frame} to become available, tf error: Invalid frame ID "${this.frame}" passed to canTransform argument target_frame - frame does not exist`); }
-      if (w - this.tfWait > num(this.P.initial_transform_timeout, 60)) { this.error(`Failed to activate ${this.which} because transform from ${this.baseFrame} to ${this.frame} did not become available before timeout`); this.tfWait = undefined; this.actLogged = false; return false; }
+      if (t - this.tfWait > limit) { this.error(`Failed to activate ${this.which} because transform from ${this.baseFrame} to ${this.frame} did not become available before timeout`); this.tfWait = undefined; this.actLogged = false; return false; }
       return "pending";
     }
     if (this.tfWait === undefined) this.info("Checking transform");

@@ -380,7 +380,7 @@ function makeContext(sh, ui, getJob) {
     async loadComposable(req) {
       const pid = fqnPid.get(req.container) ?? -1, results = [];
       for (const nd of req.nodes || []) {
-        const m = startNav2Node(g, { ...nd, fs, write: (t, s) => emit(t, s === "err" ? "err" : "") });
+        const m = startNav2Node(g, { ...nd, fs, write: (t, s) => emit(t, s === "err" ? "err" : s === "hint" ? "hint" : "") });
         if (m) { trackNav2(pid, m.full); results.push({ success: true, full_node_name: m.full }); }
         else results.push({ success: true, full_node_name: `${String(nd.namespace || "").replace(/\/$/, "")}/${nd.name}` });
       }
@@ -480,7 +480,7 @@ function makeContext(sh, ui, getJob) {
       }
       // ---- Nav2, SLAM, map saver
       const nav = startNav2Node(g, { pkg, exe, name: nodeName, ns, params, parameter_files: info.files, remaps, args, pid, fs,
-        write: (t, s) => emit(P(t), s === "err" ? "err" : ""), exit });
+        write: (t, s) => (s === "hint" ? emit(t, "hint") : emit(P(t), s === "err" ? "err" : "")), exit });
       if (nav) { trackNav2(pid, nav.full); ui.paint(); return; }
       const key = `${pkg} ${exe}`;
       (g.procInfos || (g.procInfos = {}))[key] = info;   // what the launch system started (for debugging and tests)
