@@ -1,0 +1,24 @@
+# 2026-10-19T14:42:37+05:30 ROS_DOMAIN_ID=41 GZ_PARTITION=phase1_41 TURTLEBOT3_MODEL=burger
+# cmd: ros2 topic info /map_metadata -v --no-daemon
+Type: nav_msgs/msg/MapMetaData
+
+Publisher count: 1
+
+Node name: slam_toolbox
+Node namespace: /
+Topic type: nav_msgs/msg/MapMetaData
+Topic type hash: RIHS01_2772d4b2000ef2b35dbaeb80fd3946c1369f817fb4f75677d916d27c17d763c8
+Endpoint type: PUBLISHER
+GID: 01.0f.d3.65.b9.1e.a9.a1.00.00.00.00.00.00.39.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 0
+
+# exit: 0
