@@ -287,6 +287,8 @@ export function startRealLaunch(sh, argv, ui) {
       onProcess: (info) => { const a = ctx.adapt(info, { exit: (rc) => job.exit(info.pid, rc), prefix: true }).catch((e) => { ctx.emit(`(ROS2Lab could not model ${info.name || "a process"}: ${e.message})`, "hint"); console.error(e); }); if (info.ros && info.ros.fqn) adapting.set(info.ros.fqn, a); },
       onExit: (pid) => ctx.cleanup(pid),
       onLoadComposable: (req) => { ctx.launchNode(); return ctx.loadComposable(req); },
+      // license gate closed: the launch's processes are checked before any of them starts (Phase 1 item 3)
+      ...(R.hwGate && !R.hwGate().ok ? { onPreflight: (req) => ctx.hwPreflight(req) } : {}),
       onLifecycle: async (req) => {
         const full = `/${String(req.node || "").replace(/^\/+/, "")}`, a = adapting.get(full);
         if (a) await Promise.race([a, new Promise((r) => setTimeout(r, 5000))]);   // the node's model is being started
@@ -405,6 +407,23 @@ function makeContext(sh, ui, getJob) {
         const job = getJob(); if (job) setTimeout(() => job.ctrlC(), 0);
       }
       exit(1); return true;
+    },
+    // the processes a launch is about to start (launch runtime preflight): a real driver node, or ros2_control_node
+    // with a robot_description whose <ros2_control> uses a real hardware plugin, locks the launch before any starts
+    hwPreflight(req) {
+      const procs = (req && req.procs) || [], gt = R && R.hwGate ? R.hwGate() : { ok: true };
+      if (gt.ok) return {};
+      const urdf = (procs.find((p) => p.robot_description) || {}).robot_description;
+      let what = null;
+      for (const p of procs) {
+        const k = `${p.package} ${p.executable}`;
+        if (HW_NODES[k]) { what = `${p.package}/${p.executable} (${HW_NODES[k]})`; break; }
+        if (k === "controller_manager ros2_control_node") { const hw = hwPluginsOf(sh, p.robot_description || urdf)[0]; if (hw) { what = `ros2_control_node with the hardware plugin ${hw}`; break; } }
+      }
+      if (!what) return {};
+      ctx.hwLocked = true;
+      lines(g.hwLockNote(gt.message, what, true));
+      return { lock: true };
     },
     async adapt(info, { exit, prefix }) {
       const ros = info.ros || {}, pkg = ros.package, exe = ros.executable, tag = info.name || `${exe}`;

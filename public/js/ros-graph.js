@@ -1965,8 +1965,9 @@ RosGraph.prototype.hwLocked = function (msg) {
   return [this.out("[INFO] [launch]: Default logging verbosity is set to INFO"), this.err(`[ERROR] [ros2lab_hardware_license]: ${msg}`), this.err("[ERROR] [launch]: real hardware is locked: nothing was started"), this.hint(this.hwSimHint())];
 };
 // a launch that started a real driver or a real hardware plugin (real-launch.js): it is stopped there
-RosGraph.prototype.hwLockNote = function (msg, what) {
-  return [this.err(`[ERROR] [ros2lab_hardware_license]: ${msg}`), this.err(`[ERROR] [ros2lab_hardware_license]: real hardware is locked: this launch starts ${what}, which drives the real robot, so ROS2Lab stopped the launch`), this.hint(this.hwSimHint())];
+// before: stopped before any process started (the launch runtime's preflight)
+RosGraph.prototype.hwLockNote = function (msg, what, before) {
+  return [this.err(`[ERROR] [ros2lab_hardware_license]: ${msg}`), this.err(`[ERROR] [ros2lab_hardware_license]: real hardware is locked: this launch starts ${what}, which drives the real robot, so ROS2Lab stopped the launch${before ? " before it started any process" : ""}`), this.hint(this.hwSimHint())];
 };
 // the license hint names what runs without a robot on THIS page (expert_review_robots_2026-10-18 site-wide #4):
 // the card's own simulation / mock commands, or the launch files of the packages in the workspace
