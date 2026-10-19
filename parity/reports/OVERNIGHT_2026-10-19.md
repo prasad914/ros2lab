@@ -194,7 +194,7 @@ Site-wide: every non-TB3 robot is now labelled "Not yet validated against real R
    0.0049). Options: a GPU / another machine, or accept xvfb runs of several hours. SLAM / nav ground truth BLOCKED.
 4. B5: rerun `parity/scripts/capture_tb4_nav2_bringup.sh 47 ref47 <out>` when fuel.gazebosim.org serves the Depot
    model (HTTP 502 tonight), or pre-fill the Fuel cache, to answer whether create spawns the TB4.
-5. Site shell: `export X=1 && ros2 launch ...` runs and prints nothing (bash exports and launches). Not fixed.
+5. Site shell: `export X=1 && ros2 launch ...` ran and printed nothing (bash exports and launches). **FIXED** in 3b6b724 (2026-10-19, follow-up session): the && / ; chain now hands the launch job on. Evidence: parity/e2e/shell-chain-launch.spec.ts 5/5 passed (export &&, source &&, cd &&, cd /nonexistent && gives the cd error and starts nothing, export ;); vitest 38/38; tests/real-tb3.mjs 7 ok, 0 FAIL.
 6. Earlier open decision still open: initial-pose timeout on sim time (expert_review_2026-10-18 "Left").
 7. moveit_capture.py crashes (KeyError) when /joint_states is empty; harmless tonight, fix before the next M-run.
 8. Instructor: MoveIt must-fix list (M2) now has real error-code fixtures for 7 arms on robots-p2b.
