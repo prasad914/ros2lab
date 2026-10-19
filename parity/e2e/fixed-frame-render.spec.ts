@@ -2,6 +2,7 @@ import { test, expect, Page } from "@playwright/test";
 
 // The RViz Fixed Frame box must show one frame name (Phase 1 item 1). The Qt combo sprites behind the field were
 // screenshots of real RViz with "base_link" / "Orbit (rviz_default_plugins)" in them, drawn under every value.
+// The first frame comes from the loaded .rviz file (expert_review_robots MF10): the Global Status uses the same frame.
 const run = (p: Page, c: string) => p.evaluate((c) => (window as any).__ros2lab.term.run(c), c);
 const ROBOTS = ["tb3_burger", "tb3_waffle", "ur5e", "fr3", "xarm6", "crazyflie"];
 
@@ -54,6 +55,16 @@ test("enum combo sprite (View type) carries no text", async ({ page }) => {
   await expect(page.locator('[data-testid="fixed-frame"]')).toHaveCount(1, { timeout: 10000 });
   await page.evaluate(() => { const e = document.createElement("span"); e.className = "q-ecombo enum"; e.id = "probe-enum"; document.querySelector(".rviz")!.append(e); });
   expect(await spriteTextPixels(page, "#probe-enum")).toBe(0);
+});
+
+test("fixed frame and Global Status come from the loaded .rviz (fr3 moveit.rviz: fr3_link0)", async ({ page }) => {
+  test.setTimeout(240000);
+  await page.goto("/rviz.html?robot=fr3");
+  await page.waitForFunction(() => (window as any).__ros2lab?.sh?.realWs && (window as any).__ros2lab?.term, null, { timeout: 60000 });
+  for (const c of ["cd ~/ros2_ws", "colcon build --symlink-install", "source install/setup.bash", "ros2 launch franka_fr3_moveit_config moveit.launch.py robot_ip:=dont-care use_fake_hardware:=true"]) await run(page, c);
+  await expect(page.locator('[data-testid="fixed-frame"]')).toHaveValue("fr3_link0", { timeout: 150000 });
+  expect(await page.evaluate(() => (window as any).__ros2lab.frameManager.fixedFrame)).toBe("fr3_link0");
+  await expect(page.locator('.q-row[data-path="gs/Fixed Frame"]')).not.toContainText("[map]", { timeout: 20000 });
 });
 
 test("no .rviz file: rviz2 starts on rviz_common/default.rviz's Fixed Frame (/map)", async ({ page }) => {
