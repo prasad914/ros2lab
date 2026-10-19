@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!-- ROS2Lab physics baseline world "joint_limits" (parity/scripts/physics/gen_worlds.py) -->
+<sdf version="1.10">
+  <world name="joint_limits">
+    <physics name="1ms" type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <gravity>0 0 -9.8</gravity>
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+    <plugin filename="gz-sim-apply-link-wrench-system" name="gz::sim::systems::ApplyLinkWrench"/>
+    <plugin filename="gz-sim-contact-system" name="gz::sim::systems::Contact"/>
+    <model name="arm">
+      <pose>0 0 0.5 0 0 0</pose>
+      <link name="base"><inertial><mass>1</mass><inertia><ixx>0.01</ixx><iyy>0.01</iyy><izz>0.01</izz></inertia></inertial></link>
+      <joint name="fix" type="fixed"><parent>world</parent><child>base</child></joint>
+      <link name="bar">
+        <inertial><pose>0.5 0 0 0 0 0</pose><mass>1</mass><inertia><ixx>0.001</ixx><iyy>0.0834</iyy><izz>0.0834</izz></inertia></inertial>
+        <visual name="v"><pose>0.5 0 0 0 0 0</pose><geometry><box><size>1 0.05 0.05</size></box></geometry></visual>
+      </link>
+      <joint name="j" type="revolute">
+        <parent>base</parent><child>bar</child>
+        <axis><xyz>0 0 1</xyz><limit><lower>-1</lower><upper>1</upper><effort>1</effort><velocity>0.5</velocity></limit>
+          <dynamics><damping>0</damping><friction>0</friction></dynamics></axis>
+      </joint>
+      <plugin filename="gz-sim-apply-joint-force-system" name="gz::sim::systems::ApplyJointForce"><joint_name>j</joint_name></plugin>
+      <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher"><topic>/joint_state/arm</topic></plugin>
+      <plugin filename="gz-sim-pose-publisher-system" name="gz::sim::systems::PosePublisher">
+        <publish_link_pose>true</publish_link_pose>
+        <publish_model_pose>true</publish_model_pose>
+        <publish_nested_model_pose>false</publish_nested_model_pose>
+        <use_pose_vector_msg>true</use_pose_vector_msg>
+        <update_frequency>-1</update_frequency>
+      </plugin>
+    </model>
+  </world>
+</sdf>
