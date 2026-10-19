@@ -310,7 +310,7 @@ export class Shell {
         const r = this.run(part);
         this.history.pop();
         all.push(...r.lines);
-        if (r.clear || r.nano || r.code || r.python) return this.result(all, r);
+        if (r.clear || r.nano || r.code || r.python || r.realLaunch || r.realRun || r.asyncJob) return this.result(all, r);   // a launch / run takes the terminal over
       }
       return this.result(all);
     }
@@ -322,7 +322,7 @@ export class Shell {
         const r = this.run(part);
         this.history.pop();
         all.push(...r.lines);
-        if (r.clear || r.nano || r.code || r.python || this.lastError) return this.result(all, r);
+        if (r.clear || r.nano || r.code || r.python || r.realLaunch || r.realRun || r.asyncJob || this.lastError) return this.result(all, r);
       }
       return this.result(all);
     }
