@@ -975,7 +975,7 @@ export function startNav2Node(graph, desc) {
   if (desc.fs && !sys.fs) sys.fs = desc.fs;
   let m;
   if (role === "map_saver_cli") m = runMapSaverCli(sys, d);
-  else if (role.startsWith("slam:")) m = startSlam(sys, role.slice(5), d, { NavNode, C });
+  else if (role.startsWith("slam:")) m = startSlam(sys, role.slice(5), d, { NavNode, C, pyFloat });
   else if (CTORS[role]) m = CTORS[role].prototype ? new CTORS[role](sys, d) : CTORS[role](sys, d);
   else m = new SimpleServer(sys, role, d);
   if (!m) return null;
