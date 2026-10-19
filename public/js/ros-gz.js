@@ -46,6 +46,8 @@ export const GZ_WORLDS_DIR = "/usr/share/gz/gz-sim8/worlds";
 const HOME = "/home/student";
 const slash = (t) => (t ? (t.startsWith("/") ? t : "/" + t) : t);
 const f6 = (x) => (Number.isInteger(x) ? `${x}.0` : String(+Number(x).toFixed(6)));
+// float32 of stddev², printed as Python's repr of that double (4e-8 -> 3.999999975690116e-08)
+const pyF32sq = (sd) => { const v = Math.fround(sd * sd); if (Number.isInteger(v)) return v.toFixed(1); const t = String(v), m = t.match(/^(-?[\d.]+)e([-+])(\d+)$/); return m ? `${m[1]}e${m[2]}${m[3].padStart(2, "0")}` : t; };
 const ROS_FROM_GZ = Object.fromEntries(Object.entries(BRIDGE_TYPES).map(([r, g]) => [g, r]));
 
 // the image_transport plugins a ros_gz_image node loads next to /<image> (the real topics, their types)
@@ -601,8 +603,11 @@ export const gzMethods = {
     }
     if (s.kind === "imu") {
       const d = probe || { orientation: [0, 0, 0, 1], angular_velocity: [0, 0, 0], linear_acceleration: [0, 0, 9.8] };
-      const v3 = (k, a) => `${k}:\n  x: ${f6(a[0])}\n  y: ${f6(a[1])}\n  z: ${f6(a[2])}`, cov = "\n" + Array(9).fill("- 0.0").join("\n");
-      return [`${stamp}\norientation:\n  x: ${f6(d.orientation[0])}\n  y: ${f6(d.orientation[1])}\n  z: ${f6(d.orientation[2])}\n  w: ${f6(d.orientation[3])}\norientation_covariance:${cov}\n${v3("angular_velocity", d.angular_velocity)}\nangular_velocity_covariance:${cov}\n${v3("linear_acceleration", d.linear_acceleration)}\nlinear_acceleration_covariance:${cov}`];
+      const v3 = (k, a) => `${k}:\n  x: ${f6(a[0])}\n  y: ${f6(a[1])}\n  z: ${f6(a[2])}`;
+      // gz-sensors puts stddev² of the SDF <noise> on the diagonal (float32, as ros2 topic echo prints it:
+      // parity/fixtures/tb3_burger/sensors/samples/imu_runner.txt); no orientation noise: zeros
+      const I = (s.sensor && s.sensor.imu) || {}, cov = (sd) => "\n" + [0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => `- ${i % 4 ? "0.0" : pyF32sq((sd || [])[i / 4] || 0)}`).join("\n");
+      return [`${stamp}\norientation:\n  x: ${f6(d.orientation[0])}\n  y: ${f6(d.orientation[1])}\n  z: ${f6(d.orientation[2])}\n  w: ${f6(d.orientation[3])}\norientation_covariance:${cov(null)}\n${v3("angular_velocity", d.angular_velocity)}\nangular_velocity_covariance:${cov(I.gyroNoise)}\n${v3("linear_acceleration", d.linear_acceleration)}\nlinear_acceleration_covariance:${cov(I.accNoise)}`];
     }
     if (s.kind === "odom") {
       const o = this.gzOdom(m), q = qRPY(0, 0, o.yaw);
