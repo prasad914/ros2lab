@@ -1974,7 +1974,7 @@ RosGraph.prototype.hwSimHint = function () {
   const R = this.sh.realWs, list = (v) => (Array.isArray(v) ? v : v ? [v] : []);
   let cmds = [];
   if (R && R.json) {
-    for (const [kind, v] of Object.entries(R.json.entry || {})) if (kind !== "real" && !/note|issues/.test(kind)) for (const e of list(v)) if (e && e.cmd && (!e.robot || e.robot === R.robot) && /^ros2 launch /.test(e.cmd)) cmds.push(e.cmd);
+    for (const [kind, v] of Object.entries(R.json.entry || {})) if (kind !== "real" && !/note|issues/.test(kind)) for (const e of list(v)) if (e && e.cmd && !e.hw && (!e.robot || e.robot === R.robot) && /^ros2 launch /.test(e.cmd)) cmds.push(e.cmd);
   } else {
     for (const p of this.sh.wsPkgs ? this.sh.wsPkgs.values() : []) for (const f of Object.keys(p.launch || {})) if (/sim|gazebo|demo|mock|display/.test(f)) cmds.push(`ros2 launch ${p.name} ${f}`);
   }

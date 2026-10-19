@@ -677,11 +677,13 @@ async function openRealWorkspace(g, W) {
   const button = (e, isReal) => {
     const b = document.createElement("button"); b.type = "button"; b.className = `btn btn-small ${isReal ? "btn-hw" : "btn-white"}`; b.setAttribute("role", "listitem");
     b.replaceChildren(Object.assign(document.createElement("b"), { textContent: e.title || e.kind }), document.createElement("br"), Object.assign(document.createElement("code"), { textContent: e.cmd }));
+    // a card entry that starts a real driver (e.hw: what it needs, e.g. crazyflie keyboard_velmux_launch.py: backend cpp)
+    if (e.hw) b.append(document.createElement("br"), Object.assign(document.createElement("span"), { className: "rvp-unval", textContent: `Needs ${e.hw}: locked without a hardware license` }));
     if (isReal || !cmdValidated(g.id, e.cmd)) { b.append(document.createElement("br"), Object.assign(document.createElement("span"), { className: "rvp-unval", textContent: UNVALIDATED })); }
     b.addEventListener("click", () => runEntry(e, isReal));
     return b;
   };
-  $("real-entries").replaceChildren(...entries.map((e) => button(e, false)));
+  $("real-entries").replaceChildren(...entries.map((e) => button(e, !!e.hw)));
   $("real-hw").replaceChildren(...real.map((e) => button(e, true)));
   $("real-hw-note").textContent = real.length ? "Starts the maker's driver for the real robot. It needs a hardware license from your course administrator, and the robot connected to the computer that runs ROS 2 (use \"Connect to ROS 2 on your Ubuntu computer\" below to see it here)." : "This repository has no driver for a real robot.";
   // the workspace's own notes (what upstream does not provide on Jazzy, known upstream problems)
