@@ -1,0 +1,410 @@
+# REAL: gz sim (tb3_sensors_wall.sdf, installed burger model) + parameter_bridge with /opt/ros/jazzy/share/turtlebot3_gazebo/params/turtlebot3_burger_bridge.yaml
+# date 2026-10-19T22:44:42+05:30
+## $ ros2 topic list -t
+/clock [rosgraph_msgs/msg/Clock]
+/cmd_vel [geometry_msgs/msg/TwistStamped]
+/imu [sensor_msgs/msg/Imu]
+/joint_states [sensor_msgs/msg/JointState]
+/odom [nav_msgs/msg/Odometry]
+/parameter_events [rcl_interfaces/msg/ParameterEvent]
+/rosout [rcl_interfaces/msg/Log]
+/scan [sensor_msgs/msg/LaserScan]
+/tf [tf2_msgs/msg/TFMessage]
+## $ ros2 topic info -v /scan
+Type: sensor_msgs/msg/LaserScan
+
+Publisher count: 1
+
+Node name: ros_gz_bridge
+Node namespace: /
+Topic type: sensor_msgs/msg/LaserScan
+Topic type hash: RIHS01_64c191398013af96509d518dac71d5164f9382553fce5c1f8cca5be7924bd828
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.90.c8.0c.c1.00.00.00.00.00.00.1b.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 0
+
+## $ ros2 topic info -v /imu
+Type: sensor_msgs/msg/Imu
+
+Publisher count: 1
+
+Node name: ros_gz_bridge
+Node namespace: /
+Topic type: sensor_msgs/msg/Imu
+Topic type hash: RIHS01_7d9a00ff131080897a5ec7e26e315954b8eae3353c3f995c55faf71574000b5b
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.90.c8.0c.c1.00.00.00.00.00.00.1a.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 0
+
+## $ ros2 topic info -v /odom
+Type: nav_msgs/msg/Odometry
+
+Publisher count: 1
+
+Node name: ros_gz_bridge
+Node namespace: /
+Topic type: nav_msgs/msg/Odometry
+Topic type hash: RIHS01_3cc97dc7fb7502f8714462c526d369e35b603cfc34d946e3f2eda2766dfec6e0
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.90.c8.0c.c1.00.00.00.00.00.00.17.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 0
+
+## $ ros2 topic info -v /cmd_vel
+Type: geometry_msgs/msg/TwistStamped
+
+Publisher count: 0
+
+Subscription count: 1
+
+Node name: ros_gz_bridge
+Node namespace: /
+Topic type: geometry_msgs/msg/TwistStamped
+Topic type hash: RIHS01_5f0fcd4f81d5d06ad9b4c4c63e3ea51b82d6ae4d0558f1d475229b1121db6f64
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.90.c8.0c.c1.00.00.00.00.00.00.19.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+## $ ros2 topic info -v /tf
+Type: tf2_msgs/msg/TFMessage
+
+Publisher count: 1
+
+Node name: ros_gz_bridge
+Node namespace: /
+Topic type: tf2_msgs/msg/TFMessage
+Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.90.c8.0c.c1.00.00.00.00.00.00.18.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 0
+
+## $ ros2 topic info -v /clock
+Type: rosgraph_msgs/msg/Clock
+
+Publisher count: 1
+
+Node name: ros_gz_bridge
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.90.c8.0c.c1.00.00.00.00.00.00.15.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: ros_gz_bridge
+Node namespace: /
+Topic type: rosgraph_msgs/msg/Clock
+Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.90.c8.0c.c1.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+## $ ros2 topic hz /imu   (12 s wall, then Ctrl+C)
+average rate: 125.269
+	min: 0.004s max: 0.011s std dev: 0.00114s window: 882
+average rate: 126.127
+	min: 0.004s max: 0.011s std dev: 0.00115s window: 1015
+average rate: 120.375
+	min: 0.004s max: 0.506s std dev: 0.01506s window: 1099
+## $ ros2 topic hz /odom   (12 s wall, then Ctrl+C)
+average rate: 31.683
+	min: 0.022s max: 0.040s std dev: 0.00341s window: 226
+average rate: 30.099
+	min: 0.022s max: 0.430s std dev: 0.02564s window: 245
+average rate: 30.410
+	min: 0.019s max: 0.430s std dev: 0.02413s window: 278
+## $ ros2 topic hz /scan   (12 s wall, then Ctrl+C)
+average rate: 3.117
+	min: 0.303s max: 0.343s std dev: 0.00947s window: 21
+average rate: 3.116
+	min: 0.291s max: 0.343s std dev: 0.01134s window: 25
+average rate: 3.119
+	min: 0.291s max: 0.343s std dev: 0.01158s window: 29
+## $ ros2 topic hz /joint_states   (12 s wall, then Ctrl+C)
+average rate: 596.220
+	min: 0.000s max: 0.486s std dev: 0.00703s window: 4775
+average rate: 597.432
+	min: 0.000s max: 0.486s std dev: 0.00662s window: 5383
+average rate: 597.288
+	min: 0.000s max: 0.486s std dev: 0.00628s window: 5979
+## $ ros2 topic hz /tf   (12 s wall, then Ctrl+C)
+average rate: 29.776
+	min: 0.020s max: 0.469s std dev: 0.03019s window: 212
+average rate: 29.939
+	min: 0.020s max: 0.469s std dev: 0.02817s window: 244
+average rate: 30.109
+	min: 0.020s max: 0.469s std dev: 0.02651s window: 276
+## $ ros2 topic hz /clock   (12 s wall, then Ctrl+C)
+average rate: 580.294
+	min: 0.000s max: 0.504s std dev: 0.00782s window: 4148
+average rate: 585.398
+	min: 0.000s max: 0.504s std dev: 0.00730s window: 4770
+average rate: 588.751
+	min: 0.000s max: 0.504s std dev: 0.00687s window: 5387
+## $ ros2 topic echo --once /imu
+header:
+  stamp:
+    sec: 64
+    nanosec: 265000000
+  frame_id: burger/imu_link/tb3_imu
+orientation:
+  x: -2.709137307777717e-09
+  y: -0.006229924992984905
+  z: -1.3901330517560265e-08
+  w: 0.999980593828991
+orientation_covariance:
+- 0.0
+- 0.0
+- 0.0
+- 0.0
+- 0.0
+- 0.0
+- 0.0
+- 0.0
+- 0.0
+angular_velocity:
+  x: -0.0002495861276252801
+  y: 0.00010971766947730998
+  z: 0.00020012354064323292
+angular_velocity_covariance:
+- 3.999999975690116e-08
+- 0.0
+- 0.0
+- 0.0
+- 3.999999975690116e-08
+- 0.0
+- 0.0
+- 0.0
+- 3.999999975690116e-08
+linear_acceleration:
+  x: 0.11065579932657942
+  y: 0.019595567246591453
+  z: 9.81514973392031
+linear_acceleration_covariance:
+- 0.00028899998869746923
+- 0.0
+- 0.0
+- 0.0
+- 0.00028899998869746923
+- 0.0
+- 0.0
+- 0.0
+- 0.00028899998869746923
+---
+## $ ros2 topic echo --once /odom
+header:
+  stamp:
+    sec: 66
+    nanosec: 420000000
+  frame_id: odom
+child_frame_id: base_footprint
+pose:
+  pose:
+    position:
+      x: -6.536352467064186e-17
+      y: 1.116970890842276e-26
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 4.5794198466705636e-17
+      w: 1.0
+  covariance:
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+twist:
+  twist:
+    linear:
+      x: -6.320144812486723e-20
+      y: 0.0
+      z: 0.0
+    angular:
+      x: 0.0
+      y: 0.0
+      z: -6.616655309591551e-19
+  covariance:
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+---
+## $ ros2 topic echo --once /joint_states
+header:
+  stamp:
+    sec: 68
+    nanosec: 434000000
+  frame_id: ''
+name:
+- wheel_left_joint
+- wheel_right_joint
+position:
+- -2.208239960301809e-15
+- -1.7631560791129679e-15
+velocity:
+- -3.354339735082249e-18
+- -8.108180616047232e-18
+effort:
+- 0.0
+- 0.0
+---
+## $ ros2 topic echo --once /tf
+transforms:
+- header:
+    stamp:
+      sec: 70
+      nanosec: 500000000
+    frame_id: odom
+  child_frame_id: base_footprint
+  transform:
+    translation:
+      x: -6.568702839705235e-17
+      y: 1.1169708878747872e-26
+      z: 0.0
+    rotation:
+      x: 0.0
+      y: 0.0
+      z: 4.587973183979728e-17
+      w: 1.0
+---
+## $ ros2 topic echo --once /scan --no-arr
+header:
+  stamp:
+    sec: 72
+    nanosec: 800000000
+  frame_id: base_scan
+angle_min: 0.0
+angle_max: 6.28000020980835
+angle_increment: 0.01749303564429283
+time_increment: 0.0
+scan_time: 0.0
+range_min: 0.11999999731779099
+range_max: 3.5
+ranges: '<sequence type: float, length: 360>'
+intensities: '<sequence type: float, length: 360>'
+---
+## $ ros2 topic echo --once /scan --field ranges (first 400 chars)
+array('f', [1.0289647579193115, 1.0266927480697632, 1.0140336751937866, 1.0031242370605469, 1.0322167873382568, 1.0307040214538574, 1.0337785482406616, 1.02882981300354, 1.0343308448791504, 1.036763072013855, 1.0311572551727295, 1.0455853939056396, 1.0291898250579834, 1.0475988388061523, 1.0600032806396484, 1.0424083471298218, 1.048987627029419, 1.059387445449829, 1.0758780241012573, 1.07316684722

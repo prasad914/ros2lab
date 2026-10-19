@@ -1,0 +1,38 @@
+{
+ "case": "slide_mu0.01",
+ "runs": {
+  "run1": {
+   "v0": 0.49990199999999957,
+   "impulse_sim_t": 0.504,
+   "stop_distance": 1.275254772,
+   "stop_time": 5.090999999999999,
+   "decel_fit": 0.09799999999999949,
+   "mu_effective": 0.009999999999999946,
+   "analytic_stop_distance": 1.2750102530816305,
+   "analytic_stop_distance_v0_nominal": null,
+   "analytic_stop_distance_v0_0.5": 1.2755102040816326
+  },
+  "run2": {
+   "v0": 0.49990199999999957,
+   "impulse_sim_t": 0.505,
+   "stop_distance": 1.275254772,
+   "stop_time": 5.091,
+   "decel_fit": 0.09799999999999946,
+   "mu_effective": 0.009999999999999945,
+   "analytic_stop_distance": 1.2750102530816305,
+   "analytic_stop_distance_v0_nominal": null,
+   "analytic_stop_distance_v0_0.5": 1.2755102040816326
+  },
+  "run3": {
+   "v0": 0.49990199999999957,
+   "impulse_sim_t": 0.503,
+   "stop_distance": 1.275254772,
+   "stop_time": 5.091,
+   "decel_fit": 0.0979999999999993,
+   "mu_effective": 0.009999999999999927,
+   "analytic_stop_distance": 1.2750102530816305,
+   "analytic_stop_distance_v0_nominal": null,
+   "analytic_stop_distance_v0_0.5": 1.2755102040816326
+  }
+ }
+}

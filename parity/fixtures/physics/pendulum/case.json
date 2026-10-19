@@ -1,0 +1,15 @@
+{
+ "world": "pendulum",
+ "until": 10.0,
+ "subs": [
+  "/model/pend_d0/pose:pose_v",
+  "/model/pend_d01/pose:pose_v",
+  "/model/pend_d1/pose:pose_v",
+  "/model/pend_spring/pose:pose_v",
+  "/joint_state/pend_d0:model",
+  "/joint_state/pend_d01:model",
+  "/joint_state/pend_d1:model",
+  "/joint_state/pend_spring:model"
+ ],
+ "case": "pendulum"
+}

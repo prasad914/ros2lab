@@ -1,0 +1,13 @@
+{
+ "case": "incline_45",
+ "run": 3,
+ "world_file": "parity/scripts/physics/worlds/incline_45.sdf",
+ "gz_partition": "phys50_incline_45_3_1226173",
+ "ros_domain_id": "50",
+ "server_cmd": "gz sim -s -v 4 /home/prasad/ros2lab-course/parity/scripts/physics/worlds/incline_45.sdf",
+ "unpause_reply": "data: true",
+ "wall_seconds_after_unpause": 3.38,
+ "server_exit": null,
+ "model_info": {},
+ "date": "2026-10-19T22:25:33+0530"
+}

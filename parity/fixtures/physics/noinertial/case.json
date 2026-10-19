@@ -1,0 +1,17 @@
+{
+ "world": "noinertial",
+ "until": 3.0,
+ "subs": [
+  "/model/box_noinertial/pose:pose_v",
+  "/model/box_ref/pose:pose_v"
+ ],
+ "cmds": [
+  "{\"type\": \"EntityWrench\", \"topic\": \"/world/noinertial/wrench\", \"msg\": \"entity { name: \\\"box_noinertial::link\\\" type: LINK } wrench { force { x: 1000.0 y: 0.0 } }\", \"t\": 1.5}",
+  "{\"type\": \"EntityWrench\", \"topic\": \"/world/noinertial/wrench\", \"msg\": \"entity { name: \\\"box_ref::link\\\" type: LINK } wrench { force { x: 1000.0 y: 0.0 } }\", \"t\": 1.5}"
+ ],
+ "model_info": [
+  "box_noinertial",
+  "box_ref"
+ ],
+ "case": "noinertial"
+}

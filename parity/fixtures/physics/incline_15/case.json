@@ -1,0 +1,10 @@
+{
+ "world": "incline_15",
+ "until": 2.5,
+ "subs": [
+  "/model/sphere/pose:pose_v",
+  "/model/cylinder/pose:pose_v",
+  "/model/box_frictionless/pose:pose_v"
+ ],
+ "case": "incline_15"
+}

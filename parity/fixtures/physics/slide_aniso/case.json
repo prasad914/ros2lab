@@ -1,0 +1,13 @@
+{
+ "world": "slide_aniso",
+ "until": 4.0,
+ "subs": [
+  "/model/box_x/pose:pose_v",
+  "/model/box_y/pose:pose_v"
+ ],
+ "cmds": [
+  "{\"type\": \"EntityWrench\", \"topic\": \"/world/slide_aniso/wrench\", \"msg\": \"entity { name: \\\"box_x::link\\\" type: LINK } wrench { force { x: 2000.0 y: 0.0 } }\", \"t\": 0.5}",
+  "{\"type\": \"EntityWrench\", \"topic\": \"/world/slide_aniso/wrench\", \"msg\": \"entity { name: \\\"box_y::link\\\" type: LINK } wrench { force { x: 0.0 y: 2000.0 } }\", \"t\": 0.5}"
+ ],
+ "case": "slide_aniso"
+}

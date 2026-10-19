@@ -1,0 +1,13 @@
+{
+ "world": "slide_combine",
+ "until": 4.0,
+ "subs": [
+  "/model/box_lo/pose:pose_v",
+  "/model/box_hi/pose:pose_v"
+ ],
+ "cmds": [
+  "{\"type\": \"EntityWrench\", \"topic\": \"/world/slide_combine/wrench\", \"msg\": \"entity { name: \\\"box_lo::link\\\" type: LINK } wrench { force { x: 2000.0 y: 0.0 } }\", \"t\": 0.5}",
+  "{\"type\": \"EntityWrench\", \"topic\": \"/world/slide_combine/wrench\", \"msg\": \"entity { name: \\\"box_hi::link\\\" type: LINK } wrench { force { x: 2000.0 y: 0.0 } }\", \"t\": 0.5}"
+ ],
+ "case": "slide_combine"
+}

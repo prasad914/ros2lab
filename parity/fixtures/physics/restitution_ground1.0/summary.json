@@ -1,0 +1,107 @@
+{
+ "case": "restitution_ground1.0",
+ "runs": {
+  "run1": {
+   "sphere_e0.0": {
+    "drop_height": 0.9999901999999999,
+    "first_rebound_height": 0.0,
+    "e_effective": 0.0,
+    "sphere_e": 0.0,
+    "ground_e": 1.0,
+    "product": 0.0
+   },
+   "sphere_e0.5": {
+    "drop_height": 0.9999901999999999,
+    "first_rebound_height": 0.249172584,
+    "e_effective": 0.49917434420776674,
+    "sphere_e": 0.5,
+    "ground_e": 1.0,
+    "product": 0.5
+   },
+   "sphere_e0.9": {
+    "drop_height": 0.9999901999999999,
+    "first_rebound_height": 0.8131344660000001,
+    "e_effective": 0.9017441071589329,
+    "sphere_e": 0.9,
+    "ground_e": 1.0,
+    "product": 0.9
+   },
+   "sphere_e1.0": {
+    "drop_height": 0.9999901999999999,
+    "first_rebound_height": 1.004399179,
+    "e_effective": 1.0022020865117063,
+    "sphere_e": 1.0,
+    "ground_e": 1.0,
+    "product": 1.0
+   }
+  },
+  "run2": {
+   "sphere_e0.0": {
+    "drop_height": 0.9999901999999999,
+    "first_rebound_height": 0.0,
+    "e_effective": 0.0,
+    "sphere_e": 0.0,
+    "ground_e": 1.0,
+    "product": 0.0
+   },
+   "sphere_e0.5": {
+    "drop_height": 0.9999901999999999,
+    "first_rebound_height": 0.249172584,
+    "e_effective": 0.49917434420776674,
+    "sphere_e": 0.5,
+    "ground_e": 1.0,
+    "product": 0.5
+   },
+   "sphere_e0.9": {
+    "drop_height": 0.9999901999999999,
+    "first_rebound_height": 0.8131344660000001,
+    "e_effective": 0.9017441071589329,
+    "sphere_e": 0.9,
+    "ground_e": 1.0,
+    "product": 0.9
+   },
+   "sphere_e1.0": {
+    "drop_height": 0.9999901999999999,
+    "first_rebound_height": 1.004399179,
+    "e_effective": 1.0022020865117063,
+    "sphere_e": 1.0,
+    "ground_e": 1.0,
+    "product": 1.0
+   }
+  },
+  "run3": {
+   "sphere_e0.0": {
+    "drop_height": 0.9999901999999999,
+    "first_rebound_height": 0.0,
+    "e_effective": 0.0,
+    "sphere_e": 0.0,
+    "ground_e": 1.0,
+    "product": 0.0
+   },
+   "sphere_e0.5": {
+    "drop_height": 0.9999901999999999,
+    "first_rebound_height": 0.249172584,
+    "e_effective": 0.49917434420776674,
+    "sphere_e": 0.5,
+    "ground_e": 1.0,
+    "product": 0.5
+   },
+   "sphere_e0.9": {
+    "drop_height": 0.9999901999999999,
+    "first_rebound_height": 0.8131344660000001,
+    "e_effective": 0.9017441071589329,
+    "sphere_e": 0.9,
+    "ground_e": 1.0,
+    "product": 0.9
+   },
+   "sphere_e1.0": {
+    "drop_height": 0.9999901999999999,
+    "first_rebound_height": 1.004399179,
+    "e_effective": 1.0022020865117063,
+    "sphere_e": 1.0,
+    "ground_e": 1.0,
+    "product": 1.0
+   }
+  }
+ }
+}

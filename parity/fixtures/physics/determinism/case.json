@@ -1,0 +1,10 @@
+{
+ "world": "determinism",
+ "until": 3.0,
+ "subs": [
+  "/model/base_box/pose:pose_v",
+  "/model/tilted/pose:pose_v"
+ ],
+ "iterations": 3000,
+ "case": "determinism"
+}

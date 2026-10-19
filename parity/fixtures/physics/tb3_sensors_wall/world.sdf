@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!-- ROS2Lab physics baseline world "tb3_sensors_wall" (parity/scripts/physics/gen_worlds.py) -->
+<sdf version="1.10">
+  <world name="tb3_sensors_wall">
+    <physics name="1ms" type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <gravity>0 0 -9.8</gravity>
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+    <plugin filename="gz-sim-apply-link-wrench-system" name="gz::sim::systems::ApplyLinkWrench"/>
+    <plugin filename="gz-sim-contact-system" name="gz::sim::systems::Contact"/>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors"><render_engine>ogre2</render_engine></plugin>
+    <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"/>
+    <model name="ground">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry><plane><normal>0 0 1</normal><size>200 200</size></plane></geometry>
+          
+        </collision>
+        <visual name="visual">
+          <geometry><plane><normal>0 0 1</normal><size>200 200</size></plane></geometry>
+        </visual>
+      </link>
+    </model>
+    <include>
+      <uri>model://turtlebot3_burger</uri>
+      <name>burger</name>
+      <pose>0.0 0 0.01 0 0 0</pose>
+      <plugin filename="gz-sim-pose-publisher-system" name="gz::sim::systems::PosePublisher">
+        <publish_link_pose>true</publish_link_pose>
+        <publish_model_pose>true</publish_model_pose>
+        <publish_nested_model_pose>false</publish_nested_model_pose>
+        <use_pose_vector_msg>true</use_pose_vector_msg>
+        <update_frequency>-1</update_frequency>
+      </plugin>
+    </include>
+    <model name="wall"><static>true</static><pose>1.018 0 0.5 0 0 0</pose>
+      <link name="link"><collision name="c"><geometry><box><size>0.1 4 1</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>0.1 4 1</size></box></geometry></visual></link></model>
+  </world>
+</sdf>

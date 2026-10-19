@@ -1,0 +1,20 @@
+15:[gazebo-5] [1;36m[Dbg] [Physics.cc:1004] [0m[1;36mLoaded [[0m[1;36mgz::physics::dartsim::Plugin[0m[1;36m] from library [[0m[1;36m/opt/ros/jazzy/opt/gz_physics_vendor/lib/gz-physics-7/engine-plugins/libgz-physics-dartsim-plugin.so[0m[1;36m][0m[1;36m[0m
+16:[gazebo-5] [1;36m[Dbg] [SystemManager.cc:80] [0m[1;36mLoaded system [[0m[1;36mgz::sim::systems::Physics[0m[1;36m] for entity [[0m[1;36m1[0m[1;36m][0m[1;36m[0m
+27:[gazebo-5] [1;32m[Msg] [0m[1;32mPhysics[0m[1;32m service on [[0m[1;32m/world/empty/set_physics[0m[1;32m] (async)[0m[1;32m[0m
+28:[gazebo-5] [1;32m[Msg] [0m[1;32mPhysics[0m[1;32m service on [[0m[1;32m/world/empty/set_physics/blocking[0m[1;32m] (blocking)[0m[1;32m[0m
+39:[gazebo-5] [1;36m[Dbg] [SystemManager.cc:80] [0m[1;36mLoaded system [[0m[1;36mgz::sim::systems::UserCommands[0m[1;36m] for entity [[0m[1;36m1[0m[1;36m][0m[1;36m[0m
+46:[gazebo-5] [WARN] [1792430383.511949493] [controller_manager]: The resource manager is not yet initialized, will wait for the robot description to initialize it..
+48:[gazebo-5] [WARN] [1792430383.521910238] [gz_ros_control]: Waiting RM to load and initialize hardware...
+51:[gazebo-5] [INFO] [1792430383.681058132] [gz_ros_control]: The position_proportional_gain has been set to: 0.1
+125:[gazebo-5] [WARN] [1792430383.683618047] [controller_manager.hardware_component.system.ur]: Executor is not available during hardware component initialization for 'ur'. Skipping node creation!
+133:[gazebo-5] [WARN] [1792430383.685662434] [controller_manager]: Component 'ur' does not have read or write statistics initialized, skipping registration.
+137:[gazebo-5] [INFO] [1792430383.783650607] [controller_manager]: Controller 'forward_position_controller' node arguments: --ros-args --params-file /home/prasad/ros2lab-course/parity/fixtures/physics/ur5e_step_r100_g0.1/ur_controllers.yaml -p use_sim_time:=true --param use_sim_time:=true 
+138:[spawner-3] [INFO] [1792430383.833601301] [spawner_forward_position_controller]: Loaded forward_position_controller
+142:[gazebo-5] [1;36m[Dbg] [SystemManager.cc:80] [0m[1;36mLoaded system [[0m[1;36mgz::sim::systems::SceneBroadcaster[0m[1;36m] for entity [[0m[1;36m1[0m[1;36m][0m[1;36m[0m
+143:[gazebo-5] [1;36m[Dbg] [SystemManager.cc:80] [0m[1;36mLoaded system [[0m[1;36mgz::sim::systems::Contact[0m[1;36m] for entity [[0m[1;36m1[0m[1;36m][0m[1;36m[0m
+144:[gazebo-5] [1;32m[Msg] [0m[1;32mLoaded level [[0m[1;32mdefault[0m[1;32m][0m[1;32m[0m
+147:[gazebo-5] [1;32m[Msg] [0m[1;32mWorld [[0m[1;32mempty[0m[1;32m] initialized with [[0m[1;32m1ms[0m[1;32m] physics profile.[0m[1;32m[0m
+160:[gazebo-5] [1;36m[Dbg] [SystemManager.cc:80] [0m[1;36mLoaded system [[0m[1;36mgz_ros2_control::GazeboSimROS2ControlPlugin[0m[1;36m] for entity [[0m[1;36m10[0m[1;36m][0m[1;36m[0m
+171:[gazebo-5] [WARN] [1792430385.621930230] [gz_ros_control]:  Desired controller update period (0.01 s) is slower than the gazebo simulation period (0.001 s).
+179:[gazebo-5] [INFO] [1792430386.269341365] [controller_manager]: Controller 'joint_state_broadcaster' node arguments: --ros-args --params-file /home/prasad/ros2lab-course/parity/fixtures/physics/ur5e_step_r100_g0.1/ur_controllers.yaml -p use_sim_time:=true --param use_sim_time:=true 
+180:[spawner-2] [INFO] [1792430386.291567315] [spawner_joint_state_broadcaster]: Loaded joint_state_broadcaster

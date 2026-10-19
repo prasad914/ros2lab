@@ -1,0 +1,83 @@
+{
+ "case": "drop",
+ "runs": {
+  "run1": {
+   "samples": 4191,
+   "t_first": 0.001,
+   "z_start": 1.0999902,
+   "first_contact_t": 0.451,
+   "analytic_fall_time": 0.4517517378528401,
+   "bounce_max_z_after_first_contact": 0.099998896,
+   "bounce_height_m": -1.1040000000017702e-06,
+   "rest_z_mean": 0.09998548033133732,
+   "rest_penetration_m": 1.4519668662685281e-05,
+   "rest_z_std": 1.746452622539272e-05,
+   "settle_time_1e-4": 3.642,
+   "rest_contact_points_per_msg": {
+    "mean": 4.0,
+    "min": 4.0,
+    "max": 4.0,
+    "n": 500
+   },
+   "rest_contact_depth": {
+    "mean": 1.4240061755358e-05,
+    "min": 5.19581135e-07,
+    "max": 7.16024104e-05,
+    "n": 2000
+   },
+   "contact_msgs": 3738
+  },
+  "run2": {
+   "samples": 4200,
+   "t_first": 0.001,
+   "z_start": 1.0999902,
+   "first_contact_t": 0.451,
+   "analytic_fall_time": 0.4517517378528401,
+   "bounce_max_z_after_first_contact": 0.099998896,
+   "bounce_height_m": -1.1040000000017702e-06,
+   "rest_z_mean": 0.09998669101796405,
+   "rest_penetration_m": 1.3308982035956096e-05,
+   "rest_z_std": 1.5949142685576068e-05,
+   "settle_time_1e-4": 3.642,
+   "rest_contact_points_per_msg": {
+    "mean": 4.0,
+    "min": 4.0,
+    "max": 4.0,
+    "n": 501
+   },
+   "rest_contact_depth": {
+    "mean": 1.2985207792473053e-05,
+    "min": 4.75493835e-07,
+    "max": 6.54108838e-05,
+    "n": 2004
+   },
+   "contact_msgs": 3748
+  },
+  "run3": {
+   "samples": 4152,
+   "t_first": 0.001,
+   "z_start": 1.0999902,
+   "first_contact_t": 0.451,
+   "analytic_fall_time": 0.4517517378528401,
+   "bounce_max_z_after_first_contact": 0.099998896,
+   "bounce_height_m": -1.1040000000017702e-06,
+   "rest_z_mean": 0.09997874399600798,
+   "rest_penetration_m": 2.1256003992026207e-05,
+   "rest_z_std": 2.58734487918251e-05,
+   "settle_time_1e-4": 3.634,
+   "rest_contact_points_per_msg": {
+    "mean": 4.0,
+    "min": 4.0,
+    "max": 4.0,
+    "n": 501
+   },
+   "rest_contact_depth": {
+    "mean": 6.592713296158283e-05,
+    "min": 7.20068101e-07,
+    "max": 0.0033024445,
+    "n": 2004
+   },
+   "contact_msgs": 3699
+  }
+ }
+}

@@ -1,0 +1,13 @@
+{
+ "case": "joint_limits",
+ "run": 3,
+ "world_file": "parity/scripts/physics/worlds/joint_limits.sdf",
+ "gz_partition": "phys50_joint_limits_3_1221862",
+ "ros_domain_id": "50",
+ "server_cmd": "gz sim -s -v 4 /home/prasad/ros2lab-course/parity/scripts/physics/worlds/joint_limits.sdf",
+ "unpause_reply": "data: true",
+ "wall_seconds_after_unpause": 4.28,
+ "server_exit": null,
+ "model_info": {},
+ "date": "2026-10-19T22:20:06+0530"
+}

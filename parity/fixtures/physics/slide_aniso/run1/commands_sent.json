@@ -1,0 +1,23 @@
+{
+ "sent": [
+  {
+   "type": "EntityWrench",
+   "topic": "/world/slide_aniso/wrench",
+   "msg": "entity { name: \"box_x::link\" type: LINK } wrench { force { x: 2000.0 y: 0.0 } }",
+   "t": 0.5,
+   "sent_at_sim": 0.5,
+   "wall": 1792428740.6424704,
+   "ok": true
+  },
+  {
+   "type": "EntityWrench",
+   "topic": "/world/slide_aniso/wrench",
+   "msg": "entity { name: \"box_y::link\" type: LINK } wrench { force { x: 0.0 y: 2000.0 } }",
+   "t": 0.5,
+   "sent_at_sim": 0.5,
+   "wall": 1792428740.6436841,
+   "ok": true
+  }
+ ],
+ "not_sent": []
+}

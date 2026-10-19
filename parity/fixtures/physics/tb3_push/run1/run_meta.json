@@ -1,0 +1,13 @@
+{
+ "case": "tb3_push",
+ "run": 1,
+ "world_file": "parity/scripts/physics/worlds/tb3_push.sdf",
+ "gz_partition": "phys50_tb3_push_1_1228369",
+ "ros_domain_id": "50",
+ "server_cmd": "gz sim -s -v 4 /home/prasad/ros2lab-course/parity/scripts/physics/worlds/tb3_push.sdf",
+ "unpause_reply": "data: true",
+ "wall_seconds_after_unpause": 18.39,
+ "server_exit": null,
+ "model_info": {},
+ "date": "2026-10-19T22:30:45+0530"
+}
