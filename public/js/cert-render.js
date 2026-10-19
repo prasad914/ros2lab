@@ -78,7 +78,7 @@ function seal() {
     svg("circle", { cx: 60, cy: 60, r: 27, fill: "none", stroke: "#D4AF37", "stroke-width": 0.6 }),
     svg("defs", {}, svg("path", { id, d: "M60 60 m-35 0 a35 35 0 1 1 70 0 a35 35 0 1 1 -70 0" })));
   const t = svg("text", { "font-family": "Cinzel, serif", "font-size": 7.4, "font-weight": 700, fill: "#D4AF37", "letter-spacing": 1.6 });
-  t.append(svg("textPath", { href: `#${id}`, startOffset: "0" }, "ROS2LAB • VERIFIED • ROS 2 JAZZY •"));
+  t.append(svg("textPath", { href: `#${id}`, startOffset: "0" }, "ROS2LAB • NOT YET VALIDATED • ROS 2 JAZZY •"));
   g.append(t);
   const logo = logoSvg();
   logo.setAttribute("x", "41"); logo.setAttribute("y", "41"); logo.setAttribute("width", "38"); logo.setAttribute("height", "38");

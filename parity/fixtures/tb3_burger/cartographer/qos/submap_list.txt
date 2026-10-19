@@ -1,0 +1,36 @@
+Type: cartographer_ros_msgs/msg/SubmapList
+
+Publisher count: 1
+
+Node name: cartographer_node
+Node namespace: /
+Topic type: cartographer_ros_msgs/msg/SubmapList
+Topic type hash: RIHS01_4cd4470faa3592209244e5fcb1492879381563902fa36cd67c36e4b943f2222f
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.36.34.a1.cd.00.00.00.00.00.00.1f.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: cartographer_occupancy_grid_node
+Node namespace: /
+Topic type: cartographer_ros_msgs/msg/SubmapList
+Topic type hash: RIHS01_4cd4470faa3592209244e5fcb1492879381563902fa36cd67c36e4b943f2222f
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.37.34.d9.11.00.00.00.00.00.00.18.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+

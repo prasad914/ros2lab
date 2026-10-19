@@ -1,0 +1,21 @@
+Type: map_msgs/msg/OccupancyGridUpdate
+
+Publisher count: 1
+
+Node name: local_costmap
+Node namespace: /local_costmap
+Topic type: map_msgs/msg/OccupancyGridUpdate
+Topic type hash: RIHS01_c4095b0be2e4363f8978a1570e0293ee093436f1e1c61d99b48502ac317025e8
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.d5.2c.1d.8f.00.00.00.00.00.02.30.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 0
+

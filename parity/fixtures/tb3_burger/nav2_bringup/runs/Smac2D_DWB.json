@@ -1,0 +1,26 @@
+{
+  "run_label": "Smac2D_DWB",
+  "timestamp": 1792091282.0994027,
+  "results": {
+    "goal1": {
+      "success": true,
+      "duration": 3.867,
+      "wall_duration": 3.904945135116577,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        0.23585130772613103,
+        0.6320294117680445,
+        1.6719808990199496
+      ],
+      "position_error_m": 0.3697129563180672,
+      "yaw_error_deg": 5.7974458914818126,
+      "amcl_cov_x": 0.020943796337913073,
+      "amcl_cov_y": 0.06157076220933938,
+      "amcl_cov_yaw": 0.07485341855498458
+    }
+  }
+}

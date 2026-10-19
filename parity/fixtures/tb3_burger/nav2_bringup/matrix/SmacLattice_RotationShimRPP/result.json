@@ -1,0 +1,20 @@
+{
+  "pair": "SmacLattice_RotationShimRPP",
+  "planner": "SmacLattice",
+  "controller": "RotationShimRPP",
+  "complete": true,
+  "start_wall": "2026-10-17T21:23:22+0530",
+  "localized": "ready: localized, /amcl_pose (0.033, -0.007)",
+  "active": true,
+  "status": "SUCCEEDED",
+  "accepted": true,
+  "error_code": 0,
+  "error_msg": "",
+  "duration_sim_s": 3.6299999999999955,
+  "timed_out_after_sim_s": null,
+  "goal_error": null,
+  "domain_empty_after_stop": true,
+  "bag": "parity/fixtures/tb3_burger/nav2_bringup/bags/matrix/SmacLattice_RotationShimRPP",
+  "bag_bytes": 15341596,
+  "end_wall": "2026-10-17T21:25:29+0530"
+}

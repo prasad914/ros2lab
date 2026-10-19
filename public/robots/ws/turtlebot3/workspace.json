@@ -4,7 +4,8 @@
  "distro": "jazzy",
  "robots": [
   "tb3_burger",
-  "tb3_waffle"
+  "tb3_waffle",
+  "tb3_waffle_pi"
  ],
  "env": {
   "tb3_burger": {
@@ -12,6 +13,9 @@
   },
   "tb3_waffle": {
    "TURTLEBOT3_MODEL": "waffle"
+  },
+  "tb3_waffle_pi": {
+   "TURTLEBOT3_MODEL": "waffle_pi"
   }
  },
  "repos": [
@@ -468,7 +472,8 @@
   "src/turtlebot3_simulations/turtlebot3_gazebo/models/turtlebot3_common/meshes/sensors/lds.stl": "src/turtlebot3/turtlebot3_description/meshes/sensors/lds.stl",
   "src/turtlebot3_simulations/turtlebot3_gazebo/models/turtlebot3_common/meshes/sensors/r200.dae": "src/turtlebot3/turtlebot3_description/meshes/sensors/r200.dae",
   "src/turtlebot3_simulations/turtlebot3_gazebo/models/turtlebot3_common/meshes/wheels/left_tire.stl": "src/turtlebot3/turtlebot3_description/meshes/wheels/left_tire.stl",
-  "src/turtlebot3_simulations/turtlebot3_gazebo/models/turtlebot3_common/meshes/wheels/right_tire.stl": "src/turtlebot3/turtlebot3_description/meshes/wheels/right_tire.stl"
+  "src/turtlebot3_simulations/turtlebot3_gazebo/models/turtlebot3_common/meshes/wheels/right_tire.stl": "src/turtlebot3/turtlebot3_description/meshes/wheels/right_tire.stl",
+  "src/turtlebot3_simulations/turtlebot3_gazebo/models/turtlebot3_common/meshes/bases/waffle_pi_base.stl": "src/turtlebot3/turtlebot3_description/meshes/bases/waffle_pi_base.stl"
  },
  "files": [
   "src/DynamixelSDK/LICENSE",
@@ -721,6 +726,7 @@
   "src/turtlebot3/turtlebot3_description/CMakeLists.txt",
   "src/turtlebot3/turtlebot3_description/meshes/bases/burger_base.stl",
   "src/turtlebot3/turtlebot3_description/meshes/bases/waffle_base.stl",
+  "src/turtlebot3/turtlebot3_description/meshes/bases/waffle_pi_base.stl",
   "src/turtlebot3/turtlebot3_description/meshes/sensors/lds.stl",
   "src/turtlebot3/turtlebot3_description/meshes/sensors/r200.dae",
   "src/turtlebot3/turtlebot3_description/meshes/wheels/left_tire.stl",

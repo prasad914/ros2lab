@@ -1,0 +1,26 @@
+{
+  "run_label": "NavFn_Graceful",
+  "timestamp": 1792091186.06694,
+  "results": {
+    "goal1": {
+      "success": true,
+      "duration": 8.187,
+      "wall_duration": 8.199939966201782,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        0.20360645766210875,
+        0.5632101977020755,
+        1.5259184302807258
+      ],
+      "position_error_m": 0.4368046908268369,
+      "yaw_error_deg": 2.5713171125372196,
+      "amcl_cov_x": 0.033224624044620926,
+      "amcl_cov_y": 0.08470921139895948,
+      "amcl_cov_yaw": 0.06410934495094694
+    }
+  }
+}

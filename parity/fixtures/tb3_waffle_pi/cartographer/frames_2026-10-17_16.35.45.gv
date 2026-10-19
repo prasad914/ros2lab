@@ -1,0 +1,18 @@
+digraph G {
+"base_footprint" -> "base_link"[label=" Broadcaster: Authority undetectable\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"odom" -> "base_footprint"[label=" Broadcaster: Authority undetectable\nAverage rate: 50.1\nBuffer length: 10.02\nMost recent transform: 70.96\nOldest transform: 60.94\n"];
+"base_link" -> "camera_link"[label=" Broadcaster: Authority undetectable\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"camera_link" -> "camera_rgb_frame"[label=" Broadcaster: Authority undetectable\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"camera_rgb_frame" -> "camera_rgb_optical_frame"[label=" Broadcaster: Authority undetectable\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"base_link" -> "caster_back_left_link"[label=" Broadcaster: Authority undetectable\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"base_link" -> "caster_back_right_link"[label=" Broadcaster: Authority undetectable\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"base_link" -> "imu_link"[label=" Broadcaster: Authority undetectable\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"base_link" -> "base_scan"[label=" Broadcaster: Authority undetectable\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"map" -> "odom"[label=" Broadcaster: Authority undetectable\nAverage rate: 276.645\nBuffer length: 10.002\nMost recent transform: 70.965\nOldest transform: 60.963\n"];
+"base_link" -> "wheel_left_link"[label=" Broadcaster: Authority undetectable\nAverage rate: 20.1\nBuffer length: 10.05\nMost recent transform: 70.959\nOldest transform: 60.909\n"];
+"base_link" -> "wheel_right_link"[label=" Broadcaster: Authority undetectable\nAverage rate: 20.1\nBuffer length: 10.05\nMost recent transform: 70.959\nOldest transform: 60.909\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1792235145.135784"[ shape=plaintext ] ;
+}->"map";
+}

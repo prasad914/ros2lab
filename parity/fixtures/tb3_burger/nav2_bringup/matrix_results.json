@@ -1,0 +1,267 @@
+[
+  {
+    "pair": "NavFn_MPPI",
+    "planner": "NavFn",
+    "controller": "MPPI",
+    "status": "VERIFIED",
+    "duration_sim": 8.337,
+    "duration_wall": 8.379589319229126,
+    "position_error_m": 0.3730735610262414,
+    "bag_size_mb": 5.46,
+    "bag_dir": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/bags/NavFn_MPPI"
+  },
+  {
+    "pair": "NavFn_DWB",
+    "planner": "NavFn",
+    "controller": "DWB",
+    "status": "VERIFIED",
+    "duration_sim": 4.107,
+    "duration_wall": 4.109173774719238,
+    "position_error_m": 0.3290876392823683,
+    "bag_size_mb": 4.94,
+    "bag_dir": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/bags/NavFn_DWB"
+  },
+  {
+    "pair": "NavFn_RPP",
+    "planner": "NavFn",
+    "controller": "RPP",
+    "status": "VERIFIED",
+    "duration_sim": 6.219,
+    "duration_wall": 6.249840497970581,
+    "position_error_m": 0.29282245005504254,
+    "bag_size_mb": 5.08,
+    "bag_dir": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/bags/NavFn_RPP"
+  },
+  {
+    "pair": "NavFn_RotationShimRPP",
+    "planner": "NavFn",
+    "controller": "RotationShimRPP",
+    "status": "VERIFIED",
+    "duration_sim": 7.035,
+    "duration_wall": 7.050800800323486,
+    "position_error_m": 0.28041775159480914,
+    "bag_size_mb": 5.45,
+    "bag_dir": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/bags/NavFn_RotationShimRPP"
+  },
+  {
+    "pair": "NavFn_Graceful",
+    "planner": "NavFn",
+    "controller": "Graceful",
+    "status": "VERIFIED",
+    "duration_sim": 8.187,
+    "duration_wall": 8.199939966201782,
+    "position_error_m": 0.4368046908268369,
+    "bag_size_mb": 5.91,
+    "bag_dir": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/bags/NavFn_Graceful"
+  },
+  {
+    "pair": "Smac2D_MPPI",
+    "planner": "Smac2D",
+    "controller": "MPPI",
+    "status": "VERIFIED",
+    "duration_sim": 5.226,
+    "duration_wall": 5.228808879852295,
+    "position_error_m": 0.530750352442533,
+    "bag_size_mb": 5.06,
+    "bag_dir": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/bags/Smac2D_MPPI"
+  },
+  {
+    "pair": "Smac2D_DWB",
+    "planner": "Smac2D",
+    "controller": "DWB",
+    "status": "VERIFIED",
+    "duration_sim": 3.867,
+    "duration_wall": 3.904945135116577,
+    "position_error_m": 0.3697129563180672,
+    "bag_size_mb": 4.84,
+    "bag_dir": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/bags/Smac2D_DWB"
+  },
+  {
+    "pair": "Smac2D_RPP",
+    "planner": "Smac2D",
+    "controller": "RPP",
+    "status": "VERIFIED",
+    "duration_sim": 5.598,
+    "duration_wall": 5.599438905715942,
+    "position_error_m": 0.36752842603193875,
+    "bag_size_mb": 4.9,
+    "bag_dir": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/bags/Smac2D_RPP"
+  },
+  {
+    "pair": "Smac2D_RotationShimRPP",
+    "planner": "Smac2D",
+    "controller": "RotationShimRPP",
+    "status": "VERIFIED",
+    "duration_sim": 5.985,
+    "duration_wall": 6.000633955001831,
+    "position_error_m": 0.5010979724051257,
+    "bag_size_mb": 5.18,
+    "bag_dir": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/bags/Smac2D_RotationShimRPP"
+  },
+  {
+    "pair": "Smac2D_Graceful",
+    "planner": "Smac2D",
+    "controller": "Graceful",
+    "status": "VERIFIED",
+    "duration_sim": 8.424,
+    "duration_wall": 8.447974681854248,
+    "position_error_m": 0.47208854626108393,
+    "bag_size_mb": 5.23,
+    "bag_dir": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/bags/Smac2D_Graceful"
+  },
+  {
+    "pair": "ThetaStar_MPPI",
+    "planner": "ThetaStar",
+    "controller": "MPPI",
+    "status": "VERIFIED",
+    "duration_sim": 5.268,
+    "duration_wall": 5.328217506408691,
+    "position_error_m": 0.49414683500662443,
+    "bag_size_mb": 5.04,
+    "bag_dir": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/bags/ThetaStar_MPPI"
+  },
+  {
+    "pair": "ThetaStar_DWB",
+    "planner": "ThetaStar",
+    "controller": "DWB",
+    "status": "VERIFIED",
+    "duration_sim": 4.17,
+    "duration_wall": 4.168186664581299,
+    "position_error_m": 0.28790175315940963,
+    "bag_size_mb": 4.92,
+    "bag_dir": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/bags/ThetaStar_DWB"
+  },
+  {
+    "pair": "ThetaStar_RPP",
+    "planner": "ThetaStar",
+    "controller": "RPP",
+    "status": "VERIFIED",
+    "duration_sim": 5.244,
+    "duration_wall": 5.249407052993774,
+    "position_error_m": 0.48760614055701285,
+    "bag_size_mb": 4.99,
+    "bag_dir": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/bags/ThetaStar_RPP"
+  },
+  {
+    "pair": "ThetaStar_RotationShimRPP",
+    "planner": "ThetaStar",
+    "controller": "RotationShimRPP",
+    "status": "VERIFIED",
+    "duration_sim": 6.297,
+    "duration_wall": 6.29795241355896,
+    "position_error_m": 0.4643883649252887,
+    "bag_size_mb": 5.26,
+    "bag_dir": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/bags/ThetaStar_RotationShimRPP"
+  },
+  {
+    "pair": "ThetaStar_Graceful",
+    "planner": "ThetaStar",
+    "controller": "Graceful",
+    "status": "VERIFIED",
+    "duration_sim": 8.55,
+    "duration_wall": 8.601468563079834,
+    "position_error_m": 0.49272503589426964,
+    "bag_size_mb": 5.98,
+    "bag_dir": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/bags/ThetaStar_Graceful"
+  },
+  {
+    "pair": "SmacHybrid_MPPI",
+    "planner": "SmacHybrid",
+    "controller": "MPPI",
+    "status": "VERIFIED",
+    "duration_sim": 5.898,
+    "duration_wall": 5.898542165756226,
+    "position_error_m": 0.17463105640493096,
+    "bag_size_mb": 5.21,
+    "bag_dir": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/bags/SmacHybrid_MPPI"
+  },
+  {
+    "pair": "SmacHybrid_DWB",
+    "planner": "SmacHybrid",
+    "controller": "DWB",
+    "status": "VERIFIED",
+    "duration_sim": 5.466,
+    "duration_wall": 5.462350368499756,
+    "position_error_m": 0.3228486970287336,
+    "bag_size_mb": 5.15,
+    "bag_dir": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/bags/SmacHybrid_DWB"
+  },
+  {
+    "pair": "SmacHybrid_RPP",
+    "planner": "SmacHybrid",
+    "controller": "RPP",
+    "status": "VERIFIED",
+    "duration_sim": 4.209,
+    "duration_wall": 4.209078788757324,
+    "position_error_m": 0.4778556174097579,
+    "bag_size_mb": 4.61,
+    "bag_dir": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/bags/SmacHybrid_RPP"
+  },
+  {
+    "pair": "SmacHybrid_RotationShimRPP",
+    "planner": "SmacHybrid",
+    "controller": "RotationShimRPP",
+    "status": "VERIFIED",
+    "duration_sim": 5.652,
+    "duration_wall": 5.64689302444458,
+    "position_error_m": 0.25963173826818947,
+    "bag_size_mb": 5.07,
+    "bag_dir": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/bags/SmacHybrid_RotationShimRPP"
+  },
+  {
+    "pair": "SmacHybrid_Graceful",
+    "planner": "SmacHybrid",
+    "controller": "Graceful",
+    "status": "VERIFIED",
+    "duration_sim": 9.558,
+    "duration_wall": 9.567740201950073,
+    "position_error_m": 0.4902010063574611,
+    "bag_size_mb": 6.17,
+    "bag_dir": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/bags/SmacHybrid_Graceful"
+  },
+  {
+    "pair": "SmacLattice_MPPI",
+    "planner": "SmacLattice",
+    "controller": "MPPI",
+    "status": "UNVERIFIED",
+    "reason": "SmacPlannerLattice requires external lattice graph filepath (not bundled in Jazzy nav2_smac_planner)",
+    "log": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/logs/SmacLattice_MPPI_unverified.log",
+    "error_excerpt": "[component_container_isolated-6] [FATAL] [1792091952.603717194] [planner_server]: Failed to create global planner. Exception: Could not open lattice file!\n[component_container_isolated-6] [ERROR] [1792091952.766236055] [lifecycle_manager_navigation]: Failed to change state for node: planner_server\n[component_container_isolated-6] [ERROR] [1792091952.766447571] [lifecycle_manager_navigation]: Failed to bring up all requested nodes. Aborting bringup."
+  },
+  {
+    "pair": "SmacLattice_DWB",
+    "planner": "SmacLattice",
+    "controller": "DWB",
+    "status": "UNVERIFIED",
+    "reason": "SmacPlannerLattice requires external lattice graph filepath (not bundled in Jazzy nav2_smac_planner)",
+    "log": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/logs/SmacLattice_DWB_unverified.log",
+    "error_excerpt": "[component_container_isolated-6] [FATAL] [1792091985.204547276] [planner_server]: Failed to create global planner. Exception: Could not open lattice file!\n[component_container_isolated-6] [ERROR] [1792091985.372374255] [lifecycle_manager_navigation]: Failed to change state for node: planner_server\n[component_container_isolated-6] [ERROR] [1792091985.372548836] [lifecycle_manager_navigation]: Failed to bring up all requested nodes. Aborting bringup."
+  },
+  {
+    "pair": "SmacLattice_RPP",
+    "planner": "SmacLattice",
+    "controller": "RPP",
+    "status": "UNVERIFIED",
+    "reason": "SmacPlannerLattice requires external lattice graph filepath (not bundled in Jazzy nav2_smac_planner)",
+    "log": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/logs/SmacLattice_RPP_unverified.log",
+    "error_excerpt": "[component_container_isolated-6] [FATAL] [1792092017.027213836] [planner_server]: Failed to create global planner. Exception: Could not open lattice file!\n[component_container_isolated-6] [ERROR] [1792092017.191071124] [lifecycle_manager_navigation]: Failed to change state for node: planner_server\n[component_container_isolated-6] [ERROR] [1792092017.191271564] [lifecycle_manager_navigation]: Failed to bring up all requested nodes. Aborting bringup."
+  },
+  {
+    "pair": "SmacLattice_RotationShimRPP",
+    "planner": "SmacLattice",
+    "controller": "RotationShimRPP",
+    "status": "UNVERIFIED",
+    "reason": "SmacPlannerLattice requires external lattice graph filepath (not bundled in Jazzy nav2_smac_planner)",
+    "log": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/logs/SmacLattice_RotationShimRPP_unverified.log",
+    "error_excerpt": "[component_container_isolated-6] [FATAL] [1792092048.310606111] [planner_server]: Failed to create global planner. Exception: Could not open lattice file!\n[component_container_isolated-6] [ERROR] [1792092048.466501210] [lifecycle_manager_navigation]: Failed to change state for node: planner_server\n[component_container_isolated-6] [ERROR] [1792092048.466820700] [lifecycle_manager_navigation]: Failed to bring up all requested nodes. Aborting bringup."
+  },
+  {
+    "pair": "SmacLattice_Graceful",
+    "planner": "SmacLattice",
+    "controller": "Graceful",
+    "status": "UNVERIFIED",
+    "reason": "SmacPlannerLattice requires external lattice graph filepath (not bundled in Jazzy nav2_smac_planner)",
+    "log": "/home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/logs/SmacLattice_Graceful_unverified.log",
+    "error_excerpt": "[component_container_isolated-6] [FATAL] [1792092080.931622069] [planner_server]: Failed to create global planner. Exception: Could not open lattice file!\n[component_container_isolated-6] [ERROR] [1792092081.019518368] [lifecycle_manager_navigation]: Failed to change state for node: planner_server\n[component_container_isolated-6] [ERROR] [1792092081.019615599] [lifecycle_manager_navigation]: Failed to bring up all requested nodes. Aborting bringup."
+  }
+]

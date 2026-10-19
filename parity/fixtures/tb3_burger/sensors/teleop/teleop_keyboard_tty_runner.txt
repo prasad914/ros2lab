@@ -1,0 +1,21 @@
+# Excerpt of parity/fixtures/tb3_burger/sensors/teleop/teleop_keyboard_tty_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-18T14:53:41+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:Script started on 2026-10-18 14:50:11+05:30 [COMMAND="ros2 run turtlebot3_teleop teleop_keyboard" <not executed on terminal>]
+2:
+3:Control Your TurtleBot3!
+4:---------------------------
+5:Moving around:
+6:        w
+7:   a    s    d
+8:        x
+9:
+10:w/x : increase/decrease linear velocity (Burger : ~ 0.22, Waffle and Waffle Pi : ~ 0.26)
+11:a/d : increase/decrease angular velocity (Burger : ~ 2.84, Waffle and Waffle Pi : ~ 1.82)
+12:
+13:space key, s : force stop
+14:
+15:CTRL-C to quit
+16:
+17:
+18:Script done on 2026-10-18 14:50:31+05:30 [COMMAND_EXIT_CODE="0"]

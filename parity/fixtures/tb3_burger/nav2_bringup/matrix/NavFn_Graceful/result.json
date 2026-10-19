@@ -1,0 +1,20 @@
+{
+  "pair": "NavFn_Graceful",
+  "planner": "NavFn",
+  "controller": "Graceful",
+  "complete": true,
+  "start_wall": "2026-10-17T20:42:10+0530",
+  "localized": "ready: localized, /amcl_pose (0.045, 0.003)",
+  "active": true,
+  "status": "SUCCEEDED",
+  "accepted": true,
+  "error_code": 0,
+  "error_msg": "",
+  "duration_sim_s": 6.893999999999991,
+  "timed_out_after_sim_s": null,
+  "goal_error": null,
+  "domain_empty_after_stop": true,
+  "bag": "parity/fixtures/tb3_burger/nav2_bringup/bags/matrix/NavFn_Graceful",
+  "bag_bytes": 19859608,
+  "end_wall": "2026-10-17T20:44:59+0530"
+}

@@ -1,0 +1,20 @@
+{
+  "pair": "SmacLattice_RPP",
+  "planner": "SmacLattice",
+  "controller": "RPP",
+  "complete": true,
+  "start_wall": "2026-10-17T21:21:11+0530",
+  "localized": "ready: localized, /amcl_pose (0.046, -0.000)",
+  "active": true,
+  "status": "SUCCEEDED",
+  "accepted": true,
+  "error_code": 0,
+  "error_msg": "",
+  "duration_sim_s": 3.620999999999995,
+  "timed_out_after_sim_s": null,
+  "goal_error": null,
+  "domain_empty_after_stop": true,
+  "bag": "parity/fixtures/tb3_burger/nav2_bringup/bags/matrix/SmacLattice_RPP",
+  "bag_bytes": 15986386,
+  "end_wall": "2026-10-17T21:23:22+0530"
+}

@@ -1,0 +1,26 @@
+{
+  "run_label": "SmacLattice_DWB",
+  "timestamp": 1792164509.5715199,
+  "results": {
+    "goal1": {
+      "success": false,
+      "duration": 0.0,
+      "wall_duration": 0.03351020812988281,
+      "status": "6",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        0.05071689522091811,
+        0.010327315462581374,
+        -0.00283771971616314
+      ],
+      "position_error_m": 1.000868356924118,
+      "yaw_error_deg": 90.16259241202758,
+      "amcl_cov_x": 0.17821072319281409,
+      "amcl_cov_y": 0.23929407879416031,
+      "amcl_cov_yaw": 0.06597257589750626
+    }
+  }
+}

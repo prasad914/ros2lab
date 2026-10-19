@@ -1,0 +1,76 @@
+# Excerpt of parity/fixtures/tb3_burger/sensors/samples/imu_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-18T14:53:41+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# 2026-10-18T14:53:21+05:30 ROS_DOMAIN_ID=41 GZ_PARTITION=review_41 TURTLEBOT3_MODEL=<unset>
+2:# cmd: ros2 topic echo /imu --once --no-daemon
+3:header:
+4:  stamp:
+5:    sec: 3
+6:    nanosec: 290000000
+7:  frame_id: burger/imu_link/tb3_imu
+8:orientation:
+9:  x: -3.3761145663076706e-09
+10:  y: -0.004245721811722598
+11:  z: -2.0126918257900458e-09
+12:  w: 0.9999909868825306
+13:orientation_covariance:
+14:- 0.0
+15:- 0.0
+16:- 0.0
+17:- 0.0
+18:- 0.0
+19:- 0.0
+20:- 0.0
+21:- 0.0
+22:- 0.0
+23:angular_velocity:
+24:  x: 0.0002841001764083428
+25:  y: -0.062458522574214935
+26:  z: -0.0003621221756782481
+27:angular_velocity_covariance:
+28:- 3.999999975690116e-08
+29:- 0.0
+30:- 0.0
+31:- 0.0
+32:- 3.999999975690116e-08
+33:- 0.0
+34:- 0.0
+35:- 0.0
+36:- 3.999999975690116e-08
+37:linear_acceleration:
+38:  x: 0.10121293683343213
+39:  y: -0.009238207899908538
+40:  z: 9.824435673761322
+41:linear_acceleration_covariance:
+42:- 0.00028899998869746923
+43:- 0.0
+44:- 0.0
+45:- 0.0
+46:- 0.00028899998869746923
+47:- 0.0
+48:- 0.0
+49:- 0.0
+50:- 0.00028899998869746923
+51:---
+52:# cmd: ros2 topic info /imu -v --no-daemon
+53:Type: sensor_msgs/msg/Imu
+54:
+55:Publisher count: 1
+56:
+57:Node name: ros_gz_bridge
+58:Node namespace: /
+59:Topic type: sensor_msgs/msg/Imu
+60:Topic type hash: RIHS01_7d9a00ff131080897a5ec7e26e315954b8eae3353c3f995c55faf71574000b5b
+61:Endpoint type: PUBLISHER
+62:GID: 01.0f.17.2e.f4.2d.64.f5.00.00.00.00.00.00.19.03
+63:QoS profile:
+64:  Reliability: RELIABLE
+65:  History (Depth): UNKNOWN
+66:  Durability: VOLATILE
+67:  Lifespan: Infinite
+68:  Deadline: Infinite
+69:  Liveliness: AUTOMATIC
+70:  Liveliness lease duration: Infinite
+71:
+72:Subscription count: 0
+73:

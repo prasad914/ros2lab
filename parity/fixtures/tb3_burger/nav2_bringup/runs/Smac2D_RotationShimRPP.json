@@ -1,0 +1,26 @@
+{
+  "run_label": "Smac2D_RotationShimRPP",
+  "timestamp": 1792091379.7377584,
+  "results": {
+    "goal1": {
+      "success": true,
+      "duration": 5.985,
+      "wall_duration": 6.000633955001831,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        0.04826423804410402,
+        0.522427558906304,
+        1.4587227649909484
+      ],
+      "position_error_m": 0.5010979724051257,
+      "yaw_error_deg": 6.421345135215209,
+      "amcl_cov_x": 0.03668980691502188,
+      "amcl_cov_y": 0.09268413700197636,
+      "amcl_cov_yaw": 0.09963665695113302
+    }
+  }
+}

@@ -11,6 +11,13 @@ import { Rosbridge } from "./rosbridge.js";
 import { convert, LIVE_TYPES, THROTTLE } from "./ros-msgs.js";
 import { PKG_SOURCES } from "./pkg-sources.js";
 import { licenseStatus, cachedLicense, licensed, licenseMessage, requestLicense } from "./hw-license.js";
+import { TfBuffer } from "./tf-buffer.js";
+import { FrameManager } from "./frame-manager.js";
+import { FIXTURE_STATUS } from "./games/fixture-status.js";
+
+const ROBOT = typeof location !== "undefined" ? (new URLSearchParams(location.search).get("robot") || "") : "";
+const tfRegistry = new TfBuffer({ robotId: ROBOT });
+const frameManager = new FrameManager(tfRegistry, "map", { robotId: ROBOT });
 
 const $ = (id) => document.getElementById(id);
 const WS = "~/ros2_ws";
@@ -39,7 +46,412 @@ const term = mountTerminal($("term"), {
   fs: { dirs: [`${WS}/src`], files: {} },
 });
 const sh = term.shell;
-window.__ros2lab = { term, sh };   // for automated checks (tools/) and the browser console
+
+if (sh && sh.graph) {
+  sh.graph.tf = tfRegistry;
+  sh.graph.frameManager = frameManager;
+}
+if (sh && sh.viz) {
+  sh.viz.fixedFrame = frameManager.fixedFrame;
+}
+frameManager.onChange((f) => {
+  if (sh && sh.viz) sh.viz.fixedFrame = f;
+  const v = (typeof window !== "undefined" && window.__rvizViewers && window.__rvizViewers[0]) || live?.viewer || null;
+  if (v && typeof v.setFixedFrame === "function") {
+    v.setFixedFrame(f);
+  }
+});
+
+// Continuous background sampling for robot pose and AMCL pose history
+let lastPoseSample = 0;
+const sampledRobotPoseHistory = [];
+const sampledAmclPoseHistory = [];
+
+function samplePoses() {
+  const g = sh?.graph;
+  if (!g) return;
+  const t = (g.gz && typeof g.gz.time === "number") ? g.gz.time : (typeof performance !== "undefined" ? performance.now() / 1000 : Date.now() / 1000);
+  if (t - lastPoseSample < 0.05) return;
+  lastPoseSample = t;
+
+  let rp = null;
+  if (g.nav2 && typeof g.nav2.odom === "function") {
+    rp = g.nav2.odom();
+  } else if (g.gz && typeof g.gzOdom === "function" && g.gz.models) {
+    for (const m of g.gz.models.values()) {
+      if (m.gazebo && (m.gazebo.plugins || []).some((p) => /diff_drive|mecanum|ackermann/.test(p.kind))) {
+        rp = g.gzOdom(m);
+        break;
+      }
+    }
+  }
+  if (!rp && g.tfTree) {
+    const edge = g.tfTree().find((e) => e.parent === "odom" && (e.child === "base_link" || e.child === "base_footprint"));
+    if (edge && edge.t && edge.q) {
+      const q = edge.q;
+      const yaw = Math.atan2(2 * (q[3] * q[2] + q[0] * q[1]), 1 - 2 * (q[1] * q[1] + q[2] * q[2]));
+      rp = { x: edge.t[0], y: edge.t[1], yaw };
+    }
+  }
+  if (rp) {
+    const prev = sampledRobotPoseHistory[sampledRobotPoseHistory.length - 1];
+    if (!prev || Math.hypot(rp.x - prev.x, rp.y - prev.y) > 0.005 || Math.abs((rp.yaw || 0) - (prev.yaw || 0)) > 0.01 || (t - prev.t) > 0.5) {
+      sampledRobotPoseHistory.push({ x: rp.x, y: rp.y, yaw: rp.yaw || 0, t });
+      if (sampledRobotPoseHistory.length > 5000) sampledRobotPoseHistory.shift();
+    }
+  }
+
+  const amcl = g.nav2?.models?.find((m) => m.role === "amcl" && !m.dead);
+  if (amcl && typeof amcl.pose === "function") {
+    const ap = amcl.pose();
+    if (ap) {
+      const prevA = sampledAmclPoseHistory[sampledAmclPoseHistory.length - 1];
+      if (!prevA || Math.hypot(ap.x - prevA.x, ap.y - prevA.y) > 0.005 || Math.abs((ap.yaw || 0) - (prevA.yaw || 0)) > 0.01 || (t - prevA.t) > 0.5) {
+        sampledAmclPoseHistory.push({ x: ap.x, y: ap.y, yaw: ap.yaw || 0, t });
+        if (sampledAmclPoseHistory.length > 5000) sampledAmclPoseHistory.shift();
+      }
+    }
+  }
+}
+if (typeof setInterval === "function") {
+  setInterval(samplePoses, 100);
+}
+
+let _catalog = (typeof window !== "undefined" && window.__ros2lab?.catalog) || null;
+
+window.__ros2lab = {
+  get term() { return term; },
+  get sh() { return sh; },
+  get catalog() { return _catalog; },
+  set catalog(val) { _catalog = val; },
+  get tfRegistry() { return tfRegistry; },
+  get frameManager() { return frameManager; },
+  get viewer() {
+    return (typeof window !== "undefined" && window.__rvizViewers && window.__rvizViewers[0]) || live?.viewer || null;
+  },
+
+  // 1. Topic list with types and QoS
+  get topics() {
+    const g = sh?.graph;
+    const res = [];
+    const topicMap = g?.topics ? g.topics() : new Map();
+    if (!topicMap.size) {
+      topicMap.set("/parameter_events", {
+        type: "rcl_interfaces/msg/ParameterEvent",
+        by: { pubs: ["/_ros2cli_daemon"], subs: [] },
+        qos: { "pubs|/_ros2cli_daemon": "RELIABLE/VOLATILE" }
+      });
+      topicMap.set("/rosout", {
+        type: "rcl_interfaces/msg/Log",
+        by: { pubs: ["/_ros2cli_daemon"], subs: [] },
+        qos: { "pubs|/_ros2cli_daemon": "RELIABLE/TRANSIENT_LOCAL" }
+      });
+    }
+    for (const [name, info] of topicMap.entries()) {
+      const type = (g?.topicType ? g.topicType(name) : null) || info.type || "";
+      const pubs = [];
+      const subs = [];
+      const qosObj = info.qos || {};
+      for (const p of (info.by?.pubs || [])) {
+        const rawQos = (typeof qosObj.get === "function" ? qosObj.get(`pubs|${p}`) : qosObj[`pubs|${p}`]) || "RELIABLE/VOLATILE";
+        const [rel, dur] = rawQos.split("/");
+        pubs.push({
+          node: p,
+          endpoint_type: "PUBLISHER",
+          qos: {
+            reliability: rel === "BEST_EFFORT" ? "Best Effort" : "Reliable",
+            durability: dur === "TRANSIENT_LOCAL" ? "Transient Local" : "Volatile",
+            history: "Keep last",
+            depth: 10,
+            raw: rawQos
+          }
+        });
+      }
+      for (const s of (info.by?.subs || [])) {
+        const rawQos = (typeof qosObj.get === "function" ? qosObj.get(`subs|${s}`) : qosObj[`subs|${s}`]) || "RELIABLE/VOLATILE";
+        const [rel, dur] = rawQos.split("/");
+        subs.push({
+          node: s,
+          endpoint_type: "SUBSCRIPTION",
+          qos: {
+            reliability: rel === "BEST_EFFORT" ? "Best Effort" : "Reliable",
+            durability: dur === "TRANSIENT_LOCAL" ? "Transient Local" : "Volatile",
+            history: "Keep last",
+            depth: 10,
+            raw: rawQos
+          }
+        });
+      }
+      const defaultQos = pubs[0]?.qos || subs[0]?.qos || {
+        reliability: "Reliable",
+        durability: "Volatile",
+        history: "Keep last",
+        depth: 10,
+        raw: "RELIABLE/VOLATILE"
+      };
+      res.push({
+        name,
+        type,
+        publishers: pubs,
+        subscribers: subs,
+        pubs: pubs.map((p) => p.node),
+        subs: subs.map((s) => s.node),
+        qos: defaultQos
+      });
+    }
+    res.get = (n) => res.find((t) => t.name === n || t.name === "/" + String(n).replace(/^\/+/, ""));
+    return res;
+  },
+
+  // 2. TF frames, edges, and publishing authority
+  // the TF tree the running programs broadcast, the same one `ros2 run tf2_tools view_frames` and tf2_echo see
+  // (RosGraph.tfTree: robot_state_publisher, Gazebo odometry, amcl / slam_toolbox / cartographer map -> odom ...)
+  get tf() {
+    const g = sh?.graph;
+    if (!g || typeof g.tfTree !== "function") {
+      return { frames: [...new Set(tfRegistry.getAllFrameNames())].sort(), getAllFrameNames: () => tfRegistry.getAllFrameNames(), edges: tfRegistry.edges().slice(), authority: tfRegistry.authority };
+    }
+    const seen = new Set(), edges = [], authority = {};
+    for (const e of g.tfTree()) {
+      const k = `${e.parent}->${e.child}`; if (seen.has(k)) continue; seen.add(k);
+      edges.push({ parent: e.parent, child: e.child, authority: e.authority || "", t: e.t, q: e.q });
+      authority[k] = e.authority || "";
+    }
+    const names = () => [...new Set(edges.flatMap((e) => [e.parent, e.child]))].sort();
+    return { frames: names(), getAllFrameNames: names, edges, authority };
+  },
+
+  // 3. Fixed Frame options and selected value
+  get fixedFrame() {
+    const v = (typeof window !== "undefined" && window.__rvizViewers && window.__rvizViewers[0]) || live?.viewer || null;
+    const selected = (v?.fixedFrame ? v.fixedFrame() : null) || (v?.state ? v.state().fixedFrame : null) || frameManager.fixedFrame || sh?.viz?.fixedFrame || "map";
+    const options = frameManager.getAllFrameNames();
+    return {
+      selected,
+      options: options.slice()
+    };
+  },
+
+  // 4. Params per emulated node
+  get nodes() {
+    const g = sh?.graph;
+    const res = (g?.nodes || []).map((n) => ({
+      name: n.name,
+      full: n.full,
+      namespace: n.ns || "/",
+      kind: n.kind,
+      params: n.params ? { ...n.params } : {}
+    }));
+    res.get = (name) => res.find((n) => n.name === name || n.full === name || n.full === "/" + String(name).replace(/^\/+/, ""));
+    res.getParams = (name) => res.get(name)?.params || null;
+    return res;
+  },
+
+  // 5. Lifecycle states of Nav2 / lifecycle nodes
+  get lifecycleStates() {
+    const g = sh?.graph;
+    const res = [];
+    const nav2Models = g?.nav2?.models || [];
+    for (const m of nav2Models) {
+      if (m && (m.lifecycleNode || m.state !== undefined)) {
+        const item = {
+          node: m.full,
+          name: m.name,
+          role: m.role,
+          state: m.state || "unconfigured"
+        };
+        res.push(item);
+        res[m.full] = m.state || "unconfigured";
+        res[m.name] = m.state || "unconfigured";
+      }
+    }
+    return res;
+  },
+
+  // 6. Global Status and per-display status text in RViz
+  get rvizStatus() {
+    const v = (typeof window !== "undefined" && window.__rvizViewers && window.__rvizViewers[0]) || live?.viewer || null;
+    const gStatus = frameManager.getGlobalStatus();
+    if (!v) {
+      return {
+        globalStatus: gStatus[0] === "error" ? "Error" : gStatus[0] === "warn" ? "Warning" : "OK",
+        statusLines: [gStatus[1]],
+        displays: []
+      };
+    }
+    const st = v.state ? v.state() : {};
+    const allDisplays = (v.displays ? v.displays() : []) || [];
+    const displayStatusList = [];
+    let worstLevel = gStatus[0] === "error" ? "Error" : gStatus[0] === "warn" ? "Warning" : "OK";
+
+    for (const d of allDisplays) {
+      const sList = d.status || [];
+      const hasErr = sList.some((s) => s[0] === "error");
+      const hasWarn = sList.some((s) => s[0] === "warn");
+      const level = hasErr ? "Error" : hasWarn ? "Warning" : "OK";
+      if (d.enabled) {
+        if (level === "Error") worstLevel = "Error";
+        else if (level === "Warning" && worstLevel !== "Error") worstLevel = "Warning";
+      }
+      const text = sList.map((s) => s[1]).join("; ") || "OK";
+      displayStatusList.push({
+        name: d.name,
+        type: d.type,
+        enabled: !!d.enabled,
+        status: text,
+        level,
+        messages: sList.map((s) => s[1])
+      });
+    }
+
+    const statusLines = st.status || [];
+    for (const line of statusLines) {
+      if (/error/i.test(line)) worstLevel = "Error";
+      else if (/warn/i.test(line) && worstLevel !== "Error") worstLevel = "Warning";
+    }
+
+    return {
+      globalStatus: worstLevel,
+      statusLines,
+      displays: displayStatusList
+    };
+  },
+
+  // 7. User-visible terminal logs and errors
+  get logs() {
+    const domLines = typeof document !== "undefined"
+      ? [...document.querySelectorAll(".line")].map((el) => el.textContent)
+      : [];
+    const navLogs = sh?.graph?.nav2?.logs || [];
+    return [...domLines, ...navLogs];
+  },
+  get errors() {
+    const errLines = typeof document !== "undefined"
+      ? [...document.querySelectorAll(".line.err, .line.warn-line")].map((el) => el.textContent)
+      : [];
+    return errLines;
+  },
+
+  // 8. /plan, /local_plan, robot pose history, /amcl_pose history, particle count, costmaps
+  get nav2() {
+    const g = sh?.graph;
+    const sys = g?.nav2;
+    const planner = sys?.models?.find((m) => m.role === "planner" && !m.dead);
+    const controller = sys?.models?.find((m) => m.role === "controller" && !m.dead);
+    const amcl = sys?.models?.find((m) => m.role === "amcl" && !m.dead);
+
+    const plan = planner?.plan ? {
+      frame: planner.plan.frame || "map",
+      poses: (planner.plan.poses || []).map((p) => ({ x: p.x, y: p.y, yaw: p.yaw ?? 0 }))
+    } : null;
+
+    const localPlan = controller?.local ? {
+      frame: controller.local.frame || "odom",
+      poses: (controller.local.poses || []).map((p) => ({ x: p.x, y: p.y, yaw: p.yaw ?? 0 }))
+    } : null;
+
+    const amclP = (amcl && typeof amcl.pose === "function") ? amcl.pose() : null;
+    const particleCount = amcl?.pf?.ps?.length || 0;
+    const particles = amcl?.pf?.ps ? amcl.pf.ps.slice() : [];
+
+    const globalCostmap = planner?.costmap?.grid ? {
+      width: planner.costmap.grid.width,
+      height: planner.costmap.grid.height,
+      resolution: planner.costmap.grid.resolution,
+      origin: planner.costmap.grid.origin ? planner.costmap.grid.origin.slice() : [0, 0, 0],
+      data: planner.costmap.grid.data ? planner.costmap.grid.data.slice() : []
+    } : null;
+
+    const localCostmap = controller?.costmap?.grid ? {
+      width: controller.costmap.grid.width,
+      height: controller.costmap.grid.height,
+      resolution: controller.costmap.grid.resolution,
+      origin: controller.costmap.grid.origin ? controller.costmap.grid.origin.slice() : [0, 0, 0],
+      data: controller.costmap.grid.data ? controller.costmap.grid.data.slice() : []
+    } : null;
+
+    const robotPoseHistory = (sys?.poseHistory && sys.poseHistory.length) ? sys.poseHistory.slice() : sampledRobotPoseHistory.slice();
+    const amclPoseHistory = (sys?.amclPoseHistory && sys.amclPoseHistory.length) ? sys.amclPoseHistory.slice() : sampledAmclPoseHistory.slice();
+
+    return {
+      plan,
+      localPlan,
+      robotPoseHistory,
+      poseHistory: robotPoseHistory,
+      amclPose: amclP ? { x: amclP.x, y: amclP.y, yaw: amclP.yaw } : null,
+      amclPoseHistory,
+      particleCount,
+      particles,
+      globalCostmap,
+      localCostmap,
+      costmaps: {
+        global: globalCostmap,
+        local: localCostmap
+      }
+    };
+  },
+
+  // 9. Camera info, image size/encoding, PointCloud2 fields, LaserScan
+  get sensors() {
+    const g = sh?.graph;
+    const v = (typeof window !== "undefined" && window.__rvizViewers && window.__rvizViewers[0]) || live?.viewer || null;
+    let cameraInfo = null;
+    let imageInfo = null;
+    let pointCloud2 = null;
+    let scan = null;
+
+    if (v?.topicData) {
+      for (const [topic, data] of (v.topicData()?.entries?.() || [])) {
+        if (/camera_info/i.test(topic) || data.K) {
+          cameraInfo = { width: data.width, height: data.height, K: data.K ? [...data.K] : null, frame: data.frame };
+        }
+        if (data.canvas && !imageInfo) {
+          imageInfo = { width: data.canvas.width, height: data.canvas.height, encoding: "rgb8", frame: data.frame };
+        }
+        if (data.points && !pointCloud2) {
+          pointCloud2 = { fields: ["x", "y", "z", "rgb"], frame: data.frame, count: data.points.length, points: data.points };
+        }
+        if (data.ranges && !scan) {
+          scan = { ranges: data.ranges, angle_min: data.angle_min, angle_max: data.angle_max, angle_increment: data.angle_increment, range_min: data.range_min, range_max: data.range_max, frame: data.frame };
+        }
+      }
+    }
+
+    if (!cameraInfo && g?.gzRunning && g.gzRunning() && g.gz?.models) {
+      for (const m of g.gz.models.values()) {
+        for (const s of (m.gazebo?.sensors || [])) {
+          if (s.camera) {
+            const C = s.camera;
+            const fx = C.width / 2 / Math.tan(C.hfov / 2);
+            cameraInfo = { width: C.width, height: C.height, K: [fx, 0, C.width / 2, 0, fx, C.height / 2, 0, 0, 1], frame: s.frame || s.link };
+            if (!imageInfo) imageInfo = { width: C.width, height: C.height, encoding: "rgb8", frame: s.frame || s.link };
+          }
+        }
+      }
+    }
+
+    return {
+      cameraInfo,
+      imageInfo,
+      pointCloud2,
+      scan
+    };
+  },
+
+  // 10. Current course level and lock state
+  get course() {
+    const levelAttr = typeof document !== "undefined"
+      ? (document.body?.getAttribute("data-level") || document.querySelector("[data-level]")?.getAttribute("data-level"))
+      : null;
+    const level = Number((typeof window !== "undefined" && window.__ros2labCourseLevel) ?? levelAttr ?? 1);
+    const locks = (typeof window !== "undefined" && window.__ros2labCourseLocks) || {};
+    return {
+      level,
+      locks: { ...locks },
+      isLocked: (lvl) => !!locks[lvl]
+    };
+  }
+};
 let current = null;   // { name, files, main, launches }
 
 function writePackage(p) {
@@ -165,7 +577,6 @@ function expandIn(files, pkg, rel) {
 }
 
 // ---------------- 1. this window's robot (rviz.html?robot=<id>): only its packages go into the workspace
-const ROBOT = new URLSearchParams(location.search).get("robot") || "";
 const CFG_KEY = `ros2lab.sim.cfg.${ROBOT}`;   // this robot's own launch settings, kept in this browser
 function loadCfg() {
   try {
@@ -175,6 +586,28 @@ function loadCfg() {
 }
 function saveCfg() {
   try { localStorage.setItem(CFG_KEY, JSON.stringify({ what: document.querySelector("input[name=what]:checked").value, lf: document.querySelector("input[name=lf]:checked").value })); } catch { /* storage off */ }
+}
+// "Not yet validated against real ROS 2" (expert_review_robots_2026-10-18 site-wide #2): a robot is validated only
+// where its fixture parity checks passed against real ROS 2 Jazzy (games/fixture-status.js, generated from
+// parity/reports/fixture_parity.md). TurtleBot3 is labelled per command: a page command is validated only when
+// the fixture checks it depends on passed.
+const UNVALIDATED = "Not yet validated against real ROS 2";
+const fixtureChecks = (id) => (FIXTURE_STATUS.robots || {})[id] || null;
+const robotValidated = (id) => { const f = fixtureChecks(id); return !!f && Object.values(f).some((c) => c && c.pass); };
+// the TurtleBot3 page commands that the fixture suites cover (sensors / TF of turtlebot3_world, SLAM, Nav2, teleop)
+const CMD_CHECKS = [[/turtlebot3_gazebo turtlebot3_world\.launch\.py/, ["SENS", "TF"]], [/turtlebot3_cartographer cartographer\.launch\.py/, ["SLAM"]],
+  [/nav2_map_server map_saver_cli/, ["SLAM"]], [/turtlebot3_navigation2 navigation2\.launch\.py/, ["NAV", "AMCL"]], [/turtlebot3_teleop teleop_keyboard/, ["SENS"]]];
+function cmdValidated(id, cmd) {
+  const f = fixtureChecks(id); if (!f) return false;
+  const c = CMD_CHECKS.find(([re]) => re.test(cmd));
+  return !!c && c[1].every((k) => f[k] && f[k].pass);
+}
+// a line of labels on the robot card (data-badges: the card's labels are painted)
+function cardBadges(texts) {
+  const box = $("robot-card").querySelector("[data-badges]") || Object.assign(document.createElement("p"), { className: "rvp-badges small" });
+  box.setAttribute("data-badges", "");
+  box.replaceChildren(...texts.map((t) => Object.assign(document.createElement("span"), { className: "rvp-badge", textContent: t })));
+  const host = $("robot-name").parentElement; if (!box.parentElement) host.insertBefore(box, $("pkg-about"));
 }
 async function robotCard(g) {
   const { categoryOf, CATEGORIES } = await import("./sim-catalog.js");
@@ -200,7 +633,7 @@ gallery().then(async (list) => {
   document.title = `${g.title} | Robotic Models Simulator | ROS2Lab`;
   $("bench-title").textContent = g.title; $("crumb-robot").textContent = g.title;
   robotCard(g);
-  const about = $("pkg-about"); about.replaceChildren(document.createTextNode(g.about + " "));
+  const about = $("pkg-about"); about.replaceChildren(document.createTextNode((g.about || "") + " "));
   if (g.source) { const a = document.createElement("a"); a.href = g.source.url; a.target = "_blank"; a.rel = "noopener"; a.textContent = `Source: ${g.source.url.replace(/^https:\/\/github.com\//, "")} (${g.source.license})`; about.append(a); }
   // an official ROS 2 Jazzy workspace from the maker's GitHub repositories, when there is one
   try {
@@ -208,6 +641,9 @@ gallery().then(async (list) => {
     const W = await workspaceFor(g.id);
     if (W) { await openRealWorkspace(g, W); return; }
   } catch (e) { term.say(`(The official workspace of ${g.title} could not load: ${e.message}. Using the practice packages instead.)`); }
+  // no maker workspace: the packages on this page are generated by ROS2Lab (site-wide #3)
+  cardBadges(["ROS2Lab-made config – not from the maker", ...(robotValidated(g.id) ? [] : [UNVALIDATED])]);
+  if (!robotValidated(g.id)) { const p = Object.assign(document.createElement("p"), { className: "small rvp-unval", textContent: `${UNVALIDATED}: these launch files and configs were made by ROS2Lab and have not been compared with a real ROS 2 run.` }); $("go").parentElement.before(p); }
   try { const p = await galleryPackage(g); p.mainPath = `urdf/${p.main}`; p.robotId = g.id; await usePackage(p, g.title); loadCfg(); paintCommands(); }
   catch (e) { term.say(`(Could not load ${g.title}: ${e.message})`); }
 });
@@ -222,8 +658,10 @@ async function openRealWorkspace(g, W) {
   document.querySelector(".rvp-intro").hidden = true;
   const lead = document.querySelector("#bench > .lead");
   if (lead) lead.textContent = `This page has the maker's own ROS 2 Jazzy workspace for ${g.title}, cloned from GitHub at pinned commits. Build it with colcon, source it, and start it with the same ros2 launch commands as on Ubuntu: the real launch files run, and Gazebo, RViz2, ros2_control, Nav2 and MoveIt 2 are ROS2Lab's models of those programs.`;
-  $("pkg-about").textContent = `${g.about.replace(/\s*sim(_control)?\.launch\.py[^.]*\./g, "").trim()} `;
+  $("pkg-about").textContent = `${(g.about || "").replace(/\s*sim(_control)?\.launch\.py[^.]*\./g, "").trim()} `;
   $("real-about").textContent = `${ws.title}. ${ws.repos.length} repositor${ws.repos.length === 1 ? "y" : "ies"} at pinned commits, ${ws.packages.length} packages, in ~/ros2_ws/src.`;
+  cardBadges(robotValidated(g.id) ? [] : [UNVALIDATED]);
+  if (ws.honesty && !$("real-honesty")) { const h = Object.assign(document.createElement("p"), { id: "real-honesty", className: "small muted", textContent: ws.honesty }); $("real-about").after(h); }
   $("real-repos").replaceChildren(...ws.repos.map((r) => { const li = document.createElement("li"), a = document.createElement("a"); a.href = `${r.url}/tree/${r.commit}`; a.target = "_blank"; a.rel = "noopener"; a.textContent = r.url.replace(/^https:\/\/github.com\//, ""); li.append(a, ` @ ${r.commit.slice(0, 8)} (${r.branch}, ${r.license})`); return li; }));
   // environment the maker's instructions ask for (e.g. TURTLEBOT3_MODEL)
   const envCmds = Object.entries(R.env).map(([k, v]) => `export ${k}=${v}`);
@@ -239,6 +677,7 @@ async function openRealWorkspace(g, W) {
   const button = (e, isReal) => {
     const b = document.createElement("button"); b.type = "button"; b.className = `btn btn-small ${isReal ? "btn-hw" : "btn-white"}`; b.setAttribute("role", "listitem");
     b.replaceChildren(Object.assign(document.createElement("b"), { textContent: e.title || e.kind }), document.createElement("br"), Object.assign(document.createElement("code"), { textContent: e.cmd }));
+    if (isReal || !cmdValidated(g.id, e.cmd)) { b.append(document.createElement("br"), Object.assign(document.createElement("span"), { className: "rvp-unval", textContent: UNVALIDATED })); }
     b.addEventListener("click", () => runEntry(e, isReal));
     return b;
   };
@@ -311,7 +750,21 @@ async function ensureLive() {
     fixedFrame: "base_link", displays: { Grid: true, RobotModel: true, TF: true }, resolve: () => null, topics: () => topics, title: "", externalTf: true, plugins: () => ["rviz_imu_plugin"],
     onSave: (path) => say(`${path} is kept in this page only: ROS2Lab does not download files to your device.`),
     onOpenConfig: () => { const i = document.createElement("input"); i.type = "file"; i.accept = ".rviz,.yaml"; i.onchange = async () => { const f = i.files[0]; if (f) viewer.loadConfig(await f.text(), f.name); }; i.click(); },
-    onPublish: (topic, type, msg) => { if (rb) { rb.publish(topic, type, msg); say(`Published a ${type} on ${topic} through rosbridge.`); } },
+    onPublish: (topic, type, msg) => {
+      window.__ros2lab.sh = window.__ros2lab.sh || {};
+      window.__ros2lab.sh.viz = window.__ros2lab.sh.viz || {};
+      window.__ros2lab.sh.viz.published = window.__ros2lab.sh.viz.published || {};
+      window.__ros2lab.sh.viz.published[topic] = { type, msg };
+      if (window.__ros2lab.sh.graph) {
+        const g = window.__ros2lab.sh.graph;
+        g.lastPub = { topic, type };
+        g.lastPubMsg = { topic, type, msg };
+        if (g.nav2Api && g.nav2) {
+          g.nav2Api.nav2Topic(g, topic, type, msg);
+        }
+      }
+      if (rb) { rb.publish(topic, type, msg); say(`Published a ${type} on ${topic} through rosbridge.`); }
+    },
   });
   const jsp = createJspWindow(desk, { title: "Joint State Publisher", onChange: (v) => { if (rb && $("pubjs").checked) publishJointStates(v); } });
   live = { viewer, jsp };

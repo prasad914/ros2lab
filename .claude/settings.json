@@ -1,0 +1,54 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ros2 *)",
+      "Bash(gz *)",
+      "Bash(bash parity/scripts/*)",
+      "Bash(./parity/scripts/*)",
+      "Bash(python3 parity/compare/*)",
+      "Bash(npm run *)",
+      "Bash(npm test*)",
+      "Bash(npx playwright *)",
+      "Bash(npx vitest *)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git clone *)",
+      "Bash(git -C *)",
+      "Bash(git checkout *)",
+      "Bash(git branch *)",
+      "Bash(git ls-remote *)",
+      "Bash(xvfb-run *)",
+      "Bash(colcon *)",
+      "Bash(rosdep check *)",
+      "Bash(rosdep keys *)",
+      "Bash(rosdep resolve *)",
+      "Bash(rosdep install --simulate *)",
+      "Bash(rosdep update*)",
+      "Bash(git submodule *)",
+      "Bash(apt-cache *)",
+      "Bash(dpkg-query *)",
+      "Bash(vcs *)"
+    ],
+    "deny": [
+      "Bash(sudo *)",
+      "Bash(apt *)",
+      "Bash(apt-get *)",
+      "Bash(rosdep install --from-paths*)",
+      "Bash(rosdep install -y*)",
+      "Bash(make install*)",
+      "Bash(rm -rf /*)",
+      "Bash(git push *)",
+      "Bash(git -C * push*)",
+      "Bash(bash parity/scripts/robots_sudo.sh*)",
+      "Bash(./parity/scripts/robots_sudo.sh*)",
+      "Bash(bash parity/scripts/install_ros_extras.sh*)",
+      "Bash(./parity/scripts/install_ros_extras.sh*)"
+    ]
+  },
+  "env": {
+    "CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS": "4"
+  }
+}

@@ -1,0 +1,56 @@
+# Excerpt of parity/fixtures/tb3_burger/nav_robotis/run2_attempt1_clock_bug/run2_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-17T19:34:37+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:==========================================================
+2:Starting Navigation Trial: run2 (Domain: 41, 2026-10-17T17:49:10+05:30)
+3:==========================================================
+4:nothing running for domain 41
+5:Started nav_robotis for tb3_burger on domain 41. Logs: parity/fixtures/tb3_burger/nav_robotis/logs  PIDs: /tmp/ros2lab_ref/41-nav_robotis-20261017T174914-95459.pids
+6:Note: TB4 Gazebo may start paused – if /clock does not advance, unpause it (gz service on the world control service) and record that in run_info.txt.
+7:ready: /clock advancing (sim 7.0 s)
+8:ready: navigate_to_pose action server
+9:ready: lifecycle_manager_localization is_active
+10:READY after 3.2 s wall
+11:recording to parity/fixtures/tb3_burger/nav_robotis/bags/run2 (matching ^/(tf|tf_static|clock|scan|odom|imu|joint_states|camera/image_raw|camera/camera_info|oakd/rgb/preview/image_raw|oakd/rgb/preview/camera_info|oakd/rgb/preview/depth/points|map|map_updates|amcl_pose|particle_cloud|initialpose|goal_pose|plan|plan_smoothed|local_plan|cmd_vel|cmd_vel_nav|cmd_vel_smoothed|global_costmap/costmap|local_costmap/costmap|behavior_tree_log|waypoints|clicked_point)$)
+12:ready: /clock advancing (sim 16.4 s)
+13:ready: navigate_to_pose action server
+14:ready: lifecycle_manager_localization is_active
+15:ready: localized, /amcl_pose (0.066, 0.004)
+16:READY after 1.7 s wall
+17:ready: /clock advancing (sim 19.5 s)
+18:ready: navigate_to_pose action server
+19:ready: lifecycle_manager_navigation is_active
+20:READY after 3.2 s wall
+21:Driving 5 goals for run2...
+22:[INFO] [1792239593.841551523] [nav2_goal_driver]: Waiting for navigate_to_pose action server...
+23:[INFO] [1792239594.349390051] [nav2_goal_driver]: navigate_to_pose action server is ready!
+24:[INFO] [1792239594.358427623] [nav2_goal_driver]: Sending goal to (0.20, 1.00)
+25:[INFO] [1792239594.361564666] [nav2_goal_driver]: Goal accepted by server. Navigating...
+26:[INFO] [1792239601.315023436] [nav2_goal_driver]: Goal reached successfully in 29.24s sim time (6.95s wall)! (Pos error: 0.24199422612492827m, Yaw error: 1.563001095388538deg, from TF)
+27:[INFO] [1792239602.321010777] [nav2_goal_driver]: Sending goal to (2.50, 1.95)
+28:[INFO] [1792239602.324299905] [nav2_goal_driver]: Goal accepted by server. Navigating...
+29:[INFO] [1792239628.176496007] [nav2_goal_driver]: Goal reached successfully in 19.75s sim time (25.85s wall)! (Pos error: 0.048926625624843186m, Yaw error: 13.311356683000357deg, from TF)
+30:[INFO] [1792239629.185525982] [nav2_goal_driver]: Sending goal to (3.75, 0.50)
+31:[INFO] [1792239629.190991487] [nav2_goal_driver]: Goal accepted by server. Navigating...
+32:[INFO] [1792239647.034603920] [nav2_goal_driver]: Goal reached successfully in 13.01s sim time (17.84s wall)! (Pos error: 0.23947308111352528m, Yaw error: 8.643108547326792deg, from TF)
+33:[INFO] [1792239648.040474815] [nav2_goal_driver]: Sending goal to (2.00, -1.40)
+34:[INFO] [1792239648.044296939] [nav2_goal_driver]: Goal accepted by server. Navigating...
+35:[INFO] [1792239671.711153146] [nav2_goal_driver]: Goal reached successfully in 17.92s sim time (23.66s wall)! (Pos error: 0.17745302699404641m, Yaw error: 13.624014053567779deg, from TF)
+36:[INFO] [1792239672.717135024] [nav2_goal_driver]: Sending goal to (1.50, 0.00)
+37:[INFO] [1792239672.723302745] [nav2_goal_driver]: Goal accepted by server. Navigating...
+38:[INFO] [1792239698.672985812] [nav2_goal_driver]: Goal reached successfully in 18.27s sim time (25.95s wall)! (Pos error: 0.03665164676034627m, Yaw error: 14.099715729613068deg, from TF)
+39:
+40:--- Navigation Results Summary (run2) ---
+41:  goal1: PASS (29.24s sim, 6.95s wall) err=0.242m
+42:  goal2: PASS (19.75s sim, 25.85s wall) err=0.049m
+43:  goal3: PASS (13.01s sim, 17.84s wall) err=0.239m
+44:  goal4: PASS (17.92s sim, 23.66s wall) err=0.177m
+45:  goal5: PASS (18.27s sim, 25.95s wall) err=0.037m
+46:Saved run summary to parity/fixtures/tb3_burger/nav_robotis/runs/run2.json
+47:Stopping bag recording for run2...
+48:bag stopped
+49:Stopping reference simulation for run2...
+50:stopped domain 41; no processes with ROS_DOMAIN_ID=41 remain
+51:Completed Navigation Trial: run2
+52:
+53:All navigation trials 2 to 2 completed successfully!

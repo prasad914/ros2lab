@@ -1,0 +1,69 @@
+/route_server:
+  ros__parameters:
+    /bond_disable_heartbeat_timeout: true
+    AdjustSpeedLimit:
+      plugin: nav2_route::AdjustSpeedLimit
+      speed_limit_topic: speed_limit
+      speed_tag: speed_limit
+    DistanceScorer:
+      plugin: nav2_route::DistanceScorer
+      speed_tag: speed_limit
+      weight: 1.0
+    DynamicEdgesScorer:
+      plugin: nav2_route::DynamicEdgesScorer
+    GeoJsonGraphFileLoader:
+      plugin: nav2_route::GeoJsonGraphFileLoader
+    ReroutingService:
+      plugin: nav2_route::ReroutingService
+    action_server_result_timeout: 10.0
+    aggregate_blocked_ids: false
+    autostart_node: false
+    base_frame: base_link
+    bond_heartbeat_period: 0.1
+    boundary_radius_to_achieve_node: 1.0
+    costmap_topic: global_costmap/costmap_raw
+    edge_cost_functions:
+    - DistanceScorer
+    - DynamicEdgesScorer
+    enable_nn_search: true
+    global_frame: map
+    graph_file_loader: GeoJsonGraphFileLoader
+    graph_filepath: ''
+    max_iterations: 0
+    max_nn_search_iterations: 10000
+    max_planning_time: 2.0
+    max_prune_dist_from_edge: 8.0
+    min_prune_dist_from_goal: 0.15
+    min_prune_dist_from_start: 0.1
+    num_nearest_nodes: 5
+    operations:
+    - AdjustSpeedLimit
+    - ReroutingService
+    path_density: 0.05
+    prune_goal: true
+    qos_overrides:
+      /clock:
+        subscription:
+          depth: 1
+          durability: volatile
+          history: keep_last
+          reliability: best_effort
+      /tf:
+        subscription:
+          depth: 100
+          durability: volatile
+          history: keep_last
+          reliability: reliable
+      /tf_static:
+        subscription:
+          depth: 100
+          history: keep_last
+          reliability: reliable
+    radius_to_achieve_node: 2.0
+    route_frame: map
+    smooth_corners: false
+    smoothing_radius: 1.0
+    start_type_description_service: true
+    tracker_update_rate: 50.0
+    use_sim_time: true
+

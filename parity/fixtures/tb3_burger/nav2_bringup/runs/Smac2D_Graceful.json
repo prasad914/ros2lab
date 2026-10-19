@@ -1,0 +1,26 @@
+{
+  "run_label": "Smac2D_Graceful",
+  "timestamp": 1792091429.6411953,
+  "results": {
+    "goal1": {
+      "success": true,
+      "duration": 8.424,
+      "wall_duration": 8.447974681854248,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        0.18229138014812327,
+        0.5282437066727723,
+        1.5776901636644112
+      ],
+      "position_error_m": 0.47208854626108393,
+      "yaw_error_deg": 0.39498470842447403,
+      "amcl_cov_x": 0.01822521305490872,
+      "amcl_cov_y": 0.06253192342868152,
+      "amcl_cov_yaw": 0.06422964483409307
+    }
+  }
+}

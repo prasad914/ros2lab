@@ -1,0 +1,10 @@
+# clock: sim time (ros2 topic hz --use-sim-time --window 50)
+WARNING: topic [/camera/image_raw] does not appear to be published yet
+average rate: 9.892
+	min: 0.016s max: 0.318s std dev: 0.07510s window: 11
+average rate: 9.302
+	min: 0.016s max: 0.429s std dev: 0.09702s window: 20
+average rate: 8.438
+	min: 0.016s max: 0.429s std dev: 0.11099s window: 27
+average rate: 8.068
+	min: 0.016s max: 0.429s std dev: 0.10866s window: 34

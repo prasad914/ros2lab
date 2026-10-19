@@ -1,0 +1,216 @@
+Type: tf2_msgs/msg/TFMessage
+
+Publisher count: 3
+
+Node name: ros_gz_bridge
+Node namespace: /
+Topic type: tf2_msgs/msg/TFMessage
+Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.db.50.bb.88.00.00.00.00.00.00.17.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: robot_state_publisher
+Node namespace: /
+Topic type: tf2_msgs/msg/TFMessage
+Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.dd.50.3e.16.00.00.00.00.00.00.15.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: amcl
+Node namespace: /
+Topic type: tf2_msgs/msg/TFMessage
+Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.fe.51.cd.80.00.00.00.00.00.00.b9.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 11
+
+Node name: amcl
+Node namespace: /
+Topic type: tf2_msgs/msg/TFMessage
+Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.fe.51.cd.80.00.00.00.00.00.00.b4.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: transform_listener_impl_76bbe80020e0
+Node namespace: /
+Topic type: tf2_msgs/msg/TFMessage
+Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.fe.51.cd.80.00.00.00.00.00.02.20.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: smoother_server
+Node namespace: /
+Topic type: tf2_msgs/msg/TFMessage
+Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.fe.51.cd.80.00.00.00.00.00.02.55.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: transform_listener_impl_76bbac002110
+Node namespace: /
+Topic type: tf2_msgs/msg/TFMessage
+Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.fe.51.cd.80.00.00.00.00.00.02.67.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: route_server
+Node namespace: /
+Topic type: tf2_msgs/msg/TFMessage
+Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.fe.51.cd.80.00.00.00.00.00.02.a3.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: behavior_server
+Node namespace: /
+Topic type: tf2_msgs/msg/TFMessage
+Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.fe.51.cd.80.00.00.00.00.00.02.c0.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: collision_monitor
+Node namespace: /
+Topic type: tf2_msgs/msg/TFMessage
+Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.fe.51.cd.80.00.00.00.00.00.02.f6.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: bt_navigator
+Node namespace: /
+Topic type: tf2_msgs/msg/TFMessage
+Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.fe.51.cd.80.00.00.00.00.00.03.02.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: docking_server
+Node namespace: /
+Topic type: tf2_msgs/msg/TFMessage
+Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.fe.51.cd.80.00.00.00.00.00.04.07.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: transform_listener_impl_5d6f413a2b20
+Node namespace: /
+Topic type: tf2_msgs/msg/TFMessage
+Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.ff.51.1a.34.00.00.00.00.00.00.51.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: transform_listener_impl_5d6f41d01b20
+Node namespace: /
+Topic type: tf2_msgs/msg/TFMessage
+Topic type hash: RIHS01_e369d0f05a23ae52508854b66f6aa0437f3449d652e8cbf22d5abe85d020f087
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.17.2e.ff.51.1a.34.00.00.00.00.00.00.9a.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+

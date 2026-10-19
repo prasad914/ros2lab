@@ -1,0 +1,106 @@
+{
+  "run_label": "run1",
+  "timestamp": 1792087185.864303,
+  "results": {
+    "goal1": {
+      "success": true,
+      "duration": 21.646,
+      "wall_duration": 59.785106897354126,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        0.1560491583284065,
+        0.6298804117916336,
+        1.386509694300676
+      ],
+      "position_error_m": 0.37271998344490764,
+      "yaw_error_deg": 10.559388876402454,
+      "amcl_cov_x": 0.01591044196203084,
+      "amcl_cov_y": 0.04341078112339608,
+      "amcl_cov_yaw": 0.05900373586554715
+    },
+    "goal2": {
+      "success": true,
+      "duration": 89.143,
+      "wall_duration": 238.51226782798767,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        2.5,
+        1.95
+      ],
+      "final_amcl_pose": [
+        2.29955582513973,
+        2.0304627357154943,
+        -0.40898625600178057
+      ],
+      "position_error_m": 0.21599101618872008,
+      "yaw_error_deg": 23.433292435777838,
+      "amcl_cov_x": 0.0734008951547338,
+      "amcl_cov_y": 0.02399000102629234,
+      "amcl_cov_yaw": 0.057418992231862725
+    },
+    "goal3": {
+      "success": true,
+      "duration": 53.042,
+      "wall_duration": 143.4752016067505,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        3.75,
+        0.5
+      ],
+      "final_amcl_pose": [
+        3.646495799801674,
+        0.9950128502040618,
+        -1.3942047386500074
+      ],
+      "position_error_m": 0.5057181441532863,
+      "yaw_error_deg": 10.117188701968875,
+      "amcl_cov_x": 0.026880382641786937,
+      "amcl_cov_y": 0.07732115585184585,
+      "amcl_cov_yaw": 0.08457407548051538
+    },
+    "goal4": {
+      "success": true,
+      "duration": 84.582,
+      "wall_duration": 229.56191039085388,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        2.0,
+        -1.4
+      ],
+      "final_amcl_pose": [
+        2.302209396893613,
+        -1.2985613694864853,
+        -2.7995980052415566
+      ],
+      "position_error_m": 0.31877941484866723,
+      "yaw_error_deg": 19.595015505798993,
+      "amcl_cov_x": 0.09121655662226757,
+      "amcl_cov_y": 0.03767716349405603,
+      "amcl_cov_yaw": 0.0955969046676849
+    },
+    "goal5": {
+      "success": true,
+      "duration": 54.654,
+      "wall_duration": 147.97560119628906,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        1.5,
+        0.0
+      ],
+      "final_amcl_pose": [
+        1.5150253578608204,
+        -0.0392152367897169,
+        0.4620590932501465
+      ],
+      "position_error_m": 0.04199519228815701,
+      "yaw_error_deg": 26.474026366661138,
+      "amcl_cov_x": 0.015171162480184464,
+      "amcl_cov_y": 0.021077965558278858,
+      "amcl_cov_yaw": 0.04238269425623618
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "run_label": "test_mppi",
+  "timestamp": 1792090668.8226051,
+  "results": {
+    "goal1": {
+      "success": true,
+      "duration": 8.625,
+      "wall_duration": 8.61572790145874,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        -0.002622888238996157,
+        0.8362170794203873,
+        1.4916367485501827
+      ],
+      "position_error_m": 0.26053959375093155,
+      "amcl_cov_x": 0.01987068389188865,
+      "amcl_cov_y": 0.06656372418801393,
+      "amcl_cov_yaw": 0.08242205568327725
+    }
+  }
+}

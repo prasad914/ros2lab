@@ -1,0 +1,34 @@
+# NavFn x DWB: changes against /opt/ros/jazzy/share/nav2_bringup/params/nav2_params.yaml
+# written by parity/scripts/generate_matrix_configs.py; 2 key(s) changed
+# controller_server.FollowPath.plugin: 'nav2_mppi_controller::MPPIController' -> 'dwb_core::DWBLocalPlanner'  (plugin name)
+# controller_server.FollowPath.critics: ['ConstraintCritic', 'CostCritic', 'GoalCritic', 'GoalAngleCritic', 'PathAlignCritic', 'PathFollowCritic', 'PathAngleCritic', 'PreferForwardCritic'] -> ['RotateToGoal', 'Oscillation', 'BaseObstacle', 'GoalAlign', 'PathAlign', 'PathDist', 'GoalDist']  (the installed key holds MPPI critic names, which DWB would try to load as DWB critics; DWB's list from /opt/ros/jazzy/share/nav2_bringup/params/nav2_multirobot_params_all.yaml)
+--- installed/nav2_params.yaml
++++ NavFn_DWB/params.yaml
+@@ -184,19 +184,18 @@
+       az_max: 3.5
+       batch_size: 2000
+       critics:
+-      - ConstraintCritic
+-      - CostCritic
+-      - GoalCritic
+-      - GoalAngleCritic
+-      - PathAlignCritic
+-      - PathFollowCritic
+-      - PathAngleCritic
+-      - PreferForwardCritic
++      - RotateToGoal
++      - Oscillation
++      - BaseObstacle
++      - GoalAlign
++      - PathAlign
++      - PathDist
++      - GoalDist
+       gamma: 0.015
+       iteration_count: 1
+       model_dt: 0.05
+       motion_model: DiffDrive
+-      plugin: nav2_mppi_controller::MPPIController
++      plugin: dwb_core::DWBLocalPlanner
+       prune_distance: 1.7
+       regenerate_noises: true
+       temperature: 0.3

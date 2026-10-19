@@ -1,0 +1,21 @@
+Type: geometry_msgs/msg/TwistStamped
+
+Publisher count: 0
+
+Subscription count: 1
+
+Node name: ros_gz_bridge
+Node namespace: /
+Topic type: geometry_msgs/msg/TwistStamped
+Topic type hash: RIHS01_5f0fcd4f81d5d06ad9b4c4c63e3ea51b82d6ae4d0558f1d475229b1121db6f64
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.d3.65.fb.46.3c.08.00.00.00.00.00.00.18.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+

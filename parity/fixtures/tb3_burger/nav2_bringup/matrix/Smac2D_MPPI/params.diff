@@ -1,0 +1,14 @@
+# Smac2D x MPPI: changes against /opt/ros/jazzy/share/nav2_bringup/params/nav2_params.yaml
+# written by parity/scripts/generate_matrix_configs.py; 1 key(s) changed
+# planner_server.GridBased.plugin: 'nav2_navfn_planner::NavfnPlanner' -> 'nav2_smac_planner::SmacPlanner2D'  (plugin name)
+--- installed/nav2_params.yaml
++++ Smac2D_MPPI/params.yaml
+@@ -375,7 +375,7 @@
+   ros__parameters:
+     GridBased:
+       allow_unknown: true
+-      plugin: nav2_navfn_planner::NavfnPlanner
++      plugin: nav2_smac_planner::SmacPlanner2D
+       tolerance: 0.5
+       use_astar: false
+     costmap_update_timeout: 1.0

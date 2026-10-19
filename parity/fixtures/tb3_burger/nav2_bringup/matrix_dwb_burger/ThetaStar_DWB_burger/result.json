@@ -1,0 +1,20 @@
+{
+  "pair": "ThetaStar_DWB_burger",
+  "planner": "ThetaStar",
+  "controller": "DWB_burger",
+  "complete": true,
+  "start_wall": "2026-10-17T21:43:26+0530",
+  "localized": "ready: localized, /amcl_pose (0.050, -0.000)",
+  "active": true,
+  "status": "SUCCEEDED",
+  "accepted": true,
+  "error_code": 0,
+  "error_msg": "",
+  "duration_sim_s": 3.858000000000004,
+  "timed_out_after_sim_s": null,
+  "goal_error": null,
+  "domain_empty_after_stop": true,
+  "bag": "parity/fixtures/tb3_burger/nav2_bringup/bags/matrix_dwb_burger/ThetaStar_DWB_burger",
+  "bag_bytes": 14278748,
+  "end_wall": "2026-10-17T21:45:24+0530"
+}

@@ -1,0 +1,15 @@
+# Excerpt of parity/fixtures/tb3_burger/nav_robotis/errors/bad_map_path/lifecycle_after_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-18T14:53:41+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# 2026-10-18T14:46:58+05:30 ROS_DOMAIN_ID=41 GZ_PARTITION=review_41 TURTLEBOT3_MODEL=burger
+2:# ros2 lifecycle get for each nav2 node, after the launch above ended (world still running)
+3:## ros2 lifecycle get /map_server
+4:Node not found
+5:## ros2 lifecycle get /amcl
+6:Node not found
+7:## ros2 lifecycle get /planner_server
+8:Node not found
+9:## ros2 lifecycle get /controller_server
+10:Node not found
+11:## ros2 lifecycle get /bt_navigator
+12:Node not found

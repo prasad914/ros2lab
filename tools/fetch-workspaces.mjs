@@ -84,8 +84,8 @@ const STD_STEPS = (wsid, extra = [], pre = []) => [
 export const WORKSPACES = {
   turtlebot3: {
     title: "TurtleBot3 (ROBOTIS) - ROS 2 Jazzy",
-    robots: ["tb3_burger", "tb3_waffle"],
-    env: { tb3_burger: { TURTLEBOT3_MODEL: "burger" }, tb3_waffle: { TURTLEBOT3_MODEL: "waffle" } },
+    robots: ["tb3_burger", "tb3_waffle", "tb3_waffle_pi"],
+    env: { tb3_burger: { TURTLEBOT3_MODEL: "burger" }, tb3_waffle: { TURTLEBOT3_MODEL: "waffle" }, tb3_waffle_pi: { TURTLEBOT3_MODEL: "waffle_pi" } },
     repos: [
       { name: "turtlebot3", packages: "*" },
       { name: "turtlebot3_msgs", packages: "*" },
@@ -104,6 +104,8 @@ export const WORKSPACES = {
       { pkg: "turtlebot3_gazebo", file: "urdf/turtlebot3_waffle.urdf" },
       { pkg: "turtlebot3_gazebo", file: "models/turtlebot3_burger/model.sdf" },
       { pkg: "turtlebot3_gazebo", file: "models/turtlebot3_waffle/model.sdf" },
+      { pkg: "turtlebot3_gazebo", file: "urdf/turtlebot3_waffle_pi.urdf" },
+      { pkg: "turtlebot3_gazebo", file: "models/turtlebot3_waffle_pi/model.sdf" },
       { pkg: "turtlebot3_gazebo", file: "worlds/empty_world.world" },
       { pkg: "turtlebot3_gazebo", file: "worlds/turtlebot3_world.world" },
       { pkg: "turtlebot3_gazebo", file: "worlds/turtlebot3_house.world" },
@@ -632,7 +634,9 @@ async function main() {
     const f = path.join(OUT, id, "workspace.json");
     if (!fs.existsSync(f)) continue;
     const ws = JSON.parse(fs.readFileSync(f, "utf8"));
-    index[id] = { title: ws.title, robots: ws.robots, bytes: ws.stats.bytes, files: ws.stats.files };
+    // gazebo: a page command starts Gazebo (the catalog shows "Gazebo ..." badges only then)
+    const cmds = Object.entries(ws.entry || {}).filter(([k]) => k !== "real" && !/note|issues/.test(k)).flatMap(([, v]) => (Array.isArray(v) ? v : [v])).filter((e) => e && e.cmd).map((e) => e.cmd);
+    index[id] = { title: ws.title, robots: ws.robots, bytes: ws.stats.bytes, files: ws.stats.files, gazebo: cmds.some((c) => /gazebo|\bgz\b|_gz\b|gz_|_sim_control/.test(c)) };
   }
   fs.writeFileSync(path.join(OUT, "index.json"), JSON.stringify({ distro: "jazzy", workspaces: index }, null, 1) + "\n");
   const total = Object.values(index).reduce((s, w) => s + w.bytes, 0);

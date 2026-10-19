@@ -1,0 +1,26 @@
+{
+  "run_label": "SmacHybrid_RotationShimRPP",
+  "timestamp": 1792091872.154825,
+  "results": {
+    "goal1": {
+      "success": true,
+      "duration": 5.652,
+      "wall_duration": 5.64689302444458,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        0.2066889869648095,
+        0.7404544414374497,
+        1.561183955853904
+      ],
+      "position_error_m": 0.25963173826818947,
+      "yaw_error_deg": 0.5507513348834613,
+      "amcl_cov_x": 0.043683049219331894,
+      "amcl_cov_y": 0.08686801744203232,
+      "amcl_cov_yaw": 0.08515661239433642
+    }
+  }
+}

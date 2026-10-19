@@ -1,0 +1,630 @@
+# Excerpt of parity/fixtures/tb3_burger/nav_robotis/errors/bad_map_path/nav2_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-18T14:53:41+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# 2026-10-18T14:43:58+05:30 ROS_DOMAIN_ID=41 GZ_PARTITION=review_41 TURTLEBOT3_MODEL=burger
+2:# cmd: timeout 180 ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True map:=/home/prasad/map.yaml
+3:# (rviz2 runs on xvfb-run -a; world from start_reference.sh tb3_burger sensors)
+4:# start: 1792314838.850291230
+5:[INFO] [launch]: All log files can be found below /home/prasad/.ros/log/2026-10-18-14-44-01-787480-prasad-723709
+6:[INFO] [launch]: Default logging verbosity is set to INFO
+7:[INFO] [component_container_isolated-1]: process started with pid [723770]
+8:[INFO] [rviz2-2]: process started with pid [723771]
+9:[component_container_isolated-1] [INFO] [1792314844.119713942] [nav2_container]: Load Library: /opt/ros/jazzy/lib/libcontroller_server_core.so
+10:[component_container_isolated-1] [INFO] [1792314844.177058351] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_controller::ControllerServer>
+11:[component_container_isolated-1] [INFO] [1792314844.177304825] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_controller::ControllerServer>
+12:[component_container_isolated-1] [INFO] [1792314844.236127932] [controller_server]: 
+13:[component_container_isolated-1] 	controller_server lifecycle node launched. 
+14:[component_container_isolated-1] 	Waiting on external lifecycle transitions to activate
+15:[component_container_isolated-1] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+16:[component_container_isolated-1] [INFO] [1792314844.262017773] [controller_server]: Creating controller server
+17:[component_container_isolated-1] [INFO] [1792314844.283048058] [local_costmap.local_costmap]: 
+18:[component_container_isolated-1] 	local_costmap lifecycle node launched. 
+19:[component_container_isolated-1] 	Waiting on external lifecycle transitions to activate
+20:[component_container_isolated-1] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+21:[component_container_isolated-1] [INFO] [1792314844.289280905] [local_costmap.local_costmap]: Creating Costmap
+22:[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/controller_server' in container '/nav2_container'
+23:[component_container_isolated-1] [INFO] [1792314844.291536687] [nav2_container]: Load Library: /opt/ros/jazzy/lib/libmap_server_core.so
+24:[component_container_isolated-1] [INFO] [1792314844.316331377] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_map_server::CostmapFilterInfoServer>
+25:[component_container_isolated-1] [INFO] [1792314844.316401857] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_map_server::MapSaver>
+26:[component_container_isolated-1] [INFO] [1792314844.316411027] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_map_server::MapServer>
+27:[component_container_isolated-1] [INFO] [1792314844.316417482] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_map_server::MapServer>
+28:[component_container_isolated-1] [INFO] [1792314844.333839553] [map_server]: 
+29:[component_container_isolated-1] 	map_server lifecycle node launched. 
+30:[component_container_isolated-1] 	Waiting on external lifecycle transitions to activate
+31:[component_container_isolated-1] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+32:[component_container_isolated-1] [INFO] [1792314844.333940113] [map_server]: Creating
+33:[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/map_server' in container '/nav2_container'
+34:[component_container_isolated-1] [INFO] [1792314844.336015647] [nav2_container]: Load Library: /opt/ros/jazzy/lib/libamcl_core.so
+35:[component_container_isolated-1] [INFO] [1792314844.343139795] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_amcl::AmclNode>
+36:[component_container_isolated-1] [INFO] [1792314844.343228133] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_amcl::AmclNode>
+37:[component_container_isolated-1] [INFO] [1792314844.364994871] [amcl]: 
+38:[component_container_isolated-1] 	amcl lifecycle node launched. 
+39:[component_container_isolated-1] 	Waiting on external lifecycle transitions to activate
+40:[component_container_isolated-1] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+41:[component_container_isolated-1] [INFO] [1792314844.367943662] [amcl]: Creating
+42:[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/amcl' in container '/nav2_container'
+43:[component_container_isolated-1] [INFO] [1792314844.375429367] [nav2_container]: Load Library: /opt/ros/jazzy/lib/libsmoother_server_core.so
+44:[component_container_isolated-1] [INFO] [1792314844.380510425] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_smoother::SmootherServer>
+45:[component_container_isolated-1] [INFO] [1792314844.380578810] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_smoother::SmootherServer>
+46:[component_container_isolated-1] [INFO] [1792314844.402142858] [smoother_server]: 
+47:[component_container_isolated-1] 	smoother_server lifecycle node launched. 
+48:[component_container_isolated-1] 	Waiting on external lifecycle transitions to activate
+49:[component_container_isolated-1] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+50:[component_container_isolated-1] [INFO] [1792314844.408221942] [smoother_server]: Creating smoother server
+51:[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/smoother_server' in container '/nav2_container'
+52:[component_container_isolated-1] [INFO] [1792314844.410536442] [nav2_container]: Load Library: /opt/ros/jazzy/lib/libnav2_lifecycle_manager_core.so
+53:[component_container_isolated-1] [INFO] [1792314844.412861952] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_lifecycle_manager::LifecycleManager>
+54:[component_container_isolated-1] [INFO] [1792314844.412902665] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_lifecycle_manager::LifecycleManager>
+55:[component_container_isolated-1] [INFO] [1792314844.433846195] [lifecycle_manager_localization]: Creating
+56:[component_container_isolated-1] [INFO] [1792314844.444163436] [lifecycle_manager_localization]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+57:[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/lifecycle_manager_localization' in container '/nav2_container'
+58:[component_container_isolated-1] [INFO] [1792314844.445377571] [nav2_container]: Load Library: /opt/ros/jazzy/lib/libplanner_server_core.so
+59:[component_container_isolated-1] [INFO] [1792314844.448036333] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_planner::PlannerServer>
+60:[component_container_isolated-1] [INFO] [1792314844.448116998] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_planner::PlannerServer>
+61:[component_container_isolated-1] [INFO] [1792314844.453945695] [lifecycle_manager_localization]: [34m[1mStarting managed nodes bringup...[0m[0m
+62:[component_container_isolated-1] [INFO] [1792314844.454044889] [lifecycle_manager_localization]: [34m[1mConfiguring map_server[0m[0m
+63:[component_container_isolated-1] [INFO] [1792314844.454455997] [map_server]: Configuring
+64:[component_container_isolated-1] [INFO] [1792314844.454613282] [map_io]: Loading yaml file: /home/prasad/map.yaml
+65:[component_container_isolated-1] [ERROR] [1792314844.454777408] [map_io]: Failed processing YAML file /home/prasad/map.yaml at position (-1:-1) for reason: bad file: /home/prasad/map.yaml
+66:[component_container_isolated-1] [ERROR] [1792314844.454904936] [map_server]: Caught exception in callback for transition 10
+67:[component_container_isolated-1] [ERROR] [1792314844.454936795] [map_server]: Original error: Failed to load map yaml file: /home/prasad/map.yaml
+68:[component_container_isolated-1] [WARN] [1792314844.455005823] [map_server]: Callback returned ERROR during the transition: configure
+69:[component_container_isolated-1] [FATAL] [1792314844.455022711] [map_server]: Lifecycle node map_server does not have error state implemented
+70:[component_container_isolated-1] [ERROR] [1792314844.455486767] [lifecycle_manager_localization]: Failed to change state for node: map_server
+71:[component_container_isolated-1] [ERROR] [1792314844.455563852] [lifecycle_manager_localization]: Failed to bring up all requested nodes. Aborting bringup.
+72:[component_container_isolated-1] [INFO] [1792314844.474612943] [planner_server]: 
+73:[component_container_isolated-1] 	planner_server lifecycle node launched. 
+74:[component_container_isolated-1] 	Waiting on external lifecycle transitions to activate
+75:[component_container_isolated-1] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+76:[component_container_isolated-1] [INFO] [1792314844.481143139] [planner_server]: Creating
+77:[component_container_isolated-1] [INFO] [1792314844.507694504] [global_costmap.global_costmap]: 
+78:[component_container_isolated-1] 	global_costmap lifecycle node launched. 
+79:[component_container_isolated-1] 	Waiting on external lifecycle transitions to activate
+80:[component_container_isolated-1] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+81:[component_container_isolated-1] [INFO] [1792314844.510424660] [global_costmap.global_costmap]: Creating Costmap
+82:[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/planner_server' in container '/nav2_container'
+83:[component_container_isolated-1] [INFO] [1792314844.517891919] [nav2_container]: Load Library: /opt/ros/jazzy/lib/libroute_server_core.so
+84:[component_container_isolated-1] [INFO] [1792314844.522000173] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_route::RouteServer>
+85:[component_container_isolated-1] [INFO] [1792314844.522057788] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_route::RouteServer>
+86:[component_container_isolated-1] [INFO] [1792314844.553047361] [route_server]: 
+87:[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/route_server' in container '/nav2_container'
+88:[component_container_isolated-1] 	route_server lifecycle node launched. 
+89:[component_container_isolated-1] 	Waiting on external lifecycle transitions to activate
+90:[component_container_isolated-1] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+91:[component_container_isolated-1] [INFO] [1792314844.559195169] [nav2_container]: Load Library: /opt/ros/jazzy/lib/libbehavior_server_core.so
+92:[component_container_isolated-1] [INFO] [1792314844.561611549] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<behavior_server::BehaviorServer>
+93:[component_container_isolated-1] [INFO] [1792314844.561664270] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<behavior_server::BehaviorServer>
+94:[component_container_isolated-1] [INFO] [1792314844.589484844] [behavior_server]: 
+95:[component_container_isolated-1] 	behavior_server lifecycle node launched. 
+96:[component_container_isolated-1] 	Waiting on external lifecycle transitions to activate
+97:[component_container_isolated-1] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+98:[rviz2-2] [INFO] [1792314844.591944871] [rviz2]: Stereo is NOT SUPPORTED
+99:[rviz2-2] [INFO] [1792314844.592290090] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)
+100:[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/behavior_server' in container '/nav2_container'
+101:[component_container_isolated-1] [INFO] [1792314844.604519915] [nav2_container]: Load Library: /opt/ros/jazzy/lib/libbt_navigator_core.so
+102:[component_container_isolated-1] [INFO] [1792314844.614464812] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_bt_navigator::BtNavigator>
+103:[component_container_isolated-1] [INFO] [1792314844.614552033] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_bt_navigator::BtNavigator>
+104:[component_container_isolated-1] [INFO] [1792314844.647763248] [bt_navigator]: 
+105:[component_container_isolated-1] 	bt_navigator lifecycle node launched. 
+106:[component_container_isolated-1] 	Waiting on external lifecycle transitions to activate
+107:[component_container_isolated-1] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+108:[component_container_isolated-1] [INFO] [1792314844.654609369] [bt_navigator]: Creating
+109:[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/bt_navigator' in container '/nav2_container'
+110:[component_container_isolated-1] [INFO] [1792314844.660087452] [nav2_container]: Load Library: /opt/ros/jazzy/lib/libwaypoint_follower_core.so
+111:[component_container_isolated-1] [INFO] [1792314844.663133543] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_waypoint_follower::WaypointFollower>
+112:[component_container_isolated-1] [INFO] [1792314844.663196321] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_waypoint_follower::WaypointFollower>
+113:[component_container_isolated-1] [INFO] [1792314844.701511057] [waypoint_follower]: 
+114:[component_container_isolated-1] 	waypoint_follower lifecycle node launched. 
+115:[component_container_isolated-1] 	Waiting on external lifecycle transitions to activate
+116:[component_container_isolated-1] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+117:[rviz2-2] [INFO] [1792314844.703409991] [rviz2]: Stereo is NOT SUPPORTED
+118:[component_container_isolated-1] [INFO] [1792314844.705206983] [waypoint_follower]: Creating
+119:[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/waypoint_follower' in container '/nav2_container'
+120:[component_container_isolated-1] [INFO] [1792314844.711728374] [nav2_container]: Load Library: /opt/ros/jazzy/lib/libvelocity_smoother_core.so
+121:[component_container_isolated-1] [INFO] [1792314844.714028874] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_velocity_smoother::VelocitySmoother>
+122:[component_container_isolated-1] [INFO] [1792314844.714120770] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_velocity_smoother::VelocitySmoother>
+123:[component_container_isolated-1] [INFO] [1792314844.751471700] [velocity_smoother]: 
+124:[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/velocity_smoother' in container '/nav2_container'
+125:[component_container_isolated-1] 	velocity_smoother lifecycle node launched. 
+126:[component_container_isolated-1] 	Waiting on external lifecycle transitions to activate
+127:[component_container_isolated-1] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+128:[component_container_isolated-1] [INFO] [1792314844.759876165] [nav2_container]: Load Library: /opt/ros/jazzy/lib/libcollision_monitor_core.so
+129:[component_container_isolated-1] [INFO] [1792314844.768167799] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_collision_monitor::CollisionMonitor>
+130:[component_container_isolated-1] [INFO] [1792314844.768283384] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_collision_monitor::CollisionMonitor>
+131:[component_container_isolated-1] [INFO] [1792314844.809890945] [collision_monitor]: 
+132:[component_container_isolated-1] 	collision_monitor lifecycle node launched. 
+133:[component_container_isolated-1] 	Waiting on external lifecycle transitions to activate
+134:[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/collision_monitor' in container '/nav2_container'
+135:[component_container_isolated-1] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+136:[component_container_isolated-1] [INFO] [1792314844.816733435] [nav2_container]: Load Library: /opt/ros/jazzy/lib/libopennav_docking_core.so
+137:[component_container_isolated-1] [INFO] [1792314844.821113636] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<opennav_docking::DockingServer>
+138:[component_container_isolated-1] [INFO] [1792314844.821195688] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<opennav_docking::DockingServer>
+139:[component_container_isolated-1] [INFO] [1792314844.858831688] [docking_server]: 
+140:[component_container_isolated-1] 	docking_server lifecycle node launched. 
+141:[component_container_isolated-1] 	Waiting on external lifecycle transitions to activate
+142:[component_container_isolated-1] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+143:[component_container_isolated-1] [INFO] [1792314844.858954044] [docking_server]: Creating docking_server
+144:[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/docking_server' in container '/nav2_container'
+145:[component_container_isolated-1] [INFO] [1792314844.866758565] [nav2_container]: Found class: rclcpp_components::NodeFactoryTemplate<nav2_lifecycle_manager::LifecycleManager>
+146:[component_container_isolated-1] [INFO] [1792314844.866832260] [nav2_container]: Instantiate class: rclcpp_components::NodeFactoryTemplate<nav2_lifecycle_manager::LifecycleManager>
+147:[component_container_isolated-1] [INFO] [1792314844.896016173] [lifecycle_manager_navigation]: Creating
+148:[component_container_isolated-1] [INFO] [1792314844.903483826] [lifecycle_manager_navigation]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+149:[INFO] [launch_ros.actions.load_composable_nodes]: Loaded node '/lifecycle_manager_navigation' in container '/nav2_container'
+150:[component_container_isolated-1] [INFO] [1792314844.947900904] [lifecycle_manager_navigation]: [34m[1mStarting managed nodes bringup...[0m[0m
+151:[component_container_isolated-1] [INFO] [1792314844.947986481] [lifecycle_manager_navigation]: [34m[1mConfiguring controller_server[0m[0m
+152:[component_container_isolated-1] [INFO] [1792314844.948368205] [controller_server]: Configuring controller interface
+153:[component_container_isolated-1] [INFO] [1792314844.948465580] [controller_server]: getting progress checker plugins..
+154:[component_container_isolated-1] [INFO] [1792314844.949155797] [controller_server]: getting goal checker plugins..
+155:[component_container_isolated-1] [INFO] [1792314844.949860325] [controller_server]: Controller frequency set to 10.0000Hz
+156:[component_container_isolated-1] [INFO] [1792314844.949981168] [local_costmap.local_costmap]: Configuring
+157:[component_container_isolated-1] [INFO] [1792314844.970767938] [local_costmap.local_costmap]: Using plugin "obstacle_layer"
+158:[component_container_isolated-1] [INFO] [1792314844.980215921] [local_costmap.local_costmap]: Subscribed to Topics: scan
+159:[rviz2-2] [INFO] [1792314844.989321812] [rviz2]: Subscribing to: /mobile_base/sensors/bumper_pointcloud
+160:[rviz2-2] 
+161:[rviz2-2] [INFO] [1792314844.991722149] [rviz2]: Subscribing to: /mobile_base/sensors/bumper_pointcloud
+162:[rviz2-2] 
+163:[component_container_isolated-1] [INFO] [1792314844.994195722] [local_costmap.local_costmap]: Initialized plugin "obstacle_layer"
+164:[component_container_isolated-1] [INFO] [1792314844.994362251] [local_costmap.local_costmap]: Using plugin "voxel_layer"
+165:[component_container_isolated-1] [INFO] [1792314844.998381250] [local_costmap.local_costmap]: Subscribed to Topics: scan
+166:[component_container_isolated-1] [INFO] [1792314845.022553752] [local_costmap.local_costmap]: Initialized plugin "voxel_layer"
+167:[component_container_isolated-1] [INFO] [1792314845.022623020] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+168:[component_container_isolated-1] [INFO] [1792314845.024603722] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+169:[rviz2-2] [INFO] [1792314845.029982269] [rviz2]: Subscribing to: /local_costmap/voxel_marked_cloud
+170:[rviz2-2] 
+171:[rviz2-2] [INFO] [1792314845.087188928] [rviz2]: Subscribing to: /global_costmap/voxel_marked_cloud
+172:[rviz2-2] 
+173:[component_container_isolated-1] [INFO] [1792314845.091673357] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+174:[component_container_isolated-1] [INFO] [1792314845.092657017] [controller_server]: Controller Server has progress_checker  progress checkers available.
+175:[component_container_isolated-1] [INFO] [1792314845.094315775] [controller_server]: Created goal checker : goal_checker of type nav2_controller::SimpleGoalChecker
+176:[component_container_isolated-1] [INFO] [1792314845.095875348] [controller_server]: Controller Server has goal_checker  goal checkers available.
+177:[component_container_isolated-1] [INFO] [1792314845.113590741] [controller_server]: Created controller : FollowPath of type dwb_core::DWBLocalPlanner
+178:[component_container_isolated-1] [INFO] [1792314845.117669311] [controller_server]: Setting transform_tolerance to 0.200000
+179:[rviz2-2] [INFO] [1792314845.160678436] [rviz2]: Subscribing to: /mobile_base/sensors/bumper_pointcloud
+180:[rviz2-2] 
+181:[component_container_isolated-1] [INFO] [1792314845.173178302] [controller_server]: Using critic "RotateToGoal" (dwb_critics::RotateToGoalCritic)
+182:[component_container_isolated-1] [INFO] [1792314845.175486866] [controller_server]: Critic plugin initialized
+183:[component_container_isolated-1] [INFO] [1792314845.175980587] [controller_server]: Using critic "Oscillation" (dwb_critics::OscillationCritic)
+184:[rviz2-2] [INFO] [1792314845.176863428] [rviz2]: Subscribing to: /local_costmap/voxel_marked_cloud
+185:[rviz2-2] 
+186:[component_container_isolated-1] [INFO] [1792314845.178104107] [controller_server]: Critic plugin initialized
+187:[component_container_isolated-1] [INFO] [1792314845.178502862] [controller_server]: Using critic "BaseObstacle" (dwb_critics::BaseObstacleCritic)
+188:[component_container_isolated-1] [INFO] [1792314845.179274314] [controller_server]: Critic plugin initialized
+189:[component_container_isolated-1] [INFO] [1792314845.179700713] [controller_server]: Using critic "GoalAlign" (dwb_critics::GoalAlignCritic)
+190:[component_container_isolated-1] [INFO] [1792314845.180793772] [controller_server]: Critic plugin initialized
+191:[component_container_isolated-1] [INFO] [1792314845.181660658] [controller_server]: Using critic "PathAlign" (dwb_critics::PathAlignCritic)
+192:[component_container_isolated-1] [INFO] [1792314845.183015091] [controller_server]: Critic plugin initialized
+193:[component_container_isolated-1] [INFO] [1792314845.183455419] [controller_server]: Using critic "PathDist" (dwb_critics::PathDistCritic)
+194:[component_container_isolated-1] [INFO] [1792314845.184292118] [controller_server]: Critic plugin initialized
+195:[component_container_isolated-1] [INFO] [1792314845.185013648] [controller_server]: Using critic "GoalDist" (dwb_critics::GoalDistCritic)
+196:[component_container_isolated-1] [INFO] [1792314845.185914539] [controller_server]: Critic plugin initialized
+197:[component_container_isolated-1] [INFO] [1792314845.185976026] [controller_server]: Controller Server has FollowPath  controllers available.
+198:[rviz2-2] [INFO] [1792314845.195401619] [rviz2]: Subscribing to: /global_costmap/voxel_marked_cloud
+199:[rviz2-2] 
+200:[component_container_isolated-1] [INFO] [1792314845.209607094] [lifecycle_manager_navigation]: [34m[1mConfiguring smoother_server[0m[0m
+201:[component_container_isolated-1] [INFO] [1792314845.209885948] [smoother_server]: Configuring smoother server
+202:[component_container_isolated-1] [INFO] [1792314845.226917240] [smoother_server]: Created smoother : simple_smoother of type nav2_smoother::SimpleSmoother
+203:[component_container_isolated-1] [INFO] [1792314845.229776148] [smoother_server]: Smoother Server has simple_smoother  smoothers available.
+204:[component_container_isolated-1] [INFO] [1792314845.264790926] [lifecycle_manager_navigation]: [34m[1mConfiguring planner_server[0m[0m
+205:[component_container_isolated-1] [INFO] [1792314845.265172816] [planner_server]: Configuring
+206:[component_container_isolated-1] [INFO] [1792314845.265253371] [global_costmap.global_costmap]: Configuring
+207:[component_container_isolated-1] [INFO] [1792314845.282396367] [global_costmap.global_costmap]: Using plugin "static_layer"
+208:[component_container_isolated-1] [INFO] [1792314845.285921142] [global_costmap.global_costmap]: Subscribing to the map topic (/map) with transient local durability
+209:[component_container_isolated-1] [INFO] [1792314845.289846472] [global_costmap.global_costmap]: Initialized plugin "static_layer"
+210:[component_container_isolated-1] [INFO] [1792314845.289905836] [global_costmap.global_costmap]: Using plugin "obstacle_layer"
+211:[component_container_isolated-1] [INFO] [1792314845.292179214] [global_costmap.global_costmap]: Subscribed to Topics: scan
+212:[component_container_isolated-1] [INFO] [1792314845.310156127] [global_costmap.global_costmap]: Initialized plugin "obstacle_layer"
+213:[component_container_isolated-1] [INFO] [1792314845.310236894] [global_costmap.global_costmap]: Using plugin "voxel_layer"
+214:[component_container_isolated-1] [INFO] [1792314845.313943660] [global_costmap.global_costmap]: Subscribed to Topics: scan
+215:[component_container_isolated-1] [INFO] [1792314845.330154383] [global_costmap.global_costmap]: Initialized plugin "voxel_layer"
+216:[component_container_isolated-1] [INFO] [1792314845.330244617] [global_costmap.global_costmap]: Using plugin "inflation_layer"
+217:[rviz2-2] [WARN] [1792314845.332883589] [rcl.logging_rosout]: Publisher already registered for node name: 'rviz2'. If this is due to multiple nodes with the same name then all logs for the logger named 'rviz2' will go out over the existing publisher. As soon as any node with that name is destructed it will unregister the publisher, preventing any further logs for that name from being published on the rosout topic.
+218:[component_container_isolated-1] [INFO] [1792314845.333458567] [global_costmap.global_costmap]: Initialized plugin "inflation_layer"
+219:[rviz2-2] [INFO] [1792314845.371313851] [rviz2]: Trying to load plugins...
+220:[rviz2-2] [WARN] [1792314845.376950179] [rcl.logging_rosout]: Publisher already registered for node name: 'rviz2'. If this is due to multiple nodes with the same name then all logs for the logger named 'rviz2' will go out over the existing publisher. As soon as any node with that name is destructed it will unregister the publisher, preventing any further logs for that name from being published on the rosout topic.
+221:[component_container_isolated-1] [INFO] [1792314845.458177023] [planner_server]: Created global planner plugin GridBased of type nav2_navfn_planner::NavfnPlanner
+222:[component_container_isolated-1] [INFO] [1792314845.458299860] [planner_server]: Configuring plugin GridBased of type NavfnPlanner
+223:[component_container_isolated-1] [INFO] [1792314845.461297813] [planner_server]: Planner Server has GridBased  planners available.
+224:[component_container_isolated-1] [INFO] [1792314845.488339977] [lifecycle_manager_navigation]: [34m[1mConfiguring route_server[0m[0m
+225:[component_container_isolated-1] [INFO] [1792314845.488714745] [route_server]: Configuring
+226:[component_container_isolated-1] [INFO] [1792314845.588178424] [route_server]: Created GraphFileLoader GeoJsonGraphFileLoader of type nav2_route::GeoJsonGraphFileLoader
+227:[component_container_isolated-1] [INFO] [1792314845.588318904] [route_server]: Configuring geojson graph file loader
+228:[component_container_isolated-1] [INFO] [1792314845.588349514] [route_server]: No graph file provided to load yet.
+229:[component_container_isolated-1] [INFO] [1792314845.606067834] [route_server]: Created edge cost function plugin DistanceScorer of type nav2_route::DistanceScorer
+230:[component_container_isolated-1] [INFO] [1792314845.606180012] [route_server]: Configuring distance scorer.
+231:[component_container_isolated-1] [INFO] [1792314845.607153611] [route_server]: Created edge cost function plugin DynamicEdgesScorer of type nav2_route::DynamicEdgesScorer
+232:[component_container_isolated-1] [INFO] [1792314845.607195575] [route_server]: Configuring adjust edges scorer.
+233:[component_container_isolated-1] [INFO] [1792314845.618478242] [route_server]: Created route operation AdjustSpeedLimit of type nav2_route::AdjustSpeedLimit
+234:[component_container_isolated-1] [INFO] [1792314845.618549426] [route_server]: Configuring Adjust speed limit operation.
+235:[component_container_isolated-1] [INFO] [1792314845.621613084] [route_server]: Created route operation ReroutingService of type nav2_route::ReroutingService
+236:[component_container_isolated-1] [INFO] [1792314845.621770769] [route_server]: Configuring Rerouting service operation.
+237:[component_container_isolated-1] [INFO] [1792314845.628114348] [lifecycle_manager_navigation]: [34m[1mConfiguring behavior_server[0m[0m
+238:[component_container_isolated-1] [INFO] [1792314845.628574464] [behavior_server]: Configuring
+239:[component_container_isolated-1] [INFO] [1792314845.636767368] [behavior_server]: Creating behavior plugin spin of type nav2_behaviors::Spin
+240:[component_container_isolated-1] [INFO] [1792314845.640232701] [behavior_server]: Creating behavior plugin backup of type nav2_behaviors::BackUp
+241:[component_container_isolated-1] [INFO] [1792314845.644220752] [behavior_server]: Creating behavior plugin drive_on_heading of type nav2_behaviors::DriveOnHeading
+242:[component_container_isolated-1] [INFO] [1792314845.649250030] [behavior_server]: Creating behavior plugin wait of type nav2_behaviors::Wait
+243:[component_container_isolated-1] [INFO] [1792314845.652421019] [behavior_server]: Creating behavior plugin assisted_teleop of type nav2_behaviors::AssistedTeleop
+244:[component_container_isolated-1] [INFO] [1792314845.665118913] [behavior_server]: Configuring spin
+245:[component_container_isolated-1] [INFO] [1792314845.687241234] [behavior_server]: Configuring backup
+246:[component_container_isolated-1] [INFO] [1792314845.702853729] [behavior_server]: Configuring drive_on_heading
+247:[component_container_isolated-1] [INFO] [1792314845.718925762] [behavior_server]: Configuring wait
+248:[component_container_isolated-1] [INFO] [1792314845.734292150] [behavior_server]: Configuring assisted_teleop
+249:[component_container_isolated-1] [INFO] [1792314845.757525986] [lifecycle_manager_navigation]: [34m[1mConfiguring velocity_smoother[0m[0m
+250:[component_container_isolated-1] [INFO] [1792314845.758015305] [velocity_smoother]: Configuring velocity smoother
+251:[component_container_isolated-1] [INFO] [1792314845.770098805] [lifecycle_manager_navigation]: [34m[1mConfiguring collision_monitor[0m[0m
+252:[component_container_isolated-1] [INFO] [1792314845.770384371] [collision_monitor]: Configuring
+253:[component_container_isolated-1] [INFO] [1792314845.791898770] [collision_monitor]: [scan]: Creating Scan
+254:[component_container_isolated-1] [INFO] [1792314845.798428232] [collision_monitor]: [PolygonStop]: Creating Polygon
+255:[component_container_isolated-1] [INFO] [1792314845.798518102] [collision_monitor]: [PolygonStop]: Creating Circle
+256:[component_container_isolated-1] [INFO] [1792314845.806129821] [collision_monitor]: [PolygonSlow]: Creating Polygon
+257:[component_container_isolated-1] [INFO] [1792314845.814569170] [collision_monitor]: [FootprintApproach]: Creating Polygon
+258:[component_container_isolated-1] [INFO] [1792314845.815017775] [collision_monitor]: [FootprintApproach]: Polygon points are not defined. Using dynamic subscription instead.
+259:[component_container_isolated-1] [INFO] [1792314845.819942355] [collision_monitor]: [FootprintApproach]: Making footprint subscriber on /local_costmap/published_footprint topic
+260:[component_container_isolated-1] [INFO] [1792314845.833843093] [lifecycle_manager_navigation]: [34m[1mConfiguring bt_navigator[0m[0m
+261:[component_container_isolated-1] [INFO] [1792314845.834272815] [bt_navigator]: Configuring
+262:[component_container_isolated-1] [INFO] [1792314845.846849596] [bt_navigator]: Creating navigator id navigate_to_pose of type nav2_bt_navigator::NavigateToPoseNavigator
+263:[component_container_isolated-1] [WARN] [1792314845.855699102] [bt_navigator]: Error_code parameters were not set. Using default values of: follow_path_error_code compute_path_error_code
+264:[component_container_isolated-1] Make sure these match your BT and there are not other sources of error codes youreported to your application
+265:[component_container_isolated-1] [INFO] [1792314846.093422168] [bt_navigator]: Creating navigator id navigate_through_poses of type nav2_bt_navigator::NavigateThroughPosesNavigator
+266:[component_container_isolated-1] [INFO] [1792314846.188512990] [lifecycle_manager_navigation]: [34m[1mConfiguring waypoint_follower[0m[0m
+267:[component_container_isolated-1] [INFO] [1792314846.188986830] [waypoint_follower]: Configuring
+268:[component_container_isolated-1] [INFO] [1792314846.257832645] [waypoint_follower]: Created waypoint_task_executor : wait_at_waypoint of type nav2_waypoint_follower::WaitAtWaypoint
+269:[component_container_isolated-1] [INFO] [1792314846.261011078] [lifecycle_manager_navigation]: [34m[1mConfiguring docking_server[0m[0m
+270:[component_container_isolated-1] [INFO] [1792314846.261400249] [docking_server]: Configuring docking_server
+271:[component_container_isolated-1] [INFO] [1792314846.261519996] [docking_server]: Controller frequency set to 50.0000Hz
+272:[component_container_isolated-1] [INFO] [1792314846.345263660] [docking_server]: Created charging dock plugin nova_carter_dock of type opennav_docking::SimpleChargingDock
+273:[component_container_isolated-1] [INFO] [1792314846.371008724] [docking_server]: Loading docks from parameter file.
+274:[component_container_isolated-1] [INFO] [1792314846.377534320] [docking_server]: Docking Server has 1 dock types and 3 dock instances available.
+275:[component_container_isolated-1] [INFO] [1792314846.383033299] [lifecycle_manager_navigation]: [34m[1mActivating controller_server[0m[0m
+276:[component_container_isolated-1] [INFO] [1792314846.383567424] [controller_server]: Activating
+277:[component_container_isolated-1] [INFO] [1792314846.383728637] [local_costmap.local_costmap]: Activating
+278:[component_container_isolated-1] [INFO] [1792314846.383754178] [local_costmap.local_costmap]: Checking transform
+279:[component_container_isolated-1] [INFO] [1792314846.384159529] [local_costmap.local_costmap]: start
+280:[rviz2-2] [INFO] [1792314846.396410328] [rviz2]: Loading dock plugins
+281:[component_container_isolated-1] [INFO] [1792314846.592615314] [controller_server]: Creating bond (controller_server) to lifecycle manager.
+282:[component_container_isolated-1] [INFO] [1792314846.709175091] [lifecycle_manager_navigation]: Server controller_server connected with bond.
+283:[component_container_isolated-1] [INFO] [1792314846.709432518] [lifecycle_manager_navigation]: [34m[1mActivating smoother_server[0m[0m
+284:[component_container_isolated-1] [INFO] [1792314846.710748372] [smoother_server]: Activating
+285:[component_container_isolated-1] [INFO] [1792314846.710939201] [smoother_server]: Creating bond (smoother_server) to lifecycle manager.
+286:[component_container_isolated-1] [INFO] [1792314846.824720019] [lifecycle_manager_navigation]: Server smoother_server connected with bond.
+287:[component_container_isolated-1] [INFO] [1792314846.824942139] [lifecycle_manager_navigation]: [34m[1mActivating planner_server[0m[0m
+288:[component_container_isolated-1] [INFO] [1792314846.826520484] [planner_server]: Activating
+289:[component_container_isolated-1] [INFO] [1792314846.826664123] [global_costmap.global_costmap]: Activating
+290:[component_container_isolated-1] [INFO] [1792314846.826685083] [global_costmap.global_costmap]: Checking transform
+291:[component_container_isolated-1] [INFO] [1792314846.826744865] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+292:[component_container_isolated-1] [INFO] [1792314847.326862015] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+293:[component_container_isolated-1] [INFO] [1792314847.826894227] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+294:[component_container_isolated-1] [INFO] [1792314848.326908776] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+295:[rviz2-2] [INFO] [1792314848.620420204] [rviz2]: Message Filter dropping message: frame 'odom' at time 4.120 for reason 'discarding message because the queue is full'
+296:[component_container_isolated-1] [INFO] [1792314848.826846879] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+297:[rviz2-2] [INFO] [1792314849.100523030] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 3.200 for reason 'discarding message because the queue is full'
+298:[component_container_isolated-1] [INFO] [1792314849.326975329] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+299:[component_container_isolated-1] [INFO] [1792314849.826860018] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+300:[component_container_isolated-1] [INFO] [1792314850.326878724] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+301:[component_container_isolated-1] [INFO] [1792314850.826844206] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+302:[component_container_isolated-1] [INFO] [1792314851.326848693] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+303:[component_container_isolated-1] [INFO] [1792314851.826825452] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+304:[component_container_isolated-1] [INFO] [1792314852.326875701] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+305:[component_container_isolated-1] [INFO] [1792314852.827906959] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+306:[component_container_isolated-1] [INFO] [1792314853.326854337] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+307:[component_container_isolated-1] [INFO] [1792314853.826810818] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+308:[rviz2-2] [INFO] [1792314854.219914141] [rviz2]: Message Filter dropping message: frame 'odom' at time 6.660 for reason 'discarding message because the queue is full'
+309:[component_container_isolated-1] [INFO] [1792314854.327251740] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+310:[rviz2-2] [INFO] [1792314854.795679826] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 5.800 for reason 'discarding message because the queue is full'
+311:[component_container_isolated-1] [INFO] [1792314854.826814274] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+312:[component_container_isolated-1] [INFO] [1792314855.326848590] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+313:[component_container_isolated-1] [INFO] [1792314855.826837258] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+314:[component_container_isolated-1] [INFO] [1792314856.326847577] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+315:[component_container_isolated-1] [INFO] [1792314856.828311928] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+316:[component_container_isolated-1] [INFO] [1792314857.326807922] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+317:[component_container_isolated-1] [INFO] [1792314857.826861570] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+318:[component_container_isolated-1] [INFO] [1792314858.326853456] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+319:[rviz2-2] [INFO] [1792314858.388479682] [rviz2]: Message Filter dropping message: frame 'odom' at time 4.124 for reason 'discarding message because the queue is full'
+320:[rviz2-2] [INFO] [1792314858.612731725] [rviz2]: Message Filter dropping message: frame 'odom' at time 8.580 for reason 'discarding message because the queue is full'
+321:[component_container_isolated-1] [INFO] [1792314858.826807086] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+322:[rviz2-2] [INFO] [1792314859.059830471] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 8.400 for reason 'discarding message because the queue is full'
+323:[component_container_isolated-1] [INFO] [1792314859.330717237] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+324:[component_container_isolated-1] [INFO] [1792314859.826813917] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+325:[component_container_isolated-1] [INFO] [1792314860.326837253] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+326:[component_container_isolated-1] [INFO] [1792314860.826850214] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+327:[component_container_isolated-1] [INFO] [1792314861.327924988] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+328:[component_container_isolated-1] [INFO] [1792314861.826847640] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+329:[component_container_isolated-1] [INFO] [1792314862.326805768] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+330:[component_container_isolated-1] [INFO] [1792314862.826810363] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+331:[rviz2-2] [INFO] [1792314862.996330103] [rviz2]: Message Filter dropping message: frame 'odom' at time 11.360 for reason 'discarding message because the queue is full'
+332:[rviz2-2] [INFO] [1792314863.188731934] [rviz2]: Message Filter dropping message: frame 'odom' at time 7.005 for reason 'discarding message because the queue is full'
+333:[component_container_isolated-1] [INFO] [1792314863.328609424] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+334:[rviz2-2] [INFO] [1792314863.507762197] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 11.000 for reason 'discarding message because the queue is full'
+335:[component_container_isolated-1] [INFO] [1792314863.826855799] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+336:[component_container_isolated-1] [INFO] [1792314864.326806481] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+337:[component_container_isolated-1] [INFO] [1792314864.831635913] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+338:[component_container_isolated-1] [INFO] [1792314865.326883752] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+339:[component_container_isolated-1] [INFO] [1792314865.826822713] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+340:[component_container_isolated-1] [INFO] [1792314866.326842285] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+341:[component_container_isolated-1] [INFO] [1792314866.826804251] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+342:[component_container_isolated-1] [INFO] [1792314867.328126497] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+343:[rviz2-2] [INFO] [1792314867.412018797] [rviz2]: Message Filter dropping message: frame 'odom' at time 14.240 for reason 'discarding message because the queue is full'
+344:[component_container_isolated-1] [INFO] [1792314867.826803168] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+345:[rviz2-2] [INFO] [1792314867.827851172] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 13.600 for reason 'discarding message because the queue is full'
+346:[rviz2-2] [INFO] [1792314868.019779880] [rviz2]: Message Filter dropping message: frame 'odom' at time 9.904 for reason 'discarding message because the queue is full'
+347:[component_container_isolated-1] [INFO] [1792314868.326799609] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+348:[component_container_isolated-1] [INFO] [1792314868.826834964] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+349:[component_container_isolated-1] [INFO] [1792314869.326797839] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+350:[component_container_isolated-1] [INFO] [1792314869.826847218] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+351:[component_container_isolated-1] [INFO] [1792314870.326874726] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+352:[component_container_isolated-1] [INFO] [1792314870.827384482] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+353:[rviz2-2] [INFO] [1792314870.996677623] [rviz2]: Message Filter dropping message: frame 'odom' at time 16.440 for reason 'discarding message because the queue is full'
+354:[component_container_isolated-1] [INFO] [1792314871.326841280] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+355:[component_container_isolated-1] [INFO] [1792314871.833089159] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+356:[rviz2-2] [INFO] [1792314871.996020470] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 16.200 for reason 'discarding message because the queue is full'
+357:[component_container_isolated-1] [INFO] [1792314872.326797371] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+358:[rviz2-2] [INFO] [1792314872.811964541] [rviz2]: Message Filter dropping message: frame 'odom' at time 12.814 for reason 'discarding message because the queue is full'
+359:[component_container_isolated-1] [INFO] [1792314872.826815608] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+360:[component_container_isolated-1] [INFO] [1792314873.326824721] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+361:[component_container_isolated-1] [INFO] [1792314873.826893084] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+362:[component_container_isolated-1] [INFO] [1792314874.328043503] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+363:[component_container_isolated-1] [INFO] [1792314874.826810295] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+364:[component_container_isolated-1] [INFO] [1792314875.326813865] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+365:[rviz2-2] [INFO] [1792314875.819894942] [rviz2]: Message Filter dropping message: frame 'odom' at time 19.080 for reason 'discarding message because the queue is full'
+366:[component_container_isolated-1] [INFO] [1792314875.826817942] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+367:[component_container_isolated-1] [INFO] [1792314876.326804770] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+368:[rviz2-2] [INFO] [1792314876.331659959] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 18.800 for reason 'discarding message because the queue is full'
+369:[component_container_isolated-1] [INFO] [1792314876.826900354] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+370:[component_container_isolated-1] [INFO] [1792314877.327010830] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+371:[rviz2-2] [INFO] [1792314877.612368360] [rviz2]: Message Filter dropping message: frame 'odom' at time 15.748 for reason 'discarding message because the queue is full'
+372:[component_container_isolated-1] [INFO] [1792314877.826811214] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+373:[component_container_isolated-1] [INFO] [1792314878.326809497] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+374:[component_container_isolated-1] [INFO] [1792314878.826846344] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+375:[component_container_isolated-1] [INFO] [1792314879.326846471] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+376:[component_container_isolated-1] [INFO] [1792314879.826848829] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+377:[component_container_isolated-1] [INFO] [1792314880.326812547] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+378:[rviz2-2] [INFO] [1792314880.620205000] [rviz2]: Message Filter dropping message: frame 'odom' at time 21.980 for reason 'discarding message because the queue is full'
+379:[component_container_isolated-1] [INFO] [1792314880.826808698] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+380:[component_container_isolated-1] [INFO] [1792314881.326846669] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+381:[rviz2-2] [INFO] [1792314881.515728731] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 21.400 for reason 'discarding message because the queue is full'
+382:[component_container_isolated-1] [INFO] [1792314881.826846966] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+383:[component_container_isolated-1] [INFO] [1792314882.327155959] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+384:[component_container_isolated-1] [INFO] [1792314882.826830662] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+385:[rviz2-2] [INFO] [1792314883.020014931] [rviz2]: Message Filter dropping message: frame 'odom' at time 18.595 for reason 'discarding message because the queue is full'
+386:[component_container_isolated-1] [INFO] [1792314883.326869342] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+387:[component_container_isolated-1] [INFO] [1792314883.826862750] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+388:[component_container_isolated-1] [INFO] [1792314884.326828491] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+389:[component_container_isolated-1] [INFO] [1792314884.827039135] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+390:[component_container_isolated-1] [INFO] [1792314885.326863590] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+391:[rviz2-2] [INFO] [1792314885.803606151] [rviz2]: Message Filter dropping message: frame 'odom' at time 24.540 for reason 'discarding message because the queue is full'
+392:[component_container_isolated-1] [INFO] [1792314885.826821946] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+393:[component_container_isolated-1] [INFO] [1792314886.326822982] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+394:[component_container_isolated-1] [INFO] [1792314886.826829423] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+395:[rviz2-2] [INFO] [1792314886.987723374] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 24.000 for reason 'discarding message because the queue is full'
+396:[component_container_isolated-1] [INFO] [1792314887.326852210] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+397:[component_container_isolated-1] [INFO] [1792314887.826861993] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+398:[component_container_isolated-1] [INFO] [1792314888.326849379] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+399:[rviz2-2] [INFO] [1792314888.812188642] [rviz2]: Message Filter dropping message: frame 'odom' at time 21.463 for reason 'discarding message because the queue is full'
+400:[component_container_isolated-1] [INFO] [1792314888.826810557] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+401:[component_container_isolated-1] [INFO] [1792314889.326797779] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+402:[component_container_isolated-1] [INFO] [1792314889.826797720] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+403:[component_container_isolated-1] [INFO] [1792314890.326806729] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+404:[rviz2-2] [INFO] [1792314890.412233748] [rviz2]: Message Filter dropping message: frame 'odom' at time 26.680 for reason 'discarding message because the queue is full'
+405:[component_container_isolated-1] [INFO] [1792314890.826810887] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+406:[rviz2-2] [INFO] [1792314891.052151797] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 26.600 for reason 'discarding message because the queue is full'
+407:[component_container_isolated-1] [INFO] [1792314891.329462652] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+408:[component_container_isolated-1] [INFO] [1792314891.826821066] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+409:[component_container_isolated-1] [INFO] [1792314892.326803099] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+410:[component_container_isolated-1] [INFO] [1792314892.826881497] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+411:[component_container_isolated-1] [INFO] [1792314893.326877927] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+412:[rviz2-2] [INFO] [1792314893.612699342] [rviz2]: Message Filter dropping message: frame 'odom' at time 24.169 for reason 'discarding message because the queue is full'
+413:[component_container_isolated-1] [INFO] [1792314893.826836740] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+414:[component_container_isolated-1] [INFO] [1792314894.327710534] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+415:[component_container_isolated-1] [INFO] [1792314894.826825759] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+416:[component_container_isolated-1] [INFO] [1792314895.326831581] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+417:[rviz2-2] [INFO] [1792314895.596558075] [rviz2]: Message Filter dropping message: frame 'odom' at time 29.780 for reason 'discarding message because the queue is full'
+418:[component_container_isolated-1] [INFO] [1792314895.826910632] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+419:[component_container_isolated-1] [INFO] [1792314896.326821694] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+420:[rviz2-2] [INFO] [1792314896.620408947] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 29.200 for reason 'discarding message because the queue is full'
+421:[component_container_isolated-1] [INFO] [1792314896.826814972] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+422:[component_container_isolated-1] [INFO] [1792314897.326871334] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+423:[component_container_isolated-1] [INFO] [1792314897.826853946] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+424:[component_container_isolated-1] [INFO] [1792314898.326909498] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+425:[component_container_isolated-1] [INFO] [1792314898.826867134] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+426:[component_container_isolated-1] [INFO] [1792314899.326911367] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+427:[rviz2-2] [INFO] [1792314899.595877632] [rviz2]: Message Filter dropping message: frame 'odom' at time 26.939 for reason 'discarding message because the queue is full'
+428:[component_container_isolated-1] [INFO] [1792314899.826874316] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+429:[component_container_isolated-1] [INFO] [1792314900.326897574] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+430:[rviz2-2] [INFO] [1792314900.814059920] [rviz2]: Message Filter dropping message: frame 'odom' at time 32.180 for reason 'discarding message because the queue is full'
+431:[component_container_isolated-1] [INFO] [1792314900.827501453] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+432:[component_container_isolated-1] [INFO] [1792314901.326849957] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+433:[component_container_isolated-1] [INFO] [1792314901.826848591] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+434:[rviz2-2] [INFO] [1792314902.061359810] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 31.800 for reason 'discarding message because the queue is full'
+435:[component_container_isolated-1] [INFO] [1792314902.327599264] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+436:[component_container_isolated-1] [INFO] [1792314902.826852362] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+437:[component_container_isolated-1] [INFO] [1792314903.326835667] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+438:[component_container_isolated-1] [INFO] [1792314903.826837194] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+439:[component_container_isolated-1] [INFO] [1792314904.326897341] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+440:[component_container_isolated-1] [INFO] [1792314904.827205626] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+441:[component_container_isolated-1] [INFO] [1792314905.326815149] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+442:[rviz2-2] [INFO] [1792314905.420033746] [rviz2]: Message Filter dropping message: frame 'odom' at time 29.801 for reason 'discarding message because the queue is full'
+443:[component_container_isolated-1] [INFO] [1792314905.829167564] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+444:[rviz2-2] [INFO] [1792314906.220377387] [rviz2]: Message Filter dropping message: frame 'odom' at time 34.740 for reason 'discarding message because the queue is full'
+445:[component_container_isolated-1] [INFO] [1792314906.326910173] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+446:[component_container_isolated-1] [INFO] [1792314906.826857154] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+447:[component_container_isolated-1] [INFO] [1792314907.326883275] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+448:[rviz2-2] [INFO] [1792314907.563714533] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 34.400 for reason 'discarding message because the queue is full'
+449:[component_container_isolated-1] [INFO] [1792314907.830180387] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+450:[component_container_isolated-1] [INFO] [1792314908.326850531] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+451:[component_container_isolated-1] [INFO] [1792314908.827102686] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+452:[component_container_isolated-1] [INFO] [1792314909.326888567] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+453:[component_container_isolated-1] [INFO] [1792314909.826805147] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+454:[component_container_isolated-1] [INFO] [1792314910.326915180] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+455:[component_container_isolated-1] [INFO] [1792314910.826850671] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+456:[rviz2-2] [INFO] [1792314911.212870751] [rviz2]: Message Filter dropping message: frame 'odom' at time 32.605 for reason 'discarding message because the queue is full'
+457:[component_container_isolated-1] [INFO] [1792314911.326844860] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+458:[rviz2-2] [INFO] [1792314911.404110939] [rviz2]: Message Filter dropping message: frame 'odom' at time 37.300 for reason 'discarding message because the queue is full'
+459:[component_container_isolated-1] [INFO] [1792314911.826838858] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+460:[component_container_isolated-1] [INFO] [1792314912.326837769] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+461:[component_container_isolated-1] [INFO] [1792314912.828225214] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+462:[rviz2-2] [INFO] [1792314912.844646963] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 37.000 for reason 'discarding message because the queue is full'
+463:[component_container_isolated-1] [INFO] [1792314913.326815580] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+464:[component_container_isolated-1] [INFO] [1792314913.827736591] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+465:[component_container_isolated-1] [INFO] [1792314914.326876221] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+466:[component_container_isolated-1] [INFO] [1792314914.826863360] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+467:[component_container_isolated-1] [INFO] [1792314915.326949748] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+468:[component_container_isolated-1] [INFO] [1792314915.827066535] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+469:[component_container_isolated-1] [INFO] [1792314916.326874203] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+470:[rviz2-2] [INFO] [1792314916.812824465] [rviz2]: Message Filter dropping message: frame 'odom' at time 39.900 for reason 'discarding message because the queue is full'
+471:[component_container_isolated-1] [INFO] [1792314916.826870011] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+472:[rviz2-2] [INFO] [1792314917.196722116] [rviz2]: Message Filter dropping message: frame 'odom' at time 35.389 for reason 'discarding message because the queue is full'
+473:[component_container_isolated-1] [INFO] [1792314917.327189185] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+474:[component_container_isolated-1] [INFO] [1792314917.828245340] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+475:[component_container_isolated-1] [INFO] [1792314918.326883601] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+476:[rviz2-2] [INFO] [1792314918.544651235] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 39.600 for reason 'discarding message because the queue is full'
+477:[component_container_isolated-1] [INFO] [1792314918.826846306] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+478:[component_container_isolated-1] [INFO] [1792314919.326817308] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+479:[component_container_isolated-1] [INFO] [1792314919.826825234] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+480:[component_container_isolated-1] [INFO] [1792314920.328270461] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+481:[component_container_isolated-1] [INFO] [1792314920.826838790] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+482:[component_container_isolated-1] [INFO] [1792314921.326835040] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+483:[component_container_isolated-1] [INFO] [1792314921.826778611] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+484:[component_container_isolated-1] [INFO] [1792314922.326860312] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+485:[rviz2-2] [INFO] [1792314922.417006002] [rviz2]: Message Filter dropping message: frame 'odom' at time 42.500 for reason 'discarding message because the queue is full'
+486:[component_container_isolated-1] [INFO] [1792314922.826837190] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+487:[rviz2-2] [INFO] [1792314922.993063126] [rviz2]: Message Filter dropping message: frame 'odom' at time 38.220 for reason 'discarding message because the queue is full'
+488:[component_container_isolated-1] [INFO] [1792314923.326815518] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+489:[rviz2-2] [INFO] [1792314923.504278549] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 42.200 for reason 'discarding message because the queue is full'
+490:[component_container_isolated-1] [INFO] [1792314923.826802038] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+491:[component_container_isolated-1] [INFO] [1792314924.326809390] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+492:[component_container_isolated-1] [INFO] [1792314924.827126601] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+493:[component_container_isolated-1] [INFO] [1792314925.326831334] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+494:[component_container_isolated-1] [INFO] [1792314925.826820168] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+495:[component_container_isolated-1] [INFO] [1792314926.328185622] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+496:[rviz2-2] [INFO] [1792314926.608266468] [rviz2]: Message Filter dropping message: frame 'odom' at time 45.020 for reason 'discarding message because the queue is full'
+497:[component_container_isolated-1] [INFO] [1792314926.826800566] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+498:[component_container_isolated-1] [INFO] [1792314927.327023513] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+499:[rviz2-2] [INFO] [1792314927.600386940] [rviz2]: Message Filter dropping message: frame 'odom' at time 41.055 for reason 'discarding message because the queue is full'
+500:[rviz2-2] [INFO] [1792314927.632110307] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 44.800 for reason 'discarding message because the queue is full'
+501:[component_container_isolated-1] [INFO] [1792314927.826799024] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+502:[component_container_isolated-1] [INFO] [1792314928.326801873] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+503:[component_container_isolated-1] [INFO] [1792314928.827997241] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+504:[component_container_isolated-1] [INFO] [1792314929.326814212] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+505:[component_container_isolated-1] [INFO] [1792314929.826839662] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+506:[rviz2-2] [INFO] [1792314930.192314499] [rviz2]: Message Filter dropping message: frame 'odom' at time 47.260 for reason 'discarding message because the queue is full'
+507:[component_container_isolated-1] [INFO] [1792314930.326860523] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+508:[component_container_isolated-1] [INFO] [1792314930.826904440] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+509:[component_container_isolated-1] [INFO] [1792314931.326820921] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+510:[rviz2-2] [INFO] [1792314931.695538748] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 47.400 for reason 'discarding message because the queue is full'
+511:[component_container_isolated-1] [INFO] [1792314931.826812678] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+512:[rviz2-2] [INFO] [1792314932.208517006] [rviz2]: Message Filter dropping message: frame 'odom' at time 43.848 for reason 'discarding message because the queue is full'
+513:[component_container_isolated-1] [INFO] [1792314932.326807666] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+514:[component_container_isolated-1] [INFO] [1792314932.826946159] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+515:[component_container_isolated-1] [INFO] [1792314933.326908591] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+516:[component_container_isolated-1] [INFO] [1792314933.828306990] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+517:[component_container_isolated-1] [INFO] [1792314934.326824344] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+518:[rviz2-2] [INFO] [1792314934.620240079] [rviz2]: Message Filter dropping message: frame 'odom' at time 50.160 for reason 'discarding message because the queue is full'
+519:[component_container_isolated-1] [INFO] [1792314934.826842364] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+520:[component_container_isolated-1] [INFO] [1792314935.326814274] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+521:[component_container_isolated-1] [INFO] [1792314935.826822661] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+522:[rviz2-2] [INFO] [1792314936.188535438] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 50.000 for reason 'discarding message because the queue is full'
+523:[component_container_isolated-1] [INFO] [1792314936.327062571] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+524:[component_container_isolated-1] [INFO] [1792314936.826833466] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+525:[component_container_isolated-1] [INFO] [1792314937.326821367] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+526:[rviz2-2] [INFO] [1792314937.404209683] [rviz2]: Message Filter dropping message: frame 'odom' at time 46.799 for reason 'discarding message because the queue is full'
+527:[component_container_isolated-1] [INFO] [1792314937.830288156] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+528:[component_container_isolated-1] [INFO] [1792314938.326848213] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+529:[component_container_isolated-1] [INFO] [1792314938.826815359] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+530:[component_container_isolated-1] [INFO] [1792314939.327023594] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+531:[rviz2-2] [INFO] [1792314939.612377460] [rviz2]: Message Filter dropping message: frame 'odom' at time 52.700 for reason 'discarding message because the queue is full'
+532:[component_container_isolated-1] [INFO] [1792314939.828169634] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+533:[component_container_isolated-1] [INFO] [1792314940.326883028] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+534:[component_container_isolated-1] [INFO] [1792314940.826867371] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+535:[component_container_isolated-1] [INFO] [1792314941.327922469] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+536:[rviz2-2] [INFO] [1792314941.613338291] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 52.600 for reason 'discarding message because the queue is full'
+537:[component_container_isolated-1] [INFO] [1792314941.826872829] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+538:[component_container_isolated-1] [INFO] [1792314942.327185572] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+539:[component_container_isolated-1] [INFO] [1792314942.826814382] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+540:[rviz2-2] [INFO] [1792314943.212193509] [rviz2]: Message Filter dropping message: frame 'odom' at time 49.834 for reason 'discarding message because the queue is full'
+541:[component_container_isolated-1] [INFO] [1792314943.326827427] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+542:[component_container_isolated-1] [INFO] [1792314943.826834102] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+543:[component_container_isolated-1] [INFO] [1792314944.326817864] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+544:[component_container_isolated-1] [INFO] [1792314944.826845856] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+545:[rviz2-2] [INFO] [1792314945.196535958] [rviz2]: Message Filter dropping message: frame 'odom' at time 55.340 for reason 'discarding message because the queue is full'
+546:[component_container_isolated-1] [INFO] [1792314945.326905586] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+547:[component_container_isolated-1] [INFO] [1792314945.826840217] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+548:[component_container_isolated-1] [INFO] [1792314946.327923996] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+549:[component_container_isolated-1] [INFO] [1792314946.826967086] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+550:[rviz2-2] [INFO] [1792314946.894022472] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 55.200 for reason 'discarding message because the queue is full'
+551:[component_container_isolated-1] [INFO] [1792314947.326799650] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+552:[component_container_isolated-1] [INFO] [1792314947.826906254] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+553:[component_container_isolated-1] [INFO] [1792314948.329140818] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+554:[rviz2-2] [INFO] [1792314948.816461903] [rviz2]: Message Filter dropping message: frame 'odom' at time 52.617 for reason 'discarding message because the queue is full'
+555:[component_container_isolated-1] [INFO] [1792314948.826834267] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+556:[component_container_isolated-1] [INFO] [1792314949.326829451] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+557:[rviz2-2] [INFO] [1792314949.810100794] [rviz2]: Message Filter dropping message: frame 'odom' at time 57.640 for reason 'discarding message because the queue is full'
+558:[component_container_isolated-1] [INFO] [1792314949.826904039] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+559:[component_container_isolated-1] [INFO] [1792314950.328671299] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+560:[component_container_isolated-1] [INFO] [1792314950.826852285] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+561:[component_container_isolated-1] [INFO] [1792314951.326859785] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+562:[rviz2-2] [INFO] [1792314951.538870275] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 57.800 for reason 'discarding message because the queue is full'
+563:[component_container_isolated-1] [INFO] [1792314951.826828614] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+564:[component_container_isolated-1] [INFO] [1792314952.326857250] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+565:[component_container_isolated-1] [INFO] [1792314952.826860062] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+566:[component_container_isolated-1] [INFO] [1792314953.326810045] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+567:[rviz2-2] [INFO] [1792314953.616593702] [rviz2]: Message Filter dropping message: frame 'odom' at time 55.342 for reason 'discarding message because the queue is full'
+568:[component_container_isolated-1] [INFO] [1792314953.826843568] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+569:[component_container_isolated-1] [INFO] [1792314954.326803431] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+570:[rviz2-2] [INFO] [1792314954.801420415] [rviz2]: Message Filter dropping message: frame 'odom' at time 60.540 for reason 'discarding message because the queue is full'
+571:[component_container_isolated-1] [INFO] [1792314954.826815550] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+572:[component_container_isolated-1] [INFO] [1792314955.326798352] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+573:[component_container_isolated-1] [INFO] [1792314955.826799896] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+574:[rviz2-2] [INFO] [1792314956.275587456] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 60.400 for reason 'discarding message because the queue is full'
+575:[component_container_isolated-1] [INFO] [1792314956.326923774] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+576:[component_container_isolated-1] [INFO] [1792314956.826874870] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+577:[component_container_isolated-1] [INFO] [1792314957.326813209] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+578:[component_container_isolated-1] [INFO] [1792314957.826894552] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+579:[component_container_isolated-1] [INFO] [1792314958.327820108] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+580:[component_container_isolated-1] [INFO] [1792314958.826842257] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+581:[rviz2-2] [INFO] [1792314958.992690109] [rviz2]: Message Filter dropping message: frame 'odom' at time 58.143 for reason 'discarding message because the queue is full'
+582:[component_container_isolated-1] [INFO] [1792314959.326841338] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+583:[rviz2-2] [INFO] [1792314959.408376516] [rviz2]: Message Filter dropping message: frame 'odom' at time 62.940 for reason 'discarding message because the queue is full'
+584:[component_container_isolated-1] [INFO] [1792314959.826835311] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+585:[component_container_isolated-1] [INFO] [1792314960.326808867] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+586:[component_container_isolated-1] [ERROR] [1792314960.327052850] [global_costmap.global_costmap]: Failed to activate global_costmap because transform from base_link to map did not become available before timeout
+587:[component_container_isolated-1] [ERROR] [1792314960.328332665] [lifecycle_manager_navigation]: Failed to change state for node: planner_server
+588:[component_container_isolated-1] [ERROR] [1792314960.328426553] [lifecycle_manager_navigation]: Failed to bring up all requested nodes. Aborting bringup.
+589:[rviz2-2] [INFO] [1792314961.460354898] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 63.000 for reason 'discarding message because the queue is full'
+590:[rviz2-2] [INFO] [1792314964.399988481] [rviz2]: Message Filter dropping message: frame 'odom' at time 65.420 for reason 'discarding message because the queue is full'
+591:[rviz2-2] [INFO] [1792314964.592522886] [rviz2]: Message Filter dropping message: frame 'odom' at time 61.000 for reason 'discarding message because the queue is full'
+592:[rviz2-2] [INFO] [1792314966.937941077] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 65.600 for reason 'discarding message because the queue is full'
+593:[rviz2-2] [INFO] [1792314969.416265220] [rviz2]: Message Filter dropping message: frame 'odom' at time 67.920 for reason 'discarding message because the queue is full'
+594:[rviz2-2] [INFO] [1792314969.801725271] [rviz2]: Message Filter dropping message: frame 'odom' at time 63.766 for reason 'discarding message because the queue is full'
+595:[rviz2-2] [INFO] [1792314971.337157055] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 68.200 for reason 'discarding message because the queue is full'
+596:[rviz2-2] [INFO] [1792314974.218533180] [rviz2]: Message Filter dropping message: frame 'odom' at time 70.580 for reason 'discarding message because the queue is full'
+597:[rviz2-2] [INFO] [1792314975.209238855] [rviz2]: Message Filter dropping message: frame 'odom' at time 66.567 for reason 'discarding message because the queue is full'
+598:[rviz2-2] [INFO] [1792314976.584125432] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 70.800 for reason 'discarding message because the queue is full'
+599:[rviz2-2] [INFO] [1792314979.208439520] [rviz2]: Message Filter dropping message: frame 'odom' at time 73.100 for reason 'discarding message because the queue is full'
+600:[rviz2-2] [INFO] [1792314981.004691277] [rviz2]: Message Filter dropping message: frame 'odom' at time 69.370 for reason 'discarding message because the queue is full'
+601:[rviz2-2] [INFO] [1792314981.768819319] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 73.400 for reason 'discarding message because the queue is full'
+602:[rviz2-2] [INFO] [1792314984.200297975] [rviz2]: Message Filter dropping message: frame 'odom' at time 75.660 for reason 'discarding message because the queue is full'
+603:[rviz2-2] [INFO] [1792314985.993213885] [rviz2]: Message Filter dropping message: frame 'odom' at time 72.149 for reason 'discarding message because the queue is full'
+604:[rviz2-2] [INFO] [1792314986.025908942] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 76.000 for reason 'discarding message because the queue is full'
+605:[rviz2-2] [INFO] [1792314988.600883313] [rviz2]: Message Filter dropping message: frame 'odom' at time 78.160 for reason 'discarding message because the queue is full'
+606:[rviz2-2] [INFO] [1792314990.809221958] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 78.600 for reason 'discarding message because the queue is full'
+607:[rviz2-2] [INFO] [1792314991.193235689] [rviz2]: Message Filter dropping message: frame 'odom' at time 75.047 for reason 'discarding message because the queue is full'
+608:[rviz2-2] [INFO] [1792314993.016322700] [rviz2]: Message Filter dropping message: frame 'odom' at time 80.700 for reason 'discarding message because the queue is full'
+609:[rviz2-2] [INFO] [1792314994.616666226] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 81.200 for reason 'discarding message because the queue is full'
+610:[rviz2-2] [INFO] [1792314995.418768185] [rviz2]: Message Filter dropping message: frame 'odom' at time 77.998 for reason 'discarding message because the queue is full'
+611:[rviz2-2] [INFO] [1792314997.016904928] [rviz2]: Message Filter dropping message: frame 'odom' at time 83.420 for reason 'discarding message because the queue is full'
+612:[rviz2-2] [INFO] [1792314998.519950322] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 83.800 for reason 'discarding message because the queue is full'
+613:[rviz2-2] [INFO] [1792314999.802470498] [rviz2]: Message Filter dropping message: frame 'odom' at time 80.812 for reason 'discarding message because the queue is full'
+614:[rviz2-2] [INFO] [1792315001.016685583] [rviz2]: Message Filter dropping message: frame 'odom' at time 86.180 for reason 'discarding message because the queue is full'
+615:[rviz2-2] [INFO] [1792315002.905113671] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 86.400 for reason 'discarding message because the queue is full'
+616:[rviz2-2] [INFO] [1792315004.217110389] [rviz2]: Message Filter dropping message: frame 'odom' at time 83.652 for reason 'discarding message because the queue is full'
+617:[rviz2-2] [INFO] [1792315004.793352404] [rviz2]: Message Filter dropping message: frame 'odom' at time 88.320 for reason 'discarding message because the queue is full'
+618:[rviz2-2] [INFO] [1792315007.066420956] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 89.000 for reason 'discarding message because the queue is full'
+619:[rviz2-2] [INFO] [1792315009.402431060] [rviz2]: Message Filter dropping message: frame 'odom' at time 86.573 for reason 'discarding message because the queue is full'
+620:[rviz2-2] [INFO] [1792315009.817944621] [rviz2]: Message Filter dropping message: frame 'odom' at time 91.400 for reason 'discarding message because the queue is full'
+621:[rviz2-2] [INFO] [1792315011.865997237] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 91.600 for reason 'discarding message because the queue is full'
+622:[rviz2-2] [INFO] [1792315013.592446426] [rviz2]: Message Filter dropping message: frame 'odom' at time 93.380 for reason 'discarding message because the queue is full'
+623:[rviz2-2] [INFO] [1792315014.009400679] [rviz2]: Message Filter dropping message: frame 'odom' at time 89.422 for reason 'discarding message because the queue is full'
+624:[rviz2-2] [INFO] [1792315016.185737644] [rviz2]: Message Filter dropping message: frame 'base_scan' at time 94.200 for reason 'discarding message because the queue is full'
+625:[rviz2-2] [INFO] [1792315018.616802042] [rviz2]: Message Filter dropping message: frame 'odom' at time 96.420 for reason 'discarding message because the queue is full'
+626:# end: 1792315018.869580755
+627:# exit code: 124 (124 = killed by timeout 180)

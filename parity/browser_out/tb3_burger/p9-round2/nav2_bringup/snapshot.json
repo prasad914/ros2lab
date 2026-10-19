@@ -1,0 +1,562 @@
+{
+  "blocker": null,
+  "capturedAt": "2026-10-16T19:11:43.929Z",
+  "topics": [
+    {
+      "name": "/clicked_point",
+      "type": "geometry_msgs/msg/PointStamped",
+      "publishers": [
+        {
+          "node": "/rviz2",
+          "endpoint_type": "PUBLISHER",
+          "qos": {
+            "reliability": "Reliable",
+            "durability": "Volatile",
+            "history": "Keep last",
+            "depth": 10,
+            "raw": "RELIABLE/VOLATILE"
+          }
+        }
+      ],
+      "subscribers": [],
+      "pubs": [
+        "/rviz2"
+      ],
+      "subs": [],
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "history": "Keep last",
+        "depth": 10,
+        "raw": "RELIABLE/VOLATILE"
+      }
+    },
+    {
+      "name": "/goal_pose",
+      "type": "geometry_msgs/msg/PoseStamped",
+      "publishers": [
+        {
+          "node": "/rviz2",
+          "endpoint_type": "PUBLISHER",
+          "qos": {
+            "reliability": "Reliable",
+            "durability": "Volatile",
+            "history": "Keep last",
+            "depth": 10,
+            "raw": "RELIABLE/VOLATILE"
+          }
+        }
+      ],
+      "subscribers": [],
+      "pubs": [
+        "/rviz2"
+      ],
+      "subs": [],
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "history": "Keep last",
+        "depth": 10,
+        "raw": "RELIABLE/VOLATILE"
+      }
+    },
+    {
+      "name": "/initialpose",
+      "type": "geometry_msgs/msg/PoseWithCovarianceStamped",
+      "publishers": [
+        {
+          "node": "/rviz2",
+          "endpoint_type": "PUBLISHER",
+          "qos": {
+            "reliability": "Reliable",
+            "durability": "Volatile",
+            "history": "Keep last",
+            "depth": 10,
+            "raw": "RELIABLE/VOLATILE"
+          }
+        }
+      ],
+      "subscribers": [],
+      "pubs": [
+        "/rviz2"
+      ],
+      "subs": [],
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "history": "Keep last",
+        "depth": 10,
+        "raw": "RELIABLE/VOLATILE"
+      }
+    },
+    {
+      "name": "/parameter_events",
+      "type": "rcl_interfaces/msg/ParameterEvent",
+      "publishers": [
+        {
+          "node": "/rviz2",
+          "endpoint_type": "PUBLISHER",
+          "qos": {
+            "reliability": "Reliable",
+            "durability": "Volatile",
+            "history": "Keep last",
+            "depth": 10,
+            "raw": "RELIABLE/VOLATILE"
+          }
+        }
+      ],
+      "subscribers": [
+        {
+          "node": "/rviz2",
+          "endpoint_type": "SUBSCRIPTION",
+          "qos": {
+            "reliability": "Reliable",
+            "durability": "Volatile",
+            "history": "Keep last",
+            "depth": 10,
+            "raw": "RELIABLE/VOLATILE"
+          }
+        }
+      ],
+      "pubs": [
+        "/rviz2"
+      ],
+      "subs": [
+        "/rviz2"
+      ],
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "history": "Keep last",
+        "depth": 10,
+        "raw": "RELIABLE/VOLATILE"
+      }
+    },
+    {
+      "name": "/rosout",
+      "type": "rcl_interfaces/msg/Log",
+      "publishers": [
+        {
+          "node": "/rviz2",
+          "endpoint_type": "PUBLISHER",
+          "qos": {
+            "reliability": "Reliable",
+            "durability": "Volatile",
+            "history": "Keep last",
+            "depth": 10,
+            "raw": "RELIABLE/VOLATILE"
+          }
+        }
+      ],
+      "subscribers": [],
+      "pubs": [
+        "/rviz2"
+      ],
+      "subs": [],
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "history": "Keep last",
+        "depth": 10,
+        "raw": "RELIABLE/VOLATILE"
+      }
+    },
+    {
+      "name": "/tf",
+      "type": "tf2_msgs/msg/TFMessage",
+      "publishers": [],
+      "subscribers": [
+        {
+          "node": "/rviz2",
+          "endpoint_type": "SUBSCRIPTION",
+          "qos": {
+            "reliability": "Reliable",
+            "durability": "Volatile",
+            "history": "Keep last",
+            "depth": 10,
+            "raw": "RELIABLE/VOLATILE"
+          }
+        }
+      ],
+      "pubs": [],
+      "subs": [
+        "/rviz2"
+      ],
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "history": "Keep last",
+        "depth": 10,
+        "raw": "RELIABLE/VOLATILE"
+      }
+    },
+    {
+      "name": "/tf_static",
+      "type": "tf2_msgs/msg/TFMessage",
+      "publishers": [],
+      "subscribers": [
+        {
+          "node": "/rviz2",
+          "endpoint_type": "SUBSCRIPTION",
+          "qos": {
+            "reliability": "Reliable",
+            "durability": "Transient Local",
+            "history": "Keep last",
+            "depth": 10,
+            "raw": "RELIABLE/TRANSIENT_LOCAL"
+          }
+        }
+      ],
+      "pubs": [],
+      "subs": [
+        "/rviz2"
+      ],
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Transient Local",
+        "history": "Keep last",
+        "depth": 10,
+        "raw": "RELIABLE/TRANSIENT_LOCAL"
+      }
+    }
+  ],
+  "qosPerTopic": [
+    {
+      "topic": "/clicked_point",
+      "type": "geometry_msgs/msg/PointStamped",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "history": "Keep last",
+        "depth": 10,
+        "raw": "RELIABLE/VOLATILE"
+      }
+    },
+    {
+      "topic": "/goal_pose",
+      "type": "geometry_msgs/msg/PoseStamped",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "history": "Keep last",
+        "depth": 10,
+        "raw": "RELIABLE/VOLATILE"
+      }
+    },
+    {
+      "topic": "/initialpose",
+      "type": "geometry_msgs/msg/PoseWithCovarianceStamped",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "history": "Keep last",
+        "depth": 10,
+        "raw": "RELIABLE/VOLATILE"
+      }
+    },
+    {
+      "topic": "/parameter_events",
+      "type": "rcl_interfaces/msg/ParameterEvent",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "history": "Keep last",
+        "depth": 10,
+        "raw": "RELIABLE/VOLATILE"
+      }
+    },
+    {
+      "topic": "/rosout",
+      "type": "rcl_interfaces/msg/Log",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "history": "Keep last",
+        "depth": 10,
+        "raw": "RELIABLE/VOLATILE"
+      }
+    },
+    {
+      "topic": "/tf",
+      "type": "tf2_msgs/msg/TFMessage",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Volatile",
+        "history": "Keep last",
+        "depth": 10,
+        "raw": "RELIABLE/VOLATILE"
+      }
+    },
+    {
+      "topic": "/tf_static",
+      "type": "tf2_msgs/msg/TFMessage",
+      "qos": {
+        "reliability": "Reliable",
+        "durability": "Transient Local",
+        "history": "Keep last",
+        "depth": 10,
+        "raw": "RELIABLE/TRANSIENT_LOCAL"
+      }
+    }
+  ],
+  "tf": {
+    "frames": [
+      "base_footprint",
+      "base_link",
+      "base_scan",
+      "caster_back_link",
+      "imu_link",
+      "odom",
+      "wheel_left_link",
+      "wheel_right_link"
+    ],
+    "edges": [
+      {
+        "parent": "base_footprint",
+        "child": "base_link",
+        "t": [
+          0,
+          0,
+          0.01
+        ],
+        "q": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "time": 1792177894.272,
+        "static": true,
+        "authority": "robot_state_publisher"
+      },
+      {
+        "parent": "base_link",
+        "child": "base_scan",
+        "t": [
+          -0.032,
+          0,
+          0.172
+        ],
+        "q": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "time": 1792177894.273,
+        "static": true,
+        "authority": "robot_state_publisher"
+      },
+      {
+        "parent": "base_link",
+        "child": "imu_link",
+        "t": [
+          -0.032,
+          0,
+          0.068
+        ],
+        "q": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "time": 1792177894.273,
+        "static": true,
+        "authority": "robot_state_publisher"
+      },
+      {
+        "parent": "base_link",
+        "child": "caster_back_link",
+        "t": [
+          -0.081,
+          0,
+          0.004
+        ],
+        "q": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "time": 1792177894.273,
+        "static": true,
+        "authority": "robot_state_publisher"
+      },
+      {
+        "parent": "base_link",
+        "child": "wheel_left_link",
+        "t": [
+          0,
+          0.08,
+          0.023
+        ],
+        "q": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "time": 1792177894.273,
+        "static": false,
+        "authority": "diff_drive_controller"
+      },
+      {
+        "parent": "base_link",
+        "child": "wheel_right_link",
+        "t": [
+          0,
+          -0.08,
+          0.023
+        ],
+        "q": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "time": 1792177894.273,
+        "static": false,
+        "authority": "diff_drive_controller"
+      },
+      {
+        "parent": "odom",
+        "child": "base_footprint",
+        "t": [
+          0,
+          0,
+          0
+        ],
+        "q": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "time": 1792177894.273,
+        "static": false,
+        "authority": "diff_drive_controller"
+      }
+    ],
+    "authority": {
+      "base_link": "robot_state_publisher",
+      "base_footprint->base_link": "robot_state_publisher",
+      "base_scan": "robot_state_publisher",
+      "base_link->base_scan": "robot_state_publisher",
+      "imu_link": "robot_state_publisher",
+      "base_link->imu_link": "robot_state_publisher",
+      "caster_back_link": "robot_state_publisher",
+      "base_link->caster_back_link": "robot_state_publisher",
+      "wheel_left_link": "diff_drive_controller",
+      "base_link->wheel_left_link": "diff_drive_controller",
+      "wheel_right_link": "diff_drive_controller",
+      "base_link->wheel_right_link": "diff_drive_controller",
+      "base_footprint": "diff_drive_controller",
+      "odom->base_footprint": "diff_drive_controller"
+    }
+  },
+  "fixedFrame": {
+    "selected": "map",
+    "options": [
+      "base_footprint",
+      "base_link",
+      "base_scan",
+      "caster_back_link",
+      "imu_link",
+      "odom",
+      "wheel_left_link",
+      "wheel_right_link"
+    ]
+  },
+  "params": [
+    {
+      "name": "/rviz2",
+      "namespace": "/",
+      "params": {
+        "start_type_description_service": true,
+        "use_sim_time": false
+      }
+    }
+  ],
+  "lifecycleStates": [],
+  "rvizStatus": {
+    "globalStatus": "Error",
+    "statusLines": [
+      "error: Fixed Frame: Fixed Frame [map] does not exist",
+      "error: Grid: Fixed Frame [map] does not exist"
+    ],
+    "displays": [
+      {
+        "name": "Grid",
+        "type": "Grid",
+        "enabled": true,
+        "status": "Fixed Frame [map] does not exist",
+        "level": "Error",
+        "messages": [
+          "Fixed Frame [map] does not exist"
+        ]
+      }
+    ]
+  },
+  "rvizElements": [
+    {
+      "name": "Grid",
+      "type": "Grid",
+      "enabled": true,
+      "status": [
+        [
+          "error",
+          "Fixed Frame [map] does not exist",
+          "Transform"
+        ]
+      ]
+    }
+  ],
+  "logs": [
+    "student@ros2lab:~/ros2_ws$ ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py",
+    "Package 'turtlebot3_gazebo' not found: \"package 'turtlebot3_gazebo' not found, searching: ['/opt/ros/jazzy']\"",
+    "Install it with apt (the apt name uses dashes: ros-jazzy-...), then source again.",
+    "(Loading the official ROS 2 Jazzy workspace of TurtleBot3 Burger…)",
+    "(TurtleBot3 Burger: the makers' packages are in ~/ros2_ws/src. Build with colcon build, source install/setup.bash, export TURTLEBOT3_MODEL=burger, then launch. Pick a command above, or type it.)",
+    "student@ros2lab:~/ros2_ws$ ros2 launch nav2_bringup bringup_launch.py use_sim_time:=True",
+    "^C",
+    "[INFO] [rviz2]: Stereo is NOT SUPPORTED",
+    "[INFO] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)",
+    "(The RViz2 window opened below the terminal.)",
+    "student@ros2lab:~/ros2_ws$ ros2 run rviz2 rviz2"
+  ],
+  "errors": [
+    "Package 'turtlebot3_gazebo' not found: \"package 'turtlebot3_gazebo' not found, searching: ['/opt/ros/jazzy']\""
+  ],
+  "nav2": {
+    "plan": null,
+    "localPlan": null,
+    "robotPoseHistory": [],
+    "poseHistory": [],
+    "amclPose": null,
+    "amclPoseHistory": [],
+    "particleCount": 0,
+    "particles": [],
+    "globalCostmap": null,
+    "localCostmap": null,
+    "costmaps": {
+      "global": null,
+      "local": null
+    }
+  },
+  "sensors": {
+    "cameraInfo": null,
+    "imageInfo": null,
+    "pointCloud2": null,
+    "scan": null
+  },
+  "canvases": [
+    {
+      "width": 462,
+      "height": 451,
+      "id": "",
+      "className": ""
+    }
+  ],
+  "rvizViewerCount": 1
+}

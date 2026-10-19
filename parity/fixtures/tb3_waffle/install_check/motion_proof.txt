@@ -1,0 +1,13 @@
+# tb3_waffle, domain 41, 2026-10-17T09:04:20+05:30
+# stop first: TwistStamped zero, 10 messages
+# /odom pose before (x)
+8.43404929052083e-09
+---
+# publish TwistStamped /cmd_vel linear.x=0.1 at 10 Hz for 20 messages (2 s)
+
+# /odom pose after (x)
+0.04435000841942763
+---
+# /odom twist.linear.x after
+0.10000000000025962
+---

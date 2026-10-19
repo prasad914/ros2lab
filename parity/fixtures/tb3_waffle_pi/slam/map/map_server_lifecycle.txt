@@ -1,0 +1,6 @@
+$ ros2 lifecycle set /map_server configure
+Transitioning successful
+$ ros2 lifecycle set /map_server activate
+Transitioning successful
+$ ros2 lifecycle get /map_server
+active [3]

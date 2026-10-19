@@ -1,0 +1,60 @@
+{
+  "goal_name": "goal1",
+  "goal_source": "parity/fixtures/goals.yaml",
+  "goal_yaml": {
+    "description": "Northwest open area (North of start)",
+    "frame_id": "map",
+    "position": {
+      "x": 0.2,
+      "y": 1.0,
+      "z": 0.0
+    },
+    "orientation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.7071068,
+      "w": 0.7071068
+    },
+    "yaw": 1.5708,
+    "status": "FREE"
+  },
+  "goal_msg": {
+    "pose": {
+      "header": {
+        "stamp": {
+          "sec": 121,
+          "nanosec": 740000000
+        },
+        "frame_id": "map"
+      },
+      "pose": {
+        "position": {
+          "x": 0.2,
+          "y": 1.0,
+          "z": 0.0
+        },
+        "orientation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.7071068,
+          "w": 0.7071068
+        }
+      }
+    },
+    "behavior_tree": ""
+  },
+  "send_wall": 1792249727.4229934,
+  "send_sim": 121.74,
+  "accepted": true,
+  "response_wall": 1792249727.4309394,
+  "response_sim": 121.743,
+  "status": 4,
+  "status_name": "SUCCEEDED",
+  "result": {
+    "error_code": 0,
+    "error_msg": ""
+  },
+  "result_wall": 1792249731.3815799,
+  "result_sim": 125.13,
+  "duration_sim_s": 3.3870000000000005
+}

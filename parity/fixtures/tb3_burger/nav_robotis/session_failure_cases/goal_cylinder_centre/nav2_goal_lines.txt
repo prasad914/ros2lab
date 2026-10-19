@@ -1,0 +1,34 @@
+# Excerpt of parity/fixtures/tb3_burger/nav_robotis/session_failure_cases/logs/nav2.log (gitignored)
+# Selection: [planner_server] [controller_server] [bt_navigator] lines stamped wall 1792246134.764 .. 1792246160.318 (send_wall - 1 s .. result_wall + 3 s from parity/fixtures/tb3_burger/nav_robotis/session_failure_cases/goal_cylinder_centre/result.json)
+# Generated 2026-10-17T19:39:26+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+359:[component_container_isolated-1] [INFO] [1792246135.765944073] [bt_navigator]: Begin navigating from current location (0.06, 0.00) to (2.00, 0.50)
+360:[component_container_isolated-1] [INFO] [1792246135.787860476] [controller_server]: Received a goal, begin computing control effort.
+361:[component_container_isolated-1] [WARN] [1792246135.787969912] [controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded goal_checker . This warning will appear once.
+362:[component_container_isolated-1] [WARN] [1792246135.788003691] [controller_server]: No progress checker was specified in parameter 'current_progress_checker'. Server will use only plugin loaded progress_checker . This warning will appear once.
+363:[component_container_isolated-1] [INFO] [1792246136.888532766] [controller_server]: Passing new path to controller.
+370:[component_container_isolated-1] [INFO] [1792246137.888479680] [controller_server]: Passing new path to controller.
+377:[component_container_isolated-1] [INFO] [1792246138.888538202] [controller_server]: Passing new path to controller.
+378:[component_container_isolated-1] [INFO] [1792246139.988544974] [controller_server]: Passing new path to controller.
+380:[component_container_isolated-1] [INFO] [1792246140.988471028] [controller_server]: Passing new path to controller.
+383:[component_container_isolated-1] [INFO] [1792246141.988495912] [controller_server]: Passing new path to controller.
+387:[component_container_isolated-1] [INFO] [1792246142.988491391] [controller_server]: Passing new path to controller.
+388:[component_container_isolated-1] [INFO] [1792246144.088487854] [controller_server]: Passing new path to controller.
+392:[component_container_isolated-1] [INFO] [1792246145.088495473] [controller_server]: Passing new path to controller.
+393:[component_container_isolated-1] [INFO] [1792246146.088486672] [controller_server]: Passing new path to controller.
+397:[component_container_isolated-1] [INFO] [1792246147.188476605] [controller_server]: Passing new path to controller.
+401:[component_container_isolated-1] [INFO] [1792246148.188479644] [controller_server]: Passing new path to controller.
+407:[component_container_isolated-1] [INFO] [1792246149.188503020] [controller_server]: Passing new path to controller.
+412:[component_container_isolated-1] [INFO] [1792246150.188500389] [controller_server]: Passing new path to controller.
+420:[component_container_isolated-1] [INFO] [1792246151.188479686] [controller_server]: Passing new path to controller.
+426:[component_container_isolated-1] [INFO] [1792246152.288482786] [controller_server]: Passing new path to controller.
+430:[component_container_isolated-1] [INFO] [1792246153.288478397] [controller_server]: Passing new path to controller.
+434:[component_container_isolated-1] [INFO] [1792246154.288484752] [controller_server]: Passing new path to controller.
+438:[component_container_isolated-1] [INFO] [1792246155.388480669] [controller_server]: Passing new path to controller.
+445:[component_container_isolated-1] [INFO] [1792246156.388475504] [controller_server]: Passing new path to controller.
+452:[component_container_isolated-1] [INFO] [1792246157.288585469] [controller_server]: Reached the goal!
+453:[component_container_isolated-1] [INFO] [1792246157.316959439] [bt_navigator]: Goal succeeded
+454:[component_container_isolated-1] [INFO] [1792246159.810103037] [bt_navigator]: Begin navigating from current location (2.05, 0.71) to (10.00, 10.00)
+455:[component_container_isolated-1] [WARN] [1792246159.811421602] [planner_server]: GridBased plugin failed to plan from (2.05, 0.71) to (10.00, 10.00): "Goal Coordinates of(10.000000, 10.000000) was outside bounds"
+456:[component_container_isolated-1] [WARN] [1792246159.811567580] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+457:[component_container_isolated-1] [WARN] [1792246159.830459154] [bt_navigator]: [navigate_to_pose] [ActionServer] Aborting handle.
+458:[component_container_isolated-1] [ERROR] [1792246159.830949360] [bt_navigator]: Goal failed

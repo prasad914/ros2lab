@@ -1,0 +1,96 @@
+Type: rcl_interfaces/msg/Log
+
+Publisher count: 6
+
+Node name: launch_ros_9071
+Node namespace: /
+Topic type: rcl_interfaces/msg/Log
+Topic type hash: RIHS01_e28ce254ca8abc06abf92773b74602cdbf116ed34fbaf294fb9f81da9f318eac
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.6f.23.11.5f.00.00.00.00.00.00.03.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: 10000000000 nanoseconds
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: ros_gz_bridge
+Node namespace: /
+Topic type: rcl_interfaces/msg/Log
+Topic type hash: RIHS01_e28ce254ca8abc06abf92773b74602cdbf116ed34fbaf294fb9f81da9f318eac
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.76.22.08.05.00.00.00.00.00.00.03.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: 10000000000 nanoseconds
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: robot_state_publisher
+Node namespace: /
+Topic type: rcl_interfaces/msg/Log
+Topic type hash: RIHS01_e28ce254ca8abc06abf92773b74602cdbf116ed34fbaf294fb9f81da9f318eac
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.77.22.25.fd.00.00.00.00.00.00.03.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: 10000000000 nanoseconds
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: slam_toolbox
+Node namespace: /
+Topic type: rcl_interfaces/msg/Log
+Topic type hash: RIHS01_e28ce254ca8abc06abf92773b74602cdbf116ed34fbaf294fb9f81da9f318eac
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.a4.23.7b.b7.00.00.00.00.00.00.03.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: 10000000000 nanoseconds
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: transform_listener_impl_5ac45398af20
+Node namespace: /
+Topic type: rcl_interfaces/msg/Log
+Topic type hash: RIHS01_e28ce254ca8abc06abf92773b74602cdbf116ed34fbaf294fb9f81da9f318eac
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.a4.23.7b.b7.00.00.00.00.00.00.20.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: 10000000000 nanoseconds
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: _ros2cli_daemon_41_a1211b7d652744caaa2a0509de62123d
+Node namespace: /
+Topic type: rcl_interfaces/msg/Log
+Topic type hash: RIHS01_e28ce254ca8abc06abf92773b74602cdbf116ed34fbaf294fb9f81da9f318eac
+Endpoint type: PUBLISHER
+GID: 01.0f.17.2e.c1.23.6c.c7.00.00.00.00.00.00.03.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: 10000000000 nanoseconds
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 0
+

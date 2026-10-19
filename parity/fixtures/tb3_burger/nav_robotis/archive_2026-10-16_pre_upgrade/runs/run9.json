@@ -1,0 +1,56 @@
+{
+  "run_label": "run9",
+  "timestamp": 1792164741.415664,
+  "results": {
+    "goal1": {
+      "success": false,
+      "duration": 0.0,
+      "wall_duration": 0.0,
+      "status": "SEND_TIMEOUT",
+      "goal_target": [
+        0.2,
+        1.0
+      ]
+    },
+    "goal2": {
+      "success": false,
+      "duration": 0.0,
+      "wall_duration": 0.0,
+      "status": "SEND_TIMEOUT",
+      "goal_target": [
+        2.5,
+        1.95
+      ]
+    },
+    "goal3": {
+      "success": false,
+      "duration": 0.0,
+      "wall_duration": 0.0,
+      "status": "SEND_TIMEOUT",
+      "goal_target": [
+        3.75,
+        0.5
+      ]
+    },
+    "goal4": {
+      "success": false,
+      "duration": 0.0,
+      "wall_duration": 0.0,
+      "status": "SEND_TIMEOUT",
+      "goal_target": [
+        2.0,
+        -1.4
+      ]
+    },
+    "goal5": {
+      "success": false,
+      "duration": 0.0,
+      "wall_duration": 0.0,
+      "status": "REJECTED",
+      "goal_target": [
+        1.5,
+        0.0
+      ]
+    }
+  }
+}

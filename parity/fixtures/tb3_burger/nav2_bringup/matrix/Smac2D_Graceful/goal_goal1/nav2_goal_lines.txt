@@ -1,0 +1,15 @@
+# Excerpt of /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/Smac2D_Graceful/logs/nav2demo.log (gitignored)
+# Selection: [planner_server] [controller_server] [bt_navigator] lines stamped wall 1792250694.719 .. 1792250705.178 (send_wall - 1 s .. result_wall + 3 s from /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/Smac2D_Graceful/goal_goal1/result.json)
+# Generated 2026-10-17T20:55:15+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+390:[component_container_isolated-6] [INFO] [1792250695.724567316] [bt_navigator]: Begin navigating from current location (0.04, -0.01) to (0.20, 1.00)
+391:[component_container_isolated-6] [INFO] [1792250695.747930637] [controller_server]: Received a goal, begin computing control effort.
+392:[component_container_isolated-6] [WARN] [1792250695.748211420] [controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded general_goal_checker . This warning will appear once.
+393:[component_container_isolated-6] [WARN] [1792250695.748294165] [controller_server]: No progress checker was specified in parameter 'current_progress_checker'. Server will use only plugin loaded progress_checker . This warning will appear once.
+395:[component_container_isolated-6] [INFO] [1792250696.798531540] [controller_server]: Passing new path to controller.
+396:[component_container_isolated-6] [INFO] [1792250697.848641570] [controller_server]: Passing new path to controller.
+397:[component_container_isolated-6] [INFO] [1792250698.848516767] [controller_server]: Passing new path to controller.
+398:[component_container_isolated-6] [INFO] [1792250699.848590779] [controller_server]: Passing new path to controller.
+399:[component_container_isolated-6] [INFO] [1792250700.898576208] [controller_server]: Passing new path to controller.
+400:[component_container_isolated-6] [INFO] [1792250701.898587738] [controller_server]: Passing new path to controller.
+401:[component_container_isolated-6] [INFO] [1792250702.148740672] [controller_server]: Reached the goal!
+402:[component_container_isolated-6] [INFO] [1792250702.177274347] [bt_navigator]: Goal succeeded

@@ -1,0 +1,12 @@
+# Excerpt of parity/fixtures/tb3_burger/nav_robotis/run2_attempt1_clock_bug/run2_attempt2_logs/nav2.log (gitignored)
+# Selection: lines matching [collision_monitor]
+# Generated 2026-10-17T19:34:37+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+147:[component_container_isolated-1] [INFO] [1792244945.379411141] [collision_monitor]: 
+275:[component_container_isolated-1] [INFO] [1792244946.810583967] [collision_monitor]: Configuring
+276:[component_container_isolated-1] [INFO] [1792244946.835802375] [collision_monitor]: [scan]: Creating Scan
+277:[component_container_isolated-1] [INFO] [1792244946.844637556] [collision_monitor]: [PolygonStop]: Creating Polygon
+278:[component_container_isolated-1] [INFO] [1792244946.844742065] [collision_monitor]: [PolygonStop]: Creating Circle
+279:[component_container_isolated-1] [INFO] [1792244946.861844303] [collision_monitor]: [PolygonSlow]: Creating Polygon
+280:[component_container_isolated-1] [INFO] [1792244946.872722864] [collision_monitor]: [FootprintApproach]: Creating Polygon
+281:[component_container_isolated-1] [INFO] [1792244946.875414403] [collision_monitor]: [FootprintApproach]: Polygon points are not defined. Using dynamic subscription instead.
+282:[component_container_isolated-1] [INFO] [1792244946.886784519] [collision_monitor]: [FootprintApproach]: Making footprint subscriber on /local_costmap/published_footprint topic

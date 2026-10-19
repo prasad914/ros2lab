@@ -1,0 +1,25 @@
+# Excerpt of parity/fixtures/tb3_waffle/nav_robotis/session_goal1/session_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-17T19:34:37+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:nothing running for domain 41
+2:[2026-10-17T18:41:51+05:30] start_reference.sh tb3_waffle nav_robotis 41 ref41 (OUT_DIR=parity/fixtures/tb3_waffle/nav_robotis/session_goal1)
+3:Started nav_robotis for tb3_waffle on domain 41. Logs: parity/fixtures/tb3_waffle/nav_robotis/session_goal1/logs  PIDs: /tmp/ros2lab_ref/41-nav_robotis-20261017T184154-141955.pids
+4:Note: TB4 Gazebo may start paused – if /clock does not advance, unpause it (gz service on the world control service) and record that in run_info.txt.
+5:ready: /clock advancing (sim 5.2 s)
+6:ready: navigate_to_pose action server
+7:ready: lifecycle_manager_localization is_active
+8:ready: localized, /amcl_pose (0.073, -0.013)
+9:READY after 4.7 s wall
+10:ready: /clock advancing (sim 8.4 s)
+11:ready: navigate_to_pose action server
+12:ready: lifecycle_manager_navigation is_active
+13:READY after 2.2 s wall
+14:[2026-10-17T18:42:25+05:30] capture_reference.sh snapshot
+15:WARNING: Be aware that there are nodes in the graph that share an exact name, which can have unintended side effects.
+16:Captured snapshot to parity/fixtures/tb3_waffle/nav_robotis/session_goal1/snapshot
+17:[2026-10-17T18:59:23+05:30] send goal1
+18:{"goal_name": "goal1", "accepted": true, "status": 4, "status_name": "SUCCEEDED", "result": {"error_code": 0, "error_msg": ""}, "duration_sim_s": 3.6339999999999577}
+19:[2026-10-17T18:59:33+05:30] stop_reference.sh 41
+20:stopped domain 41; no processes with ROS_DOMAIN_ID=41 remain
+21:[2026-10-17T18:59:42+05:30] domain 41 empty after stop
+22:12 planner_server/controller_server/bt_navigator lines between wall 1792243765.327 and 1792243776.282

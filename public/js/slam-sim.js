@@ -62,15 +62,17 @@ export function startSlam(sys, kind, desc, { NavNode, C }) {
   class SlamToolbox extends SlamBase {
     constructor(desc) {
       super(sys, `slam_${kind}`, { ...desc, name: desc.name || "slam_toolbox" });
-      this.mode = kind; this.mapFrame = String(this.P.map_frame || "map");
+      this.mode = kind; this.mapFrame = String(this.P.map_frame || "map"); this.noBond = true;
       this.announce(null);
       this.info(`Node using stack size ${num(this.P.stack_size_to_use, 40000000)}`);
       if (kind === "toolbox_lifelong") this.warn("(ROS2Lab) lifelong mapping is modelled like online mapping in the practice simulator.");
     }
     endpoints() {
       const S = "slam_toolbox/";
-      return { subs: [[String(this.P.scan_topic || "/scan"), "sensor_msgs/msg/LaserScan"], ["initialpose", "geometry_msgs/msg/PoseWithCovarianceStamped"], ["slam_toolbox/feedback", "visualization_msgs/msg/InteractiveMarkerFeedback"]],
-        pubs: [["map", "nav_msgs/msg/OccupancyGrid"], ["map_metadata", "nav_msgs/msg/MapMetaData"], ["pose", "geometry_msgs/msg/PoseWithCovarianceStamped"], ["/tf", "tf2_msgs/msg/TFMessage"], ["slam_toolbox/graph_visualization", "visualization_msgs/msg/MarkerArray"], ["slam_toolbox/scan_visualization", "sensor_msgs/msg/LaserScan"], ["slam_toolbox/update", "visualization_msgs/msg/InteractiveMarkerUpdate"]],
+      // real (async mapping): /scan best effort, /map and /map_metadata transient_local, slam_toolbox also subscribes its
+      // own /map; /initialpose only in localization mode (parity/fixtures/*/slam/qos, topic_list.txt)
+      return { subs: [[String(this.P.scan_topic || "/scan"), "sensor_msgs/msg/LaserScan", "BEST_EFFORT/VOLATILE"], ["map", "nav_msgs/msg/OccupancyGrid"], ...(kind === "toolbox_localization" ? [["initialpose", "geometry_msgs/msg/PoseWithCovarianceStamped"]] : []), ["slam_toolbox/feedback", "visualization_msgs/msg/InteractiveMarkerFeedback"]],
+        pubs: [["map", "nav_msgs/msg/OccupancyGrid", "RELIABLE/TRANSIENT_LOCAL"], ["map_metadata", "nav_msgs/msg/MapMetaData", "RELIABLE/TRANSIENT_LOCAL"], ["pose", "geometry_msgs/msg/PoseWithCovarianceStamped"], ["/tf", "tf2_msgs/msg/TFMessage"], ["slam_toolbox/graph_visualization", "visualization_msgs/msg/MarkerArray"], ["slam_toolbox/scan_visualization", "sensor_msgs/msg/LaserScan"], ["slam_toolbox/update", "visualization_msgs/msg/InteractiveMarkerUpdate"]],
         srvs: [[S + "dynamic_map", "nav_msgs/srv/GetMap"], [S + "pause_new_measurements", "slam_toolbox/srv/Pause"], [S + "serialize_map", "slam_toolbox/srv/SerializePoseGraph"], [S + "deserialize_map", "slam_toolbox/srv/DeserializePoseGraph"], [S + "reset", "slam_toolbox/srv/Reset"], [S + "save_map", "slam_toolbox/srv/SaveMap"], [S + "clear_changes", "slam_toolbox/srv/Clear"], [S + "manual_loop_closure", "slam_toolbox/srv/LoopClosure"], [S + "toggle_interactive_mode", "slam_toolbox/srv/ToggleInteractive"], [S + "clear_queue", "slam_toolbox/srv/ClearQueue"]] };
     }
     onConfigure() {
@@ -153,7 +155,7 @@ export function startSlam(sys, kind, desc, { NavNode, C }) {
       }
       return out;
     }
-    endpoints() { return { subs: [["scan", "sensor_msgs/msg/LaserScan"], ["odom", "nav_msgs/msg/Odometry"], ["imu", "sensor_msgs/msg/Imu"]], pubs: [["submap_list", "cartographer_ros_msgs/msg/SubmapList"], ["trajectory_node_list", "visualization_msgs/msg/MarkerArray"], ["landmark_poses_list", "visualization_msgs/msg/MarkerArray"], ["constraint_list", "visualization_msgs/msg/MarkerArray"], ["scan_matched_points2", "sensor_msgs/msg/PointCloud2"], ["/tf", "tf2_msgs/msg/TFMessage"]], srvs: [["submap_query", "cartographer_ros_msgs/srv/SubmapQuery"], ["trajectory_query", "cartographer_ros_msgs/srv/TrajectoryQuery"], ["start_trajectory", "cartographer_ros_msgs/srv/StartTrajectory"], ["finish_trajectory", "cartographer_ros_msgs/srv/FinishTrajectory"], ["write_state", "cartographer_ros_msgs/srv/WriteState"], ["get_trajectory_states", "cartographer_ros_msgs/srv/GetTrajectoryStates"], ["read_metrics", "cartographer_ros_msgs/srv/ReadMetrics"]] }; }
+    endpoints() { const o = this.opts || {}, BE = "BEST_EFFORT/VOLATILE"; return { subs: [["scan", "sensor_msgs/msg/LaserScan", BE], ...(o.use_odometry === true ? [["odom", "nav_msgs/msg/Odometry", BE]] : []), ...(o["TRAJECTORY_BUILDER_2D.use_imu_data"] === false ? [] : [["imu", "sensor_msgs/msg/Imu", BE]])], pubs: [["submap_list", "cartographer_ros_msgs/msg/SubmapList"], ["trajectory_node_list", "visualization_msgs/msg/MarkerArray"], ["landmark_poses_list", "visualization_msgs/msg/MarkerArray"], ["constraint_list", "visualization_msgs/msg/MarkerArray"], ["scan_matched_points2", "sensor_msgs/msg/PointCloud2"], ["/tf", "tf2_msgs/msg/TFMessage"]], srvs: [["submap_query", "cartographer_ros_msgs/srv/SubmapQuery"], ["trajectory_query", "cartographer_ros_msgs/srv/TrajectoryQuery"], ["start_trajectory", "cartographer_ros_msgs/srv/StartTrajectory"], ["finish_trajectory", "cartographer_ros_msgs/srv/FinishTrajectory"], ["write_state", "cartographer_ros_msgs/srv/WriteState"], ["get_trajectory_states", "cartographer_ros_msgs/srv/GetTrajectoryStates"], ["read_metrics", "cartographer_ros_msgs/srv/ReadMetrics"]] }; }
     tick() {
       if (!this.announced) { this.announced = true; this.glog("map_builder_bridge.cc", 79, "Added trajectory with ID '0'."); }
       if (this.insertScan(this.maxRange, this.missRay)) { const k = Math.floor(this.scans / 90); if (k > (this.submaps || 0) - 1) { this.submaps = k + 1; } }
@@ -167,7 +169,7 @@ export function startSlam(sys, kind, desc, { NavNode, C }) {
       this.res = num(argOf(args, "-resolution", "0.05"), 0.05); this.period = num(argOf(args, "-publish_period_sec", "1.0"), 1.0);
       this.state = "active"; this.last = -1e9;
     }
-    endpoints() { return { subs: [["submap_list", "cartographer_ros_msgs/msg/SubmapList"]], pubs: [["map", "nav_msgs/msg/OccupancyGrid"]], cli: [["submap_query", "cartographer_ros_msgs/srv/SubmapQuery"]] }; }
+    endpoints() { return { subs: [["submap_list", "cartographer_ros_msgs/msg/SubmapList"]], pubs: [["map", "nav_msgs/msg/OccupancyGrid", "RELIABLE/TRANSIENT_LOCAL"]], cli: [["submap_query", "cartographer_ros_msgs/srv/SubmapQuery"]] }; }
     tick(t) {
       const c = sys.models.find((m) => m.role === "slam_carto" && !m.dead); if (!c || !c.scans || t - this.last < this.period) return;
       this.last = t;

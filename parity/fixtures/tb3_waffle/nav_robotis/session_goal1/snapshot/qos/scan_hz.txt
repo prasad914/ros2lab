@@ -1,0 +1,9 @@
+# clock: sim time (ros2 topic hz --use-sim-time --window 50)
+average rate: 10.101
+	min: 0.098s max: 0.100s std dev: 0.00058s window: 12
+average rate: 9.977
+	min: 0.093s max: 0.132s std dev: 0.00712s window: 22
+average rate: 10.003
+	min: 0.093s max: 0.132s std dev: 0.00612s window: 33
+average rate: 10.025
+	min: 0.093s max: 0.132s std dev: 0.00532s window: 44

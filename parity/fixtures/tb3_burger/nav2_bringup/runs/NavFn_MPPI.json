@@ -1,0 +1,25 @@
+{
+  "run_label": "NavFn_MPPI",
+  "timestamp": 1792090985.6576684,
+  "results": {
+    "goal1": {
+      "success": true,
+      "duration": 8.337,
+      "wall_duration": 8.379589319229126,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        0.009458575421829325,
+        0.6792542323638207,
+        1.4983329893327066
+      ],
+      "position_error_m": 0.3730735610262414,
+      "amcl_cov_x": 0.011877943622798964,
+      "amcl_cov_y": 0.05685902790347874,
+      "amcl_cov_yaw": 0.05906663869915807
+    }
+  }
+}

@@ -1,0 +1,10 @@
+# clock: sim time (ros2 topic hz --use-sim-time --window 50)
+average rate: 1.750
+	min: 0.498s max: 0.619s std dev: 0.05263s window: 3
+average rate: 1.693
+	min: 0.498s max: 0.622s std dev: 0.04724s window: 5
+average rate: 1.743
+	min: 0.498s max: 0.622s std dev: 0.04830s window: 7
+average rate: 1.724
+	min: 0.498s max: 0.622s std dev: 0.04415s window: 9
+failed to initialize wait set: the given context is not valid, either rcl_init() was not called or rcl_shutdown() was called., at ./src/rcl/wait.c:130

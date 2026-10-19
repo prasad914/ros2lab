@@ -85,3 +85,4 @@ Use the Firebase CLI from the project root: `firebase deploy --only hosting` for
 `firebase deploy --only functions,firestore:rules,storage` when those changed. Project id: `ros2lab`.
 After editing files under `public/robots/ws/<ws>/src/` (not normally allowed), rebuild bundles with
 `node tools/build-ws-bundles.mjs`.
+@parity/CLAUDE.md

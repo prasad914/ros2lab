@@ -1,0 +1,21 @@
+# Excerpt of parity/fixtures/tb3_waffle_pi/nav_robotis/session_goal1_attempt1/logs/nav2.log (gitignored)
+# Selection: [planner_server] [controller_server] [bt_navigator] lines stamped wall 1792242582.656 .. 1792242599.436 (send_wall - 1 s .. result_wall + 3 s from parity/fixtures/tb3_waffle_pi/nav_robotis/session_goal1_attempt1/goal_goal1/result.json)
+# Generated 2026-10-17T19:34:37+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+367:[component_container_isolated-1] [INFO] [1792242583.666389336] [bt_navigator]: Begin navigating from current location (0.06, -0.00) to (0.20, 1.00)
+368:[component_container_isolated-1] [INFO] [1792242583.699912275] [controller_server]: Received a goal, begin computing control effort.
+369:[component_container_isolated-1] [WARN] [1792242583.700128557] [controller_server]: No goal checker was specified in parameter 'current_goal_checker'. Server will use only plugin loaded goal_checker . This warning will appear once.
+370:[component_container_isolated-1] [WARN] [1792242583.700185965] [controller_server]: No progress checker was specified in parameter 'current_progress_checker'. Server will use only plugin loaded progress_checker . This warning will appear once.
+371:[component_container_isolated-1] [INFO] [1792242584.800944888] [controller_server]: Passing new path to controller.
+372:[component_container_isolated-1] [INFO] [1792242585.800884834] [controller_server]: Passing new path to controller.
+373:[component_container_isolated-1] [INFO] [1792242586.801134490] [controller_server]: Passing new path to controller.
+374:[component_container_isolated-1] [INFO] [1792242587.800949981] [controller_server]: Passing new path to controller.
+375:[component_container_isolated-1] [INFO] [1792242588.901011684] [controller_server]: Passing new path to controller.
+376:[component_container_isolated-1] [INFO] [1792242589.901229125] [controller_server]: Passing new path to controller.
+377:[component_container_isolated-1] [INFO] [1792242590.901001895] [controller_server]: Passing new path to controller.
+378:[component_container_isolated-1] [INFO] [1792242591.900905394] [controller_server]: Passing new path to controller.
+379:[component_container_isolated-1] [INFO] [1792242593.000964507] [controller_server]: Passing new path to controller.
+380:[component_container_isolated-1] [INFO] [1792242594.000895994] [controller_server]: Passing new path to controller.
+381:[component_container_isolated-1] [INFO] [1792242595.000899709] [controller_server]: Passing new path to controller.
+382:[component_container_isolated-1] [INFO] [1792242596.001323687] [controller_server]: Passing new path to controller.
+383:[component_container_isolated-1] [INFO] [1792242596.402602097] [controller_server]: Reached the goal!
+384:[component_container_isolated-1] [INFO] [1792242596.430268981] [bt_navigator]: Goal succeeded

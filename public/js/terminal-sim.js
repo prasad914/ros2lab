@@ -107,6 +107,21 @@ const baseName = (p) => p.split("/").filter(Boolean).pop() || "/";
 const sortNames = (a, b) => a.replace(/^\./, "").localeCompare(b.replace(/^\./, ""), "en", { sensitivity: "base" });
 
 // ========================= the shell (logic only) =========================
+// "a ; b" -> ["a", "b"]; quotes and \; keep their ;
+function splitSemicolons(line) {
+  const out = []; let cur = "", q = null;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (q) { cur += c; if (c === q) q = null; continue; }
+    if (c === '"' || c === "'") { q = c; cur += c; continue; }
+    if (c === "\\" && line[i + 1] === ";") { cur += "\\;"; i++; continue; }
+    if (c === ";") { if (cur.trim()) out.push(cur.trim()); cur = ""; continue; }
+    cur += c;
+  }
+  if (cur.trim()) out.push(cur.trim());
+  return out;
+}
+
 export class Shell {
   constructor(spec = {}) {
     this.spec = spec;
@@ -286,6 +301,19 @@ export class Shell {
     let line = rawLine.trim();
     this.lastError = false;
     if (!line) return { lines: [] };
+    // a ; b: run both, whatever a returns (a ; outside quotes, not \;)
+    const semi = splitSemicolons(line);
+    if (semi.length > 1) {
+      this.history.push(line);
+      const all = [];
+      for (const part of semi) {
+        const r = this.run(part);
+        this.history.pop();
+        all.push(...r.lines);
+        if (r.clear || r.nano || r.code || r.python || r.realLaunch || r.realRun || r.asyncJob) return this.result(all, r);   // a launch / run takes the terminal over
+      }
+      return this.result(all);
+    }
     // a && b: run b only if a worked
     if (/\s&&\s/.test(line) && !/["'][^"']*&&[^"']*["']/.test(line)) {
       this.history.push(line);
@@ -294,7 +322,7 @@ export class Shell {
         const r = this.run(part);
         this.history.pop();
         all.push(...r.lines);
-        if (r.clear || r.nano || r.code || r.python || this.lastError) return this.result(all, r);
+        if (r.clear || r.nano || r.code || r.python || r.realLaunch || r.realRun || r.asyncJob || this.lastError) return this.result(all, r);
       }
       return this.result(all);
     }
@@ -305,6 +333,18 @@ export class Shell {
     const special = this.specialLine(line);
     if (special) return this.result(special);
     const tokens = this.tokenize(line);
+    const scopedEnv = {};
+    while (typeof tokens[0] === "string" && /^[A-Za-z_][A-Za-z0-9_]*=/.test(tokens[0])) {
+      const [name, ...value] = tokens.shift().split("=");
+      scopedEnv[name] = Object.hasOwn(this.env, name) ? this.env[name] : undefined;
+      this.env[name] = value.join("=");
+    }
+    const restoreScopedEnv = () => {
+      for (const [name, value] of Object.entries(scopedEnv)) {
+        if (value === undefined) delete this.env[name];
+        else this.env[name] = value;
+      }
+    };
     const segments = [[]];
     let redirect = null;
     for (let i = 0; i < tokens.length; i++) {
@@ -313,10 +353,11 @@ export class Shell {
       else if (typeof t === "object") { redirect = { append: t.op === ">>", target: tokens[i + 1] }; i++; }
       else segments[segments.length - 1].push(t);
     }
-    if (redirect && typeof redirect.target !== "string") return this.result([this.err("bash: syntax error near unexpected token `newline'")]);
+    if (redirect && typeof redirect.target !== "string") { restoreScopedEnv(); return this.result([this.err("bash: syntax error near unexpected token `newline'")]); }
     this.piped = segments.length > 1 || !!redirect;   // ls prints one name per line when its output is not the screen
     let res = this.exec(segments[0], false);
     this.piped = false;
+    restoreScopedEnv();
     if (bg) res = { ...res, bg: true };
     for (const seg of segments.slice(1)) {
       if (res.clear || res.nano || res.code || res.python) break;
@@ -480,7 +521,7 @@ export class Shell {
           if (long) {
             for (const n of names) {
               const nd = this.node(full(n)) || { type: "d", mode: "rwxr-xr-x" };
-              const size = nd.type === "d" ? 4096 : (nd.content || "").length;
+              const size = nd.type === "d" ? 4096 : nd.bytes ? nd.bytes.length : new TextEncoder().encode(nd.content || "").length;   // binary files (a saved map.pgm) by their bytes
               L.push({ text: `${nd.type === "d" ? "d" : "-"}${nd.mode} 1 ${USER} ${USER} ${String(size).padStart(5)} Oct  2 10:15 ${n}`,
                 cls: nd.type === "d" ? "dir" : nd.mode[2] === "x" ? "exe" : undefined });
             }
@@ -1169,9 +1210,7 @@ export class Shell {
     }
     // an official robot workspace (real-launch.js): the real launch system, and its models for ros2 run
     if (sub === "launch" && a && !a.startsWith("-") && this.realWs && this.realWs.api.owns(this, a)) {
-      const R = this.realWs;   // the maker's real-robot launch needs the course administrator's hardware license
-      const simulated = args.some((x) => /^(use_mock_hardware|use_fake_hardware|mock_hardware|fake_hardware|sim|use_sim):=(true|True|1)$|^hardware_type:=(fake|mock|gz|gz_classic|sim)$|^backend:=(sim|cflib_sim)$/.test(x));
-      if (!simulated && R.realCmds && R.realCmds.includes(`${a} ${b}`) && R.hwGate) { const gt = R.hwGate(); if (!gt.ok) { if (!this.graph) this.graph = new RosGraph(this, []); return this.graph.hwLocked(gt.message); } }
+      // the real-hardware license lock goes by what the launch starts (real-launch.js hwLock), not by the command typed
       return { lines: [], realLaunch: args.slice(1) };
     }
     if (sub === "run" && a && b && this.realWs && this.realWs.api.runnable(this, a, b)) {
@@ -1452,17 +1491,43 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
       if (c !== undefined) return at(c);
       // an installed package's share folder (official workspaces, /opt/ros/jazzy)
       for (const root of [`${HOME}/ros2_ws/install/${m[1]}/share/${m[1]}`, `/opt/ros/jazzy/share/${m[1]}`]) { const n = sh.node(`${root}/${m[2]}/${m[3]}`); if (n && n.type === "f") return at(n.content); }
+      const sub = `/${m[1]}/${m[2]}/${m[3]}`;
+      for (const [k, n] of sh.fs) { if (n && n.type === "f" && k.endsWith(sub)) return at(n.content); }
       return null;
     }
     m = str.match(/^model:\/\/([\w-]+)\/(.+)$/);   // Gazebo model:// URIs, through GZ_SIM_RESOURCE_PATH
-    if (m) for (const d of String((sh.graph && sh.graph.gz && sh.graph.gz.env && sh.graph.gz.env.GZ_SIM_RESOURCE_PATH) || sh.env.GZ_SIM_RESOURCE_PATH || "").split(":").filter(Boolean)) { const n = sh.node(`${d}/${m[1]}/${m[2]}`); if (n && n.type === "f") return at(n.content); }
+    if (m) {
+      const dirs = [
+        ...String((sh.graph && sh.graph.gz && sh.graph.gz.env && sh.graph.gz.env.GZ_SIM_RESOURCE_PATH) || sh.env.GZ_SIM_RESOURCE_PATH || "").split(":"),
+        ...String((sh.graph && sh.graph.gz && sh.graph.gz.env && sh.graph.gz.env.IGN_GAZEBO_RESOURCE_PATH) || sh.env.IGN_GAZEBO_RESOURCE_PATH || "").split(":"),
+        ...String((sh.graph && sh.graph.gz && sh.graph.gz.env && sh.graph.gz.env.SDF_PATH) || sh.env.SDF_PATH || "").split(":"),
+        `${HOME}/ros2_ws/install/${m[1]}/share/${m[1]}/models`,
+        `${HOME}/ros2_ws/install/turtlebot3_gazebo/share/turtlebot3_gazebo/models`,
+        `${HOME}/ros2_ws/install/turtlebot3_common/share/turtlebot3_common/models`,
+        `${HOME}/ros2_ws/install/${m[1]}/share/${m[1]}`,
+        `${HOME}/ros2_ws/src/turtlebot3/turtlebot3_simulations/turtlebot3_gazebo/models`,
+        `/opt/ros/jazzy/share/${m[1]}/models`,
+        `/opt/ros/jazzy/share/${m[1]}`,
+      ].filter(Boolean);
+      for (const d of dirs) {
+        const n = sh.node(`${d}/${m[1]}/${m[2]}`) || sh.node(`${d}/${m[2]}`);
+        if (n && n.type === "f") return at(n.content);
+      }
+      const sub = `/${m[1]}/${m[2]}`;
+      for (const [k, n] of sh.fs) { if (n && n.type === "f" && k.endsWith(sub)) return at(n.content); }
+    }
     m = str.match(/^file:\/\/(\/.+)$/) || str.match(/^(\/.+)$/);
     if (m) { const n = sh.node(m[1]); return n && n.type === "f" ? at(n.content) : null; }
     return null;
   };
 
   function vizChanged(ch) {
-    if (ch.fixedFrame) sh.viz.fixedFrame = ch.fixedFrame;
+    if (ch.fixedFrame) {
+      sh.viz.fixedFrame = ch.fixedFrame;
+      if (sh.graph?.frameManager && typeof sh.graph.frameManager.setFixedFrame === "function") {
+        sh.graph.frameManager.setFixedFrame(ch.fixedFrame);
+      }
+    }
     if (ch.displays) { sh.viz.displays = ch.displays; paintMoveit(); }   // MotionPlanning / PlanningScene / Trajectory ticked or unticked
     if (ch.joints) sh.viz.joints = { ...sh.viz.joints, ...ch.joints };
     deliverPending();
@@ -1482,7 +1547,16 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
   function rvizPublished(topic, type, msg) {
     sh.viz.published = sh.viz.published || {};
     sh.viz.published[topic] = { type, msg };
-    if (sh.graph) sh.graph.lastPub = { topic, type };
+    if (sh.graph) {
+      sh.graph.lastPub = { topic, type };
+      sh.graph.lastPubMsg = { topic, type, msg };
+      if (sh.graph.nav2Api && sh.graph.nav2) {
+        sh.graph.nav2Api.nav2Topic(sh.graph, topic, type, msg);
+      }
+      if (sh.graph.pubOther) {
+        sh.graph.pubOther(topic, type, msg, true);
+      }
+    }
     addLine({ text: `(RViz published a ${type.split("/").pop()} on ${topic}. Try: ros2 topic echo ${topic})`, cls: "hint" }); scroll();
     afterCommand("");
   }
@@ -1512,7 +1586,16 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
       vizLoading = true;
       import("./rviz.js").then((mod) => {
         vizLoading = false; vizMod = mod;
-        viewer = mod.createRviz(rvizHolder, { fixedFrame: sh.viz.fixedFrame, displays: sh.viz.displays, resolve: resolveMesh, onChange: vizChanged, onSave: saveConfig, savePath: spec.rvizSave || "~/my_config.rviz", plugins: () => [...sh.rosPkgs].filter((p) => /^(rviz_|moveit_rviz_plugin$|nav2_rviz_plugins$|slam_toolbox$)/.test(p)),
+        viewer = mod.createRviz(rvizHolder, {
+          fixedFrame: (sh.graph?.frameManager ? sh.graph.frameManager.fixedFrame : sh.viz.fixedFrame),
+          frameManager: sh.graph?.frameManager,
+          tf: sh.graph?.tf,
+          displays: sh.viz.displays,
+          resolve: resolveMesh,
+          onChange: vizChanged,
+          onSave: saveConfig,
+          savePath: spec.rvizSave || "~/my_config.rviz",
+          plugins: () => [...sh.rosPkgs].filter((p) => /^(rviz_|moveit_rviz_plugin$|nav2_rviz_plugins$|slam_toolbox$)/.test(p)),
           nav2: { state: () => (sh.graph.nav2Api ? sh.graph.nav2Api.nav2Panel(sh.graph).state() : { navigation: "unknown", localization: "unknown", feedback: null }), command: (c) => (sh.graph.nav2Api ? sh.graph.nav2Api.nav2Panel(sh.graph).command(c) : false), goal: (p, th) => (sh.graph.nav2Api && sh.graph.nav2 ? sh.graph.nav2Api.nav2Panel(sh.graph).goal(p, th) : false), waypoints: (p) => (sh.graph.nav2Api && sh.graph.nav2 ? sh.graph.nav2Api.nav2Panel(sh.graph).waypoints(p) : false) }, onLog: (t) => { const rz = sh.graph.nodes.find((n) => n.kind === "rviz"); if (rz) { (sh.graph.notices = sh.graph.notices || []).push({ node: rz.full, text: t, cls: "warn-line" }); flushNotices(); } },
           configName: sh.viz.configName || "", topics: () => (sh.graph ? [...sh.graph.topics()].map(([name, t]) => ({ name, type: t.type, pubs: t.by.pubs.length })) : []), onPublish: rvizPublished });
         if (sh.viz.configText) viewer.loadConfig(sh.viz.configText, sh.viz.configName);

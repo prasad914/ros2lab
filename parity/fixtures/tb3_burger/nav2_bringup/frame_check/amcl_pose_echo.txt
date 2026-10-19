@@ -1,0 +1,3 @@
+# ros2 topic echo --once --qos-durability transient_local --qos-reliability reliable /amcl_pose
+WARNING: topic [/amcl_pose] does not appear to be published yet
+Could not determine the type for the passed topic

@@ -1,0 +1,151 @@
+{
+  "run_label": "run3",
+  "timestamp": 1792239874.5425153,
+  "results": {
+    "goal1": {
+      "success": true,
+      "duration": 6.029,
+      "wall_duration": 7.949205160140991,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "result_sim_time": 30.259,
+      "final_tf_pose": [
+        0.2235036578478071,
+        0.7786401523514448,
+        1.6155993287948467,
+        30.24
+      ],
+      "final_amcl_pose": [
+        0.22861045363807475,
+        0.6317444841908243,
+        1.5903368427351259,
+        29.4
+      ],
+      "error_source": "TF map->base_footprint at the result (final_tf_pose); final_amcl_pose = last /amcl_pose [x, y, yaw, stamp]",
+      "position_error_m": 0.22260414210705595,
+      "yaw_error_deg": 2.567019875262936,
+      "amcl_cov_x": 0.03871306700283463,
+      "amcl_cov_y": 0.07107286026807952,
+      "amcl_cov_yaw": 0.07877579600933185
+    },
+    "goal2": {
+      "success": true,
+      "duration": 22.652,
+      "wall_duration": 30.049676656723022,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        2.5,
+        1.95
+      ],
+      "result_sim_time": 53.662,
+      "final_tf_pose": [
+        2.4590971261864576,
+        1.9762116421017086,
+        -0.2396360243513357,
+        53.66
+      ],
+      "final_amcl_pose": [
+        2.458747995618213,
+        1.9757964180378296,
+        -0.3033347342072344,
+        53.2
+      ],
+      "error_source": "TF map->base_footprint at the result (final_tf_pose); final_amcl_pose = last /amcl_pose [x, y, yaw, stamp]",
+      "position_error_m": 0.04858081172515173,
+      "yaw_error_deg": 13.73013281462575,
+      "amcl_cov_x": 0.07197765567696912,
+      "amcl_cov_y": 0.03293143058122627,
+      "amcl_cov_yaw": 0.06586420709292455
+    },
+    "goal3": {
+      "success": true,
+      "duration": 11.808,
+      "wall_duration": 15.849842548370361,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        3.75,
+        0.5
+      ],
+      "result_sim_time": 66.23,
+      "final_tf_pose": [
+        3.721811658991428,
+        0.7407395966779968,
+        -1.4322393034127998,
+        66.22
+      ],
+      "final_amcl_pose": [
+        3.712019677934904,
+        0.7843408841352466,
+        -1.455815821566488,
+        66.0
+      ],
+      "error_source": "TF map->base_footprint at the result (final_tf_pose); final_amcl_pose = last /amcl_pose [x, y, yaw, stamp]",
+      "position_error_m": 0.24238427337081944,
+      "yaw_error_deg": 7.938735710539988,
+      "amcl_cov_x": 0.022679809674245988,
+      "amcl_cov_y": 0.06700701457767821,
+      "amcl_cov_yaw": 0.07329783102260123
+    },
+    "goal4": {
+      "success": true,
+      "duration": 18.414,
+      "wall_duration": 25.350717306137085,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        2.0,
+        -1.4
+      ],
+      "result_sim_time": 85.384,
+      "final_tf_pose": [
+        2.0847734531394555,
+        -1.3721889183997513,
+        -2.8979144424402294,
+        85.38
+      ],
+      "final_amcl_pose": [
+        2.1920849097529795,
+        -1.3389028454691383,
+        -2.8094153468660163,
+        83.4
+      ],
+      "error_source": "TF map->base_footprint at the result (final_tf_pose); final_amcl_pose = last /amcl_pose [x, y, yaw, stamp]",
+      "position_error_m": 0.08921880192517238,
+      "yaw_error_deg": 13.96173305816772,
+      "amcl_cov_x": 0.16191727972329772,
+      "amcl_cov_y": 0.05921548558903056,
+      "amcl_cov_yaw": 0.11593880623002861
+    },
+    "goal5": {
+      "success": true,
+      "duration": 22.703,
+      "wall_duration": 32.02979063987732,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        1.5,
+        0.0
+      ],
+      "result_sim_time": 108.836,
+      "final_tf_pose": [
+        1.529139836597504,
+        0.009746841213541746,
+        0.23761393130741315,
+        108.82
+      ],
+      "final_amcl_pose": [
+        1.5294975861554057,
+        0.012904352682519542,
+        0.26119980062819514,
+        108.6
+      ],
+      "error_source": "TF map->base_footprint at the result (final_tf_pose); final_amcl_pose = last /amcl_pose [x, y, yaw, stamp]",
+      "position_error_m": 0.030726714607507706,
+      "yaw_error_deg": 13.614275417426226,
+      "amcl_cov_x": 0.020135721452907873,
+      "amcl_cov_y": 0.02463226810064521,
+      "amcl_cov_yaw": 0.048202835231129
+    }
+  }
+}

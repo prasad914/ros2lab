@@ -138,6 +138,28 @@ function setDotted(o, k, v) {
   if (v && typeof v === "object" && !Array.isArray(v)) { if (!cur[last] || typeof cur[last] !== "object") cur[last] = {}; deepMerge(cur[last], v); }
   else cur[last] = v;
 }
+// keys ("a.b.c") whose value a parameter file wrote as a float (20.0, 5.0, 1e-3): rclcpp declares them as doubles,
+// which a JS number cannot tell apart from an integer (slam_toolbox max_laser_range: 20.0 -> "Double value is: 20.0")
+export function doubleParams(sources, name, ns = "") {
+  const fqn = `${ns && ns !== "/" ? "/" + ns.replace(/^\/+|\/+$/g, "") : ""}/${name}`, out = new Set();
+  const FLOAT = /^[-+]?(\d+\.\d*|\.\d+|\d+(\.\d*)?[eE][-+]?\d+)$/;
+  for (const src of [].concat(sources || [])) {
+    if (typeof src !== "string") continue;
+    const stack = [];   // [indent, key]
+    for (const raw of src.split("\n")) {
+      const line = raw.replace(/\s+#.*$/, "");
+      const m = line.match(/^(\s*)([^\s:#][^:]*?|"[^"]*"|'[^']*'):(?:\s+(.*))?$/);
+      if (!m) continue;
+      const ind = m[1].length, key = m[2].replace(/^(["'])(.*)\1$/, "$2"), val = (m[3] || "").trim();
+      while (stack.length && stack[stack.length - 1][0] >= ind) stack.pop();
+      stack.push([ind, key]);
+      if (!FLOAT.test(val)) continue;
+      const keys = stack.map((x) => x[1]), r = keys.indexOf("ros__parameters");
+      if (r > 0 && matchNode(keys.slice(0, r), fqn)) out.add(keys.slice(r + 1).join("."));
+    }
+  }
+  return out;
+}
 // nested -> {"a.b.c": v} (what `ros2 param list/get` shows)
 export function flatParams(o, pre = "", out = {}) {
   for (const [k, v] of Object.entries(o || {})) { const key = pre ? `${pre}.${k}` : k; if (v && typeof v === "object" && !Array.isArray(v)) flatParams(v, key, out); else out[key] = v; }
@@ -323,7 +345,7 @@ export function planPath(g, start, goal, opts = {}) {
   if (found < 0) found = best;
   if (found < 0) return { code: 208, message: `Failed to create plan with tolerance of: ${tolerance.toFixed(6)}` };
   let cells = []; for (let i = found; i >= 0; i = prev[i]) cells.push([i % W, (i / W) | 0]); cells.reverse();
-  if (kind === "theta" && cells.length > 2) {   // any-angle: keep only the corners with line of sight between them
+  if ((kind === "theta" || kind === "smac") && cells.length > 2) {   // any-angle / shortcutting: keep only the corners with line of sight between them
     const los = (a, b) => { for (const [x, y] of line(a[0], a[1], b[0], b[1])) if (!passable(g.data[y * W + x]) || g.data[y * W + x] > 200) return false; return true; };
     const keep = [cells[0]]; let k = 0;
     for (let j = 2; j < cells.length; j++) if (!los(cells[k], cells[j])) { keep.push(cells[j - 1]); k = j - 1; }
@@ -434,6 +456,56 @@ export function rppCommand(P, st) {
   let x = pose.x, y = pose.y, th = pose.yaw; const w = v * curv;
   for (let k = 0; k < 10; k++) { th += w * 0.1; x += v * Math.cos(th) * 0.1; y += v * Math.sin(th) * 0.1; const c = cost(x, y); if (c >= INSCRIBED && c !== NO_INFO) return { vx: 0, wz: 0, noValid: true }; }
   return { vx: v, wz: Math.max(-num(P.max_angular_accel, 3.2) * 10, Math.min(num(P.max_angular_accel, 3.2) * 10, w)) };
+}
+// nav2_mppi_controller (Model Predictive Path Integral): sample trajectories, evaluate cost on costmap, softmax weights
+export function mppiCommand(P, st) {
+  const { pose, vel, path, cost, dt, goalPose, xyTol } = st;
+  const dGoal = Math.hypot(goalPose.x - pose.x, goalPose.y - pose.y);
+  const maxV = num(P.vx_max ?? P.max_vel_x, 0.5), minV = num(P.vx_min ?? P.min_vel_x, 0);
+  const maxW = num(P.wz_max ?? P.max_vel_theta, 1.8);
+  const batchSize = Math.max(8, num(P.batch_size, 32));
+  const timeSteps = Math.max(6, num(P.time_steps, 15));
+  const modelDt = num(P.model_dt, 0.05);
+  const lambda = num(P.temperature, 0.3);
+
+  if (dGoal <= xyTol || st.latched) {
+    const e = wrap(goalPose.yaw - pose.yaw);
+    return { vx: 0, wz: Math.sign(e) * Math.min(maxW, Math.abs(e) * 2.0), rotating: true };
+  }
+  const local = st.localPath;
+  let target = local[local.length - 1] || [goalPose.x, goalPose.y];
+  const lookahead = Math.min(1.2, Math.max(0.4, vel.vx * 1.5));
+  for (const p of local) { if (Math.hypot(p[0] - pose.x, p[1] - pose.y) >= lookahead) { target = p; break; } }
+  const dx = target[0] - pose.x, dy = target[1] - pose.y;
+  const angleToTarget = wrap(Math.atan2(dy, dx) - pose.yaw);
+  const nomV = Math.max(minV, Math.min(maxV, dGoal > 0.5 ? maxV : maxV * (dGoal / 0.5)));
+  const nomW = Math.max(-maxW, Math.min(maxW, angleToTarget * 2.5));
+
+  const trajectories = []; let minCost = Infinity;
+  for (let i = 0; i < batchSize; i++) {
+    const dv = (i === 0) ? 0 : ((Math.sin(i * 12.9898 + pose.x) * 43758.5453) % 1) * 0.4 - 0.2;
+    const dw = (i === 0) ? 0 : ((Math.cos(i * 78.233 + pose.y) * 43758.5453) % 1) * 0.8 - 0.4;
+    const vSample = Math.max(minV, Math.min(maxV, nomV + dv));
+    const wSample = Math.max(-maxW, Math.min(maxW, nomW + dw));
+    let x = pose.x, y = pose.y, th = pose.yaw, trajCost = 0, collision = false;
+    for (let k = 0; k < timeSteps; k++) {
+      th += wSample * modelDt; x += vSample * Math.cos(th) * modelDt; y += vSample * Math.sin(th) * modelDt;
+      const c = cost(x, y);
+      if (c >= INSCRIBED && c !== NO_INFO) { collision = true; break; }
+      if (c > 0 && c < INSCRIBED) trajCost += c * 0.1;
+      trajCost += Math.hypot(x - target[0], y - target[1]) * 2.0;
+    }
+    if (collision) trajCost = 1e6; else if (trajCost < minCost) minCost = trajCost;
+    trajectories.push({ v: vSample, w: wSample, cost: trajCost, collision });
+  }
+  let sumWeight = 0, weightedV = 0, weightedW = 0;
+  for (const tr of trajectories) {
+    if (tr.collision) continue;
+    const w = Math.exp(-(tr.cost - minCost) / lambda);
+    sumWeight += w; weightedV += w * tr.v; weightedW += w * tr.w;
+  }
+  if (sumWeight <= 1e-6 || minCost >= 1e6) return { vx: 0, wz: 0, noValid: true };
+  return { vx: weightedV / sumWeight, wz: weightedW / sumWeight };
 }
 
 // ---------------------------------------------------------------- AMCL (nav2_amcl: likelihood field + differential motion model)
@@ -546,4 +618,36 @@ export class MappingGrid {
     return { width: this.w, height: this.h, resolution: this.res, origin: [this.ox, this.oy, 0], data: d, frame };
   }
   known() { let n = 0; for (const s of this.seen) n += s; return n; }
+}
+
+export function rotationShimCommand(P, st) {
+  const { pose, goalPose, xyTol } = st;
+  const dGoal = Math.hypot(goalPose.x - pose.x, goalPose.y - pose.y);
+  if (dGoal <= xyTol || st.latched) return dwbCommand(P, st);
+  const local = st.localPath;
+  const target = local[Math.min(2, local.length - 1)] || [goalPose.x, goalPose.y];
+  const ang = wrap(Math.atan2(target[1] - pose.y, target[0] - pose.x) - pose.yaw);
+  const minAngle = num(P.rotate_to_heading_min_angle, 0.785);
+  if (Math.abs(ang) > minAngle) {
+    return { vx: 0, wz: Math.sign(ang) * num(P.rotate_to_heading_angular_vel, 1.8), rotating: true };
+  }
+  const prim = P.primary_controller || "DWB";
+  return prim === "RPP" ? rppCommand(P, st) : dwbCommand(P, st);
+}
+
+export function gracefulCommand(P, st) {
+  const { pose, goalPose, xyTol } = st;
+  const dGoal = Math.hypot(goalPose.x - pose.x, goalPose.y - pose.y);
+  if (dGoal <= xyTol || st.latched) return { vx: 0, wz: 0 };
+  const local = st.localPath;
+  const target = local[Math.min(3, local.length - 1)] || [goalPose.x, goalPose.y];
+  const dx = target[0] - pose.x, dy = target[1] - pose.y;
+  const r = Math.hypot(dx, dy);
+  const alpha = wrap(Math.atan2(dy, dx) - pose.yaw);
+  const kPhi = num(P.k_phi, 1.0), kDelta = num(P.k_delta, 1.0), beta = num(P.beta, 0.4), lambda = num(P.lambda, 2.0);
+  const kappa = (1 / Math.max(0.01, r)) * (-kDelta * (alpha - Math.atan(-kPhi * alpha)) + (1 + kPhi / (1 + (kPhi * alpha) ** 2)) * Math.sin(alpha));
+  const vMax = num(P.max_vel_x, 0.26), wMax = num(P.max_vel_theta, 1.0);
+  const v = Math.max(0.05, vMax * Math.min(1.0, r / 0.6) / (1 + beta * Math.abs(kappa) ** lambda));
+  const w = Math.max(-wMax, Math.min(wMax, v * kappa));
+  return { vx: v, wz: w };
 }

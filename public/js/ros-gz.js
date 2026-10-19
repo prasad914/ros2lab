@@ -138,7 +138,7 @@ export const gzMethods = {
     }
     const n = this.add("gz_sim", "gz_sim", "", {});
     n.hidden = true;
-    this.gz = { world, file: path || this.sharePath(file), paused: !run, time: 0, models: new Map(), gui: !serverOnly || !!this.gzGuiWaiting, node: n.full, verbose, version: 1, dyn: {}, args: A };
+    this.gz = { world, file: path || this.sharePath(file), paused: !run, time: 0, models: new Map(), gui: !serverOnly || !!this.gzGuiWaiting, node: n.full, verbose, version: 1, dyn: {}, args: A, env };
     this.gzGuiWaiting = false;
     // the physics engine (Rapier) loads in the background; until it is ready, the robots move without it
     loadRapier().then((R) => { if (this.gz && this.gz.world === world && !this.gzPhys) this.gzPhys = new GzPhysics(R, world); }).catch(() => {});
@@ -187,6 +187,14 @@ export const gzMethods = {
     else return { lines: [...out, E(C.error || "Must specify either -file, -param, -string or -topic")], fail: true };
     const fail = (gzErr, hint) => ({ lines: [...out, E("Entity creation failed.")], fail: true, gzErr, hint });
     const resolve = this.gzResolver(opts), env = this.gzEnvOf(opts);
+    if (this.gz) {
+      const prevRes = String((this.gz.env && this.gz.env.GZ_SIM_RESOURCE_PATH) || "");
+      const newRes = String(env.GZ_SIM_RESOURCE_PATH || "");
+      this.gz.env = { ...(this.gz.env || {}), ...env };
+      if (prevRes || newRes) {
+        this.gz.env.GZ_SIM_RESOURCE_PATH = [...new Set([...newRes.split(":"), ...prevRes.split(":")])].filter(Boolean).join(":");
+      }
+    }
     if (file) {
       const r = resolve(file.startsWith("/") ? file : this.sharePath(file));
       if (!r) return fail([`[Err] [UserCommands.cc:927] Error Code 1: Msg: File [${file}] doesn't exist.`]);

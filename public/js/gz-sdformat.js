@@ -123,7 +123,18 @@ class Ctx {
   readText(path) { const r = this.read(path); if (!r) return r; if (r.text != null) return r.text; if (r.bytes) return new TextDecoder().decode(r.bytes); return null; }
   resourceDirs() {
     const sp = (k) => String(this.env[k] || "").split(":").filter(Boolean);
-    return [...new Set([...sp("GZ_SIM_RESOURCE_PATH"), ...sp("IGN_GAZEBO_RESOURCE_PATH"), ...sp("SDF_PATH"), `${this.home}/.gz/fuel`])].map((d) => d.replace(/\/+$/, ""));
+    const custom = [...sp("GZ_SIM_RESOURCE_PATH"), ...sp("IGN_GAZEBO_RESOURCE_PATH"), ...sp("SDF_PATH"), `${this.home}/.gz/fuel`];
+    const shares = this.amentShares();
+    const shareModels = shares.flatMap((s) => [s, `${s}/models`]);
+    const wsModels = [
+      `${this.home}/ros2_ws/install/turtlebot3_gazebo/share/turtlebot3_gazebo/models`,
+      `${this.home}/ros2_ws/install/turtlebot3_common/share/turtlebot3_common/models`,
+      `${this.home}/ros2_ws/install/turtlebot3_description/share/turtlebot3_description/models`,
+      `${this.home}/ros2_ws/src/turtlebot3/turtlebot3_simulations/turtlebot3_gazebo/models`,
+      `/opt/ros/jazzy/share/turtlebot3_gazebo/models`,
+      `/opt/ros/jazzy/share/turtlebot3_common/models`,
+    ];
+    return [...new Set([...custom, ...shareModels, ...wsModels])].map((d) => d.replace(/\/+$/, ""));
   }
   amentShares() { return String(this.env.AMENT_PREFIX_PATH || "/opt/ros/jazzy").split(":").filter(Boolean).map((p) => p.replace(/\/+$/, "") + "/share"); }
   // model://name -> the directory that has name/model.config (undefined: still fetching)
@@ -131,6 +142,13 @@ class Ctx {
     if (this.modelDirs.has(name)) return this.modelDirs.get(name);
     let waiting = false;
     for (const d of this.resourceDirs()) { const t = this.readText(`${normPath(d)}/${name}/model.config`); if (t === undefined) { waiting = true; continue; } if (t) { const r = `${normPath(d)}/${name}`; this.modelDirs.set(name, r); return r; } }
+    for (const s of this.amentShares()) {
+      for (const sub of [`${s}/${name}/models/${name}`, `${s}/models/${name}`, `${s}/${name}`]) {
+        const t = this.readText(`${sub}/model.config`) || this.readText(`${sub}/model.sdf`);
+        if (t === undefined) { waiting = true; continue; }
+        if (t) { this.modelDirs.set(name, sub); return sub; }
+      }
+    }
     if (waiting) return undefined;
     this.modelDirs.set(name, null); return null;
   }
@@ -139,7 +157,11 @@ class Ctx {
     const u = String(uri || "").trim();
     let m;
     if ((m = u.match(/^model:\/\/([^/]+)\/?(.*)$/))) { const d = this.modelDir(m[1]); if (d) return m[2] ? `${d}/${m[2]}` : d; if (d === undefined) return undefined;
-      for (const s of this.amentShares()) if (this.readText(`${s}/${m[1]}/package.xml`)) return `${s}/${m[1]}/${m[2]}`;
+      for (const s of this.amentShares()) {
+        if (this.readText(`${s}/${m[1]}/models/${m[1]}/${m[2]}`)) return `${s}/${m[1]}/models/${m[1]}/${m[2]}`;
+        if (this.readText(`${s}/${m[1]}/${m[2]}`)) return `${s}/${m[1]}/${m[2]}`;
+        if (this.readText(`${s}/${m[1]}/package.xml`)) return `${s}/${m[1]}/${m[2]}`;
+      }
       return null; }
     if ((m = u.match(/^package:\/\/([^/]+)\/(.*)$/))) {
       for (const s of this.amentShares()) { const t = this.readText(`${s}/${m[1]}/package.xml`); if (t) return `${s}/${m[1]}/${m[2]}`; }

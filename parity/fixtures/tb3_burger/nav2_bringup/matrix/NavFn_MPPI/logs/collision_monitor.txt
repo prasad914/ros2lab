@@ -1,0 +1,11 @@
+# Excerpt of /home/prasad/ros2lab-course/parity/fixtures/tb3_burger/nav2_bringup/matrix/NavFn_MPPI/logs/nav2demo.log (gitignored)
+# Selection: lines matching [collision_monitor]
+# Generated 2026-10-17T20:33:06+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+154:[component_container_isolated-6] [INFO] [1792249215.857003287] [collision_monitor]: 
+263:[component_container_isolated-6] [INFO] [1792249217.090357056] [collision_monitor]: Configuring
+264:[component_container_isolated-6] [INFO] [1792249217.131833684] [collision_monitor]: [scan]: Creating Scan
+265:[component_container_isolated-6] [INFO] [1792249217.146483530] [collision_monitor]: [FootprintApproach]: Creating Polygon
+266:[component_container_isolated-6] [INFO] [1792249217.148862065] [collision_monitor]: [FootprintApproach]: Polygon points are not defined. Using dynamic subscription instead.
+267:[component_container_isolated-6] [INFO] [1792249217.159412520] [collision_monitor]: [FootprintApproach]: Making footprint subscriber on /local_costmap/published_footprint topic
+412:[component_container_isolated-6] [INFO] [1792249250.620132039] [collision_monitor]: Activating
+413:[component_container_isolated-6] [INFO] [1792249250.620361820] [collision_monitor]: Creating bond (collision_monitor) to lifecycle manager.

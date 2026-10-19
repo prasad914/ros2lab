@@ -1,0 +1,20 @@
+/rviz2:
+  ros__parameters:
+    base_frame: base_footprint
+    qos_overrides:
+      /clock:
+        subscription:
+          depth: 1
+          durability: volatile
+          history: keep_last
+          reliability: best_effort
+      /parameter_events:
+        publisher:
+          depth: 1000
+          durability: volatile
+          history: keep_last
+          reliability: reliable
+    start_type_description_service: true
+    tf_buffer_cache_time_ms: 10000
+    use_sim_time: true
+

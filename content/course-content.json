@@ -7029,7 +7029,7 @@
         "Talker and listener talk: `ros2 run demo_nodes_cpp talker` and, in a second terminal, `ros2 run demo_nodes_py listener`",
         "Turtlesim moves: `ros2 run turtlesim turtlesim_node` and `ros2 run turtlesim turtle_teleop_key`",
         "Gazebo opens: `gz sim shapes.sdf`",
-        "TurtleBot3 drives in Gazebo: `ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py`, then `ros2 run teleop_twist_keyboard teleop_twist_keyboard` in a second terminal",
+        "TurtleBot3 drives in Gazebo: `export TURTLEBOT3_MODEL=burger`, `ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py`, then, in a second terminal with the same export, `ros2 run turtlebot3_teleop teleop_keyboard` (keys w, a, d, x; s stops)",
         "Nav2 reaches a goal: `ros2 launch nav2_bringup tb3_simulation_launch.py headless:=False`, then 2D Pose Estimate and Nav2 Goal in RViz",
         "MoveIt plans a motion: `ros2 launch moveit_resources_panda_moveit_config demo.launch.py`, then Plan & Execute in RViz",
         "My workspace builds: `cd ~/ros2_ws && colcon build`"
@@ -28365,7 +28365,7 @@
       {
        "t": "tip",
        "label": "Try it",
-       "text": "Open the **RViz page** (rviz.html), choose **TurtleBot3 Waffle**, pick **Gazebo simulation**, and press *Type these commands for me*. Gazebo opens with the robot in a room and RViz shows the scan, the camera image, the IMU and the odometry. In a new terminal run `ros2 run teleop_twist_keyboard teleop_twist_keyboard` and drive with i, j, l and k. The Unitree Go2 adds its L1 3D lidar point cloud (/utlidar/cloud), and the G1 a Livox MID-360 point cloud (/livox/lidar) plus a RealSense depth camera."
+       "text": "Open the **Simulator** page (rviz.html) and choose **TurtleBot3 Waffle**. Press **Gazebo: TurtleBot3 World** above the terminal: it builds the official ROBOTIS workspace, sources it, sets `TURTLEBOT3_MODEL=waffle` and starts Gazebo with the robot in the TurtleBot3 world. RViz shows the scan, the camera image, the IMU and the odometry. Then press **Keyboard teleoperation** (it runs `ros2 run turtlebot3_teleop teleop_keyboard` in a new terminal) and drive with w, a, d and x; s or the space bar stops. The Unitree Go2 adds its L1 3D lidar point cloud (/utlidar/cloud), and the G1 a Livox MID-360 point cloud (/livox/lidar) plus a RealSense depth camera."
       },
       {
        "t": "h",
@@ -28374,12 +28374,12 @@
       },
       {
        "t": "p",
-       "text": "Teleop only *publishes* a velocity. Something inside Gazebo must turn it into wheel motion, otherwise nothing moves. There are two standard ways, and the RViz page has both for the TurtleBot3."
+       "text": "Teleop only *publishes* a velocity. Something inside Gazebo must turn it into wheel motion, otherwise nothing moves. There are two standard ways. The TurtleBot3 on Jazzy uses the first one."
       },
       {
        "t": "list",
        "items": [
-        "**Gazebo system (sim.launch.py):** the URDF loads Gazebo's **DiffDrive** system, and `config/gz_bridge.yaml` carries `/cmd_vel` (`geometry_msgs/msg/Twist`) from ROS 2 into Gazebo. Drive with plain `ros2 run teleop_twist_keyboard teleop_twist_keyboard`.",
+        "**Gazebo system (the TurtleBot3 on Jazzy):** the robot's `model.sdf` loads Gazebo's **DiffDrive** system, and `params/turtlebot3_burger_bridge.yaml` carries `/cmd_vel` as **`geometry_msgs/msg/TwistStamped`** from ROS 2 into Gazebo. Drive with `ros2 run turtlebot3_teleop teleop_keyboard`, or `ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -p stamped:=true`. Plain teleop_twist_keyboard publishes `geometry_msgs/msg/Twist`: `ros2 topic info /cmd_vel -v` then lists both types and the robot does not move.",
         "**ros2_control (sim_control.launch.py):** the URDF has a `<ros2_control>` tag (hardware `gz_ros2_control/GazeboSimSystem`, one `<joint>` per wheel with a `velocity` command interface) and the **gz_ros2_control-system** plugin, which starts `controller_manager` inside Gazebo with `config/controllers.yaml`. Two **spawner** nodes then load and activate `joint_state_broadcaster` and `diff_drive_controller`. Check with `ros2 control list_controllers` (both must say **active**).",
         "On Jazzy, `diff_drive_controller` listens on **`/diff_drive_controller/cmd_vel`** for **`geometry_msgs/msg/TwistStamped`**, so teleop needs: `ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -p stamped:=true -r cmd_vel:=/diff_drive_controller/cmd_vel`. A plain Twist on /cmd_vel moves nothing.",
         "The controller stops the wheels **0.5 s** after the last command (`cmd_vel_timeout`): hold the key down, or add `-p repeat_rate:=10.0`.",

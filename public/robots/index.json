@@ -928,6 +928,21 @@
   }
  },
  {
+  "id": "tb3_waffle_pi",
+  "category": "mobile",
+  "title": "TurtleBot3 Waffle Pi",
+  "vendor": "ROBOTIS",
+  "group": "Mobile robots",
+  "pkg": "turtlebot3_description",
+  "file": "ws/turtlebot3/src/turtlebot3/turtlebot3_description/urdf/turtlebot3_waffle_pi.urdf",
+  "fixedFrame": "base_footprint",
+  "about": "Differential-drive TurtleBot3 with a 360\u00b0 lidar, a camera and an IMU.",
+  "source": {
+   "url": "https://github.com/ROBOTIS-GIT/turtlebot3",
+   "license": "Apache-2.0"
+  }
+ },
+ {
   "id": "tb3_burger",
   "category": "mobile",
   "title": "TurtleBot3 Burger",

@@ -1,0 +1,20 @@
+{
+  "pair": "NavFn_RPP",
+  "planner": "NavFn",
+  "controller": "RPP",
+  "complete": true,
+  "start_wall": "2026-10-17T20:36:16+0530",
+  "localized": "ready: localized, /amcl_pose (0.045, -0.001)",
+  "active": true,
+  "status": "SUCCEEDED",
+  "accepted": true,
+  "error_code": 0,
+  "error_msg": "",
+  "duration_sim_s": 3.3870000000000005,
+  "timed_out_after_sim_s": null,
+  "goal_error": null,
+  "domain_empty_after_stop": true,
+  "bag": "parity/fixtures/tb3_burger/nav2_bringup/bags/matrix/NavFn_RPP",
+  "bag_bytes": 19273152,
+  "end_wall": "2026-10-17T20:39:08+0530"
+}

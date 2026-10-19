@@ -7,6 +7,7 @@ import { cfMethods } from "./cf-sim.js";
 import { moveitServiceMethods } from "./moveit-services.js";
 import { gzMethods, GZ_EXES, GZ_NAMES, GZ_PKG_EXES, IMAGE_TRANSPORTS, TELEOP_BANNER, gzIncludePy, gzIncludeXml, gzArgv, nodeArgsPy, takeExpr, pyEval as pyEvalVar } from "./ros-gz.js";
 import { urdfGazebo } from "./gz-sdf.js";
+import { DOCTOR_PASSED_LINES } from "./doctor-text.js";
 import { xacro as runXacro, parseURDF, urdfEdges, checkUrdfText, graphviz, jointValue } from "./urdf-core.js";
 import { ifacesReady, hasIface, parseYaml, buildMessage, pyRepr, showLines, protoBlock, allIfaces as realIfaces, ifacePackages, normType as normIface, sectionType, echoLines, noArrYaml } from "./ros-iface.js";
 // A pretend running ROS 2 system for the practice terminal: nodes, topics, services,
@@ -137,9 +138,16 @@ export class RosGraph {
   // ---------- the ROS graph, computed from the running nodes ----------
   endpoints(n) {
     const p = (s) => `${n.ns}/${s}`;
-    const e = { pubs: [["/parameter_events", "rcl_interfaces/msg/ParameterEvent"], ["/rosout", "rcl_interfaces/msg/Log"]], subs: [["/parameter_events", "rcl_interfaces/msg/ParameterEvent"]],
+    // every node's /rosout publisher is transient_local (`ros2 topic info -v /rosout` on Jazzy, parity/fixtures/*/sensors/qos/rosout.txt)
+    const e = { pubs: [["/parameter_events", "rcl_interfaces/msg/ParameterEvent"], ["/rosout", "rcl_interfaces/msg/Log", "RELIABLE/TRANSIENT_LOCAL"]], subs: [["/parameter_events", "rcl_interfaces/msg/ParameterEvent"]],
       srvs: PARAM_SRVS.map(([s, t]) => [`${n.full}/${s}`, t]), cli: [], acts: [], actc: [] };
-    if (n.info) { const r = (x) => (x.startsWith("/") ? x : x.startsWith("~/") ? `${n.full}/${x.slice(2)}` : p(x)); for (const k of ["pubs", "subs", "srvs", "cli", "acts", "actc"]) for (const [nm, t] of n.info[k]) e[k].push([r(nm), t]); }
+    // tf2_ros::TransformListener's own node (transform_listener_impl_<address>): /tf, /tf_static (transient_local),
+    // /parameter_events, its /rosout, no parameter services or events (fixtures */slam, */cartographer, */nav_robotis qos)
+    if (n.kind === "tf_listener") { e.pubs = [["/rosout", "rcl_interfaces/msg/Log", "RELIABLE/TRANSIENT_LOCAL"]]; e.srvs = []; e.subs.push(["/tf", "tf2_msgs/msg/TFMessage"], ["/tf_static", "tf2_msgs/msg/TFMessage", "RELIABLE/TRANSIENT_LOCAL"]); }
+    // launch_ros's node (launch_ros_<launch pid>): /rosout, /parameter_events, and the transition_event of each lifecycle
+    // node the launch file watches (fixture tb3_burger/slam/qos/slam_toolbox__transition_event.txt)
+    if (n.kind === "launch_ros") e.subs = (n.watch || []).map((t) => [t, "lifecycle_msgs/msg/TransitionEvent"]);
+    if (n.info) { const r = (x) => (x.startsWith("/") ? x : x.startsWith("~/") ? `${n.full}/${x.slice(2)}` : p(x)); for (const k of ["pubs", "subs", "srvs", "cli", "acts", "actc"]) for (const [nm, t, q] of n.info[k]) e[k].push([r(nm), t, q]); }
     if (n.kind === "arm") { e.subs.push([p("target_point"), "geometry_msgs/msg/Point"]); e.pubs.push([p("joint_states"), "sensor_msgs/msg/JointState"], [p("end_effector"), "geometry_msgs/msg/Point"]); e.srvs.push([p("arm/home"), "std_srvs/srv/Trigger"]); }
     if (n.kind === "diffbot") { e.subs.push([p("cmd_vel"), "geometry_msgs/msg/Twist"]); e.pubs.push([p("odom"), "nav_msgs/msg/Odometry"], [p("ground_truth"), "nav_msgs/msg/Odometry"], [p("wheel_states"), "sensor_msgs/msg/JointState"], ["/tf", "tf2_msgs/msg/TFMessage"]); }
     if (n.kind === "mm") { e.subs.push([p("goal_point"), "geometry_msgs/msg/Point"]); e.pubs.push([p("cmd_vel"), "geometry_msgs/msg/Twist"], [p("target_point"), "geometry_msgs/msg/Point"]); }
@@ -160,6 +168,7 @@ export class RosGraph {
     if (n.kind === "jsp" || n.kind === "jsp_gui") { e.pubs.push([p("joint_states"), "sensor_msgs/msg/JointState"]); e.subs.push([p("robot_description"), "std_msgs/msg/String"]); }
     if (n.kind === "rviz" && this.sh.viz && this.sh.viz.subsFn && this.sh.viz.subsFn()) { const seen = new Set(); for (const x of this.sh.viz.subsFn()) if (!seen.has(x[0])) { seen.add(x[0]); e.subs.push(x); } e.pubs.push(...(this.sh.viz.pubsFn ? this.sh.viz.pubsFn() : [["/clicked_point", "geometry_msgs/msg/PointStamped"], ["/goal_pose", "geometry_msgs/msg/PoseStamped"], ["/initialpose", "geometry_msgs/msg/PoseWithCovarianceStamped"]])); }
     else if (n.kind === "rviz") { e.subs.push(["/tf", "tf2_msgs/msg/TFMessage"], ["/tf_static", "tf2_msgs/msg/TFMessage"], ["/robot_description", "std_msgs/msg/String"]); if (this.sh.viz) { if (this.sh.viz.displays.Marker) e.subs.push(["/visualization_marker", "visualization_msgs/msg/Marker"]); if (this.sh.viz.displays.MarkerArray) e.subs.push(["/visualization_marker_array", "visualization_msgs/msg/MarkerArray"]); } e.pubs.push(["/clicked_point", "geometry_msgs/msg/PointStamped"], ["/goal_pose", "geometry_msgs/msg/PoseStamped"], ["/initialpose", "geometry_msgs/msg/PoseWithCovarianceStamped"]); }
+    if (n.kind === "rviz") e.subs = e.subs.filter(([nm]) => nm !== "/tf" && nm !== "/tf_static");   // rviz2 listens through its transform_listener_impl node
     if (n.kind === "rsp") { e.subs.push([p("joint_states"), "sensor_msgs/msg/JointState", "BEST_EFFORT/VOLATILE"]); e.pubs.push(["/tf", "tf2_msgs/msg/TFMessage"], ["/tf_static", "tf2_msgs/msg/TFMessage"], [p("robot_description"), "std_msgs/msg/String", "RELIABLE/TRANSIENT_LOCAL"]); }
     if (n.kind === "container") e.srvs.push([`${n.full}/_container/load_node`, "composition_interfaces/srv/LoadNode"], [`${n.full}/_container/unload_node`, "composition_interfaces/srv/UnloadNode"], [`${n.full}/_container/list_nodes`, "composition_interfaces/srv/ListNodes"]);
     if (n.kind === "gz_bridge" || n.kind === "gz_image") for (const b of n.bridge || []) { if (b.broken) continue; const rn = b.ros.startsWith("/") ? b.ros : p(b.ros); if (b.dir !== "ROS_TO_GZ") e.pubs.push([rn, b.rosType]); if (b.dir !== "GZ_TO_ROS") e.subs.push([rn, b.rosType]); }
@@ -185,12 +194,49 @@ export class RosGraph {
     for (const k of Object.keys(e)) e[k].sort((a, b) => a[0].localeCompare(b[0]));
     return e;
   }
+  // tf2 listener nodes that exist while their owner runs: rviz2, slam_toolbox, cartographer_node. In the fixtures the
+  // listener of cartographer_node and of rviz2 subscribes /clock (use_sim_time), slam_toolbox's does not.
+  syncTfListeners() {
+    const owners = this.nodes.filter((n) => n.kind === "rviz" || (n.nav2 && /^slam_(toolbox|carto$)/.test(n.nav2.role || "")));
+    this.nodes = this.nodes.filter((n) => n.kind !== "tf_listener" || owners.includes(n.tfOwner));
+    for (const o of owners) {
+      if (this.nodes.some((n) => n.tfOwner === o)) continue;
+      let h = 0; for (const c of o.full) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+      const l = this.add("tf_listener", `transform_listener_impl_${(0x5a0000000000 + h * 4096).toString(16).slice(-12)}`, "", {}, [], true);
+      l.tfOwner = o; l.domain = o.domain; l.rmw = o.rmw;
+      l.params = { use_sim_time: o.kind === "rviz" || o.nav2.role === "slam_carto" ? [true, "true", "True"].includes(o.params && o.params.use_sim_time) : false };
+    }
+  }
   collect(kinds) {
+    this.syncTfListeners();
     const m = new Map();
-    for (const n of this.nodes) { if (this.unseen(n)) continue; const e = this.endpoints(n); for (const k of kinds) for (const [name, type, q] of e[k]) { if (!m.has(name)) m.set(name, { type, by: { pubs: [], subs: [], srvs: [], cli: [], acts: [], actc: [] }, qos: {} }); else if (k === "acts") m.get(name).type = type; m.get(name).by[k].push(n.full); if (q) m.get(name).qos[`${k}|${n.full}`] = q; } }
+    for (const n of this.nodes) { if (this.unseen(n)) continue; const e = this.endpoints(n); for (const k of kinds) for (const [name, type, q] of e[k]) { if (!m.has(name)) m.set(name, { type, by: { pubs: [], subs: [], srvs: [], cli: [], acts: [], actc: [] }, qos: {}, etype: {} }); else if (k === "acts") m.get(name).type = type; m.get(name).by[k].push(n.full); m.get(name).etype[`${k}|${n.full}`] = type; if (q) m.get(name).qos[`${k}|${n.full}`] = q; } }
     return new Map([...m.entries()].sort((a, b) => a[0].localeCompare(b[0])));
   }
   topics() { const t = this.collect(["pubs", "subs"]); if (this.lastPub && !t.has(this.lastPub.topic)) t.set(this.lastPub.topic, { type: this.lastPub.type, by: { pubs: [], subs: [] } }); return t; }
+
+  // DDS QoS compatibility checking (Spec S1 c, ROS 2 Jazzy rules)
+  checkQosCompatibility(pubQos, subQos) {
+    const pubRel = String(pubQos?.reliability || "Reliable").toLowerCase();
+    const subRel = String(subQos?.reliability || "Reliable").toLowerCase();
+    if (subRel.includes("reliable") && pubRel.includes("best_effort")) {
+      return {
+        compatible: false,
+        policy: "RELIABILITY_QOS_POLICY",
+        reason: "Subscriber requested RELIABLE, but Publisher offered BEST_EFFORT"
+      };
+    }
+    const pubDur = String(pubQos?.durability || "Volatile").toLowerCase();
+    const subDur = String(subQos?.durability || "Volatile").toLowerCase();
+    if (subDur.includes("transient_local") && pubDur.includes("volatile")) {
+      return {
+        compatible: false,
+        policy: "DURABILITY_QOS_POLICY",
+        reason: "Subscriber requested TRANSIENT_LOCAL, but Publisher offered VOLATILE"
+      };
+    }
+    return { compatible: true };
+  }
 
   // ros2 doctor / ros2 doctor --report (ros2doctor, Jazzy)
   doctor(args) {
@@ -198,7 +244,7 @@ export class RosGraph {
     if (!args.some((x) => x === "--report" || x === "-r")) {
       const warn = [];
       if (env.ROS_LOCALHOST_ONLY) warn.push("UserWarning: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.");
-      return [...warn.map((w) => this.out(`/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/network.py: ${w}`)), this.out(`All 5 checks passed`)];
+      return [...warn.map((w) => this.out(`/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/network.py: ${w}`)), ...DOCTOR_PASSED_LINES.map((l) => this.out(l))];
     }
     const sec = (t, rows) => [this.out(""), this.out(`   ${t}`), ...rows.map(([k, v]) => this.out(`${k.padStart(28)} : ${v}`))];
     const T = this.topics();
@@ -245,6 +291,7 @@ export class RosGraph {
   }
 
   cmdNode(a, rest) {
+    if (a === "list") this.syncTfListeners();
     if (a === "list") return this.nodes.some((n) => !this.unseen(n)) ? (() => { const L = this.nodes.filter((n) => !this.unseen(n)).map((n) => n.full).sort(); return new Set(L).size < L.length ? ["WARNING: Be aware that there are nodes in the graph that share an exact name, which can have unintended side effects.", ...L] : L; })().map((t) => this.out(t)) : this.noNodes();
     if (a === "info") {
       const n0 = this.node(rest[0] || ""), n = n0 && !this.unseen(n0) ? n0 : null;
@@ -269,32 +316,40 @@ export class RosGraph {
     if (a === "pub") return this.topicPub(rest);
     const bad = need(); if (bad) return bad;
     const t = T.get(name);
-    if (!t) return [this.out(`WARNING: topic [${name}] does not appear to be published yet`), this.hint(`Nobody uses ${name}. Check the spelling (names are case-sensitive) with: ros2 topic list`)];
+    // the TurtleBot3 Burger has no camera (only Waffle and Waffle Pi publish /camera/...): say so instead of "spelling"
+    const burger = /^\/camera\//.test(name) && this.nodes.some((n) => n.kind === "rsp" && /name="turtlebot3_burger"/.test(String((n.params || {}).robot_description || "")));
+    if (!t) return [this.out(`WARNING: topic [${name}] does not appear to be published yet`), this.hint(burger ? `The TurtleBot3 Burger has no camera, so nothing publishes ${name}: only the Waffle and the Waffle Pi have one. See this robot's topics with: ros2 topic list` : `Nobody uses ${name}. Check the spelling (names are case-sensitive) with: ros2 topic list`)];
     if (a === "type") return [this.out(t.type)];
+    // each endpoint has its own type: a Twist publisher and a TwistStamped subscriber on one name are listed as
+    // Type: ['geometry_msgs/msg/Twist', 'geometry_msgs/msg/TwistStamped'] (sensors/teleop/topic_info_cmd_vel_*)
+    const etype = (k, w) => (t.etype && t.etype[`${k}|${w}`]) || t.type;
+    const types = [...new Set([...t.by.pubs.map((w) => etype("pubs", w)), ...t.by.subs.map((w) => etype("subs", w))])].sort();
+    const typeLine = `Type: ${types.length > 1 ? `[${types.map((x) => `'${x}'`).join(", ")}]` : t.type}`;
     if (a === "info" && (flags.includes("-v") || flags.includes("--verbose"))) {
-      const L = [`Type: ${t.type}`, "", `Publisher count: ${t.by.pubs.length}`, ""];
+      const L = [typeLine, "", `Publisher count: ${t.by.pubs.length}`, ""];
       const ep = (who, kind) => { const nm = who.split("/").pop(), ns = who.slice(0, who.length - nm.length - 1) || "/";
         const [rel, dur] = ((t.qos || {})[`${kind === "PUBLISHER" ? "pubs" : "subs"}|${who}`] || "RELIABLE/VOLATILE").split("/");
-        L.push(`Node name: ${nm}`, `Node namespace: ${ns}`, `Topic type: ${t.type}`, "Topic type hash: RIHS01_…", `Endpoint type: ${kind}`, `GID: ${hex().match(/../g).slice(0, 16).join(".")}`,
+        L.push(`Node name: ${nm}`, `Node namespace: ${ns}`, `Topic type: ${etype(kind === "PUBLISHER" ? "pubs" : "subs", who)}`, "Topic type hash: RIHS01_…", `Endpoint type: ${kind}`, `GID: ${hex().match(/../g).slice(0, 16).join(".")}`,
           "QoS profile:", `  Reliability: ${rel}`, "  History (Depth): UNKNOWN", `  Durability: ${dur}`, "  Lifespan: Infinite", "  Deadline: Infinite", "  Liveliness: AUTOMATIC", "  Liveliness lease duration: Infinite", ""); };
       t.by.pubs.forEach((w) => ep(w, "PUBLISHER"));
       L.push(`Subscription count: ${t.by.subs.length}`, "");
       t.by.subs.forEach((w) => ep(w, "SUBSCRIPTION"));
       return L.map((x) => this.out(x));
     }
-    if (a === "info") return [this.out(`Type: ${t.type}`), this.out(`Publisher count: ${t.by.pubs.length}`), this.out(`Subscription count: ${t.by.subs.length}`)];
+    if (a === "info") return [this.out(typeLine), this.out(`Publisher count: ${t.by.pubs.length}`), this.out(`Subscription count: ${t.by.subs.length}`)];
     if (a === "hz") {
       if (!t.by.pubs.length) return [this.out(`WARNING: topic [${name}] does not appear to be published yet`)];
       const paused = this.gzRunning() && this.gz.paused;
       const gr = paused ? null : (this.gzRunning() ? this.gzRate(name) : null) || this.cmRate(name) || this.fakeRate(name) || this.cfRate(name)
-        || (() => { const g = this.nav2 && this.nav2.models.find((m) => m.role === "slam_carto_grid" && !m.dead && m.count && m.resolve("map") === name); return g ? 1 / g.period : null; })();   // cartographer_occupancy_grid_node: one /map per -publish_period_sec
+        || (() => { const g = this.nav2 && this.nav2.models.find((m) => m.role === "slam_carto_grid" && !m.dead && m.count && m.resolve("map") === name); return g ? 1 / g.period : null; })()   // cartographer_occupancy_grid_node: one /map per -publish_period_
+        || (() => { const m = this.nav2 && this.nav2.models.find((x) => /^slam_toolbox/.test(x.role) && !x.dead && x.state === "active" && x.nodes && x.resolve("map") === name); return m ? 1 / (Number(m.P.map_update_interval) || 5.0) : null; })();   // slam_toolbox: one /map per map_update_interval once mapping started (slam/samples/map_hz_runner.txt)sec
       const kinds = t.by.pubs.map((f) => (this.node(f) || {}).kind);
       // the default rates of the real nodes: joint_state_publisher(_gui) 10 Hz, robot_state_publisher sends /tf when joints change,
       // servo_node 100 Hz status, a ros2 topic pub -r N publisher N Hz
       const pubcli = t.by.pubs.map((f) => this.node(f)).find((n) => n && n.kind === "pubcli" && n.pub);
       const rate = gr ? gr : pubcli ? pubcli.pub.rate || 1 : /pose|color_sensor/.test(name) ? 62.5 : name.endsWith("chatter") ? 1 : name === "/joint_states" && kinds.some((k) => k === "jsp" || k === "jsp_gui") ? 10 : name === "/tf" && kinds.includes("rsp") && this.nodes.some((n) => n.kind === "jsp" || n.kind === "jsp_gui") ? 10 : null;
       if (!rate) return [this.hint(`(Nothing is published on ${name} right now, so there is no rate to measure.)`)];
-      const lines = [0, 1].map((i) => `average rate: ${(rate + (i ? 0.004 : -0.002)).toFixed(3)}\n\tmin: ${(1 / rate - 0.001).toFixed(3)}s max: ${(1 / rate + 0.001).toFixed(3)}s std dev: 0.00041s window: ${Math.round(rate * (i + 1))}`).join("\n");
+      const lines = [0, 1].map((i) => `average rate: ${(rate + (i ? 0.004 : -0.002)).toFixed(3)}\n\tmin: ${(1 / rate - 0.001).toFixed(3)}s max: ${(1 / rate + 0.001).toFixed(3)}s std dev: 0.00041s window: ${rate >= 1 ? Math.round(rate * (i + 1)) : i + 2}`).join("\n");   // slower than 1 Hz: one line per new message, from window 2
       return [...this.lines(lines), this.out("^C"), this.hint(`About ${rate} messages per second. On a real computer it keeps measuring until you press Ctrl+C.`)];
     }
     if (a === "echo") {
@@ -1428,21 +1483,33 @@ export function urdfLinks(text) { return [...String(text).matchAll(/<link\s+name
 RosGraph.prototype.tfTree = function () {
   const E = [];
   for (const n of this.nodes) {
-    if (n.kind === "static_tf" && n.tf) E.push({ ...n.tf });
+    if (n.kind === "static_tf" && n.tf) E.push({ ...n.tf, authority: n.full });
     const vk = this.vkind(n);
-    if (vk === "diffbot" && n.base) E.push({ parent: "odom", child: "base_link", t: [n.base.x, n.base.y, 0], q: qRPY(0, 0, n.base.theta) });
-    if (n.kind === "custom" && n.info && n.info.broadcaster) { const nm = String(n.params.turtlename || "turtle1"), h = this.turtle(nm); if (h) E.push({ parent: "world", child: nm, t: [h.t.x, h.t.y, 0], q: qRPY(0, 0, h.t.theta) }); }
+    if (vk === "diffbot" && n.base) E.push({ parent: "odom", child: "base_link", t: [n.base.x, n.base.y, 0], q: qRPY(0, 0, n.base.theta), authority: n.full });
+    if (n.kind === "custom" && n.info && n.info.broadcaster) { const nm = String(n.params.turtlename || "turtle1"), h = this.turtle(nm); if (h) E.push({ parent: "world", child: nm, t: [h.t.x, h.t.y, 0], q: qRPY(0, 0, h.t.theta), authority: n.full }); }
   }
-  if (this.gzRunning()) E.push(...this.gzTfEdges(), ...this.cmTfEdges());
-  else if (this.mockModelList().length) E.push(...this.cmTfEdges());   // mock hardware: the drive controller's odom -> base
-  E.push(...this.fakeTfEdges(), ...this.cfTfEdges());   // turtlebot3_fake_node: odom -> base_footprint; crazyflie_sim: world -> cf
-  if (this.nav2Api && this.nav2) E.push(...this.nav2Api.nav2TfEdges(this));   // map -> odom (amcl, slam_toolbox, cartographer): tf2_echo / view_frames see it too
+  if (this.gzRunning()) {
+    const gzEdges = this.gzTfEdges().map((e) => ({ ...e, authority: e.authority || "/diff_drive_controller" }));
+    const cmEdges = this.cmTfEdges().map((e) => ({ ...e, authority: e.authority || "/controller_manager" }));
+    E.push(...gzEdges, ...cmEdges);
+  } else if (this.mockModelList().length) {
+    E.push(...this.cmTfEdges().map((e) => ({ ...e, authority: e.authority || "/controller_manager" })));   // mock hardware: the drive controller's odom -> base
+  }
+  E.push(...this.fakeTfEdges().map((e) => ({ ...e, authority: "/turtlebot3_fake_node" })), ...this.cfTfEdges().map((e) => ({ ...e, authority: "/crazyflie_server" })));   // turtlebot3_fake_node: odom -> base_footprint; crazyflie_sim: world -> cf
+  if (this.nav2Api && this.nav2) {
+    const navEdges = this.nav2Api.nav2TfEdges(this).map((e) => ({ ...e, authority: this.nav2.mapOdomBy || (this.nav2.models.find((m) => m.role === "amcl") ? "/amcl" : "/slam_toolbox") }));
+    E.push(...navEdges);   // map -> odom (amcl, slam_toolbox, cartographer): tf2_echo / view_frames see it too
+  }
   const rsp = this.nodes.find((n) => n.kind === "rsp" && n.params.robot_description), arm = this.nodes.find((n) => this.vkind(n) === "arm");
   const model = rsp && !arm ? this.robotModel() : null;
-  if (model) { E.push(...urdfEdges(model, this.jointValues(), this.statesAvailable()).map((e) => ({ parent: e.parent, child: e.child, t: e.t, q: e.q }))); return E; }
+  if (model) { E.push(...urdfEdges(model, this.jointValues(), this.statesAvailable()).map((e) => ({ parent: e.parent, child: e.child, t: e.t, q: e.q, authority: "/robot_state_publisher" }))); return E; }
   if (rsp) {
     const q = arm ? arm.q : [0, 0], L1 = arm ? arm.params.link1_length : 1, L2 = arm ? arm.params.link2_length : 0.8;
-    E.push({ parent: "base_link", child: "link1", t: [0, 0, 0.05], q: qRPY(0, 0, q[0]) }, { parent: "link1", child: "link2", t: [L1, 0, 0], q: qRPY(0, 0, q[1]) }, { parent: "link2", child: "tool", t: [L2, 0, 0], q: [0, 0, 0, 1] });
+    E.push(
+      { parent: "base_link", child: "link1", t: [0, 0, 0.05], q: qRPY(0, 0, q[0]), authority: "/robot_state_publisher" },
+      { parent: "link1", child: "link2", t: [L1, 0, 0], q: qRPY(0, 0, q[1]), authority: "/robot_state_publisher" },
+      { parent: "link2", child: "tool", t: [L2, 0, 0], q: [0, 0, 0, 1], authority: "/robot_state_publisher" }
+    );
   }
   return E;
 };
@@ -1895,8 +1962,25 @@ RosGraph.prototype.hwGate = function (robots) {
   return sh.spec.hardwareGate(robots.filter(Boolean));
 };
 RosGraph.prototype.hwLocked = function (msg) {
-  return [this.out("[INFO] [launch]: Default logging verbosity is set to INFO"), this.err(`[ERROR] [ros2lab_hardware_license]: ${msg}`), this.err("[ERROR] [launch]: real hardware is locked: nothing was started"),
-    this.hint("(Simulation needs no license: use sim.launch.py / gazebo.launch.py / demo.launch.py. For the real robot, ask your course administrator for a hardware license: RViz page → Connect to ROS 2 → Ask for a hardware license.)")];
+  return [this.out("[INFO] [launch]: Default logging verbosity is set to INFO"), this.err(`[ERROR] [ros2lab_hardware_license]: ${msg}`), this.err("[ERROR] [launch]: real hardware is locked: nothing was started"), this.hint(this.hwSimHint())];
+};
+// a launch that started a real driver or a real hardware plugin (real-launch.js): it is stopped there
+RosGraph.prototype.hwLockNote = function (msg, what) {
+  return [this.err(`[ERROR] [ros2lab_hardware_license]: ${msg}`), this.err(`[ERROR] [ros2lab_hardware_license]: real hardware is locked: this launch starts ${what}, which drives the real robot, so ROS2Lab stopped the launch`), this.hint(this.hwSimHint())];
+};
+// the license hint names what runs without a robot on THIS page (expert_review_robots_2026-10-18 site-wide #4):
+// the card's own simulation / mock commands, or the launch files of the packages in the workspace
+RosGraph.prototype.hwSimHint = function () {
+  const R = this.sh.realWs, list = (v) => (Array.isArray(v) ? v : v ? [v] : []);
+  let cmds = [];
+  if (R && R.json) {
+    for (const [kind, v] of Object.entries(R.json.entry || {})) if (kind !== "real" && !/note|issues/.test(kind)) for (const e of list(v)) if (e && e.cmd && (!e.robot || e.robot === R.robot) && /^ros2 launch /.test(e.cmd)) cmds.push(e.cmd);
+  } else {
+    for (const p of this.sh.wsPkgs ? this.sh.wsPkgs.values() : []) for (const f of Object.keys(p.launch || {})) if (/sim|gazebo|demo|mock|display/.test(f)) cmds.push(`ros2 launch ${p.name} ${f}`);
+  }
+  cmds = [...new Set(cmds)].slice(0, 3);
+  const sim = cmds.length ? `Simulation and mock hardware need no license. On this page: ${cmds.join("  |  ")}.` : "Simulation needs no license.";
+  return `(${sim} For the real robot, ask your course administrator for a hardware license: RViz page → Connect to ROS 2 → Ask for a hardware license.)`;
 };
 // ros2 launch <driver package> <file> straight from the terminal
 RosGraph.prototype.driverDirect = function (pkg, file, extra = []) {
@@ -2143,9 +2227,13 @@ RosGraph.prototype.rspMessages = function (n) {
 // ros2 run tf2_tools view_frames
 RosGraph.prototype.viewFrames = function () {
   const E = this.tfTree();
-  const stamp = "2026-10-12_09.30.00";
-  const lines = ["[INFO] [view_frames]: Listening to tf data for 5.0 seconds..."];
-  if (!E.length) return [...lines.map((t) => this.out(t)), this.out("[INFO] [view_frames]: Generating graph in frames.pdf file..."), this.out(`[INFO] [view_frames]: Result:tf2_msgs.srv.FrameGraph_Response(frame_yaml='[]')`), this.hint("No TF frames are being published. Start robot_state_publisher (and joint_state_publisher) or a static_transform_publisher first.")];
+  // file name and log lines as tf2_tools view_frames prints them (tb3_burger/sensors/view_frames.log): local wall
+  // time of the export, frames_<YYYY-MM-DD_HH.MM.SS>; each line with its [stamp]
+  const d = new Date(), z = (v) => String(v).padStart(2, "0");
+  const stamp = `${d.getFullYear()}-${z(d.getMonth() + 1)}-${z(d.getDate())}_${z(d.getHours())}.${z(d.getMinutes())}.${z(d.getSeconds())}`;
+  const ts = () => { const t = Date.now() / 1000; return `${Math.floor(t)}.${String(Math.floor((t % 1) * 1e9)).padStart(9, "0")}`; };
+  const lines = [`[INFO] [${ts()}] [view_frames]: Listening to tf data for 5.0 seconds...`];
+  if (!E.length) return [...lines.map((t) => this.out(t)), this.out(`[INFO] [${ts()}] [view_frames]: Generating graph...`), this.out(`[INFO] [view_frames]: Result:tf2_msgs.srv.FrameGraph_Response(frame_yaml='[]')`), this.hint("No TF frames are being published. Start robot_state_publisher (and joint_state_publisher) or a static_transform_publisher first.")];
   const gv = "digraph G {\n" + E.map((e) => `"${e.parent}" -> "${e.child}"[label="Broadcaster: default_authority"];`).join("\n") + "\n}\n";
   const dir = this.sh.cwd;
   this.sh.fs.set(`${dir}/frames_${stamp}.gv`, { type: "f", mode: "rw-r--r--", content: gv });
@@ -2154,8 +2242,9 @@ RosGraph.prototype.viewFrames = function () {
   const roots = [...new Set(E.map((e) => e.parent))].filter((p) => !E.some((e) => e.child === p));
   const tree = []; const rec = (f, depth) => { tree.push(depth ? "   ".repeat(depth - 1) + "└─ " + f : f); (kids[f] || []).sort().forEach((c) => rec(c, depth + 1)); };
   roots.forEach((r) => rec(r, 0));
-  return [...lines, "[INFO] [view_frames]: Generating graph in frames.pdf file..."].map((t) => this.out(t))
-    .concat([this.out(`[INFO] [view_frames]: Result:tf2_msgs.srv.FrameGraph_Response(frame_yaml="${E.slice(0, 2).map((e) => `${e.child}: \\n  parent: '${e.parent}'`).join(" ")} ...")`),
+  return [...lines, `[INFO] [${ts()}] [view_frames]: Generating graph...`].map((t) => this.out(t))
+    .concat([this.out(`[INFO] [${ts()}] [view_frames]: Result:tf2_msgs.srv.FrameGraph_Response(frame_yaml="${E.slice(0, 2).map((e) => `${e.child}: \\n  parent: '${e.parent}'`).join(" ")} ...")`),
+      this.out(`[INFO] [${ts()}] [view_frames]: Exporting graph in frames_${stamp}.pdf file...`),
       this.hint(`Created frames_${stamp}.pdf and frames_${stamp}.gv in this folder. The PDF shows this tree:`), ...tree.map((t) => this.hint("  " + t))]);
 };
 // read a .rviz config: Fixed Frame and the list of displays
@@ -2170,6 +2259,7 @@ RosGraph.prototype.rvizConfig = function (path, text) {
   const ff = go["Fixed Frame"] ? String(go["Fixed Frame"]).replace(/^\//, "") : null;
   const ds = {};
   for (const { cls, item } of rvizDisplays(cfg)) { const t = cls.split("/").pop(); if (t) ds[t] = ds[t] || (item.Enabled ?? item.Value) !== false; }
+  if (!ds.RobotModel && (this.robotModel() || this.nodes.some((n) => n.kind === "rsp" || (n.params && n.params.robot_description)))) ds.RobotModel = true;
   if (ff) viz.fixedFrame = ff;
   if (Object.keys(ds).length) viz.displays = ds;
   viz.configText = content; viz.configName = path || "urdf_config.rviz";

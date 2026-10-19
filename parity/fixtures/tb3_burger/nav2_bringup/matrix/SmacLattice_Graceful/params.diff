@@ -1,0 +1,26 @@
+# SmacLattice x Graceful: changes against /opt/ros/jazzy/share/nav2_bringup/params/nav2_params.yaml
+# written by parity/scripts/generate_matrix_configs.py; 3 key(s) changed
+# planner_server.GridBased.plugin: 'nav2_navfn_planner::NavfnPlanner' -> 'nav2_smac_planner::SmacPlannerLattice'  (plugin name)
+# planner_server.GridBased.lattice_filepath: '<not set>' -> '/opt/ros/jazzy/share/nav2_smac_planner/sample_primitives/5cm_resolution/0.5m_turning_radius/diff/output.json'  (required: the installed diff-drive primitives)
+# controller_server.FollowPath.plugin: 'nav2_mppi_controller::MPPIController' -> 'nav2_graceful_controller::GracefulController'  (plugin name)
+--- installed/nav2_params.yaml
++++ SmacLattice_Graceful/params.yaml
+@@ -196,7 +196,7 @@
+       iteration_count: 1
+       model_dt: 0.05
+       motion_model: DiffDrive
+-      plugin: nav2_mppi_controller::MPPIController
++      plugin: nav2_graceful_controller::GracefulController
+       prune_distance: 1.7
+       regenerate_noises: true
+       temperature: 0.3
+@@ -375,7 +375,8 @@
+   ros__parameters:
+     GridBased:
+       allow_unknown: true
+-      plugin: nav2_navfn_planner::NavfnPlanner
++      lattice_filepath: /opt/ros/jazzy/share/nav2_smac_planner/sample_primitives/5cm_resolution/0.5m_turning_radius/diff/output.json
++      plugin: nav2_smac_planner::SmacPlannerLattice
+       tolerance: 0.5
+       use_astar: false
+     costmap_update_timeout: 1.0

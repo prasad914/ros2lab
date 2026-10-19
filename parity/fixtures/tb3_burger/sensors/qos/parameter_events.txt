@@ -1,0 +1,96 @@
+Type: rcl_interfaces/msg/ParameterEvent
+
+Publisher count: 3
+
+Node name: _ros2cli_daemon_41_597f356106294e1bbe7f8f515499c961
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: PUBLISHER
+GID: 01.0f.d3.65.6a.3b.80.44.00.00.00.00.00.00.04.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: ros_gz_bridge
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: PUBLISHER
+GID: 01.0f.d3.65.93.3b.0e.83.00.00.00.00.00.00.10.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: robot_state_publisher
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: PUBLISHER
+GID: 01.0f.d3.65.94.3b.6d.d8.00.00.00.00.00.00.10.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 3
+
+Node name: ros_gz_bridge
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.d3.65.93.3b.0e.83.00.00.00.00.00.00.11.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: robot_state_publisher
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.d3.65.94.3b.6d.d8.00.00.00.00.00.00.12.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: robot_state_publisher
+Node namespace: /
+Topic type: rcl_interfaces/msg/ParameterEvent
+Topic type hash: RIHS01_043e627780fcad87a22d225bc2a037361dba713fca6a6b9f4b869a5aa0393204
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.d3.65.94.3b.6d.d8.00.00.00.00.00.00.19.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+

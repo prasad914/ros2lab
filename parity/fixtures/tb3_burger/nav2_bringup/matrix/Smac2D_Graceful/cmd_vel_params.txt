@@ -1,0 +1,6 @@
+# ros2 param get --no-daemon /<node> enable_stamped_cmd_vel
+/controller_server enable_stamped_cmd_vel: Boolean value is: False
+/velocity_smoother enable_stamped_cmd_vel: Node not found
+/collision_monitor enable_stamped_cmd_vel: Boolean value is: False
+/behavior_server enable_stamped_cmd_vel: Boolean value is: False
+/docking_server enable_stamped_cmd_vel: Boolean value is: False

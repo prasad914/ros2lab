@@ -1,0 +1,26 @@
+{
+  "run_label": "Smac2D_RPP",
+  "timestamp": 1792091330.4577103,
+  "results": {
+    "goal1": {
+      "success": true,
+      "duration": 5.598,
+      "wall_duration": 5.599438905715942,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        0.10672144499365477,
+        0.6445056187259178,
+        1.4917483794336406
+      ],
+      "position_error_m": 0.36752842603193875,
+      "yaw_error_deg": 4.529116811822628,
+      "amcl_cov_x": 0.04066036364416683,
+      "amcl_cov_y": 0.09031125689476632,
+      "amcl_cov_yaw": 0.07271321292019467
+    }
+  }
+}

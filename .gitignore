@@ -9,3 +9,7 @@ __pycache__/
 node_modules
 tests/out/
 /ground-truth/
+parity/fixtures/**/bags/
+parity/browser_out/
+parity/compare/exports/
+.claude/worktrees/

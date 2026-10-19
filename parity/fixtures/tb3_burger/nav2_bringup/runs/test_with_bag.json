@@ -1,0 +1,25 @@
+{
+  "run_label": "test_with_bag",
+  "timestamp": 1792090312.4033287,
+  "results": {
+    "goal1": {
+      "success": true,
+      "duration": 4.35,
+      "wall_duration": 4.358914613723755,
+      "status": "SUCCEEDED",
+      "goal_target": [
+        0.2,
+        1.0
+      ],
+      "final_amcl_pose": [
+        0.22166385360328475,
+        0.7199662277182585,
+        1.6874704022192566
+      ],
+      "position_error_m": 0.280870497153558,
+      "amcl_cov_x": 0.018820904917881548,
+      "amcl_cov_y": 0.06427216950861969,
+      "amcl_cov_yaw": 0.0698088029465591
+    }
+  }
+}

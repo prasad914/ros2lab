@@ -1,0 +1,20 @@
+{
+  "pair": "NavFn_MPPI",
+  "planner": "NavFn",
+  "controller": "MPPI",
+  "complete": true,
+  "start_wall": "2026-10-17T20:29:59+0530",
+  "localized": "ready: localized, /amcl_pose (0.037, -0.003)",
+  "active": true,
+  "status": "SUCCEEDED",
+  "accepted": true,
+  "error_code": 0,
+  "error_msg": "",
+  "duration_sim_s": 9.423000000000002,
+  "timed_out_after_sim_s": null,
+  "goal_error": null,
+  "domain_empty_after_stop": true,
+  "bag": "parity/fixtures/tb3_burger/nav2_bringup/bags/matrix/NavFn_MPPI",
+  "bag_bytes": 20988318,
+  "end_wall": "2026-10-17T20:33:06+0530"
+}

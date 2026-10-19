@@ -1,0 +1,8 @@
+# Excerpt of parity/fixtures/tb3_burger/nav_robotis/session_failure_cases/logs/nav2.log (gitignored)
+# Selection: [planner_server] [controller_server] [bt_navigator] lines stamped wall 1792246158.808 .. 1792246162.833 (send_wall - 1 s .. result_wall + 3 s from parity/fixtures/tb3_burger/nav_robotis/session_failure_cases/goal_outside_map/result.json)
+# Generated 2026-10-17T19:39:26+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+454:[component_container_isolated-1] [INFO] [1792246159.810103037] [bt_navigator]: Begin navigating from current location (2.05, 0.71) to (10.00, 10.00)
+455:[component_container_isolated-1] [WARN] [1792246159.811421602] [planner_server]: GridBased plugin failed to plan from (2.05, 0.71) to (10.00, 10.00): "Goal Coordinates of(10.000000, 10.000000) was outside bounds"
+456:[component_container_isolated-1] [WARN] [1792246159.811567580] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+457:[component_container_isolated-1] [WARN] [1792246159.830459154] [bt_navigator]: [navigate_to_pose] [ActionServer] Aborting handle.
+458:[component_container_isolated-1] [ERROR] [1792246159.830949360] [bt_navigator]: Goal failed
