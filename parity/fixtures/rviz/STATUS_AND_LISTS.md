@@ -66,3 +66,9 @@ Config tools_tb3/input_tools_odom.rviz (Fixed Frame odom): `Global Status: Ok`, 
   Planned Path (Trajectory Topic /display_planned_path, State Display Time 0.05 s, Robot Alpha 0.5, Robot Color 150; 50; 150, Loop Animation False, Show Trail False),
   Planning Request (Planning Group ur_manipulator, Query Goal State True, Start State Color 0; 255; 0, Goal State Color 250; 128; 0, Interactive Marker Size 0),
   Planning Scene Topic monitored_planning_scene, Robot Description robot_description, Scene Geometry (Scene Alpha 0.9, Scene Color 50; 230; 50), Scene Robot.
+
+## View type defaults (views/saved_views_defaults.rviz: each type loaded by Class only into Views › Saved, saved with Ctrl+S)
+- Every type: Enable Stereo Rendering off (Stereo Eye Separation 0.06, Stereo Focal Distance 1, Swap Stereo Eyes off), Invert Z Axis off, Near Clip Distance 0.01, Target Frame <Fixed Frame>.
+- FPS: Position 5, 5, 10; Yaw 0; Pitch 0. FrameAligned: Position 0, 0, 0; Point towards `-z axis`; Lock Camera off; Pitch 1.5698; Yaw 0.
+- Orbit, ThirdPersonFollower, XYOrbit: Distance 10, Focal Point 0, 0, 0, Focal Shape Size 0.05, Focal Shape Fixed Size on, Yaw 0.785398, Pitch 0.785398.
+- TopDownOrtho: Scale 10, Angle 0, X 0, Y 0.

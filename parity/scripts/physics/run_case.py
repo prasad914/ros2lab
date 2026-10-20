@@ -40,6 +40,9 @@ def poses(*models):
 # impulse over one 1 ms step: F = m v0 / dt
 CASES = {
     'drop': dict(world='drop', until=4.0, subs=poses('box') + ['/contact/box:contacts']),
+    'drop_cd_bullet': dict(world='drop_cd_bullet', until=4.0, subs=poses('box') + ['/contact/box:contacts']),
+    'drop_cd_ode': dict(world='drop_cd_ode', until=4.0, subs=poses('box') + ['/contact/box:contacts']),
+    'drop_solver_pgs': dict(world='drop_solver_pgs', until=4.0, subs=poses('box') + ['/contact/box:contacts']),
     'drop_typebullet': dict(world='drop_typebullet', until=4.0, subs=poses('box') + ['/contact/box:contacts']),
     'restitution_ground1.0': dict(world='restitution_ground1.0', until=4.0,
                                   subs=poses('sphere_e0.0', 'sphere_e0.5', 'sphere_e0.9', 'sphere_e1.0')),

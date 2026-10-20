@@ -45,3 +45,9 @@ all cases side by side in RESULTS_TABLE.txt. "mean [min..max]" over runs. Time b
 |---|---|
 | Trajectory (joint_trajectory_controller, 2 points over 4 s) | result status 4 (SUCCEEDED), error_code 0; max |reference − feedback| 0.0047 (shoulder_pan), 0.0028 (shoulder_lift), 0.0037 rad (elbow); /joint_states and controller_state at 500 Hz (update_rate 500) |
 | Position step +0.2 rad on shoulder_pan (forward_position_controller) | update_rate 100, gain 0.1: first-order, τ(63 %) 0.100 s, 95 % at 0.29 s, no overshoot. update_rate 1000, gain 1.0: τ 0.041 s, overshoot 7.7 %. update_rate 100 gain 0.5 / 1.0 and update_rate 1000 gain 0.1 / 0.5: the joint slews at ≈ π rad/s (the UR5e velocity limit) far PAST the target (up to ~6 rad, 30× the step) and swings back – same in all 3 runs of each. Cause not established (UNVERIFIED). The gain is applied: log "The position_proportional_gain has been set to: <g>", `ros2 param get /gz_ros_control position_proportional_gain` |
+
+## Collision detector / solver (C+ addition)
+- `gz sim -v 4` logs only the engine: `Loaded [gz::physics::dartsim::Plugin] from library [.../libgz-physics-dartsim-plugin.so]`. No line names the collision detector or the constraint solver.
+- Worlds drop_cd_bullet, drop_cd_ode (`<physics><dart><collision_detector>…`) and drop_solver_pgs (`<dart><solver><solver_type>pgs`) run with no extra log line and no warning;
+  rest penetration 1.3–1.8e-5 m, 4 contact points, settle 3.64 s – inside the default drop world's run-to-run spread (1.3–2.1e-5 m). The settings are accepted silently and,
+  for a resting box, change nothing measurable. Which detector/solver dartsim uses by default is therefore UNVERIFIED from this machine's logs.

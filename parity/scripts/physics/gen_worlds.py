@@ -220,6 +220,13 @@ def main(out):
     W['drop'] = world('drop', ground() + '\n' + box('box', '0 0 1.1 0 0 0', contact=True))
     # physics type="bullet": does gz-sim switch engine? (expected by SDF readers; measured here)
     W['drop_typebullet'] = world('drop_typebullet', ground() + '\n' + box('box', '0 0 1.1 0 0 0', contact=True), ptype='bullet')
+    # which collision detector / solver does dartsim use? explicit <dart> settings vs the default drop world (-v 4 logs)
+    for tag, dart in (('drop_cd_bullet', '<collision_detector>bullet</collision_detector>'),
+                      ('drop_cd_ode', '<collision_detector>ode</collision_detector>'),
+                      ('drop_solver_pgs', '<solver><solver_type>pgs</solver_type></solver>')):
+        W[tag] = world(tag, ground() + '\n' + box('box', '0 0 1.1 0 0 0', contact=True)).replace(
+            '<real_time_update_rate>1000</real_time_update_rate>',
+            f'<real_time_update_rate>1000</real_time_update_rate>\n      <dart>{dart}</dart>')
     # (2) sliding: same mu on box and ground; impulse gives v0 = 0.5 m/s along +x
     for mu in (0.01, 0.1, 0.5, 1.0):
         W[f'slide_mu{mu}'] = world(f'slide_mu{mu}', ground(mu=mu) + '\n' + box('box', '0 0 0.1 0 0 0', surf=surface(mu=mu)))
