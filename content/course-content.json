@@ -20846,7 +20846,7 @@
       {
        "t": "code",
        "lang": "bash",
-       "text": "# show DEBUG messages for every logger in this program\nros2 run chiku_control log_demo --ros-args --log-level debug\n\n# better: DEBUG only for our node, INFO for ROS 2's own internal loggers\nros2 run chiku_control log_demo --ros-args --log-level log_demo:=debug\n\n# only warnings and errors\nros2 run chiku_control_cpp log_demo --ros-args --log-level warn"
+       "text": "# show DEBUG messages for every logger in this program\nros2 run chiku_control log_demo --ros-args --log-level debug\n\n# better: DEBUG only for our node, INFO for ROS 2's own internal loggers\nros2 run chiku_control log_demo --ros-args --log-level log_demo:=debug\n\n# only warnings and errors\nros2 run chiku_control log_demo --ros-args --log-level warn"
       },
       {
        "t": "tip",
@@ -21924,7 +21924,7 @@
       {
        "t": "code",
        "lang": "bash",
-       "text": "# the filter reads /cmd_vel_in and writes straight to the turtle\nros2 run chiku_control safety_filter --ros-args -r cmd_vel_out:=/turtle1/cmd_vel -p max_speed:=1.0\n\n# teleop normally writes /turtle1/cmd_vel; send it into the filter instead\nros2 run turtlesim turtle_teleop_key --ros-args -r /turtle1/cmd_vel:=/cmd_vel_in"
+       "text": "# the filter reads /cmd_vel_in and writes straight to the turtle\nros2 run chiku_control_cpp safety_filter --ros-args -r cmd_vel_out:=/turtle1/cmd_vel -p max_speed:=1.0\n\n# teleop normally writes /turtle1/cmd_vel; send it into the filter instead\nros2 run turtlesim turtle_teleop_key --ros-args -r /turtle1/cmd_vel:=/cmd_vel_in"
       },
       {
        "t": "tip",

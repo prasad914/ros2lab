@@ -1,31 +1,31 @@
 # Excerpt of parity/fixtures/lessons/N4/termcode1_runner.log (gitignored)
 # Selection: every line
-# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
-1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson N4 terminal code1: Lesson code block commands: log levels (chiku_control_cpp is not in this lesson workspace)
+# Generated 2026-10-20T16:43:16+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson N4 terminal code1: Lesson code block commands: log levels (all three with chiku_control, the package in this lesson workspace)
 2:# scratch HOME /home/prasad/lesson_ws/homes/N4_tcode1 shown as /home/student; sourced=True running=[] start=~/ros2_ws
-3:## [term 1] $ colcon build --packages-select chiku_control   (exit=0, 4.4 s, finished, cwd=/home/student/ros2_ws)
-4:[0.4s] [0/0 complete]
+3:## [term 1] $ colcon build --packages-select chiku_control   (exit=0, 5.6 s, finished, cwd=/home/student/ros2_ws)
+4:[0.5s] [0/0 complete]
 5:                     
 6:Starting >>> chiku_control
-7:[0.5s] [0/1 complete] [chiku_control - 0.1s]
+7:[0.6s] [0/1 complete] [chiku_control - 0.1s]
 8:                                            
-9:[0.6s] [0/1 complete] [chiku_control - 0.2s]
+9:[0.7s] [0/1 complete] [chiku_control - 0.2s]
 10:                                            
-11:[0.7s] [0/1 complete] [chiku_control - 0.3s]
+11:[0.8s] [0/1 complete] [chiku_control - 0.3s]
 12:                                            
-13:[0.8s] [0/1 complete] [chiku_control - 0.4s]
+13:[0.9s] [0/1 complete] [chiku_control - 0.4s]
 14:                                            
-15:[0.9s] [0/1 complete] [chiku_control - 0.5s]
+15:[1.0s] [0/1 complete] [chiku_control - 0.5s]
 16:                                            
-17:[1.0s] [0/1 complete] [chiku_control - 0.6s]
+17:[1.1s] [0/1 complete] [chiku_control - 0.6s]
 18:                                            
-19:[1.1s] [0/1 complete] [chiku_control - 0.7s]
+19:[1.2s] [0/1 complete] [chiku_control - 0.7s]
 20:                                            
-21:[1.2s] [0/1 complete] [chiku_control - 0.8s]
+21:[1.3s] [0/1 complete] [chiku_control - 0.8s]
 22:                                            
-23:[1.3s] [0/1 complete] [chiku_control - 0.9s]
+23:[1.4s] [0/1 complete] [chiku_control - 0.9s]
 24:                                            
-25:[1.4s] [0/1 complete] [chiku_control - 1.0s]
+25:[1.5s] [0/1 complete] [chiku_control - 1.0s]
 26:                                            
 27:[1.6s] [0/1 complete] [chiku_control - 1.1s]
 28:                                            
@@ -69,497 +69,567 @@
 66:                                            
 67:[3.6s] [0/1 complete] [chiku_control - 3.1s]
 68:                                            
-69:Finished <<< chiku_control [3.20s]
-70:
-71:Summary: 1 package finished [3.65s]
-72:
-73:## [term 1] $ source install/setup.bash   (exit=0, 0.9 s, finished, cwd=/home/student/ros2_ws)
-74:
-75:## [term 1] $ ros2 run chiku_control log_demo --ros-args --log-level debug   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student/ros2_ws)
-76:[DEBUG] [1792427990.054501220] [rcl]: Initializing node 'log_demo' in namespace ''
-77:[DEBUG] [1792427990.054572279] [rcl]: Using domain ID of '52'
-78:[DEBUG] [1792427990.069684553] [rcl]: Node initialized
-79:[DEBUG] [1792427990.069744414] [rcl]: Initializing publisher for topic name '/rosout'
-80:[DEBUG] [1792427990.069763717] [rcl]: Expanded and remapped topic name '/rosout'
-81:[DEBUG] [1792427990.073114851] [rcl]: Publisher initialized
-82:[DEBUG] [1792427990.135893649] [rcl]: Initializing publisher for topic name '/parameter_events'
-83:[DEBUG] [1792427990.135941697] [rcl]: Expanded and remapped topic name '/parameter_events'
-84:[DEBUG] [1792427990.136911016] [rcl]: Publisher initialized
-85:[DEBUG] [1792427990.143457031] [rcl]: Initializing service for service name 'log_demo/describe_parameters'
-86:[DEBUG] [1792427990.143505427] [rcl]: Expanded and remapped service name '/log_demo/describe_parameters'
-87:[DEBUG] [1792427990.144118586] [rmw_fastrtps_cpp]: ************ Service Details *********
-88:[DEBUG] [1792427990.144135285] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/describe_parametersRequest
-89:[DEBUG] [1792427990.144140879] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/describe_parametersReply
-90:[DEBUG] [1792427990.144146664] [rmw_fastrtps_cpp]: ***********
-91:[DEBUG] [1792427990.144264434] [rcl]: Service initialized
-92:[DEBUG] [1792427990.144484000] [rcl]: Initializing service for service name 'log_demo/get_parameters'
-93:[DEBUG] [1792427990.144504108] [rcl]: Expanded and remapped service name '/log_demo/get_parameters'
-94:[DEBUG] [1792427990.144923831] [rmw_fastrtps_cpp]: ************ Service Details *********
-95:[DEBUG] [1792427990.144937219] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/get_parametersRequest
-96:[DEBUG] [1792427990.144946804] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/get_parametersReply
-97:[DEBUG] [1792427990.144955359] [rmw_fastrtps_cpp]: ***********
-98:[DEBUG] [1792427990.145024762] [rcl]: Service initialized
-99:[DEBUG] [1792427990.145167346] [rcl]: Initializing service for service name 'log_demo/get_parameter_types'
-100:[DEBUG] [1792427990.145184065] [rcl]: Expanded and remapped service name '/log_demo/get_parameter_types'
-101:[DEBUG] [1792427990.145570551] [rmw_fastrtps_cpp]: ************ Service Details *********
-102:[DEBUG] [1792427990.145581932] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/get_parameter_typesRequest
-103:[DEBUG] [1792427990.145586846] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/get_parameter_typesReply
-104:[DEBUG] [1792427990.145591489] [rmw_fastrtps_cpp]: ***********
-105:[DEBUG] [1792427990.145640337] [rcl]: Service initialized
-106:[DEBUG] [1792427990.145773377] [rcl]: Initializing service for service name 'log_demo/list_parameters'
-107:[DEBUG] [1792427990.145786011] [rcl]: Expanded and remapped service name '/log_demo/list_parameters'
-108:[DEBUG] [1792427990.146144809] [rmw_fastrtps_cpp]: ************ Service Details *********
-109:[DEBUG] [1792427990.146156312] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/list_parametersRequest
-110:[DEBUG] [1792427990.146164551] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/list_parametersReply
-111:[DEBUG] [1792427990.146172339] [rmw_fastrtps_cpp]: ***********
-112:[DEBUG] [1792427990.146244457] [rcl]: Service initialized
-113:[DEBUG] [1792427990.146374030] [rcl]: Initializing service for service name 'log_demo/set_parameters'
-114:[DEBUG] [1792427990.146387690] [rcl]: Expanded and remapped service name '/log_demo/set_parameters'
-115:[DEBUG] [1792427990.146953601] [rmw_fastrtps_cpp]: ************ Service Details *********
-116:[DEBUG] [1792427990.146968791] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/set_parametersRequest
-117:[DEBUG] [1792427990.146977990] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/set_parametersReply
-118:[DEBUG] [1792427990.146987625] [rmw_fastrtps_cpp]: ***********
-119:[DEBUG] [1792427990.147096048] [rcl]: Service initialized
-120:[DEBUG] [1792427990.147239014] [rcl]: Initializing service for service name 'log_demo/set_parameters_atomically'
-121:[DEBUG] [1792427990.147255625] [rcl]: Expanded and remapped service name '/log_demo/set_parameters_atomically'
-122:[DEBUG] [1792427990.147773910] [rmw_fastrtps_cpp]: ************ Service Details *********
-123:[DEBUG] [1792427990.147787842] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/set_parameters_atomicallyRequest
-124:[DEBUG] [1792427990.147843570] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/set_parameters_atomicallyReply
-125:[DEBUG] [1792427990.147851868] [rmw_fastrtps_cpp]: ***********
-126:[DEBUG] [1792427990.147940127] [rcl]: Service initialized
-127:[DEBUG] [1792427990.148378829] [rcl]: Initializing service for service name '/log_demo/get_type_description'
-128:[DEBUG] [1792427990.148413977] [rcl]: Expanded and remapped service name '/log_demo/get_type_description'
-129:[DEBUG] [1792427990.149415083] [rmw_fastrtps_cpp]: ************ Service Details *********
-130:[DEBUG] [1792427990.149444258] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/get_type_descriptionRequest
-131:[DEBUG] [1792427990.149458421] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/get_type_descriptionReply
-132:[DEBUG] [1792427990.149468681] [rmw_fastrtps_cpp]: ***********
-133:[DEBUG] [1792427990.149598328] [rcl]: Service initialized
-134:[DEBUG] [1792427990.175353138] [rcl]: Initializing timer with period: 200000000ns
-135:[DEBUG] [1792427990.175434211] [rcl]: Updated timer period from '200000000ns' to '200000000ns'
-136:[INFO] [1792427990.201806685] [log_demo]: Battery watcher started
-137:[DEBUG] [1792427990.202900914] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-138:[DEBUG] [1792427990.203503304] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-139:[DEBUG] [1792427990.376112385] [rcl]: Calling timer
-140:[DEBUG] [1792427990.377950009] [log_demo]: raw battery value: 98.5
-141:[INFO] [1792427990.379477101] [log_demo]: battery 98 %
-142:[DEBUG] [1792427990.379995905] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-143:[DEBUG] [1792427990.380429656] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-144:[DEBUG] [1792427990.576080408] [rcl]: Calling timer
-145:[DEBUG] [1792427990.578404797] [log_demo]: raw battery value: 97.0
-146:[DEBUG] [1792427990.580877755] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-147:[DEBUG] [1792427990.581352396] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-148:[DEBUG] [1792427990.776154463] [rcl]: Calling timer
-149:[DEBUG] [1792427990.777963900] [log_demo]: raw battery value: 95.5
-150:[DEBUG] [1792427990.782047812] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-151:[DEBUG] [1792427990.782893222] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-152:[DEBUG] [1792427990.976302384] [rcl]: Calling timer
-153:[DEBUG] [1792427990.979413112] [log_demo]: raw battery value: 94.0
-154:[DEBUG] [1792427990.982412656] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-155:[DEBUG] [1792427990.982888237] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-156:[DEBUG] [1792427991.176089796] [rcl]: Calling timer
-157:[DEBUG] [1792427991.177863905] [log_demo]: raw battery value: 92.5
-158:[DEBUG] [1792427991.179980077] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-159:[DEBUG] [1792427991.180409344] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-160:[DEBUG] [1792427991.376281388] [rcl]: Calling timer
-161:[DEBUG] [1792427991.379791816] [log_demo]: raw battery value: 91.0
-162:[INFO] [1792427991.381502965] [log_demo]: battery 91 %
-163:[DEBUG] [1792427991.382002004] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-164:[DEBUG] [1792427991.382451193] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-165:[DEBUG] [1792427991.575996027] [rcl]: Calling timer
-166:[DEBUG] [1792427991.577816565] [log_demo]: raw battery value: 89.5
-167:[DEBUG] [1792427991.579971389] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-168:[DEBUG] [1792427991.580376841] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-169:[DEBUG] [1792427991.776035524] [rcl]: Calling timer
-170:[DEBUG] [1792427991.777837377] [log_demo]: raw battery value: 88.0
-171:[DEBUG] [1792427991.779791340] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-172:[DEBUG] [1792427991.780180676] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-173:[DEBUG] [1792427991.976136729] [rcl]: Calling timer
-174:[DEBUG] [1792427991.977993900] [log_demo]: raw battery value: 86.5
-175:[DEBUG] [1792427991.979920983] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-176:[DEBUG] [1792427991.980327400] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-177:[DEBUG] [1792427992.176021038] [rcl]: Calling timer
-178:[DEBUG] [1792427992.177839333] [log_demo]: raw battery value: 85.0
-179:[DEBUG] [1792427992.179779625] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-180:[DEBUG] [1792427992.180188042] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-181:[DEBUG] [1792427992.376151006] [rcl]: Calling timer
-182:[DEBUG] [1792427992.377973707] [log_demo]: raw battery value: 83.5
-183:[DEBUG] [1792427992.379912639] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-184:[DEBUG] [1792427992.380309025] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-185:[DEBUG] [1792427992.576220527] [rcl]: Calling timer
-186:[DEBUG] [1792427992.578814375] [log_demo]: raw battery value: 82.0
-187:[INFO] [1792427992.581256814] [log_demo]: battery 82 %
-188:[DEBUG] [1792427992.582124697] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-189:[DEBUG] [1792427992.582836398] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-190:[DEBUG] [1792427992.776149055] [rcl]: Calling timer
-191:[DEBUG] [1792427992.778592119] [log_demo]: raw battery value: 80.5
-192:[DEBUG] [1792427992.781370984] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-193:[DEBUG] [1792427992.782133787] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-194:[DEBUG] [1792427992.976176298] [rcl]: Calling timer
-195:[DEBUG] [1792427992.978307377] [log_demo]: raw battery value: 79.0
-196:[WARN] [1792427992.981473989] [log_demo]: battery below 80 %
-197:[DEBUG] [1792427992.982000683] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-198:[DEBUG] [1792427992.982433538] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-199:[DEBUG] [1792427993.176055076] [rcl]: Calling timer
-200:[DEBUG] [1792427993.177864363] [log_demo]: raw battery value: 77.5
-201:[DEBUG] [1792427993.181271100] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-202:[DEBUG] [1792427993.181696614] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-203:[DEBUG] [1792427993.376056307] [rcl]: Calling timer
-204:[DEBUG] [1792427993.377877360] [log_demo]: raw battery value: 76.0
-205:[DEBUG] [1792427993.381263438] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-206:[DEBUG] [1792427993.381692354] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-207:[DEBUG] [1792427993.576031220] [rcl]: Calling timer
-208:[DEBUG] [1792427993.578050141] [log_demo]: raw battery value: 74.5
-209:[DEBUG] [1792427993.581406117] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-210:[DEBUG] [1792427993.581821154] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-211:[DEBUG] [1792427993.776052099] [rcl]: Calling timer
-212:[DEBUG] [1792427993.777868399] [log_demo]: raw battery value: 73.0
-213:[INFO] [1792427993.779430109] [log_demo]: battery 73 %
-214:[DEBUG] [1792427993.781437393] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-215:[DEBUG] [1792427993.781848379] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-216:[DEBUG] [1792427993.976338878] [rcl]: Calling timer
-217:[DEBUG] [1792427993.979548992] [log_demo]: raw battery value: 71.5
-218:[DEBUG] [1792427993.984260676] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-219:[DEBUG] [1792427993.984812019] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-220:[DEBUG] [1792427994.175997383] [rcl]: Calling timer
-221:[DEBUG] [1792427994.177813265] [log_demo]: raw battery value: 70.0
-222:[DEBUG] [1792427994.181319438] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-223:[DEBUG] [1792427994.181797748] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-224:[DEBUG] [1792427994.376111874] [rcl]: Calling timer
-225:[DEBUG] [1792427994.378036453] [log_demo]: raw battery value: 68.5
-226:[ERROR] [1792427994.382379804] [log_demo]: battery low, going home!
-227:[DEBUG] [1792427994.383024414] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-228:[DEBUG] [1792427994.383469947] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-229:[DEBUG] [1792427994.575995013] [rcl]: Calling timer
-230:[DEBUG] [1792427994.577819164] [log_demo]: raw battery value: 67.0
-231:[DEBUG] [1792427994.582540725] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-232:[DEBUG] [1792427994.582992686] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-233:[DEBUG] [1792427994.776064374] [rcl]: Calling timer
-234:[DEBUG] [1792427994.777890309] [log_demo]: raw battery value: 65.5
-235:[INFO] [1792427994.779517745] [log_demo]: battery 66 %
-236:[DEBUG] [1792427994.782837609] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-237:[DEBUG] [1792427994.783260093] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-238:[DEBUG] [1792427994.976089862] [rcl]: Calling timer
-239:[DEBUG] [1792427994.977955536] [log_demo]: raw battery value: 64.0
-240:[DEBUG] [1792427994.982590282] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-241:[DEBUG] [1792427994.982983935] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-242:[DEBUG] [1792427995.176037655] [rcl]: Calling timer
-243:[DEBUG] [1792427995.177876260] [log_demo]: raw battery value: 62.5
-244:[DEBUG] [1792427995.182756094] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-245:[DEBUG] [1792427995.183167455] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-246:[DEBUG] [1792427995.376094444] [rcl]: Calling timer
-247:[DEBUG] [1792427995.377881332] [log_demo]: raw battery value: 61.0
-248:[DEBUG] [1792427995.382741468] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-249:[DEBUG] [1792427995.383196474] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-250:[DEBUG] [1792427995.576149993] [rcl]: Calling timer
-251:[DEBUG] [1792427995.577949847] [log_demo]: raw battery value: 59.5
-252:[DEBUG] [1792427995.582633786] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-253:[DEBUG] [1792427995.583059686] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-254:[DEBUG] [1792427995.776127531] [rcl]: Calling timer
-255:[DEBUG] [1792427995.777969179] [log_demo]: raw battery value: 58.0
-256:[DEBUG] [1792427995.782695419] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-257:[DEBUG] [1792427995.783103798] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-258:[DEBUG] [1792427995.976141277] [rcl]: Calling timer
-259:[DEBUG] [1792427995.978002850] [log_demo]: raw battery value: 56.5
-260:[INFO] [1792427995.979545394] [log_demo]: battery 56 %
-261:[DEBUG] [1792427995.982784806] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-262:[DEBUG] [1792427995.983182068] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-263:[DEBUG] [1792427996.175994334] [rcl]: Calling timer
-264:[DEBUG] [1792427996.177829493] [log_demo]: raw battery value: 55.0
-265:[DEBUG] [1792427996.182564660] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-266:[DEBUG] [1792427996.182976036] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-267:[DEBUG] [1792427996.376170614] [rcl]: Calling timer
-268:[DEBUG] [1792427996.377985018] [log_demo]: raw battery value: 53.5
-269:[DEBUG] [1792427996.382692594] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-270:[DEBUG] [1792427996.383160949] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-271:
-272:## [new terminal 2]
-273:## [term 2] $ cd ~/ros2_ws   (exit=0, 0.0 s, finished, cwd=/home/student/ros2_ws)
-274:
-275:### output meanwhile in terminal 1:
-276:[DEBUG] [1792427997.976094710] [rcl]: Calling timer
-277:[DEBUG] [1792427997.977929489] [log_demo]: raw battery value: 41.5
-278:[DEBUG] [1792427997.982513604] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-279:[DEBUG] [1792427997.982902904] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-280:[DEBUG] [1792427998.176007054] [rcl]: Calling timer
-281:[DEBUG] [1792427998.177792923] [log_demo]: raw battery value: 40.0
-282:[INFO] [1792427998.179278223] [log_demo]: battery 40 %
-283:[DEBUG] [1792427998.182587031] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-284:[DEBUG] [1792427998.183001224] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-285:
-286:## [term 2] $ source install/setup.bash   (exit=0, 0.9 s, finished, cwd=/home/student/ros2_ws)
-287:
-288:### output meanwhile in terminal 1:
-289:[DEBUG] [1792427998.576132835] [rcl]: Calling timer
-290:[DEBUG] [1792427998.577886071] [log_demo]: raw battery value: 37.0
-291:[DEBUG] [1792427998.581987692] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-292:[DEBUG] [1792427998.582367236] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-293:[DEBUG] [1792427998.776123366] [rcl]: Calling timer
-294:[DEBUG] [1792427998.777948676] [log_demo]: raw battery value: 35.5
-295:[ERROR] [1792427998.782220464] [log_demo]: battery low, going home!
-296:[DEBUG] [1792427998.782795863] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-297:[DEBUG] [1792427998.783214088] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-298:[DEBUG] [1792427998.976029156] [rcl]: Calling timer
-299:[DEBUG] [1792427998.977870305] [log_demo]: raw battery value: 34.0
-300:[DEBUG] [1792427998.982690012] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-301:[DEBUG] [1792427998.983108745] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-302:[DEBUG] [1792427999.175852330] [rcl]: Calling timer
-303:[DEBUG] [1792427999.176657488] [log_demo]: raw battery value: 32.5
-304:[DEBUG] [1792427999.178737164] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-305:[DEBUG] [1792427999.178925640] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-306:[DEBUG] [1792427999.376043697] [rcl]: Calling timer
-307:[DEBUG] [1792427999.378102806] [log_demo]: raw battery value: 31.0
-308:[INFO] [1792427999.379904441] [log_demo]: battery 31 %
-309:[DEBUG] [1792427999.383427685] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-310:[DEBUG] [1792427999.383831945] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-311:[DEBUG] [1792427999.576276038] [rcl]: Calling timer
-312:[DEBUG] [1792427999.579045489] [log_demo]: raw battery value: 29.5
-313:[DEBUG] [1792427999.584000018] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-314:[DEBUG] [1792427999.584494091] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-315:
-316:## [term 2] $ ros2 run chiku_control_cpp log_demo --ros-args --log-level warn   (exit=1, 0.7 s, finished, cwd=/home/student/ros2_ws)
-317:Package 'chiku_control_cpp' not found
-318:
-319:### output meanwhile in terminal 1:
-320:[DEBUG] [1792427999.976067534] [rcl]: Calling timer
-321:[DEBUG] [1792427999.977913590] [log_demo]: raw battery value: 26.5
-322:[DEBUG] [1792427999.982739772] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-323:[DEBUG] [1792427999.983160223] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-324:[DEBUG] [1792428000.176021844] [rcl]: Calling timer
-325:[DEBUG] [1792428000.177619108] [log_demo]: raw battery value: 25.0
-326:[DEBUG] [1792428000.181678474] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-327:[DEBUG] [1792428000.182016101] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-328:[DEBUG] [1792428000.375937458] [rcl]: Calling timer
-329:[DEBUG] [1792428000.376992115] [log_demo]: raw battery value: 23.5
-330:[DEBUG] [1792428000.379997672] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-331:[DEBUG] [1792428000.380284915] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-332:[DEBUG] [1792428000.575881193] [rcl]: Calling timer
-333:[DEBUG] [1792428000.576696528] [log_demo]: raw battery value: 22.0
-334:[INFO] [1792428000.577320017] [log_demo]: battery 22 %
-335:[DEBUG] [1792428000.578607606] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-336:[DEBUG] [1792428000.578775787] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-337:[DEBUG] [1792428000.776079567] [rcl]: Calling timer
-338:[DEBUG] [1792428000.777889420] [log_demo]: raw battery value: 20.5
-339:[DEBUG] [1792428000.782605473] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-340:[DEBUG] [1792428000.783015114] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-341:
-342:## [term 1] Ctrl+C to stop: ros2 run chiku_control log_demo --ros-args --log-level debug  (exit=0)
-343:[DEBUG] [1792427990.054501220] [rcl]: Initializing node 'log_demo' in namespace ''
-344:[DEBUG] [1792427990.054572279] [rcl]: Using domain ID of '52'
-345:[DEBUG] [1792427990.069684553] [rcl]: Node initialized
-346:[DEBUG] [1792427990.069744414] [rcl]: Initializing publisher for topic name '/rosout'
-347:[DEBUG] [1792427990.069763717] [rcl]: Expanded and remapped topic name '/rosout'
-348:[DEBUG] [1792427990.073114851] [rcl]: Publisher initialized
-349:[DEBUG] [1792427990.135893649] [rcl]: Initializing publisher for topic name '/parameter_events'
-350:[DEBUG] [1792427990.135941697] [rcl]: Expanded and remapped topic name '/parameter_events'
-351:[DEBUG] [1792427990.136911016] [rcl]: Publisher initialized
-352:[DEBUG] [1792427990.143457031] [rcl]: Initializing service for service name 'log_demo/describe_parameters'
-353:[DEBUG] [1792427990.143505427] [rcl]: Expanded and remapped service name '/log_demo/describe_parameters'
-354:[DEBUG] [1792427990.144118586] [rmw_fastrtps_cpp]: ************ Service Details *********
-355:[DEBUG] [1792427990.144135285] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/describe_parametersRequest
-356:[DEBUG] [1792427990.144140879] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/describe_parametersReply
-357:[DEBUG] [1792427990.144146664] [rmw_fastrtps_cpp]: ***********
-358:[DEBUG] [1792427990.144264434] [rcl]: Service initialized
-359:[DEBUG] [1792427990.144484000] [rcl]: Initializing service for service name 'log_demo/get_parameters'
-360:[DEBUG] [1792427990.144504108] [rcl]: Expanded and remapped service name '/log_demo/get_parameters'
-361:[DEBUG] [1792427990.144923831] [rmw_fastrtps_cpp]: ************ Service Details *********
-362:[DEBUG] [1792427990.144937219] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/get_parametersRequest
-363:[DEBUG] [1792427990.144946804] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/get_parametersReply
-364:[DEBUG] [1792427990.144955359] [rmw_fastrtps_cpp]: ***********
-365:[DEBUG] [1792427990.145024762] [rcl]: Service initialized
-366:[DEBUG] [1792427990.145167346] [rcl]: Initializing service for service name 'log_demo/get_parameter_types'
-367:[DEBUG] [1792427990.145184065] [rcl]: Expanded and remapped service name '/log_demo/get_parameter_types'
-368:[DEBUG] [1792427990.145570551] [rmw_fastrtps_cpp]: ************ Service Details *********
-369:[DEBUG] [1792427990.145581932] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/get_parameter_typesRequest
-370:[DEBUG] [1792427990.145586846] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/get_parameter_typesReply
-371:[DEBUG] [1792427990.145591489] [rmw_fastrtps_cpp]: ***********
-372:[DEBUG] [1792427990.145640337] [rcl]: Service initialized
-373:[DEBUG] [1792427990.145773377] [rcl]: Initializing service for service name 'log_demo/list_parameters'
-374:[DEBUG] [1792427990.145786011] [rcl]: Expanded and remapped service name '/log_demo/list_parameters'
-375:[DEBUG] [1792427990.146144809] [rmw_fastrtps_cpp]: ************ Service Details *********
-376:[DEBUG] [1792427990.146156312] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/list_parametersRequest
-377:[DEBUG] [1792427990.146164551] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/list_parametersReply
-378:[DEBUG] [1792427990.146172339] [rmw_fastrtps_cpp]: ***********
-379:[DEBUG] [1792427990.146244457] [rcl]: Service initialized
-380:[DEBUG] [1792427990.146374030] [rcl]: Initializing service for service name 'log_demo/set_parameters'
-381:[DEBUG] [1792427990.146387690] [rcl]: Expanded and remapped service name '/log_demo/set_parameters'
-382:[DEBUG] [1792427990.146953601] [rmw_fastrtps_cpp]: ************ Service Details *********
-383:[DEBUG] [1792427990.146968791] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/set_parametersRequest
-384:[DEBUG] [1792427990.146977990] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/set_parametersReply
-385:[DEBUG] [1792427990.146987625] [rmw_fastrtps_cpp]: ***********
-386:[DEBUG] [1792427990.147096048] [rcl]: Service initialized
-387:[DEBUG] [1792427990.147239014] [rcl]: Initializing service for service name 'log_demo/set_parameters_atomically'
-388:[DEBUG] [1792427990.147255625] [rcl]: Expanded and remapped service name '/log_demo/set_parameters_atomically'
-389:[DEBUG] [1792427990.147773910] [rmw_fastrtps_cpp]: ************ Service Details *********
-390:[DEBUG] [1792427990.147787842] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/set_parameters_atomicallyRequest
-391:[DEBUG] [1792427990.147843570] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/set_parameters_atomicallyReply
-392:[DEBUG] [1792427990.147851868] [rmw_fastrtps_cpp]: ***********
-393:[DEBUG] [1792427990.147940127] [rcl]: Service initialized
-394:[DEBUG] [1792427990.148378829] [rcl]: Initializing service for service name '/log_demo/get_type_description'
-395:[DEBUG] [1792427990.148413977] [rcl]: Expanded and remapped service name '/log_demo/get_type_description'
-396:[DEBUG] [1792427990.149415083] [rmw_fastrtps_cpp]: ************ Service Details *********
-397:[DEBUG] [1792427990.149444258] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/get_type_descriptionRequest
-398:[DEBUG] [1792427990.149458421] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/get_type_descriptionReply
-399:[DEBUG] [1792427990.149468681] [rmw_fastrtps_cpp]: ***********
-400:[DEBUG] [1792427990.149598328] [rcl]: Service initialized
-401:[DEBUG] [1792427990.175353138] [rcl]: Initializing timer with period: 200000000ns
-402:[DEBUG] [1792427990.175434211] [rcl]: Updated timer period from '200000000ns' to '200000000ns'
-403:[INFO] [1792427990.201806685] [log_demo]: Battery watcher started
-404:[DEBUG] [1792427990.202900914] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-405:[DEBUG] [1792427990.203503304] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-406:[DEBUG] [1792427990.376112385] [rcl]: Calling timer
-407:[DEBUG] [1792427990.377950009] [log_demo]: raw battery value: 98.5
-408:[INFO] [1792427990.379477101] [log_demo]: battery 98 %
-409:[DEBUG] [1792427990.379995905] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-410:[DEBUG] [1792427990.380429656] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-411:[DEBUG] [1792427990.576080408] [rcl]: Calling timer
-412:[DEBUG] [1792427990.578404797] [log_demo]: raw battery value: 97.0
-413:[DEBUG] [1792427990.580877755] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-414:[DEBUG] [1792427990.581352396] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-415:[DEBUG] [1792427990.776154463] [rcl]: Calling timer
-416:[DEBUG] [1792427990.777963900] [log_demo]: raw battery value: 95.5
-417:[DEBUG] [1792427990.782047812] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-418:[DEBUG] [1792427990.782893222] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-419:[DEBUG] [1792427990.976302384] [rcl]: Calling timer
-420:[DEBUG] [1792427990.979413112] [log_demo]: raw battery value: 94.0
-421:[DEBUG] [1792427990.982412656] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-422:[DEBUG] [1792427990.982888237] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-423:[DEBUG] [1792427991.176089796] [rcl]: Calling timer
-424:[DEBUG] [1792427991.177863905] [log_demo]: raw battery value: 92.5
-425:[DEBUG] [1792427991.179980077] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-426:[DEBUG] [1792427991.180409344] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-427:[DEBUG] [1792427991.376281388] [rcl]: Calling timer
-428:[DEBUG] [1792427991.379791816] [log_demo]: raw battery value: 91.0
-429:[INFO] [1792427991.381502965] [log_demo]: battery 91 %
-430:[DEBUG] [1792427991.382002004] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-431:[DEBUG] [1792427991.382451193] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-432:[DEBUG] [1792427991.575996027] [rcl]: Calling timer
-433:[DEBUG] [1792427991.577816565] [log_demo]: raw battery value: 89.5
-434:[DEBUG] [1792427991.579971389] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-435:[DEBUG] [1792427991.580376841] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-436:[DEBUG] [1792427991.776035524] [rcl]: Calling timer
-437:[DEBUG] [1792427991.777837377] [log_demo]: raw battery value: 88.0
-438:[DEBUG] [1792427991.779791340] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-439:[DEBUG] [1792427991.780180676] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-440:[DEBUG] [1792427991.976136729] [rcl]: Calling timer
-441:[DEBUG] [1792427991.977993900] [log_demo]: raw battery value: 86.5
-442:[DEBUG] [1792427991.979920983] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-443:[DEBUG] [1792427991.980327400] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-444:[DEBUG] [1792427992.176021038] [rcl]: Calling timer
-445:[DEBUG] [1792427992.177839333] [log_demo]: raw battery value: 85.0
-446:[DEBUG] [1792427992.179779625] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-447:[DEBUG] [1792427992.180188042] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-448:[DEBUG] [1792427992.376151006] [rcl]: Calling timer
-449:[DEBUG] [1792427992.377973707] [log_demo]: raw battery value: 83.5
-450:[DEBUG] [1792427992.379912639] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-451:[DEBUG] [1792427992.380309025] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-452:[DEBUG] [1792427992.576220527] [rcl]: Calling timer
-453:[DEBUG] [1792427992.578814375] [log_demo]: raw battery value: 82.0
-454:[INFO] [1792427992.581256814] [log_demo]: battery 82 %
-455:[DEBUG] [1792427992.582124697] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-456:[DEBUG] [1792427992.582836398] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-457:[DEBUG] [1792427992.776149055] [rcl]: Calling timer
-458:[DEBUG] [1792427992.778592119] [log_demo]: raw battery value: 80.5
-459:[DEBUG] [1792427992.781370984] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-460:[DEBUG] [1792427992.782133787] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-461:[DEBUG] [1792427992.976176298] [rcl]: Calling timer
-462:[DEBUG] [1792427992.978307377] [log_demo]: raw battery value: 79.0
-463:[WARN] [1792427992.981473989] [log_demo]: battery below 80 %
-464:[DEBUG] [1792427992.982000683] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-465:[DEBUG] [1792427992.982433538] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-466:[DEBUG] [1792427993.176055076] [rcl]: Calling timer
-467:[DEBUG] [1792427993.177864363] [log_demo]: raw battery value: 77.5
-468:[DEBUG] [1792427993.181271100] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-469:[DEBUG] [1792427993.181696614] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-470:[DEBUG] [1792427993.376056307] [rcl]: Calling timer
-471:[DEBUG] [1792427993.377877360] [log_demo]: raw battery value: 76.0
-472:[DEBUG] [1792427993.381263438] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-473:[DEBUG] [1792427993.381692354] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-474:[DEBUG] [1792427993.576031220] [rcl]: Calling timer
-475:[DEBUG] [1792427993.578050141] [log_demo]: raw battery value: 74.5
-476:[DEBUG] [1792427993.581406117] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-477:[DEBUG] [1792427993.581821154] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-478:[DEBUG] [1792427993.776052099] [rcl]: Calling timer
-479:[DEBUG] [1792427993.777868399] [log_demo]: raw battery value: 73.0
-480:[INFO] [1792427993.779430109] [log_demo]: battery 73 %
-481:[DEBUG] [1792427993.781437393] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-482:[DEBUG] [1792427993.781848379] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-483:[DEBUG] [1792427993.976338878] [rcl]: Calling timer
-484:[DEBUG] [1792427993.979548992] [log_demo]: raw battery value: 71.5
-485:[DEBUG] [1792427993.984260676] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-486:[DEBUG] [1792427993.984812019] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-487:[DEBUG] [1792427994.175997383] [rcl]: Calling timer
-488:[DEBUG] [1792427994.177813265] [log_demo]: raw battery value: 70.0
-489:[DEBUG] [1792427994.181319438] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-490:[DEBUG] [1792427994.181797748] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-491:[DEBUG] [1792427994.376111874] [rcl]: Calling timer
-492:[DEBUG] [1792427994.378036453] [log_demo]: raw battery value: 68.5
-493:[ERROR] [1792427994.382379804] [log_demo]: battery low, going home!
-494:[DEBUG] [1792427994.383024414] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-495:[DEBUG] [1792427994.383469947] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-496:[DEBUG] [1792427994.575995013] [rcl]: Calling timer
-497:[DEBUG] [1792427994.577819164] [log_demo]: raw battery value: 67.0
-498:[DEBUG] [1792427994.582540725] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-499:[DEBUG] [1792427994.582992686] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-500:[DEBUG] [1792427994.776064374] [rcl]: Calling timer
-501:[DEBUG] [1792427994.777890309] [log_demo]: raw battery value: 65.5
-502:[INFO] [1792427994.779517745] [log_demo]: battery 66 %
-503:[DEBUG] [1792427994.782837609] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-504:[DEBUG] [1792427994.783260093] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-505:[DEBUG] [1792427994.976089862] [rcl]: Calling timer
-506:[DEBUG] [1792427994.977955536] [log_demo]: raw battery value: 64.0
-507:[DEBUG] [1792427994.982590282] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-508:[DEBUG] [1792427994.982983935] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-509:[DEBUG] [1792427995.176037655] [rcl]: Calling timer
-510:[DEBUG] [1792427995.177876260] [log_demo]: raw battery value: 62.5
-511:[DEBUG] [1792427995.182756094] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-512:[DEBUG] [1792427995.183167455] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-513:[DEBUG] [1792427995.376094444] [rcl]: Calling timer
-514:[DEBUG] [1792427995.377881332] [log_demo]: raw battery value: 61.0
-515:[DEBUG] [1792427995.382741468] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-516:[DEBUG] [1792427995.383196474] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-517:[DEBUG] [1792427995.576149993] [rcl]: Calling timer
-518:[DEBUG] [1792427995.577949847] [log_demo]: raw battery value: 59.5
-519:[DEBUG] [1792427995.582633786] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-520:[DEBUG] [1792427995.583059686] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-521:[DEBUG] [1792427995.776127531] [rcl]: Calling timer
-522:[DEBUG] [1792427995.777969179] [log_demo]: raw battery value: 58.0
-523:[DEBUG] [1792427995.782695419] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-524:[DEBUG] [1792427995.783103798] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-525:[DEBUG] [1792427995.976141277] [rcl]: Calling timer
-526:[DEBUG] [1792427995.978002850] [log_demo]: raw battery value: 56.5
-527:[INFO] [1792427995.979545394] [log_demo]: battery 56 %
-528:[DEBUG] [1792427995.982784806] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-529:[DEBUG] [1792427995.983182068] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-530:[DEBUG] [1792427996.175994334] [rcl]: Calling timer
-531:[DEBUG] [1792427996.177829493] [log_demo]: raw battery value: 55.0
-532:[DEBUG] [1792427996.182564660] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-533:[DEBUG] [1792427996.182976036] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-534:[DEBUG] [1792427996.376170614] [rcl]: Calling timer
-535:[DEBUG] [1792427996.377985018] [log_demo]: raw battery value: 53.5
-536:[DEBUG] [1792427996.382692594] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-537:[DEBUG] [1792427996.383160949] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
-538:[DEBUG] [1792428000.937489319] [rcl]: Shutting down ROS client library, for context at address: 0x150a1f80
-539:[DEBUG] [1792428000.938045801] [rcl]: Finalizing event
-540:[DEBUG] [1792428000.938153840] [rcl]: Event finalized
-541:[DEBUG] [1792428000.938182288] [rcl]: Finalizing event
-542:[DEBUG] [1792428000.938197151] [rcl]: Event finalized
-543:[DEBUG] [1792428000.938225249] [rcl]: Finalizing publisher
-544:[DEBUG] [1792428000.939413222] [rcl]: Publisher finalized
-545:[DEBUG] [1792428000.939537116] [rcl]: Finalizing service
-546:[DEBUG] [1792428000.940454335] [rcl]: Service finalized
-547:[DEBUG] [1792428000.940541798] [rcl]: Finalizing service
-548:[DEBUG] [1792428000.941185554] [rcl]: Service finalized
-549:[DEBUG] [1792428000.941244066] [rcl]: Finalizing service
-550:[DEBUG] [1792428000.941814634] [rcl]: Service finalized
-551:[DEBUG] [1792428000.941871380] [rcl]: Finalizing service
-552:[DEBUG] [1792428000.942348612] [rcl]: Service finalized
-553:[DEBUG] [1792428000.942420512] [rcl]: Finalizing service
-554:[DEBUG] [1792428000.942905524] [rcl]: Service finalized
-555:[DEBUG] [1792428000.942957112] [rcl]: Finalizing service
-556:[DEBUG] [1792428000.943372590] [rcl]: Service finalized
-557:[DEBUG] [1792428000.943479969] [rcl]: Timer canceled
-558:[DEBUG] [1792428000.943573064] [rcl]: Finalizing publisher
-559:[DEBUG] [1792428000.943992650] [rcl]: Publisher finalized
-560:[DEBUG] [1792428000.944023320] [rcl]: Finalizing node
-561:[DEBUG] [1792428000.950856354] [rcl]: Node finalized
-562:
+69:[3.7s] [0/1 complete] [chiku_control - 3.2s]
+70:                                            
+71:[3.8s] [0/1 complete] [chiku_control - 3.3s]
+72:                                            
+73:[3.9s] [0/1 complete] [chiku_control - 3.4s]
+74:                                            
+75:[4.0s] [0/1 complete] [chiku_control - 3.5s]
+76:                                            
+77:[4.1s] [0/1 complete] [chiku_control - 3.6s]
+78:                                            
+79:[4.2s] [0/1 complete] [chiku_control - 3.7s]
+80:                                            
+81:[4.3s] [0/1 complete] [chiku_control - 3.8s]
+82:                                            
+83:[4.4s] [0/1 complete] [chiku_control - 3.9s]
+84:                                            
+85:[4.5s] [0/1 complete] [chiku_control - 4.0s]
+86:                                            
+87:[4.6s] [0/1 complete] [chiku_control - 4.1s]
+88:                                            
+89:[4.7s] [0/1 complete] [chiku_control - 4.2s]
+90:                                            
+91:[4.8s] [0/1 complete] [chiku_control - 4.3s]
+92:                                            
+93:[4.9s] [0/1 complete] [chiku_control - 4.4s]
+94:                                            
+95:Finished <<< chiku_control [4.46s]
+96:
+97:Summary: 1 package finished [4.92s]
+98:
+99:## [term 1] $ source install/setup.bash   (exit=0, 0.8 s, finished, cwd=/home/student/ros2_ws)
+100:
+101:## [term 1] $ ros2 run chiku_control log_demo --ros-args --log-level debug   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student/ros2_ws)
+102:[DEBUG] [1792494684.603265058] [rcl]: Initializing node 'log_demo' in namespace ''
+103:[DEBUG] [1792494684.603311713] [rcl]: Using domain ID of '52'
+104:[DEBUG] [1792494684.615307160] [rcl]: Node initialized
+105:[DEBUG] [1792494684.615353717] [rcl]: Initializing publisher for topic name '/rosout'
+106:[DEBUG] [1792494684.615367134] [rcl]: Expanded and remapped topic name '/rosout'
+107:[DEBUG] [1792494684.617582737] [rcl]: Publisher initialized
+108:[DEBUG] [1792494684.681514604] [rcl]: Initializing publisher for topic name '/parameter_events'
+109:[DEBUG] [1792494684.681598515] [rcl]: Expanded and remapped topic name '/parameter_events'
+110:[DEBUG] [1792494684.682933448] [rcl]: Publisher initialized
+111:[DEBUG] [1792494684.692173657] [rcl]: Initializing service for service name 'log_demo/describe_parameters'
+112:[DEBUG] [1792494684.692233124] [rcl]: Expanded and remapped service name '/log_demo/describe_parameters'
+113:[DEBUG] [1792494684.693016871] [rmw_fastrtps_cpp]: ************ Service Details *********
+114:[DEBUG] [1792494684.693041207] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/describe_parametersRequest
+115:[DEBUG] [1792494684.693047548] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/describe_parametersReply
+116:[DEBUG] [1792494684.693052802] [rmw_fastrtps_cpp]: ***********
+117:[DEBUG] [1792494684.693188118] [rcl]: Service initialized
+118:[DEBUG] [1792494684.693444916] [rcl]: Initializing service for service name 'log_demo/get_parameters'
+119:[DEBUG] [1792494684.693464592] [rcl]: Expanded and remapped service name '/log_demo/get_parameters'
+120:[DEBUG] [1792494684.693972584] [rmw_fastrtps_cpp]: ************ Service Details *********
+121:[DEBUG] [1792494684.693990388] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/get_parametersRequest
+122:[DEBUG] [1792494684.693995930] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/get_parametersReply
+123:[DEBUG] [1792494684.694001229] [rmw_fastrtps_cpp]: ***********
+124:[DEBUG] [1792494684.694084505] [rcl]: Service initialized
+125:[DEBUG] [1792494684.694260000] [rcl]: Initializing service for service name 'log_demo/get_parameter_types'
+126:[DEBUG] [1792494684.694280712] [rcl]: Expanded and remapped service name '/log_demo/get_parameter_types'
+127:[DEBUG] [1792494684.694781041] [rmw_fastrtps_cpp]: ************ Service Details *********
+128:[DEBUG] [1792494684.694799314] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/get_parameter_typesRequest
+129:[DEBUG] [1792494684.694810131] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/get_parameter_typesReply
+130:[DEBUG] [1792494684.694820069] [rmw_fastrtps_cpp]: ***********
+131:[DEBUG] [1792494684.694897037] [rcl]: Service initialized
+132:[DEBUG] [1792494684.695109732] [rcl]: Initializing service for service name 'log_demo/list_parameters'
+133:[DEBUG] [1792494684.695129547] [rcl]: Expanded and remapped service name '/log_demo/list_parameters'
+134:[DEBUG] [1792494684.695686713] [rmw_fastrtps_cpp]: ************ Service Details *********
+135:[DEBUG] [1792494684.695711345] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/list_parametersRequest
+136:[DEBUG] [1792494684.695719601] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/list_parametersReply
+137:[DEBUG] [1792494684.695730870] [rmw_fastrtps_cpp]: ***********
+138:[DEBUG] [1792494684.695817728] [rcl]: Service initialized
+139:[DEBUG] [1792494684.696015981] [rcl]: Initializing service for service name 'log_demo/set_parameters'
+140:[DEBUG] [1792494684.696034424] [rcl]: Expanded and remapped service name '/log_demo/set_parameters'
+141:[DEBUG] [1792494684.696644141] [rmw_fastrtps_cpp]: ************ Service Details *********
+142:[DEBUG] [1792494684.696663923] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/set_parametersRequest
+143:[DEBUG] [1792494684.696673037] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/set_parametersReply
+144:[DEBUG] [1792494684.696682520] [rmw_fastrtps_cpp]: ***********
+145:[DEBUG] [1792494684.696788788] [rcl]: Service initialized
+146:[DEBUG] [1792494684.696932119] [rcl]: Initializing service for service name 'log_demo/set_parameters_atomically'
+147:[DEBUG] [1792494684.696950083] [rcl]: Expanded and remapped service name '/log_demo/set_parameters_atomically'
+148:[DEBUG] [1792494684.697483139] [rmw_fastrtps_cpp]: ************ Service Details *********
+149:[DEBUG] [1792494684.697498639] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/set_parameters_atomicallyRequest
+150:[DEBUG] [1792494684.697568848] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/set_parameters_atomicallyReply
+151:[DEBUG] [1792494684.697576471] [rmw_fastrtps_cpp]: ***********
+152:[DEBUG] [1792494684.697668655] [rcl]: Service initialized
+153:[DEBUG] [1792494684.698084404] [rcl]: Initializing service for service name '/log_demo/get_type_description'
+154:[DEBUG] [1792494684.698097699] [rcl]: Expanded and remapped service name '/log_demo/get_type_description'
+155:[DEBUG] [1792494684.699490768] [rmw_fastrtps_cpp]: ************ Service Details *********
+156:[DEBUG] [1792494684.699528323] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/get_type_descriptionRequest
+157:[DEBUG] [1792494684.699533859] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/get_type_descriptionReply
+158:[DEBUG] [1792494684.699538563] [rmw_fastrtps_cpp]: ***********
+159:[DEBUG] [1792494684.699650979] [rcl]: Service initialized
+160:[DEBUG] [1792494684.729665736] [rcl]: Initializing timer with period: 200000000ns
+161:[DEBUG] [1792494684.729738462] [rcl]: Updated timer period from '200000000ns' to '200000000ns'
+162:[INFO] [1792494684.750505547] [log_demo]: Battery watcher started
+163:[DEBUG] [1792494684.751036895] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+164:[DEBUG] [1792494684.751312604] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+165:[DEBUG] [1792494684.930164189] [rcl]: Calling timer
+166:[DEBUG] [1792494684.930872528] [log_demo]: raw battery value: 98.5
+167:[INFO] [1792494684.931419572] [log_demo]: battery 98 %
+168:[DEBUG] [1792494684.931615360] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+169:[DEBUG] [1792494684.931753463] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+170:[DEBUG] [1792494685.130765254] [rcl]: Calling timer
+171:[DEBUG] [1792494685.131928801] [log_demo]: raw battery value: 97.0
+172:[DEBUG] [1792494685.133251222] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+173:[DEBUG] [1792494685.136562829] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+174:[DEBUG] [1792494685.330178153] [rcl]: Calling timer
+175:[DEBUG] [1792494685.331335177] [log_demo]: raw battery value: 95.5
+176:[DEBUG] [1792494685.332858361] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+177:[DEBUG] [1792494685.333320005] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+178:[DEBUG] [1792494685.530704840] [rcl]: Calling timer
+179:[DEBUG] [1792494685.531918486] [log_demo]: raw battery value: 94.0
+180:[DEBUG] [1792494685.536512590] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+181:[DEBUG] [1792494685.536807498] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+182:[DEBUG] [1792494685.730120793] [rcl]: Calling timer
+183:[DEBUG] [1792494685.731330458] [log_demo]: raw battery value: 92.5
+184:[DEBUG] [1792494685.732764395] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+185:[DEBUG] [1792494685.733124214] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+186:[DEBUG] [1792494685.930722690] [rcl]: Calling timer
+187:[DEBUG] [1792494685.931872055] [log_demo]: raw battery value: 91.0
+188:[INFO] [1792494685.932886998] [log_demo]: battery 91 %
+189:[DEBUG] [1792494685.933240997] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+190:[DEBUG] [1792494685.936622773] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+191:[DEBUG] [1792494686.130157789] [rcl]: Calling timer
+192:[DEBUG] [1792494686.132476879] [log_demo]: raw battery value: 89.5
+193:[DEBUG] [1792494686.138096712] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+194:[DEBUG] [1792494686.138547249] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+195:[DEBUG] [1792494686.330088850] [rcl]: Calling timer
+196:[DEBUG] [1792494686.331362937] [log_demo]: raw battery value: 88.0
+197:[DEBUG] [1792494686.332931035] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+198:[DEBUG] [1792494686.335161625] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+199:[DEBUG] [1792494686.530700962] [rcl]: Calling timer
+200:[DEBUG] [1792494686.532067624] [log_demo]: raw battery value: 86.5
+201:[DEBUG] [1792494686.534750884] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+202:[DEBUG] [1792494686.538896699] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+203:[DEBUG] [1792494686.730103890] [rcl]: Calling timer
+204:[DEBUG] [1792494686.731281357] [log_demo]: raw battery value: 85.0
+205:[DEBUG] [1792494686.732584992] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+206:[DEBUG] [1792494686.732875767] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+207:[DEBUG] [1792494686.930690579] [rcl]: Calling timer
+208:[DEBUG] [1792494686.931780353] [log_demo]: raw battery value: 83.5
+209:[INFO] [1792494686.936494061] [log_demo]: battery 84 %
+210:[DEBUG] [1792494686.936829529] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+211:[DEBUG] [1792494686.937485978] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+212:[DEBUG] [1792494687.130143428] [rcl]: Calling timer
+213:[DEBUG] [1792494687.131329672] [log_demo]: raw battery value: 82.0
+214:[DEBUG] [1792494687.132668444] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+215:[DEBUG] [1792494687.132981984] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+216:[DEBUG] [1792494687.330141730] [rcl]: Calling timer
+217:[DEBUG] [1792494687.330960236] [log_demo]: raw battery value: 80.5
+218:[DEBUG] [1792494687.331830979] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+219:[DEBUG] [1792494687.332017951] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+220:[DEBUG] [1792494687.532769217] [rcl]: Calling timer
+221:[DEBUG] [1792494687.533972069] [log_demo]: raw battery value: 79.0
+222:[WARN] [1792494687.542320963] [log_demo]: battery below 80 %
+223:[DEBUG] [1792494687.542751192] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+224:[DEBUG] [1792494687.543067106] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+225:[DEBUG] [1792494687.730174496] [rcl]: Calling timer
+226:[DEBUG] [1792494687.731381521] [log_demo]: raw battery value: 77.5
+227:[DEBUG] [1792494687.733846865] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+228:[DEBUG] [1792494687.734161526] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+229:[DEBUG] [1792494687.930702645] [rcl]: Calling timer
+230:[DEBUG] [1792494687.931849347] [log_demo]: raw battery value: 76.0
+231:[DEBUG] [1792494687.938982263] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+232:[DEBUG] [1792494687.939308966] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+233:[DEBUG] [1792494688.134738073] [rcl]: Calling timer
+234:[DEBUG] [1792494688.136098612] [log_demo]: raw battery value: 74.5
+235:[INFO] [1792494688.137159781] [log_demo]: battery 74 %
+236:[DEBUG] [1792494688.140721417] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+237:[DEBUG] [1792494688.141008492] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+238:[DEBUG] [1792494688.330151047] [rcl]: Calling timer
+239:[DEBUG] [1792494688.331369365] [log_demo]: raw battery value: 73.0
+240:[DEBUG] [1792494688.333952616] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+241:[DEBUG] [1792494688.334283180] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+242:[DEBUG] [1792494688.530191692] [rcl]: Calling timer
+243:[DEBUG] [1792494688.531352109] [log_demo]: raw battery value: 71.5
+244:[DEBUG] [1792494688.533637931] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+245:[DEBUG] [1792494688.533921147] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+246:[DEBUG] [1792494688.730110701] [rcl]: Calling timer
+247:[DEBUG] [1792494688.731414206] [log_demo]: raw battery value: 70.0
+248:[DEBUG] [1792494688.741003531] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+249:[DEBUG] [1792494688.741428146] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+250:[DEBUG] [1792494688.930138390] [rcl]: Calling timer
+251:[DEBUG] [1792494688.931367604] [log_demo]: raw battery value: 68.5
+252:[ERROR] [1792494688.935299273] [log_demo]: battery low, going home!
+253:[DEBUG] [1792494688.936018951] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+254:[DEBUG] [1792494688.936688272] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+255:[DEBUG] [1792494689.130148539] [rcl]: Calling timer
+256:[DEBUG] [1792494689.131313028] [log_demo]: raw battery value: 67.0
+257:[DEBUG] [1792494689.134469203] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+258:[DEBUG] [1792494689.134769797] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+259:[DEBUG] [1792494689.330120424] [rcl]: Calling timer
+260:[DEBUG] [1792494689.331303548] [log_demo]: raw battery value: 65.5
+261:[INFO] [1792494689.332364831] [log_demo]: battery 66 %
+262:[DEBUG] [1792494689.334761465] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+263:[DEBUG] [1792494689.335347458] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+264:[DEBUG] [1792494689.530124185] [rcl]: Calling timer
+265:[DEBUG] [1792494689.531237057] [log_demo]: raw battery value: 64.0
+266:[DEBUG] [1792494689.535033878] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+267:[DEBUG] [1792494689.535328864] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+268:[DEBUG] [1792494689.730092868] [rcl]: Calling timer
+269:[DEBUG] [1792494689.731094722] [log_demo]: raw battery value: 62.5
+270:[DEBUG] [1792494689.734732141] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+271:[DEBUG] [1792494689.735053704] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+272:[DEBUG] [1792494689.930133709] [rcl]: Calling timer
+273:[DEBUG] [1792494689.931258282] [log_demo]: raw battery value: 61.0
+274:[DEBUG] [1792494689.934606427] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+275:[DEBUG] [1792494689.934888705] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+276:[DEBUG] [1792494690.130145945] [rcl]: Calling timer
+277:[DEBUG] [1792494690.131284487] [log_demo]: raw battery value: 59.5
+278:[DEBUG] [1792494690.134423429] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+279:[DEBUG] [1792494690.134723671] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+280:[DEBUG] [1792494690.330092089] [rcl]: Calling timer
+281:[DEBUG] [1792494690.330991223] [log_demo]: raw battery value: 58.0
+282:[DEBUG] [1792494690.334610577] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+283:[DEBUG] [1792494690.334943057] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+284:[DEBUG] [1792494690.530115678] [rcl]: Calling timer
+285:[DEBUG] [1792494690.531309284] [log_demo]: raw battery value: 56.5
+286:[INFO] [1792494690.532378138] [log_demo]: battery 56 %
+287:[DEBUG] [1792494690.534739281] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+288:[DEBUG] [1792494690.535352898] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+289:[DEBUG] [1792494690.730140489] [rcl]: Calling timer
+290:[DEBUG] [1792494690.731269946] [log_demo]: raw battery value: 55.0
+291:[DEBUG] [1792494690.734357424] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+292:[DEBUG] [1792494690.734655727] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+293:[DEBUG] [1792494690.933330039] [rcl]: Calling timer
+294:[DEBUG] [1792494690.935843887] [log_demo]: raw battery value: 53.5
+295:[ERROR] [1792494690.939152498] [log_demo]: battery low, going home!
+296:[DEBUG] [1792494690.939637042] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+297:[DEBUG] [1792494690.939941065] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+298:[DEBUG] [1792494691.130121026] [rcl]: Calling timer
+299:[DEBUG] [1792494691.130949512] [log_demo]: raw battery value: 52.0
+300:[DEBUG] [1792494691.133222120] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+301:[DEBUG] [1792494691.133547217] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+302:
+303:## [term 1] Ctrl+C to stop: ros2 run chiku_control log_demo --ros-args --log-level debug  (exit=0)
+304:[DEBUG] [1792494684.603265058] [rcl]: Initializing node 'log_demo' in namespace ''
+305:[DEBUG] [1792494684.603311713] [rcl]: Using domain ID of '52'
+306:[DEBUG] [1792494684.615307160] [rcl]: Node initialized
+307:[DEBUG] [1792494684.615353717] [rcl]: Initializing publisher for topic name '/rosout'
+308:[DEBUG] [1792494684.615367134] [rcl]: Expanded and remapped topic name '/rosout'
+309:[DEBUG] [1792494684.617582737] [rcl]: Publisher initialized
+310:[DEBUG] [1792494684.681514604] [rcl]: Initializing publisher for topic name '/parameter_events'
+311:[DEBUG] [1792494684.681598515] [rcl]: Expanded and remapped topic name '/parameter_events'
+312:[DEBUG] [1792494684.682933448] [rcl]: Publisher initialized
+313:[DEBUG] [1792494684.692173657] [rcl]: Initializing service for service name 'log_demo/describe_parameters'
+314:[DEBUG] [1792494684.692233124] [rcl]: Expanded and remapped service name '/log_demo/describe_parameters'
+315:[DEBUG] [1792494684.693016871] [rmw_fastrtps_cpp]: ************ Service Details *********
+316:[DEBUG] [1792494684.693041207] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/describe_parametersRequest
+317:[DEBUG] [1792494684.693047548] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/describe_parametersReply
+318:[DEBUG] [1792494684.693052802] [rmw_fastrtps_cpp]: ***********
+319:[DEBUG] [1792494684.693188118] [rcl]: Service initialized
+320:[DEBUG] [1792494684.693444916] [rcl]: Initializing service for service name 'log_demo/get_parameters'
+321:[DEBUG] [1792494684.693464592] [rcl]: Expanded and remapped service name '/log_demo/get_parameters'
+322:[DEBUG] [1792494684.693972584] [rmw_fastrtps_cpp]: ************ Service Details *********
+323:[DEBUG] [1792494684.693990388] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/get_parametersRequest
+324:[DEBUG] [1792494684.693995930] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/get_parametersReply
+325:[DEBUG] [1792494684.694001229] [rmw_fastrtps_cpp]: ***********
+326:[DEBUG] [1792494684.694084505] [rcl]: Service initialized
+327:[DEBUG] [1792494684.694260000] [rcl]: Initializing service for service name 'log_demo/get_parameter_types'
+328:[DEBUG] [1792494684.694280712] [rcl]: Expanded and remapped service name '/log_demo/get_parameter_types'
+329:[DEBUG] [1792494684.694781041] [rmw_fastrtps_cpp]: ************ Service Details *********
+330:[DEBUG] [1792494684.694799314] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/get_parameter_typesRequest
+331:[DEBUG] [1792494684.694810131] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/get_parameter_typesReply
+332:[DEBUG] [1792494684.694820069] [rmw_fastrtps_cpp]: ***********
+333:[DEBUG] [1792494684.694897037] [rcl]: Service initialized
+334:[DEBUG] [1792494684.695109732] [rcl]: Initializing service for service name 'log_demo/list_parameters'
+335:[DEBUG] [1792494684.695129547] [rcl]: Expanded and remapped service name '/log_demo/list_parameters'
+336:[DEBUG] [1792494684.695686713] [rmw_fastrtps_cpp]: ************ Service Details *********
+337:[DEBUG] [1792494684.695711345] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/list_parametersRequest
+338:[DEBUG] [1792494684.695719601] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/list_parametersReply
+339:[DEBUG] [1792494684.695730870] [rmw_fastrtps_cpp]: ***********
+340:[DEBUG] [1792494684.695817728] [rcl]: Service initialized
+341:[DEBUG] [1792494684.696015981] [rcl]: Initializing service for service name 'log_demo/set_parameters'
+342:[DEBUG] [1792494684.696034424] [rcl]: Expanded and remapped service name '/log_demo/set_parameters'
+343:[DEBUG] [1792494684.696644141] [rmw_fastrtps_cpp]: ************ Service Details *********
+344:[DEBUG] [1792494684.696663923] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/set_parametersRequest
+345:[DEBUG] [1792494684.696673037] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/set_parametersReply
+346:[DEBUG] [1792494684.696682520] [rmw_fastrtps_cpp]: ***********
+347:[DEBUG] [1792494684.696788788] [rcl]: Service initialized
+348:[DEBUG] [1792494684.696932119] [rcl]: Initializing service for service name 'log_demo/set_parameters_atomically'
+349:[DEBUG] [1792494684.696950083] [rcl]: Expanded and remapped service name '/log_demo/set_parameters_atomically'
+350:[DEBUG] [1792494684.697483139] [rmw_fastrtps_cpp]: ************ Service Details *********
+351:[DEBUG] [1792494684.697498639] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/set_parameters_atomicallyRequest
+352:[DEBUG] [1792494684.697568848] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/set_parameters_atomicallyReply
+353:[DEBUG] [1792494684.697576471] [rmw_fastrtps_cpp]: ***********
+354:[DEBUG] [1792494684.697668655] [rcl]: Service initialized
+355:[DEBUG] [1792494684.698084404] [rcl]: Initializing service for service name '/log_demo/get_type_description'
+356:[DEBUG] [1792494684.698097699] [rcl]: Expanded and remapped service name '/log_demo/get_type_description'
+357:[DEBUG] [1792494684.699490768] [rmw_fastrtps_cpp]: ************ Service Details *********
+358:[DEBUG] [1792494684.699528323] [rmw_fastrtps_cpp]: Sub Topic rq/log_demo/get_type_descriptionRequest
+359:[DEBUG] [1792494684.699533859] [rmw_fastrtps_cpp]: Pub Topic rr/log_demo/get_type_descriptionReply
+360:[DEBUG] [1792494684.699538563] [rmw_fastrtps_cpp]: ***********
+361:[DEBUG] [1792494684.699650979] [rcl]: Service initialized
+362:[DEBUG] [1792494684.729665736] [rcl]: Initializing timer with period: 200000000ns
+363:[DEBUG] [1792494684.729738462] [rcl]: Updated timer period from '200000000ns' to '200000000ns'
+364:[INFO] [1792494684.750505547] [log_demo]: Battery watcher started
+365:[DEBUG] [1792494684.751036895] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+366:[DEBUG] [1792494684.751312604] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+367:[DEBUG] [1792494684.930164189] [rcl]: Calling timer
+368:[DEBUG] [1792494684.930872528] [log_demo]: raw battery value: 98.5
+369:[INFO] [1792494684.931419572] [log_demo]: battery 98 %
+370:[DEBUG] [1792494684.931615360] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+371:[DEBUG] [1792494684.931753463] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+372:[DEBUG] [1792494685.130765254] [rcl]: Calling timer
+373:[DEBUG] [1792494685.131928801] [log_demo]: raw battery value: 97.0
+374:[DEBUG] [1792494685.133251222] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+375:[DEBUG] [1792494685.136562829] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+376:[DEBUG] [1792494685.330178153] [rcl]: Calling timer
+377:[DEBUG] [1792494685.331335177] [log_demo]: raw battery value: 95.5
+378:[DEBUG] [1792494685.332858361] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+379:[DEBUG] [1792494685.333320005] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+380:[DEBUG] [1792494685.530704840] [rcl]: Calling timer
+381:[DEBUG] [1792494685.531918486] [log_demo]: raw battery value: 94.0
+382:[DEBUG] [1792494685.536512590] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+383:[DEBUG] [1792494685.536807498] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+384:[DEBUG] [1792494685.730120793] [rcl]: Calling timer
+385:[DEBUG] [1792494685.731330458] [log_demo]: raw battery value: 92.5
+386:[DEBUG] [1792494685.732764395] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+387:[DEBUG] [1792494685.733124214] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+388:[DEBUG] [1792494685.930722690] [rcl]: Calling timer
+389:[DEBUG] [1792494685.931872055] [log_demo]: raw battery value: 91.0
+390:[INFO] [1792494685.932886998] [log_demo]: battery 91 %
+391:[DEBUG] [1792494685.933240997] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+392:[DEBUG] [1792494685.936622773] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+393:[DEBUG] [1792494686.130157789] [rcl]: Calling timer
+394:[DEBUG] [1792494686.132476879] [log_demo]: raw battery value: 89.5
+395:[DEBUG] [1792494686.138096712] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+396:[DEBUG] [1792494686.138547249] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+397:[DEBUG] [1792494686.330088850] [rcl]: Calling timer
+398:[DEBUG] [1792494686.331362937] [log_demo]: raw battery value: 88.0
+399:[DEBUG] [1792494686.332931035] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+400:[DEBUG] [1792494686.335161625] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+401:[DEBUG] [1792494686.530700962] [rcl]: Calling timer
+402:[DEBUG] [1792494686.532067624] [log_demo]: raw battery value: 86.5
+403:[DEBUG] [1792494686.534750884] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+404:[DEBUG] [1792494686.538896699] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+405:[DEBUG] [1792494686.730103890] [rcl]: Calling timer
+406:[DEBUG] [1792494686.731281357] [log_demo]: raw battery value: 85.0
+407:[DEBUG] [1792494686.732584992] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+408:[DEBUG] [1792494686.732875767] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+409:[DEBUG] [1792494686.930690579] [rcl]: Calling timer
+410:[DEBUG] [1792494686.931780353] [log_demo]: raw battery value: 83.5
+411:[INFO] [1792494686.936494061] [log_demo]: battery 84 %
+412:[DEBUG] [1792494686.936829529] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+413:[DEBUG] [1792494686.937485978] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+414:[DEBUG] [1792494687.130143428] [rcl]: Calling timer
+415:[DEBUG] [1792494687.131329672] [log_demo]: raw battery value: 82.0
+416:[DEBUG] [1792494687.132668444] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+417:[DEBUG] [1792494687.132981984] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+418:[DEBUG] [1792494687.330141730] [rcl]: Calling timer
+419:[DEBUG] [1792494687.330960236] [log_demo]: raw battery value: 80.5
+420:[DEBUG] [1792494687.331830979] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+421:[DEBUG] [1792494687.332017951] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+422:[DEBUG] [1792494687.532769217] [rcl]: Calling timer
+423:[DEBUG] [1792494687.533972069] [log_demo]: raw battery value: 79.0
+424:[WARN] [1792494687.542320963] [log_demo]: battery below 80 %
+425:[DEBUG] [1792494687.542751192] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+426:[DEBUG] [1792494687.543067106] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+427:[DEBUG] [1792494687.730174496] [rcl]: Calling timer
+428:[DEBUG] [1792494687.731381521] [log_demo]: raw battery value: 77.5
+429:[DEBUG] [1792494687.733846865] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+430:[DEBUG] [1792494687.734161526] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+431:[DEBUG] [1792494687.930702645] [rcl]: Calling timer
+432:[DEBUG] [1792494687.931849347] [log_demo]: raw battery value: 76.0
+433:[DEBUG] [1792494687.938982263] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+434:[DEBUG] [1792494687.939308966] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+435:[DEBUG] [1792494688.134738073] [rcl]: Calling timer
+436:[DEBUG] [1792494688.136098612] [log_demo]: raw battery value: 74.5
+437:[INFO] [1792494688.137159781] [log_demo]: battery 74 %
+438:[DEBUG] [1792494688.140721417] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+439:[DEBUG] [1792494688.141008492] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+440:[DEBUG] [1792494688.330151047] [rcl]: Calling timer
+441:[DEBUG] [1792494688.331369365] [log_demo]: raw battery value: 73.0
+442:[DEBUG] [1792494688.333952616] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+443:[DEBUG] [1792494688.334283180] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+444:[DEBUG] [1792494688.530191692] [rcl]: Calling timer
+445:[DEBUG] [1792494688.531352109] [log_demo]: raw battery value: 71.5
+446:[DEBUG] [1792494688.533637931] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+447:[DEBUG] [1792494688.533921147] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+448:[DEBUG] [1792494688.730110701] [rcl]: Calling timer
+449:[DEBUG] [1792494688.731414206] [log_demo]: raw battery value: 70.0
+450:[DEBUG] [1792494688.741003531] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+451:[DEBUG] [1792494688.741428146] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+452:[DEBUG] [1792494688.930138390] [rcl]: Calling timer
+453:[DEBUG] [1792494688.931367604] [log_demo]: raw battery value: 68.5
+454:[ERROR] [1792494688.935299273] [log_demo]: battery low, going home!
+455:[DEBUG] [1792494688.936018951] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+456:[DEBUG] [1792494688.936688272] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+457:[DEBUG] [1792494689.130148539] [rcl]: Calling timer
+458:[DEBUG] [1792494689.131313028] [log_demo]: raw battery value: 67.0
+459:[DEBUG] [1792494689.134469203] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+460:[DEBUG] [1792494689.134769797] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+461:[DEBUG] [1792494689.330120424] [rcl]: Calling timer
+462:[DEBUG] [1792494689.331303548] [log_demo]: raw battery value: 65.5
+463:[INFO] [1792494689.332364831] [log_demo]: battery 66 %
+464:[DEBUG] [1792494689.334761465] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+465:[DEBUG] [1792494689.335347458] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+466:[DEBUG] [1792494689.530124185] [rcl]: Calling timer
+467:[DEBUG] [1792494689.531237057] [log_demo]: raw battery value: 64.0
+468:[DEBUG] [1792494689.535033878] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+469:[DEBUG] [1792494689.535328864] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+470:[DEBUG] [1792494689.730092868] [rcl]: Calling timer
+471:[DEBUG] [1792494689.731094722] [log_demo]: raw battery value: 62.5
+472:[DEBUG] [1792494689.734732141] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+473:[DEBUG] [1792494689.735053704] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+474:[DEBUG] [1792494689.930133709] [rcl]: Calling timer
+475:[DEBUG] [1792494689.931258282] [log_demo]: raw battery value: 61.0
+476:[DEBUG] [1792494689.934606427] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+477:[DEBUG] [1792494689.934888705] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+478:[DEBUG] [1792494690.130145945] [rcl]: Calling timer
+479:[DEBUG] [1792494690.131284487] [log_demo]: raw battery value: 59.5
+480:[DEBUG] [1792494690.134423429] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+481:[DEBUG] [1792494690.134723671] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+482:[DEBUG] [1792494690.330092089] [rcl]: Calling timer
+483:[DEBUG] [1792494690.330991223] [log_demo]: raw battery value: 58.0
+484:[DEBUG] [1792494690.334610577] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+485:[DEBUG] [1792494690.334943057] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+486:[DEBUG] [1792494690.530115678] [rcl]: Calling timer
+487:[DEBUG] [1792494690.531309284] [log_demo]: raw battery value: 56.5
+488:[INFO] [1792494690.532378138] [log_demo]: battery 56 %
+489:[DEBUG] [1792494690.534739281] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+490:[DEBUG] [1792494690.535352898] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+491:[DEBUG] [1792494690.730140489] [rcl]: Calling timer
+492:[DEBUG] [1792494690.731269946] [log_demo]: raw battery value: 55.0
+493:[DEBUG] [1792494690.734357424] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+494:[DEBUG] [1792494690.734655727] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+495:[DEBUG] [1792494690.933330039] [rcl]: Calling timer
+496:[DEBUG] [1792494690.935843887] [log_demo]: raw battery value: 53.5
+497:[ERROR] [1792494690.939152498] [log_demo]: battery low, going home!
+498:[DEBUG] [1792494690.939637042] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+499:[DEBUG] [1792494690.939941065] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+500:[DEBUG] [1792494691.130121026] [rcl]: Calling timer
+501:[DEBUG] [1792494691.130949512] [log_demo]: raw battery value: 52.0
+502:[DEBUG] [1792494691.133222120] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+503:[DEBUG] [1792494691.133547217] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+504:[DEBUG] [1792494691.330177343] [rcl]: Calling timer
+505:[DEBUG] [1792494691.331067654] [log_demo]: raw battery value: 50.5
+506:[DEBUG] [1792494691.333780788] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+507:[DEBUG] [1792494691.334117455] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+508:[DEBUG] [1792494691.530041372] [rcl]: Calling timer
+509:[DEBUG] [1792494691.530703396] [log_demo]: raw battery value: 49.0
+510:[DEBUG] [1792494691.532317814] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+511:[DEBUG] [1792494691.532478153] [rcl]: Initializing wait set with '0' subscriptions, '2' guard conditions, '1' timers, '0' clients, '7' services
+512:[DEBUG] [1792494691.581471567] [rcl]: Shutting down ROS client library, for context at address: 0x309ddf80
+513:[DEBUG] [1792494691.582669322] [rcl]: Finalizing event
+514:[DEBUG] [1792494691.582736933] [rcl]: Event finalized
+515:[DEBUG] [1792494691.582762724] [rcl]: Finalizing event
+516:[DEBUG] [1792494691.582780287] [rcl]: Event finalized
+517:[DEBUG] [1792494691.582805394] [rcl]: Finalizing publisher
+518:[DEBUG] [1792494691.583566597] [rcl]: Publisher finalized
+519:[DEBUG] [1792494691.586498613] [rcl]: Finalizing service
+520:[DEBUG] [1792494691.587122447] [rcl]: Service finalized
+521:[DEBUG] [1792494691.587186031] [rcl]: Finalizing service
+522:[DEBUG] [1792494691.587539179] [rcl]: Service finalized
+523:[DEBUG] [1792494691.587583398] [rcl]: Finalizing service
+524:[DEBUG] [1792494691.587916994] [rcl]: Service finalized
+525:[DEBUG] [1792494691.588020498] [rcl]: Finalizing service
+526:[DEBUG] [1792494691.588511456] [rcl]: Service finalized
+527:[DEBUG] [1792494691.588556992] [rcl]: Finalizing service
+528:[DEBUG] [1792494691.590700894] [rcl]: Service finalized
+529:[DEBUG] [1792494691.590808371] [rcl]: Finalizing service
+530:[DEBUG] [1792494691.591360679] [rcl]: Service finalized
+531:[DEBUG] [1792494691.591500274] [rcl]: Timer canceled
+532:[DEBUG] [1792494691.591564319] [rcl]: Finalizing publisher
+533:[DEBUG] [1792494691.592264277] [rcl]: Publisher finalized
+534:[DEBUG] [1792494691.592331686] [rcl]: Finalizing node
+535:[DEBUG] [1792494691.608936753] [rcl]: Node finalized
+536:
+537:## [term 1] $ ros2 run chiku_control log_demo --ros-args --log-level log_demo:=debug   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student/ros2_ws)
+538:[INFO] [1792494693.739521379] [log_demo]: Battery watcher started
+539:[DEBUG] [1792494693.916134869] [log_demo]: raw battery value: 98.5
+540:[INFO] [1792494693.917204809] [log_demo]: battery 98 %
+541:[DEBUG] [1792494694.116143636] [log_demo]: raw battery value: 97.0
+542:[DEBUG] [1792494694.316797421] [log_demo]: raw battery value: 95.5
+543:[DEBUG] [1792494694.516074458] [log_demo]: raw battery value: 94.0
+544:[DEBUG] [1792494694.716185215] [log_demo]: raw battery value: 92.5
+545:[DEBUG] [1792494694.916030757] [log_demo]: raw battery value: 91.0
+546:[DEBUG] [1792494695.116050530] [log_demo]: raw battery value: 89.5
+547:[INFO] [1792494695.117064823] [log_demo]: battery 90 %
+548:[DEBUG] [1792494695.316957929] [log_demo]: raw battery value: 88.0
+549:[DEBUG] [1792494695.516028937] [log_demo]: raw battery value: 86.5
+550:[DEBUG] [1792494695.716847646] [log_demo]: raw battery value: 85.0
+551:[DEBUG] [1792494695.916439243] [log_demo]: raw battery value: 83.5
+552:[DEBUG] [1792494696.116033353] [log_demo]: raw battery value: 82.0
+553:[DEBUG] [1792494696.315828917] [log_demo]: raw battery value: 80.5
+554:[INFO] [1792494696.316903136] [log_demo]: battery 80 %
+555:[DEBUG] [1792494696.516110495] [log_demo]: raw battery value: 79.0
+556:[WARN] [1792494696.518030203] [log_demo]: battery below 80 %
+557:[DEBUG] [1792494696.717159918] [log_demo]: raw battery value: 77.5
+558:[DEBUG] [1792494696.916553348] [log_demo]: raw battery value: 76.0
+559:[DEBUG] [1792494697.116193311] [log_demo]: raw battery value: 74.5
+560:[DEBUG] [1792494697.316785930] [log_demo]: raw battery value: 73.0
+561:[INFO] [1792494697.319459054] [log_demo]: battery 73 %
+562:[DEBUG] [1792494697.516024885] [log_demo]: raw battery value: 71.5
+563:[DEBUG] [1792494697.720848949] [log_demo]: raw battery value: 70.0
+564:[DEBUG] [1792494697.916065598] [log_demo]: raw battery value: 68.5
+565:[ERROR] [1792494697.920760216] [log_demo]: battery low, going home!
+566:[DEBUG] [1792494698.116186048] [log_demo]: raw battery value: 67.0
+567:[DEBUG] [1792494698.316135671] [log_demo]: raw battery value: 65.5
+568:[DEBUG] [1792494698.516133352] [log_demo]: raw battery value: 64.0
+569:[INFO] [1792494698.517277140] [log_demo]: battery 64 %
+570:[DEBUG] [1792494698.715874585] [log_demo]: raw battery value: 62.5
+571:[DEBUG] [1792494698.916068700] [log_demo]: raw battery value: 61.0
+572:[DEBUG] [1792494699.116335698] [log_demo]: raw battery value: 59.5
+573:[DEBUG] [1792494699.316129156] [log_demo]: raw battery value: 58.0
+574:[DEBUG] [1792494699.515935430] [log_demo]: raw battery value: 56.5
+575:[DEBUG] [1792494699.716151540] [log_demo]: raw battery value: 55.0
+576:[INFO] [1792494699.717240638] [log_demo]: battery 55 %
+577:[DEBUG] [1792494699.916106143] [log_demo]: raw battery value: 53.5
+578:
+579:## [term 1] Ctrl+C to stop: ros2 run chiku_control log_demo --ros-args --log-level log_demo:=debug  (exit=0)
+580:[INFO] [1792494693.739521379] [log_demo]: Battery watcher started
+581:[DEBUG] [1792494693.916134869] [log_demo]: raw battery value: 98.5
+582:[INFO] [1792494693.917204809] [log_demo]: battery 98 %
+583:[DEBUG] [1792494694.116143636] [log_demo]: raw battery value: 97.0
+584:[DEBUG] [1792494694.316797421] [log_demo]: raw battery value: 95.5
+585:[DEBUG] [1792494694.516074458] [log_demo]: raw battery value: 94.0
+586:[DEBUG] [1792494694.716185215] [log_demo]: raw battery value: 92.5
+587:[DEBUG] [1792494694.916030757] [log_demo]: raw battery value: 91.0
+588:[DEBUG] [1792494695.116050530] [log_demo]: raw battery value: 89.5
+589:[INFO] [1792494695.117064823] [log_demo]: battery 90 %
+590:[DEBUG] [1792494695.316957929] [log_demo]: raw battery value: 88.0
+591:[DEBUG] [1792494695.516028937] [log_demo]: raw battery value: 86.5
+592:[DEBUG] [1792494695.716847646] [log_demo]: raw battery value: 85.0
+593:[DEBUG] [1792494695.916439243] [log_demo]: raw battery value: 83.5
+594:[DEBUG] [1792494696.116033353] [log_demo]: raw battery value: 82.0
+595:[DEBUG] [1792494696.315828917] [log_demo]: raw battery value: 80.5
+596:[INFO] [1792494696.316903136] [log_demo]: battery 80 %
+597:[DEBUG] [1792494696.516110495] [log_demo]: raw battery value: 79.0
+598:[WARN] [1792494696.518030203] [log_demo]: battery below 80 %
+599:[DEBUG] [1792494696.717159918] [log_demo]: raw battery value: 77.5
+600:[DEBUG] [1792494696.916553348] [log_demo]: raw battery value: 76.0
+601:[DEBUG] [1792494697.116193311] [log_demo]: raw battery value: 74.5
+602:[DEBUG] [1792494697.316785930] [log_demo]: raw battery value: 73.0
+603:[INFO] [1792494697.319459054] [log_demo]: battery 73 %
+604:[DEBUG] [1792494697.516024885] [log_demo]: raw battery value: 71.5
+605:[DEBUG] [1792494697.720848949] [log_demo]: raw battery value: 70.0
+606:[DEBUG] [1792494697.916065598] [log_demo]: raw battery value: 68.5
+607:[ERROR] [1792494697.920760216] [log_demo]: battery low, going home!
+608:[DEBUG] [1792494698.116186048] [log_demo]: raw battery value: 67.0
+609:[DEBUG] [1792494698.316135671] [log_demo]: raw battery value: 65.5
+610:[DEBUG] [1792494698.516133352] [log_demo]: raw battery value: 64.0
+611:[INFO] [1792494698.517277140] [log_demo]: battery 64 %
+612:[DEBUG] [1792494698.715874585] [log_demo]: raw battery value: 62.5
+613:[DEBUG] [1792494698.916068700] [log_demo]: raw battery value: 61.0
+614:[DEBUG] [1792494699.116335698] [log_demo]: raw battery value: 59.5
+615:[DEBUG] [1792494699.316129156] [log_demo]: raw battery value: 58.0
+616:[DEBUG] [1792494699.515935430] [log_demo]: raw battery value: 56.5
+617:[DEBUG] [1792494699.716151540] [log_demo]: raw battery value: 55.0
+618:[INFO] [1792494699.717240638] [log_demo]: battery 55 %
+619:[DEBUG] [1792494699.916106143] [log_demo]: raw battery value: 53.5
+620:[DEBUG] [1792494700.116581760] [log_demo]: raw battery value: 52.0
+621:[ERROR] [1792494700.120370764] [log_demo]: battery low, going home!
+622:
+623:## [term 1] $ ros2 run chiku_control log_demo --ros-args --log-level warn   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student/ros2_ws)
+624:[WARN] [1792494705.144606010] [log_demo]: battery below 80 %
+625:[ERROR] [1792494706.506925139] [log_demo]: battery low, going home!
+626:[ERROR] [1792494708.508661212] [log_demo]: battery low, going home!
+627:
+628:## [term 1] Ctrl+C to stop: ros2 run chiku_control log_demo --ros-args --log-level warn  (exit=0)
+629:[WARN] [1792494705.144606010] [log_demo]: battery below 80 %
+630:[ERROR] [1792494706.506925139] [log_demo]: battery low, going home!
+631:[ERROR] [1792494708.508661212] [log_demo]: battery low, going home!
+632:

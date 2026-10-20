@@ -1,0 +1,114 @@
+[
+ {
+  "week": "NP",
+  "lesson": "N8",
+  "term": "code1",
+  "block": 11,
+  "title": "Lesson code block commands: safety_filter from chiku_control_cpp (the package in this lesson workspace) and teleop remapped into it",
+  "sourced": true,
+  "running": [
+   "turtlesim"
+  ],
+  "start": "~/ros2_ws",
+  "fresh": false,
+  "bareRos": false,
+  "cwd": "/home/student/ros2_ws",
+  "env": {
+   "HOME": "/home/student",
+   "USER": "student",
+   "SHELL": "/bin/bash",
+   "LANG": "en_IN.UTF-8",
+   "PWD": "/home/student/ros2_ws",
+   "PATH": "/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+   "ROS_DISTRO": "jazzy",
+   "ROS_VERSION": "2",
+   "ROS_PYTHON_VERSION": "3",
+   "AMENT_PREFIX_PATH": "/opt/ros/jazzy",
+   "CMAKE_PREFIX_PATH": "/opt/ros/jazzy",
+   "LD_LIBRARY_PATH": "/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/lib",
+   "PYTHONPATH": "/opt/ros/jazzy/lib/python3.12/site-packages",
+   "PKG_CONFIG_PATH": "/opt/ros/jazzy/lib/x86_64-linux-gnu/pkgconfig:/opt/ros/jazzy/lib/pkgconfig"
+  },
+  "tasks": [
+   {
+    "do": "code block",
+    "sol": [
+     "colcon build --packages-select chiku_control_cpp",
+     "source install/setup.bash",
+     "ros2 run chiku_control_cpp safety_filter --ros-args -r cmd_vel_out:=/turtle1/cmd_vel -p max_speed:=1.0",
+     {
+      "newTerminal": true
+     },
+     "ros2 run turtlesim turtle_teleop_key --ros-args -r /turtle1/cmd_vel:=/cmd_vel_in",
+     {
+      "newTerminal": true
+     },
+     "ros2 node info /safety_filter",
+     "ros2 node info /teleop_turtle"
+    ]
+   }
+  ],
+  "files": {
+   "/home/student": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/Desktop": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/Documents": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/Downloads": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/Music": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/Pictures": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/.bashrc": {
+    "mode": "rw-r--r--",
+    "content": "# ~/.bashrc runs every time you open a new terminal\nalias ll='ls -alF'\n"
+   },
+   "/home/student/.profile": {
+    "mode": "rw-r--r--",
+    "content": "# ~/.profile\n"
+   },
+   "/home/student/ros2_ws": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/ros2_ws/src": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/ros2_ws/src/chiku_control_cpp": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/ros2_ws/src/chiku_control_cpp/package.xml": {
+    "mode": "rw-r--r--",
+    "content": "<?xml version=\"1.0\"?>\n<package format=\"3\">\n  <name>chiku_control_cpp</name>\n  <version>0.1.0</version>\n  <description>Chiku's own nodes, written in C++</description>\n  <maintainer email=\"student@todo.todo\">student</maintainer>\n  <license>Apache-2.0</license>\n\n  <buildtool_depend>ament_cmake</buildtool_depend>\n\n  <depend>rclcpp</depend>\n  <depend>geometry_msgs</depend>\n  <depend>turtlesim</depend>\n\n  <export>\n    <build_type>ament_cmake</build_type>\n  </export>\n</package>\n"
+   },
+   "/home/student/ros2_ws/src/chiku_control_cpp/CMakeLists.txt": {
+    "mode": "rw-r--r--",
+    "content": "cmake_minimum_required(VERSION 3.8)\nproject(chiku_control_cpp)\n\nif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES \"Clang\")\n  add_compile_options(-Wall -Wextra -Wpedantic)\nendif()\n\n# 1. find every package the code #includes\nfind_package(ament_cmake REQUIRED)\nfind_package(rclcpp REQUIRED)\nfind_package(geometry_msgs REQUIRED)\nfind_package(turtlesim REQUIRED)\n\n# 2. one executable per node: build it, link it, install it\nadd_executable(safety_filter src/safety_filter.cpp)\ntarget_link_libraries(safety_filter rclcpp::rclcpp ${geometry_msgs_TARGETS} ${turtlesim_TARGETS})\ninstall(TARGETS safety_filter DESTINATION lib/${PROJECT_NAME})\n\nament_package()\n"
+   },
+   "/home/student/ros2_ws/src/chiku_control_cpp/src": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/ros2_ws/src/chiku_control_cpp/src/safety_filter.cpp": {
+    "mode": "rw-r--r--",
+    "content": "#include <algorithm>\n#include <optional>\n\n#include \"rclcpp/rclcpp.hpp\"\n#include \"geometry_msgs/msg/twist.hpp\"\n#include \"turtlesim/msg/pose.hpp\"\n\nusing geometry_msgs::msg::Twist;\nusing turtlesim::msg::Pose;\n\nclass SafetyFilter : public rclcpp::Node\n{\npublic:\n  SafetyFilter() : Node(\"safety_filter\")\n  {\n    declare_parameter(\"max_speed\", 1.5);\n    declare_parameter(\"margin\", 1.0);    // stay this far from the walls (m)\n    pub_ = create_publisher<Twist>(\"cmd_vel_out\", 10);\n    cmd_sub_ = create_subscription<Twist>(\n      \"cmd_vel_in\", 10, std::bind(&SafetyFilter::on_cmd, this, std::placeholders::_1));\n    pose_sub_ = create_subscription<Pose>(\n      \"/turtle1/pose\", 10, [this](const Pose & msg) { pose_ = msg; });\n  }\n\nprivate:\n  bool near_wall() const\n  {\n    double m = get_parameter(\"margin\").as_double();\n    return pose_ && (pose_->x < m || pose_->y < m || pose_->x > 11.0 - m || pose_->y > 11.0 - m);\n  }\n\n  void on_cmd(const Twist & msg)\n  {\n    double limit = get_parameter(\"max_speed\").as_double();\n    Twist out;\n    out.linear.x = std::clamp(msg.linear.x, -limit, limit);\n    out.angular.z = msg.angular.z;\n    if (near_wall() && out.linear.x > 0.0) {\n      out.linear.x = 0.0;\n      RCLCPP_WARN_THROTTLE(get_logger(), *get_clock(), 1000,\n        \"Too close to a wall: only turning is allowed\");\n    }\n    pub_->publish(out);\n  }\n\n  std::optional<Pose> pose_;\n  rclcpp::Publisher<Twist>::SharedPtr pub_;\n  rclcpp::Subscription<Twist>::SharedPtr cmd_sub_;\n  rclcpp::Subscription<Pose>::SharedPtr pose_sub_;\n};\n\nint main(int argc, char ** argv)\n{\n  rclcpp::init(argc, argv);\n  rclcpp::spin(std::make_shared<SafetyFilter>());\n  rclcpp::shutdown();\n  return 0;\n}\n"
+   }
+  }
+ }
+]
