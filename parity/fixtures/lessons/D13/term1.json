@@ -9,30 +9,30 @@
  "start": null,
  "scratch_home": "/home/prasad/lesson_ws/homes/D13_t1",
  "home_shown_as": "/home/student",
- "started": "2026-10-19T21:36:01+0530",
+ "started": "2026-10-20T10:18:32+0530",
  "steps": [
   {
    "task": 1,
    "term": 1,
    "kind": "cmd",
    "cmd": "ros2 service call /spawn turtlesim/srv/Spawn \"{x: 2, y: 8, theta: 0.0, name: 'raju'}\"",
-   "out": "requester: making request: turtlesim.srv.Spawn_Request(x=2.0, y=8.0, theta=0.0, name='raju')\n\nresponse:\nturtlesim.srv.Spawn_Response(name='raju')\n\n",
+   "out": "waiting for service to become available...\nrequester: making request: turtlesim.srv.Spawn_Request(x=2.0, y=8.0, theta=0.0, name='raju')\n\nresponse:\nturtlesim.srv.Spawn_Response(name='raju')\n\n",
    "exit": 0,
-   "secs": 1.6,
+   "secs": 1.5,
    "state": "finished",
    "status": "RAN",
    "cwd_after": "/home/student",
    "other_terminals": {
-    "100": "[INFO] [1792425971.375616734] [turtlesim]: Spawning turtle [raju] at x=[2.000000], y=[8.000000], theta=[0.000000]\n"
+    "100": "[INFO] [1792471721.928223978] [turtlesim]: Spawning turtle [raju] at x=[2.000000], y=[8.000000], theta=[0.000000]\n"
    }
   },
   {
    "task": 2,
    "term": 1,
    "kind": "cmd",
-   "cmd": "ros2 service call /raju/set_pen turtlesim/srv/SetPen \"{r: 0, g: 200, b: 0, width: 4, off: 0}\"",
-   "out": "Failed to populate field: attribute name must be string, not 'bool'\n",
-   "exit": 1,
+   "cmd": "ros2 service call /raju/set_pen turtlesim/srv/SetPen \"{r: 0, g: 200, b: 0, width: 4, 'off': 0}\"",
+   "out": "waiting for service to become available...\nrequester: making request: turtlesim.srv.SetPen_Request(r=0, g=200, b=0, width=4, off=0)\n\nresponse:\nturtlesim.srv.SetPen_Response()\n\n",
+   "exit": 0,
    "secs": 1.4,
    "state": "finished",
    "status": "RAN",
@@ -45,7 +45,7 @@
    "cmd": "ros2 topic pub --once /raju/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 3.0}}\"",
    "out": "publisher: beginning loop\npublishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=3.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0))\n\n",
    "exit": 0,
-   "secs": 2.5,
+   "secs": 1.9,
    "state": "finished",
    "status": "RAN",
    "cwd_after": "/home/student"
@@ -57,7 +57,7 @@
    "cmd": "ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 2.0}, angular: {z: 1.0}}\"",
    "out": "publisher: beginning loop\npublishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=1.0))\n\n",
    "exit": 0,
-   "secs": 2.4,
+   "secs": 1.9,
    "state": "finished",
    "status": "RAN",
    "cwd_after": "/home/student"
@@ -69,7 +69,7 @@
    "cmd": "ros2 topic list",
    "out": "/parameter_events\n/raju/cmd_vel\n/raju/color_sensor\n/raju/pose\n/rosout\n/turtle1/cmd_vel\n/turtle1/color_sensor\n/turtle1/pose\n",
    "exit": 0,
-   "secs": 1.6,
+   "secs": 0.8,
    "state": "finished",
    "status": "RAN",
    "cwd_after": "/home/student"
@@ -79,12 +79,12 @@
   {
    "name": "turtlesim",
    "cmd": "ros2 run turtlesim turtlesim_node",
-   "out": "[INFO] [1792425963.647000216] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792425963.656692851] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
+   "out": "[INFO] [1792471714.272411529] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792471714.289247348] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
    "state": "still running after 4 s"
   }
  ],
  "notes": [
   "pre-running terminal 100 output during block: "
  ],
- "finished": "2026-10-19T21:36:23+0530"
+ "finished": "2026-10-20T10:18:52+0530"
 }

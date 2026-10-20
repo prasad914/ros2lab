@@ -9,16 +9,16 @@
  "start": null,
  "scratch_home": "/home/prasad/lesson_ws/homes/D4_t2",
  "home_shown_as": "/home/student",
- "started": "2026-10-19T21:30:04+0530",
+ "started": "2026-10-20T10:18:06+0530",
  "steps": [
   {
    "task": 1,
    "term": 1,
    "kind": "cmd",
-   "cmd": "ros2 service call /turtle1/set_pen turtlesim/srv/SetPen \"{r: 255, g: 0, b: 0, width: 4, off: 0}\"",
-   "out": "Failed to populate field: attribute name must be string, not 'bool'\n",
-   "exit": 1,
-   "secs": 1.4,
+   "cmd": "ros2 service call /turtle1/set_pen turtlesim/srv/SetPen \"{r: 255, g: 0, b: 0, width: 4, 'off': 0}\"",
+   "out": "waiting for service to become available...\nrequester: making request: turtlesim.srv.SetPen_Request(r=255, g=0, b=0, width=4, off=0)\n\nresponse:\nturtlesim.srv.SetPen_Response()\n\n",
+   "exit": 0,
+   "secs": 1.8,
    "state": "finished",
    "status": "RAN",
    "cwd_after": "/home/student"
@@ -30,7 +30,7 @@
    "cmd": "ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 2.0}}\"",
    "out": "publisher: beginning loop\npublishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0))\n\n",
    "exit": 0,
-   "secs": 2.5,
+   "secs": 2.6,
    "state": "finished",
    "status": "RAN",
    "cwd_after": "/home/student"
@@ -42,7 +42,7 @@
    "cmd": "ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist \"{angular: {z: 1.57}}\"",
    "out": "publisher: beginning loop\npublishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=1.57))\n\n",
    "exit": 0,
-   "secs": 2.3,
+   "secs": 2.1,
    "state": "finished",
    "status": "RAN",
    "cwd_after": "/home/student"
@@ -54,7 +54,7 @@
    "cmd": "ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 2.0}}\"",
    "out": "publisher: beginning loop\npublishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0))\n\n",
    "exit": 0,
-   "secs": 2.5,
+   "secs": 2.1,
    "state": "finished",
    "status": "RAN",
    "cwd_after": "/home/student"
@@ -78,7 +78,7 @@
    "cmd": "ros2 topic echo --once /turtle1/pose",
    "out": "x: 7.536729335784912\ny: 7.560305118560791\ntheta: -3.118065357208252\nlinear_velocity: 0.0\nangular_velocity: 0.0\n---\n",
    "exit": 0,
-   "secs": 2.3,
+   "secs": 1.7,
    "state": "finished",
    "status": "RAN",
    "cwd_after": "/home/student"
@@ -88,12 +88,12 @@
   {
    "name": "turtlesim",
    "cmd": "ros2 run turtlesim turtlesim_node",
-   "out": "[INFO] [1792425605.976923198] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792425605.987425500] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
+   "out": "[INFO] [1792471689.114773883] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792471689.149683582] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
    "state": "still running after 4 s"
   }
  ],
  "notes": [
   "pre-running terminal 100 output during block: "
  ],
- "finished": "2026-10-19T21:30:30+0530"
+ "finished": "2026-10-20T10:18:32+0530"
 }

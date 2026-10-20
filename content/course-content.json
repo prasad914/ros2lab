@@ -11285,13 +11285,13 @@
        "title": "Practice: draw a red square",
        "tasks": [
         {
-         "do": "Make the pen red and thick: `ros2 service call /turtle1/set_pen turtlesim/srv/SetPen \"{r: 255, g: 0, b: 0, width: 4, off: 0}\"`",
+         "do": "Make the pen red and thick: `ros2 service call /turtle1/set_pen turtlesim/srv/SetPen \"{r: 255, g: 0, b: 0, width: 4, 'off': 0}\"`",
          "check": {
           "cmd": "^ros2 service call /turtle1/set_pen",
           "outputHas": "response"
          },
-         "hint": "Copy it exactly, with the quotes and curly brackets.",
-         "sol": "ros2 service call /turtle1/set_pen turtlesim/srv/SetPen \"{r: 255, g: 0, b: 0, width: 4, off: 0}\""
+         "hint": "Copy it exactly, with the quotes and curly brackets. Keep the quotes around 'off': YAML reads a bare off as false (a bool), and ros2 then stops with `Failed to populate field`.",
+         "sol": "ros2 service call /turtle1/set_pen turtlesim/srv/SetPen \"{r: 255, g: 0, b: 0, width: 4, 'off': 0}\""
         },
         {
          "do": "Side 1: drive forward. `ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 2.0}}\"`",
@@ -13818,13 +13818,13 @@
          "sol": "ros2 service call /spawn turtlesim/srv/Spawn \"{x: 2, y: 8, theta: 0.0, name: 'raju'}\""
         },
         {
-         "do": "Give Raju a green pen: `ros2 service call /raju/set_pen turtlesim/srv/SetPen \"{r: 0, g: 200, b: 0, width: 4, off: 0}\"`",
+         "do": "Give Raju a green pen: `ros2 service call /raju/set_pen turtlesim/srv/SetPen \"{r: 0, g: 200, b: 0, width: 4, 'off': 0}\"`",
          "check": {
           "cmd": "^ros2 service call /raju/set_pen",
           "outputHas": "response"
          },
-         "hint": "Copy it exactly.",
-         "sol": "ros2 service call /raju/set_pen turtlesim/srv/SetPen \"{r: 0, g: 200, b: 0, width: 4, off: 0}\""
+         "hint": "Copy it exactly. Keep the quotes around 'off': YAML reads a bare off as false (a bool), and ros2 then stops with `Failed to populate field`.",
+         "sol": "ros2 service call /raju/set_pen turtlesim/srv/SetPen \"{r: 0, g: 200, b: 0, width: 4, 'off': 0}\""
         },
         {
          "do": "Drive Raju forward on **his own** topic: `ros2 topic pub --once /raju/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 3.0}}\"`",
@@ -17812,12 +17812,12 @@
          "sol": "ros2 run chiku_control_cpp spawn_client"
         },
         {
-         "do": "Talk to your new turtle: `ros2 service call /helper/set_pen turtlesim/srv/SetPen \"{r: 255, g: 0, b: 0, width: 5, off: 0}\"`",
+         "do": "Talk to your new turtle: `ros2 service call /helper/set_pen turtlesim/srv/SetPen \"{r: 255, g: 0, b: 0, width: 5, 'off': 0}\"`",
          "check": {
           "cmd": "^ros2 service call /helper/set_pen"
          },
-         "hint": "Copy the command.",
-         "sol": "ros2 service call /helper/set_pen turtlesim/srv/SetPen \"{r: 255, g: 0, b: 0, width: 5, off: 0}\""
+         "hint": "Copy the command. Keep the quotes around 'off': YAML reads a bare off as false (a bool), and ros2 then stops with `Failed to populate field`.",
+         "sol": "ros2 service call /helper/set_pen turtlesim/srv/SetPen \"{r: 255, g: 0, b: 0, width: 5, 'off': 0}\""
         },
         {
          "do": "Drive it to see its red pen: `ros2 topic pub --once /helper/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 2.0}}\"`",
