@@ -27587,7 +27587,8 @@
            "displays": [
             "RobotModel",
             "TF"
-           ]
+           ],
+           "subscribed": "/robot_description"
           }
          },
          "sol": {
@@ -27597,10 +27598,13 @@
             "Grid": true,
             "RobotModel": true,
             "TF": true
-           }
+           },
+           "topics": [
+            "/robot_description"
+           ]
           }
          },
-         "hint": "Fixed Frame is under Global Options in the Displays panel. Then press Add (under the Displays panel), choose RobotModel and press OK; do the same for TF."
+         "hint": "Fixed Frame is under Global Options in the Displays panel. Then press Add (under the Displays panel), choose RobotModel and press OK; do the same for TF. Then click the empty Description Topic value of RobotModel and choose /robot_description."
         }
        ],
        "sourced": true,
@@ -28127,7 +28131,8 @@
            "displays": [
             "RobotModel",
             "TF"
-           ]
+           ],
+           "subscribed": "/robot_description"
           }
          },
          "sol": {
@@ -28136,10 +28141,13 @@
             "Grid": true,
             "RobotModel": true,
             "TF": true
-           }
+           },
+           "topics": [
+            "/robot_description"
+           ]
           }
          },
-         "hint": "Press Add under the Displays panel, choose RobotModel (By display type) and press OK. Do it again for TF."
+         "hint": "Press Add under the Displays panel, choose RobotModel (By display type) and press OK. Do it again for TF. Then click the empty Description Topic value of RobotModel and choose /robot_description."
         },
         {
          "do": "Send a goal: pick the **2D Goal Pose** tool in the toolbar, then press on the grid and drag to set the direction.",
