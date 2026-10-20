@@ -91,7 +91,8 @@ export class RosGraph {
     this.lastTwist = null;
     for (const r of running) {
       const kind = typeof r === "string" ? r : r.kind;
-      this.add(kind, typeof r === "object" && r.name ? r.name : DEFAULT_NAME[kind], typeof r === "object" && r.ns ? r.ns : "");
+      const n = this.add(kind, typeof r === "object" && r.name ? r.name : DEFAULT_NAME[kind], typeof r === "object" && r.ns ? r.ns : "");
+      if (kind === "listener") n.rclpy = true;   // a block's running "listener" is demo_nodes_py listener (parity/scripts/lessons/run_lesson_terms.py RUNNING_CMD)
     }
   }
   out(t, c) { return this.sh.out(t, c); } err(t) { return this.sh.err(t); } hint(t) { return this.sh.hint(t); }
@@ -139,7 +140,10 @@ export class RosGraph {
   endpoints(n) {
     const p = (s) => `${n.ns}/${s}`;
     // every node's /rosout publisher is transient_local (`ros2 topic info -v /rosout` on Jazzy, parity/fixtures/*/sensors/qos/rosout.txt)
-    const e = { pubs: [["/parameter_events", "rcl_interfaces/msg/ParameterEvent"], ["/rosout", "rcl_interfaces/msg/Log", "RELIABLE/TRANSIENT_LOCAL"]], subs: [["/parameter_events", "rcl_interfaces/msg/ParameterEvent"]],
+    // rclcpp nodes subscribe /parameter_events (ParameterEventHandler); rclpy nodes do not (every node info in
+    // parity/fixtures/lessons: rclpy late_listener, circle_driver, pose_monitor, battery_monitor, demo_nodes_py listener)
+    const rclpy = n.rclpy || (n.kind === "custom" && n.info && n.info.lang === "python");
+    const e = { pubs: [["/parameter_events", "rcl_interfaces/msg/ParameterEvent"], ["/rosout", "rcl_interfaces/msg/Log", "RELIABLE/TRANSIENT_LOCAL"]], subs: rclpy ? [] : [["/parameter_events", "rcl_interfaces/msg/ParameterEvent"]],
       srvs: PARAM_SRVS.map(([s, t]) => [`${n.full}/${s}`, t]), cli: [], acts: [], actc: [] };
     // tf2_ros::TransformListener's own node (transform_listener_impl_<address>): /tf, /tf_static (transient_local),
     // /parameter_events, its /rosout, no parameter services or events (fixtures */slam, */cartographer, */nav_robotis qos)
@@ -908,6 +912,7 @@ export class RosGraph {
     }
     if (kind === "rviz") { const di = extra.indexOf("-d"); const r = this.rvizConfig(di >= 0 ? extra[di + 1] : null); if (r) pre.push(...r); }
     const n = this.add(kind, name, ns, params, remaps, dup);
+    if (pkg === "demo_nodes_py") n.rclpy = true;
     this.lastStarted = [n.full];
     if (kind === "gz_bridge" || kind === "gz_image") {
       const argv = extra.slice(0, extra.includes("--ros-args") ? extra.indexOf("--ros-args") : extra.length);

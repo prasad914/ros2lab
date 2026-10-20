@@ -108,3 +108,17 @@ describe("joint_state_publisher(_gui) startup lines and logger as on real (AUDIT
     expect(out.get(cmd).filter(jsp).map((l) => l.replace(/ \[\d+\.\d+\] /, " "))).toEqual(real.slice(0, 4));
   });
 });
+
+describe("ros2 node info: rclpy nodes have no /parameter_events subscriber, rclcpp nodes do (AUDIT_V2 #42)", () => {
+  const subs = (lines) => { const i = lines.findIndex((l) => l.trim() === "Subscribers:"), j = lines.findIndex((l) => l.trim() === "Publishers:"); return lines.slice(i + 1, j).filter((l) => l.trim()); };
+  // every rclpy (py) and rclcpp (cpp) node whose node info was captured in the lesson fixtures
+  for (const [lesson, term, node, lang] of [["N10", 1, "/late_listener", "py"], ["F3", 1, "/circle_driver", "py"], ["F5", 1, "/pose_monitor", "py"], ["F19", 1, "/battery_monitor", "py"], ["D12", 2, "/listener", "py"],
+    ["N19", 1, "/turtle_tf_broadcaster", "cpp"], ["N8", 1, "/safety_filter", "cpp"], ["N5", 1, "/square_driver", "cpp"], ["F20", 1, "/battery_monitor", "cpp"]])
+    it(`${lesson} ${node} (${lang})`, () => {
+      const cmd = `ros2 node info ${node}`;
+      const real = subs(realLines(realStep(lesson, term, cmd)));
+      expect(real.some((l) => l.includes("/parameter_events"))).toBe(lang === "cpp");
+      const { out } = runSolutions(lesson, term, [cmd]);
+      expect(subs(out.get(cmd)).filter((l) => l.includes("/parameter_events"))).toEqual(real.filter((l) => l.includes("/parameter_events")));
+    });
+});
