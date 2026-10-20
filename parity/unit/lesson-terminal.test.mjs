@@ -79,3 +79,13 @@ describe("N19: node info of the C++ TF broadcaster (AUDIT_V2 #21, N19 row)", () 
     expect(out.get(cmd).filter((l) => l.trim())).toEqual(real);
   });
 });
+
+describe("robot_state_publisher startup prints Robot initialized, not one 'got segment' per link (AUDIT_V2 #14)", () => {
+  for (const lesson of ["XT5", "RV1"]) it(`${lesson} task 1`, () => {
+    const cmd = block(lesson, 1).tasks[0].sol;
+    const real = realLines(realStep(lesson, 1, cmd));
+    expect(real).toEqual(["[INFO] [robot_state_publisher]: Robot initialized"]);
+    const { out } = runSolutions(lesson, 1);
+    expect(out.get(cmd)).toEqual(real);
+  });
+});

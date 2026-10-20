@@ -2271,7 +2271,7 @@ RosGraph.prototype.jointValues = function () { const J = { ...(this.sh.viz ? thi
 RosGraph.prototype.rspMessages = function (n) {
   const txt = String(n.params.robot_description);
   if (/<xacro:/.test(txt.replace(/<!--[\s\S]*?-->/g, ""))) return ["[ERROR] [robot_state_publisher]: Failed to parse robot description: it still contains <xacro:...> tags. Run it through xacro first: -p robot_description:=\"$(xacro file.urdf.xacro)\""];
-  try { const m = parseURDF(txt); return [...Object.values(m.joints).filter((j) => j.type === "floating" || j.type === "planar").map((j) => `[WARN] [kdl_parser]: Converting unknown joint type of joint '${j.name}' into a fixed joint`), ...Object.keys(m.links).sort().map((l) => `[INFO] [robot_state_publisher]: got segment ${l}`)]; }
+  try { const m = parseURDF(txt); return [...Object.values(m.joints).filter((j) => j.type === "floating" || j.type === "planar").map((j) => `[WARN] [kdl_parser]: Converting unknown joint type of joint '${j.name}' into a fixed joint`), ...(m.links[m.root] && m.links[m.root].inertial ? [`[WARN] [kdl_parser]: The root link ${m.root} has an inertia specified in the URDF, but KDL does not support a root link with an inertia.  As a workaround, you can add an extra dummy link to your URDF.`] : []), "[INFO] [robot_state_publisher]: Robot initialized"]; }   // Jazzy: one line (lessons/XT5/term1.json step 0); kdl root inertia warning first (lessons/R4/term1_runner.log)
   catch (e) { return ["[ERROR] [robot_state_publisher]: Failed to parse robot description using: urdf_xml_parser/URDFXMLParser", `[ERROR] [robot_state_publisher]: ${e.message.replace(/^Error:\s*/, "")}`]; }
 };
 // ros2 run tf2_tools view_frames
