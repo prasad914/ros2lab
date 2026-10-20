@@ -1,107 +1,149 @@
 # Excerpt of parity/fixtures/lessons/N10/term1_runner.log (gitignored)
 # Selection: every line
-# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+# Generated 2026-10-20T10:26:35+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
 1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson N10 terminal 1: Live terminal: a latched topic
 2:# scratch HOME /home/prasad/lesson_ws/homes/N10_t1 shown as /home/student; sourced=True running=['turtlesim'] start=~/ros2_ws
 3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
-4:[INFO] [1792427186.807376271] [turtlesim]: Starting turtlesim with node name /turtlesim
-5:[INFO] [1792427186.818857516] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+4:[INFO] [1792472062.300142465] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792472062.310374224] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
 6:
-7:## [term 1] $ colcon build --packages-select chiku_control   (exit=0, 4.7 s, finished, cwd=/home/student/ros2_ws)
-8:[0.5s] [0/0 complete]
+7:## [term 1] $ colcon build --packages-select chiku_control   (exit=0, 4.0 s, finished, cwd=/home/student/ros2_ws)
+8:[0.4s] [0/0 complete]
 9:                     
 10:Starting >>> chiku_control
-11:[0.6s] [0/1 complete] [chiku_control - 0.1s]
+11:[0.5s] [0/1 complete] [chiku_control - 0.1s]
 12:                                            
-13:[0.7s] [0/1 complete] [chiku_control - 0.2s]
+13:[0.6s] [0/1 complete] [chiku_control - 0.2s]
 14:                                            
-15:[0.8s] [0/1 complete] [chiku_control - 0.3s]
+15:[0.7s] [0/1 complete] [chiku_control - 0.3s]
 16:                                            
-17:[0.9s] [0/1 complete] [chiku_control - 0.4s]
+17:[0.8s] [0/1 complete] [chiku_control - 0.4s]
 18:                                            
-19:[1.0s] [0/1 complete] [chiku_control - 0.5s]
+19:[0.9s] [0/1 complete] [chiku_control - 0.5s]
 20:                                            
-21:[1.1s] [0/1 complete] [chiku_control - 0.6s]
+21:[1.0s] [0/1 complete] [chiku_control - 0.6s]
 22:                                            
-23:[1.2s] [0/1 complete] [chiku_control - 0.7s]
+23:[1.1s] [0/1 complete] [chiku_control - 0.7s]
 24:                                            
-25:[1.3s] [0/1 complete] [chiku_control - 0.8s]
+25:[1.2s] [0/1 complete] [chiku_control - 0.8s]
 26:                                            
-27:[1.4s] [0/1 complete] [chiku_control - 0.9s]
+27:[1.3s] [0/1 complete] [chiku_control - 0.9s]
 28:                                            
-29:[1.5s] [0/1 complete] [chiku_control - 1.0s]
+29:[1.4s] [0/1 complete] [chiku_control - 1.0s]
 30:                                            
-31:[1.6s] [0/1 complete] [chiku_control - 1.1s]
+31:[1.5s] [0/1 complete] [chiku_control - 1.1s]
 32:                                            
-33:[1.7s] [0/1 complete] [chiku_control - 1.2s]
+33:[1.6s] [0/1 complete] [chiku_control - 1.2s]
 34:                                            
-35:[1.8s] [0/1 complete] [chiku_control - 1.3s]
+35:[1.7s] [0/1 complete] [chiku_control - 1.3s]
 36:                                            
-37:[1.9s] [0/1 complete] [chiku_control - 1.4s]
+37:[1.8s] [0/1 complete] [chiku_control - 1.4s]
 38:                                            
-39:[2.0s] [0/1 complete] [chiku_control - 1.5s]
+39:[1.9s] [0/1 complete] [chiku_control - 1.5s]
 40:                                            
-41:[2.1s] [0/1 complete] [chiku_control - 1.6s]
+41:[2.0s] [0/1 complete] [chiku_control - 1.6s]
 42:                                            
-43:[2.2s] [0/1 complete] [chiku_control - 1.7s]
+43:[2.1s] [0/1 complete] [chiku_control - 1.7s]
 44:                                            
-45:[2.3s] [0/1 complete] [chiku_control - 1.8s]
+45:[2.2s] [0/1 complete] [chiku_control - 1.8s]
 46:                                            
-47:[2.4s] [0/1 complete] [chiku_control - 1.9s]
+47:[2.3s] [0/1 complete] [chiku_control - 1.9s]
 48:                                            
-49:[2.5s] [0/1 complete] [chiku_control - 2.0s]
+49:[2.4s] [0/1 complete] [chiku_control - 2.0s]
 50:                                            
-51:[2.6s] [0/1 complete] [chiku_control - 2.1s]
+51:[2.5s] [0/1 complete] [chiku_control - 2.1s]
 52:                                            
-53:[2.7s] [0/1 complete] [chiku_control - 2.2s]
+53:[2.6s] [0/1 complete] [chiku_control - 2.2s]
 54:                                            
-55:[2.8s] [0/1 complete] [chiku_control - 2.3s]
+55:[2.7s] [0/1 complete] [chiku_control - 2.3s]
 56:                                            
-57:[2.9s] [0/1 complete] [chiku_control - 2.4s]
+57:[2.8s] [0/1 complete] [chiku_control - 2.4s]
 58:                                            
-59:[3.0s] [0/1 complete] [chiku_control - 2.5s]
+59:[2.9s] [0/1 complete] [chiku_control - 2.5s]
 60:                                            
-61:[3.1s] [0/1 complete] [chiku_control - 2.6s]
+61:[3.0s] [0/1 complete] [chiku_control - 2.6s]
 62:                                            
-63:[3.2s] [0/1 complete] [chiku_control - 2.7s]
+63:[3.1s] [0/1 complete] [chiku_control - 2.7s]
 64:                                            
-65:[3.3s] [0/1 complete] [chiku_control - 2.8s]
+65:[3.2s] [0/1 complete] [chiku_control - 2.8s]
 66:                                            
-67:[3.4s] [0/1 complete] [chiku_control - 2.9s]
+67:[3.3s] [0/1 complete] [chiku_control - 2.9s]
 68:                                            
-69:[3.5s] [0/1 complete] [chiku_control - 3.0s]
-70:                                            
-71:[3.6s] [0/1 complete] [chiku_control - 3.1s]
-72:                                            
-73:[3.7s] [0/1 complete] [chiku_control - 3.2s]
-74:                                            
-75:[3.8s] [0/1 complete] [chiku_control - 3.3s]
-76:                                            
-77:Finished <<< chiku_control [3.41s]
-78:[3.9s] [1/1 complete]
-79:                     
+69:Finished <<< chiku_control [2.95s]
+70:
+71:Summary: 1 package finished [3.34s]
+72:
+73:## [term 1] $ source install/setup.bash   (exit=0, 1.1 s, finished, cwd=/home/student/ros2_ws)
+74:
+75:## [term 1] $ ros2 run chiku_control latched_status   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student/ros2_ws)
+76:[INFO] [1792472075.807154002] [latched_status]: Published the map status once
+77:
+78:## [new terminal 2]
+79:## [term 2] $ cd ~/ros2_ws   (exit=0, 0.0 s, finished, cwd=/home/student/ros2_ws)
 80:
-81:Summary: 1 package finished [3.92s]
+81:## [term 2] $ source install/setup.bash   (exit=0, 0.9 s, finished, cwd=/home/student/ros2_ws)
 82:
-83:## [term 1] $ source install/setup.bash   (exit=0, 1.2 s, finished, cwd=/home/student/ros2_ws)
-84:
-85:## [term 1] $ ros2 run chiku_control latched_status   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student/ros2_ws)
-86:[INFO] [1792427201.326680855] [latched_status]: Published the map status once
-87:
-88:## [new terminal 2]
-89:## [term 2] $ ros2 run chiku_control late_listener   (exit=1, 0.7 s, finished, cwd=/home/student)
-90:Package 'chiku_control' not found
-91:
-92:## [new terminal 3]
-93:## [term 3] $ ros2 topic info /map_status   (exit=0, 1.1 s, finished, cwd=/home/student)
-94:Type: std_msgs/msg/String
-95:Publisher count: 1
-96:Subscription count: 0
-97:
-98:## [term 3] $ ros2 node info /late_listener   (exit=1, 1.4 s, finished, cwd=/home/student)
-99:Unable to find node '/late_listener'
-100:
-101:## [term 1] Ctrl+C to stop: ros2 run chiku_control latched_status  (exit=0)
-102:[INFO] [1792427201.326680855] [latched_status]: Published the map status once
+83:## [term 2] $ ros2 run chiku_control late_listener   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student/ros2_ws)
+84:[INFO] [1792472087.725550001] [late_listener]: I joined late but still got: "map of the warehouse is ready"
+85:[INFO] [1792472088.388790466] [late_listener]: 50 poses received
+86:[INFO] [1792472089.188937880] [late_listener]: 100 poses received
+87:[INFO] [1792472089.988763405] [late_listener]: 150 poses received
+88:[INFO] [1792472090.789181602] [late_listener]: 200 poses received
+89:[INFO] [1792472091.588893765] [late_listener]: 250 poses received
+90:[INFO] [1792472092.389819969] [late_listener]: 300 poses received
+91:[INFO] [1792472093.186621309] [late_listener]: 350 poses received
+92:[INFO] [1792472093.986493779] [late_listener]: 400 poses received
+93:
+94:## [new terminal 3]
+95:## [term 3] $ ros2 topic info /map_status   (exit=0, 1.1 s, finished, cwd=/home/student)
+96:Type: std_msgs/msg/String
+97:Publisher count: 1
+98:Subscription count: 1
+99:
+100:### output meanwhile in terminal 2:
+101:[INFO] [1792472096.387985013] [late_listener]: 550 poses received
+102:[INFO] [1792472097.188894949] [late_listener]: 600 poses received
 103:
-104:# note: pre-running terminal 100 output during block: 
+104:## [term 3] $ ros2 node info /late_listener   (exit=0, 1.0 s, finished, cwd=/home/student)
+105:/late_listener
+106:  Subscribers:
+107:    /map_status: std_msgs/msg/String
+108:    /turtle1/pose: turtlesim/msg/Pose
+109:  Publishers:
+110:    /parameter_events: rcl_interfaces/msg/ParameterEvent
+111:    /rosout: rcl_interfaces/msg/Log
+112:  Service Servers:
+113:    /late_listener/describe_parameters: rcl_interfaces/srv/DescribeParameters
+114:    /late_listener/get_parameter_types: rcl_interfaces/srv/GetParameterTypes
+115:    /late_listener/get_parameters: rcl_interfaces/srv/GetParameters
+116:    /late_listener/get_type_description: type_description_interfaces/srv/GetTypeDescription
+117:    /late_listener/list_parameters: rcl_interfaces/srv/ListParameters
+118:    /late_listener/set_parameters: rcl_interfaces/srv/SetParameters
+119:    /late_listener/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically
+120:  Service Clients:
+121:
+122:  Action Servers:
+123:
+124:  Action Clients:
+125:
+126:
+127:### output meanwhile in terminal 2:
+128:[INFO] [1792472097.986684360] [late_listener]: 650 poses received
+129:[INFO] [1792472098.789685769] [late_listener]: 700 poses received
+130:
+131:## [term 1] Ctrl+C to stop: ros2 run chiku_control latched_status  (exit=0)
+132:[INFO] [1792472075.807154002] [latched_status]: Published the map status once
+133:
+134:## [term 2] Ctrl+C to stop: ros2 run chiku_control late_listener  (exit=0)
+135:[INFO] [1792472087.725550001] [late_listener]: I joined late but still got: "map of the warehouse is ready"
+136:[INFO] [1792472088.388790466] [late_listener]: 50 poses received
+137:[INFO] [1792472089.188937880] [late_listener]: 100 poses received
+138:[INFO] [1792472089.988763405] [late_listener]: 150 poses received
+139:[INFO] [1792472090.789181602] [late_listener]: 200 poses received
+140:[INFO] [1792472091.588893765] [late_listener]: 250 poses received
+141:[INFO] [1792472092.389819969] [late_listener]: 300 poses received
+142:[INFO] [1792472093.186621309] [late_listener]: 350 poses received
+143:[INFO] [1792472093.986493779] [late_listener]: 400 poses received
+144:[INFO] [1792472099.588830914] [late_listener]: 750 poses received
+145:
+146:# note: pre-running terminal 100 output during block: 

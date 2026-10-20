@@ -22660,15 +22660,17 @@
          "sol": "ros2 run chiku_control latched_status"
         },
         {
-         "do": "Open a **new terminal** and start the late listener: `ros2 run chiku_control late_listener`",
+         "do": "Open a **new terminal**, load the workspace (`cd ~/ros2_ws`, `source install/setup.bash`) and start the late listener: `ros2 run chiku_control late_listener`",
          "check": {
           "rosNode": "/late_listener"
          },
-         "hint": "New tab, then run late_listener.",
+         "hint": "New tab, load the workspace, then run late_listener. Without the source: Package 'chiku_control' not found.",
          "sol": [
           {
            "newTerminal": true
           },
+          "cd ~/ros2_ws",
+          "source install/setup.bash",
           "ros2 run chiku_control late_listener"
          ]
         },
@@ -23400,16 +23402,18 @@
          "sol": "ros2 launch chiku_control turtle_goal.launch.py goal_x:=3.0 goal_y:=3.0"
         },
         {
-         "do": "Open a **new terminal** and check: `ros2 param get /go_to_goal goal_x`",
+         "do": "Open a **new terminal**, load the workspace (`cd ~/ros2_ws`, `source install/setup.bash`) and check: `ros2 param get /go_to_goal goal_x`",
          "check": {
           "cmd": "^ros2 param get /go_to_goal goal_x$",
           "outputHas": "3.0"
          },
-         "hint": "New tab, then the param get.",
+         "hint": "New tab, load the workspace, then the param get. The next launch runs in this tab and needs the workspace.",
          "sol": [
           {
            "newTerminal": true
           },
+          "cd ~/ros2_ws",
+          "source install/setup.bash",
           "ros2 param get /go_to_goal goal_x"
          ]
         },
@@ -23764,15 +23768,17 @@
          "sol": "ros2 run chiku_control_cpp turtle_tf_broadcaster"
         },
         {
-         "do": "Open a **new terminal**. Your node publishes on /tf: `ros2 node info /turtle_tf_broadcaster`",
+         "do": "Open a **new terminal** and load the workspace (`cd ~/ros2_ws`, `source install/setup.bash`). Your node publishes on /tf: `ros2 node info /turtle_tf_broadcaster`",
          "check": {
           "cmd": "^ros2 node info /turtle_tf_broadcaster$"
          },
-         "hint": "New tab, then node info.",
+         "hint": "New tab, load the workspace, then node info. The next ros2 run in this tab needs the workspace.",
          "sol": [
           {
            "newTerminal": true
           },
+          "cd ~/ros2_ws",
+          "source install/setup.bash",
           "ros2 node info /turtle_tf_broadcaster"
          ]
         },
