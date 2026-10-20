@@ -45,9 +45,9 @@ for (const { lesson, term, b } of blocks) {
       if (!(await row.count())) { log.push(`Add ${name}: type not in dialog`); await page.keyboard.press("Escape"); continue; }
       await row.dblclick(); await sleep(600);
       log.push(`Add ${name}: ${await viz.locator(".q-row", { hasText: new RegExp(`^${name}`) }).count() ? "added" : "NOT added"}`);
-      if (name === "RobotModel") {   // the lesson: click the empty Description Topic value, choose /robot_description
+      if (name === "RobotModel") {   // the lesson: click (once) the empty Description Topic value, choose /robot_description
         const r = viz.locator(".q-row", { hasText: "Description Topic" }).last();
-        if (await r.count()) { await r.locator(".q-c1").dblclick(); await sleep(300);
+        if (await r.count()) { await r.locator(".q-c1").click(); await sleep(300);
           const inp = viz.locator("input.q-ecin:not(.fixed-frame-input)").last();
           if (await inp.count()) { const opt = page.locator(".q-copt", { hasText: "/robot_description" }).first(); if (await opt.count()) await opt.click(); else { await inp.fill("/robot_description"); await inp.press("Enter"); } await sleep(500); log.push(`Description Topic -> ${(await r.textContent()).replace(/\s+/g, " ").trim()}`); }
           else { const sel = viz.locator("select.q-editor, .q-editor select").last(); if (await sel.count()) { await sel.selectOption("/robot_description"); await sleep(500); log.push("Description Topic -> /robot_description (select)"); } else log.push("Description Topic editor not found"); } }
