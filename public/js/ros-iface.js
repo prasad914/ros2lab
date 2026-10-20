@@ -153,6 +153,20 @@ export function parseYaml(src) {
   if (!/^[{[]/.test(s) && /^\w[\w ]*:\s/.test(s) && !/[{[]/.test(s.split(":")[0])) return parseFlow(`{${s}}`);
   return parseFlow(s);
 }
+// PyYAML (YAML 1.1) reads these plain keys as bool / None / int / float, not str; rosidl's set_message_fields then fails
+// with "attribute name must be string, not '<type>'" (parity/fixtures/lessons/_investigations/yaml_nonstring_keys.txt).
+// Such a key is kept as "\u0000<type>", like hero-turtle.js does.
+function plainKey(k) {
+  const t = /^(yes|Yes|YES|no|No|NO|true|True|TRUE|false|False|FALSE|on|On|ON|off|Off|OFF)$/.test(k) ? "bool" : /^(null|Null|NULL|~)$/.test(k) ? "NoneType"
+    : /^[-+]?\d+$/.test(k) ? "int" : /^[-+]?(\d+\.\d*|\.\d+)([eE][-+]?\d+)?$/.test(k) ? "float" : null;
+  return t ? `\u0000${t}` : k;
+}
+// the first such key, depth first in the order written (set_message_fields walks the fields in that order)
+export function nonStringKey(v) {
+  if (!v || typeof v !== "object") return null;
+  for (const [k, x] of Object.entries(v)) { if (k[0] === "\u0000") return k.slice(1); const d = nonStringKey(x); if (d) return d; }
+  return null;
+}
 function scalar(tok) {
   const t = tok.trim();
   if (/^(['"]).*\1$/.test(t)) return t.slice(1, -1);
@@ -177,7 +191,7 @@ function parseFlow(s) {
     let tok = ""; while (i < s.length && !/[,}\]]/.test(s[i])) tok += s[i++];
     return scalar(tok);
   }
-  function key() { let k = ""; if (s[i] === "'" || s[i] === '"') { const q = s[i++]; while (i < s.length && s[i] !== q) k += s[i++]; i++; return k; } while (i < s.length && !/[:,}]/.test(s[i])) k += s[i++]; return k.trim(); }
+  function key() { let k = ""; if (s[i] === "'" || s[i] === '"') { const q = s[i++]; while (i < s.length && s[i] !== q) k += s[i++]; i++; return k; } while (i < s.length && !/[:,}]/.test(s[i])) k += s[i++]; return plainKey(k.trim()); }
   const v = value(); ws(); if (i < s.length) err("unexpected text");
   return v;
 }
@@ -190,8 +204,9 @@ function parseBlock(lines) {
     while (i < L.length && L[i].ind === ind) {
       const m = L[i].t.match(/^([^:]+):\s*(.*)$/); if (!m) throw new Error(`cannot read "${L[i].t}"`);
       i++;
-      if (m[2]) o[m[1].trim()] = /^[{[]/.test(m[2]) ? parseFlow(m[2]) : scalar(m[2]);
-      else o[m[1].trim()] = i < L.length && L[i].ind > ind ? block(L[i].ind) : null;
+      const k = /^(['"]).*\1$/.test(m[1].trim()) ? m[1].trim().slice(1, -1) : plainKey(m[1].trim());
+      if (m[2]) o[k] = /^[{[]/.test(m[2]) ? parseFlow(m[2]) : scalar(m[2]);
+      else o[k] = i < L.length && L[i].ind > ind ? block(L[i].ind) : null;
     }
     return o;
   }
@@ -209,6 +224,7 @@ export function buildMessage(t, value, { now = () => ({ sec: 0, nanosec: 0 }) } 
     const d = defOf(tt);
     if (nameOf(tt) === "std_msgs/msg/Header" || nameOf(tt) === "builtin_interfaces/msg/Time") { /* handled below */ }
     for (const [k, val] of Object.entries(v)) {
+      if (k[0] === "\u0000") throw new Error(`Failed to populate field: attribute name must be string, not '${k.slice(1)}'`);
       const f = d.fields.find((x) => x.name === k);
       if (!f) throw new Error(`Failed to populate field: '${shortName(tt)}' object has no attribute '${k}'`);
       if (f.type === "builtin_interfaces/msg/Time" && val === "now") { base[k] = now(); continue; }

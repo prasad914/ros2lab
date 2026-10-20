@@ -38,3 +38,33 @@ describe("N10: a TRANSIENT_LOCAL message reaches a late subscriber (AUDIT_V2 #41
   });
 });
 
+// real ros2cli output for one command from an investigation file: the lines between "## $ <cmd>" and "exit=N"
+const realInvestigation = (file, cmd) => {
+  const txt = readFileSync(new URL(`parity/fixtures/lessons/_investigations/${file}`, root), "utf8").split("\n");
+  const i = txt.indexOf(`## $ ${cmd}`); if (i < 0) throw new Error(`${file}: no "${cmd}"`);
+  const j = txt.findIndex((l, k) => k > i && /^exit=/.test(l));
+  return { lines: txt.slice(i + 1, j).filter((l) => l.trim()), exit: Number(txt[j].slice(5)) };
+};
+
+describe("SetPen with a bare off key fails as on real (AUDIT_V2 #40)", () => {
+  const bare = 'ros2 service call /turtle1/set_pen turtlesim/srv/SetPen "{r: 255, g: 0, b: 0, width: 4, off: 0}"';
+  const quoted = `ros2 service call /turtle1/set_pen turtlesim/srv/SetPen "{r: 255, g: 0, b: 0, width: 4, 'off': 0}"`;
+  it("bare off: 0 prints the real error and no request", () => {
+    const real = realInvestigation("setpen_off_forms.txt", bare);
+    expect(real.exit).toBe(1);
+    const { out } = runSolutions("D4", 2, [bare]);
+    expect(out.get(bare)).toEqual(real.lines);
+  });
+  it("'off': 0 still makes the request", () => {
+    const real = realInvestigation("setpen_off_forms.txt", quoted);
+    const { out } = runSolutions("D4", 2, [quoted]);
+    expect(out.get(quoted)).toContain(real.lines.find((l) => l.startsWith("requester:")));
+  });
+  it("topic pub: an unquoted off key fails the same way (rosidl set_message_fields, yaml_nonstring_keys.txt)", () => {
+    const txt = readFileSync(new URL("parity/fixtures/lessons/_investigations/yaml_nonstring_keys.txt", root), "utf8").split("\n");
+    const want = txt[txt.indexOf("## Twist {linear: {x: 1.0}, off: 0}") + 2];
+    const cmd = 'ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 1.0}, off: 0}"';
+    const { out } = runSolutions("D4", 2, [cmd]);
+    expect(out.get(cmd)[0]).toBe(want);
+  });
+});

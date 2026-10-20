@@ -9,7 +9,7 @@ import { gzMethods, GZ_EXES, GZ_NAMES, GZ_PKG_EXES, IMAGE_TRANSPORTS, TELEOP_BAN
 import { urdfGazebo } from "./gz-sdf.js";
 import { DOCTOR_PASSED_LINES } from "./doctor-text.js";
 import { xacro as runXacro, parseURDF, urdfEdges, checkUrdfText, graphviz, jointValue } from "./urdf-core.js";
-import { ifacesReady, hasIface, parseYaml, buildMessage, pyRepr, showLines, protoBlock, allIfaces as realIfaces, ifacePackages, normType as normIface, sectionType, echoLines, noArrYaml } from "./ros-iface.js";
+import { ifacesReady, hasIface, parseYaml, buildMessage, pyRepr, showLines, protoBlock, allIfaces as realIfaces, ifacePackages, normType as normIface, sectionType, echoLines, noArrYaml, nonStringKey } from "./ros-iface.js";
 // A pretend running ROS 2 system for the practice terminal: nodes, topics, services,
 // parameters, actions, bags and workspace packages. Outputs follow the official ROS 2 Jazzy tutorials.
 // Used by terminal-sim.js when a lesson's terminal block has "running": [...] (or "graph": true).
@@ -426,6 +426,7 @@ export class RosGraph {
       try { parsed = buildMessage(full, val || {}, { now: () => this.simNow() }); } catch (e) { return [this.err(e.message), this.hint(`See the fields with: ros2 interface show ${full}   (or press Tab after the type: it fills in every field)`)]; }
     }
     if ((!IFACES[full] && !parsed) || !/msg/.test(full)) return [this.err(`The passed message type is invalid`), this.hint("Message types look like geometry_msgs/msg/Twist or std_msgs/msg/String. Press Tab twice after the topic name to see them.")];
+    { let y0 = null; try { y0 = parseYaml(yaml); } catch { y0 = null; } const nk = nonStringKey(y0); if (nk) return [this.err(`Failed to populate field: attribute name must be string, not '${nk}'`), this.hint(nk === "bool" ? "YAML reads an unquoted off / on / yes / no as true or false, not as a field name. Quote it: 'off': 0" : "A field name must be text. Quote it, for example 'x': 1")]; }   // {off: 0}: PyYAML reads off as False
     const T = this.topics().get(topic);
     // a different type than the topic's: ROS 2 still publishes, but no subscriber of the other type receives it (the endpoints never match)
     if (T && T.type !== full && (T.by.pubs.length || T.by.subs.length)) {
@@ -585,6 +586,7 @@ export class RosGraph {
     if (a !== "call") return [this.err(`ros2 service: unknown command '${a}'`), this.hint("Try: list, type, find, info, call")];
     const type = pos[1] ? normIface(pos[1], "srv") : pos[1], yaml = pos.slice(2).join(" ") || "{}";
     if (!type) return [this.err("usage: ros2 service call <service_name> <service_type> [values]"), this.hint(s ? `This service's type is ${s.type}` : "Find the type with: ros2 service type <service_name>")];
+    { let y0 = null; try { y0 = parseYaml(yaml); } catch { y0 = null; } const nk = nonStringKey(y0); if (nk) return [this.err(`Failed to populate field: attribute name must be string, not '${nk}'`), this.hint(nk === "bool" ? "YAML reads an unquoted off / on / yes / no as true or false, not as a field name. Quote it: 'off': 0" : "A field name must be text. Quote it, for example 'x': 1")]; }   // before waiting for the service (ros2service call.py); {off: 0}: PyYAML reads off as False
     if (!s) return [this.out("waiting for service to become available..."), this.out("^C"), this.hint(`Nobody offers ${name}, so the call waits forever. Check the name with: ros2 service list`)];
     if (s.type !== type) return [this.err(`The passed service type is invalid`), this.hint(`${name} has type ${s.type}`)];
     if (this.nav2Api && this.nav2) { let rq = {}; try { rq = parseYaml(yaml) || {}; } catch { rq = {}; } const nv = this.nav2Api.nav2Service(this, name, type, rq); if (nv) return nv; }

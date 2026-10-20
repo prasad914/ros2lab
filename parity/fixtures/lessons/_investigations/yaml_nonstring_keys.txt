@@ -1,0 +1,39 @@
+# REAL Jazzy Python libraries on this machine (yaml.safe_load as in ros2service/verb/call.py:90 and ros2topic/verb/pub.py:178,
+# then rosidl_runtime_py.set_message_fields; ros2cli prints 'Failed to populate field: {e}'). Generated 2026-10-20T16:48:21+05:30 by:
+# bash -c 'source /opt/ros/jazzy/setup.bash; python3 -c <script below>'
+## SetPen_Request {r: 255, g: 0, b: 0, width: 4, off: 0}
+keys: ['r', 'g', 'b', 'width', False]
+Failed to populate field: attribute name must be string, not 'bool'
+## SetPen_Request {r: 255, g: 0, b: 0, width: 4, Off: 0}
+keys: ['r', 'g', 'b', 'width', False]
+Failed to populate field: attribute name must be string, not 'bool'
+## SetPen_Request {r: 255, g: 0, b: 0, width: 4, OFF: 0}
+keys: ['r', 'g', 'b', 'width', False]
+Failed to populate field: attribute name must be string, not 'bool'
+## SetPen_Request {r: 255, g: 0, b: 0, width: 4, 'off': 0}
+keys: ['r', 'g', 'b', 'width', 'off']
+OK turtlesim.srv.SetPen_Request(r=255, g=0, b=0, width=4, off=0)
+## SetPen_Request {yes: 1}
+keys: [True]
+Failed to populate field: attribute name must be string, not 'bool'
+## SetPen_Request {on: 1}
+keys: [True]
+Failed to populate field: attribute name must be string, not 'bool'
+## SetPen_Request {y: 1}
+keys: ['y']
+Failed to populate field: 'SetPen_Request' object has no attribute 'y'
+## SetPen_Request {null: 1}
+keys: [None]
+Failed to populate field: attribute name must be string, not 'NoneType'
+## SetPen_Request {~: 1}
+keys: [None]
+Failed to populate field: attribute name must be string, not 'NoneType'
+## SetPen_Request {1: 1}
+keys: [1]
+Failed to populate field: attribute name must be string, not 'int'
+## SetPen_Request {1.5: 1}
+keys: [1.5]
+Failed to populate field: attribute name must be string, not 'float'
+## Twist {linear: {x: 1.0}, off: 0}
+keys: ['linear', False]
+Failed to populate field: attribute name must be string, not 'bool'
