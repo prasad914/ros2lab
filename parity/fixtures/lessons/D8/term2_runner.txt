@@ -1,0 +1,647 @@
+# Excerpt of parity/fixtures/lessons/D8/term2_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson D8 terminal 2: Practice: point the turtle in every direction
+2:# scratch HOME /home/prasad/lesson_ws/homes/D8_t2 shown as /home/student; sourced=True running=['turtlesim', 'teleop'] start=None
+3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
+4:[INFO] [1792425741.874976383] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792425741.903033590] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+6:
+7:## [pre-running terminal] $ ros2 run turtlesim turtle_teleop_key  (still running after 4 s)
+8:Reading from keyboard
+9:---------------------------
+10:Use arrow keys to move the turtle.
+11:Use g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.
+12:'q' to quit.
+13:
+14:## [term 1] $ ros2 action send_goal /turtle1/rotate_absolute turtlesim/action/RotateAbsolute "{theta: 3.14}" --feedback   (exit=0, 4.6 s, finished, cwd=/home/student)
+15:Waiting for an action server to become available...
+16:Sending goal:
+17:     theta: 3.14
+18:
+19:Goal accepted with ID: 05f5f97631684af097457383617e5152
+20:
+21:Feedback:
+22:    remaining: 3.140000104904175
+23:
+24:Feedback:
+25:    remaining: 3.124000072479248
+26:
+27:Feedback:
+28:    remaining: 3.1080000400543213
+29:
+30:Feedback:
+31:    remaining: 3.0920000076293945
+32:
+33:Feedback:
+34:    remaining: 3.076000213623047
+35:
+36:Feedback:
+37:    remaining: 3.06000018119812
+38:
+39:Feedback:
+40:    remaining: 3.0440001487731934
+41:
+42:Feedback:
+43:    remaining: 3.0280001163482666
+44:
+45:Feedback:
+46:    remaining: 3.01200008392334
+47:
+48:Feedback:
+49:    remaining: 2.996000051498413
+50:
+51:Feedback:
+52:    remaining: 2.9800000190734863
+53:
+54:Feedback:
+55:    remaining: 2.9640002250671387
+56:
+57:Feedback:
+58:    remaining: 2.948000192642212
+59:
+60:Feedback:
+61:    remaining: 2.932000160217285
+62:
+63:Feedback:
+64:    remaining: 2.9160001277923584
+65:
+66:Feedback:
+67:    remaining: 2.9000000953674316
+68:
+69:Feedback:
+70:    remaining: 2.884000062942505
+71:
+72:Feedback:
+73:    remaining: 2.868000030517578
+74:
+75:Feedback:
+76:    remaining: 2.8520002365112305
+77:
+78:Feedback:
+79:    remaining: 2.8360002040863037
+80:
+81:Feedback:
+82:    remaining: 2.820000171661377
+83:
+84:Feedback:
+85:    remaining: 2.80400013923645
+86:
+87:Feedback:
+88:    remaining: 2.7880001068115234
+89:
+90:Feedback:
+91:    remaining: 2.7720000743865967
+92:
+93:Feedback:
+94:    remaining: 2.75600004196167
+95:
+96:Feedback:
+97:    remaining: 2.740000009536743
+98:
+99:Feedback:
+100:    remaining: 2.7239999771118164
+101:
+102:Feedback:
+103:    remaining: 2.7080001831054688
+104:
+105:Feedback:
+106:    remaining: 2.692000150680542
+107:
+108:Feedback:
+109:    remaining: 2.6760001182556152
+110:
+111:Feedback:
+112:    remaining: 2.6600000858306885
+113:
+114:Feedback:
+115:    remaining: 2.6440000534057617
+116:
+117:Feedback:
+118:    remaining: 2.628000020980835
+119:
+120:Feedback:
+121:    remaining: 2.611999988555908
+122:
+123:Feedback:
+124:    remaining: 2.5960001945495605
+125:
+126:Feedback:
+127:    remaining: 2.580000162124634
+128:
+129:Feedback:
+130:    remaining: 2.564000129699707
+131:
+132:Feedback:
+133:    remaining: 2.5480000972747803
+134:
+135:Feedback:
+136:    remaining: 2.5320000648498535
+137:
+138:Feedback:
+139:    remaining: 2.5160000324249268
+140:
+141:Feedback:
+142:    remaining: 2.5
+143:
+144:Feedback:
+145:    remaining: 2.4840002059936523
+146:
+147:Feedback:
+148:    remaining: 2.4680001735687256
+149:
+150:Feedback:
+151:    remaining: 2.452000141143799
+152:
+153:Feedback:
+154:    remaining: 2.436000108718872
+155:
+156:Feedback:
+157:    remaining: 2.4200000762939453
+158:
+159:Feedback:
+160:    remaining: 2.4040000438690186
+161:
+162:Feedback:
+163:    remaining: 2.388000011444092
+164:
+165:Feedback:
+166:    remaining: 2.372000217437744
+167:
+168:Feedback:
+169:    remaining: 2.3560001850128174
+170:
+171:Feedback:
+172:    remaining: 2.3400001525878906
+173:
+174:Feedback:
+175:    remaining: 2.324000120162964
+176:
+177:Feedback:
+178:    remaining: 2.308000087738037
+179:
+180:Feedback:
+181:    remaining: 2.2920000553131104
+182:
+183:Feedback:
+184:    remaining: 2.2760000228881836
+185:
+186:Feedback:
+187:    remaining: 2.260000228881836
+188:
+189:Feedback:
+190:    remaining: 2.24399995803833
+191:
+192:Feedback:
+193:    remaining: 2.2280001640319824
+194:
+195:Feedback:
+196:    remaining: 2.2120001316070557
+197:
+198:Feedback:
+199:    remaining: 2.196000099182129
+200:
+201:Feedback:
+202:    remaining: 2.180000066757202
+203:
+204:Feedback:
+205:    remaining: 2.1640000343322754
+206:
+207:Feedback:
+208:    remaining: 2.1480002403259277
+209:
+210:Feedback:
+211:    remaining: 2.131999969482422
+212:
+213:Feedback:
+214:    remaining: 2.116000175476074
+215:
+216:Feedback:
+217:    remaining: 2.1000001430511475
+218:
+219:Feedback:
+220:    remaining: 2.0840001106262207
+221:
+222:Feedback:
+223:    remaining: 2.068000078201294
+224:
+225:Feedback:
+226:    remaining: 2.052000045776367
+227:
+228:Feedback:
+229:    remaining: 2.0360002517700195
+230:
+231:Feedback:
+232:    remaining: 2.0199999809265137
+233:
+234:Feedback:
+235:    remaining: 2.004000186920166
+236:
+237:Feedback:
+238:    remaining: 1.9880001544952393
+239:
+240:Feedback:
+241:    remaining: 1.9720001220703125
+242:
+243:Feedback:
+244:    remaining: 1.9560000896453857
+245:
+246:Feedback:
+247:    remaining: 1.940000057220459
+248:
+249:Feedback:
+250:    remaining: 1.9240001440048218
+251:
+252:Feedback:
+253:    remaining: 1.908000111579895
+254:
+255:Feedback:
+256:    remaining: 1.8920000791549683
+257:
+258:Feedback:
+259:    remaining: 1.8760000467300415
+260:
+261:Feedback:
+262:    remaining: 1.8600001335144043
+263:
+264:Feedback:
+265:    remaining: 1.8440001010894775
+266:
+267:Feedback:
+268:    remaining: 1.8280000686645508
+269:
+270:Feedback:
+271:    remaining: 1.8120001554489136
+272:
+273:Feedback:
+274:    remaining: 1.7960001230239868
+275:
+276:Feedback:
+277:    remaining: 1.78000009059906
+278:
+279:Feedback:
+280:    remaining: 1.7640000581741333
+281:
+282:Feedback:
+283:    remaining: 1.748000144958496
+284:
+285:Feedback:
+286:    remaining: 1.7320001125335693
+287:
+288:Feedback:
+289:    remaining: 1.7160000801086426
+290:
+291:Feedback:
+292:    remaining: 1.7000000476837158
+293:
+294:Feedback:
+295:    remaining: 1.6840001344680786
+296:
+297:Feedback:
+298:    remaining: 1.6680001020431519
+299:
+300:Feedback:
+301:    remaining: 1.652000069618225
+302:
+303:Feedback:
+304:    remaining: 1.636000156402588
+305:
+306:Feedback:
+307:    remaining: 1.6200001239776611
+308:
+309:Feedback:
+310:    remaining: 1.6040000915527344
+311:
+312:Feedback:
+313:    remaining: 1.5880000591278076
+314:
+315:Feedback:
+316:    remaining: 1.5720001459121704
+317:
+318:Feedback:
+319:    remaining: 1.5560001134872437
+320:
+321:Feedback:
+322:    remaining: 1.540000081062317
+323:
+324:Feedback:
+325:    remaining: 1.5240000486373901
+326:
+327:Feedback:
+328:    remaining: 1.508000135421753
+329:
+330:Feedback:
+331:    remaining: 1.4920001029968262
+332:
+333:Feedback:
+334:    remaining: 1.4760000705718994
+335:
+336:Feedback:
+337:    remaining: 1.4600001573562622
+338:
+339:Feedback:
+340:    remaining: 1.4440001249313354
+341:
+342:Feedback:
+343:    remaining: 1.4280000925064087
+344:
+345:Feedback:
+346:    remaining: 1.412000060081482
+347:
+348:Feedback:
+349:    remaining: 1.3960001468658447
+350:
+351:Feedback:
+352:    remaining: 1.380000114440918
+353:
+354:Feedback:
+355:    remaining: 1.3640000820159912
+356:
+357:Feedback:
+358:    remaining: 1.3480000495910645
+359:
+360:Feedback:
+361:    remaining: 1.3320001363754272
+362:
+363:Feedback:
+364:    remaining: 1.3160001039505005
+365:
+366:Feedback:
+367:    remaining: 1.3000000715255737
+368:
+369:Feedback:
+370:    remaining: 1.2840001583099365
+371:
+372:Feedback:
+373:    remaining: 1.2680001258850098
+374:
+375:Feedback:
+376:    remaining: 1.252000093460083
+377:
+378:Feedback:
+379:    remaining: 1.2360000610351562
+380:
+381:Feedback:
+382:    remaining: 1.220000147819519
+383:
+384:Feedback:
+385:    remaining: 1.2040001153945923
+386:
+387:Feedback:
+388:    remaining: 1.1880000829696655
+389:
+390:Feedback:
+391:    remaining: 1.1720000505447388
+392:
+393:Feedback:
+394:    remaining: 1.1560001373291016
+395:
+396:Feedback:
+397:    remaining: 1.1400001049041748
+398:
+399:Feedback:
+400:    remaining: 1.124000072479248
+401:
+402:Feedback:
+403:    remaining: 1.1080000400543213
+404:
+405:Feedback:
+406:    remaining: 1.0920000076293945
+407:
+408:Feedback:
+409:    remaining: 1.0760002136230469
+410:
+411:Feedback:
+412:    remaining: 1.0600001811981201
+413:
+414:Feedback:
+415:    remaining: 1.0440001487731934
+416:
+417:Feedback:
+418:    remaining: 1.0280001163482666
+419:
+420:Feedback:
+421:    remaining: 1.0120000839233398
+422:
+423:Feedback:
+424:    remaining: 0.9960000514984131
+425:
+426:Feedback:
+427:    remaining: 0.9800000190734863
+428:
+429:Feedback:
+430:    remaining: 0.9639999866485596
+431:
+432:Feedback:
+433:    remaining: 0.9480001926422119
+434:
+435:Feedback:
+436:    remaining: 0.9320001602172852
+437:
+438:Feedback:
+439:    remaining: 0.9160001277923584
+440:
+441:Feedback:
+442:    remaining: 0.9000000953674316
+443:
+444:Feedback:
+445:    remaining: 0.8840000629425049
+446:
+447:Feedback:
+448:    remaining: 0.8680000305175781
+449:
+450:Feedback:
+451:    remaining: 0.8519999980926514
+452:
+453:Feedback:
+454:    remaining: 0.8360002040863037
+455:
+456:Feedback:
+457:    remaining: 0.820000171661377
+458:
+459:Feedback:
+460:    remaining: 0.8040001392364502
+461:
+462:Feedback:
+463:    remaining: 0.7880001068115234
+464:
+465:Feedback:
+466:    remaining: 0.7720000743865967
+467:
+468:Feedback:
+469:    remaining: 0.7560000419616699
+470:
+471:Feedback:
+472:    remaining: 0.7400000095367432
+473:
+474:Feedback:
+475:    remaining: 0.7240002155303955
+476:
+477:Feedback:
+478:    remaining: 0.7080001831054688
+479:
+480:Feedback:
+481:    remaining: 0.692000150680542
+482:
+483:Feedback:
+484:    remaining: 0.6760001182556152
+485:
+486:Feedback:
+487:    remaining: 0.6600000858306885
+488:
+489:Feedback:
+490:    remaining: 0.6440000534057617
+491:
+492:Feedback:
+493:    remaining: 0.628000020980835
+494:
+495:Feedback:
+496:    remaining: 0.6119999885559082
+497:
+498:Feedback:
+499:    remaining: 0.5960001945495605
+500:
+501:Feedback:
+502:    remaining: 0.5800001621246338
+503:
+504:Feedback:
+505:    remaining: 0.564000129699707
+506:
+507:Feedback:
+508:    remaining: 0.5480000972747803
+509:
+510:Feedback:
+511:    remaining: 0.5320000648498535
+512:
+513:Feedback:
+514:    remaining: 0.5160000324249268
+515:
+516:Feedback:
+517:    remaining: 0.5
+518:
+519:Feedback:
+520:    remaining: 0.48400020599365234
+521:
+522:Feedback:
+523:    remaining: 0.4680001735687256
+524:
+525:Feedback:
+526:    remaining: 0.45200014114379883
+527:
+528:Feedback:
+529:    remaining: 0.43600010871887207
+530:
+531:Feedback:
+532:    remaining: 0.4200000762939453
+533:
+534:Feedback:
+535:    remaining: 0.40400004386901855
+536:
+537:Feedback:
+538:    remaining: 0.3880000114440918
+539:
+540:Feedback:
+541:    remaining: 0.37200021743774414
+542:
+543:Feedback:
+544:    remaining: 0.3560001850128174
+545:
+546:Feedback:
+547:    remaining: 0.3400001525878906
+548:
+549:Feedback:
+550:    remaining: 0.32400012016296387
+551:
+552:Feedback:
+553:    remaining: 0.3080000877380371
+554:
+555:Feedback:
+556:    remaining: 0.29200005531311035
+557:
+558:Feedback:
+559:    remaining: 0.2760000228881836
+560:
+561:Feedback:
+562:    remaining: 0.25999999046325684
+563:
+564:Feedback:
+565:    remaining: 0.24400019645690918
+566:
+567:Feedback:
+568:    remaining: 0.22800016403198242
+569:
+570:Feedback:
+571:    remaining: 0.21200013160705566
+572:
+573:Feedback:
+574:    remaining: 0.1960000991821289
+575:
+576:Feedback:
+577:    remaining: 0.18000006675720215
+578:
+579:Feedback:
+580:    remaining: 0.1640000343322754
+581:
+582:Feedback:
+583:    remaining: 0.14800000190734863
+584:
+585:Feedback:
+586:    remaining: 0.13200020790100098
+587:
+588:Feedback:
+589:    remaining: 0.11600017547607422
+590:
+591:Feedback:
+592:    remaining: 0.10000014305114746
+593:
+594:Feedback:
+595:    remaining: 0.0840001106262207
+596:
+597:Feedback:
+598:    remaining: 0.06800007820129395
+599:
+600:Feedback:
+601:    remaining: 0.05200004577636719
+602:
+603:Feedback:
+604:    remaining: 0.03600001335144043
+605:
+606:Feedback:
+607:    remaining: 0.020000219345092773
+608:
+609:Feedback:
+610:    remaining: 0.004000186920166016
+611:
+612:Result:
+613:    delta: -3.135999917984009
+614:
+615:Goal finished with status: SUCCEEDED
+616:
+617:### output meanwhile in terminal 100:
+618:[INFO] [1792425757.775179588] [turtlesim]: Rotation goal completed successfully
+619:
+620:## [term 1] $ ros2 action send_goal /turtle1/rotate_absolute turtlesim/action/RotateAbsolute "{theta: 0.0}"   (exit=0, 5.4 s, finished, cwd=/home/student)
+621:Waiting for an action server to become available...
+622:Sending goal:
+623:     theta: 0.0
+624:
+625:Goal accepted with ID: 5b972d2ec4fe4af888881b512b5cb12e
+626:
+627:Result:
+628:    delta: 3.119999885559082
+629:
+630:Goal finished with status: SUCCEEDED
+631:
+632:### output meanwhile in terminal 100:
+633:[INFO] [1792425763.759492970] [turtlesim]: Rotation goal completed successfully
+634:
+635:## [term 1] $ ros2 topic echo --once /turtle1/pose   (exit=0, 2.1 s, finished, cwd=/home/student)
+636:x: 5.544444561004639
+637:y: 5.544444561004639
+638:theta: 0.01600000075995922
+639:linear_velocity: 0.0
+640:angular_velocity: 0.0
+641:---
+642:
+643:# note: pre-running terminal 100 output during block: 
+644:# note: pre-running terminal 101 output during block: 

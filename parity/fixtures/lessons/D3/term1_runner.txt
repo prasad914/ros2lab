@@ -1,0 +1,77 @@
+# Excerpt of parity/fixtures/lessons/D3/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson D3 terminal 1: Practice: spy on turtlesim's topics
+2:# scratch HOME /home/prasad/lesson_ws/homes/D3_t1 shown as /home/student; sourced=True running=['turtlesim', 'teleop'] start=None
+3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
+4:[INFO] [1792425550.632219577] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792425550.650120395] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+6:
+7:## [pre-running terminal] $ ros2 run turtlesim turtle_teleop_key  (still running after 4 s)
+8:Reading from keyboard
+9:---------------------------
+10:Use arrow keys to move the turtle.
+11:Use g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.
+12:'q' to quit.
+13:
+14:## [term 1] $ ros2 topic list   (exit=0, 1.3 s, finished, cwd=/home/student)
+15:/parameter_events
+16:/rosout
+17:/turtle1/cmd_vel
+18:/turtle1/color_sensor
+19:/turtle1/pose
+20:
+21:## [term 1] $ ros2 topic list -t   (exit=0, 1.2 s, finished, cwd=/home/student)
+22:/parameter_events [rcl_interfaces/msg/ParameterEvent]
+23:/rosout [rcl_interfaces/msg/Log]
+24:/turtle1/cmd_vel [geometry_msgs/msg/Twist]
+25:/turtle1/color_sensor [turtlesim/msg/Color]
+26:/turtle1/pose [turtlesim/msg/Pose]
+27:
+28:## [term 1] $ ros2 topic info /turtle1/cmd_vel   (exit=0, 1.5 s, finished, cwd=/home/student)
+29:Type: geometry_msgs/msg/Twist
+30:Publisher count: 1
+31:Subscription count: 1
+32:
+33:## [term 1] $ ros2 topic echo --once /turtle1/pose   (exit=0, 2.1 s, finished, cwd=/home/student)
+34:x: 5.544444561004639
+35:y: 5.544444561004639
+36:theta: 0.0
+37:linear_velocity: 0.0
+38:angular_velocity: 0.0
+39:---
+40:
+41:## [term 1] $ ros2 topic hz /turtle1/pose   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+42:average rate: 62.533
+43:	min: 0.015s max: 0.017s std dev: 0.00038s window: 64
+44:average rate: 62.494
+45:	min: 0.015s max: 0.017s std dev: 0.00046s window: 127
+46:average rate: 62.504
+47:	min: 0.015s max: 0.017s std dev: 0.00044s window: 190
+48:average rate: 62.510
+49:	min: 0.015s max: 0.017s std dev: 0.00043s window: 253
+50:average rate: 62.512
+51:	min: 0.014s max: 0.018s std dev: 0.00043s window: 316
+52:average rate: 62.504
+53:	min: 0.014s max: 0.018s std dev: 0.00043s window: 379
+54:
+55:## [term 1] Ctrl+C to stop: ros2 topic hz /turtle1/pose  (exit=2)
+56:average rate: 62.533
+57:	min: 0.015s max: 0.017s std dev: 0.00038s window: 64
+58:average rate: 62.494
+59:	min: 0.015s max: 0.017s std dev: 0.00046s window: 127
+60:average rate: 62.504
+61:	min: 0.015s max: 0.017s std dev: 0.00044s window: 190
+62:average rate: 62.510
+63:	min: 0.015s max: 0.017s std dev: 0.00043s window: 253
+64:average rate: 62.512
+65:	min: 0.014s max: 0.018s std dev: 0.00043s window: 316
+66:average rate: 62.504
+67:	min: 0.014s max: 0.018s std dev: 0.00043s window: 379
+68:
+69:## [term 1] $ ros2 topic echo /turtle1/Pose   (exit=1, 1.0 s, finished, cwd=/home/student)
+70:WARNING: topic [/turtle1/Pose] does not appear to be published yet
+71:Could not determine the type for the passed topic
+72:
+73:# note: pre-running terminal 100 output during block: 
+74:# note: pre-running terminal 101 output during block: 

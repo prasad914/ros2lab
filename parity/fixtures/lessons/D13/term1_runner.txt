@@ -1,0 +1,43 @@
+# Excerpt of parity/fixtures/lessons/D13/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson D13 terminal 1: Mission: two delivery robots
+2:# scratch HOME /home/prasad/lesson_ws/homes/D13_t1 shown as /home/student; sourced=True running=['turtlesim'] start=None
+3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
+4:[INFO] [1792425963.647000216] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792425963.656692851] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+6:
+7:## [term 1] $ ros2 service call /spawn turtlesim/srv/Spawn "{x: 2, y: 8, theta: 0.0, name: 'raju'}"   (exit=0, 1.6 s, finished, cwd=/home/student)
+8:requester: making request: turtlesim.srv.Spawn_Request(x=2.0, y=8.0, theta=0.0, name='raju')
+9:
+10:response:
+11:turtlesim.srv.Spawn_Response(name='raju')
+12:
+13:
+14:### output meanwhile in terminal 100:
+15:[INFO] [1792425971.375616734] [turtlesim]: Spawning turtle [raju] at x=[2.000000], y=[8.000000], theta=[0.000000]
+16:
+17:## [term 1] $ ros2 service call /raju/set_pen turtlesim/srv/SetPen "{r: 0, g: 200, b: 0, width: 4, off: 0}"   (exit=1, 1.4 s, finished, cwd=/home/student)
+18:Failed to populate field: attribute name must be string, not 'bool'
+19:
+20:## [term 1] $ ros2 topic pub --once /raju/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 3.0}}"   (exit=0, 2.5 s, finished, cwd=/home/student)
+21:publisher: beginning loop
+22:publishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=3.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0))
+23:
+24:
+25:## [term 1] $ ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 2.0}, angular: {z: 1.0}}"   (exit=0, 2.4 s, finished, cwd=/home/student)
+26:publisher: beginning loop
+27:publishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=1.0))
+28:
+29:
+30:## [term 1] $ ros2 topic list   (exit=0, 1.6 s, finished, cwd=/home/student)
+31:/parameter_events
+32:/raju/cmd_vel
+33:/raju/color_sensor
+34:/raju/pose
+35:/rosout
+36:/turtle1/cmd_vel
+37:/turtle1/color_sensor
+38:/turtle1/pose
+39:
+40:# note: pre-running terminal 100 output during block: 

@@ -1,0 +1,9 @@
+{
+ "world": "drop_solver_pgs",
+ "until": 4.0,
+ "subs": [
+  "/model/box/pose:pose_v",
+  "/contact/box:contacts"
+ ],
+ "case": "drop_solver_pgs"
+}

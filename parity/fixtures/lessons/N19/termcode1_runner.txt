@@ -1,0 +1,722 @@
+# Excerpt of parity/fixtures/lessons/N19/termcode1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson N19 terminal code1: Lesson code block commands: tf2_echo world turtle1 + view_frames with broadcaster running
+2:# scratch HOME /home/prasad/lesson_ws/homes/N19_tcode1 shown as /home/student; sourced=True running=['turtlesim'] start=~/ros2_ws
+3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
+4:[INFO] [1792428067.361808537] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792428067.382749087] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+6:
+7:## [term 1] $ colcon build --packages-select chiku_control_cpp   (exit=0, 24.0 s, finished, cwd=/home/student/ros2_ws)
+8:[0.4s] [0/0 complete]
+9:                     
+10:Starting >>> chiku_control_cpp
+11:[0.5s] [0/1 complete] [chiku_control_cpp:cmake - 0.1s]
+12:                                                      
+13:[0.6s] [0/1 complete] [chiku_control_cpp:cmake - 0.2s]
+14:                                                      
+15:[0.7s] [0/1 complete] [chiku_control_cpp:cmake - 0.3s]
+16:                                                      
+17:[0.8s] [0/1 complete] [chiku_control_cpp:cmake - 0.4s]
+18:                                                      
+19:[0.9s] [0/1 complete] [chiku_control_cpp:cmake - 0.5s]
+20:                                                      
+21:[1.0s] [0/1 complete] [chiku_control_cpp:cmake - 0.6s]
+22:                                                      
+23:[1.1s] [0/1 complete] [chiku_control_cpp:cmake - 0.7s]
+24:                                                      
+25:[1.2s] [0/1 complete] [chiku_control_cpp:cmake - 0.8s]
+26:                                                      
+27:[1.3s] [0/1 complete] [chiku_control_cpp:cmake - 0.9s]
+28:                                                      
+29:[1.4s] [0/1 complete] [chiku_control_cpp:cmake - 1.0s]
+30:                                                      
+31:[1.5s] [0/1 complete] [chiku_control_cpp:cmake - 1.1s]
+32:                                                      
+33:[1.6s] [0/1 complete] [chiku_control_cpp:cmake - 1.2s]
+34:                                                      
+35:[1.7s] [0/1 complete] [chiku_control_cpp:cmake - 1.3s]
+36:                                                      
+37:[1.8s] [0/1 complete] [chiku_control_cpp:cmake - 1.4s]
+38:                                                      
+39:[1.9s] [0/1 complete] [chiku_control_cpp:cmake - 1.5s]
+40:                                                      
+41:[2.0s] [0/1 complete] [chiku_control_cpp:cmake - 1.6s]
+42:                                                      
+43:[2.1s] [0/1 complete] [chiku_control_cpp:cmake - 1.7s]
+44:                                                      
+45:[2.2s] [0/1 complete] [chiku_control_cpp:cmake - 1.8s]
+46:                                                      
+47:[2.3s] [0/1 complete] [chiku_control_cpp:cmake - 1.9s]
+48:                                                      
+49:[2.4s] [0/1 complete] [chiku_control_cpp:cmake - 2.0s]
+50:                                                      
+51:[2.5s] [0/1 complete] [chiku_control_cpp:cmake - 2.1s]
+52:                                                      
+53:[2.6s] [0/1 complete] [chiku_control_cpp:cmake - 2.2s]
+54:                                                      
+55:[2.7s] [0/1 complete] [chiku_control_cpp:cmake - 2.3s]
+56:                                                      
+57:[2.8s] [0/1 complete] [chiku_control_cpp:cmake - 2.4s]
+58:                                                      
+59:[2.9s] [0/1 complete] [chiku_control_cpp:cmake - 2.5s]
+60:                                                      
+61:[3.0s] [0/1 complete] [chiku_control_cpp:cmake - 2.6s]
+62:                                                      
+63:[3.1s] [0/1 complete] [chiku_control_cpp:cmake - 2.7s]
+64:                                                      
+65:[3.2s] [0/1 complete] [chiku_control_cpp:cmake - 2.8s]
+66:                                                      
+67:[3.3s] [0/1 complete] [chiku_control_cpp:cmake - 2.9s]
+68:                                                      
+69:[3.4s] [0/1 complete] [chiku_control_cpp:cmake - 3.0s]
+70:                                                      
+71:[3.5s] [0/1 complete] [chiku_control_cpp:cmake - 3.1s]
+72:                                                      
+73:[3.6s] [0/1 complete] [chiku_control_cpp:cmake - 3.2s]
+74:                                                      
+75:[3.7s] [0/1 complete] [chiku_control_cpp:cmake - 3.3s]
+76:                                                      
+77:[3.8s] [0/1 complete] [chiku_control_cpp:cmake - 3.4s]
+78:                                                      
+79:[3.9s] [0/1 complete] [chiku_control_cpp:cmake - 3.5s]
+80:                                                      
+81:[4.0s] [0/1 complete] [chiku_control_cpp:cmake - 3.6s]
+82:                                                      
+83:[4.1s] [0/1 complete] [chiku_control_cpp:cmake - 3.7s]
+84:                                                      
+85:[4.2s] [0/1 complete] [chiku_control_cpp:cmake - 3.8s]
+86:                                                      
+87:[4.3s] [0/1 complete] [chiku_control_cpp:cmake - 3.9s]
+88:                                                      
+89:[4.4s] [0/1 complete] [chiku_control_cpp:cmake - 4.0s]
+90:                                                      
+91:[4.5s] [0/1 complete] [chiku_control_cpp:cmake - 4.1s]
+92:                                                      
+93:[4.6s] [0/1 complete] [chiku_control_cpp:cmake - 4.2s]
+94:                                                      
+95:[4.7s] [0/1 complete] [chiku_control_cpp:cmake - 4.3s]
+96:                                                      
+97:[4.8s] [0/1 complete] [chiku_control_cpp:cmake - 4.4s]
+98:                                                      
+99:[4.9s] [0/1 complete] [chiku_control_cpp:cmake - 4.5s]
+100:                                                      
+101:[5.0s] [0/1 complete] [chiku_control_cpp:cmake - 4.6s]
+102:                                                      
+103:[5.1s] [0/1 complete] [chiku_control_cpp:cmake - 4.7s]
+104:                                                      
+105:[5.2s] [0/1 complete] [chiku_control_cpp:cmake - 4.8s]
+106:                                                      
+107:[5.3s] [0/1 complete] [chiku_control_cpp:cmake - 4.9s]
+108:                                                      
+109:[5.4s] [0/1 complete] [chiku_control_cpp:cmake - 5.0s]
+110:                                                      
+111:[5.5s] [0/1 complete] [chiku_control_cpp:build - 5.1s]
+112:                                                      
+113:[5.6s] [0/1 complete] [chiku_control_cpp:build - 5.2s]
+114:                                                      
+115:[5.7s] [0/1 complete] [chiku_control_cpp:build - 5.3s]
+116:                                                      
+117:[5.8s] [0/1 complete] [chiku_control_cpp:build 50% - 5.4s]
+118:                                                          
+119:[5.9s] [0/1 complete] [chiku_control_cpp:build 50% - 5.5s]
+120:                                                          
+121:[6.0s] [0/1 complete] [chiku_control_cpp:build 50% - 5.6s]
+122:                                                          
+123:[6.1s] [0/1 complete] [chiku_control_cpp:build 50% - 5.7s]
+124:                                                          
+125:[6.2s] [0/1 complete] [chiku_control_cpp:build 50% - 5.8s]
+126:                                                          
+127:[6.3s] [0/1 complete] [chiku_control_cpp:build 50% - 5.9s]
+128:                                                          
+129:[6.4s] [0/1 complete] [chiku_control_cpp:build 50% - 6.0s]
+130:                                                          
+131:[6.5s] [0/1 complete] [chiku_control_cpp:build 50% - 6.1s]
+132:                                                          
+133:[6.6s] [0/1 complete] [chiku_control_cpp:build 50% - 6.2s]
+134:                                                          
+135:[6.7s] [0/1 complete] [chiku_control_cpp:build 50% - 6.3s]
+136:                                                          
+137:[6.8s] [0/1 complete] [chiku_control_cpp:build 50% - 6.4s]
+138:                                                          
+139:[6.9s] [0/1 complete] [chiku_control_cpp:build 50% - 6.5s]
+140:                                                          
+141:[7.0s] [0/1 complete] [chiku_control_cpp:build 50% - 6.6s]
+142:                                                          
+143:[7.1s] [0/1 complete] [chiku_control_cpp:build 50% - 6.7s]
+144:                                                          
+145:[7.2s] [0/1 complete] [chiku_control_cpp:build 50% - 6.8s]
+146:                                                          
+147:[7.3s] [0/1 complete] [chiku_control_cpp:build 50% - 6.9s]
+148:                                                          
+149:[7.4s] [0/1 complete] [chiku_control_cpp:build 50% - 7.0s]
+150:                                                          
+151:[7.5s] [0/1 complete] [chiku_control_cpp:build 50% - 7.1s]
+152:                                                          
+153:[7.6s] [0/1 complete] [chiku_control_cpp:build 50% - 7.2s]
+154:                                                          
+155:[7.7s] [0/1 complete] [chiku_control_cpp:build 50% - 7.3s]
+156:                                                          
+157:[7.8s] [0/1 complete] [chiku_control_cpp:build 50% - 7.4s]
+158:                                                          
+159:[7.9s] [0/1 complete] [chiku_control_cpp:build 50% - 7.5s]
+160:                                                          
+161:[8.0s] [0/1 complete] [chiku_control_cpp:build 50% - 7.6s]
+162:                                                          
+163:[8.1s] [0/1 complete] [chiku_control_cpp:build 50% - 7.7s]
+164:                                                          
+165:[8.2s] [0/1 complete] [chiku_control_cpp:build 50% - 7.8s]
+166:                                                          
+167:[8.3s] [0/1 complete] [chiku_control_cpp:build 50% - 7.9s]
+168:                                                          
+169:[8.4s] [0/1 complete] [chiku_control_cpp:build 50% - 8.0s]
+170:                                                          
+171:[8.5s] [0/1 complete] [chiku_control_cpp:build 50% - 8.1s]
+172:                                                          
+173:[8.6s] [0/1 complete] [chiku_control_cpp:build 50% - 8.2s]
+174:                                                          
+175:[8.7s] [0/1 complete] [chiku_control_cpp:build 50% - 8.3s]
+176:                                                          
+177:[8.8s] [0/1 complete] [chiku_control_cpp:build 50% - 8.4s]
+178:                                                          
+179:[8.9s] [0/1 complete] [chiku_control_cpp:build 50% - 8.5s]
+180:                                                          
+181:[9.0s] [0/1 complete] [chiku_control_cpp:build 50% - 8.6s]
+182:                                                          
+183:[9.1s] [0/1 complete] [chiku_control_cpp:build 50% - 8.7s]
+184:                                                          
+185:[9.2s] [0/1 complete] [chiku_control_cpp:build 50% - 8.8s]
+186:                                                          
+187:[9.3s] [0/1 complete] [chiku_control_cpp:build 50% - 9.0s]
+188:                                                          
+189:[9.4s] [0/1 complete] [chiku_control_cpp:build 50% - 9.1s]
+190:                                                          
+191:[9.5s] [0/1 complete] [chiku_control_cpp:build 50% - 9.2s]
+192:                                                          
+193:[9.6s] [0/1 complete] [chiku_control_cpp:build 50% - 9.3s]
+194:                                                          
+195:[9.7s] [0/1 complete] [chiku_control_cpp:build 50% - 9.4s]
+196:                                                          
+197:[9.8s] [0/1 complete] [chiku_control_cpp:build 50% - 9.5s]
+198:                                                          
+199:[9.9s] [0/1 complete] [chiku_control_cpp:build 50% - 9.6s]
+200:                                                          
+201:[10.0s] [0/1 complete] [chiku_control_cpp:build 50% - 9.7s]
+202:                                                           
+203:[10.1s] [0/1 complete] [chiku_control_cpp:build 50% - 9.8s]
+204:                                                           
+205:[10.2s] [0/1 complete] [chiku_control_cpp:build 50% - 9.9s]
+206:                                                           
+207:[10.3s] [0/1 complete] [chiku_control_cpp:build 50% - 10.0s]
+208:                                                            
+209:[10.4s] [0/1 complete] [chiku_control_cpp:build 50% - 10.1s]
+210:                                                            
+211:[10.5s] [0/1 complete] [chiku_control_cpp:build 50% - 10.2s]
+212:                                                            
+213:[10.6s] [0/1 complete] [chiku_control_cpp:build 50% - 10.3s]
+214:                                                            
+215:[10.7s] [0/1 complete] [chiku_control_cpp:build 50% - 10.4s]
+216:                                                            
+217:[10.8s] [0/1 complete] [chiku_control_cpp:build 50% - 10.5s]
+218:                                                            
+219:[10.9s] [0/1 complete] [chiku_control_cpp:build 50% - 10.6s]
+220:                                                            
+221:[11.0s] [0/1 complete] [chiku_control_cpp:build 50% - 10.7s]
+222:                                                            
+223:[11.1s] [0/1 complete] [chiku_control_cpp:build 50% - 10.8s]
+224:                                                            
+225:[11.2s] [0/1 complete] [chiku_control_cpp:build 50% - 10.9s]
+226:                                                            
+227:[11.3s] [0/1 complete] [chiku_control_cpp:build 50% - 11.0s]
+228:                                                            
+229:[11.4s] [0/1 complete] [chiku_control_cpp:build 50% - 11.1s]
+230:                                                            
+231:[11.5s] [0/1 complete] [chiku_control_cpp:build 50% - 11.2s]
+232:                                                            
+233:[11.6s] [0/1 complete] [chiku_control_cpp:build 50% - 11.3s]
+234:                                                            
+235:[11.7s] [0/1 complete] [chiku_control_cpp:build 50% - 11.4s]
+236:                                                            
+237:[11.8s] [0/1 complete] [chiku_control_cpp:build 50% - 11.5s]
+238:                                                            
+239:[11.9s] [0/1 complete] [chiku_control_cpp:build 50% - 11.6s]
+240:                                                            
+241:[12.0s] [0/1 complete] [chiku_control_cpp:build 50% - 11.7s]
+242:                                                            
+243:[12.1s] [0/1 complete] [chiku_control_cpp:build 50% - 11.8s]
+244:                                                            
+245:[12.2s] [0/1 complete] [chiku_control_cpp:build 50% - 11.9s]
+246:                                                            
+247:[12.3s] [0/1 complete] [chiku_control_cpp:build 50% - 12.0s]
+248:                                                            
+249:[12.4s] [0/1 complete] [chiku_control_cpp:build 50% - 12.1s]
+250:                                                            
+251:[12.5s] [0/1 complete] [chiku_control_cpp:build 50% - 12.2s]
+252:                                                            
+253:[12.6s] [0/1 complete] [chiku_control_cpp:build 50% - 12.3s]
+254:                                                            
+255:[12.7s] [0/1 complete] [chiku_control_cpp:build 50% - 12.4s]
+256:                                                            
+257:[12.8s] [0/1 complete] [chiku_control_cpp:build 50% - 12.5s]
+258:                                                            
+259:[12.9s] [0/1 complete] [chiku_control_cpp:build 50% - 12.6s]
+260:                                                            
+261:[13.0s] [0/1 complete] [chiku_control_cpp:build 50% - 12.7s]
+262:                                                            
+263:[13.1s] [0/1 complete] [chiku_control_cpp:build 50% - 12.8s]
+264:                                                            
+265:[13.2s] [0/1 complete] [chiku_control_cpp:build 50% - 12.9s]
+266:                                                            
+267:[13.3s] [0/1 complete] [chiku_control_cpp:build 50% - 13.0s]
+268:                                                            
+269:[13.4s] [0/1 complete] [chiku_control_cpp:build 50% - 13.1s]
+270:                                                            
+271:[13.5s] [0/1 complete] [chiku_control_cpp:build 50% - 13.2s]
+272:                                                            
+273:[13.6s] [0/1 complete] [chiku_control_cpp:build 50% - 13.3s]
+274:                                                            
+275:[13.7s] [0/1 complete] [chiku_control_cpp:build 50% - 13.4s]
+276:                                                            
+277:[13.8s] [0/1 complete] [chiku_control_cpp:build 50% - 13.5s]
+278:                                                            
+279:[13.9s] [0/1 complete] [chiku_control_cpp:build 50% - 13.6s]
+280:                                                            
+281:[14.0s] [0/1 complete] [chiku_control_cpp:build 50% - 13.7s]
+282:                                                            
+283:[14.1s] [0/1 complete] [chiku_control_cpp:build 50% - 13.8s]
+284:                                                            
+285:[14.2s] [0/1 complete] [chiku_control_cpp:build 50% - 13.9s]
+286:                                                            
+287:[14.3s] [0/1 complete] [chiku_control_cpp:build 50% - 14.0s]
+288:                                                            
+289:[14.4s] [0/1 complete] [chiku_control_cpp:build 50% - 14.1s]
+290:                                                            
+291:[14.5s] [0/1 complete] [chiku_control_cpp:build 50% - 14.2s]
+292:                                                            
+293:[14.6s] [0/1 complete] [chiku_control_cpp:build 50% - 14.3s]
+294:                                                            
+295:[14.7s] [0/1 complete] [chiku_control_cpp:build 50% - 14.4s]
+296:                                                            
+297:[14.8s] [0/1 complete] [chiku_control_cpp:build 50% - 14.5s]
+298:                                                            
+299:[15.0s] [0/1 complete] [chiku_control_cpp:build 50% - 14.6s]
+300:                                                            
+301:[15.1s] [0/1 complete] [chiku_control_cpp:build 50% - 14.7s]
+302:                                                            
+303:[15.2s] [0/1 complete] [chiku_control_cpp:build 50% - 14.8s]
+304:                                                            
+305:[15.3s] [0/1 complete] [chiku_control_cpp:build 50% - 14.9s]
+306:                                                            
+307:[15.4s] [0/1 complete] [chiku_control_cpp:build 50% - 15.0s]
+308:                                                            
+309:[15.5s] [0/1 complete] [chiku_control_cpp:build 50% - 15.1s]
+310:                                                            
+311:[15.6s] [0/1 complete] [chiku_control_cpp:build 50% - 15.2s]
+312:                                                            
+313:[15.7s] [0/1 complete] [chiku_control_cpp:build 50% - 15.3s]
+314:                                                            
+315:[15.8s] [0/1 complete] [chiku_control_cpp:build 50% - 15.4s]
+316:                                                            
+317:[15.9s] [0/1 complete] [chiku_control_cpp:build 50% - 15.5s]
+318:                                                            
+319:[16.0s] [0/1 complete] [chiku_control_cpp:build 50% - 15.6s]
+320:                                                            
+321:[16.1s] [0/1 complete] [chiku_control_cpp:build 50% - 15.7s]
+322:                                                            
+323:[16.2s] [0/1 complete] [chiku_control_cpp:build 50% - 15.8s]
+324:                                                            
+325:[16.3s] [0/1 complete] [chiku_control_cpp:build 50% - 15.9s]
+326:                                                            
+327:[16.4s] [0/1 complete] [chiku_control_cpp:build 50% - 16.0s]
+328:                                                            
+329:[16.5s] [0/1 complete] [chiku_control_cpp:build 50% - 16.1s]
+330:                                                            
+331:[16.6s] [0/1 complete] [chiku_control_cpp:build 50% - 16.2s]
+332:                                                            
+333:[16.7s] [0/1 complete] [chiku_control_cpp:build 50% - 16.3s]
+334:                                                            
+335:[16.8s] [0/1 complete] [chiku_control_cpp:build 50% - 16.4s]
+336:                                                            
+337:[16.9s] [0/1 complete] [chiku_control_cpp:build 50% - 16.5s]
+338:                                                            
+339:[17.0s] [0/1 complete] [chiku_control_cpp:build 50% - 16.6s]
+340:                                                            
+341:[17.1s] [0/1 complete] [chiku_control_cpp:build 50% - 16.7s]
+342:                                                            
+343:[17.2s] [0/1 complete] [chiku_control_cpp:build 50% - 16.8s]
+344:                                                            
+345:[17.3s] [0/1 complete] [chiku_control_cpp:build 50% - 16.9s]
+346:                                                            
+347:[17.4s] [0/1 complete] [chiku_control_cpp:build 50% - 17.0s]
+348:                                                            
+349:[17.5s] [0/1 complete] [chiku_control_cpp:build 50% - 17.1s]
+350:                                                            
+351:[17.6s] [0/1 complete] [chiku_control_cpp:build 50% - 17.2s]
+352:                                                            
+353:[17.7s] [0/1 complete] [chiku_control_cpp:build 50% - 17.3s]
+354:                                                            
+355:[17.8s] [0/1 complete] [chiku_control_cpp:build 50% - 17.4s]
+356:                                                            
+357:[17.9s] [0/1 complete] [chiku_control_cpp:build 50% - 17.5s]
+358:                                                            
+359:[18.0s] [0/1 complete] [chiku_control_cpp:build 50% - 17.6s]
+360:                                                            
+361:[18.1s] [0/1 complete] [chiku_control_cpp:build 50% - 17.7s]
+362:                                                            
+363:[18.2s] [0/1 complete] [chiku_control_cpp:build 50% - 17.8s]
+364:                                                            
+365:[18.3s] [0/1 complete] [chiku_control_cpp:build 50% - 17.9s]
+366:                                                            
+367:[18.4s] [0/1 complete] [chiku_control_cpp:build 50% - 18.0s]
+368:                                                            
+369:[18.5s] [0/1 complete] [chiku_control_cpp:build 50% - 18.1s]
+370:                                                            
+371:[18.6s] [0/1 complete] [chiku_control_cpp:build 50% - 18.2s]
+372:                                                            
+373:[18.7s] [0/1 complete] [chiku_control_cpp:build 50% - 18.3s]
+374:                                                            
+375:[18.8s] [0/1 complete] [chiku_control_cpp:build 50% - 18.4s]
+376:                                                            
+377:[18.9s] [0/1 complete] [chiku_control_cpp:build 50% - 18.5s]
+378:                                                            
+379:[19.0s] [0/1 complete] [chiku_control_cpp:build 50% - 18.6s]
+380:                                                            
+381:[19.1s] [0/1 complete] [chiku_control_cpp:build 50% - 18.7s]
+382:                                                            
+383:[19.2s] [0/1 complete] [chiku_control_cpp:build 50% - 18.8s]
+384:                                                            
+385:[19.3s] [0/1 complete] [chiku_control_cpp:build 50% - 18.9s]
+386:                                                            
+387:[19.4s] [0/1 complete] [chiku_control_cpp:build 50% - 19.0s]
+388:                                                            
+389:[19.5s] [0/1 complete] [chiku_control_cpp:build 50% - 19.1s]
+390:                                                            
+391:[19.6s] [0/1 complete] [chiku_control_cpp:build 50% - 19.2s]
+392:                                                            
+393:[19.7s] [0/1 complete] [chiku_control_cpp:build 50% - 19.3s]
+394:                                                            
+395:[19.8s] [0/1 complete] [chiku_control_cpp:build 50% - 19.4s]
+396:                                                            
+397:[19.9s] [0/1 complete] [chiku_control_cpp:build 50% - 19.5s]
+398:                                                            
+399:[20.0s] [0/1 complete] [chiku_control_cpp:build 50% - 19.6s]
+400:                                                            
+401:[20.1s] [0/1 complete] [chiku_control_cpp:build 50% - 19.7s]
+402:                                                            
+403:[20.2s] [0/1 complete] [chiku_control_cpp:build 50% - 19.8s]
+404:                                                            
+405:[20.3s] [0/1 complete] [chiku_control_cpp:build 50% - 19.9s]
+406:                                                            
+407:[20.4s] [0/1 complete] [chiku_control_cpp:build 50% - 20.0s]
+408:                                                            
+409:[20.5s] [0/1 complete] [chiku_control_cpp:build 50% - 20.1s]
+410:                                                            
+411:[20.6s] [0/1 complete] [chiku_control_cpp:build 50% - 20.2s]
+412:                                                            
+413:[20.7s] [0/1 complete] [chiku_control_cpp:build 50% - 20.3s]
+414:                                                            
+415:[20.8s] [0/1 complete] [chiku_control_cpp:build 50% - 20.4s]
+416:                                                            
+417:[20.9s] [0/1 complete] [chiku_control_cpp:build 50% - 20.5s]
+418:                                                            
+419:[21.0s] [0/1 complete] [chiku_control_cpp:build 50% - 20.6s]
+420:                                                            
+421:[21.1s] [0/1 complete] [chiku_control_cpp:build 50% - 20.7s]
+422:                                                            
+423:[21.2s] [0/1 complete] [chiku_control_cpp:build 50% - 20.8s]
+424:                                                            
+425:[21.3s] [0/1 complete] [chiku_control_cpp:build 50% - 20.9s]
+426:                                                            
+427:[21.4s] [0/1 complete] [chiku_control_cpp:build 50% - 21.0s]
+428:                                                            
+429:[21.5s] [0/1 complete] [chiku_control_cpp:build 50% - 21.1s]
+430:                                                            
+431:[21.6s] [0/1 complete] [chiku_control_cpp:build 50% - 21.2s]
+432:                                                            
+433:[21.7s] [0/1 complete] [chiku_control_cpp:build 50% - 21.3s]
+434:                                                            
+435:[21.8s] [0/1 complete] [chiku_control_cpp:build 50% - 21.4s]
+436:                                                            
+437:[21.9s] [0/1 complete] [chiku_control_cpp:build 50% - 21.5s]
+438:                                                            
+439:[22.0s] [0/1 complete] [chiku_control_cpp:build 50% - 21.6s]
+440:                                                            
+441:[22.1s] [0/1 complete] [chiku_control_cpp:build 50% - 21.7s]
+442:                                                            
+443:[22.2s] [0/1 complete] [chiku_control_cpp:build 50% - 21.8s]
+444:                                                            
+445:[22.3s] [0/1 complete] [chiku_control_cpp:build 100% - 21.9s]
+446:                                                             
+447:[22.4s] [0/1 complete] [chiku_control_cpp:build 100% - 22.0s]
+448:                                                             
+449:[22.5s] [0/1 complete] [chiku_control_cpp:build 100% - 22.1s]
+450:                                                             
+451:[22.6s] [0/1 complete] [chiku_control_cpp:build 100% - 22.2s]
+452:                                                             
+453:[22.7s] [0/1 complete] [chiku_control_cpp:build 100% - 22.3s]
+454:                                                             
+455:[22.8s] [0/1 complete] [chiku_control_cpp:build 100% - 22.4s]
+456:                                                             
+457:[22.9s] [0/1 complete] [chiku_control_cpp:build 100% - 22.5s]
+458:                                                             
+459:[23.0s] [0/1 complete] [chiku_control_cpp:build 100% - 22.6s]
+460:                                                             
+461:[23.1s] [0/1 complete] [chiku_control_cpp:build 100% - 22.7s]
+462:                                                             
+463:[23.2s] [0/1 complete] [chiku_control_cpp:build 100% - 22.8s]
+464:                                                             
+465:[23.3s] [0/1 complete] [chiku_control_cpp:install - 22.9s]
+466:                                                          
+467:[23.4s] [0/1 complete] [chiku_control_cpp:install - 23.0s]
+468:                                                          
+469:Finished <<< chiku_control_cpp [23.1s]
+470:
+471:Summary: 1 package finished [23.4s]
+472:
+473:## [term 1] $ source install/setup.bash   (exit=0, 1.0 s, finished, cwd=/home/student/ros2_ws)
+474:
+475:## [term 1] $ ros2 run chiku_control_cpp turtle_tf_broadcaster   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student/ros2_ws)
+476:
+477:## [new terminal 2]
+478:## [term 2] $ ros2 run tf2_ros tf2_echo world turtle1   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+479:[INFO] [1792428109.965209172] [tf2_echo]: Waiting for transform world ->  turtle1: Invalid frame ID "world" passed to canTransform argument target_frame - frame does not exist
+480:At time 1792428110.898299689
+481:- Translation: [5.544, 5.544, 0.000]
+482:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+483:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+484:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+485:- Matrix:
+486:  1.000  0.000  0.000  5.544
+487:  0.000  1.000  0.000  5.544
+488:  0.000  0.000  1.000  0.000
+489:  0.000  0.000  0.000  1.000
+490:At time 1792428111.906495856
+491:- Translation: [5.544, 5.544, 0.000]
+492:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+493:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+494:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+495:- Matrix:
+496:  1.000  0.000  0.000  5.544
+497:  0.000  1.000  0.000  5.544
+498:  0.000  0.000  1.000  0.000
+499:  0.000  0.000  0.000  1.000
+500:At time 1792428112.897749094
+501:- Translation: [5.544, 5.544, 0.000]
+502:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+503:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+504:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+505:- Matrix:
+506:  1.000  0.000  0.000  5.544
+507:  0.000  1.000  0.000  5.544
+508:  0.000  0.000  1.000  0.000
+509:  0.000  0.000  0.000  1.000
+510:At time 1792428113.905891730
+511:- Translation: [5.544, 5.544, 0.000]
+512:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+513:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+514:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+515:- Matrix:
+516:  1.000  0.000  0.000  5.544
+517:  0.000  1.000  0.000  5.544
+518:  0.000  0.000  1.000  0.000
+519:  0.000  0.000  0.000  1.000
+520:At time 1792428114.898049709
+521:- Translation: [5.544, 5.544, 0.000]
+522:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+523:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+524:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+525:- Matrix:
+526:  1.000  0.000  0.000  5.544
+527:  0.000  1.000  0.000  5.544
+528:  0.000  0.000  1.000  0.000
+529:  0.000  0.000  0.000  1.000
+530:At time 1792428115.905948692
+531:- Translation: [5.544, 5.544, 0.000]
+532:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+533:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+534:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+535:- Matrix:
+536:  1.000  0.000  0.000  5.544
+537:  0.000  1.000  0.000  5.544
+538:  0.000  0.000  1.000  0.000
+539:  0.000  0.000  0.000  1.000
+540:At time 1792428116.898169121
+541:- Translation: [5.544, 5.544, 0.000]
+542:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+543:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+544:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+545:- Matrix:
+546:  1.000  0.000  0.000  5.544
+547:  0.000  1.000  0.000  5.544
+548:  0.000  0.000  1.000  0.000
+549:  0.000  0.000  0.000  1.000
+550:
+551:## [new terminal 3]
+552:## [term 3] $ cd ~   (exit=0, 0.0 s, finished, cwd=/home/student)
+553:
+554:## [term 3] $ ros2 run tf2_tools view_frames   (exit=0, 7.4 s, finished, cwd=/home/student)
+555:[INFO] [1792428121.628101606] [view_frames]: Listening to tf data for 5.0 seconds...
+556:[INFO] [1792428126.630484324] [view_frames]: Generating graph...
+557:[INFO] [1792428126.638796592] [view_frames]: Result:tf2_msgs.srv.FrameGraph_Response(frame_yaml="turtle1: \n  parent: 'world'\n  broadcaster: 'default_authority'\n  rate: 62.691\n  most_recent_transform: 1792428126.625988\n  oldest_transform: 1792428121.601379\n  buffer_length: 5.025\n")
+558:[INFO] [1792428126.645602454] [view_frames]: Exporting graph in frames_2026-10-19_22.12.06.pdf file...
+559:
+560:### output meanwhile in terminal 2:
+561:At time 1792428119.905681386
+562:- Translation: [5.544, 5.544, 0.000]
+563:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+564:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+565:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+566:- Matrix:
+567:  1.000  0.000  0.000  5.544
+568:  0.000  1.000  0.000  5.544
+569:  0.000  0.000  1.000  0.000
+570:  0.000  0.000  0.000  1.000
+571:At time 1792428120.897343997
+572:- Translation: [5.544, 5.544, 0.000]
+573:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+574:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+575:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+576:- Matrix:
+577:  1.000  0.000  0.000  5.544
+578:  0.000  1.000  0.000  5.544
+579:  0.000  0.000  1.000  0.000
+580:  0.000  0.000  0.000  1.000
+581:At time 1792428121.905728565
+582:- Translation: [5.544, 5.544, 0.000]
+583:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+584:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+585:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+586:- Matrix:
+587:  1.000  0.000  0.000  5.544
+588:  0.000  1.000  0.000  5.544
+589:  0.000  0.000  1.000  0.000
+590:  0.000  0.000  0.000  1.000
+591:At time 1792428122.898326804
+592:- Translation: [5.544, 5.544, 0.000]
+593:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+594:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+595:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+596:- Matrix:
+597:  1.000  0.000  0.000  5.544
+598:  0.000  1.000  0.000  5.544
+599:  0.000  0.000  1.000  0.000
+600:  0.000  0.000  0.000  1.000
+601:At time 1792428123.906608218
+602:- Translation: [5.544, 5.544, 0.000]
+603:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+604:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+605:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+606:- Matrix:
+607:  1.000  0.000  0.000  5.544
+608:  0.000  1.000  0.000  5.544
+609:  0.000  0.000  1.000  0.000
+610:  0.000  0.000  0.000  1.000
+611:At time 1792428124.897626345
+612:- Translation: [5.544, 5.544, 0.000]
+613:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+614:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+615:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+616:- Matrix:
+617:  1.000  0.000  0.000  5.544
+618:  0.000  1.000  0.000  5.544
+619:  0.000  0.000  1.000  0.000
+620:  0.000  0.000  0.000  1.000
+621:At time 1792428125.905845792
+622:- Translation: [5.544, 5.544, 0.000]
+623:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+624:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+625:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+626:- Matrix:
+627:  1.000  0.000  0.000  5.544
+628:  0.000  1.000  0.000  5.544
+629:  0.000  0.000  1.000  0.000
+630:  0.000  0.000  0.000  1.000
+631:At time 1792428126.897920417
+632:- Translation: [5.544, 5.544, 0.000]
+633:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+634:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+635:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+636:- Matrix:
+637:  1.000  0.000  0.000  5.544
+638:  0.000  1.000  0.000  5.544
+639:  0.000  0.000  1.000  0.000
+640:  0.000  0.000  0.000  1.000
+641:
+642:## [term 1] Ctrl+C to stop: ros2 run chiku_control_cpp turtle_tf_broadcaster  (exit=0)
+643:[INFO] [1792428127.587946804] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+644:
+645:## [term 2] Ctrl+C to stop: ros2 run tf2_ros tf2_echo world turtle1  (exit=0)
+646:[INFO] [1792428109.965209172] [tf2_echo]: Waiting for transform world ->  turtle1: Invalid frame ID "world" passed to canTransform argument target_frame - frame does not exist
+647:At time 1792428110.898299689
+648:- Translation: [5.544, 5.544, 0.000]
+649:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+650:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+651:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+652:- Matrix:
+653:  1.000  0.000  0.000  5.544
+654:  0.000  1.000  0.000  5.544
+655:  0.000  0.000  1.000  0.000
+656:  0.000  0.000  0.000  1.000
+657:At time 1792428111.906495856
+658:- Translation: [5.544, 5.544, 0.000]
+659:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+660:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+661:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+662:- Matrix:
+663:  1.000  0.000  0.000  5.544
+664:  0.000  1.000  0.000  5.544
+665:  0.000  0.000  1.000  0.000
+666:  0.000  0.000  0.000  1.000
+667:At time 1792428112.897749094
+668:- Translation: [5.544, 5.544, 0.000]
+669:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+670:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+671:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+672:- Matrix:
+673:  1.000  0.000  0.000  5.544
+674:  0.000  1.000  0.000  5.544
+675:  0.000  0.000  1.000  0.000
+676:  0.000  0.000  0.000  1.000
+677:At time 1792428113.905891730
+678:- Translation: [5.544, 5.544, 0.000]
+679:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+680:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+681:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+682:- Matrix:
+683:  1.000  0.000  0.000  5.544
+684:  0.000  1.000  0.000  5.544
+685:  0.000  0.000  1.000  0.000
+686:  0.000  0.000  0.000  1.000
+687:At time 1792428114.898049709
+688:- Translation: [5.544, 5.544, 0.000]
+689:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+690:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+691:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+692:- Matrix:
+693:  1.000  0.000  0.000  5.544
+694:  0.000  1.000  0.000  5.544
+695:  0.000  0.000  1.000  0.000
+696:  0.000  0.000  0.000  1.000
+697:At time 1792428115.905948692
+698:- Translation: [5.544, 5.544, 0.000]
+699:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+700:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+701:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+702:- Matrix:
+703:  1.000  0.000  0.000  5.544
+704:  0.000  1.000  0.000  5.544
+705:  0.000  0.000  1.000  0.000
+706:  0.000  0.000  0.000  1.000
+707:At time 1792428116.898169121
+708:- Translation: [5.544, 5.544, 0.000]
+709:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+710:- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+711:- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+712:- Matrix:
+713:  1.000  0.000  0.000  5.544
+714:  0.000  1.000  0.000  5.544
+715:  0.000  0.000  1.000  0.000
+716:  0.000  0.000  0.000  1.000
+717:[INFO] [1792428127.853016573] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+718:
+719:# note: pre-running terminal 100 output during block: 

@@ -1,0 +1,100 @@
+{
+ "lesson": "A3",
+ "term": 1,
+ "title": "Practice: build a ROS 2 workspace",
+ "sourced": false,
+ "running": [],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/A3_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:17:11+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "mkdir -p ros2_ws/src",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "cd ros2_ws",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "touch README.md",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ls",
+   "out": "README.md  src\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "cp -r src src_backup",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 6,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "mv README.md notes.md",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 7,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "rm -r src_backup",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T21:17:15+0530"
+}

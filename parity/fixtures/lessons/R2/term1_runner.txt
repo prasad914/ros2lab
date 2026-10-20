@@ -1,0 +1,109 @@
+# Excerpt of parity/fixtures/lessons/R2/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson R2 terminal 1: Dress rehearsal: install ROS 2 Jazzy on a fresh Ubuntu
+2:# scratch HOME /home/prasad/lesson_ws/homes/R2_t1 shown as /home/student; sourced=False running=[] start=None
+3:## [term 1] $ locale   (exit=0, 0.0 s, finished, cwd=/home/student)
+4:LANG=en_US.UTF-8
+5:LANGUAGE=
+6:LC_CTYPE="en_US.UTF-8"
+7:LC_NUMERIC="en_US.UTF-8"
+8:LC_TIME="en_US.UTF-8"
+9:LC_COLLATE="en_US.UTF-8"
+10:LC_MONETARY="en_US.UTF-8"
+11:LC_MESSAGES="en_US.UTF-8"
+12:LC_PAPER="en_US.UTF-8"
+13:LC_NAME="en_US.UTF-8"
+14:LC_ADDRESS="en_US.UTF-8"
+15:LC_TELEPHONE="en_US.UTF-8"
+16:LC_MEASUREMENT="en_US.UTF-8"
+17:LC_IDENTIFICATION="en_US.UTF-8"
+18:LC_ALL=
+19:
+20:## [term 1] $ sudo apt update && sudo apt install locales
+21:PENDING: needs sudo/apt (run rules: never sudo or apt on this machine)
+22:## [term 1] $ sudo locale-gen en_US en_US.UTF-8
+23:PENDING: needs sudo/apt (run rules: never sudo or apt on this machine)
+24:## [term 1] $ sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+25:PENDING: needs sudo/apt (run rules: never sudo or apt on this machine)
+26:## [term 1] $ export LANG=en_US.UTF-8   (exit=0, 0.0 s, finished, cwd=/home/student)
+27:
+28:## [term 1] $ sudo apt install software-properties-common
+29:PENDING: needs sudo/apt (run rules: never sudo or apt on this machine)
+30:## [term 1] $ sudo add-apt-repository universe
+31:PENDING: needs sudo/apt (run rules: never sudo or apt on this machine)
+32:## [term 1] $ sudo apt update && sudo apt install curl -y
+33:PENDING: needs sudo/apt (run rules: never sudo or apt on this machine)
+34:## [term 1] $ export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F "tag_name" | awk -F\" '{print $4}')   (exit=0, 0.7 s, finished, cwd=/home/student)
+35:
+36:## [term 1] $ curl -L -o /tmp/ros2-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb"   (exit=None, 15.0 s, still running after 15 s, cwd=/home/student)
+37:  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+38:                                 Dload  Upload   Total   Spent    Left  Speed
+39:
+40:  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+41:  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+42:  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+43:
+44:  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0
+45:  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0
+46:  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0
+47:  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0
+48:  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0
+49:  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0
+50:  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0
+51:  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0
+52:  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0
+53:  0     0    0     0    0     0      0      0 --:--:--  0:00:11 --:--:--     0
+54:  0     0    0     0    0     0      0      0 --:--:--  0:00:12 --:--:--     0
+55:  0     0    0     0    0     0      0      0 --:--:--  0:00:13 --:--:--     0
+56:  0     0    0     0    0     0      0      0 --:--:--  0:00:14 --:--:--     0
+57:## [term 1] $ sudo dpkg -i /tmp/ros2-apt-source.deb
+58:PENDING: needs sudo/apt (run rules: never sudo or apt on this machine)
+59:## [term 1] $ sudo apt update && sudo apt install ros-dev-tools
+60:PENDING: needs sudo/apt (run rules: never sudo or apt on this machine)
+61:## [term 1] $ sudo apt install ros-jazzy-desktop
+62:PENDING: needs sudo/apt (run rules: never sudo or apt on this machine)
+63:## [term 1] Ctrl+C to stop: curl -L -o /tmp/ros2-apt-source.deb "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb"  (exit=130)
+64:  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+65:                                 Dload  Upload   Total   Spent    Left  Speed
+66:
+67:  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+68:  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+69:  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+70:
+71:  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0
+72:  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0
+73:  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0
+74:  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0
+75:  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0
+76:  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0
+77:  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0
+78:  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0
+79:  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0
+80:  0     0    0     0    0     0      0      0 --:--:--  0:00:11 --:--:--     0
+81:  0     0    0     0    0     0      0      0 --:--:--  0:00:12 --:--:--     0
+82:  0     0    0     0    0     0      0      0 --:--:--  0:00:13 --:--:--     0
+83:  0     0    0     0    0     0      0      0 --:--:--  0:00:14 --:--:--     0
+84:  0     0    0     0    0     0      0      0 --:--:--  0:00:15 --:--:--     0
+85:
+86:## [term 1] $ source /opt/ros/jazzy/setup.bash   (exit=0, 0.7 s, finished, cwd=/home/student)
+87:
+88:## [term 1] $ ros2 run demo_nodes_cpp talker   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+89:[INFO] [1792424869.196046350] [talker]: Publishing: 'Hello World: 1'
+90:[INFO] [1792424870.195987847] [talker]: Publishing: 'Hello World: 2'
+91:[INFO] [1792424871.196136473] [talker]: Publishing: 'Hello World: 3'
+92:[INFO] [1792424872.195968541] [talker]: Publishing: 'Hello World: 4'
+93:[INFO] [1792424873.195969725] [talker]: Publishing: 'Hello World: 5'
+94:[INFO] [1792424874.196016174] [talker]: Publishing: 'Hello World: 6'
+95:[INFO] [1792424875.196024504] [talker]: Publishing: 'Hello World: 7'
+96:
+97:## [term 1] Ctrl+C to stop: ros2 run demo_nodes_cpp talker  (exit=0)
+98:[INFO] [1792424869.196046350] [talker]: Publishing: 'Hello World: 1'
+99:[INFO] [1792424870.195987847] [talker]: Publishing: 'Hello World: 2'
+100:[INFO] [1792424871.196136473] [talker]: Publishing: 'Hello World: 3'
+101:[INFO] [1792424872.195968541] [talker]: Publishing: 'Hello World: 4'
+102:[INFO] [1792424873.195969725] [talker]: Publishing: 'Hello World: 5'
+103:[INFO] [1792424874.196016174] [talker]: Publishing: 'Hello World: 6'
+104:[INFO] [1792424875.196024504] [talker]: Publishing: 'Hello World: 7'
+105:[INFO] [1792424875.811070325] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+106:

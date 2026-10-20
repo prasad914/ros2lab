@@ -1,0 +1,29 @@
+{
+ "case": "collision",
+ "runs": {
+  "run1": {
+   "v_a_before": 1.0,
+   "v_a_after": 0.5,
+   "v_b_after": 0.5,
+   "impact_t": 1.305,
+   "e_effective": 0.0,
+   "momentum_ratio": 1.0
+  },
+  "run2": {
+   "v_a_before": 1.0,
+   "v_a_after": 0.5,
+   "v_b_after": 0.5,
+   "impact_t": 1.303,
+   "e_effective": 0.0,
+   "momentum_ratio": 1.0
+  },
+  "run3": {
+   "v_a_before": 1.0,
+   "v_a_after": 0.5,
+   "v_b_after": 0.5,
+   "impact_t": 1.304,
+   "e_effective": 0.0,
+   "momentum_ratio": 1.0
+  }
+ }
+}

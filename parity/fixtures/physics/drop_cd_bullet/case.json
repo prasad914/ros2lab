@@ -1,0 +1,9 @@
+{
+ "world": "drop_cd_bullet",
+ "until": 4.0,
+ "subs": [
+  "/model/box/pose:pose_v",
+  "/contact/box:contacts"
+ ],
+ "case": "drop_cd_bullet"
+}

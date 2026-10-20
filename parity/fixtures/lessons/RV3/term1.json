@@ -1,0 +1,110 @@
+{
+ "lesson": "RV3",
+ "term": 1,
+ "title": "Live terminal: a marker from the command line",
+ "sourced": true,
+ "running": [],
+ "start": "~",
+ "scratch_home": "/home/prasad/lesson_ws/homes/RV3_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T22:06:07+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "rviz2",
+   "out": "[INFO] [1792427769.580832027] [rviz2]: Stereo is NOT SUPPORTED\n[INFO] [1792427769.580976244] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)\n[INFO] [1792427769.724896227] [rviz2]: Stereo is NOT SUPPORTED\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "gui",
+   "action": {
+    "viz": {
+     "displays": {
+      "Grid": true,
+      "Marker": true
+     },
+     "topics": [
+      "/visualization_marker"
+     ]
+    }
+   },
+   "status": "PENDING",
+   "reason": "RViz GUI click/drag, not a typed command (covered by the RViz baseline D)"
+  },
+  {
+   "task": 3,
+   "term": 2,
+   "kind": "newTerminal",
+   "status": "RAN"
+  },
+  {
+   "task": 3,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 topic pub --once /visualization_marker visualization_msgs/msg/Marker \"{header: {frame_id: map}, ns: demo, id: 0, type: 2, pose: {position: {x: 1.0}, orientation: {w: 1.0}}, scale: {x: 0.3, y: 0.3, z: 0.3}, color: {r: 1.0, a: 1.0}}\"",
+   "out": "Waiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\n",
+   "exit": null,
+   "secs": 15.0,
+   "state": "still running after 15 s",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 4,
+   "term": 2,
+   "kind": "interrupt",
+   "of": "ros2 topic pub --once /visualization_marker visualization_msgs/msg/Marker \"{header: {frame_id: map}, ns: demo, id: 0, type: 2, pose: {position: {x: 1.0}, orientation: {w: 1.0}}, scale: {x: 0.3, y: 0.3, z: 0.3}, color: {r: 1.0, a: 1.0}}\"",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "Waiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\n",
+   "exit": 2,
+   "status": "RAN"
+  },
+  {
+   "task": 4,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 topic pub --once /visualization_marker visualization_msgs/msg/Marker \"{header: {frame_id: map}, ns: demo, id: 1, type: 1, pose: {position: {x: 2.0}, orientation: {w: 1.0}}, scale: {x: 0.3, y: 0.3, z: 0.3}, color: {g: 1.0, a: 1.0}}\"",
+   "out": "Waiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\n",
+   "exit": null,
+   "secs": 15.0,
+   "state": "still running after 15 s",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "term": 1,
+   "kind": "interrupt-at-end",
+   "of": "rviz2",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792427769.580832027] [rviz2]: Stereo is NOT SUPPORTED\n[INFO] [1792427769.580976244] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)\n[INFO] [1792427769.724896227] [rviz2]: Stereo is NOT SUPPORTED\n[INFO] [1792427809.492000139] [rclcpp]: signal_handler(SIGINT/SIGTERM)\n",
+   "exit": 0,
+   "status": "RAN"
+  },
+  {
+   "term": 2,
+   "kind": "interrupt-at-end",
+   "of": "ros2 topic pub --once /visualization_marker visualization_msgs/msg/Marker \"{header: {frame_id: map}, ns: demo, id: 1, type: 1, pose: {position: {x: 2.0}, orientation: {w: 1.0}}, scale: {x: 0.3, y: 0.3, z: 0.3}, color: {g: 1.0, a: 1.0}}\"",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "Waiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\nWaiting for at least 1 matching subscription(s)...\n",
+   "exit": 2,
+   "status": "RAN"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T22:06:51+0530"
+}

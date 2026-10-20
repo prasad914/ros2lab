@@ -1,0 +1,183 @@
+{
+ "lesson": "R2",
+ "term": 1,
+ "title": "Dress rehearsal: install ROS 2 Jazzy on a fresh Ubuntu",
+ "sourced": false,
+ "running": [],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/R2_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:17:28+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "locale",
+   "out": "LANG=en_US.UTF-8\nLANGUAGE=\nLC_CTYPE=\"en_US.UTF-8\"\nLC_NUMERIC=\"en_US.UTF-8\"\nLC_TIME=\"en_US.UTF-8\"\nLC_COLLATE=\"en_US.UTF-8\"\nLC_MONETARY=\"en_US.UTF-8\"\nLC_MESSAGES=\"en_US.UTF-8\"\nLC_PAPER=\"en_US.UTF-8\"\nLC_NAME=\"en_US.UTF-8\"\nLC_ADDRESS=\"en_US.UTF-8\"\nLC_TELEPHONE=\"en_US.UTF-8\"\nLC_MEASUREMENT=\"en_US.UTF-8\"\nLC_IDENTIFICATION=\"en_US.UTF-8\"\nLC_ALL=\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "sudo apt update && sudo apt install locales",
+   "status": "PENDING",
+   "reason": "needs sudo/apt (run rules: never sudo or apt on this machine)"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "sudo locale-gen en_US en_US.UTF-8",
+   "status": "PENDING",
+   "reason": "needs sudo/apt (run rules: never sudo or apt on this machine)"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8",
+   "status": "PENDING",
+   "reason": "needs sudo/apt (run rules: never sudo or apt on this machine)"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "export LANG=en_US.UTF-8",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 6,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "sudo apt install software-properties-common",
+   "status": "PENDING",
+   "reason": "needs sudo/apt (run rules: never sudo or apt on this machine)"
+  },
+  {
+   "task": 7,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "sudo add-apt-repository universe",
+   "status": "PENDING",
+   "reason": "needs sudo/apt (run rules: never sudo or apt on this machine)"
+  },
+  {
+   "task": 8,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "sudo apt update && sudo apt install curl -y",
+   "status": "PENDING",
+   "reason": "needs sudo/apt (run rules: never sudo or apt on this machine)"
+  },
+  {
+   "task": 9,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "export ROS_APT_SOURCE_VERSION=$(curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest | grep -F \"tag_name\" | awk -F\\\" '{print $4}')",
+   "out": "",
+   "exit": 0,
+   "secs": 0.7,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 10,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "curl -L -o /tmp/ros2-apt-source.deb \"https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb\"",
+   "out": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n\n  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:11 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:12 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:13 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:14 --:--:--     0",
+   "exit": null,
+   "secs": 15.0,
+   "state": "still running after 15 s",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 11,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "sudo dpkg -i /tmp/ros2-apt-source.deb",
+   "status": "PENDING",
+   "reason": "needs sudo/apt (run rules: never sudo or apt on this machine)"
+  },
+  {
+   "task": 12,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "sudo apt update && sudo apt install ros-dev-tools",
+   "status": "PENDING",
+   "reason": "needs sudo/apt (run rules: never sudo or apt on this machine)"
+  },
+  {
+   "task": 13,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "sudo apt install ros-jazzy-desktop",
+   "status": "PENDING",
+   "reason": "needs sudo/apt (run rules: never sudo or apt on this machine)"
+  },
+  {
+   "task": 14,
+   "term": 1,
+   "kind": "interrupt",
+   "of": "curl -L -o /tmp/ros2-apt-source.deb \"https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb\"",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0\n\n  0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:03 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:05 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:06 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:07 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:08 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:09 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:10 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:11 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:12 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:13 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:14 --:--:--     0\n  0     0    0     0    0     0      0      0 --:--:--  0:00:15 --:--:--     0\n",
+   "exit": 130,
+   "status": "RAN"
+  },
+  {
+   "task": 14,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "source /opt/ros/jazzy/setup.bash",
+   "out": "",
+   "exit": 0,
+   "secs": 0.7,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 15,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 run demo_nodes_cpp talker",
+   "out": "[INFO] [1792424869.196046350] [talker]: Publishing: 'Hello World: 1'\n[INFO] [1792424870.195987847] [talker]: Publishing: 'Hello World: 2'\n[INFO] [1792424871.196136473] [talker]: Publishing: 'Hello World: 3'\n[INFO] [1792424872.195968541] [talker]: Publishing: 'Hello World: 4'\n[INFO] [1792424873.195969725] [talker]: Publishing: 'Hello World: 5'\n[INFO] [1792424874.196016174] [talker]: Publishing: 'Hello World: 6'\n[INFO] [1792424875.196024504] [talker]: Publishing: 'Hello World: 7'\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "term": 1,
+   "kind": "interrupt-at-end",
+   "of": "ros2 run demo_nodes_cpp talker",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792424869.196046350] [talker]: Publishing: 'Hello World: 1'\n[INFO] [1792424870.195987847] [talker]: Publishing: 'Hello World: 2'\n[INFO] [1792424871.196136473] [talker]: Publishing: 'Hello World: 3'\n[INFO] [1792424872.195968541] [talker]: Publishing: 'Hello World: 4'\n[INFO] [1792424873.195969725] [talker]: Publishing: 'Hello World: 5'\n[INFO] [1792424874.196016174] [talker]: Publishing: 'Hello World: 6'\n[INFO] [1792424875.196024504] [talker]: Publishing: 'Hello World: 7'\n[INFO] [1792424875.811070325] [rclcpp]: signal_handler(SIGINT/SIGTERM)\n",
+   "exit": 0,
+   "status": "RAN"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T21:17:57+0530"
+}

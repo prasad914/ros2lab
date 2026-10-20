@@ -1,0 +1,44 @@
+{
+ "case": "joint_limits",
+ "runs": {
+  "run1": {
+   "max_velocity": 0.5,
+   "final_position": 1.0,
+   "max_position": 1.0,
+   "velocity_limit": 0.5,
+   "effort_limit": 1.0,
+   "commanded_effort": 5.0,
+   "upper_limit": 1.0,
+   "initial_angular_accel": 2.9994001208391134,
+   "accel_if_effort_clamped_to_1": 2.9994001199760048,
+   "accel_if_effort_5": 14.997000599880023,
+   "time_motion_start": 0.502
+  },
+  "run2": {
+   "max_velocity": 0.5,
+   "final_position": 1.0,
+   "max_position": 1.0,
+   "velocity_limit": 0.5,
+   "effort_limit": 1.0,
+   "commanded_effort": 5.0,
+   "upper_limit": 1.0,
+   "initial_angular_accel": 2.9994001208391134,
+   "accel_if_effort_clamped_to_1": 2.9994001199760048,
+   "accel_if_effort_5": 14.997000599880023,
+   "time_motion_start": 0.502
+  },
+  "run3": {
+   "max_velocity": 0.5,
+   "final_position": 1.0,
+   "max_position": 1.0,
+   "velocity_limit": 0.5,
+   "effort_limit": 1.0,
+   "commanded_effort": 5.0,
+   "upper_limit": 1.0,
+   "initial_angular_accel": 2.999400120839113,
+   "accel_if_effort_clamped_to_1": 2.9994001199760048,
+   "accel_if_effort_5": 14.997000599880023,
+   "time_motion_start": 0.503
+  }
+ }
+}

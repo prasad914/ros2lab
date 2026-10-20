@@ -1,0 +1,126 @@
+{
+ "lesson": "D1",
+ "term": 1,
+ "title": "Practice: look at a live graph",
+ "sourced": true,
+ "running": [
+  "talker",
+  "listener"
+ ],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/D1_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:27:18+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 node list",
+   "out": "/listener\n/talker\n",
+   "exit": 0,
+   "secs": 1.3,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "100": "[INFO] [1792425452.013536910] [talker]: Publishing: 'Hello World: 12'\n[INFO] [1792425453.013575641] [talker]: Publishing: 'Hello World: 13'\n",
+    "101": "[INFO] [1792425452.015234871] [listener]: I heard: [Hello World: 12]\n[INFO] [1792425453.016219895] [listener]: I heard: [Hello World: 13]\n"
+   }
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 topic list",
+   "out": "/chatter\n/parameter_events\n/rosout\n",
+   "exit": 0,
+   "secs": 1.2,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "100": "[INFO] [1792425454.013584860] [talker]: Publishing: 'Hello World: 14'\n[INFO] [1792425455.013694635] [talker]: Publishing: 'Hello World: 15'\n",
+    "101": "[INFO] [1792425454.014877324] [listener]: I heard: [Hello World: 14]\n[INFO] [1792425455.017118799] [listener]: I heard: [Hello World: 15]\n"
+   }
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 topic echo --once /chatter",
+   "out": "data: 'Hello World: 18'\n---\n",
+   "exit": 0,
+   "secs": 3.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "100": "[INFO] [1792425456.013694770] [talker]: Publishing: 'Hello World: 16'\n[INFO] [1792425457.013597495] [talker]: Publishing: 'Hello World: 17'\n[INFO] [1792425458.013797965] [talker]: Publishing: 'Hello World: 18'\n",
+    "101": "[INFO] [1792425456.015573052] [listener]: I heard: [Hello World: 16]\n[INFO] [1792425457.018256552] [listener]: I heard: [Hello World: 17]\n[INFO] [1792425458.017378352] [listener]: I heard: [Hello World: 18]\n"
+   }
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 topic info /chatter",
+   "out": "Type: std_msgs/msg/String\nPublisher count: 1\nSubscription count: 1\n",
+   "exit": 0,
+   "secs": 1.2,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "100": "[INFO] [1792425459.013696945] [talker]: Publishing: 'Hello World: 19'\n[INFO] [1792425460.013485973] [talker]: Publishing: 'Hello World: 20'\n",
+    "101": "[INFO] [1792425459.016473242] [listener]: I heard: [Hello World: 19]\n[INFO] [1792425460.015224569] [listener]: I heard: [Hello World: 20]\n"
+   }
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "rqt_graph",
+   "out": "",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "100": "[INFO] [1792425461.013539249] [talker]: Publishing: 'Hello World: 21'\n[INFO] [1792425462.013715700] [talker]: Publishing: 'Hello World: 22'\n[INFO] [1792425463.013529392] [talker]: Publishing: 'Hello World: 23'\n[INFO] [1792425464.013649709] [talker]: Publishing: 'Hello World: 24'\n[INFO] [1792425465.013639473] [talker]: Publishing: 'Hello World: 25'\n[INFO] [1792425466.013579884] [talker]: Publishing: 'Hello World: 26'\n[INFO] [1792425467.013707361] [talker]: Publishing: 'Hello World: 27'\n[INFO] [1792425468.013764617] [talker]: Publishing: 'Hello World: 28'\n[INFO] [1792425469.013651011] [talker]: Publishing: 'Hello World: 29'\n",
+    "101": "[INFO] [1792425461.015273888] [listener]: I heard: [Hello World: 21]\n[INFO] [1792425462.016430591] [listener]: I heard: [Hello World: 22]\n[INFO] [1792425463.015003602] [listener]: I heard: [Hello World: 23]\n[INFO] [1792425464.016647972] [listener]: I heard: [Hello World: 24]\n[INFO] [1792425465.018142844] [listener]: I heard: [Hello World: 25]\n[INFO] [1792425466.017964077] [listener]: I heard: [Hello World: 26]\n[INFO] [1792425467.017456849] [listener]: I heard: [Hello World: 27]\n[INFO] [1792425468.018724525] [listener]: I heard: [Hello World: 28]\n[INFO] [1792425469.016511848] [listener]: I heard: [Hello World: 29]\n"
+   }
+  },
+  {
+   "term": 1,
+   "kind": "interrupt-at-end",
+   "of": "rqt_graph",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792425469.116155632] [rclcpp]: signal_handler(SIGINT/SIGTERM)\n",
+   "exit": 0,
+   "status": "RAN"
+  }
+ ],
+ "pre": [
+  {
+   "name": "talker",
+   "cmd": "ros2 run demo_nodes_cpp talker",
+   "out": "[INFO] [1792425441.013590477] [talker]: Publishing: 'Hello World: 1'\n[INFO] [1792425442.013693216] [talker]: Publishing: 'Hello World: 2'\n[INFO] [1792425443.013673904] [talker]: Publishing: 'Hello World: 3'\n",
+   "state": "still running after 4 s"
+  },
+  {
+   "name": "listener",
+   "cmd": "ros2 run demo_nodes_py listener",
+   "out": "[INFO] [1792425447.076557098] [listener]: I heard: [Hello World: 7]\n[INFO] [1792425448.016616034] [listener]: I heard: [Hello World: 8]\n",
+   "state": "still running after 4 s"
+  }
+ ],
+ "notes": [
+  "pre-running terminal 100 output during block: ",
+  "pre-running terminal 101 output during block: "
+ ],
+ "finished": "2026-10-19T21:27:51+0530"
+}

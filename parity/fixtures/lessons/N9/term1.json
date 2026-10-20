@@ -1,0 +1,105 @@
+{
+ "lesson": "N9",
+ "term": 1,
+ "title": "Live terminal: publish and inspect a JointState",
+ "sourced": true,
+ "running": [],
+ "start": "~/ros2_ws",
+ "scratch_home": "/home/prasad/lesson_ws/homes/N9_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:56:00+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "colcon build --packages-select chiku_control",
+   "out": "[0.4s] [0/0 complete]\n                     \nStarting >>> chiku_control\n[0.5s] [0/1 complete] [chiku_control - 0.1s]\n                                            \n[0.6s] [0/1 complete] [chiku_control - 0.2s]\n                                            \n[0.7s] [0/1 complete] [chiku_control - 0.3s]\n                                            \n[0.8s] [0/1 complete] [chiku_control - 0.4s]\n                                            \n[0.9s] [0/1 complete] [chiku_control - 0.5s]\n                                            \n[1.0s] [0/1 complete] [chiku_control - 0.6s]\n                                            \n[1.1s] [0/1 complete] [chiku_control - 0.7s]\n                                            \n[1.2s] [0/1 complete] [chiku_control - 0.8s]\n                                            \n[1.3s] [0/1 complete] [chiku_control - 0.9s]\n                                            \n[1.4s] [0/1 complete] [chiku_control - 1.0s]\n                                            \n[1.5s] [0/1 complete] [chiku_control - 1.1s]\n                                            \n[1.6s] [0/1 complete] [chiku_control - 1.2s]\n                                            \n[1.7s] [0/1 complete] [chiku_control - 1.3s]\n                                            \n[1.8s] [0/1 complete] [chiku_control - 1.4s]\n                                            \n[1.9s] [0/1 complete] [chiku_control - 1.5s]\n                                            \n[2.0s] [0/1 complete] [chiku_control - 1.6s]\n                                            \n[2.1s] [0/1 complete] [chiku_control - 1.7s]\n                                            \n[2.2s] [0/1 complete] [chiku_control - 1.8s]\n                                            \n[2.3s] [0/1 complete] [chiku_control - 1.9s]\n                                            \n[2.4s] [0/1 complete] [chiku_control - 2.0s]\n                                            \n[2.5s] [0/1 complete] [chiku_control - 2.1s]\n                                            \n[2.6s] [0/1 complete] [chiku_control - 2.2s]\n                                            \n[2.7s] [0/1 complete] [chiku_control - 2.3s]\n                                            \n[2.8s] [0/1 complete] [chiku_control - 2.4s]\n                                            \n[2.9s] [0/1 complete] [chiku_control - 2.5s]\n                                            \n[3.0s] [0/1 complete] [chiku_control - 2.6s]\n                                            \n[3.1s] [0/1 complete] [chiku_control - 2.7s]\n                                            \n[3.2s] [0/1 complete] [chiku_control - 2.8s]\n                                            \n[3.3s] [0/1 complete] [chiku_control - 2.9s]\n                                            \n[3.4s] [0/1 complete] [chiku_control - 3.0s]\n                                            \n[3.5s] [0/1 complete] [chiku_control - 3.1s]\n                                            \n[3.6s] [0/1 complete] [chiku_control - 3.2s]\n                                            \nFinished <<< chiku_control [3.23s]\n\nSummary: 1 package finished [3.60s]\n",
+   "exit": 0,
+   "secs": 4.4,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "source install/setup.bash",
+   "out": "",
+   "exit": 0,
+   "secs": 1.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 run chiku_control head_joints",
+   "out": "",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 3,
+   "term": 2,
+   "kind": "newTerminal",
+   "status": "RAN"
+  },
+  {
+   "task": 3,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 interface show sensor_msgs/msg/JointState",
+   "out": "# This is a message that holds data to describe the state of a set of torque controlled joints.\n#\n# The state of each joint (revolute or prismatic) is defined by:\n#  * the position of the joint (rad or m),\n#  * the velocity of the joint (rad/s or m/s) and\n#  * the effort that is applied in the joint (Nm or N).\n#\n# Each joint is uniquely identified by its name\n# The header specifies the time at which the joint states were recorded. All the joint states\n# in one message have to be recorded at the same time.\n#\n# This message consists of a multiple arrays, one for each part of the joint state.\n# The goal is to make each of the fields optional. When e.g. your joints have no\n# effort associated with them, you can leave the effort array empty.\n#\n# All arrays in this message should have the same size, or be empty.\n# This is the only way to uniquely associate the joint name with the correct\n# states.\n\nstd_msgs/Header header\n\tbuiltin_interfaces/Time stamp\n\t\tint32 sec\n\t\tuint32 nanosec\n\tstring frame_id\n\nstring[] name\nfloat64[] position\nfloat64[] velocity\nfloat64[] effort\n",
+   "exit": 0,
+   "secs": 0.9,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 4,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 topic echo --once /joint_states",
+   "out": "header:\n  stamp:\n    sec: 1792427180\n    nanosec: 827335927\n  frame_id: ''\nname:\n- head_pan\n- head_tilt\nposition:\n- -0.6582628759749534\n- -0.2805629745583681\nvelocity:\n- 0.45463170381439877\n- -0.21245627603778147\neffort: []\n---\n",
+   "exit": 0,
+   "secs": 2.4,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 5,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 topic info /joint_states",
+   "out": "Type: sensor_msgs/msg/JointState\nPublisher count: 1\nSubscription count: 0\n",
+   "exit": 0,
+   "secs": 1.2,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "term": 1,
+   "kind": "interrupt-at-end",
+   "of": "ros2 run chiku_control head_joints",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "",
+   "exit": 0,
+   "status": "RAN"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T21:56:24+0530"
+}

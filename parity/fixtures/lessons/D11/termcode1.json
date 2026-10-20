@@ -1,0 +1,52 @@
+{
+ "lesson": "D11",
+ "term": "code1",
+ "title": "Lesson code block commands: tf2_echo map base_link + view_frames with NO robot running (lesson shows them for a running robot)",
+ "sourced": true,
+ "running": [],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/D11_tcode1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T22:08:35+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 run tf2_ros tf2_echo map base_link",
+   "out": "[INFO] [1792427917.309456726] [tf2_echo]: Waiting for transform map ->  base_link: Invalid frame ID \"map\" passed to canTransform argument target_frame - frame does not exist\n[INFO] [1792427919.281600091] [tf2_echo]: Waiting for transform map ->  base_link: Invalid frame ID \"map\" passed to canTransform argument target_frame - frame does not exist\n[INFO] [1792427921.281570066] [tf2_echo]: Waiting for transform map ->  base_link: Invalid frame ID \"map\" passed to canTransform argument target_frame - frame does not exist\n[INFO] [1792427923.281541190] [tf2_echo]: Waiting for transform map ->  base_link: Invalid frame ID \"map\" passed to canTransform argument target_frame - frame does not exist\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "interrupt",
+   "of": "ros2 run tf2_ros tf2_echo map base_link",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792427917.309456726] [tf2_echo]: Waiting for transform map ->  base_link: Invalid frame ID \"map\" passed to canTransform argument target_frame - frame does not exist\n[INFO] [1792427919.281600091] [tf2_echo]: Waiting for transform map ->  base_link: Invalid frame ID \"map\" passed to canTransform argument target_frame - frame does not exist\n[INFO] [1792427921.281570066] [tf2_echo]: Waiting for transform map ->  base_link: Invalid frame ID \"map\" passed to canTransform argument target_frame - frame does not exist\n[INFO] [1792427923.281541190] [tf2_echo]: Waiting for transform map ->  base_link: Invalid frame ID \"map\" passed to canTransform argument target_frame - frame does not exist\n[INFO] [1792427924.915761395] [rclcpp]: signal_handler(SIGINT/SIGTERM)\n",
+   "exit": 0,
+   "status": "RAN"
+  },
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 run tf2_tools view_frames",
+   "out": "[INFO] [1792427927.133727830] [view_frames]: Listening to tf data for 5.0 seconds...\n[INFO] [1792427932.177989576] [view_frames]: Generating graph...\n[INFO] [1792427932.185241023] [view_frames]: Result:tf2_msgs.srv.FrameGraph_Response(frame_yaml='[]')\n[INFO] [1792427932.188209223] [view_frames]: Exporting graph in frames_2026-10-19_22.08.52.pdf file...\n",
+   "exit": 0,
+   "secs": 7.5,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T22:08:54+0530"
+}

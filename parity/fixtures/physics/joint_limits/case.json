@@ -1,0 +1,12 @@
+{
+ "world": "joint_limits",
+ "until": 4.0,
+ "subs": [
+  "/joint_state/arm:model",
+  "/model/arm/pose:pose_v"
+ ],
+ "cmds": [
+  "{\"t\": 0.5, \"type\": \"Double\", \"topic\": \"/model/arm/joint/j/cmd_force\", \"msg\": \"data: 5.0\"}"
+ ],
+ "case": "joint_limits"
+}

@@ -1,0 +1,100 @@
+{
+ "lesson": "A7",
+ "term": 1,
+ "title": "Practice: make ROS 2 load automatically",
+ "sourced": false,
+ "running": [],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/A7_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:17:57+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 topic list",
+   "out": "ros2: command not found\n",
+   "exit": 127,
+   "secs": 0.7,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "source /opt/ros/jazzy/setup.bash",
+   "out": "",
+   "exit": 0,
+   "secs": 0.8,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "echo $ROS_DISTRO",
+   "out": "jazzy\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 4,
+   "term": 2,
+   "kind": "newTerminal",
+   "status": "RAN"
+  },
+  {
+   "task": 4,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "echo $ROS_DISTRO",
+   "out": "\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 5,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "echo \"source /opt/ros/jazzy/setup.bash\" >> ~/.bashrc",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 6,
+   "term": 3,
+   "kind": "newTerminal",
+   "status": "RAN"
+  },
+  {
+   "task": 6,
+   "term": 3,
+   "kind": "cmd",
+   "cmd": "ros2 topic list",
+   "out": "/parameter_events\n/rosout\n",
+   "exit": 0,
+   "secs": 1.2,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T21:18:07+0530"
+}

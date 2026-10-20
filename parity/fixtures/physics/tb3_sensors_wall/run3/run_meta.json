@@ -1,0 +1,13 @@
+{
+ "case": "tb3_sensors_wall",
+ "run": 3,
+ "world_file": "parity/scripts/physics/worlds/tb3_sensors_wall.sdf",
+ "gz_partition": "phys50_tb3_sensors_wall_3_1229568",
+ "ros_domain_id": "50",
+ "server_cmd": "gz sim -s -v 4 --headless-rendering /home/prasad/ros2lab-course/parity/scripts/physics/worlds/tb3_sensors_wall.sdf",
+ "unpause_reply": "data: true",
+ "wall_seconds_after_unpause": 98.48,
+ "server_exit": null,
+ "model_info": {},
+ "date": "2026-10-19T22:42:34+0530"
+}

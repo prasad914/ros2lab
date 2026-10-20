@@ -1,0 +1,75 @@
+{
+ "lesson": "IN7",
+ "term": 1,
+ "title": "Practice: spot ROS 1 commands",
+ "sourced": false,
+ "running": [],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/IN7_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:24:01+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "roscore",
+   "out": "Command 'roscore' not found, but can be installed with:\nsudo apt install python3-roslaunch\n",
+   "exit": 127,
+   "secs": 0.4,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "rosrun turtlesim turtlesim_node",
+   "out": "Command 'rosrun' not found, but can be installed with:\nsudo apt install rosbash\n",
+   "exit": 127,
+   "secs": 0.6,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "source /opt/ros/jazzy/setup.bash",
+   "out": "",
+   "exit": 0,
+   "secs": 0.8,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 run turtlesim turtlesim_node",
+   "out": "[INFO] [1792425246.655375946] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792425246.667886842] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "term": 1,
+   "kind": "interrupt-at-end",
+   "of": "ros2 run turtlesim turtlesim_node",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792425246.655375946] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792425246.667886842] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n[INFO] [1792425254.103084471] [rclcpp]: signal_handler(SIGINT/SIGTERM)\n",
+   "exit": 0,
+   "status": "RAN"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T21:24:15+0530"
+}

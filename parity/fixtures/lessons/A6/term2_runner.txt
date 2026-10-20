@@ -1,0 +1,31 @@
+# Excerpt of parity/fixtures/lessons/A6/term2_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson A6 terminal 2: Practice: install and use a new tool
+2:# scratch HOME /home/prasad/lesson_ws/homes/A6_t2 shown as /home/student; sourced=False running=[] start=None
+3:## [term 1] $ tree   (exit=0, 0.0 s, finished, cwd=/home/student)
+4:.
+5:├── Desktop
+6:├── Documents
+7:├── Downloads
+8:├── Music
+9:└── Pictures
+10:
+11:6 directories, 0 files
+12:
+13:## [term 1] $ sudo apt update
+14:PENDING: needs sudo/apt (run rules: never sudo or apt on this machine)
+15:## [term 1] $ sudo apt install tree
+16:PENDING: needs sudo/apt (run rules: never sudo or apt on this machine)
+17:## [term 1] $ tree   (exit=0, 0.0 s, finished, cwd=/home/student)
+18:.
+19:├── Desktop
+20:├── Documents
+21:├── Downloads
+22:├── Music
+23:└── Pictures
+24:
+25:6 directories, 0 files
+26:
+27:## [term 1] $ apt search navigation2
+28:PENDING: needs sudo/apt (run rules: never sudo or apt on this machine)

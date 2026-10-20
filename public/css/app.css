@@ -56,6 +56,8 @@ kbd { font-size: .85em; background: var(--white); border: 1.5px solid var(--ink)
 
 /* ---------- Header ---------- */
 .top { position: sticky; top: 0; z-index: 40; background: var(--white); border-bottom: var(--border); }
+/* anything scrolled into view (a game, a terminal) stops below the sticky header; --top-h is its height (who.js) */
+html { scroll-padding-top: calc(var(--top-h, 64px) + 8px); }
 .top .wrap { display: flex; align-items: center; gap: 14px; min-height: 64px; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); font-family: var(--font-head); font-weight: 700; font-size: 1.3rem; }
 .brand-mark { width: 34px; height: 34px; border-radius: 9px; background: var(--ink); color: var(--sun); display: grid; place-items: center; font-family: var(--font-mono); font-size: .95rem; font-weight: 700; }
@@ -374,6 +376,13 @@ table.data td.num { text-align: right; font-variant-numeric: tabular-nums; }
   .top .wrap { flex-wrap: wrap; padding-top: 6px; padding-bottom: 6px; }
   .top-nav { order: 3; width: 100%; margin: 0 0 4px -12px; }
 }
+/* phone: the nav row scrolls sideways inside itself instead of widening the page; touch targets 44 px */
+@media (max-width: 720px) {
+  .top-nav { width: calc(100% + 12px); overflow-x: auto; scrollbar-width: none; }
+  .top-nav a { white-space: nowrap; flex: none; }
+  .top-right .btn, .top-right .btn-small { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; }
+  .term-tools button { min-height: 44px; }
+}
 .btn-ghost { background: transparent; color: var(--white); border-color: var(--white); box-shadow: 2px 2px 0 rgba(255,255,255,.35); }
 .btn-ghost:hover { color: var(--white); box-shadow: 3px 3px 0 rgba(255,255,255,.55); }
 
@@ -539,7 +548,7 @@ table.data td.num { text-align: right; font-variant-numeric: tabular-nums; }
 .pg-tile.on { background: var(--sun-tint); box-shadow: var(--shadow-sm); }
 .pg-text { display: grid; line-height: 1.25; } .pg-text .small { color: var(--ink-soft); }
 .pg-when { color: var(--ink-soft); white-space: nowrap; }
-.pg-stage { min-width: 0; scroll-margin-top: 80px; }
+.pg-stage { min-width: 0; }
 @media (max-width: 900px) {
   .pg-main { grid-template-columns: 1fr; }
   .pg-pick { position: static; grid-auto-flow: column; grid-auto-columns: minmax(220px, 1fr); overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; }
@@ -1273,6 +1282,7 @@ table.score-table td { white-space: normal; vertical-align: middle; }
 .tmr .tmr-btn svg { width: 16px; height: 16px; }
 .tmr .tmr-btn:hover:not([disabled]) { background: #444; }
 .tmr .tmr-btn[disabled] { opacity: .4; cursor: not-allowed; }
+@media (max-width: 720px) { .tmr .tmr-btn { width: 44px; height: 44px; } .tmr .term-tools button { min-height: 44px; } }   /* phone touch targets */
 .tmr .term-tab-add { margin: 0; }
 .tmr-layout { position: relative; display: flex; height: 330px; min-height: 200px; max-height: 900px; background: #3C3C3C; resize: vertical; overflow: hidden; }
 .tmr-layout.is-split { height: 470px; }

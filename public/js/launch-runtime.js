@@ -277,7 +277,7 @@ export class LaunchJob extends Emitter {
       const slot = await this.rt._slotForJob(this);
       this._slot = slot;
       slot.send("launch", { job: this.id, argv: this.argv, env: envOf(o.env), cwd: o.cwd || null, pid: this.pid,
-        tty: o.tty !== false, hostSignals: typeof o.onSignal === "function" });
+        tty: o.tty !== false, hostSignals: typeof o.onSignal === "function", preflight: typeof o.onPreflight === "function" });
       for (const [t, p] of this._queue) slot.send(t, p);
       this._queue = [];
     } catch (e) {
@@ -320,8 +320,9 @@ export class LaunchJob extends Emitter {
         this.emit("exit", m.pid, m.rc);
         break;
       case "loadComposable":
-      case "lifecycle": {
-        const cb = m.type === "loadComposable" ? o.onLoadComposable : o.onLifecycle;
+      case "lifecycle":
+      case "preflight": {   // preflight: every process the launch is about to start, before the first starts
+        const cb = m.type === "loadComposable" ? o.onLoadComposable : m.type === "lifecycle" ? o.onLifecycle : o.onPreflight;
         this.emit(m.type, m.request);
         let result = null;
         try { result = cb ? await cb(m.request) : null; } catch (e) { result = { success: false, error_message: String(e.message || e) }; }

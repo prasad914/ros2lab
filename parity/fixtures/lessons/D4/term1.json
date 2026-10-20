@@ -1,0 +1,87 @@
+{
+ "lesson": "D4",
+ "term": 1,
+ "title": "Practice: drive the turtle by typing messages",
+ "sourced": true,
+ "running": [
+  "turtlesim"
+ ],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/D4_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:29:43+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 topic type /turtle1/cmd_vel",
+   "out": "geometry_msgs/msg/Twist\n",
+   "exit": 0,
+   "secs": 1.1,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 interface show geometry_msgs/msg/Twist",
+   "out": "# This expresses velocity in free space broken into its linear and angular parts.\n\nVector3  linear\n\tfloat64 x\n\tfloat64 y\n\tfloat64 z\nVector3  angular\n\tfloat64 x\n\tfloat64 y\n\tfloat64 z\n",
+   "exit": 0,
+   "secs": 1.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 2.0}, angular: {z: 1.8}}\"",
+   "out": "publisher: beginning loop\npublishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=1.8))\n\n",
+   "exit": 0,
+   "secs": 2.3,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 topic echo --once /turtle1/pose",
+   "out": "x: 6.602816581726074\ny: 6.938989639282227\ntheta: 1.8143999576568604\nlinear_velocity: 0.0\nangular_velocity: 0.0\n---\n",
+   "exit": 0,
+   "secs": 2.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 0.0}, angular: {z: 3.0}}\"",
+   "out": "publisher: beginning loop\npublishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=3.0))\n\n",
+   "exit": 0,
+   "secs": 2.4,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  }
+ ],
+ "pre": [
+  {
+   "name": "turtlesim",
+   "cmd": "ros2 run turtlesim turtlesim_node",
+   "out": "[INFO] [1792425585.257448990] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792425585.269949121] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
+   "state": "still running after 4 s"
+  }
+ ],
+ "notes": [
+  "pre-running terminal 100 output during block: "
+ ],
+ "finished": "2026-10-19T21:30:04+0530"
+}

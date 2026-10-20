@@ -1,0 +1,49 @@
+# lines of server.log (gitignored) matching engine/warning/error keywords; <line>:<text>
+2:[Msg] Loading SDF world file[/home/prasad/ros2lab-course/parity/scripts/physics/worlds/noinertial.sdf].
+4:[Dbg] [Physics.cc:1004] Loaded [gz::physics::dartsim::Plugin] from library [/opt/ros/jazzy/opt/gz_physics_vendor/lib/gz-physics-7/engine-plugins/libgz-physics-dartsim-plugin.so]
+5:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::Physics] for entity [1]
+6:[Msg] Create service on [/world/noinertial/create_multiple] (async)
+7:[Msg] Create service on [/world/noinertial/create_multiple/blocking] (blocking)
+8:[Msg] Remove service on [/world/noinertial/remove] (async)
+9:[Msg] Remove service on [/world/noinertial/remove/blocking] (blocking)
+10:[Msg] Pose service on [/world/noinertial/set_pose] (async)
+11:[Msg] Pose service on [/world/noinertial/set_pose/blocking] (blocking)
+12:[Msg] Pose service on [/world/noinertial/set_pose_vector] (async)
+13:[Msg] Pose service on [/world/noinertial/set_pose_vector/blocking] (blocking)
+14:[Msg] Light configuration service on [/world/noinertial/light_config] (async)
+15:[Msg] Light configuration service on [/world/noinertial/light_config/blocking] (blocking)
+16:[Msg] Physics service on [/world/noinertial/set_physics] (async)
+17:[Msg] Physics service on [/world/noinertial/set_physics/blocking] (blocking)
+18:[Msg] SphericalCoordinates service on [/world/noinertial/set_spherical_coordinates] (async)
+19:[Msg] SphericalCoordinates service on [/world/noinertial/set_spherical_coordinates/blocking] (blocking)
+20:[Msg] Enable collision service on [/world/noinertial/enable_collision] (async)
+21:[Msg] Enable collision service on [/world/noinertial/enable_collision/blocking] (blocking)
+22:[Msg] Disable collision service on [/world/noinertial/disable_collision] (async)
+23:[Msg] Disable collision service on [/world/noinertial/disable_collision/blocking] (blocking)
+24:[Msg] Material service on [/world/noinertial/visual_config] (async)
+25:[Msg] Material service on [/world/noinertial/visual_config/blocking] (blocking)
+26:[Msg] Material service on [/world/noinertial/wheel_slip] (async)
+27:[Msg] Material service on [/world/noinertial/wheel_slip/blocking] (blocking)
+28:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::UserCommands] for entity [1]
+29:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::SceneBroadcaster] for entity [1]
+30:[Msg] Listening to instantaneous wrench commands in [/world/noinertial/wrench]
+31:[Msg] Listening to persistent wrench commands in [/world/noinertial/wrench/persistent]
+32:[Msg] Listening to wrench clear commands in [/world/noinertial/wrench/clear]
+33:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::ApplyLinkWrench] for entity [1]
+34:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::Contact] for entity [1]
+35:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::PosePublisher] for entity [8]
+36:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::PosePublisher] for entity [12]
+37:[Msg] Loaded level [default]
+38:[Msg] Serving world controls on [/world/noinertial/control], [/world/noinertial/control/state] and [/world/noinertial/playback/control]
+39:[Msg] Serving GUI information on [/world/noinertial/gui/info]
+40:[Msg] World [noinertial] initialized with [1ms] physics profile.
+41:[Msg] Serving world SDF generation service on [/world/noinertial/generate_world_sdf]
+55:[Msg] Serving scene information on [/world/noinertial/scene/info]
+56:[Msg] Serving graph information on [/world/noinertial/scene/graph]
+57:[Msg] Serving full state on [/world/noinertial/state]
+58:[Msg] Serving full state (async) on [/world/noinertial/state_async]
+59:[Msg] Publishing scene information on [/world/noinertial/scene/info]
+60:[Msg] Publishing entity deletions on [/world/noinertial/scene/deletion]
+61:[Msg] Publishing state changes on [/world/noinertial/state]
+62:[Msg] Publishing pose messages on [/world/noinertial/pose/info]
+63:[Msg] Publishing dynamic pose messages on [/world/noinertial/dynamic_pose/info]

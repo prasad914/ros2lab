@@ -1,0 +1,100 @@
+{
+ "lesson": "A1",
+ "term": 2,
+ "title": "Practice: more useful first commands",
+ "sourced": false,
+ "running": [],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/A1_t2",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T19:42:30+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "date",
+   "out": "Mon Oct 19 07:42:31 PM IST 2026\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "echo Hello Chiku",
+   "out": "Hello Chiku\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ls -l",
+   "out": "total 20\ndrwxrwxr-x 2 prasad prasad 4096 Oct 19 19:42 Desktop\ndrwxrwxr-x 2 prasad prasad 4096 Oct 19 19:42 Documents\ndrwxrwxr-x 2 prasad prasad 4096 Oct 19 19:42 Downloads\ndrwxrwxr-x 2 prasad prasad 4096 Oct 19 19:42 Music\ndrwxrwxr-x 2 prasad prasad 4096 Oct 19 19:42 Pictures\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ls Documents",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "LS",
+   "out": "LS: command not found\n",
+   "exit": 127,
+   "secs": 0.4,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 6,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "history",
+   "out": "    1  date\n    2  echo Hello Chiku\n    3  ls -l\n    4  ls Documents\n    5  LS\n    6  history\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 7,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "clear",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T19:42:35+0530"
+}

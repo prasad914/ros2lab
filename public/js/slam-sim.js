@@ -27,7 +27,7 @@ export function slamRole(desc) {
 const argOf = (args, flag, d) => { const i = args.indexOf(flag); if (i >= 0 && i + 1 < args.length) return args[i + 1]; const eq = args.find((a) => a.startsWith(flag + "=")); return eq ? eq.slice(flag.length + 1) : d; };
 const glogStamp = () => { const d = new Date(), p = (n, k = 2) => String(n).padStart(k, "0"); return `I${p(d.getMonth() + 1)}${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}.${p(d.getMilliseconds(), 3)}000`; };
 
-export function startSlam(sys, kind, desc, { NavNode, C }) {
+export function startSlam(sys, kind, desc, { NavNode, C, pyFloat }) {
   const { num, bool, compose, inverse, gauss } = C;
   // the robot's pose in the map frame: odom pose at the start, then the true motion since the start (+ noise)
   class SlamBase extends NavNode {
@@ -124,6 +124,12 @@ export function startSlam(sys, kind, desc, { NavNode, C }) {
       return null;
     }
     sample(topic, hdr) {
+      // /map_metadata: the info of the last /map, transient local like /map; map_load_time stays 0
+      // (parity/fixtures/tb3_burger/slam_map_metadata/echo_map_metadata_once.txt)
+      if (topic === this.resolve("map_metadata")) {
+        const m = sys.maps.get(this.resolve("map")); if (!m) return null; const g = m.grid;
+        return [`map_load_time:\n  sec: 0\n  nanosec: 0\nresolution: ${pyFloat(Math.fround(g.resolution))}\nwidth: ${g.width}\nheight: ${g.height}\norigin:\n  position:\n    x: ${pyFloat(g.origin[0])}\n    y: ${pyFloat(g.origin[1])}\n    z: 0.0\n  orientation:\n    x: 0.0\n    y: 0.0\n    z: 0.0\n    w: 1.0`];
+      }
       if (topic === this.resolve("pose") && this.pose) { const p = this.pose; return [`${hdr(this.mapFrame)}\npose:\n  pose:\n    position:\n      x: ${p.x}\n      y: ${p.y}\n      z: 0.0\n    orientation:\n      x: 0.0\n      y: 0.0\n      z: ${Math.sin(p.yaw / 2)}\n      w: ${Math.cos(p.yaw / 2)}\n  covariance:\n${Array(36).fill("  - 0.0").join("\n")}`]; }
       return null;
     }

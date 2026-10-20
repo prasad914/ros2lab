@@ -1,0 +1,34 @@
+# Excerpt of parity/fixtures/lessons/A1/term2_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson A1 terminal 2: Practice: more useful first commands
+2:# scratch HOME /home/prasad/lesson_ws/homes/A1_t2 shown as /home/student; sourced=False running=[] start=None
+3:## [term 1] $ date   (exit=0, 0.0 s, finished, cwd=/home/student)
+4:Mon Oct 19 07:42:31 PM IST 2026
+5:
+6:## [term 1] $ echo Hello Chiku   (exit=0, 0.0 s, finished, cwd=/home/student)
+7:Hello Chiku
+8:
+9:## [term 1] $ ls -l   (exit=0, 0.0 s, finished, cwd=/home/student)
+10:total 20
+11:drwxrwxr-x 2 prasad prasad 4096 Oct 19 19:42 Desktop
+12:drwxrwxr-x 2 prasad prasad 4096 Oct 19 19:42 Documents
+13:drwxrwxr-x 2 prasad prasad 4096 Oct 19 19:42 Downloads
+14:drwxrwxr-x 2 prasad prasad 4096 Oct 19 19:42 Music
+15:drwxrwxr-x 2 prasad prasad 4096 Oct 19 19:42 Pictures
+16:
+17:## [term 1] $ ls Documents   (exit=0, 0.0 s, finished, cwd=/home/student)
+18:
+19:## [term 1] $ LS   (exit=127, 0.4 s, finished, cwd=/home/student)
+20:LS: command not found
+21:
+22:## [term 1] $ history   (exit=0, 0.0 s, finished, cwd=/home/student)
+23:    1  date
+24:    2  echo Hello Chiku
+25:    3  ls -l
+26:    4  ls Documents
+27:    5  LS
+28:    6  history
+29:
+30:## [term 1] $ clear   (exit=0, 0.0 s, finished, cwd=/home/student)
+31:

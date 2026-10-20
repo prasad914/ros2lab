@@ -1,0 +1,96 @@
+{
+ "lesson": "C1",
+ "term": 1,
+ "title": "Practice: compile and run C++",
+ "sourced": false,
+ "running": [],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/C1_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T19:43:28+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "cat hello.cpp",
+   "out": "#include <iostream>       // lets us use std::cout\n\nint main() {             // every C++ program starts here\n  std::cout << \"Hello, I am Chiku!\" << std::endl;\n  return 0;              // 0 means: finished without problems\n}\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "g++ hello.cpp -o hello",
+   "out": "",
+   "exit": 0,
+   "secs": 0.8,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "./hello",
+   "out": "Hello, I am Chiku!\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "nano",
+   "file": "/home/student/hello.cpp",
+   "status": "RAN",
+   "out": "(edited like nano: first occurrence replaced)"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "./hello",
+   "out": "Hello, I am Chiku!\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "g++ hello.cpp -o hello",
+   "out": "",
+   "exit": 0,
+   "secs": 0.8,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "./hello",
+   "out": "Hello, ROS 2!\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T19:43:34+0530"
+}

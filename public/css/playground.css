@@ -50,7 +50,7 @@
 
 /* the open game */
 .pg-main { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding-top: 22px; }
-.pg-meta { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 20px; padding: 0 2px; border: 0; background: none; scroll-margin-top: 80px; }
+.pg-meta { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 20px; padding: 0 2px; border: 0; background: none; }
 .pg-meta:empty { display: none; }
 .pg-facts { display: flex; flex-wrap: wrap; gap: 4px 22px; margin: 0; }
 .pg-facts > div { display: flex; gap: 6px; align-items: baseline; }
@@ -59,7 +59,7 @@
 .pg-facts dd { margin: 0; font-size: .92rem; font-weight: 600; }
 .pg-meta-nav { display: flex; flex-wrap: wrap; gap: 8px; }
 .pg-meta-nav .btn { white-space: nowrap; }
-.pg-stage { min-width: 0; scroll-margin-top: 80px; }
+.pg-stage { min-width: 0; }
 
 /* Concept lab */
 .pg-sec { margin: 54px auto 10px; }

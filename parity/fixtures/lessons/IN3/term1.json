@@ -1,0 +1,87 @@
+{
+ "lesson": "IN3",
+ "term": 1,
+ "title": "Practice: find every part in a running system",
+ "sourced": true,
+ "running": [
+  "turtlesim"
+ ],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/IN3_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:23:07+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 node list",
+   "out": "/turtlesim\n",
+   "exit": 0,
+   "secs": 1.2,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 topic list",
+   "out": "/parameter_events\n/rosout\n/turtle1/cmd_vel\n/turtle1/color_sensor\n/turtle1/pose\n",
+   "exit": 0,
+   "secs": 1.2,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 service list",
+   "out": "/clear\n/kill\n/reset\n/spawn\n/turtle1/set_pen\n/turtle1/teleport_absolute\n/turtle1/teleport_relative\n/turtlesim/describe_parameters\n/turtlesim/get_parameter_types\n/turtlesim/get_parameters\n/turtlesim/get_type_description\n/turtlesim/list_parameters\n/turtlesim/set_parameters\n/turtlesim/set_parameters_atomically\n",
+   "exit": 0,
+   "secs": 1.3,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 action list",
+   "out": "/turtle1/rotate_absolute\n",
+   "exit": 0,
+   "secs": 1.2,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 param list",
+   "out": "/turtlesim:\n  background_b\n  background_g\n  background_r\n  holonomic\n  qos_overrides./parameter_events.publisher.depth\n  qos_overrides./parameter_events.publisher.durability\n  qos_overrides./parameter_events.publisher.history\n  qos_overrides./parameter_events.publisher.reliability\n  start_type_description_service\n  use_sim_time\n",
+   "exit": 0,
+   "secs": 2.3,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  }
+ ],
+ "pre": [
+  {
+   "name": "turtlesim",
+   "cmd": "ros2 run turtlesim turtlesim_node",
+   "out": "[INFO] [1792425189.793254700] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792425189.823652321] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
+   "state": "still running after 4 s"
+  }
+ ],
+ "notes": [
+  "pre-running terminal 100 output during block: "
+ ],
+ "finished": "2026-10-19T21:23:27+0530"
+}

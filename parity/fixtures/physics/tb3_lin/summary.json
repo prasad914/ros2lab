@@ -1,0 +1,83 @@
+{
+ "case": "tb3_lin",
+ "runs": {
+  "run1": {
+   "odom_msgs": 556,
+   "odom_rate_per_sim_s": 50.0,
+   "odom_frame_id": "odom",
+   "odom_child_frame_id": "base_footprint",
+   "command_sim_t": 1.0,
+   "gt_samples": 11123,
+   "odom_final": {
+    "x": 2.0037,
+    "y": 0.0,
+    "yaw_unwrapped": 0.0
+   },
+   "gt_final_rel": {
+    "x": 1.977773309,
+    "y": 1.2752e-05,
+    "yaw_unwrapped": 1.2019422829497715e-08
+   },
+   "pos_error_final": 0.025926694136024622,
+   "gt_speed_final": 0.20007500000279824,
+   "gt_time_to_90pct_after_cmd": 0.2669999999999999,
+   "gt_initial_accel": 0.5490167547029934,
+   "odom_vx_time_to_90pct_after_cmd": 0.19999999999999996,
+   "odom_vx_final": 0.2,
+   "distance_gt": 1.9777733090411103,
+   "distance_odom": 2.0037
+  },
+  "run2": {
+   "odom_msgs": 556,
+   "odom_rate_per_sim_s": 50.0,
+   "odom_frame_id": "odom",
+   "odom_child_frame_id": "base_footprint",
+   "command_sim_t": 1.0,
+   "gt_samples": 11121,
+   "odom_final": {
+    "x": 2.0039,
+    "y": 0.0,
+    "yaw_unwrapped": 0.0
+   },
+   "gt_final_rel": {
+    "x": 1.977863264,
+    "y": 1.2622e-05,
+    "yaw_unwrapped": 1.2019718462207194e-08
+   },
+   "pos_error_final": 0.02603673905942464,
+   "gt_speed_final": 0.20033800000221755,
+   "gt_time_to_90pct_after_cmd": 0.2669999999999999,
+   "gt_initial_accel": 0.54754404596423,
+   "odom_vx_time_to_90pct_after_cmd": 0.19999999999999996,
+   "odom_vx_final": 0.2,
+   "distance_gt": 1.9778632640402745,
+   "distance_odom": 2.0039
+  },
+  "run3": {
+   "odom_msgs": 557,
+   "odom_rate_per_sim_s": 49.99999999999999,
+   "odom_frame_id": "odom",
+   "odom_child_frame_id": "base_footprint",
+   "command_sim_t": 1.0,
+   "gt_samples": 11143,
+   "odom_final": {
+    "x": 2.0077,
+    "y": 0.0,
+    "yaw_unwrapped": 0.0
+   },
+   "gt_final_rel": {
+    "x": 1.981769099,
+    "y": 1.2774e-05,
+    "yaw_unwrapped": 1.2020710028472113e-08
+   },
+   "pos_error_final": 0.02593090414634366,
+   "gt_speed_final": 0.20002200000227718,
+   "gt_time_to_90pct_after_cmd": 0.2669999999999999,
+   "gt_initial_accel": 0.5490167547029934,
+   "odom_vx_time_to_90pct_after_cmd": 0.19999999999999996,
+   "odom_vx_final": 0.2,
+   "distance_gt": 1.9817690990411692,
+   "distance_odom": 2.0077
+  }
+ }
+}

@@ -1,0 +1,89 @@
+# Excerpt of parity/fixtures/lessons/D2/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson D2 terminal 1: Practice: start and inspect nodes
+2:# scratch HOME /home/prasad/lesson_ws/homes/D2_t1 shown as /home/student; sourced=False running=[] start=None
+3:## [term 1] $ source /opt/ros/jazzy/setup.bash   (exit=0, 0.8 s, finished, cwd=/home/student)
+4:
+5:## [term 1] $ ros2 run turtlesim turtlesim_node   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+6:[INFO] [1792425474.855573055] [turtlesim]: Starting turtlesim with node name /turtlesim
+7:[INFO] [1792425474.871497736] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+8:
+9:## [new terminal 2]
+10:## [term 2] $ source /opt/ros/jazzy/setup.bash   (exit=0, 0.8 s, finished, cwd=/home/student)
+11:
+12:## [term 2] $ ros2 run turtlesim turtle_teleop_key   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+13:Reading from keyboard
+14:---------------------------
+15:Use arrow keys to move the turtle.
+16:Use g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.
+17:'q' to quit.
+18:
+19:## [new terminal 3]
+20:## [term 3] $ source /opt/ros/jazzy/setup.bash   (exit=0, 0.9 s, finished, cwd=/home/student)
+21:
+22:## [term 3] $ ros2 node list   (exit=0, 1.1 s, finished, cwd=/home/student)
+23:/teleop_turtle
+24:/turtlesim
+25:
+26:## [term 3] $ ros2 node info /turtlesim   (exit=0, 1.4 s, finished, cwd=/home/student)
+27:/turtlesim
+28:  Subscribers:
+29:    /parameter_events: rcl_interfaces/msg/ParameterEvent
+30:    /turtle1/cmd_vel: geometry_msgs/msg/Twist
+31:  Publishers:
+32:    /parameter_events: rcl_interfaces/msg/ParameterEvent
+33:    /rosout: rcl_interfaces/msg/Log
+34:    /turtle1/color_sensor: turtlesim/msg/Color
+35:    /turtle1/pose: turtlesim/msg/Pose
+36:  Service Servers:
+37:    /clear: std_srvs/srv/Empty
+38:    /kill: turtlesim/srv/Kill
+39:    /reset: std_srvs/srv/Empty
+40:    /spawn: turtlesim/srv/Spawn
+41:    /turtle1/set_pen: turtlesim/srv/SetPen
+42:    /turtle1/teleport_absolute: turtlesim/srv/TeleportAbsolute
+43:    /turtle1/teleport_relative: turtlesim/srv/TeleportRelative
+44:    /turtlesim/describe_parameters: rcl_interfaces/srv/DescribeParameters
+45:    /turtlesim/get_parameter_types: rcl_interfaces/srv/GetParameterTypes
+46:    /turtlesim/get_parameters: rcl_interfaces/srv/GetParameters
+47:    /turtlesim/get_type_description: type_description_interfaces/srv/GetTypeDescription
+48:    /turtlesim/list_parameters: rcl_interfaces/srv/ListParameters
+49:    /turtlesim/set_parameters: rcl_interfaces/srv/SetParameters
+50:    /turtlesim/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically
+51:  Service Clients:
+52:
+53:  Action Servers:
+54:    /turtle1/rotate_absolute: turtlesim/action/RotateAbsolute
+55:  Action Clients:
+56:
+57:
+58:## [term 3] $ ros2 run turtlesim turtlesim_node --ros-args --remap __node:=my_turtle   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+59:[INFO] [1792425500.393926651] [my_turtle]: Starting turtlesim with node name /my_turtle
+60:[INFO] [1792425500.413085731] [my_turtle]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+61:
+62:## [new terminal 4]
+63:## [term 4] $ source /opt/ros/jazzy/setup.bash   (exit=0, 0.9 s, finished, cwd=/home/student)
+64:
+65:## [term 4] $ ros2 node list   (exit=0, 1.4 s, finished, cwd=/home/student)
+66:/my_turtle
+67:/teleop_turtle
+68:/turtlesim
+69:
+70:## [term 1] Ctrl+C to stop: ros2 run turtlesim turtlesim_node  (exit=0)
+71:[INFO] [1792425474.855573055] [turtlesim]: Starting turtlesim with node name /turtlesim
+72:[INFO] [1792425474.871497736] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+73:[INFO] [1792425512.701958456] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+74:
+75:## [term 2] Ctrl+C to stop: ros2 run turtlesim turtle_teleop_key  (exit=0)
+76:Reading from keyboard
+77:---------------------------
+78:Use arrow keys to move the turtle.
+79:Use g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.
+80:'q' to quit.
+81:
+82:## [term 3] Ctrl+C to stop: ros2 run turtlesim turtlesim_node --ros-args --remap __node:=my_turtle  (exit=0)
+83:[INFO] [1792425500.393926651] [my_turtle]: Starting turtlesim with node name /my_turtle
+84:[INFO] [1792425500.413085731] [my_turtle]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+85:[INFO] [1792425513.416727751] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+86:

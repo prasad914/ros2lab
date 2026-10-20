@@ -1,0 +1,43 @@
+# Excerpt of parity/fixtures/lessons/D4/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson D4 terminal 1: Practice: drive the turtle by typing messages
+2:# scratch HOME /home/prasad/lesson_ws/homes/D4_t1 shown as /home/student; sourced=True running=['turtlesim'] start=None
+3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
+4:[INFO] [1792425585.257448990] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792425585.269949121] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+6:
+7:## [term 1] $ ros2 topic type /turtle1/cmd_vel   (exit=0, 1.1 s, finished, cwd=/home/student)
+8:geometry_msgs/msg/Twist
+9:
+10:## [term 1] $ ros2 interface show geometry_msgs/msg/Twist   (exit=0, 1.0 s, finished, cwd=/home/student)
+11:# This expresses velocity in free space broken into its linear and angular parts.
+12:
+13:Vector3  linear
+14:	float64 x
+15:	float64 y
+16:	float64 z
+17:Vector3  angular
+18:	float64 x
+19:	float64 y
+20:	float64 z
+21:
+22:## [term 1] $ ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 2.0}, angular: {z: 1.8}}"   (exit=0, 2.3 s, finished, cwd=/home/student)
+23:publisher: beginning loop
+24:publishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=1.8))
+25:
+26:
+27:## [term 1] $ ros2 topic echo --once /turtle1/pose   (exit=0, 2.0 s, finished, cwd=/home/student)
+28:x: 6.602816581726074
+29:y: 6.938989639282227
+30:theta: 1.8143999576568604
+31:linear_velocity: 0.0
+32:angular_velocity: 0.0
+33:---
+34:
+35:## [term 1] $ ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.0}, angular: {z: 3.0}}"   (exit=0, 2.4 s, finished, cwd=/home/student)
+36:publisher: beginning loop
+37:publishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=3.0))
+38:
+39:
+40:# note: pre-running terminal 100 output during block: 

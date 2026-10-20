@@ -1,0 +1,13 @@
+{
+ "case": "drop_cd_ode",
+ "run": 3,
+ "world_file": "parity/scripts/physics/worlds/drop_cd_ode.sdf",
+ "gz_partition": "phys50_drop_cd_ode_3_1317646",
+ "ros_domain_id": "50",
+ "server_cmd": "gz sim -s -v 4 /home/prasad/ros2lab-course/parity/scripts/physics/worlds/drop_cd_ode.sdf",
+ "unpause_reply": "data: true",
+ "wall_seconds_after_unpause": 4.79,
+ "server_exit": null,
+ "model_info": {},
+ "date": "2026-10-20T09:18:06+0530"
+}

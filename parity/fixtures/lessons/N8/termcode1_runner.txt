@@ -1,0 +1,52 @@
+# Excerpt of parity/fixtures/lessons/N8/termcode1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson N8 terminal code1: Lesson code block commands: python safety_filter (not built in this lesson ws) and teleop remapped
+2:# scratch HOME /home/prasad/lesson_ws/homes/N8_tcode1 shown as /home/student; sourced=True running=['turtlesim'] start=~/ros2_ws
+3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
+4:[INFO] [1792428004.558909444] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792428004.570914412] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+6:
+7:## [term 1] $ ros2 run chiku_control safety_filter --ros-args -r cmd_vel_out:=/turtle1/cmd_vel -p max_speed:=1.0   (exit=1, 0.6 s, finished, cwd=/home/student/ros2_ws)
+8:Package 'chiku_control' not found
+9:
+10:## [new terminal 2]
+11:## [term 2] $ ros2 run turtlesim turtle_teleop_key --ros-args -r /turtle1/cmd_vel:=/cmd_vel_in   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+12:Reading from keyboard
+13:---------------------------
+14:Use arrow keys to move the turtle.
+15:Use g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.
+16:'q' to quit.
+17:
+18:## [new terminal 3]
+19:## [term 3] $ ros2 node info /teleop_turtle   (exit=0, 1.2 s, finished, cwd=/home/student)
+20:/teleop_turtle
+21:  Subscribers:
+22:    /parameter_events: rcl_interfaces/msg/ParameterEvent
+23:  Publishers:
+24:    /cmd_vel_in: geometry_msgs/msg/Twist
+25:    /parameter_events: rcl_interfaces/msg/ParameterEvent
+26:    /rosout: rcl_interfaces/msg/Log
+27:  Service Servers:
+28:    /teleop_turtle/describe_parameters: rcl_interfaces/srv/DescribeParameters
+29:    /teleop_turtle/get_parameter_types: rcl_interfaces/srv/GetParameterTypes
+30:    /teleop_turtle/get_parameters: rcl_interfaces/srv/GetParameters
+31:    /teleop_turtle/get_type_description: type_description_interfaces/srv/GetTypeDescription
+32:    /teleop_turtle/list_parameters: rcl_interfaces/srv/ListParameters
+33:    /teleop_turtle/set_parameters: rcl_interfaces/srv/SetParameters
+34:    /teleop_turtle/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically
+35:  Service Clients:
+36:
+37:  Action Servers:
+38:
+39:  Action Clients:
+40:    /turtle1/rotate_absolute: turtlesim/action/RotateAbsolute
+41:
+42:## [term 2] Ctrl+C to stop: ros2 run turtlesim turtle_teleop_key --ros-args -r /turtle1/cmd_vel:=/cmd_vel_in  (exit=0)
+43:Reading from keyboard
+44:---------------------------
+45:Use arrow keys to move the turtle.
+46:Use g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.
+47:'q' to quit.
+48:
+49:# note: pre-running terminal 100 output during block: 

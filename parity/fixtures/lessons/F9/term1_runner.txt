@@ -1,0 +1,144 @@
+# Excerpt of parity/fixtures/lessons/F9/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson F9 terminal 1: Live terminal: switch the robot on and off
+2:# scratch HOME /home/prasad/lesson_ws/homes/F9_t1 shown as /home/student; sourced=True running=['turtlesim'] start=~/ros2_ws
+3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
+4:[INFO] [1792426340.199323218] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792426340.214039072] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+6:
+7:## [term 1] $ colcon build --packages-select chiku_control   (exit=0, 4.4 s, finished, cwd=/home/student/ros2_ws)
+8:[0.3s] [0/0 complete]
+9:                     
+10:Starting >>> chiku_control
+11:[0.4s] [0/1 complete] [chiku_control - 0.1s]
+12:                                            
+13:[0.5s] [0/1 complete] [chiku_control - 0.2s]
+14:                                            
+15:[0.7s] [0/1 complete] [chiku_control - 0.3s]
+16:                                            
+17:[0.8s] [0/1 complete] [chiku_control - 0.4s]
+18:                                            
+19:[0.9s] [0/1 complete] [chiku_control - 0.5s]
+20:                                            
+21:[1.0s] [0/1 complete] [chiku_control - 0.6s]
+22:                                            
+23:[1.1s] [0/1 complete] [chiku_control - 0.7s]
+24:                                            
+25:[1.2s] [0/1 complete] [chiku_control - 0.8s]
+26:                                            
+27:[1.3s] [0/1 complete] [chiku_control - 0.9s]
+28:                                            
+29:[1.4s] [0/1 complete] [chiku_control - 1.0s]
+30:                                            
+31:[1.5s] [0/1 complete] [chiku_control - 1.1s]
+32:                                            
+33:[1.6s] [0/1 complete] [chiku_control - 1.2s]
+34:                                            
+35:[1.7s] [0/1 complete] [chiku_control - 1.3s]
+36:                                            
+37:[1.8s] [0/1 complete] [chiku_control - 1.4s]
+38:                                            
+39:[1.9s] [0/1 complete] [chiku_control - 1.5s]
+40:                                            
+41:[2.0s] [0/1 complete] [chiku_control - 1.6s]
+42:                                            
+43:[2.1s] [0/1 complete] [chiku_control - 1.7s]
+44:                                            
+45:[2.2s] [0/1 complete] [chiku_control - 1.8s]
+46:                                            
+47:[2.3s] [0/1 complete] [chiku_control - 1.9s]
+48:                                            
+49:[2.4s] [0/1 complete] [chiku_control - 2.0s]
+50:                                            
+51:[2.5s] [0/1 complete] [chiku_control - 2.1s]
+52:                                            
+53:[2.6s] [0/1 complete] [chiku_control - 2.2s]
+54:                                            
+55:[2.7s] [0/1 complete] [chiku_control - 2.3s]
+56:                                            
+57:[2.8s] [0/1 complete] [chiku_control - 2.4s]
+58:                                            
+59:[2.9s] [0/1 complete] [chiku_control - 2.5s]
+60:                                            
+61:[3.0s] [0/1 complete] [chiku_control - 2.6s]
+62:                                            
+63:[3.1s] [0/1 complete] [chiku_control - 2.7s]
+64:                                            
+65:[3.2s] [0/1 complete] [chiku_control - 2.8s]
+66:                                            
+67:[3.3s] [0/1 complete] [chiku_control - 2.9s]
+68:                                            
+69:[3.4s] [0/1 complete] [chiku_control - 3.0s]
+70:                                            
+71:[3.5s] [0/1 complete] [chiku_control - 3.1s]
+72:                                            
+73:[3.6s] [0/1 complete] [chiku_control - 3.2s]
+74:                                            
+75:Finished <<< chiku_control [3.29s]
+76:
+77:Summary: 1 package finished [3.64s]
+78:
+79:## [term 1] $ source install/setup.bash   (exit=0, 0.9 s, finished, cwd=/home/student/ros2_ws)
+80:
+81:## [term 1] $ ros2 run chiku_control switchable_driver   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student/ros2_ws)
+82:[INFO] [1792426354.487466473] [switchable_driver]: Ready. Call /chiku/enable with data: true to start.
+83:
+84:## [new terminal 2]
+85:## [term 2] $ ros2 service list -t   (exit=0, 1.3 s, finished, cwd=/home/student)
+86:/chiku/enable [std_srvs/srv/SetBool]
+87:/clear [std_srvs/srv/Empty]
+88:/kill [turtlesim/srv/Kill]
+89:/reset [std_srvs/srv/Empty]
+90:/spawn [turtlesim/srv/Spawn]
+91:/switchable_driver/describe_parameters [rcl_interfaces/srv/DescribeParameters]
+92:/switchable_driver/get_parameter_types [rcl_interfaces/srv/GetParameterTypes]
+93:/switchable_driver/get_parameters [rcl_interfaces/srv/GetParameters]
+94:/switchable_driver/get_type_description [type_description_interfaces/srv/GetTypeDescription]
+95:/switchable_driver/list_parameters [rcl_interfaces/srv/ListParameters]
+96:/switchable_driver/set_parameters [rcl_interfaces/srv/SetParameters]
+97:/switchable_driver/set_parameters_atomically [rcl_interfaces/srv/SetParametersAtomically]
+98:/turtle1/set_pen [turtlesim/srv/SetPen]
+99:/turtle1/teleport_absolute [turtlesim/srv/TeleportAbsolute]
+100:/turtle1/teleport_relative [turtlesim/srv/TeleportRelative]
+101:/turtlesim/describe_parameters [rcl_interfaces/srv/DescribeParameters]
+102:/turtlesim/get_parameter_types [rcl_interfaces/srv/GetParameterTypes]
+103:/turtlesim/get_parameters [rcl_interfaces/srv/GetParameters]
+104:/turtlesim/get_type_description [type_description_interfaces/srv/GetTypeDescription]
+105:/turtlesim/list_parameters [rcl_interfaces/srv/ListParameters]
+106:/turtlesim/set_parameters [rcl_interfaces/srv/SetParameters]
+107:/turtlesim/set_parameters_atomically [rcl_interfaces/srv/SetParametersAtomically]
+108:
+109:## [term 2] $ ros2 service call /chiku/enable std_srvs/srv/SetBool "{data: true}"   (exit=0, 1.4 s, finished, cwd=/home/student)
+110:requester: making request: std_srvs.srv.SetBool_Request(data=True)
+111:
+112:response:
+113:std_srvs.srv.SetBool_Response(success=True, message='driving')
+114:
+115:
+116:### output meanwhile in terminal 1:
+117:[INFO] [1792426365.634462929] [switchable_driver]: enable = True
+118:
+119:## [term 2] $ ros2 service call /chiku/enable std_srvs/srv/SetBool "{data: false}"   (exit=0, 1.8 s, finished, cwd=/home/student)
+120:waiting for service to become available...
+121:requester: making request: std_srvs.srv.SetBool_Request(data=False)
+122:
+123:response:
+124:std_srvs.srv.SetBool_Response(success=True, message='stopped')
+125:
+126:
+127:### output meanwhile in terminal 1:
+128:[INFO] [1792426367.973855393] [switchable_driver]: enable = False
+129:
+130:## [term 2] $ ros2 topic echo --once /turtle1/pose   (exit=0, 2.7 s, finished, cwd=/home/student)
+131:x: 6.708248138427734
+132:y: 7.229625701904297
+133:theta: 1.9199999570846558
+134:linear_velocity: 0.0
+135:angular_velocity: 0.0
+136:---
+137:
+138:## [term 1] Ctrl+C to stop: ros2 run chiku_control switchable_driver  (exit=0)
+139:[INFO] [1792426354.487466473] [switchable_driver]: Ready. Call /chiku/enable with data: true to start.
+140:
+141:# note: pre-running terminal 100 output during block: 

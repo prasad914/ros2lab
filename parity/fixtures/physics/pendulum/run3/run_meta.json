@@ -1,0 +1,13 @@
+{
+ "case": "pendulum",
+ "run": 3,
+ "world_file": "parity/scripts/physics/worlds/pendulum.sdf",
+ "gz_partition": "phys50_pendulum_3_1220778",
+ "ros_domain_id": "50",
+ "server_cmd": "gz sim -s -v 4 /home/prasad/ros2lab-course/parity/scripts/physics/worlds/pendulum.sdf",
+ "unpause_reply": "data: true",
+ "wall_seconds_after_unpause": 12.97,
+ "server_exit": null,
+ "model_info": {},
+ "date": "2026-10-19T22:18:53+0530"
+}

@@ -1,0 +1,112 @@
+{
+ "lesson": "D2",
+ "term": 2,
+ "title": "Practice: two robots side by side",
+ "sourced": true,
+ "running": [
+  "turtlesim",
+  "teleop"
+ ],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/D2_t2",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:28:35+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 run turtlesim turtlesim_node --ros-args --remap __ns:=/robot2",
+   "out": "[INFO] [1792425529.829585991] [robot2.turtlesim]: Starting turtlesim with node name /robot2/turtlesim\n[INFO] [1792425529.842380200] [robot2.turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 2,
+   "kind": "newTerminal",
+   "status": "RAN"
+  },
+  {
+   "task": 2,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 node list",
+   "out": "/robot2/turtlesim\n/teleop_turtle\n/turtlesim\n",
+   "exit": 0,
+   "secs": 1.4,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 topic list",
+   "out": "/parameter_events\n/robot2/turtle1/cmd_vel\n/robot2/turtle1/color_sensor\n/robot2/turtle1/pose\n/rosout\n/turtle1/cmd_vel\n/turtle1/color_sensor\n/turtle1/pose\n",
+   "exit": 0,
+   "secs": 1.3,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 4,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 node info /teleop_turtle",
+   "out": "/teleop_turtle\n  Subscribers:\n    /parameter_events: rcl_interfaces/msg/ParameterEvent\n  Publishers:\n    /parameter_events: rcl_interfaces/msg/ParameterEvent\n    /rosout: rcl_interfaces/msg/Log\n    /turtle1/cmd_vel: geometry_msgs/msg/Twist\n  Service Servers:\n    /teleop_turtle/describe_parameters: rcl_interfaces/srv/DescribeParameters\n    /teleop_turtle/get_parameter_types: rcl_interfaces/srv/GetParameterTypes\n    /teleop_turtle/get_parameters: rcl_interfaces/srv/GetParameters\n    /teleop_turtle/get_type_description: type_description_interfaces/srv/GetTypeDescription\n    /teleop_turtle/list_parameters: rcl_interfaces/srv/ListParameters\n    /teleop_turtle/set_parameters: rcl_interfaces/srv/SetParameters\n    /teleop_turtle/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically\n  Service Clients:\n\n  Action Servers:\n\n  Action Clients:\n    /turtle1/rotate_absolute: turtlesim/action/RotateAbsolute\n",
+   "exit": 0,
+   "secs": 1.4,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 5,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 pkg executables turtlesim",
+   "out": "turtlesim draw_square\nturtlesim mimic\nturtlesim turtle_teleop_key\nturtlesim turtlesim_node\n",
+   "exit": 0,
+   "secs": 0.7,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "term": 1,
+   "kind": "interrupt-at-end",
+   "of": "ros2 run turtlesim turtlesim_node --ros-args --remap __ns:=/robot2",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792425529.829585991] [robot2.turtlesim]: Starting turtlesim with node name /robot2/turtlesim\n[INFO] [1792425529.842380200] [robot2.turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n[INFO] [1792425545.892971176] [rclcpp]: signal_handler(SIGINT/SIGTERM)\n",
+   "exit": 0,
+   "status": "RAN"
+  }
+ ],
+ "pre": [
+  {
+   "name": "turtlesim",
+   "cmd": "ros2 run turtlesim turtlesim_node",
+   "out": "[INFO] [1792425517.266901679] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792425517.289428940] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
+   "state": "still running after 4 s"
+  },
+  {
+   "name": "teleop",
+   "cmd": "ros2 run turtlesim turtle_teleop_key",
+   "out": "Reading from keyboard\n---------------------------\nUse arrow keys to move the turtle.\nUse g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.\n'q' to quit.\n",
+   "state": "still running after 4 s"
+  }
+ ],
+ "notes": [
+  "pre-running terminal 100 output during block: ",
+  "pre-running terminal 101 output during block: "
+ ],
+ "finished": "2026-10-19T21:29:08+0530"
+}

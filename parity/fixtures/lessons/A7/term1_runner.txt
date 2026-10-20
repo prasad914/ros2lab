@@ -1,0 +1,24 @@
+# Excerpt of parity/fixtures/lessons/A7/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson A7 terminal 1: Practice: make ROS 2 load automatically
+2:# scratch HOME /home/prasad/lesson_ws/homes/A7_t1 shown as /home/student; sourced=False running=[] start=None
+3:## [term 1] $ ros2 topic list   (exit=127, 0.7 s, finished, cwd=/home/student)
+4:ros2: command not found
+5:
+6:## [term 1] $ source /opt/ros/jazzy/setup.bash   (exit=0, 0.8 s, finished, cwd=/home/student)
+7:
+8:## [term 1] $ echo $ROS_DISTRO   (exit=0, 0.0 s, finished, cwd=/home/student)
+9:jazzy
+10:
+11:## [new terminal 2]
+12:## [term 2] $ echo $ROS_DISTRO   (exit=0, 0.0 s, finished, cwd=/home/student)
+13:
+14:
+15:## [term 2] $ echo "source /opt/ros/jazzy/setup.bash" >> ~/.bashrc   (exit=0, 0.0 s, finished, cwd=/home/student)
+16:
+17:## [new terminal 3]
+18:## [term 3] $ ros2 topic list   (exit=0, 1.2 s, finished, cwd=/home/student)
+19:/parameter_events
+20:/rosout
+21:

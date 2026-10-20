@@ -1,0 +1,69 @@
+# Excerpt of parity/fixtures/lessons/D7/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson D7 terminal 1: Practice: turn turtlesim's knobs
+2:# scratch HOME /home/prasad/lesson_ws/homes/D7_t1 shown as /home/student; sourced=True running=['turtlesim', 'teleop'] start=None
+3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
+4:[INFO] [1792425657.651584828] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792425657.661538837] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+6:
+7:## [pre-running terminal] $ ros2 run turtlesim turtle_teleop_key  (still running after 4 s)
+8:Reading from keyboard
+9:---------------------------
+10:Use arrow keys to move the turtle.
+11:Use g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.
+12:'q' to quit.
+13:
+14:## [term 1] $ ros2 param list   (exit=0, 2.0 s, finished, cwd=/home/student)
+15:/teleop_turtle:
+16:  qos_overrides./parameter_events.publisher.depth
+17:  qos_overrides./parameter_events.publisher.durability
+18:  qos_overrides./parameter_events.publisher.history
+19:  qos_overrides./parameter_events.publisher.reliability
+20:  scale_angular
+21:  scale_linear
+22:  start_type_description_service
+23:  use_sim_time
+24:/turtlesim:
+25:  background_b
+26:  background_g
+27:  background_r
+28:  holonomic
+29:  qos_overrides./parameter_events.publisher.depth
+30:  qos_overrides./parameter_events.publisher.durability
+31:  qos_overrides./parameter_events.publisher.history
+32:  qos_overrides./parameter_events.publisher.reliability
+33:  start_type_description_service
+34:  use_sim_time
+35:
+36:## [term 1] $ ros2 param get /turtlesim background_g   (exit=0, 2.1 s, finished, cwd=/home/student)
+37:Integer value is: 86
+38:
+39:## [term 1] $ ros2 param set /turtlesim background_r 150   (exit=0, 2.4 s, finished, cwd=/home/student)
+40:Set parameter successful
+41:
+42:## [term 1] $ ros2 param set /turtlesim background_r 1.5   (exit=0, 2.0 s, finished, cwd=/home/student)
+43:Setting parameter failed: Wrong parameter type, parameter {background_r} is of type {integer}, setting it to {double} is not allowed.
+44:
+45:## [term 1] $ ros2 param dump /turtlesim > turtlesim.yaml   (exit=0, 2.2 s, finished, cwd=/home/student)
+46:
+47:## [term 1] $ cat turtlesim.yaml   (exit=0, 0.0 s, finished, cwd=/home/student)
+48:/turtlesim:
+49:  ros__parameters:
+50:    background_b: 255
+51:    background_g: 86
+52:    background_r: 150
+53:    holonomic: false
+54:    qos_overrides:
+55:      /parameter_events:
+56:        publisher:
+57:          depth: 1000
+58:          durability: volatile
+59:          history: keep_last
+60:          reliability: reliable
+61:    start_type_description_service: true
+62:    use_sim_time: false
+63:
+64:
+65:# note: pre-running terminal 100 output during block: 
+66:# note: pre-running terminal 101 output during block: 

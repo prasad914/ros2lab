@@ -1,0 +1,1145 @@
+# Excerpt of parity/fixtures/lessons/F14/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson F14 terminal 1: Live terminal: the C++ action server
+2:# scratch HOME /home/prasad/lesson_ws/homes/F14_t1 shown as /home/student; sourced=True running=['turtlesim'] start=~/ros2_ws
+3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
+4:[INFO] [1792426561.013499296] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792426561.028840232] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+6:
+7:## [term 1] $ colcon build --packages-select my_robot_interfaces chiku_control_cpp   (exit=0, 51.4 s, finished, cwd=/home/student/ros2_ws)
+8:[0.6s] [0/0 complete]
+9:                     
+10:Starting >>> my_robot_interfaces
+11:[0.7s] [0/2 complete] [my_robot_interfaces:cmake - 0.1s]
+12:                                                        
+13:[0.8s] [0/2 complete] [my_robot_interfaces:cmake - 0.2s]
+14:                                                        
+15:[0.9s] [0/2 complete] [my_robot_interfaces:cmake - 0.3s]
+16:                                                        
+17:[1.0s] [0/2 complete] [my_robot_interfaces:cmake - 0.4s]
+18:                                                        
+19:[1.1s] [0/2 complete] [my_robot_interfaces:cmake - 0.5s]
+20:                                                        
+21:[1.2s] [0/2 complete] [my_robot_interfaces:cmake - 0.6s]
+22:                                                        
+23:[1.3s] [0/2 complete] [my_robot_interfaces:cmake - 0.7s]
+24:                                                        
+25:[1.4s] [0/2 complete] [my_robot_interfaces:cmake - 0.8s]
+26:                                                        
+27:[1.5s] [0/2 complete] [my_robot_interfaces:cmake - 0.9s]
+28:                                                        
+29:[1.6s] [0/2 complete] [my_robot_interfaces:cmake - 1.0s]
+30:                                                        
+31:[1.7s] [0/2 complete] [my_robot_interfaces:cmake - 1.1s]
+32:                                                        
+33:[1.8s] [0/2 complete] [my_robot_interfaces:cmake - 1.2s]
+34:                                                        
+35:[1.9s] [0/2 complete] [my_robot_interfaces:cmake - 1.3s]
+36:                                                        
+37:[2.0s] [0/2 complete] [my_robot_interfaces:cmake - 1.4s]
+38:                                                        
+39:[2.1s] [0/2 complete] [my_robot_interfaces:cmake - 1.5s]
+40:                                                        
+41:[2.2s] [0/2 complete] [my_robot_interfaces:cmake - 1.6s]
+42:                                                        
+43:[2.3s] [0/2 complete] [my_robot_interfaces:cmake - 1.7s]
+44:                                                        
+45:[2.4s] [0/2 complete] [my_robot_interfaces:cmake - 1.8s]
+46:                                                        
+47:[2.5s] [0/2 complete] [my_robot_interfaces:cmake - 1.9s]
+48:                                                        
+49:[2.6s] [0/2 complete] [my_robot_interfaces:cmake - 2.0s]
+50:                                                        
+51:[2.7s] [0/2 complete] [my_robot_interfaces:cmake - 2.1s]
+52:                                                        
+53:[2.8s] [0/2 complete] [my_robot_interfaces:cmake - 2.2s]
+54:                                                        
+55:[2.9s] [0/2 complete] [my_robot_interfaces:cmake - 2.3s]
+56:                                                        
+57:[3.0s] [0/2 complete] [my_robot_interfaces:cmake - 2.4s]
+58:                                                        
+59:[3.1s] [0/2 complete] [my_robot_interfaces:cmake - 2.5s]
+60:                                                        
+61:[3.2s] [0/2 complete] [my_robot_interfaces:cmake - 2.6s]
+62:                                                        
+63:[3.3s] [0/2 complete] [my_robot_interfaces:cmake - 2.7s]
+64:                                                        
+65:[3.4s] [0/2 complete] [my_robot_interfaces:cmake - 2.8s]
+66:                                                        
+67:[3.5s] [0/2 complete] [my_robot_interfaces:cmake - 2.9s]
+68:                                                        
+69:[3.6s] [0/2 complete] [my_robot_interfaces:cmake - 3.0s]
+70:                                                        
+71:[3.7s] [0/2 complete] [my_robot_interfaces:cmake - 3.1s]
+72:                                                        
+73:[3.8s] [0/2 complete] [my_robot_interfaces:cmake - 3.2s]
+74:                                                        
+75:[3.9s] [0/2 complete] [my_robot_interfaces:cmake - 3.3s]
+76:                                                        
+77:[4.0s] [0/2 complete] [my_robot_interfaces:cmake - 3.4s]
+78:                                                        
+79:[4.1s] [0/2 complete] [my_robot_interfaces:cmake - 3.5s]
+80:                                                        
+81:[4.2s] [0/2 complete] [my_robot_interfaces:cmake - 3.6s]
+82:                                                        
+83:[4.3s] [0/2 complete] [my_robot_interfaces:cmake - 3.7s]
+84:                                                        
+85:[4.5s] [0/2 complete] [my_robot_interfaces:cmake - 3.8s]
+86:                                                        
+87:[4.6s] [0/2 complete] [my_robot_interfaces:cmake - 3.9s]
+88:                                                        
+89:[4.7s] [0/2 complete] [my_robot_interfaces:cmake - 4.0s]
+90:                                                        
+91:[4.8s] [0/2 complete] [my_robot_interfaces:cmake - 4.1s]
+92:                                                        
+93:[4.9s] [0/2 complete] [my_robot_interfaces:cmake - 4.2s]
+94:                                                        
+95:[5.0s] [0/2 complete] [my_robot_interfaces:cmake - 4.3s]
+96:                                                        
+97:[5.1s] [0/2 complete] [my_robot_interfaces:cmake - 4.4s]
+98:                                                        
+99:[5.2s] [0/2 complete] [my_robot_interfaces:cmake - 4.5s]
+100:                                                        
+101:[5.3s] [0/2 complete] [my_robot_interfaces:cmake - 4.6s]
+102:                                                        
+103:[5.4s] [0/2 complete] [my_robot_interfaces:cmake - 4.7s]
+104:                                                        
+105:[5.5s] [0/2 complete] [my_robot_interfaces:cmake - 4.8s]
+106:                                                        
+107:[5.6s] [0/2 complete] [my_robot_interfaces:cmake - 4.9s]
+108:                                                        
+109:[5.7s] [0/2 complete] [my_robot_interfaces:cmake - 5.0s]
+110:                                                        
+111:[5.8s] [0/2 complete] [my_robot_interfaces:cmake - 5.1s]
+112:                                                        
+113:[5.9s] [0/2 complete] [my_robot_interfaces:cmake - 5.2s]
+114:                                                        
+115:[6.0s] [0/2 complete] [my_robot_interfaces:cmake - 5.3s]
+116:                                                        
+117:[6.1s] [0/2 complete] [my_robot_interfaces:cmake - 5.4s]
+118:                                                        
+119:[6.2s] [0/2 complete] [my_robot_interfaces:cmake - 5.5s]
+120:                                                        
+121:[6.3s] [0/2 complete] [my_robot_interfaces:cmake - 5.6s]
+122:                                                        
+123:[6.4s] [0/2 complete] [my_robot_interfaces:cmake - 5.7s]
+124:                                                        
+125:[6.5s] [0/2 complete] [my_robot_interfaces:cmake - 5.8s]
+126:                                                        
+127:[6.6s] [0/2 complete] [my_robot_interfaces:cmake - 5.9s]
+128:                                                        
+129:[6.7s] [0/2 complete] [my_robot_interfaces:cmake - 6.0s]
+130:                                                        
+131:[6.8s] [0/2 complete] [my_robot_interfaces:cmake - 6.1s]
+132:                                                        
+133:[6.9s] [0/2 complete] [my_robot_interfaces:cmake - 6.2s]
+134:                                                        
+135:[7.0s] [0/2 complete] [my_robot_interfaces:cmake - 6.3s]
+136:                                                        
+137:[7.1s] [0/2 complete] [my_robot_interfaces:cmake - 6.5s]
+138:                                                        
+139:[7.2s] [0/2 complete] [my_robot_interfaces:cmake - 6.6s]
+140:                                                        
+141:[7.3s] [0/2 complete] [my_robot_interfaces:cmake - 6.7s]
+142:                                                        
+143:[7.4s] [0/2 complete] [my_robot_interfaces:cmake - 6.8s]
+144:                                                        
+145:[7.5s] [0/2 complete] [my_robot_interfaces:cmake - 6.9s]
+146:                                                        
+147:[7.6s] [0/2 complete] [my_robot_interfaces:cmake - 7.0s]
+148:                                                        
+149:[7.7s] [0/2 complete] [my_robot_interfaces:cmake - 7.1s]
+150:                                                        
+151:[7.8s] [0/2 complete] [my_robot_interfaces:cmake - 7.2s]
+152:                                                        
+153:[7.9s] [0/2 complete] [my_robot_interfaces:cmake - 7.3s]
+154:                                                        
+155:[8.0s] [0/2 complete] [my_robot_interfaces:cmake - 7.4s]
+156:                                                        
+157:[8.1s] [0/2 complete] [my_robot_interfaces:cmake - 7.5s]
+158:                                                        
+159:[8.2s] [0/2 complete] [my_robot_interfaces:cmake - 7.6s]
+160:                                                        
+161:[8.3s] [0/2 complete] [my_robot_interfaces:cmake - 7.7s]
+162:                                                        
+163:[8.4s] [0/2 complete] [my_robot_interfaces:cmake - 7.8s]
+164:                                                        
+165:[8.5s] [0/2 complete] [my_robot_interfaces:cmake - 7.9s]
+166:                                                        
+167:[8.6s] [0/2 complete] [my_robot_interfaces:cmake - 8.0s]
+168:                                                        
+169:[8.7s] [0/2 complete] [my_robot_interfaces:cmake - 8.1s]
+170:                                                        
+171:[8.8s] [0/2 complete] [my_robot_interfaces:cmake - 8.2s]
+172:                                                        
+173:[8.9s] [0/2 complete] [my_robot_interfaces:cmake - 8.3s]
+174:                                                        
+175:[9.0s] [0/2 complete] [my_robot_interfaces:cmake - 8.4s]
+176:                                                        
+177:[9.1s] [0/2 complete] [my_robot_interfaces:cmake - 8.5s]
+178:                                                        
+179:[9.2s] [0/2 complete] [my_robot_interfaces:cmake - 8.6s]
+180:                                                        
+181:[9.3s] [0/2 complete] [my_robot_interfaces:cmake - 8.7s]
+182:                                                        
+183:[9.4s] [0/2 complete] [my_robot_interfaces:cmake - 8.8s]
+184:                                                        
+185:[9.5s] [0/2 complete] [my_robot_interfaces:cmake - 8.9s]
+186:                                                        
+187:[9.6s] [0/2 complete] [my_robot_interfaces:cmake - 9.0s]
+188:                                                        
+189:[9.7s] [0/2 complete] [my_robot_interfaces:cmake - 9.1s]
+190:                                                        
+191:[9.8s] [0/2 complete] [my_robot_interfaces:cmake - 9.2s]
+192:                                                        
+193:[9.9s] [0/2 complete] [my_robot_interfaces:cmake - 9.3s]
+194:                                                        
+195:[10.0s] [0/2 complete] [my_robot_interfaces:cmake - 9.4s]
+196:                                                         
+197:[10.1s] [0/2 complete] [my_robot_interfaces:cmake - 9.5s]
+198:                                                         
+199:[10.2s] [0/2 complete] [my_robot_interfaces:cmake - 9.6s]
+200:                                                         
+201:[10.3s] [0/2 complete] [my_robot_interfaces:cmake - 9.7s]
+202:                                                         
+203:[10.4s] [0/2 complete] [my_robot_interfaces:cmake - 9.8s]
+204:                                                         
+205:[10.5s] [0/2 complete] [my_robot_interfaces:cmake - 9.9s]
+206:                                                         
+207:[10.6s] [0/2 complete] [my_robot_interfaces:cmake - 10.0s]
+208:                                                          
+209:[10.7s] [0/2 complete] [my_robot_interfaces:cmake - 10.1s]
+210:                                                          
+211:[10.8s] [0/2 complete] [my_robot_interfaces:cmake - 10.2s]
+212:                                                          
+213:[10.9s] [0/2 complete] [my_robot_interfaces:cmake - 10.3s]
+214:                                                          
+215:[11.0s] [0/2 complete] [my_robot_interfaces:cmake - 10.4s]
+216:                                                          
+217:[11.1s] [0/2 complete] [my_robot_interfaces:cmake - 10.5s]
+218:                                                          
+219:[11.2s] [0/2 complete] [my_robot_interfaces:cmake - 10.6s]
+220:                                                          
+221:[11.3s] [0/2 complete] [my_robot_interfaces:cmake - 10.7s]
+222:                                                          
+223:[11.4s] [0/2 complete] [my_robot_interfaces:cmake - 10.8s]
+224:                                                          
+225:[11.5s] [0/2 complete] [my_robot_interfaces:cmake - 10.9s]
+226:                                                          
+227:[11.6s] [0/2 complete] [my_robot_interfaces:cmake - 11.0s]
+228:                                                          
+229:[11.7s] [0/2 complete] [my_robot_interfaces:cmake - 11.1s]
+230:                                                          
+231:[11.8s] [0/2 complete] [my_robot_interfaces:cmake - 11.2s]
+232:                                                          
+233:[11.9s] [0/2 complete] [my_robot_interfaces:cmake - 11.3s]
+234:                                                          
+235:[12.0s] [0/2 complete] [my_robot_interfaces:cmake - 11.4s]
+236:                                                          
+237:[12.1s] [0/2 complete] [my_robot_interfaces:cmake - 11.5s]
+238:                                                          
+239:[12.2s] [0/2 complete] [my_robot_interfaces:cmake - 11.6s]
+240:                                                          
+241:[12.3s] [0/2 complete] [my_robot_interfaces:cmake - 11.7s]
+242:                                                          
+243:[12.4s] [0/2 complete] [my_robot_interfaces:cmake - 11.8s]
+244:                                                          
+245:[12.5s] [0/2 complete] [my_robot_interfaces:cmake - 11.9s]
+246:                                                          
+247:[12.6s] [0/2 complete] [my_robot_interfaces:cmake - 12.0s]
+248:                                                          
+249:[12.7s] [0/2 complete] [my_robot_interfaces:cmake - 12.1s]
+250:                                                          
+251:[12.8s] [0/2 complete] [my_robot_interfaces:cmake - 12.2s]
+252:                                                          
+253:[12.9s] [0/2 complete] [my_robot_interfaces:cmake - 12.3s]
+254:                                                          
+255:[13.0s] [0/2 complete] [my_robot_interfaces:cmake - 12.4s]
+256:                                                          
+257:[13.1s] [0/2 complete] [my_robot_interfaces:cmake - 12.5s]
+258:                                                          
+259:[13.2s] [0/2 complete] [my_robot_interfaces:cmake - 12.6s]
+260:                                                          
+261:[13.3s] [0/2 complete] [my_robot_interfaces:cmake - 12.7s]
+262:                                                          
+263:[13.4s] [0/2 complete] [my_robot_interfaces:cmake - 12.8s]
+264:                                                          
+265:[13.5s] [0/2 complete] [my_robot_interfaces:cmake - 12.9s]
+266:                                                          
+267:[13.6s] [0/2 complete] [my_robot_interfaces:cmake - 13.0s]
+268:                                                          
+269:[13.7s] [0/2 complete] [my_robot_interfaces:cmake - 13.1s]
+270:                                                          
+271:[13.8s] [0/2 complete] [my_robot_interfaces:cmake - 13.2s]
+272:                                                          
+273:[13.9s] [0/2 complete] [my_robot_interfaces:cmake - 13.3s]
+274:                                                          
+275:[14.0s] [0/2 complete] [my_robot_interfaces:build - 13.4s]
+276:                                                          
+277:[14.1s] [0/2 complete] [my_robot_interfaces:build - 13.5s]
+278:                                                          
+279:[14.2s] [0/2 complete] [my_robot_interfaces:build 1% - 13.6s]
+280:                                                             
+281:[14.3s] [0/2 complete] [my_robot_interfaces:build 2% - 13.7s]
+282:                                                             
+283:[14.4s] [0/2 complete] [my_robot_interfaces:build 2% - 13.8s]
+284:                                                             
+285:[14.5s] [0/2 complete] [my_robot_interfaces:build 2% - 13.9s]
+286:                                                             
+287:[14.6s] [0/2 complete] [my_robot_interfaces:build 2% - 14.0s]
+288:                                                             
+289:[14.7s] [0/2 complete] [my_robot_interfaces:build 2% - 14.1s]
+290:                                                             
+291:[14.8s] [0/2 complete] [my_robot_interfaces:build 2% - 14.2s]
+292:                                                             
+293:[14.9s] [0/2 complete] [my_robot_interfaces:build 2% - 14.3s]
+294:                                                             
+295:[15.0s] [0/2 complete] [my_robot_interfaces:build 2% - 14.4s]
+296:                                                             
+297:[15.1s] [0/2 complete] [my_robot_interfaces:build 2% - 14.5s]
+298:                                                             
+299:[15.2s] [0/2 complete] [my_robot_interfaces:build 3% - 14.6s]
+300:                                                             
+301:[15.3s] [0/2 complete] [my_robot_interfaces:build 4% - 14.7s]
+302:                                                             
+303:[15.4s] [0/2 complete] [my_robot_interfaces:build 4% - 14.8s]
+304:                                                             
+305:[15.5s] [0/2 complete] [my_robot_interfaces:build 4% - 14.9s]
+306:                                                             
+307:[15.6s] [0/2 complete] [my_robot_interfaces:build 4% - 15.0s]
+308:                                                             
+309:[15.7s] [0/2 complete] [my_robot_interfaces:build 4% - 15.1s]
+310:                                                             
+311:[15.8s] [0/2 complete] [my_robot_interfaces:build 4% - 15.2s]
+312:                                                             
+313:[15.9s] [0/2 complete] [my_robot_interfaces:build 4% - 15.3s]
+314:                                                             
+315:[16.0s] [0/2 complete] [my_robot_interfaces:build 4% - 15.4s]
+316:                                                             
+317:[16.1s] [0/2 complete] [my_robot_interfaces:build 4% - 15.5s]
+318:                                                             
+319:[16.2s] [0/2 complete] [my_robot_interfaces:build 4% - 15.6s]
+320:                                                             
+321:[16.3s] [0/2 complete] [my_robot_interfaces:build 4% - 15.7s]
+322:                                                             
+323:[16.4s] [0/2 complete] [my_robot_interfaces:build 4% - 15.8s]
+324:                                                             
+325:[16.5s] [0/2 complete] [my_robot_interfaces:build 4% - 15.9s]
+326:                                                             
+327:[16.6s] [0/2 complete] [my_robot_interfaces:build 4% - 16.0s]
+328:                                                             
+329:[16.7s] [0/2 complete] [my_robot_interfaces:build 4% - 16.1s]
+330:                                                             
+331:[16.8s] [0/2 complete] [my_robot_interfaces:build 4% - 16.2s]
+332:                                                             
+333:[16.9s] [0/2 complete] [my_robot_interfaces:build 4% - 16.3s]
+334:                                                             
+335:[17.0s] [0/2 complete] [my_robot_interfaces:build 4% - 16.4s]
+336:                                                             
+337:[17.1s] [0/2 complete] [my_robot_interfaces:build 4% - 16.5s]
+338:                                                             
+339:[17.2s] [0/2 complete] [my_robot_interfaces:build 4% - 16.6s]
+340:                                                             
+341:[17.3s] [0/2 complete] [my_robot_interfaces:build 4% - 16.7s]
+342:                                                             
+343:[17.4s] [0/2 complete] [my_robot_interfaces:build 4% - 16.8s]
+344:                                                             
+345:[17.5s] [0/2 complete] [my_robot_interfaces:build 4% - 16.9s]
+346:                                                             
+347:[17.6s] [0/2 complete] [my_robot_interfaces:build 4% - 17.0s]
+348:                                                             
+349:[17.7s] [0/2 complete] [my_robot_interfaces:build 4% - 17.1s]
+350:                                                             
+351:[17.9s] [0/2 complete] [my_robot_interfaces:build 18% - 17.2s]
+352:                                                              
+353:[18.0s] [0/2 complete] [my_robot_interfaces:build 20% - 17.3s]
+354:                                                              
+355:[18.1s] [0/2 complete] [my_robot_interfaces:build 25% - 17.4s]
+356:                                                              
+357:[18.2s] [0/2 complete] [my_robot_interfaces:build 25% - 17.5s]
+358:                                                              
+359:[18.3s] [0/2 complete] [my_robot_interfaces:build 25% - 17.6s]
+360:                                                              
+361:[18.4s] [0/2 complete] [my_robot_interfaces:build 25% - 17.7s]
+362:                                                              
+363:[18.5s] [0/2 complete] [my_robot_interfaces:build 27% - 17.8s]
+364:                                                              
+365:[18.6s] [0/2 complete] [my_robot_interfaces:build 27% - 17.9s]
+366:                                                              
+367:[18.7s] [0/2 complete] [my_robot_interfaces:build 28% - 18.0s]
+368:                                                              
+369:[18.8s] [0/2 complete] [my_robot_interfaces:build 34% - 18.1s]
+370:                                                              
+371:[18.9s] [0/2 complete] [my_robot_interfaces:build 34% - 18.2s]
+372:                                                              
+373:[19.0s] [0/2 complete] [my_robot_interfaces:build 34% - 18.3s]
+374:                                                              
+375:[19.1s] [0/2 complete] [my_robot_interfaces:build 34% - 18.4s]
+376:                                                              
+377:[19.2s] [0/2 complete] [my_robot_interfaces:build 34% - 18.5s]
+378:                                                              
+379:[19.3s] [0/2 complete] [my_robot_interfaces:build 34% - 18.6s]
+380:                                                              
+381:[19.4s] [0/2 complete] [my_robot_interfaces:build 34% - 18.7s]
+382:                                                              
+383:[19.5s] [0/2 complete] [my_robot_interfaces:build 34% - 18.8s]
+384:                                                              
+385:[19.6s] [0/2 complete] [my_robot_interfaces:build 34% - 18.9s]
+386:                                                              
+387:[19.7s] [0/2 complete] [my_robot_interfaces:build 34% - 19.0s]
+388:                                                              
+389:[19.8s] [0/2 complete] [my_robot_interfaces:build 34% - 19.1s]
+390:                                                              
+391:[19.9s] [0/2 complete] [my_robot_interfaces:build 34% - 19.2s]
+392:                                                              
+393:[20.0s] [0/2 complete] [my_robot_interfaces:build 34% - 19.3s]
+394:                                                              
+395:[20.1s] [0/2 complete] [my_robot_interfaces:build 41% - 19.4s]
+396:                                                              
+397:[20.2s] [0/2 complete] [my_robot_interfaces:build 43% - 19.5s]
+398:                                                              
+399:[20.3s] [0/2 complete] [my_robot_interfaces:build 48% - 19.6s]
+400:                                                              
+401:[20.4s] [0/2 complete] [my_robot_interfaces:build 49% - 19.7s]
+402:                                                              
+403:[20.5s] [0/2 complete] [my_robot_interfaces:build 49% - 19.8s]
+404:                                                              
+405:[20.6s] [0/2 complete] [my_robot_interfaces:build 49% - 19.9s]
+406:                                                              
+407:[20.7s] [0/2 complete] [my_robot_interfaces:build 49% - 20.1s]
+408:                                                              
+409:[20.8s] [0/2 complete] [my_robot_interfaces:build 49% - 20.2s]
+410:                                                              
+411:[20.9s] [0/2 complete] [my_robot_interfaces:build 51% - 20.3s]
+412:                                                              
+413:[21.0s] [0/2 complete] [my_robot_interfaces:build 52% - 20.4s]
+414:                                                              
+415:[21.1s] [0/2 complete] [my_robot_interfaces:build 52% - 20.5s]
+416:                                                              
+417:[21.2s] [0/2 complete] [my_robot_interfaces:build 52% - 20.6s]
+418:                                                              
+419:[21.3s] [0/2 complete] [my_robot_interfaces:build 52% - 20.7s]
+420:                                                              
+421:[21.4s] [0/2 complete] [my_robot_interfaces:build 52% - 20.8s]
+422:                                                              
+423:[21.5s] [0/2 complete] [my_robot_interfaces:build 54% - 20.9s]
+424:                                                              
+425:[21.6s] [0/2 complete] [my_robot_interfaces:build 55% - 21.0s]
+426:                                                              
+427:[21.7s] [0/2 complete] [my_robot_interfaces:build 55% - 21.1s]
+428:                                                              
+429:[21.8s] [0/2 complete] [my_robot_interfaces:build 57% - 21.2s]
+430:                                                              
+431:[21.9s] [0/2 complete] [my_robot_interfaces:build 58% - 21.3s]
+432:                                                              
+433:[22.0s] [0/2 complete] [my_robot_interfaces:build 60% - 21.4s]
+434:                                                              
+435:[22.1s] [0/2 complete] [my_robot_interfaces:build 60% - 21.5s]
+436:                                                              
+437:[22.2s] [0/2 complete] [my_robot_interfaces:build 62% - 21.6s]
+438:                                                              
+439:[22.3s] [0/2 complete] [my_robot_interfaces:build 63% - 21.7s]
+440:                                                              
+441:[22.4s] [0/2 complete] [my_robot_interfaces:build 63% - 21.8s]
+442:                                                              
+443:[22.5s] [0/2 complete] [my_robot_interfaces:build 63% - 21.9s]
+444:                                                              
+445:[22.6s] [0/2 complete] [my_robot_interfaces:build 67% - 22.0s]
+446:                                                              
+447:[22.7s] [0/2 complete] [my_robot_interfaces:build 69% - 22.1s]
+448:                                                              
+449:[22.8s] [0/2 complete] [my_robot_interfaces:build 70% - 22.2s]
+450:                                                              
+451:[22.9s] [0/2 complete] [my_robot_interfaces:build 71% - 22.3s]
+452:                                                              
+453:[23.0s] [0/2 complete] [my_robot_interfaces:build 71% - 22.4s]
+454:                                                              
+455:[23.1s] [0/2 complete] [my_robot_interfaces:build 71% - 22.5s]
+456:                                                              
+457:[23.2s] [0/2 complete] [my_robot_interfaces:build 71% - 22.6s]
+458:                                                              
+459:[23.3s] [0/2 complete] [my_robot_interfaces:build 71% - 22.7s]
+460:                                                              
+461:[23.4s] [0/2 complete] [my_robot_interfaces:build 72% - 22.8s]
+462:                                                              
+463:[23.5s] [0/2 complete] [my_robot_interfaces:build 75% - 22.9s]
+464:                                                              
+465:[23.6s] [0/2 complete] [my_robot_interfaces:build 75% - 23.0s]
+466:                                                              
+467:[23.7s] [0/2 complete] [my_robot_interfaces:build 76% - 23.1s]
+468:                                                              
+469:[23.8s] [0/2 complete] [my_robot_interfaces:build 76% - 23.2s]
+470:                                                              
+471:[23.9s] [0/2 complete] [my_robot_interfaces:build 77% - 23.3s]
+472:                                                              
+473:[24.0s] [0/2 complete] [my_robot_interfaces:build 77% - 23.4s]
+474:                                                              
+475:[24.1s] [0/2 complete] [my_robot_interfaces:build 77% - 23.5s]
+476:                                                              
+477:[24.2s] [0/2 complete] [my_robot_interfaces:build 77% - 23.6s]
+478:                                                              
+479:[24.3s] [0/2 complete] [my_robot_interfaces:build 77% - 23.7s]
+480:                                                              
+481:[24.4s] [0/2 complete] [my_robot_interfaces:build 77% - 23.8s]
+482:                                                              
+483:[24.5s] [0/2 complete] [my_robot_interfaces:build 77% - 23.9s]
+484:                                                              
+485:[24.6s] [0/2 complete] [my_robot_interfaces:build 77% - 24.0s]
+486:                                                              
+487:[24.7s] [0/2 complete] [my_robot_interfaces:build 77% - 24.1s]
+488:                                                              
+489:[24.8s] [0/2 complete] [my_robot_interfaces:build 77% - 24.2s]
+490:                                                              
+491:[24.9s] [0/2 complete] [my_robot_interfaces:build 78% - 24.3s]
+492:                                                              
+493:[25.0s] [0/2 complete] [my_robot_interfaces:build 78% - 24.4s]
+494:                                                              
+495:[25.1s] [0/2 complete] [my_robot_interfaces:build 80% - 24.5s]
+496:                                                              
+497:[25.2s] [0/2 complete] [my_robot_interfaces:build 80% - 24.6s]
+498:                                                              
+499:[25.3s] [0/2 complete] [my_robot_interfaces:build 80% - 24.7s]
+500:                                                              
+501:[25.4s] [0/2 complete] [my_robot_interfaces:build 81% - 24.8s]
+502:                                                              
+503:[25.5s] [0/2 complete] [my_robot_interfaces:build 81% - 24.9s]
+504:                                                              
+505:[25.6s] [0/2 complete] [my_robot_interfaces:build 81% - 25.0s]
+506:                                                              
+507:[25.7s] [0/2 complete] [my_robot_interfaces:build 81% - 25.1s]
+508:                                                              
+509:[25.8s] [0/2 complete] [my_robot_interfaces:build 81% - 25.2s]
+510:                                                              
+511:[25.9s] [0/2 complete] [my_robot_interfaces:build 81% - 25.3s]
+512:                                                              
+513:[26.0s] [0/2 complete] [my_robot_interfaces:build 81% - 25.4s]
+514:                                                              
+515:[26.1s] [0/2 complete] [my_robot_interfaces:build 81% - 25.5s]
+516:                                                              
+517:[26.2s] [0/2 complete] [my_robot_interfaces:build 81% - 25.6s]
+518:                                                              
+519:[26.3s] [0/2 complete] [my_robot_interfaces:build 81% - 25.7s]
+520:                                                              
+521:[26.4s] [0/2 complete] [my_robot_interfaces:build 81% - 25.8s]
+522:                                                              
+523:[26.5s] [0/2 complete] [my_robot_interfaces:build 81% - 25.9s]
+524:                                                              
+525:[26.6s] [0/2 complete] [my_robot_interfaces:build 81% - 26.0s]
+526:                                                              
+527:[26.7s] [0/2 complete] [my_robot_interfaces:build 81% - 26.1s]
+528:                                                              
+529:[26.8s] [0/2 complete] [my_robot_interfaces:build 82% - 26.2s]
+530:                                                              
+531:[26.9s] [0/2 complete] [my_robot_interfaces:build 83% - 26.3s]
+532:                                                              
+533:[27.0s] [0/2 complete] [my_robot_interfaces:build 83% - 26.4s]
+534:                                                              
+535:[27.1s] [0/2 complete] [my_robot_interfaces:build 83% - 26.5s]
+536:                                                              
+537:[27.2s] [0/2 complete] [my_robot_interfaces:build 83% - 26.6s]
+538:                                                              
+539:[27.3s] [0/2 complete] [my_robot_interfaces:build 83% - 26.7s]
+540:                                                              
+541:[27.4s] [0/2 complete] [my_robot_interfaces:build 84% - 26.8s]
+542:                                                              
+543:[27.5s] [0/2 complete] [my_robot_interfaces:build 84% - 26.9s]
+544:                                                              
+545:[27.6s] [0/2 complete] [my_robot_interfaces:build 84% - 27.0s]
+546:                                                              
+547:[27.7s] [0/2 complete] [my_robot_interfaces:build 84% - 27.1s]
+548:                                                              
+549:[27.8s] [0/2 complete] [my_robot_interfaces:build 84% - 27.2s]
+550:                                                              
+551:[27.9s] [0/2 complete] [my_robot_interfaces:build 84% - 27.3s]
+552:                                                              
+553:[28.0s] [0/2 complete] [my_robot_interfaces:build 84% - 27.4s]
+554:                                                              
+555:[28.1s] [0/2 complete] [my_robot_interfaces:build 84% - 27.5s]
+556:                                                              
+557:[28.2s] [0/2 complete] [my_robot_interfaces:build 84% - 27.6s]
+558:                                                              
+559:[28.3s] [0/2 complete] [my_robot_interfaces:build 84% - 27.7s]
+560:                                                              
+561:[28.4s] [0/2 complete] [my_robot_interfaces:build 84% - 27.8s]
+562:                                                              
+563:[28.5s] [0/2 complete] [my_robot_interfaces:build 84% - 27.9s]
+564:                                                              
+565:[28.6s] [0/2 complete] [my_robot_interfaces:build 84% - 28.0s]
+566:                                                              
+567:[28.7s] [0/2 complete] [my_robot_interfaces:build 84% - 28.1s]
+568:                                                              
+569:[28.8s] [0/2 complete] [my_robot_interfaces:build 84% - 28.2s]
+570:                                                              
+571:[28.9s] [0/2 complete] [my_robot_interfaces:build 84% - 28.3s]
+572:                                                              
+573:[29.0s] [0/2 complete] [my_robot_interfaces:build 84% - 28.4s]
+574:                                                              
+575:[29.1s] [0/2 complete] [my_robot_interfaces:build 84% - 28.5s]
+576:                                                              
+577:[29.2s] [0/2 complete] [my_robot_interfaces:build 84% - 28.6s]
+578:                                                              
+579:[29.3s] [0/2 complete] [my_robot_interfaces:build 84% - 28.7s]
+580:                                                              
+581:[29.4s] [0/2 complete] [my_robot_interfaces:build 84% - 28.8s]
+582:                                                              
+583:[29.5s] [0/2 complete] [my_robot_interfaces:build 84% - 28.9s]
+584:                                                              
+585:[29.6s] [0/2 complete] [my_robot_interfaces:build 84% - 29.0s]
+586:                                                              
+587:[29.7s] [0/2 complete] [my_robot_interfaces:build 84% - 29.1s]
+588:                                                              
+589:[29.8s] [0/2 complete] [my_robot_interfaces:build 84% - 29.2s]
+590:                                                              
+591:[29.9s] [0/2 complete] [my_robot_interfaces:build 84% - 29.3s]
+592:                                                              
+593:[30.0s] [0/2 complete] [my_robot_interfaces:build 84% - 29.4s]
+594:                                                              
+595:[30.1s] [0/2 complete] [my_robot_interfaces:build 84% - 29.5s]
+596:                                                              
+597:[30.3s] [0/2 complete] [my_robot_interfaces:build 84% - 29.6s]
+598:                                                              
+599:[30.4s] [0/2 complete] [my_robot_interfaces:build 84% - 29.7s]
+600:                                                              
+601:[30.5s] [0/2 complete] [my_robot_interfaces:build 84% - 29.8s]
+602:                                                              
+603:[30.6s] [0/2 complete] [my_robot_interfaces:build 84% - 29.9s]
+604:                                                              
+605:[Processing: my_robot_interfaces]
+606:[30.7s] [0/2 complete] [my_robot_interfaces:build 90% - 30.0s]
+607:                                                              
+608:[30.8s] [0/2 complete] [my_robot_interfaces:build 91% - 30.1s]
+609:                                                              
+610:[30.9s] [0/2 complete] [my_robot_interfaces:build 91% - 30.2s]
+611:                                                              
+612:[31.0s] [0/2 complete] [my_robot_interfaces:build 91% - 30.3s]
+613:                                                              
+614:[31.1s] [0/2 complete] [my_robot_interfaces:build 91% - 30.4s]
+615:                                                              
+616:[31.2s] [0/2 complete] [my_robot_interfaces:build 91% - 30.5s]
+617:                                                              
+618:[31.3s] [0/2 complete] [my_robot_interfaces:build 92% - 30.6s]
+619:                                                              
+620:[31.4s] [0/2 complete] [my_robot_interfaces:build 92% - 30.7s]
+621:                                                              
+622:[31.5s] [0/2 complete] [my_robot_interfaces:build 92% - 30.8s]
+623:                                                              
+624:[31.6s] [0/2 complete] [my_robot_interfaces:build 96% - 30.9s]
+625:                                                              
+626:[31.7s] [0/2 complete] [my_robot_interfaces:build 96% - 31.0s]
+627:                                                              
+628:[31.8s] [0/2 complete] [my_robot_interfaces:build 96% - 31.1s]
+629:                                                              
+630:[31.9s] [0/2 complete] [my_robot_interfaces:build 96% - 31.2s]
+631:                                                              
+632:[32.0s] [0/2 complete] [my_robot_interfaces:build 96% - 31.3s]
+633:                                                              
+634:[32.1s] [0/2 complete] [my_robot_interfaces:build 100% - 31.4s]
+635:                                                               
+636:[32.2s] [0/2 complete] [my_robot_interfaces:build 100% - 31.5s]
+637:                                                               
+638:[32.3s] [0/2 complete] [my_robot_interfaces:install - 31.6s]
+639:                                                            
+640:[32.4s] [0/2 complete] [my_robot_interfaces:install - 31.7s]
+641:                                                            
+642:[32.5s] [0/2 complete] [my_robot_interfaces:install - 31.8s]
+643:                                                            
+644:[32.6s] [0/2 complete] [my_robot_interfaces:install - 31.9s]
+645:                                                            
+646:[32.7s] [0/2 complete] [my_robot_interfaces:install - 32.0s]
+647:                                                            
+648:[32.8s] [0/2 complete] [my_robot_interfaces:install - 32.1s]
+649:                                                            
+650:Finished <<< my_robot_interfaces [32.2s]
+651:Starting >>> chiku_control_cpp
+652:[32.9s] [1/2 complete] [chiku_control_cpp:cmake - 0.1s]
+653:                                                       
+654:[33.0s] [1/2 complete] [chiku_control_cpp:cmake - 0.2s]
+655:                                                       
+656:[33.1s] [1/2 complete] [chiku_control_cpp:cmake - 0.3s]
+657:                                                       
+658:[33.2s] [1/2 complete] [chiku_control_cpp:cmake - 0.4s]
+659:                                                       
+660:[33.3s] [1/2 complete] [chiku_control_cpp:cmake - 0.5s]
+661:                                                       
+662:[33.4s] [1/2 complete] [chiku_control_cpp:cmake - 0.6s]
+663:                                                       
+664:[33.5s] [1/2 complete] [chiku_control_cpp:cmake - 0.7s]
+665:                                                       
+666:[33.6s] [1/2 complete] [chiku_control_cpp:cmake - 0.8s]
+667:                                                       
+668:[33.7s] [1/2 complete] [chiku_control_cpp:cmake - 0.9s]
+669:                                                       
+670:[33.8s] [1/2 complete] [chiku_control_cpp:cmake - 1.0s]
+671:                                                       
+672:[33.9s] [1/2 complete] [chiku_control_cpp:cmake - 1.1s]
+673:                                                       
+674:[34.0s] [1/2 complete] [chiku_control_cpp:cmake - 1.2s]
+675:                                                       
+676:[34.1s] [1/2 complete] [chiku_control_cpp:cmake - 1.3s]
+677:                                                       
+678:[34.2s] [1/2 complete] [chiku_control_cpp:cmake - 1.4s]
+679:                                                       
+680:[34.3s] [1/2 complete] [chiku_control_cpp:cmake - 1.5s]
+681:                                                       
+682:[34.4s] [1/2 complete] [chiku_control_cpp:cmake - 1.6s]
+683:                                                       
+684:[34.5s] [1/2 complete] [chiku_control_cpp:cmake - 1.7s]
+685:                                                       
+686:[34.6s] [1/2 complete] [chiku_control_cpp:cmake - 1.8s]
+687:                                                       
+688:[34.7s] [1/2 complete] [chiku_control_cpp:cmake - 1.9s]
+689:                                                       
+690:[34.8s] [1/2 complete] [chiku_control_cpp:cmake - 2.0s]
+691:                                                       
+692:[34.9s] [1/2 complete] [chiku_control_cpp:cmake - 2.1s]
+693:                                                       
+694:[35.0s] [1/2 complete] [chiku_control_cpp:cmake - 2.2s]
+695:                                                       
+696:[35.1s] [1/2 complete] [chiku_control_cpp:cmake - 2.3s]
+697:                                                       
+698:[35.2s] [1/2 complete] [chiku_control_cpp:cmake - 2.4s]
+699:                                                       
+700:[35.3s] [1/2 complete] [chiku_control_cpp:cmake - 2.5s]
+701:                                                       
+702:[35.4s] [1/2 complete] [chiku_control_cpp:cmake - 2.6s]
+703:                                                       
+704:[35.5s] [1/2 complete] [chiku_control_cpp:cmake - 2.7s]
+705:                                                       
+706:[35.6s] [1/2 complete] [chiku_control_cpp:cmake - 2.8s]
+707:                                                       
+708:[35.7s] [1/2 complete] [chiku_control_cpp:cmake - 2.9s]
+709:                                                       
+710:[35.8s] [1/2 complete] [chiku_control_cpp:cmake - 3.0s]
+711:                                                       
+712:[35.9s] [1/2 complete] [chiku_control_cpp:cmake - 3.1s]
+713:                                                       
+714:[36.0s] [1/2 complete] [chiku_control_cpp:cmake - 3.2s]
+715:                                                       
+716:[36.1s] [1/2 complete] [chiku_control_cpp:cmake - 3.3s]
+717:                                                       
+718:[36.2s] [1/2 complete] [chiku_control_cpp:cmake - 3.4s]
+719:                                                       
+720:[36.3s] [1/2 complete] [chiku_control_cpp:cmake - 3.5s]
+721:                                                       
+722:[36.4s] [1/2 complete] [chiku_control_cpp:cmake - 3.6s]
+723:                                                       
+724:[36.5s] [1/2 complete] [chiku_control_cpp:cmake - 3.7s]
+725:                                                       
+726:[36.6s] [1/2 complete] [chiku_control_cpp:cmake - 3.8s]
+727:                                                       
+728:[36.7s] [1/2 complete] [chiku_control_cpp:cmake - 3.9s]
+729:                                                       
+730:[36.8s] [1/2 complete] [chiku_control_cpp:cmake - 4.0s]
+731:                                                       
+732:[36.9s] [1/2 complete] [chiku_control_cpp:cmake - 4.1s]
+733:                                                       
+734:[37.0s] [1/2 complete] [chiku_control_cpp:cmake - 4.2s]
+735:                                                       
+736:[37.1s] [1/2 complete] [chiku_control_cpp:cmake - 4.3s]
+737:                                                       
+738:[37.2s] [1/2 complete] [chiku_control_cpp:cmake - 4.4s]
+739:                                                       
+740:[37.3s] [1/2 complete] [chiku_control_cpp:cmake - 4.5s]
+741:                                                       
+742:[37.4s] [1/2 complete] [chiku_control_cpp:cmake - 4.6s]
+743:                                                       
+744:[37.5s] [1/2 complete] [chiku_control_cpp:cmake - 4.7s]
+745:                                                       
+746:[37.6s] [1/2 complete] [chiku_control_cpp:cmake - 4.8s]
+747:                                                       
+748:[37.7s] [1/2 complete] [chiku_control_cpp:cmake - 4.9s]
+749:                                                       
+750:[37.8s] [1/2 complete] [chiku_control_cpp:build - 5.0s]
+751:                                                       
+752:[37.9s] [1/2 complete] [chiku_control_cpp:build - 5.1s]
+753:                                                       
+754:[38.0s] [1/2 complete] [chiku_control_cpp:build - 5.2s]
+755:                                                       
+756:[38.1s] [1/2 complete] [chiku_control_cpp:build 50% - 5.3s]
+757:                                                           
+758:[38.2s] [1/2 complete] [chiku_control_cpp:build 50% - 5.4s]
+759:                                                           
+760:[38.3s] [1/2 complete] [chiku_control_cpp:build 50% - 5.5s]
+761:                                                           
+762:[38.4s] [1/2 complete] [chiku_control_cpp:build 50% - 5.6s]
+763:                                                           
+764:[38.5s] [1/2 complete] [chiku_control_cpp:build 50% - 5.7s]
+765:                                                           
+766:[38.6s] [1/2 complete] [chiku_control_cpp:build 50% - 5.8s]
+767:                                                           
+768:[38.7s] [1/2 complete] [chiku_control_cpp:build 50% - 5.9s]
+769:                                                           
+770:[38.8s] [1/2 complete] [chiku_control_cpp:build 50% - 6.0s]
+771:                                                           
+772:[38.9s] [1/2 complete] [chiku_control_cpp:build 50% - 6.1s]
+773:                                                           
+774:[39.0s] [1/2 complete] [chiku_control_cpp:build 50% - 6.2s]
+775:                                                           
+776:[39.1s] [1/2 complete] [chiku_control_cpp:build 50% - 6.3s]
+777:                                                           
+778:[39.2s] [1/2 complete] [chiku_control_cpp:build 50% - 6.4s]
+779:                                                           
+780:[39.3s] [1/2 complete] [chiku_control_cpp:build 50% - 6.5s]
+781:                                                           
+782:[39.4s] [1/2 complete] [chiku_control_cpp:build 50% - 6.6s]
+783:                                                           
+784:[39.5s] [1/2 complete] [chiku_control_cpp:build 50% - 6.7s]
+785:                                                           
+786:[39.6s] [1/2 complete] [chiku_control_cpp:build 50% - 6.8s]
+787:                                                           
+788:[39.7s] [1/2 complete] [chiku_control_cpp:build 50% - 6.9s]
+789:                                                           
+790:[39.8s] [1/2 complete] [chiku_control_cpp:build 50% - 7.0s]
+791:                                                           
+792:[39.9s] [1/2 complete] [chiku_control_cpp:build 50% - 7.1s]
+793:                                                           
+794:[40.0s] [1/2 complete] [chiku_control_cpp:build 50% - 7.2s]
+795:                                                           
+796:[40.1s] [1/2 complete] [chiku_control_cpp:build 50% - 7.3s]
+797:                                                           
+798:[40.2s] [1/2 complete] [chiku_control_cpp:build 50% - 7.4s]
+799:                                                           
+800:[40.3s] [1/2 complete] [chiku_control_cpp:build 50% - 7.5s]
+801:                                                           
+802:[40.4s] [1/2 complete] [chiku_control_cpp:build 50% - 7.6s]
+803:                                                           
+804:[40.5s] [1/2 complete] [chiku_control_cpp:build 50% - 7.7s]
+805:                                                           
+806:[40.6s] [1/2 complete] [chiku_control_cpp:build 50% - 7.8s]
+807:                                                           
+808:[40.7s] [1/2 complete] [chiku_control_cpp:build 50% - 7.9s]
+809:                                                           
+810:[40.8s] [1/2 complete] [chiku_control_cpp:build 50% - 8.0s]
+811:                                                           
+812:[40.9s] [1/2 complete] [chiku_control_cpp:build 50% - 8.1s]
+813:                                                           
+814:[41.0s] [1/2 complete] [chiku_control_cpp:build 50% - 8.2s]
+815:                                                           
+816:[41.1s] [1/2 complete] [chiku_control_cpp:build 50% - 8.3s]
+817:                                                           
+818:[41.2s] [1/2 complete] [chiku_control_cpp:build 50% - 8.4s]
+819:                                                           
+820:[41.3s] [1/2 complete] [chiku_control_cpp:build 50% - 8.5s]
+821:                                                           
+822:[41.4s] [1/2 complete] [chiku_control_cpp:build 50% - 8.6s]
+823:                                                           
+824:[41.5s] [1/2 complete] [chiku_control_cpp:build 50% - 8.7s]
+825:                                                           
+826:[41.6s] [1/2 complete] [chiku_control_cpp:build 50% - 8.8s]
+827:                                                           
+828:[41.7s] [1/2 complete] [chiku_control_cpp:build 50% - 8.9s]
+829:                                                           
+830:[41.8s] [1/2 complete] [chiku_control_cpp:build 50% - 9.0s]
+831:                                                           
+832:[41.9s] [1/2 complete] [chiku_control_cpp:build 50% - 9.1s]
+833:                                                           
+834:[42.0s] [1/2 complete] [chiku_control_cpp:build 50% - 9.2s]
+835:                                                           
+836:[42.1s] [1/2 complete] [chiku_control_cpp:build 50% - 9.3s]
+837:                                                           
+838:[42.2s] [1/2 complete] [chiku_control_cpp:build 50% - 9.4s]
+839:                                                           
+840:[42.3s] [1/2 complete] [chiku_control_cpp:build 50% - 9.5s]
+841:                                                           
+842:[42.4s] [1/2 complete] [chiku_control_cpp:build 50% - 9.6s]
+843:                                                           
+844:[42.5s] [1/2 complete] [chiku_control_cpp:build 50% - 9.8s]
+845:                                                           
+846:[42.6s] [1/2 complete] [chiku_control_cpp:build 50% - 9.9s]
+847:                                                           
+848:[42.7s] [1/2 complete] [chiku_control_cpp:build 50% - 10.0s]
+849:                                                            
+850:[42.8s] [1/2 complete] [chiku_control_cpp:build 50% - 10.1s]
+851:                                                            
+852:[42.9s] [1/2 complete] [chiku_control_cpp:build 50% - 10.2s]
+853:                                                            
+854:[43.0s] [1/2 complete] [chiku_control_cpp:build 50% - 10.3s]
+855:                                                            
+856:[43.1s] [1/2 complete] [chiku_control_cpp:build 50% - 10.4s]
+857:                                                            
+858:[43.2s] [1/2 complete] [chiku_control_cpp:build 50% - 10.5s]
+859:                                                            
+860:[43.3s] [1/2 complete] [chiku_control_cpp:build 50% - 10.6s]
+861:                                                            
+862:[43.4s] [1/2 complete] [chiku_control_cpp:build 50% - 10.7s]
+863:                                                            
+864:[43.5s] [1/2 complete] [chiku_control_cpp:build 50% - 10.8s]
+865:                                                            
+866:[43.6s] [1/2 complete] [chiku_control_cpp:build 50% - 10.9s]
+867:                                                            
+868:[43.7s] [1/2 complete] [chiku_control_cpp:build 50% - 11.0s]
+869:                                                            
+870:[43.8s] [1/2 complete] [chiku_control_cpp:build 50% - 11.1s]
+871:                                                            
+872:[43.9s] [1/2 complete] [chiku_control_cpp:build 50% - 11.2s]
+873:                                                            
+874:[44.0s] [1/2 complete] [chiku_control_cpp:build 50% - 11.3s]
+875:                                                            
+876:[44.1s] [1/2 complete] [chiku_control_cpp:build 50% - 11.4s]
+877:                                                            
+878:[44.2s] [1/2 complete] [chiku_control_cpp:build 50% - 11.5s]
+879:                                                            
+880:[44.3s] [1/2 complete] [chiku_control_cpp:build 50% - 11.6s]
+881:                                                            
+882:[44.4s] [1/2 complete] [chiku_control_cpp:build 50% - 11.7s]
+883:                                                            
+884:[44.5s] [1/2 complete] [chiku_control_cpp:build 50% - 11.8s]
+885:                                                            
+886:[44.6s] [1/2 complete] [chiku_control_cpp:build 50% - 11.9s]
+887:                                                            
+888:[44.7s] [1/2 complete] [chiku_control_cpp:build 50% - 12.0s]
+889:                                                            
+890:[44.8s] [1/2 complete] [chiku_control_cpp:build 50% - 12.1s]
+891:                                                            
+892:[44.9s] [1/2 complete] [chiku_control_cpp:build 50% - 12.2s]
+893:                                                            
+894:[45.0s] [1/2 complete] [chiku_control_cpp:build 50% - 12.3s]
+895:                                                            
+896:[45.1s] [1/2 complete] [chiku_control_cpp:build 50% - 12.4s]
+897:                                                            
+898:[45.2s] [1/2 complete] [chiku_control_cpp:build 50% - 12.5s]
+899:                                                            
+900:[45.3s] [1/2 complete] [chiku_control_cpp:build 50% - 12.6s]
+901:                                                            
+902:[45.4s] [1/2 complete] [chiku_control_cpp:build 50% - 12.7s]
+903:                                                            
+904:[45.5s] [1/2 complete] [chiku_control_cpp:build 50% - 12.8s]
+905:                                                            
+906:[45.6s] [1/2 complete] [chiku_control_cpp:build 50% - 12.9s]
+907:                                                            
+908:[45.7s] [1/2 complete] [chiku_control_cpp:build 50% - 13.0s]
+909:                                                            
+910:[45.8s] [1/2 complete] [chiku_control_cpp:build 50% - 13.1s]
+911:                                                            
+912:[45.9s] [1/2 complete] [chiku_control_cpp:build 50% - 13.2s]
+913:                                                            
+914:[46.0s] [1/2 complete] [chiku_control_cpp:build 50% - 13.3s]
+915:                                                            
+916:[46.1s] [1/2 complete] [chiku_control_cpp:build 50% - 13.4s]
+917:                                                            
+918:[46.2s] [1/2 complete] [chiku_control_cpp:build 50% - 13.5s]
+919:                                                            
+920:[46.4s] [1/2 complete] [chiku_control_cpp:build 50% - 13.6s]
+921:                                                            
+922:[46.5s] [1/2 complete] [chiku_control_cpp:build 50% - 13.7s]
+923:                                                            
+924:[46.6s] [1/2 complete] [chiku_control_cpp:build 50% - 13.8s]
+925:                                                            
+926:[46.7s] [1/2 complete] [chiku_control_cpp:build 50% - 13.9s]
+927:                                                            
+928:[46.8s] [1/2 complete] [chiku_control_cpp:build 50% - 14.0s]
+929:                                                            
+930:[46.9s] [1/2 complete] [chiku_control_cpp:build 50% - 14.1s]
+931:                                                            
+932:[47.0s] [1/2 complete] [chiku_control_cpp:build 50% - 14.2s]
+933:                                                            
+934:[47.1s] [1/2 complete] [chiku_control_cpp:build 50% - 14.3s]
+935:                                                            
+936:[47.2s] [1/2 complete] [chiku_control_cpp:build 50% - 14.4s]
+937:                                                            
+938:[47.3s] [1/2 complete] [chiku_control_cpp:build 50% - 14.5s]
+939:                                                            
+940:[47.4s] [1/2 complete] [chiku_control_cpp:build 50% - 14.6s]
+941:                                                            
+942:[47.5s] [1/2 complete] [chiku_control_cpp:build 50% - 14.7s]
+943:                                                            
+944:[47.6s] [1/2 complete] [chiku_control_cpp:build 50% - 14.8s]
+945:                                                            
+946:[47.7s] [1/2 complete] [chiku_control_cpp:build 50% - 14.9s]
+947:                                                            
+948:[47.8s] [1/2 complete] [chiku_control_cpp:build 75% - 15.0s]
+949:                                                            
+950:[47.9s] [1/2 complete] [chiku_control_cpp:build 75% - 15.1s]
+951:                                                            
+952:[48.0s] [1/2 complete] [chiku_control_cpp:build 75% - 15.2s]
+953:                                                            
+954:[48.1s] [1/2 complete] [chiku_control_cpp:build 75% - 15.3s]
+955:                                                            
+956:[48.2s] [1/2 complete] [chiku_control_cpp:build 75% - 15.4s]
+957:                                                            
+958:[48.3s] [1/2 complete] [chiku_control_cpp:build 75% - 15.5s]
+959:                                                            
+960:[48.4s] [1/2 complete] [chiku_control_cpp:build 75% - 15.6s]
+961:                                                            
+962:[48.5s] [1/2 complete] [chiku_control_cpp:build 75% - 15.7s]
+963:                                                            
+964:[48.6s] [1/2 complete] [chiku_control_cpp:build 75% - 15.8s]
+965:                                                            
+966:[48.7s] [1/2 complete] [chiku_control_cpp:build 75% - 15.9s]
+967:                                                            
+968:[48.8s] [1/2 complete] [chiku_control_cpp:build 75% - 16.0s]
+969:                                                            
+970:[48.9s] [1/2 complete] [chiku_control_cpp:build 75% - 16.1s]
+971:                                                            
+972:[49.0s] [1/2 complete] [chiku_control_cpp:build 75% - 16.2s]
+973:                                                            
+974:[49.1s] [1/2 complete] [chiku_control_cpp:build 75% - 16.3s]
+975:                                                            
+976:[49.2s] [1/2 complete] [chiku_control_cpp:build 75% - 16.4s]
+977:                                                            
+978:[49.3s] [1/2 complete] [chiku_control_cpp:build 75% - 16.5s]
+979:                                                            
+980:[49.4s] [1/2 complete] [chiku_control_cpp:build 75% - 16.6s]
+981:                                                            
+982:[49.5s] [1/2 complete] [chiku_control_cpp:build 75% - 16.7s]
+983:                                                            
+984:[49.6s] [1/2 complete] [chiku_control_cpp:build 75% - 16.8s]
+985:                                                            
+986:[49.7s] [1/2 complete] [chiku_control_cpp:build 75% - 16.9s]
+987:                                                            
+988:[49.8s] [1/2 complete] [chiku_control_cpp:build 75% - 17.0s]
+989:                                                            
+990:[49.9s] [1/2 complete] [chiku_control_cpp:build 100% - 17.1s]
+991:                                                             
+992:[50.0s] [1/2 complete] [chiku_control_cpp:build 100% - 17.2s]
+993:                                                             
+994:[50.1s] [1/2 complete] [chiku_control_cpp:build 100% - 17.3s]
+995:                                                             
+996:[50.2s] [1/2 complete] [chiku_control_cpp:build 100% - 17.4s]
+997:                                                             
+998:[50.3s] [1/2 complete] [chiku_control_cpp:build 100% - 17.5s]
+999:                                                             
+1000:[50.4s] [1/2 complete] [chiku_control_cpp:build 100% - 17.6s]
+1001:                                                             
+1002:[50.5s] [1/2 complete] [chiku_control_cpp:build 100% - 17.7s]
+1003:                                                             
+1004:[50.6s] [1/2 complete] [chiku_control_cpp:build 100% - 17.8s]
+1005:                                                             
+1006:[50.7s] [1/2 complete] [chiku_control_cpp:install - 17.9s]
+1007:                                                          
+1008:Finished <<< chiku_control_cpp [18.0s]
+1009:
+1010:Summary: 2 packages finished [50.8s]
+1011:
+1012:## [term 1] $ source install/setup.bash   (exit=0, 0.9 s, finished, cwd=/home/student/ros2_ws)
+1013:
+1014:## [term 1] $ ros2 run chiku_control_cpp drive_distance_server   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student/ros2_ws)
+1015:[INFO] [1792426621.399933178] [drive_distance_server]: Action server /chiku/drive_distance is ready
+1016:
+1017:## [new terminal 2]
+1018:## [term 2] $ cd ~/ros2_ws   (exit=0, 0.0 s, finished, cwd=/home/student/ros2_ws)
+1019:
+1020:## [term 2] $ source install/setup.bash   (exit=0, 0.9 s, finished, cwd=/home/student/ros2_ws)
+1021:
+1022:## [term 2] $ ros2 action list -t   (exit=0, 1.2 s, finished, cwd=/home/student/ros2_ws)
+1023:/chiku/drive_distance [my_robot_interfaces/action/DriveDistance]
+1024:/turtle1/rotate_absolute [turtlesim/action/RotateAbsolute]
+1025:
+1026:## [term 2] $ ros2 action send_goal /chiku/drive_distance my_robot_interfaces/action/DriveDistance "{distance: 1.0, speed: 5.0}"   (exit=0, 1.6 s, finished, cwd=/home/student/ros2_ws)
+1027:Waiting for an action server to become available...
+1028:Sending goal:
+1029:     distance: 1.0
+1030:speed: 5.0
+1031:
+1032:Goal was rejected.
+1033:
+1034:### output meanwhile in terminal 1:
+1035:[WARN] [1792426635.324822525] [drive_distance_server]: Rejected: distance must be > 0 and speed in (0, 2]
+1036:
+1037:## [term 2] $ ros2 action send_goal --feedback /chiku/drive_distance my_robot_interfaces/action/DriveDistance "{distance: 2.0, speed: 1.0}"   (exit=0, 3.3 s, finished, cwd=/home/student/ros2_ws)
+1038:Waiting for an action server to become available...
+1039:Sending goal:
+1040:     distance: 2.0
+1041:speed: 1.0
+1042:
+1043:Goal accepted with ID: 418c219d06ce497da595a7234c87df58
+1044:
+1045:Feedback:
+1046:    remaining: 1.9
+1047:
+1048:Feedback:
+1049:    remaining: 1.8
+1050:
+1051:Feedback:
+1052:    remaining: 1.7
+1053:
+1054:Feedback:
+1055:    remaining: 1.6
+1056:
+1057:Feedback:
+1058:    remaining: 1.5
+1059:
+1060:Feedback:
+1061:    remaining: 1.4
+1062:
+1063:Feedback:
+1064:    remaining: 1.3
+1065:
+1066:Feedback:
+1067:    remaining: 1.2000000000000002
+1068:
+1069:Feedback:
+1070:    remaining: 1.1
+1071:
+1072:Feedback:
+1073:    remaining: 1.0
+1074:
+1075:Feedback:
+1076:    remaining: 0.9000000000000001
+1077:
+1078:Feedback:
+1079:    remaining: 0.8
+1080:
+1081:Feedback:
+1082:    remaining: 0.7
+1083:
+1084:Feedback:
+1085:    remaining: 0.5999999999999999
+1086:
+1087:Feedback:
+1088:    remaining: 0.4999999999999998
+1089:
+1090:Feedback:
+1091:    remaining: 0.3999999999999997
+1092:
+1093:Feedback:
+1094:    remaining: 0.2999999999999996
+1095:
+1096:Feedback:
+1097:    remaining: 0.1999999999999995
+1098:
+1099:Feedback:
+1100:    remaining: 0.09999999999999942
+1101:
+1102:Feedback:
+1103:    remaining: 0.0
+1104:
+1105:Result:
+1106:    distance_driven: 2.0
+1107:
+1108:Goal finished with status: SUCCEEDED
+1109:
+1110:### output meanwhile in terminal 1:
+1111:[INFO] [1792426639.255642392] [drive_distance_server]: Done: drove 2.00 m
+1112:
+1113:## [term 2] $ ros2 run chiku_control_cpp drive_distance_client --ros-args -p distance:=3.0 -p cancel_after:=1.5   (exit=0, 2.6 s, finished, cwd=/home/student/ros2_ws)
+1114:[INFO] [1792426640.815182544] [drive_distance_client]: Sending goal: 3.0 m at 0.5 m/s
+1115:[INFO] [1792426640.884938546] [drive_distance_client]: Goal accepted
+1116:[INFO] [1792426640.918358245] [drive_distance_client]: remaining: 2.95 m
+1117:[INFO] [1792426641.018242198] [drive_distance_client]: remaining: 2.90 m
+1118:[INFO] [1792426641.118529371] [drive_distance_client]: remaining: 2.85 m
+1119:[INFO] [1792426641.218483158] [drive_distance_client]: remaining: 2.80 m
+1120:[INFO] [1792426641.318372492] [drive_distance_client]: remaining: 2.75 m
+1121:[INFO] [1792426641.418367207] [drive_distance_client]: remaining: 2.70 m
+1122:[INFO] [1792426641.518377279] [drive_distance_client]: remaining: 2.65 m
+1123:[INFO] [1792426641.618477281] [drive_distance_client]: remaining: 2.60 m
+1124:[INFO] [1792426641.718328369] [drive_distance_client]: remaining: 2.55 m
+1125:[INFO] [1792426641.818497141] [drive_distance_client]: remaining: 2.50 m
+1126:[INFO] [1792426641.918459154] [drive_distance_client]: remaining: 2.45 m
+1127:[INFO] [1792426642.018270077] [drive_distance_client]: remaining: 2.40 m
+1128:[INFO] [1792426642.118472867] [drive_distance_client]: remaining: 2.35 m
+1129:[INFO] [1792426642.218537693] [drive_distance_client]: remaining: 2.30 m
+1130:[INFO] [1792426642.318385683] [drive_distance_client]: remaining: 2.25 m
+1131:[INFO] [1792426642.385628974] [drive_distance_client]: Changed my mind: cancelling
+1132:[INFO] [1792426642.418637459] [drive_distance_client]: remaining: 2.20 m
+1133:[INFO] [1792426642.419228507] [drive_distance_client]: Result: drove 0.80 m (code 5)
+1134:
+1135:### output meanwhile in terminal 1:
+1136:[INFO] [1792426642.386898931] [drive_distance_server]: Cancel requested
+1137:
+1138:## [term 1] Ctrl+C to stop: ros2 run chiku_control_cpp drive_distance_server  (exit=0)
+1139:[INFO] [1792426621.399933178] [drive_distance_server]: Action server /chiku/drive_distance is ready
+1140:[INFO] [1792426643.059284771] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+1141:
+1142:# note: pre-running terminal 100 output during block: 

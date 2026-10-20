@@ -1,0 +1,13 @@
+{
+ "case": "slide_mu0.5",
+ "run": 3,
+ "world_file": "parity/scripts/physics/worlds/slide_mu0.5.sdf",
+ "gz_partition": "phys50_slide_mu0.5_3_1223120",
+ "ros_domain_id": "50",
+ "server_cmd": "gz sim -s -v 4 /home/prasad/ros2lab-course/parity/scripts/physics/worlds/slide_mu0.5.sdf",
+ "unpause_reply": "data: true",
+ "wall_seconds_after_unpause": 1.77,
+ "server_exit": null,
+ "model_info": {},
+ "date": "2026-10-19T22:21:47+0530"
+}

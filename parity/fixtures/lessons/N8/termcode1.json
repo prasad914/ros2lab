@@ -1,0 +1,86 @@
+{
+ "lesson": "N8",
+ "term": "code1",
+ "title": "Lesson code block commands: python safety_filter (not built in this lesson ws) and teleop remapped",
+ "sourced": true,
+ "running": [
+  "turtlesim"
+ ],
+ "start": "~/ros2_ws",
+ "scratch_home": "/home/prasad/lesson_ws/homes/N8_tcode1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T22:10:02+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 run chiku_control safety_filter --ros-args -r cmd_vel_out:=/turtle1/cmd_vel -p max_speed:=1.0",
+   "out": "Package 'chiku_control' not found\n",
+   "exit": 1,
+   "secs": 0.6,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 1,
+   "term": 2,
+   "kind": "newTerminal",
+   "status": "RAN"
+  },
+  {
+   "task": 1,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 run turtlesim turtle_teleop_key --ros-args -r /turtle1/cmd_vel:=/cmd_vel_in",
+   "out": "Reading from keyboard\n---------------------------\nUse arrow keys to move the turtle.\nUse g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.\n'q' to quit.\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 1,
+   "term": 3,
+   "kind": "newTerminal",
+   "status": "RAN"
+  },
+  {
+   "task": 1,
+   "term": 3,
+   "kind": "cmd",
+   "cmd": "ros2 node info /teleop_turtle",
+   "out": "/teleop_turtle\n  Subscribers:\n    /parameter_events: rcl_interfaces/msg/ParameterEvent\n  Publishers:\n    /cmd_vel_in: geometry_msgs/msg/Twist\n    /parameter_events: rcl_interfaces/msg/ParameterEvent\n    /rosout: rcl_interfaces/msg/Log\n  Service Servers:\n    /teleop_turtle/describe_parameters: rcl_interfaces/srv/DescribeParameters\n    /teleop_turtle/get_parameter_types: rcl_interfaces/srv/GetParameterTypes\n    /teleop_turtle/get_parameters: rcl_interfaces/srv/GetParameters\n    /teleop_turtle/get_type_description: type_description_interfaces/srv/GetTypeDescription\n    /teleop_turtle/list_parameters: rcl_interfaces/srv/ListParameters\n    /teleop_turtle/set_parameters: rcl_interfaces/srv/SetParameters\n    /teleop_turtle/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically\n  Service Clients:\n\n  Action Servers:\n\n  Action Clients:\n    /turtle1/rotate_absolute: turtlesim/action/RotateAbsolute\n",
+   "exit": 0,
+   "secs": 1.2,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "term": 2,
+   "kind": "interrupt-at-end",
+   "of": "ros2 run turtlesim turtle_teleop_key --ros-args -r /turtle1/cmd_vel:=/cmd_vel_in",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "Reading from keyboard\n---------------------------\nUse arrow keys to move the turtle.\nUse g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.\n'q' to quit.\n",
+   "exit": 0,
+   "status": "RAN"
+  }
+ ],
+ "pre": [
+  {
+   "name": "turtlesim",
+   "cmd": "ros2 run turtlesim turtlesim_node",
+   "out": "[INFO] [1792428004.558909444] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792428004.570914412] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
+   "state": "still running after 4 s"
+  }
+ ],
+ "notes": [
+  "pre-running terminal 100 output during block: "
+ ],
+ "finished": "2026-10-19T22:10:26+0530"
+}

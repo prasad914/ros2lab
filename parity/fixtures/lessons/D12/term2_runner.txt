@@ -1,0 +1,99 @@
+# Excerpt of parity/fixtures/lessons/D12/term2_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson D12 terminal 2: Debugging mission: why is the listener silent?
+2:# scratch HOME /home/prasad/lesson_ws/homes/D12_t2 shown as /home/student; sourced=True running=['listener'] start=None
+3:## [pre-running terminal] $ ros2 run demo_nodes_py listener  (still running after 4 s)
+4:
+5:## [term 1] $ ros2 node list   (exit=0, 1.0 s, finished, cwd=/home/student)
+6:/listener
+7:
+8:## [term 1] $ ros2 node info /listener   (exit=0, 1.3 s, finished, cwd=/home/student)
+9:/listener
+10:  Subscribers:
+11:    /chatter: std_msgs/msg/String
+12:  Publishers:
+13:    /parameter_events: rcl_interfaces/msg/ParameterEvent
+14:    /rosout: rcl_interfaces/msg/Log
+15:  Service Servers:
+16:    /listener/describe_parameters: rcl_interfaces/srv/DescribeParameters
+17:    /listener/get_parameter_types: rcl_interfaces/srv/GetParameterTypes
+18:    /listener/get_parameters: rcl_interfaces/srv/GetParameters
+19:    /listener/get_type_description: type_description_interfaces/srv/GetTypeDescription
+20:    /listener/list_parameters: rcl_interfaces/srv/ListParameters
+21:    /listener/set_parameters: rcl_interfaces/srv/SetParameters
+22:    /listener/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically
+23:  Service Clients:
+24:
+25:  Action Servers:
+26:
+27:  Action Clients:
+28:
+29:
+30:## [term 1] $ ros2 topic info /chatter   (exit=0, 1.2 s, finished, cwd=/home/student)
+31:Type: std_msgs/msg/String
+32:Publisher count: 0
+33:Subscription count: 1
+34:
+35:## [term 1] $ ros2 run demo_nodes_py talker   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+36:[INFO] [1792425943.759118433] [talker]: Publishing: "Hello World: 0"
+37:[INFO] [1792425944.704751375] [talker]: Publishing: "Hello World: 1"
+38:[INFO] [1792425945.704797174] [talker]: Publishing: "Hello World: 2"
+39:[INFO] [1792425946.706150472] [talker]: Publishing: "Hello World: 3"
+40:[INFO] [1792425947.704567057] [talker]: Publishing: "Hello World: 4"
+41:[INFO] [1792425948.703415166] [talker]: Publishing: "Hello World: 5"
+42:
+43:### output meanwhile in terminal 100:
+44:[INFO] [1792425943.816609104] [listener]: I heard: [Hello World: 0]
+45:[INFO] [1792425944.707957527] [listener]: I heard: [Hello World: 1]
+46:[INFO] [1792425945.707739623] [listener]: I heard: [Hello World: 2]
+47:[INFO] [1792425946.709293169] [listener]: I heard: [Hello World: 3]
+48:[INFO] [1792425947.707934468] [listener]: I heard: [Hello World: 4]
+49:[INFO] [1792425948.705365634] [listener]: I heard: [Hello World: 5]
+50:
+51:## [new terminal 2]
+52:## [term 2] $ ros2 topic hz /chatter   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+53:average rate: 0.999
+54:	min: 1.000s max: 1.002s std dev: 0.00100s window: 3
+55:average rate: 1.000
+56:	min: 0.998s max: 1.002s std dev: 0.00119s window: 5
+57:
+58:### output meanwhile in terminal 1:
+59:[INFO] [1792425950.705999439] [talker]: Publishing: "Hello World: 7"
+60:[INFO] [1792425951.703406998] [talker]: Publishing: "Hello World: 8"
+61:[INFO] [1792425952.704538568] [talker]: Publishing: "Hello World: 9"
+62:[INFO] [1792425953.704694065] [talker]: Publishing: "Hello World: 10"
+63:[INFO] [1792425954.704544621] [talker]: Publishing: "Hello World: 11"
+64:[INFO] [1792425955.706117422] [talker]: Publishing: "Hello World: 12"
+65:[INFO] [1792425956.704641953] [talker]: Publishing: "Hello World: 13"
+66:[INFO] [1792425957.704495292] [talker]: Publishing: "Hello World: 14"
+67:[INFO] [1792425958.704491492] [talker]: Publishing: "Hello World: 15"
+68:
+69:### output meanwhile in terminal 100:
+70:[INFO] [1792425950.710555490] [listener]: I heard: [Hello World: 7]
+71:[INFO] [1792425951.704919787] [listener]: I heard: [Hello World: 8]
+72:[INFO] [1792425952.708987900] [listener]: I heard: [Hello World: 9]
+73:[INFO] [1792425953.707594038] [listener]: I heard: [Hello World: 10]
+74:[INFO] [1792425954.707533680] [listener]: I heard: [Hello World: 11]
+75:[INFO] [1792425955.709857385] [listener]: I heard: [Hello World: 12]
+76:[INFO] [1792425956.709050537] [listener]: I heard: [Hello World: 13]
+77:[INFO] [1792425957.708857639] [listener]: I heard: [Hello World: 14]
+78:[INFO] [1792425958.709098580] [listener]: I heard: [Hello World: 15]
+79:
+80:## [term 1] Ctrl+C to stop: ros2 run demo_nodes_py talker  (exit=0)
+81:[INFO] [1792425943.759118433] [talker]: Publishing: "Hello World: 0"
+82:[INFO] [1792425944.704751375] [talker]: Publishing: "Hello World: 1"
+83:[INFO] [1792425945.704797174] [talker]: Publishing: "Hello World: 2"
+84:[INFO] [1792425946.706150472] [talker]: Publishing: "Hello World: 3"
+85:[INFO] [1792425947.704567057] [talker]: Publishing: "Hello World: 4"
+86:[INFO] [1792425948.703415166] [talker]: Publishing: "Hello World: 5"
+87:
+88:## [term 2] Ctrl+C to stop: ros2 topic hz /chatter  (exit=2)
+89:average rate: 0.999
+90:	min: 1.000s max: 1.002s std dev: 0.00100s window: 3
+91:average rate: 1.000
+92:	min: 0.998s max: 1.002s std dev: 0.00119s window: 5
+93:average rate: 1.000
+94:	min: 0.998s max: 1.002s std dev: 0.00109s window: 6
+95:
+96:# note: pre-running terminal 100 output during block: 

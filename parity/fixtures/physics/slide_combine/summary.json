@@ -1,0 +1,59 @@
+{
+ "case": "slide_combine",
+ "runs": {
+  "run1": {
+   "box_lo": {
+    "v0": 1.999019999999998,
+    "impulse_sim_t": 0.503,
+    "stop_distance": 2.0398156,
+    "stop_time": 2.0389999999999997,
+    "decel_fit": 0.9799999999999974,
+    "mu_effective": 0.09999999999999973
+   },
+   "box_hi": {
+    "v0": 1.9950999999999983,
+    "impulse_sim_t": 0.503,
+    "stop_distance": 0.4071628,
+    "stop_time": 0.40700000000000003,
+    "decel_fit": 4.899999999999996,
+    "mu_effective": 0.49999999999999956
+   }
+  },
+  "run2": {
+   "box_lo": {
+    "v0": 1.999019999999998,
+    "impulse_sim_t": 0.503,
+    "stop_distance": 2.0398156,
+    "stop_time": 2.0389999999999997,
+    "decel_fit": 0.9799999999999974,
+    "mu_effective": 0.09999999999999973
+   },
+   "box_hi": {
+    "v0": 1.9950999999999983,
+    "impulse_sim_t": 0.503,
+    "stop_distance": 0.4071628,
+    "stop_time": 0.40700000000000003,
+    "decel_fit": 4.899999999999996,
+    "mu_effective": 0.49999999999999956
+   }
+  },
+  "run3": {
+   "box_lo": {
+    "v0": 1.999019999999998,
+    "impulse_sim_t": 0.505,
+    "stop_distance": 2.0398156,
+    "stop_time": 2.039,
+    "decel_fit": 0.9799999999999974,
+    "mu_effective": 0.09999999999999973
+   },
+   "box_hi": {
+    "v0": 1.9950999999999983,
+    "impulse_sim_t": 0.505,
+    "stop_distance": 0.4071628,
+    "stop_time": 0.40700000000000003,
+    "decel_fit": 4.899999999999998,
+    "mu_effective": 0.4999999999999997
+   }
+  }
+ }
+}

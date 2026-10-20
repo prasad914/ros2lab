@@ -1,0 +1,11 @@
+{
+ "world": "slide_mu0.5",
+ "until": 1.5,
+ "subs": [
+  "/model/box/pose:pose_v"
+ ],
+ "cmds": [
+  "{\"type\": \"EntityWrench\", \"topic\": \"/world/slide_mu0.5/wrench\", \"msg\": \"entity { name: \\\"box::link\\\" type: LINK } wrench { force { x: 500.0 y: 0.0 } }\", \"t\": 0.5}"
+ ],
+ "case": "slide_mu0.5"
+}

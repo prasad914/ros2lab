@@ -1,0 +1,20 @@
+# Excerpt of parity/fixtures/lessons/A3/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson A3 terminal 1: Practice: build a ROS 2 workspace
+2:# scratch HOME /home/prasad/lesson_ws/homes/A3_t1 shown as /home/student; sourced=False running=[] start=None
+3:## [term 1] $ mkdir -p ros2_ws/src   (exit=0, 0.0 s, finished, cwd=/home/student)
+4:
+5:## [term 1] $ cd ros2_ws   (exit=0, 0.0 s, finished, cwd=/home/student/ros2_ws)
+6:
+7:## [term 1] $ touch README.md   (exit=0, 0.0 s, finished, cwd=/home/student/ros2_ws)
+8:
+9:## [term 1] $ ls   (exit=0, 0.0 s, finished, cwd=/home/student/ros2_ws)
+10:README.md  src
+11:
+12:## [term 1] $ cp -r src src_backup   (exit=0, 0.0 s, finished, cwd=/home/student/ros2_ws)
+13:
+14:## [term 1] $ mv README.md notes.md   (exit=0, 0.0 s, finished, cwd=/home/student/ros2_ws)
+15:
+16:## [term 1] $ rm -r src_backup   (exit=0, 0.0 s, finished, cwd=/home/student/ros2_ws)
+17:

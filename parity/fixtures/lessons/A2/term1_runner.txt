@@ -1,0 +1,18 @@
+# Excerpt of parity/fixtures/lessons/A2/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson A2 terminal 1: Practice: walk around the computer
+2:# scratch HOME /home/prasad/lesson_ws/homes/A2_t1 shown as /home/student; sourced=False running=[] start=None
+3:## [term 1] $ cd robot_ws   (exit=0, 0.0 s, finished, cwd=/home/student/robot_ws)
+4:
+5:## [term 1] $ cd src   (exit=0, 0.0 s, finished, cwd=/home/student/robot_ws/src)
+6:
+7:## [term 1] $ pwd   (exit=0, 0.0 s, finished, cwd=/home/student/robot_ws/src)
+8:/home/student/robot_ws/src
+9:
+10:## [term 1] $ cd ../..   (exit=0, 0.0 s, finished, cwd=/home/student)
+11:
+12:## [term 1] $ cd /opt/ros/jazzy   (exit=0, 0.0 s, finished, cwd=/opt/ros/jazzy)
+13:
+14:## [term 1] $ cd ~   (exit=0, 0.0 s, finished, cwd=/home/student)
+15:

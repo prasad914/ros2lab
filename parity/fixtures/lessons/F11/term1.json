@@ -1,0 +1,108 @@
+{
+ "lesson": "F11",
+ "term": 1,
+ "title": "Live terminal: your clients at work",
+ "sourced": true,
+ "running": [
+  "turtlesim"
+ ],
+ "start": "~/ros2_ws",
+ "scratch_home": "/home/prasad/lesson_ws/homes/F11_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:43:41+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "colcon build --packages-select chiku_control",
+   "out": "[0.4s] [0/0 complete]\n                     \nStarting >>> chiku_control\n[0.5s] [0/1 complete] [chiku_control - 0.1s]\n                                            \n[0.6s] [0/1 complete] [chiku_control - 0.2s]\n                                            \n[0.7s] [0/1 complete] [chiku_control - 0.3s]\n                                            \n[0.8s] [0/1 complete] [chiku_control - 0.4s]\n                                            \n[0.9s] [0/1 complete] [chiku_control - 0.5s]\n                                            \n[1.0s] [0/1 complete] [chiku_control - 0.6s]\n                                            \n[1.1s] [0/1 complete] [chiku_control - 0.7s]\n                                            \n[1.2s] [0/1 complete] [chiku_control - 0.8s]\n                                            \n[1.3s] [0/1 complete] [chiku_control - 0.9s]\n                                            \n[1.4s] [0/1 complete] [chiku_control - 1.0s]\n                                            \n[1.5s] [0/1 complete] [chiku_control - 1.1s]\n                                            \n[1.6s] [0/1 complete] [chiku_control - 1.2s]\n                                            \n[1.7s] [0/1 complete] [chiku_control - 1.3s]\n                                            \n[1.8s] [0/1 complete] [chiku_control - 1.4s]\n                                            \n[1.9s] [0/1 complete] [chiku_control - 1.5s]\n                                            \n[2.0s] [0/1 complete] [chiku_control - 1.6s]\n                                            \n[2.1s] [0/1 complete] [chiku_control - 1.7s]\n                                            \n[2.2s] [0/1 complete] [chiku_control - 1.8s]\n                                            \n[2.3s] [0/1 complete] [chiku_control - 1.9s]\n                                            \n[2.4s] [0/1 complete] [chiku_control - 2.0s]\n                                            \n[2.5s] [0/1 complete] [chiku_control - 2.1s]\n                                            \n[2.6s] [0/1 complete] [chiku_control - 2.2s]\n                                            \n[2.7s] [0/1 complete] [chiku_control - 2.3s]\n                                            \n[2.8s] [0/1 complete] [chiku_control - 2.4s]\n                                            \n[2.9s] [0/1 complete] [chiku_control - 2.5s]\n                                            \n[3.0s] [0/1 complete] [chiku_control - 2.6s]\n                                            \n[3.1s] [0/1 complete] [chiku_control - 2.7s]\n                                            \n[3.2s] [0/1 complete] [chiku_control - 2.8s]\n                                            \n[3.3s] [0/1 complete] [chiku_control - 2.9s]\n                                            \n[3.4s] [0/1 complete] [chiku_control - 3.0s]\n                                            \n[3.5s] [0/1 complete] [chiku_control - 3.1s]\n                                            \nFinished <<< chiku_control [3.16s]\n\nSummary: 1 package finished [3.53s]\n",
+   "exit": 0,
+   "secs": 4.1,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "source install/setup.bash",
+   "out": "",
+   "exit": 0,
+   "secs": 1.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 run chiku_control spawn_client",
+   "out": "[INFO] [1792426437.950946495] [spawn_client]: turtlesim made a turtle called chiku2\n",
+   "exit": 0,
+   "secs": 2.2,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws",
+   "other_terminals": {
+    "100": "[INFO] [1792426437.888456685] [turtlesim]: Spawning turtle [chiku2] at x=[2.000000], y=[8.000000], theta=[0.000000]\n"
+   }
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 run chiku_control spawn_client",
+   "out": "[INFO] [1792426440.328170694] [spawn_client]: turtlesim made a turtle called \n",
+   "exit": 0,
+   "secs": 1.9,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws",
+   "other_terminals": {
+    "100": "[ERROR] [1792426440.303942611] [turtlesim]: A turtle named [chiku2] already exists\n"
+   }
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 run chiku_control turtle_artist",
+   "out": "[INFO] [1792426442.666787812] [turtle_artist]: spawned artist\n[INFO] [1792426443.010799571] [turtle_artist]: line to (8.0, 2.0)\n[INFO] [1792426443.026934476] [turtle_artist]: line to (5.0, 7.0)\n[INFO] [1792426443.042731085] [turtle_artist]: line to (2.0, 2.0)\n",
+   "exit": 0,
+   "secs": 2.3,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws",
+   "other_terminals": {
+    "100": "[INFO] [1792426442.630938520] [turtlesim]: Spawning turtle [artist] at x=[2.000000], y=[2.000000], theta=[0.000000]\n"
+   }
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 service list",
+   "out": "/artist/set_pen\n/artist/teleport_absolute\n/artist/teleport_relative\n/chiku2/set_pen\n/chiku2/teleport_absolute\n/chiku2/teleport_relative\n/clear\n/kill\n/reset\n/spawn\n/turtle1/set_pen\n/turtle1/teleport_absolute\n/turtle1/teleport_relative\n/turtlesim/describe_parameters\n/turtlesim/get_parameter_types\n/turtlesim/get_parameters\n/turtlesim/get_type_description\n/turtlesim/list_parameters\n/turtlesim/set_parameters\n/turtlesim/set_parameters_atomically\n",
+   "exit": 0,
+   "secs": 1.3,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  }
+ ],
+ "pre": [
+  {
+   "name": "turtlesim",
+   "cmd": "ros2 run turtlesim turtlesim_node",
+   "out": "[INFO] [1792426423.703284156] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792426423.729179504] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
+   "state": "still running after 4 s"
+  }
+ ],
+ "notes": [
+  "pre-running terminal 100 output during block: "
+ ],
+ "finished": "2026-10-19T21:44:07+0530"
+}

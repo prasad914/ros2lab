@@ -1,0 +1,76 @@
+# Excerpt of parity/fixtures/lessons/IN4/term2_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson IN4 terminal 2: Practice: explore the ecosystem
+2:# scratch HOME /home/prasad/lesson_ws/homes/IN4_t2 shown as /home/student; sourced=False running=[] start=None
+3:## [term 1] $ source /opt/ros/jazzy/setup.bash   (exit=0, 0.8 s, finished, cwd=/home/student)
+4:
+5:## [term 1] $ ros2 pkg list | grep turtle   (exit=0, 0.9 s, finished, cwd=/home/student)
+6:turtlebot3
+7:turtlebot3_applications
+8:turtlebot3_applications_msgs
+9:turtlebot3_aruco_tracker
+10:turtlebot3_automatic_parking
+11:turtlebot3_automatic_parking_vision
+12:turtlebot3_autorace
+13:turtlebot3_autorace_camera
+14:turtlebot3_autorace_detect
+15:turtlebot3_autorace_mission
+16:turtlebot3_bringup
+17:turtlebot3_cartographer
+18:turtlebot3_description
+19:turtlebot3_example
+20:turtlebot3_fake_node
+21:turtlebot3_follower
+22:turtlebot3_gazebo
+23:turtlebot3_home_service_challenge
+24:turtlebot3_home_service_challenge_aruco
+25:turtlebot3_home_service_challenge_core
+26:turtlebot3_home_service_challenge_manipulator
+27:turtlebot3_home_service_challenge_tools
+28:turtlebot3_manipulation
+29:turtlebot3_manipulation_bringup
+30:turtlebot3_manipulation_cartographer
+31:turtlebot3_manipulation_description
+32:turtlebot3_manipulation_hardware
+33:turtlebot3_manipulation_moveit_config
+34:turtlebot3_manipulation_navigation2
+35:turtlebot3_manipulation_teleop
+36:turtlebot3_msgs
+37:turtlebot3_navigation2
+38:turtlebot3_node
+39:turtlebot3_panorama
+40:turtlebot3_simulations
+41:turtlebot3_teleop
+42:turtlebot3_yolo_object_detection
+43:turtlebot4_description
+44:turtlebot4_desktop
+45:turtlebot4_gz_bringup
+46:turtlebot4_gz_gui_plugins
+47:turtlebot4_gz_toolbox
+48:turtlebot4_msgs
+49:turtlebot4_navigation
+50:turtlebot4_node
+51:turtlebot4_simulator
+52:turtlebot4_viz
+53:turtlesim
+54:
+55:## [term 1] $ ros2 pkg executables demo_nodes_py   (exit=0, 1.0 s, finished, cwd=/home/student)
+56:demo_nodes_py add_two_ints_client
+57:demo_nodes_py add_two_ints_client_async
+58:demo_nodes_py add_two_ints_server
+59:demo_nodes_py async_param_client
+60:demo_nodes_py introspection
+61:demo_nodes_py listener
+62:demo_nodes_py listener_qos
+63:demo_nodes_py listener_serialized
+64:demo_nodes_py matched_event_detect
+65:demo_nodes_py set_parameters_callback
+66:demo_nodes_py talker
+67:demo_nodes_py talker_qos
+68:demo_nodes_py use_logger_service
+69:
+70:## [term 1] $ apt search slam
+71:PENDING: needs sudo/apt (run rules: never sudo or apt on this machine)
+72:## [term 1] $ sudo apt install ros-jazzy-slam-toolbox
+73:PENDING: needs sudo/apt (run rules: never sudo or apt on this machine)

@@ -1,0 +1,75 @@
+# Excerpt of parity/fixtures/lessons/D6/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson D6 terminal 1: Practice: create a second turtle
+2:# scratch HOME /home/prasad/lesson_ws/homes/D6_t1 shown as /home/student; sourced=True running=['turtlesim', 'teleop'] start=None
+3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
+4:[INFO] [1792425632.158780919] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792425632.175228129] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+6:
+7:## [pre-running terminal] $ ros2 run turtlesim turtle_teleop_key  (still running after 4 s)
+8:Reading from keyboard
+9:---------------------------
+10:Use arrow keys to move the turtle.
+11:Use g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.
+12:'q' to quit.
+13:
+14:## [term 1] $ ros2 service list   (exit=0, 1.4 s, finished, cwd=/home/student)
+15:/clear
+16:/kill
+17:/reset
+18:/spawn
+19:/teleop_turtle/describe_parameters
+20:/teleop_turtle/get_parameter_types
+21:/teleop_turtle/get_parameters
+22:/teleop_turtle/get_type_description
+23:/teleop_turtle/list_parameters
+24:/teleop_turtle/set_parameters
+25:/teleop_turtle/set_parameters_atomically
+26:/turtle1/set_pen
+27:/turtle1/teleport_absolute
+28:/turtle1/teleport_relative
+29:/turtlesim/describe_parameters
+30:/turtlesim/get_parameter_types
+31:/turtlesim/get_parameters
+32:/turtlesim/get_type_description
+33:/turtlesim/list_parameters
+34:/turtlesim/set_parameters
+35:/turtlesim/set_parameters_atomically
+36:
+37:## [term 1] $ ros2 service type /spawn   (exit=0, 1.0 s, finished, cwd=/home/student)
+38:turtlesim/srv/Spawn
+39:
+40:## [term 1] $ ros2 service call /spawn turtlesim/srv/Spawn "{x: 2, y: 2, theta: 0.2, name: ''}"   (exit=0, 1.9 s, finished, cwd=/home/student)
+41:waiting for service to become available...
+42:requester: making request: turtlesim.srv.Spawn_Request(x=2.0, y=2.0, theta=0.2, name='')
+43:
+44:response:
+45:turtlesim.srv.Spawn_Response(name='turtle2')
+46:
+47:
+48:### output meanwhile in terminal 100:
+49:[INFO] [1792425648.918941253] [turtlesim]: Spawning turtle [turtle2] at x=[2.000000], y=[2.000000], theta=[0.200000]
+50:
+51:## [term 1] $ ros2 topic list   (exit=0, 1.3 s, finished, cwd=/home/student)
+52:/parameter_events
+53:/rosout
+54:/turtle1/cmd_vel
+55:/turtle1/color_sensor
+56:/turtle1/pose
+57:/turtle2/cmd_vel
+58:/turtle2/color_sensor
+59:/turtle2/pose
+60:
+61:## [term 1] $ ros2 service call /spawn turtlesim/srv/Spawn "{x: 8, y: 3, theta: 0.0, name: 'chiku'}"   (exit=0, 1.4 s, finished, cwd=/home/student)
+62:requester: making request: turtlesim.srv.Spawn_Request(x=8.0, y=3.0, theta=0.0, name='chiku')
+63:
+64:response:
+65:turtlesim.srv.Spawn_Response(name='chiku')
+66:
+67:
+68:### output meanwhile in terminal 100:
+69:[INFO] [1792425652.780449650] [turtlesim]: Spawning turtle [chiku] at x=[8.000000], y=[3.000000], theta=[0.000000]
+70:
+71:# note: pre-running terminal 100 output during block: 
+72:# note: pre-running terminal 101 output during block: 

@@ -1,0 +1,49 @@
+# Excerpt of parity/fixtures/lessons/IN3/term2_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson IN3 terminal 2: Practice: find all five parts on a live turtle
+2:# scratch HOME /home/prasad/lesson_ws/homes/IN3_t2 shown as /home/student; sourced=True running=['turtlesim'] start=None
+3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
+4:[INFO] [1792425209.319628095] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792425209.334544207] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+6:
+7:## [term 1] $ ros2 node list   (exit=0, 1.7 s, finished, cwd=/home/student)
+8:/turtlesim
+9:
+10:## [term 1] $ ros2 topic echo --once /turtle1/pose   (exit=0, 2.3 s, finished, cwd=/home/student)
+11:x: 5.544444561004639
+12:y: 5.544444561004639
+13:theta: 0.0
+14:linear_velocity: 0.0
+15:angular_velocity: 0.0
+16:---
+17:
+18:## [term 1] $ ros2 service call /spawn turtlesim/srv/Spawn "{x: 3, y: 3, theta: 0.0, name: 'buddy'}"   (exit=0, 2.0 s, finished, cwd=/home/student)
+19:requester: making request: turtlesim.srv.Spawn_Request(x=3.0, y=3.0, theta=0.0, name='buddy')
+20:
+21:response:
+22:turtlesim.srv.Spawn_Response(name='buddy')
+23:
+24:
+25:### output meanwhile in terminal 100:
+26:[INFO] [1792425222.321693732] [turtlesim]: Spawning turtle [buddy] at x=[3.000000], y=[3.000000], theta=[0.000000]
+27:
+28:## [term 1] $ ros2 action send_goal /turtle1/rotate_absolute turtlesim/action/RotateAbsolute "{theta: 1.57}"   (exit=0, 3.3 s, finished, cwd=/home/student)
+29:Waiting for an action server to become available...
+30:Sending goal:
+31:     theta: 1.57
+32:
+33:Goal accepted with ID: 695bbb18e7284d5d93c609f11839509e
+34:
+35:Result:
+36:    delta: -1.5520000457763672
+37:
+38:Goal finished with status: SUCCEEDED
+39:
+40:### output meanwhile in terminal 100:
+41:[INFO] [1792425226.085320330] [turtlesim]: Rotation goal completed successfully
+42:
+43:## [term 1] $ ros2 param set /turtlesim background_r 230   (exit=0, 2.1 s, finished, cwd=/home/student)
+44:Set parameter successful
+45:
+46:# note: pre-running terminal 100 output during block: 

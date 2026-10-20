@@ -1,0 +1,76 @@
+{
+ "lesson": "IN6",
+ "term": 1,
+ "title": "Practice: which ROS am I running?",
+ "sourced": false,
+ "running": [],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/IN6_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T19:50:35+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "echo $ROS_DISTRO",
+   "out": "\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "source /opt/ros/jazzy/setup.bash",
+   "out": "",
+   "exit": 0,
+   "secs": 0.7,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "echo $ROS_DISTRO",
+   "out": "jazzy\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "echo $ROS_VERSION",
+   "out": "2\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "lsb_release -a",
+   "out": "No LSB modules are available.\nDistributor ID:\tUbuntu\nDescription:\tUbuntu 24.04.5 LTS\nRelease:\t24.04\nCodename:\tnoble\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T19:50:39+0530"
+}

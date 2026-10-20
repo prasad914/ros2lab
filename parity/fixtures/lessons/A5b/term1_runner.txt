@@ -1,0 +1,38 @@
+# Excerpt of parity/fixtures/lessons/A5b/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson A5b terminal 1: Practice: lock and unlock files
+2:# scratch HOME /home/prasad/lesson_ws/homes/A5b_t1 shown as /home/student; sourced=False running=[] start=None
+3:## [term 1] $ ls -l   (exit=0, 0.0 s, finished, cwd=/home/student)
+4:total 28
+5:-rw-r--r-- 1 prasad prasad   21 Oct 19 19:43 blink.py
+6:drwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Desktop
+7:drwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Documents
+8:drwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Downloads
+9:drwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Music
+10:drwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Pictures
+11:-rw-r--r-- 1 prasad prasad   30 Oct 19 19:43 secret_plan.txt
+12:
+13:## [term 1] $ chmod 600 secret_plan.txt   (exit=0, 0.0 s, finished, cwd=/home/student)
+14:
+15:## [term 1] $ chmod 755 blink.py   (exit=0, 0.0 s, finished, cwd=/home/student)
+16:
+17:## [term 1] $ ls -l   (exit=0, 0.0 s, finished, cwd=/home/student)
+18:total 28
+19:-rwxr-xr-x 1 prasad prasad   21 Oct 19 19:43 blink.py
+20:drwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Desktop
+21:drwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Documents
+22:drwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Downloads
+23:drwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Music
+24:drwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Pictures
+25:-rw------- 1 prasad prasad   30 Oct 19 19:43 secret_plan.txt
+26:
+27:## [term 1] $ ./blink.py   (exit=2, 0.0 s, finished, cwd=/home/student)
+28:./blink.py: line 1: syntax error near unexpected token `"blink blink"'
+29:./blink.py: line 1: `print("blink blink")'
+30:
+31:## [term 1] $ chmod -x blink.py   (exit=0, 0.0 s, finished, cwd=/home/student)
+32:
+33:## [term 1] $ ./blink.py   (exit=126, 0.0 s, finished, cwd=/home/student)
+34:bash: ./blink.py: Permission denied
+35:

@@ -2001,7 +2001,11 @@ export function createRviz(container, opts = {}) {
       if (ids.length) { S.tools = ids; if (!ids.includes(S.tool)) S.tool = ids[0]; renderToolbar(); }
     }
     if (Array.isArray(cfg.Panels)) buildPanels(cfg.Panels);
-    if (go["Fixed Frame"]) S.fixedFrame = String(go["Fixed Frame"]).replace(/^\//, "");
+    if (go["Fixed Frame"]) {
+      S.fixedFrame = String(go["Fixed Frame"]).replace(/^\//, "");
+      // the page's frame manager (Global Status, tools) uses the file's frame too
+      if (opts.frameManager && typeof opts.frameManager.setFixedFrame === "function") opts.frameManager.setFixedFrame(S.fixedFrame, { persist: false });
+    }
     if (go["Background Color"]) { S.background = String(go["Background Color"]).trim(); bg(); }
     if (Number.isFinite(Number(go["Frame Rate"]))) S.frameRate = Number(go["Frame Rate"]);
     const cur = vm.Views && vm.Views.Current;

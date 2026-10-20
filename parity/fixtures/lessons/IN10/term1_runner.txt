@@ -1,0 +1,28 @@
+# Excerpt of parity/fixtures/lessons/IN10/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson IN10 terminal 1: Practice: set your domain
+2:# scratch HOME /home/prasad/lesson_ws/homes/IN10_t1 shown as /home/student; sourced=True running=['talker'] start=None
+3:## [pre-running terminal] $ ros2 run demo_nodes_cpp talker  (still running after 4 s)
+4:[INFO] [1792425410.320166139] [talker]: Publishing: 'Hello World: 1'
+5:[INFO] [1792425411.320133540] [talker]: Publishing: 'Hello World: 2'
+6:[INFO] [1792425412.320278431] [talker]: Publishing: 'Hello World: 3'
+7:
+8:## [term 1] $ echo $ROS_DOMAIN_ID   (exit=0, 0.0 s, finished, cwd=/home/student)
+9:52
+10:
+11:## [term 1] $ export ROS_DOMAIN_ID=7   (exit=0, 0.0 s, finished, cwd=/home/student)
+12:
+13:### output meanwhile in terminal 100:
+14:[INFO] [1792425416.320329209] [talker]: Publishing: 'Hello World: 7'
+15:
+16:## [term 1] $ echo "export ROS_DOMAIN_ID=7" >> ~/.bashrc   (exit=0, 0.0 s, finished, cwd=/home/student)
+17:
+18:## [term 1] $ ros2 daemon stop   (exit=0, 1.3 s, finished, cwd=/home/student)
+19:The daemon is not running
+20:
+21:### output meanwhile in terminal 100:
+22:[INFO] [1792425417.320280076] [talker]: Publishing: 'Hello World: 8'
+23:[INFO] [1792425418.320123584] [talker]: Publishing: 'Hello World: 9'
+24:
+25:# note: pre-running terminal 100 output during block: 

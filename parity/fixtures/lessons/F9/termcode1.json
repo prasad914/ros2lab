@@ -1,0 +1,39 @@
+{
+ "lesson": "F9",
+ "term": "code1",
+ "title": "Lesson code block commands: interface show SetBool",
+ "sourced": true,
+ "running": [
+  "turtlesim"
+ ],
+ "start": "~/ros2_ws",
+ "scratch_home": "/home/prasad/lesson_ws/homes/F9_tcode1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T22:08:54+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 interface show std_srvs/srv/SetBool",
+   "out": "bool data # e.g. for hardware enabling / disabling\n---\nbool success   # indicate successful run of triggered service\nstring message # informational, e.g. for error messages\n",
+   "exit": 0,
+   "secs": 0.9,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  }
+ ],
+ "pre": [
+  {
+   "name": "turtlesim",
+   "cmd": "ros2 run turtlesim turtlesim_node",
+   "out": "[INFO] [1792427936.134073882] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792427936.144113026] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
+   "state": "still running after 4 s"
+  }
+ ],
+ "notes": [
+  "pre-running terminal 100 output during block: "
+ ],
+ "finished": "2026-10-19T22:09:05+0530"
+}

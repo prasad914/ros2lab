@@ -1,0 +1,13 @@
+{
+ "case": "drop_typebullet",
+ "run": 3,
+ "world_file": "parity/scripts/physics/worlds/drop_typebullet.sdf",
+ "gz_partition": "phys50_drop_typebullet_3_1218292",
+ "ros_domain_id": "50",
+ "server_cmd": "gz sim -s -v 4 /home/prasad/ros2lab-course/parity/scripts/physics/worlds/drop_typebullet.sdf",
+ "unpause_reply": "data: true",
+ "wall_seconds_after_unpause": 5.75,
+ "server_exit": null,
+ "model_info": {},
+ "date": "2026-10-19T22:15:55+0530"
+}

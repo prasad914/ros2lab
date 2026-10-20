@@ -1,0 +1,26 @@
+# Excerpt of parity/fixtures/lessons/D6/termcode1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson D6 terminal code1: Lesson code block commands: interface show Spawn
+2:# scratch HOME /home/prasad/lesson_ws/homes/D6_tcode1 shown as /home/student; sourced=True running=['turtlesim', 'teleop'] start=None
+3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
+4:[INFO] [1792427883.084779833] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792427883.100647146] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+6:
+7:## [pre-running terminal] $ ros2 run turtlesim turtle_teleop_key  (still running after 4 s)
+8:Reading from keyboard
+9:---------------------------
+10:Use arrow keys to move the turtle.
+11:Use g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.
+12:'q' to quit.
+13:
+14:## [term 1] $ ros2 interface show turtlesim/srv/Spawn   (exit=0, 1.0 s, finished, cwd=/home/student)
+15:float32 x
+16:float32 y
+17:float32 theta
+18:string name # Optional.  A unique name will be created and returned if this is empty
+19:---
+20:string name
+21:
+22:# note: pre-running terminal 100 output during block: 
+23:# note: pre-running terminal 101 output during block: 

@@ -60,6 +60,7 @@ const HOST = {
   done(job, code) { post({ type: "done", job, code }); },
   load_composable(job, reqJson) { return ask("loadComposable", job, reqJson); },
   lifecycle(job, reqJson) { return ask("lifecycle", job, reqJson); },
+  preflight(job, reqJson) { return ask("preflight", job, reqJson); },
 };
 function ask(type, job, reqJson) {
   const reqId = ++reqSeq;
@@ -146,9 +147,9 @@ function readFile({ path }) {
 // ---------------------------------------------------------------------------------------------- messages
 const handlers = {
   init, mount, mountZip, registerPackages, readFile,
-  launch({ job, argv, env, cwd, pid, tty, hostSignals }) {
+  launch({ job, argv, env, cwd, pid, tty, hostSignals, preflight }) {
     const a = py.toPy(argv), e = py.toPy(env);
-    const task = R.start_job(job, a, e, cwd || undefined, pid, tty !== false, !!hostSignals);
+    const task = R.start_job(job, a, e, cwd || undefined, pid, tty !== false, !!hostSignals, !!preflight);
     task.destroy(); a.destroy(); e.destroy();   // Python keeps the task alive until the job ends
     return { job };
   },

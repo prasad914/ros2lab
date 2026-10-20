@@ -1,0 +1,152 @@
+{
+ "lesson": "IN2",
+ "term": 1,
+ "title": "Practice: C++ and Python talking (multi-lingual)",
+ "sourced": false,
+ "running": [],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/IN2_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:22:38+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "source /opt/ros/jazzy/setup.bash",
+   "out": "",
+   "exit": 0,
+   "secs": 0.7,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 run demo_nodes_cpp talker",
+   "out": "[INFO] [1792425162.090693835] [talker]: Publishing: 'Hello World: 1'\n[INFO] [1792425163.090684660] [talker]: Publishing: 'Hello World: 2'\n[INFO] [1792425164.090605822] [talker]: Publishing: 'Hello World: 3'\n[INFO] [1792425165.090642564] [talker]: Publishing: 'Hello World: 4'\n[INFO] [1792425166.090641026] [talker]: Publishing: 'Hello World: 5'\n[INFO] [1792425167.090646265] [talker]: Publishing: 'Hello World: 6'\n[INFO] [1792425168.090673595] [talker]: Publishing: 'Hello World: 7'\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 2,
+   "kind": "newTerminal",
+   "status": "RAN"
+  },
+  {
+   "task": 3,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "source /opt/ros/jazzy/setup.bash",
+   "out": "",
+   "exit": 0,
+   "secs": 0.8,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "1": "[INFO] [1792425170.090513851] [talker]: Publishing: 'Hello World: 9'\n"
+   }
+  },
+  {
+   "task": 3,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 run demo_nodes_py listener",
+   "out": "[INFO] [1792425173.144290080] [listener]: I heard: [Hello World: 12]\n[INFO] [1792425174.094110269] [listener]: I heard: [Hello World: 13]\n[INFO] [1792425175.093717980] [listener]: I heard: [Hello World: 14]\n[INFO] [1792425176.093946352] [listener]: I heard: [Hello World: 15]\n[INFO] [1792425177.093911082] [listener]: I heard: [Hello World: 16]\n[INFO] [1792425178.094228229] [listener]: I heard: [Hello World: 17]\n[INFO] [1792425179.092189889] [listener]: I heard: [Hello World: 18]\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "1": "[INFO] [1792425172.090673710] [talker]: Publishing: 'Hello World: 11'\n[INFO] [1792425173.090638389] [talker]: Publishing: 'Hello World: 12'\n[INFO] [1792425174.090613665] [talker]: Publishing: 'Hello World: 13'\n[INFO] [1792425175.090599070] [talker]: Publishing: 'Hello World: 14'\n[INFO] [1792425176.090736074] [talker]: Publishing: 'Hello World: 15'\n[INFO] [1792425177.090742266] [talker]: Publishing: 'Hello World: 16'\n[INFO] [1792425178.090619400] [talker]: Publishing: 'Hello World: 17'\n[INFO] [1792425179.090527783] [talker]: Publishing: 'Hello World: 18'\n"
+   }
+  },
+  {
+   "task": 4,
+   "term": 3,
+   "kind": "newTerminal",
+   "status": "RAN"
+  },
+  {
+   "task": 4,
+   "term": 3,
+   "kind": "cmd",
+   "cmd": "source /opt/ros/jazzy/setup.bash",
+   "out": "",
+   "exit": 0,
+   "secs": 0.8,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "1": "[INFO] [1792425181.090645708] [talker]: Publishing: 'Hello World: 20'\n",
+    "2": "[INFO] [1792425181.093169317] [listener]: I heard: [Hello World: 20]\n"
+   }
+  },
+  {
+   "task": 4,
+   "term": 3,
+   "kind": "cmd",
+   "cmd": "ros2 node list",
+   "out": "/listener\n/talker\n",
+   "exit": 0,
+   "secs": 1.3,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "1": "[INFO] [1792425182.090632184] [talker]: Publishing: 'Hello World: 21'\n[INFO] [1792425183.090566268] [talker]: Publishing: 'Hello World: 22'\n",
+    "2": "[INFO] [1792425183.091902695] [listener]: I heard: [Hello World: 22]\n"
+   }
+  },
+  {
+   "task": 5,
+   "term": 3,
+   "kind": "cmd",
+   "cmd": "ros2 topic info /chatter",
+   "out": "Type: std_msgs/msg/String\nPublisher count: 1\nSubscription count: 1\n",
+   "exit": 0,
+   "secs": 1.2,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "1": "[INFO] [1792425184.090558297] [talker]: Publishing: 'Hello World: 23'\n[INFO] [1792425185.090596204] [talker]: Publishing: 'Hello World: 24'\n",
+    "2": "[INFO] [1792425184.094602668] [listener]: I heard: [Hello World: 23]\n[INFO] [1792425185.092336613] [listener]: I heard: [Hello World: 24]\n"
+   }
+  },
+  {
+   "term": 1,
+   "kind": "interrupt-at-end",
+   "of": "ros2 run demo_nodes_cpp talker",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792425162.090693835] [talker]: Publishing: 'Hello World: 1'\n[INFO] [1792425163.090684660] [talker]: Publishing: 'Hello World: 2'\n[INFO] [1792425164.090605822] [talker]: Publishing: 'Hello World: 3'\n[INFO] [1792425165.090642564] [talker]: Publishing: 'Hello World: 4'\n[INFO] [1792425166.090641026] [talker]: Publishing: 'Hello World: 5'\n[INFO] [1792425167.090646265] [talker]: Publishing: 'Hello World: 6'\n[INFO] [1792425168.090673595] [talker]: Publishing: 'Hello World: 7'\n[INFO] [1792425185.615383612] [rclcpp]: signal_handler(SIGINT/SIGTERM)\n",
+   "exit": 0,
+   "status": "RAN"
+  },
+  {
+   "term": 2,
+   "kind": "interrupt-at-end",
+   "of": "ros2 run demo_nodes_py listener",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792425173.144290080] [listener]: I heard: [Hello World: 12]\n[INFO] [1792425174.094110269] [listener]: I heard: [Hello World: 13]\n[INFO] [1792425175.093717980] [listener]: I heard: [Hello World: 14]\n[INFO] [1792425176.093946352] [listener]: I heard: [Hello World: 15]\n[INFO] [1792425177.093911082] [listener]: I heard: [Hello World: 16]\n[INFO] [1792425178.094228229] [listener]: I heard: [Hello World: 17]\n[INFO] [1792425179.092189889] [listener]: I heard: [Hello World: 18]\n",
+   "exit": 0,
+   "status": "RAN"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T21:23:07+0530"
+}

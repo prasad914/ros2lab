@@ -1,0 +1,24 @@
+# lines of server.log (gitignored) matching engine/warning/error keywords; <line>:<text>
+2:[Msg] Loading SDF world file[/home/prasad/ros2lab-course/parity/scripts/physics/worlds/tb3_sensors_empty.sdf].
+3:Warning [Utils.cc:132] [/sdf/model[@name="turtlebot3_burger"]/link[@name="base_scan"]/sensor[@name="hls_lfcd_lds"]/gz_frame_id:/opt/ros/jazzy/share/turtlebot3_gazebo/models/turtlebot3_burger/model.sdf:L141]: XML Element[gz_frame_id], child of element[sensor], not defined in SDF. Copying[gz_frame_id] as children of [sensor].
+5:[Dbg] [Physics.cc:1004] Loaded [gz::physics::dartsim::Plugin] from library [/opt/ros/jazzy/opt/gz_physics_vendor/lib/gz-physics-7/engine-plugins/libgz-physics-dartsim-plugin.so]
+6:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::Physics] for entity [1]
+17:[Msg] Physics service on [/world/tb3_sensors_empty/set_physics] (async)
+18:[Msg] Physics service on [/world/tb3_sensors_empty/set_physics/blocking] (blocking)
+29:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::UserCommands] for entity [1]
+30:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::SceneBroadcaster] for entity [1]
+34:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::ApplyLinkWrench] for entity [1]
+35:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::Contact] for entity [1]
+38:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::Sensors] for entity [1]
+41:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::Imu] for entity [1]
+43:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::DiffDrive] for entity [8]
+44:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::JointStatePublisher] for entity [8]
+45:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::PosePublisher] for entity [8]
+46:[Msg] Loaded level [default]
+49:[Msg] World [tb3_sensors_empty] initialized with [1ms] physics profile.
+61:[Dbg] [SimulationRunner.cc:638] Creating postupdlibEGL warning: pci id for fd 54: 10de:28a1, driver (null)
+65:libEGL warning: egl: failed to create dri2 screen
+66:libEGL warning: pci id for fd 54: 10de:28a1, driver (null)
+70:libEGL warning: egl: failed to create dri2 screen
+71:libEGL warning: pci id for fd 54: 10de:28a1, driver (null)
+81:[Msg] [Dbg] [ImuSensor.cc:150] IMU data for [Loading plugin [gz-rendering-ogre2]burger::imu_link::tb3_imu] advertised on [imu

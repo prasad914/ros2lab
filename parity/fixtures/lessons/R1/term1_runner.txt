@@ -1,0 +1,32 @@
+# Excerpt of parity/fixtures/lessons/R1/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson R1 terminal 1: Practice: check a computer is ready
+2:# scratch HOME /home/prasad/lesson_ws/homes/R1_t1 shown as /home/student; sourced=False running=[] start=None
+3:## [term 1] $ lsb_release -a   (exit=0, 0.0 s, finished, cwd=/home/student)
+4:No LSB modules are available.
+5:Distributor ID:	Ubuntu
+6:Description:	Ubuntu 24.04.5 LTS
+7:Release:	24.04
+8:Codename:	noble
+9:
+10:## [term 1] $ free -h   (exit=0, 0.0 s, finished, cwd=/home/student)
+11:               total        used        free      shared  buff/cache   available
+12:Mem:            15Gi       8.1Gi       1.1Gi       1.2Gi       6.9Gi       7.3Gi
+13:Swap:          4.0Gi       415Mi       3.6Gi
+14:
+15:## [term 1] $ df -h   (exit=0, 0.0 s, finished, cwd=/home/student)
+16:Filesystem      Size  Used Avail Use% Mounted on
+17:tmpfs           1.6G  3.5M  1.6G   1% /run
+18:/dev/nvme0n1p5   89G   66G   19G  78% /
+19:tmpfs           7.7G  109M  7.6G   2% /dev/shm
+20:tmpfs           5.0M   12K  5.0M   1% /run/lock
+21:efivarfs        192K  136K   52K  73% /sys/firmware/efi/efivars
+22:/dev/nvme0n1p1  296M   39M  258M  13% /boot/efi
+23:tmpfs           1.6G  5.0M  1.6G   1% /run/user/1000
+24:
+25:## [term 1] $ nproc   (exit=0, 0.0 s, finished, cwd=/home/student)
+26:12
+27:
+28:## [term 1] $ sudo apt update
+29:PENDING: needs sudo/apt (run rules: never sudo or apt on this machine)

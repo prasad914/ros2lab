@@ -1,0 +1,119 @@
+{
+ "lesson": "D3",
+ "term": 1,
+ "title": "Practice: spy on turtlesim's topics",
+ "sourced": true,
+ "running": [
+  "turtlesim",
+  "teleop"
+ ],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/D3_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:29:08+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 topic list",
+   "out": "/parameter_events\n/rosout\n/turtle1/cmd_vel\n/turtle1/color_sensor\n/turtle1/pose\n",
+   "exit": 0,
+   "secs": 1.3,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 topic list -t",
+   "out": "/parameter_events [rcl_interfaces/msg/ParameterEvent]\n/rosout [rcl_interfaces/msg/Log]\n/turtle1/cmd_vel [geometry_msgs/msg/Twist]\n/turtle1/color_sensor [turtlesim/msg/Color]\n/turtle1/pose [turtlesim/msg/Pose]\n",
+   "exit": 0,
+   "secs": 1.2,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 topic info /turtle1/cmd_vel",
+   "out": "Type: geometry_msgs/msg/Twist\nPublisher count: 1\nSubscription count: 1\n",
+   "exit": 0,
+   "secs": 1.5,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 topic echo --once /turtle1/pose",
+   "out": "x: 5.544444561004639\ny: 5.544444561004639\ntheta: 0.0\nlinear_velocity: 0.0\nangular_velocity: 0.0\n---\n",
+   "exit": 0,
+   "secs": 2.1,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 topic hz /turtle1/pose",
+   "out": "average rate: 62.533\n\tmin: 0.015s max: 0.017s std dev: 0.00038s window: 64\naverage rate: 62.494\n\tmin: 0.015s max: 0.017s std dev: 0.00046s window: 127\naverage rate: 62.504\n\tmin: 0.015s max: 0.017s std dev: 0.00044s window: 190\naverage rate: 62.510\n\tmin: 0.015s max: 0.017s std dev: 0.00043s window: 253\naverage rate: 62.512\n\tmin: 0.014s max: 0.018s std dev: 0.00043s window: 316\naverage rate: 62.504\n\tmin: 0.014s max: 0.018s std dev: 0.00043s window: 379\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 6,
+   "term": 1,
+   "kind": "interrupt",
+   "of": "ros2 topic hz /turtle1/pose",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "average rate: 62.533\n\tmin: 0.015s max: 0.017s std dev: 0.00038s window: 64\naverage rate: 62.494\n\tmin: 0.015s max: 0.017s std dev: 0.00046s window: 127\naverage rate: 62.504\n\tmin: 0.015s max: 0.017s std dev: 0.00044s window: 190\naverage rate: 62.510\n\tmin: 0.015s max: 0.017s std dev: 0.00043s window: 253\naverage rate: 62.512\n\tmin: 0.014s max: 0.018s std dev: 0.00043s window: 316\naverage rate: 62.504\n\tmin: 0.014s max: 0.018s std dev: 0.00043s window: 379\n",
+   "exit": 2,
+   "status": "RAN"
+  },
+  {
+   "task": 6,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 topic echo /turtle1/Pose",
+   "out": "WARNING: topic [/turtle1/Pose] does not appear to be published yet\nCould not determine the type for the passed topic\n",
+   "exit": 1,
+   "secs": 1.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  }
+ ],
+ "pre": [
+  {
+   "name": "turtlesim",
+   "cmd": "ros2 run turtlesim turtlesim_node",
+   "out": "[INFO] [1792425550.632219577] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792425550.650120395] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
+   "state": "still running after 4 s"
+  },
+  {
+   "name": "teleop",
+   "cmd": "ros2 run turtlesim turtle_teleop_key",
+   "out": "Reading from keyboard\n---------------------------\nUse arrow keys to move the turtle.\nUse g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.\n'q' to quit.\n",
+   "state": "still running after 4 s"
+  }
+ ],
+ "notes": [
+  "pre-running terminal 100 output during block: ",
+  "pre-running terminal 101 output during block: "
+ ],
+ "finished": "2026-10-19T21:29:43+0530"
+}

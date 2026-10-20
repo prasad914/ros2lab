@@ -1,0 +1,62 @@
+# Excerpt of parity/fixtures/lessons/IN11/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson IN11 terminal 1: Practice: see the QoS of a real topic
+2:# scratch HOME /home/prasad/lesson_ws/homes/IN11_t1 shown as /home/student; sourced=True running=['talker', 'listener'] start=None
+3:## [pre-running terminal] $ ros2 run demo_nodes_cpp talker  (still running after 4 s)
+4:[INFO] [1792425423.448883336] [talker]: Publishing: 'Hello World: 1'
+5:[INFO] [1792425424.448835888] [talker]: Publishing: 'Hello World: 2'
+6:[INFO] [1792425425.448825917] [talker]: Publishing: 'Hello World: 3'
+7:
+8:## [pre-running terminal] $ ros2 run demo_nodes_py listener  (still running after 4 s)
+9:[INFO] [1792425429.478223902] [listener]: I heard: [Hello World: 7]
+10:[INFO] [1792425430.451810901] [listener]: I heard: [Hello World: 8]
+11:
+12:## [term 1] $ ros2 topic info -v /chatter   (exit=0, 1.3 s, finished, cwd=/home/student)
+13:Type: std_msgs/msg/String
+14:
+15:Publisher count: 1
+16:
+17:Node name: talker
+18:Node namespace: /
+19:Topic type: std_msgs/msg/String
+20:Topic type hash: RIHS01_df668c740482bbd48fb39d76a70dfd4bd59db1288021743503259e948f6b1a18
+21:Endpoint type: PUBLISHER
+22:GID: 01.0f.17.2e.d8.2d.31.4a.00.00.00.00.00.00.14.03
+23:QoS profile:
+24:  Reliability: RELIABLE
+25:  History (Depth): UNKNOWN
+26:  Durability: VOLATILE
+27:  Lifespan: Infinite
+28:  Deadline: Infinite
+29:  Liveliness: AUTOMATIC
+30:  Liveliness lease duration: Infinite
+31:
+32:Subscription count: 1
+33:
+34:Node name: listener
+35:Node namespace: /
+36:Topic type: std_msgs/msg/String
+37:Topic type hash: RIHS01_df668c740482bbd48fb39d76a70dfd4bd59db1288021743503259e948f6b1a18
+38:Endpoint type: SUBSCRIPTION
+39:GID: 01.0f.17.2e.fb.2d.9f.3c.00.00.00.00.00.00.13.04
+40:QoS profile:
+41:  Reliability: RELIABLE
+42:  History (Depth): UNKNOWN
+43:  Durability: VOLATILE
+44:  Lifespan: Infinite
+45:  Deadline: Infinite
+46:  Liveliness: AUTOMATIC
+47:  Liveliness lease duration: Infinite
+48:
+49:
+50:### output meanwhile in terminal 100:
+51:[INFO] [1792425434.448799235] [talker]: Publishing: 'Hello World: 12'
+52:[INFO] [1792425435.448844961] [talker]: Publishing: 'Hello World: 13'
+53:
+54:### output meanwhile in terminal 101:
+55:[INFO] [1792425434.450698264] [listener]: I heard: [Hello World: 12]
+56:[INFO] [1792425435.451734850] [listener]: I heard: [Hello World: 13]
+57:
+58:# note: pre-running terminal 100 output during block: 
+59:# note: pre-running terminal 101 output during block: 

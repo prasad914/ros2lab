@@ -1,0 +1,180 @@
+# Excerpt of parity/fixtures/lessons/N17b/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson N17b terminal 1: Live terminal: try to break the cruise control
+2:# scratch HOME /home/prasad/lesson_ws/homes/N17b_t1 shown as /home/student; sourced=True running=['turtlesim'] start=~/ros2_ws
+3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
+4:[INFO] [1792427219.733756817] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792427219.743969273] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+6:
+7:## [term 1] $ colcon build --packages-select chiku_control   (exit=0, 4.8 s, finished, cwd=/home/student/ros2_ws)
+8:[0.5s] [0/0 complete]
+9:                     
+10:Starting >>> chiku_control
+11:[0.6s] [0/1 complete] [chiku_control - 0.1s]
+12:                                            
+13:[0.7s] [0/1 complete] [chiku_control - 0.2s]
+14:                                            
+15:[0.8s] [0/1 complete] [chiku_control - 0.3s]
+16:                                            
+17:[0.9s] [0/1 complete] [chiku_control - 0.4s]
+18:                                            
+19:[1.0s] [0/1 complete] [chiku_control - 0.5s]
+20:                                            
+21:[1.1s] [0/1 complete] [chiku_control - 0.6s]
+22:                                            
+23:[1.2s] [0/1 complete] [chiku_control - 0.7s]
+24:                                            
+25:[1.3s] [0/1 complete] [chiku_control - 0.8s]
+26:                                            
+27:[1.4s] [0/1 complete] [chiku_control - 0.9s]
+28:                                            
+29:[1.5s] [0/1 complete] [chiku_control - 1.0s]
+30:                                            
+31:[1.6s] [0/1 complete] [chiku_control - 1.1s]
+32:                                            
+33:[1.7s] [0/1 complete] [chiku_control - 1.2s]
+34:                                            
+35:[1.8s] [0/1 complete] [chiku_control - 1.3s]
+36:                                            
+37:[1.9s] [0/1 complete] [chiku_control - 1.4s]
+38:                                            
+39:[2.0s] [0/1 complete] [chiku_control - 1.5s]
+40:                                            
+41:[2.1s] [0/1 complete] [chiku_control - 1.6s]
+42:                                            
+43:[2.2s] [0/1 complete] [chiku_control - 1.7s]
+44:                                            
+45:[2.3s] [0/1 complete] [chiku_control - 1.8s]
+46:                                            
+47:[2.4s] [0/1 complete] [chiku_control - 1.9s]
+48:                                            
+49:[2.5s] [0/1 complete] [chiku_control - 2.0s]
+50:                                            
+51:[2.6s] [0/1 complete] [chiku_control - 2.1s]
+52:                                            
+53:[2.7s] [0/1 complete] [chiku_control - 2.2s]
+54:                                            
+55:[2.8s] [0/1 complete] [chiku_control - 2.3s]
+56:                                            
+57:[2.9s] [0/1 complete] [chiku_control - 2.4s]
+58:                                            
+59:[3.0s] [0/1 complete] [chiku_control - 2.5s]
+60:                                            
+61:[3.1s] [0/1 complete] [chiku_control - 2.6s]
+62:                                            
+63:[3.2s] [0/1 complete] [chiku_control - 2.7s]
+64:                                            
+65:[3.3s] [0/1 complete] [chiku_control - 2.8s]
+66:                                            
+67:[3.4s] [0/1 complete] [chiku_control - 2.9s]
+68:                                            
+69:[3.5s] [0/1 complete] [chiku_control - 3.0s]
+70:                                            
+71:[3.6s] [0/1 complete] [chiku_control - 3.1s]
+72:                                            
+73:[3.7s] [0/1 complete] [chiku_control - 3.2s]
+74:                                            
+75:[3.8s] [0/1 complete] [chiku_control - 3.3s]
+76:                                            
+77:[3.9s] [0/1 complete] [chiku_control - 3.4s]
+78:                                            
+79:[4.0s] [0/1 complete] [chiku_control - 3.5s]
+80:                                            
+81:Finished <<< chiku_control [3.54s]
+82:
+83:Summary: 1 package finished [4.03s]
+84:
+85:## [term 1] $ source install/setup.bash   (exit=0, 0.9 s, finished, cwd=/home/student/ros2_ws)
+86:
+87:## [term 1] $ ros2 run chiku_control cruise_control   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student/ros2_ws)
+88:[INFO] [1792427234.357868470] [cruise_control]: chiku: speed=1.0 turn=0.5
+89:
+90:## [new terminal 2]
+91:## [term 2] $ ros2 param set /cruise_control speed 1.8   (exit=0, 1.9 s, finished, cwd=/home/student)
+92:Set parameter successful
+93:
+94:### output meanwhile in terminal 1:
+95:[INFO] [1792427244.198854216] [cruise_control]: speed changed to 1.8
+96:
+97:## [term 2] $ ros2 param set /cruise_control speed 5.0   (exit=0, 1.9 s, finished, cwd=/home/student)
+98:Setting parameter failed: Parameter speed out of range Min: 0.0, Max: 2.0, value: 5.0
+99:
+100:## [term 2] $ ros2 param set /cruise_control turn 4.0   (exit=0, 2.1 s, finished, cwd=/home/student)
+101:Setting parameter failed: turn must be between -3 and 3
+102:
+103:## [term 2] $ ros2 param set /cruise_control robot_name bob   (exit=0, 2.1 s, finished, cwd=/home/student)
+104:Setting parameter failed: Trying to set a read-only parameter: robot_name.
+105:
+106:### output meanwhile in terminal 100:
+107:[WARN] [1792427252.358173914] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.680814, y=-0.003787])
+108:[WARN] [1792427252.374470230] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.654866, y=-0.012495])
+109:[WARN] [1792427252.389553209] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.628819, y=-0.012287])
+110:[WARN] [1792427252.405908949] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.602674, y=-0.012079])
+111:[WARN] [1792427252.422184979] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.576434, y=-0.011869])
+112:[WARN] [1792427252.438548149] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.550099, y=-0.011659])
+113:[WARN] [1792427252.453879210] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.523672, y=-0.011448])
+114:[WARN] [1792427252.470090003] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.497154, y=-0.011236])
+115:[WARN] [1792427252.486358227] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.470547, y=-0.011023])
+116:[WARN] [1792427252.501677809] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.443853, y=-0.010810])
+117:[WARN] [1792427252.517763724] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.417073, y=-0.010596])
+118:[WARN] [1792427252.534012684] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.390209, y=-0.010382])
+119:[WARN] [1792427252.550431715] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.363264, y=-0.010166])
+120:[WARN] [1792427252.566310226] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.336237, y=-0.009951])
+121:[WARN] [1792427252.582484169] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.309132, y=-0.009734])
+122:[WARN] [1792427252.597706666] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.281950, y=-0.009517])
+123:[WARN] [1792427252.613742561] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.254692, y=-0.009299])
+124:[WARN] [1792427252.629875560] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.227362, y=-0.009081])
+125:[WARN] [1792427252.645774244] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.199959, y=-0.008862])
+126:[WARN] [1792427252.661825399] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.172486, y=-0.008642])
+127:[WARN] [1792427252.678341333] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.144945, y=-0.008422])
+128:[WARN] [1792427252.694696963] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.117338, y=-0.008202])
+129:[WARN] [1792427252.710204833] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.089665, y=-0.007981])
+130:[WARN] [1792427252.725936571] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.061930, y=-0.007759])
+131:[WARN] [1792427252.742175768] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.034134, y=-0.007537])
+132:[WARN] [1792427252.758238036] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=8.006278, y=-0.007314])
+133:[WARN] [1792427252.774137758] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.978365, y=-0.007091])
+134:[WARN] [1792427252.790379116] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.950396, y=-0.006868])
+135:[WARN] [1792427252.806322177] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.922372, y=-0.006644])
+136:[WARN] [1792427252.821710156] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.894297, y=-0.006419])
+137:[WARN] [1792427252.838675403] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.866171, y=-0.006194])
+138:[WARN] [1792427252.854148823] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.837996, y=-0.005969])
+139:[WARN] [1792427252.870096607] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.809775, y=-0.005744])
+140:[WARN] [1792427252.886319801] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.781508, y=-0.005518])
+141:[WARN] [1792427252.901561499] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.753199, y=-0.005291])
+142:[WARN] [1792427252.918960335] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.724848, y=-0.005065])
+143:[WARN] [1792427252.933580338] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.696457, y=-0.004838])
+144:[WARN] [1792427252.949793401] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.668028, y=-0.004610])
+145:[WARN] [1792427252.966122513] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.639564, y=-0.004383])
+146:[WARN] [1792427252.982056395] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.611065, y=-0.004155])
+147:[WARN] [1792427252.998136084] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.582534, y=-0.003927])
+148:[WARN] [1792427253.014260037] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.553972, y=-0.003699])
+149:[WARN] [1792427253.029723994] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.525382, y=-0.003470])
+150:[WARN] [1792427253.045897771] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.496765, y=-0.003241])
+151:[WARN] [1792427253.062456142] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.468123, y=-0.003012])
+152:[WARN] [1792427253.077701547] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.439458, y=-0.002783])
+153:[WARN] [1792427253.093903211] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.410771, y=-0.002553])
+154:[WARN] [1792427253.109886133] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.382065, y=-0.002324])
+155:[WARN] [1792427253.125899292] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.353341, y=-0.002094])
+156:[WARN] [1792427253.141990501] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.324602, y=-0.001864])
+157:[WARN] [1792427253.158166365] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.295848, y=-0.001634])
+158:[WARN] [1792427253.173711067] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.267083, y=-0.001404])
+159:[WARN] [1792427253.189861915] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.238306, y=-0.001174])
+160:[WARN] [1792427253.206330780] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.209522, y=-0.000944])
+161:[WARN] [1792427253.222036543] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.180731, y=-0.000714])
+162:[WARN] [1792427253.238219884] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.151935, y=-0.000483])
+163:[WARN] [1792427253.254457229] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.123136, y=-0.000253])
+164:[WARN] [1792427253.269504539] [turtlesim]: Oh no! I hit the wall! (Clamping from [x=7.094336, y=-0.000022])
+165:
+166:## [term 2] $ ros2 param describe /cruise_control speed   (exit=0, 2.1 s, finished, cwd=/home/student)
+167:Parameter name: speed
+168:  Type: double
+169:  Description: Forward speed in m/s
+170:  Constraints:
+171:    Min value: 0.0
+172:    Max value: 2.0
+173:
+174:## [term 1] Ctrl+C to stop: ros2 run chiku_control cruise_control  (exit=0)
+175:[INFO] [1792427234.357868470] [cruise_control]: chiku: speed=1.0 turn=0.5
+176:
+177:# note: pre-running terminal 100 output during block: 

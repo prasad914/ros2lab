@@ -1,5 +1,8 @@
 // Public pages: when someone is logged in, the header shows their own links
 // (My course / My account / Log out) instead of "Log in" and "Register".
+// the sticky header's height for scroll-padding-top (app.css): it grows on a phone (two rows) and when it wraps
+const top = document.querySelector("header.top");
+if (top) { const set = () => document.documentElement.style.setProperty("--top-h", `${top.offsetHeight}px`); set(); if (typeof ResizeObserver === "function") new ResizeObserver(set).observe(top); }
 (async () => {
   const who = document.getElementById("who");
   if (!who) return;
