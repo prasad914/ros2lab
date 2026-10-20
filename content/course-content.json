@@ -18696,14 +18696,14 @@
       {
        "t": "code",
        "lang": "bash",
-       "text": "# 1. while the node runs\nros2 param set /speed_driver speed 2.5\n\n# 2. when it starts, on the command line\nros2 run chiku_control speed_driver --ros-args -p speed:=0.5 -p robot_name:=bolt\n\n# 3. when it starts, from a YAML file\nros2 run chiku_control speed_driver --ros-args --params-file config/speed.yaml"
+       "text": "# 1. while the node runs\nros2 param set /speed_driver speed 2.5\n\n# 2. when it starts, on the command line\nros2 run chiku_control speed_driver --ros-args -p speed:=0.5 -p robot_name:=bolt\n\n# 3. when it starts, from a YAML file (save the file below as src/chiku_control/config/speed.yaml)\nros2 run chiku_control speed_driver --ros-args --params-file src/chiku_control/config/speed.yaml"
       },
       {
        "t": "langs",
        "title": "A parameter file",
        "tabs": [
         {
-         "label": "config/speed.yaml",
+         "label": "src/chiku_control/config/speed.yaml",
          "lang": "yaml",
          "code": "# Parameters for speed_driver. The first line is the NODE name.\nspeed_driver:\n  ros__parameters:\n    robot_name: \"chiku\"\n    speed: 1.5\n    turn: 1.0\n",
          "note": "First line: the **node name**. Then `ros__parameters:` with **two** underscores. Then the values, indented with spaces (never Tab)."
@@ -18814,7 +18814,7 @@
       },
       {
        "t": "tip",
-       "text": "Real ROS 2 Jazzy, Python: after `ros2 param set /speed_driver speed 2.5` the next cmd_vel message had `linear: x: 2.5`. `speed fast` failed with `Setting parameter failed: Wrong parameter type, expected 'Type.DOUBLE' got 'Type.STRING'`. With `--params-file config/speed.yaml` the node started with speed 1.5 and turn 1.0.",
+       "text": "Real ROS 2 Jazzy, Python: after `ros2 param set /speed_driver speed 2.5` the next cmd_vel message had `linear: x: 2.5`. `speed fast` failed with `Setting parameter failed: Wrong parameter type, expected 'Type.DOUBLE' got 'Type.STRING'`. With `--params-file src/chiku_control/config/speed.yaml` (run from ~/ros2_ws) the node started with speed 1.5 and turn 1.0.",
        "label": "Tested on a real system"
       },
       {

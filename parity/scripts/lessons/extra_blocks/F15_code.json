@@ -1,0 +1,262 @@
+[
+ {
+  "week": "PF",
+  "lesson": "F15",
+  "term": "code1",
+  "block": 11,
+  "title": "Lesson code block commands: speed_driver with -p from ~/ros2_ws",
+  "sourced": true,
+  "running": [
+   "turtlesim"
+  ],
+  "start": "~/ros2_ws",
+  "fresh": false,
+  "bareRos": false,
+  "cwd": "/home/student/ros2_ws",
+  "env": {
+   "HOME": "/home/student",
+   "USER": "student",
+   "SHELL": "/bin/bash",
+   "LANG": "en_IN.UTF-8",
+   "PWD": "/home/student/ros2_ws",
+   "PATH": "/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+   "ROS_DISTRO": "jazzy",
+   "ROS_VERSION": "2",
+   "ROS_PYTHON_VERSION": "3",
+   "AMENT_PREFIX_PATH": "/opt/ros/jazzy",
+   "CMAKE_PREFIX_PATH": "/opt/ros/jazzy",
+   "LD_LIBRARY_PATH": "/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/lib",
+   "PYTHONPATH": "/opt/ros/jazzy/lib/python3.12/site-packages",
+   "PKG_CONFIG_PATH": "/opt/ros/jazzy/lib/x86_64-linux-gnu/pkgconfig:/opt/ros/jazzy/lib/pkgconfig"
+  },
+  "tasks": [
+   {
+    "do": "code block",
+    "sol": [
+     "colcon build --packages-select chiku_control",
+     "source install/setup.bash",
+     "ros2 run chiku_control speed_driver --ros-args -p speed:=0.5 -p robot_name:=bolt",
+     {
+      "newTerminal": true
+     },
+     "cd ~/ros2_ws",
+     "source install/setup.bash",
+     "ros2 param get /speed_driver speed",
+     "ros2 param get /speed_driver robot_name"
+    ]
+   }
+  ],
+  "files": {
+   "/home/student": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/Desktop": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/Documents": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/Downloads": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/Music": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/Pictures": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/.bashrc": {
+    "mode": "rw-r--r--",
+    "content": "# ~/.bashrc runs every time you open a new terminal\nalias ll='ls -alF'\n"
+   },
+   "/home/student/.profile": {
+    "mode": "rw-r--r--",
+    "content": "# ~/.profile\n"
+   },
+   "/home/student/ros2_ws": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/ros2_ws/src": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/ros2_ws/src/chiku_control": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/ros2_ws/src/chiku_control/package.xml": {
+    "mode": "rw-r--r--",
+    "content": "<?xml version=\"1.0\"?>\n<package format=\"3\">\n  <name>chiku_control</name>\n  <version>0.1.0</version>\n  <description>Chiku's own nodes, written in Python</description>\n  <maintainer email=\"student@todo.todo\">student</maintainer>\n  <license>Apache-2.0</license>\n\n  <depend>rclpy</depend>\n  <depend>geometry_msgs</depend>\n\n  <export>\n    <build_type>ament_python</build_type>\n  </export>\n</package>\n"
+   },
+   "/home/student/ros2_ws/src/chiku_control/setup.py": {
+    "mode": "rw-r--r--",
+    "content": "from glob import glob\n\nfrom setuptools import find_packages, setup\n\npackage_name = 'chiku_control'\n\nsetup(\n    name=package_name,\n    version='0.1.0',\n    packages=find_packages(exclude=['test']),\n    data_files=[\n        ('share/ament_index/resource_index/packages', ['resource/' + package_name]),\n        ('share/' + package_name, ['package.xml']),\n    ],\n    install_requires=['setuptools'],\n    zip_safe=True,\n    maintainer='student',\n    maintainer_email='student@todo.todo',\n    license='Apache-2.0',\n    entry_points={\n        'console_scripts': [\n            'speed_driver = chiku_control.speed_driver:main',\n        ],\n    },\n)\n"
+   },
+   "/home/student/ros2_ws/src/chiku_control/setup.cfg": {
+    "mode": "rw-r--r--",
+    "content": "[develop]\nscript_dir=$base/lib/chiku_control\n[install]\ninstall_scripts=$base/lib/chiku_control\n"
+   },
+   "/home/student/ros2_ws/src/chiku_control/resource": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/ros2_ws/src/chiku_control/resource/chiku_control": {
+    "mode": "rw-r--r--",
+    "content": ""
+   },
+   "/home/student/ros2_ws/src/chiku_control/chiku_control": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/ros2_ws/src/chiku_control/chiku_control/__init__.py": {
+    "mode": "rw-r--r--",
+    "content": ""
+   },
+   "/home/student/ros2_ws/src/chiku_control/chiku_control/speed_driver.py": {
+    "mode": "rw-r--r--",
+    "content": "import rclpy\nfrom rclpy.node import Node\nfrom rclpy.executors import ExternalShutdownException\nfrom geometry_msgs.msg import Twist\n\n\nclass SpeedDriver(Node):\n    \"\"\"Drives in a circle. The speeds are PARAMETERS, so you can change them without editing code.\"\"\"\n\n    def __init__(self):\n        super().__init__('speed_driver')\n        self.declare_parameter('robot_name', 'chiku')     # name, default value\n        self.declare_parameter('speed', 1.0)              # forward speed, m/s\n        self.declare_parameter('turn', 0.5)               # turn rate, rad/s\n        name = self.get_parameter('robot_name').value\n        self.pub = self.create_publisher(Twist, '/turtle1/cmd_vel', 10)\n        self.create_timer(0.1, self.on_timer)\n        self.get_logger().info(f'{name} is ready to drive')\n\n    def on_timer(self):\n        speed = self.get_parameter('speed').value        # read the newest value every tick\n        turn = self.get_parameter('turn').value\n        msg = Twist()\n        msg.linear.x = speed\n        msg.angular.z = turn\n        self.pub.publish(msg)\n\n\ndef main(args=None):\n    rclpy.init(args=args)\n    node = SpeedDriver()\n    try:\n        rclpy.spin(node)\n    except (KeyboardInterrupt, ExternalShutdownException):\n        pass\n    node.destroy_node()\n    rclpy.try_shutdown()\n\n\nif __name__ == '__main__':\n    main()\n"
+   }
+  }
+ },
+ {
+  "week": "PF",
+  "lesson": "F15",
+  "term": "code2",
+  "block": 11,
+  "title": "Lesson code block commands: speed_driver with --params-file src/chiku_control/config/speed.yaml from ~/ros2_ws (file saved as the lesson says)",
+  "sourced": true,
+  "running": [
+   "turtlesim"
+  ],
+  "start": "~/ros2_ws",
+  "fresh": false,
+  "bareRos": false,
+  "cwd": "/home/student/ros2_ws",
+  "env": {
+   "HOME": "/home/student",
+   "USER": "student",
+   "SHELL": "/bin/bash",
+   "LANG": "en_IN.UTF-8",
+   "PWD": "/home/student/ros2_ws",
+   "PATH": "/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+   "ROS_DISTRO": "jazzy",
+   "ROS_VERSION": "2",
+   "ROS_PYTHON_VERSION": "3",
+   "AMENT_PREFIX_PATH": "/opt/ros/jazzy",
+   "CMAKE_PREFIX_PATH": "/opt/ros/jazzy",
+   "LD_LIBRARY_PATH": "/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/lib",
+   "PYTHONPATH": "/opt/ros/jazzy/lib/python3.12/site-packages",
+   "PKG_CONFIG_PATH": "/opt/ros/jazzy/lib/x86_64-linux-gnu/pkgconfig:/opt/ros/jazzy/lib/pkgconfig"
+  },
+  "tasks": [
+   {
+    "do": "code block",
+    "sol": [
+     "colcon build --packages-select chiku_control",
+     "source install/setup.bash",
+     {
+      "nano": "src/chiku_control/config/speed.yaml",
+      "replace": [
+       "",
+       "# Parameters for speed_driver. The first line is the NODE name.\nspeed_driver:\n  ros__parameters:\n    robot_name: \"chiku\"\n    speed: 1.5\n    turn: 1.0\n"
+      ]
+     },
+     "ros2 run chiku_control speed_driver --ros-args --params-file src/chiku_control/config/speed.yaml",
+     {
+      "newTerminal": true
+     },
+     "cd ~/ros2_ws",
+     "source install/setup.bash",
+     "ros2 param get /speed_driver speed",
+     "ros2 param get /speed_driver turn",
+     "ros2 param get /speed_driver robot_name"
+    ]
+   }
+  ],
+  "files": {
+   "/home/student": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/Desktop": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/Documents": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/Downloads": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/Music": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/Pictures": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/.bashrc": {
+    "mode": "rw-r--r--",
+    "content": "# ~/.bashrc runs every time you open a new terminal\nalias ll='ls -alF'\n"
+   },
+   "/home/student/.profile": {
+    "mode": "rw-r--r--",
+    "content": "# ~/.profile\n"
+   },
+   "/home/student/ros2_ws": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/ros2_ws/src": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/ros2_ws/src/chiku_control": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/ros2_ws/src/chiku_control/package.xml": {
+    "mode": "rw-r--r--",
+    "content": "<?xml version=\"1.0\"?>\n<package format=\"3\">\n  <name>chiku_control</name>\n  <version>0.1.0</version>\n  <description>Chiku's own nodes, written in Python</description>\n  <maintainer email=\"student@todo.todo\">student</maintainer>\n  <license>Apache-2.0</license>\n\n  <depend>rclpy</depend>\n  <depend>geometry_msgs</depend>\n\n  <export>\n    <build_type>ament_python</build_type>\n  </export>\n</package>\n"
+   },
+   "/home/student/ros2_ws/src/chiku_control/setup.py": {
+    "mode": "rw-r--r--",
+    "content": "from glob import glob\n\nfrom setuptools import find_packages, setup\n\npackage_name = 'chiku_control'\n\nsetup(\n    name=package_name,\n    version='0.1.0',\n    packages=find_packages(exclude=['test']),\n    data_files=[\n        ('share/ament_index/resource_index/packages', ['resource/' + package_name]),\n        ('share/' + package_name, ['package.xml']),\n    ],\n    install_requires=['setuptools'],\n    zip_safe=True,\n    maintainer='student',\n    maintainer_email='student@todo.todo',\n    license='Apache-2.0',\n    entry_points={\n        'console_scripts': [\n            'speed_driver = chiku_control.speed_driver:main',\n        ],\n    },\n)\n"
+   },
+   "/home/student/ros2_ws/src/chiku_control/setup.cfg": {
+    "mode": "rw-r--r--",
+    "content": "[develop]\nscript_dir=$base/lib/chiku_control\n[install]\ninstall_scripts=$base/lib/chiku_control\n"
+   },
+   "/home/student/ros2_ws/src/chiku_control/resource": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/ros2_ws/src/chiku_control/resource/chiku_control": {
+    "mode": "rw-r--r--",
+    "content": ""
+   },
+   "/home/student/ros2_ws/src/chiku_control/chiku_control": {
+    "d": 1,
+    "mode": "rwxr-xr-x"
+   },
+   "/home/student/ros2_ws/src/chiku_control/chiku_control/__init__.py": {
+    "mode": "rw-r--r--",
+    "content": ""
+   },
+   "/home/student/ros2_ws/src/chiku_control/chiku_control/speed_driver.py": {
+    "mode": "rw-r--r--",
+    "content": "import rclpy\nfrom rclpy.node import Node\nfrom rclpy.executors import ExternalShutdownException\nfrom geometry_msgs.msg import Twist\n\n\nclass SpeedDriver(Node):\n    \"\"\"Drives in a circle. The speeds are PARAMETERS, so you can change them without editing code.\"\"\"\n\n    def __init__(self):\n        super().__init__('speed_driver')\n        self.declare_parameter('robot_name', 'chiku')     # name, default value\n        self.declare_parameter('speed', 1.0)              # forward speed, m/s\n        self.declare_parameter('turn', 0.5)               # turn rate, rad/s\n        name = self.get_parameter('robot_name').value\n        self.pub = self.create_publisher(Twist, '/turtle1/cmd_vel', 10)\n        self.create_timer(0.1, self.on_timer)\n        self.get_logger().info(f'{name} is ready to drive')\n\n    def on_timer(self):\n        speed = self.get_parameter('speed').value        # read the newest value every tick\n        turn = self.get_parameter('turn').value\n        msg = Twist()\n        msg.linear.x = speed\n        msg.angular.z = turn\n        self.pub.publish(msg)\n\n\ndef main(args=None):\n    rclpy.init(args=args)\n    node = SpeedDriver()\n    try:\n        rclpy.spin(node)\n    except (KeyboardInterrupt, ExternalShutdownException):\n        pass\n    node.destroy_node()\n    rclpy.try_shutdown()\n\n\nif __name__ == '__main__':\n    main()\n"
+   }
+  }
+ }
+]

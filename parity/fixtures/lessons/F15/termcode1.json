@@ -1,7 +1,7 @@
 {
  "lesson": "F15",
  "term": "code1",
- "title": "Lesson code block commands: speed_driver with -p and with --params-file config/speed.yaml from ~/ros2_ws",
+ "title": "Lesson code block commands: speed_driver with -p from ~/ros2_ws",
  "sourced": true,
  "running": [
   "turtlesim"
@@ -9,16 +9,16 @@
  "start": "~/ros2_ws",
  "scratch_home": "/home/prasad/lesson_ws/homes/F15_tcode1",
  "home_shown_as": "/home/student",
- "started": "2026-10-19T22:09:05+0530",
+ "started": "2026-10-20T10:21:07+0530",
  "steps": [
   {
    "task": 1,
    "term": 1,
    "kind": "cmd",
    "cmd": "colcon build --packages-select chiku_control",
-   "out": "[0.5s] [0/0 complete]\n                     \nStarting >>> chiku_control\n[0.6s] [0/1 complete] [chiku_control - 0.1s]\n                                            \n[0.7s] [0/1 complete] [chiku_control - 0.2s]\n                                            \n[0.8s] [0/1 complete] [chiku_control - 0.3s]\n                                            \n[0.9s] [0/1 complete] [chiku_control - 0.4s]\n                                            \n[1.0s] [0/1 complete] [chiku_control - 0.5s]\n                                            \n[1.1s] [0/1 complete] [chiku_control - 0.6s]\n                                            \n[1.2s] [0/1 complete] [chiku_control - 0.7s]\n                                            \n[1.3s] [0/1 complete] [chiku_control - 0.8s]\n                                            \n[1.4s] [0/1 complete] [chiku_control - 0.9s]\n                                            \n[1.5s] [0/1 complete] [chiku_control - 1.0s]\n                                            \n[1.6s] [0/1 complete] [chiku_control - 1.1s]\n                                            \n[1.7s] [0/1 complete] [chiku_control - 1.2s]\n                                            \n[1.8s] [0/1 complete] [chiku_control - 1.3s]\n                                            \n[1.9s] [0/1 complete] [chiku_control - 1.4s]\n                                            \n[2.0s] [0/1 complete] [chiku_control - 1.5s]\n                                            \n[2.1s] [0/1 complete] [chiku_control - 1.6s]\n                                            \n[2.2s] [0/1 complete] [chiku_control - 1.7s]\n                                            \n[2.3s] [0/1 complete] [chiku_control - 1.8s]\n                                            \n[2.4s] [0/1 complete] [chiku_control - 1.9s]\n                                            \n[2.5s] [0/1 complete] [chiku_control - 2.0s]\n                                            \n[2.6s] [0/1 complete] [chiku_control - 2.1s]\n                                            \n[2.7s] [0/1 complete] [chiku_control - 2.2s]\n                                            \n[2.8s] [0/1 complete] [chiku_control - 2.3s]\n                                            \n[2.9s] [0/1 complete] [chiku_control - 2.4s]\n                                            \n[3.0s] [0/1 complete] [chiku_control - 2.5s]\n                                            \n[3.1s] [0/1 complete] [chiku_control - 2.6s]\n                                            \n[3.2s] [0/1 complete] [chiku_control - 2.7s]\n                                            \n[3.3s] [0/1 complete] [chiku_control - 2.8s]\n                                            \n[3.4s] [0/1 complete] [chiku_control - 2.9s]\n                                            \n[3.5s] [0/1 complete] [chiku_control - 3.0s]\n                                            \n[3.6s] [0/1 complete] [chiku_control - 3.1s]\n                                            \n[3.7s] [0/1 complete] [chiku_control - 3.2s]\n                                            \nFinished <<< chiku_control [3.28s]\n\nSummary: 1 package finished [3.74s]\n",
+   "out": "[0.8s] [0/0 complete]\n                     \nStarting >>> chiku_control\n[0.9s] [0/1 complete] [chiku_control - 0.1s]\n                                            \n[1.0s] [0/1 complete] [chiku_control - 0.2s]\n                                            \n[1.1s] [0/1 complete] [chiku_control - 0.3s]\n                                            \n[1.2s] [0/1 complete] [chiku_control - 0.4s]\n                                            \n[1.3s] [0/1 complete] [chiku_control - 0.5s]\n                                            \n[1.4s] [0/1 complete] [chiku_control - 0.6s]\n                                            \n[1.5s] [0/1 complete] [chiku_control - 0.7s]\n                                            \n[1.6s] [0/1 complete] [chiku_control - 0.8s]\n                                            \n[1.7s] [0/1 complete] [chiku_control - 0.9s]\n                                            \n[1.8s] [0/1 complete] [chiku_control - 1.0s]\n                                            \n[1.9s] [0/1 complete] [chiku_control - 1.1s]\n                                            \n[2.0s] [0/1 complete] [chiku_control - 1.2s]\n                                            \n[2.1s] [0/1 complete] [chiku_control - 1.3s]\n                                            \n[2.2s] [0/1 complete] [chiku_control - 1.4s]\n                                            \n[2.3s] [0/1 complete] [chiku_control - 1.5s]\n                                            \n[2.4s] [0/1 complete] [chiku_control - 1.6s]\n                                            \n[2.5s] [0/1 complete] [chiku_control - 1.7s]\n                                            \n[2.6s] [0/1 complete] [chiku_control - 1.8s]\n                                            \n[2.7s] [0/1 complete] [chiku_control - 1.9s]\n                                            \n[2.8s] [0/1 complete] [chiku_control - 2.0s]\n                                            \n[2.9s] [0/1 complete] [chiku_control - 2.1s]\n                                            \n[3.0s] [0/1 complete] [chiku_control - 2.2s]\n                                            \n[3.1s] [0/1 complete] [chiku_control - 2.3s]\n                                            \n[3.3s] [0/1 complete] [chiku_control - 2.4s]\n                                            \n[3.4s] [0/1 complete] [chiku_control - 2.5s]\n                                            \n[3.5s] [0/1 complete] [chiku_control - 2.6s]\n                                            \n[3.6s] [0/1 complete] [chiku_control - 2.7s]\n                                            \n[3.7s] [0/1 complete] [chiku_control - 2.8s]\n                                            \n[3.8s] [0/1 complete] [chiku_control - 2.9s]\n                                            \n[3.9s] [0/1 complete] [chiku_control - 3.0s]\n                                            \n[4.0s] [0/1 complete] [chiku_control - 3.1s]\n                                            \n[4.1s] [0/1 complete] [chiku_control - 3.2s]\n                                            \n[4.2s] [0/1 complete] [chiku_control - 3.3s]\n                                            \n[4.3s] [0/1 complete] [chiku_control - 3.4s]\n                                            \n[4.4s] [0/1 complete] [chiku_control - 3.5s]\n                                            \n[4.5s] [0/1 complete] [chiku_control - 3.6s]\n                                            \n[4.6s] [0/1 complete] [chiku_control - 3.7s]\n                                            \n[4.7s] [0/1 complete] [chiku_control - 3.8s]\n                                            \n[4.8s] [0/1 complete] [chiku_control - 3.9s]\n                                            \n[4.9s] [0/1 complete] [chiku_control - 4.0s]\n                                            \n[5.0s] [0/1 complete] [chiku_control - 4.1s]\n                                            \n[5.1s] [0/1 complete] [chiku_control - 4.2s]\n                                            \n[5.2s] [0/1 complete] [chiku_control - 4.3s]\n                                            \n[5.3s] [0/1 complete] [chiku_control - 4.4s]\n                                            \n[5.4s] [0/1 complete] [chiku_control - 4.5s]\n                                            \n[5.5s] [0/1 complete] [chiku_control - 4.6s]\n                                            \n[5.6s] [0/1 complete] [chiku_control - 4.7s]\n                                            \n[5.7s] [0/1 complete] [chiku_control - 4.8s]\n                                            \n[5.8s] [0/1 complete] [chiku_control - 4.9s]\n                                            \n[5.9s] [0/1 complete] [chiku_control - 5.0s]\n                                            \n[6.0s] [0/1 complete] [chiku_control - 5.1s]\n                                            \n[6.1s] [0/1 complete] [chiku_control - 5.2s]\n                                            \n[6.2s] [0/1 complete] [chiku_control - 5.3s]\n                                            \n[6.3s] [0/1 complete] [chiku_control - 5.4s]\n                                            \n[6.4s] [0/1 complete] [chiku_control - 5.5s]\n                                            \n[6.5s] [0/1 complete] [chiku_control - 5.6s]\n                                            \n[6.6s] [0/1 complete] [chiku_control - 5.7s]\n                                            \n[6.7s] [0/1 complete] [chiku_control - 5.8s]\n                                            \n[6.8s] [0/1 complete] [chiku_control - 5.9s]\n                                            \n[6.9s] [0/1 complete] [chiku_control - 6.0s]\n                                            \n[7.0s] [0/1 complete] [chiku_control - 6.1s]\n                                            \n[7.1s] [0/1 complete] [chiku_control - 6.2s]\n                                            \n[7.2s] [0/1 complete] [chiku_control - 6.3s]\n                                            \nFinished <<< chiku_control [6.37s]\n\nSummary: 1 package finished [7.20s]\n",
    "exit": 0,
-   "secs": 4.4,
+   "secs": 8.2,
    "state": "finished",
    "status": "RAN",
    "cwd_after": "/home/student/ros2_ws"
@@ -30,7 +30,7 @@
    "cmd": "source install/setup.bash",
    "out": "",
    "exit": 0,
-   "secs": 0.9,
+   "secs": 1.8,
    "state": "finished",
    "status": "RAN",
    "cwd_after": "/home/student/ros2_ws"
@@ -40,7 +40,7 @@
    "term": 1,
    "kind": "cmd",
    "cmd": "ros2 run chiku_control speed_driver --ros-args -p speed:=0.5 -p robot_name:=bolt",
-   "out": "[INFO] [1792427962.052724436] [speed_driver]: bolt is ready to drive\n",
+   "out": "[INFO] [1792471890.175604171] [speed_driver]: bolt is ready to drive\n",
    "exit": null,
    "secs": 8.0,
    "state": "still running after 8 s",
@@ -72,7 +72,7 @@
    "cmd": "source install/setup.bash",
    "out": "",
    "exit": 0,
-   "secs": 1.0,
+   "secs": 1.4,
    "state": "finished",
    "status": "RAN",
    "cwd_after": "/home/student/ros2_ws"
@@ -84,7 +84,7 @@
    "cmd": "ros2 param get /speed_driver speed",
    "out": "Double value is: 0.5\n",
    "exit": 0,
-   "secs": 2.1,
+   "secs": 2.9,
    "state": "finished",
    "status": "RAN",
    "cwd_after": "/home/student/ros2_ws"
@@ -96,19 +96,7 @@
    "cmd": "ros2 param get /speed_driver robot_name",
    "out": "String value is: bolt\n",
    "exit": 0,
-   "secs": 2.0,
-   "state": "finished",
-   "status": "RAN",
-   "cwd_after": "/home/student/ros2_ws"
-  },
-  {
-   "task": 1,
-   "term": 2,
-   "kind": "cmd",
-   "cmd": "ros2 run chiku_control speed_driver --ros-args --params-file config/speed.yaml",
-   "out": "[ERROR] [1792427978.423784676] [rcl]: Failed to parse global arguments\nTraceback (most recent call last):\n  File \"/home/student/ros2_ws/install/chiku_control/lib/chiku_control/speed_driver\", line 33, in <module>\n    sys.exit(load_entry_point('chiku-control==0.1.0', 'console_scripts', 'speed_driver')())\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/student/ros2_ws/install/chiku_control/lib/python3.12/site-packages/chiku_control/speed_driver.py\", line 30, in main\n    rclpy.init(args=args)\n  File \"/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/__init__.py\", line 88, in init\n    context.init(args, domain_id=domain_id)\n  File \"/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/context.py\", line 99, in init\n    self.__context = _rclpy.Context(\n                     ^^^^^^^^^^^^^^^\nrclpy._rclpy_pybind11.RCLError: failed to initialize rcl: Couldn't parse params file: '--params-file config/speed.yaml'. Error: Error opening YAML file, at ./src/parser.c:271, at ./src/rcl/arguments.c:415\n[ros2run]: Process exited with failure 1\n",
-   "exit": 1,
-   "secs": 1.5,
+   "secs": 3.4,
    "state": "finished",
    "status": "RAN",
    "cwd_after": "/home/student/ros2_ws"
@@ -120,7 +108,7 @@
    "how": [
     "Ctrl+C"
    ],
-   "out": "[INFO] [1792427962.052724436] [speed_driver]: bolt is ready to drive\n",
+   "out": "[INFO] [1792471890.175604171] [speed_driver]: bolt is ready to drive\n",
    "exit": 0,
    "status": "RAN"
   }
@@ -129,12 +117,12 @@
   {
    "name": "turtlesim",
    "cmd": "ros2 run turtlesim turtlesim_node",
-   "out": "[INFO] [1792427947.567421974] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792427947.578872413] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
+   "out": "[INFO] [1792471869.355820560] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792471869.365477804] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
    "state": "still running after 4 s"
   }
  ],
  "notes": [
   "pre-running terminal 100 output during block: "
  ],
- "finished": "2026-10-19T22:09:41+0530"
+ "finished": "2026-10-20T10:21:48+0530"
 }
