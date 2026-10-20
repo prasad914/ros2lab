@@ -25165,8 +25165,8 @@
        "start": "~/ros2_ws",
        "fs": {
         "files": {
-         "~/ros2_ws/src/chiku_control/package.xml": "<?xml version=\"1.0\"?>\n<package format=\"3\">\n  <name>chiku_control</name>\n  <version>0.1.0</version>\n  <description>Chiku's own nodes, written in Python</description>\n  <maintainer email=\"student@todo.todo\">student</maintainer>\n  <license>Apache-2.0</license>\n\n  <depend>rclpy</depend>\n\n  <export>\n    <build_type>ament_python</build_type>\n  </export>\n</package>\n",
-         "~/ros2_ws/src/chiku_control/setup.py": "from glob import glob\n\nfrom setuptools import find_packages, setup\n\npackage_name = 'chiku_control'\n\nsetup(\n    name=package_name,\n    version='0.1.0',\n    packages=find_packages(exclude=['test']),\n    data_files=[\n        ('share/ament_index/resource_index/packages', ['resource/' + package_name]),\n        ('share/' + package_name, ['package.xml']),\n    ],\n    install_requires=['setuptools'],\n    zip_safe=True,\n    maintainer='student',\n    maintainer_email='student@todo.todo',\n    license='Apache-2.0',\n    entry_points={\n        'console_scripts': [\n        ],\n    },\n)\n",
+         "~/ros2_ws/src/chiku_control/package.xml": "<?xml version=\"1.0\"?>\n<package format=\"3\">\n  <name>chiku_control</name>\n  <version>0.1.0</version>\n  <description>Chiku's own nodes, written in Python</description>\n  <maintainer email=\"student@todo.todo\">student</maintainer>\n  <license>Apache-2.0</license>\n\n  <depend>rclpy</depend>\n\n  <test_depend>python3-pytest</test_depend>\n\n  <export>\n    <build_type>ament_python</build_type>\n  </export>\n</package>\n",
+         "~/ros2_ws/src/chiku_control/setup.py": "from glob import glob\n\nfrom setuptools import find_packages, setup\n\npackage_name = 'chiku_control'\n\nsetup(\n    name=package_name,\n    version='0.1.0',\n    packages=find_packages(exclude=['test']),\n    data_files=[\n        ('share/ament_index/resource_index/packages', ['resource/' + package_name]),\n        ('share/' + package_name, ['package.xml']),\n    ],\n    install_requires=['setuptools'],\n    zip_safe=True,\n    maintainer='student',\n    maintainer_email='student@todo.todo',\n    license='Apache-2.0',\n    extras_require={'test': ['pytest']},\n    entry_points={\n        'console_scripts': [\n        ],\n    },\n)\n",
          "~/ros2_ws/src/chiku_control/setup.cfg": "[develop]\nscript_dir=$base/lib/chiku_control\n[install]\ninstall_scripts=$base/lib/chiku_control\n",
          "~/ros2_ws/src/chiku_control/resource/chiku_control": "",
          "~/ros2_ws/src/chiku_control/chiku_control/__init__.py": "",
@@ -25256,7 +25256,7 @@
         "Testing only the happy case: add edges and limits.",
         "Comparing floats with ==.",
         "Putting all logic inside callbacks, so nothing can be tested without ROS.",
-        "Forgetting the test_depend in package.xml (tests don't run on CI)."
+        "No `extras_require={'test': ['pytest']}` in setup.py: colcon runs unittest instead of pytest, finds no tests (`NO TESTS RAN`) and the package fails with exit code 5. A test_depend in package.xml alone does not change that."
        ]
       },
       {
