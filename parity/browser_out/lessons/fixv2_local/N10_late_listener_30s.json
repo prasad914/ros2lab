@@ -1,0 +1,183 @@
+[
+ {
+  "lesson": "N10",
+  "term": 1,
+  "title": "Live terminal: a latched topic",
+  "tasks": [
+   {
+    "task": 1,
+    "do": "Build and source: `colcon build --packages-select chiku_control` then `source install/setup.bash`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "colcon build --packages-select chiku_control",
+      "site": [
+       "Starting >>> chiku_control",
+       "Finished <<< chiku_control [0.90s]",
+       "",
+       "Summary: 1 package finished [1.27s]",
+       "Built. Now load the workspace in this terminal: source install/setup.bash"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "[0.4s] [0/0 complete]\n                     \nStarting >>> chiku_control\n[0.5s] [0/1 complete] [chiku_control - 0.1s]\n                                            \n[0.6s] [0/1 complete] [chiku_control - 0.2s]\n                                            \n[0.7s] [0/1 complete] [chiku_control - 0.3s]\n                                            \n[0.8s] [0/1 complete] [chiku_control - 0.4s]\n                                            \n[0.9s] [0/1 complete] [chiku_control - 0.5s]\n                                            \n[1.0s] [0/1 complete] [chiku_control - 0.6s]\n                                            \n[1.1s] [0/1 complete] [chiku_control - 0.7s]\n                                            \n[1.2s] [0/1 complete] [chiku_control - 0.8s]\n                                            \n[1.3s] [0/1 complete] [chiku_control - 0.9s]\n                                            \n[1.4s] [0/1 complete] [chiku_control - 1.0s]\n                                            \n[1.5s] [0/1 complete] [chiku_control - 1.1s]\n                                            \n[1.6s] [0/1 complete] [chiku_control - 1.2s]\n                                            \n[1.7s] [0/1 complete] [chiku_control - 1.3s]\n                                            \n[1.8s] [0/1 complete] [chiku_control - 1.4s]\n                                            \n[1.9s] [0/1 complete] [chiku_control - 1.5s]\n                                            \n[2.0s] [0/1 complete] [chiku_control - 1.6s]\n                                            \n[2.1s] [0/1 complete] [chiku_control - 1.7s]\n                                            \n[2.2s] [0/1 complete] [chiku_control - 1.8s]\n                                            \n[2.3s] [0/1 complete] [chiku_control - 1.9s]\n                                            \n[2.4s] [0/1 complete] [chiku_control - 2.0s]\n                                            \n[2.5s] [0/1 complete] [chiku_control - 2.1s]\n                                            \n[2.6s] [0/1 complete] [chiku_control - 2.2s]\n                                            \n[2.7s] [0/1 complete] [chiku_control - 2.3s]\n                                            \n[2.8s] [0/1 complete] [chiku_control - 2.4s]\n                                            \n[2.9s] [0/1 complete] [chiku_control - 2.5s]\n                                            \n[3.0s] [0/1 complete] [chiku_control - 2.6s]\n                                            \n[3.1s] [0/1 complete] [chiku_control - 2.7s]\n                                            \n[3.2s] [0/1 complete] [chiku_control - 2.8s]\n                                            \n[3.3s] [0/1 complete] [chiku_control - 2.9s]\n                                            \nFinished <<< chiku_control [2.95s]\n\nSummary: 1 package finished [3.34s]\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     },
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "source install/setup.bash",
+      "site": [],
+      "siteRunning": false,
+      "real": {
+       "out": "",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 2,
+    "do": "Publish the status once and keep it: `ros2 run chiku_control latched_status`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 run chiku_control latched_status",
+      "site": [
+       "[INFO] [latched_status]: Published the map status once"
+      ],
+      "siteRunning": true,
+      "real": {
+       "out": "[INFO] [1792472075.807154002] [latched_status]: Published the map status once\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 3,
+    "do": "Open a **new terminal**, load the workspace (`cd ~/ros2_ws`, `source install/setup.bash`) and start the late listener: `ros2 run chiku_control late_listener`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "newTerminal",
+      "term": 2
+     },
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "cd ~/ros2_ws",
+      "site": [],
+      "siteRunning": false,
+      "real": {
+       "out": "",
+       "exit": 0,
+       "state": "finished"
+      }
+     },
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "source install/setup.bash",
+      "site": [],
+      "siteRunning": false,
+      "real": {
+       "out": "",
+       "exit": 0,
+       "state": "finished"
+      }
+     },
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "ros2 run chiku_control late_listener",
+      "site": [],
+      "siteRunning": true,
+      "real": {
+       "out": "[INFO] [1792472087.725550001] [late_listener]: I joined late but still got: \"map of the warehouse is ready\"\n[INFO] [1792472088.388790466] [late_listener]: 50 poses received\n[INFO] [1792472089.188937880] [late_listener]: 100 poses received\n[INFO] [1792472089.988763405] [late_listener]: 150 poses received\n[INFO] [1792472090.789181602] [late_listener]: 200 poses received\n[INFO] [1792472091.588893765] [late_listener]: 250 poses received\n[INFO] [1792472092.389819969] [late_listener]: 300 poses received\n[INFO] [1792472093.186621309] [late_listener]: 350 poses received\n[INFO] [1792472093.986493779] [late_listener]: 400 poses received\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 4,
+    "do": "Open another **new terminal** and look at the topic: `ros2 topic info /map_status`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "newTerminal",
+      "term": 3
+     },
+     {
+      "kind": "cmd",
+      "term": 3,
+      "cmd": "ros2 topic info /map_status",
+      "site": [
+       "Type: std_msgs/msg/String",
+       "Publisher count: 1",
+       "Subscription count: 1"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "Type: std_msgs/msg/String\nPublisher count: 1\nSubscription count: 1\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 5,
+    "do": "And the listener's connections: `ros2 node info /late_listener`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 3,
+      "cmd": "ros2 node info /late_listener",
+      "site": [
+       "/late_listener",
+       "  Subscribers:",
+       "    /map_status: std_msgs/msg/String",
+       "    /parameter_events: rcl_interfaces/msg/ParameterEvent",
+       "    /turtle1/pose: turtlesim/msg/Pose",
+       "  Publishers:",
+       "    /parameter_events: rcl_interfaces/msg/ParameterEvent",
+       "    /rosout: rcl_interfaces/msg/Log",
+       "  Service Servers:",
+       "    /late_listener/describe_parameters: rcl_interfaces/srv/DescribeParameters",
+       "    /late_listener/get_parameter_types: rcl_interfaces/srv/GetParameterTypes",
+       "    /late_listener/get_parameters: rcl_interfaces/srv/GetParameters",
+       "    /late_listener/get_type_description: type_description_interfaces/srv/GetTypeDescription",
+       "    /late_listener/list_parameters: rcl_interfaces/srv/ListParameters",
+       "    /late_listener/set_parameters: rcl_interfaces/srv/SetParameters",
+       "    /late_listener/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically",
+       "  Service Clients:",
+       "  Action Servers:",
+       "  Action Clients:"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "/late_listener\n  Subscribers:\n    /map_status: std_msgs/msg/String\n    /turtle1/pose: turtlesim/msg/Pose\n  Publishers:\n    /parameter_events: rcl_interfaces/msg/ParameterEvent\n    /rosout: rcl_interfaces/msg/Log\n  Service Servers:\n    /late_listener/describe_parameters: rcl_interfaces/srv/DescribeParameters\n    /late_listener/get_parameter_types: rcl_interfaces/srv/GetParameterTypes\n    /late_listener/get_parameters: rcl_interfaces/srv/GetParameters\n    /late_listener/get_type_description: type_description_interfaces/srv/GetTypeDescription\n    /late_listener/list_parameters: rcl_interfaces/srv/ListParameters\n    /late_listener/set_parameters: rcl_interfaces/srv/SetParameters\n    /late_listener/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically\n  Service Clients:\n\n  Action Servers:\n\n  Action Clients:\n\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   }
+  ],
+  "allDone": true,
+  "pageErrors": [],
+  "bareOff": null
+ }
+]
