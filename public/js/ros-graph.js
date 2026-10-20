@@ -956,7 +956,7 @@ export class RosGraph {
       return out;
     } n.ptypes = { ...Object.fromEntries(Object.entries(n.params).map(([k, v]) => [k, typeof v === "boolean" ? "bool" : typeof v === "string" ? "string" : Number.isInteger(v) ? "integer" : "double"])), ...info.ptypes };
     this.lastStarted = [n.full];
-    const shown = this.renderLogs(n, lines);
+    const shown = this.renderLogs(n, lines).concat(this.latchedFor(n));
     return [...shown.map((t) => this.out(t.replace(`[${info.node}]`, `[${name}]`))), this.hint(`(Practice terminal: your node ${n.full} now keeps running. Open a new terminal tab and look at it with ros2 node info ${n.full})`)];
   }
   launch(pkg, file) {
@@ -1554,6 +1554,29 @@ function constantTwist(code) {
   const linN = all(/\.linear\.x\s*=\s*-?\d*\.?\d+\s*[;\n]/g), angN = all(/\.angular\.z\s*=\s*-?\d*\.?\d+\s*[;\n]/g);
   return /create_(wall_)?timer\s*[<(]/.test(body) && (lin + ang) > 0 && lin === linN && ang === angN && lin <= 1 && ang <= 1 && !/\bif\b|\?/.test(body.replace(/#.*$/gm, "").replace(/\/\/.*$/gm, ""));
 }
+// A TRANSIENT_LOCAL subscription of a student's node gets, at once, the message a running TRANSIENT_LOCAL publisher already
+// sent (N10 late_listener: `I joined late but still got: "…"`, parity/fixtures/lessons/N10/term1.json step 6).
+RosGraph.prototype.latchedFor = function (n) {
+  const I = n.info, out = [];
+  if (!I || !I.cbLogs) return out;
+  const res = (node, x) => {
+    const abs = (y) => (y.startsWith("/") ? y : y.startsWith("~/") ? `${node.full}/${y.slice(2)}` : `${node.ns}/${y}`);
+    const nm = abs(x), r = (node.remaps || []).find(([f]) => abs(f) === nm);
+    return r ? abs(r[1]) : nm;
+  };
+  for (const cb of I.cbLogs) {
+    if (!cb.qos) continue;
+    for (const m of this.nodes) {
+      if (m === n || !m.info || !m.info.latched) continue;
+      for (const [t, data] of Object.entries(m.info.latched)) {
+        if (res(m, t) !== res(n, cb.topic)) continue;
+        const text = cb.f ? cb.text.replace(new RegExp(`\\{${cb.arg}\\.data\\}`, "g"), data) : cb.text;
+        if (!/[{}]/.test(text)) out.push(`[${cb.level}] [${I.node}]: ${text}`);
+      }
+    }
+  }
+  return out;
+};
 export function parseNodeCode(code, lang) {
   const info = { node: null, pubs: [], subs: [], srvs: [], cli: [], acts: [], actc: [], params: {}, ptypes: {}, logs: [], code };
   const clean = code.replace(lang === "python" ? /^\s*#.*$/gm : /\/\/.*$/gm, "");
@@ -1572,8 +1595,18 @@ export function parseNodeCode(code, lang) {
     for (const m of clean.matchAll(/from[ \t]+(\w+)\.(msg|srv|action)[ \t]+import[ \t]+(\([^)]*\)|[\w \t,]+)/g)) for (const t of m[3].replace(/[()]/g, "").split(",").map((x) => x.trim()).filter(Boolean)) types[t.split(/\s+as\s+/).pop()] = `${m[1]}/${m[2]}/${t.split(/\s+as\s+/)[0]}`;
     const T = (x) => types[x] || x;
     const nm = clean.match(/super\(\)\.__init__\(\s*(?:node_name\s*=\s*)?["']([\w]+)["']/) || clean.match(/Node\(\s*["']([\w]+)["']/); if (nm) info.node = nm[1];
-    for (const m of clean.matchAll(/create_publisher\(\s*(\w+)\s*,\s*["']([\w/~]+)["']/g)) info.pubs.push([m[2], T(m[1])]);
-    for (const m of clean.matchAll(/create_subscription\(\s*(\w+)\s*,\s*["']([\w/~]+)["']/g)) info.subs.push([m[2], T(m[1])]);
+    // QoSProfile(..., durability=DurabilityPolicy.TRANSIENT_LOCAL): the publisher keeps its last messages for late subscribers
+    const qv = {};
+    for (const m of clean.matchAll(/([\w.]+)\s*=\s*QoSProfile\(([^)]*)\)/g)) if (/TRANSIENT_LOCAL/.test(m[2])) qv[m[1]] = `${/BEST_EFFORT/.test(m[2]) ? "BEST_EFFORT" : "RELIABLE"}/TRANSIENT_LOCAL`;
+    for (const m of clean.matchAll(/create_publisher\(\s*(\w+)\s*,\s*["']([\w/~]+)["']\s*(?:,\s*([\w.]+))?/g)) info.pubs.push([m[2], T(m[1]), qv[m[3]]]);
+    info.cbLogs = [];
+    for (const m of clean.matchAll(/create_subscription\(\s*(\w+)\s*,\s*["']([\w/~]+)["']\s*(?:,\s*([\w.]+)\s*(?:,\s*([\w.]+))?)?/g)) {
+      info.subs.push([m[2], T(m[1]), qv[m[4]]]);
+      // the first log line of the subscription callback: def on_x(self, msg): ... get_logger().info(f'... {msg.data} ...')
+      const d = m[3] && clean.match(new RegExp(`\\n(\\s*)def ${m[3].replace(/^self\./, "")}\\(\\s*self\\s*,\\s*(\\w+)\\s*\\)\\s*:([\\s\\S]*?)(?=\\n\\1def |\\n\\S|$)`));
+      const lg = d && d[3].match(/get_logger\(\)\.(info|warn|warning|error)\(\s*(f?)(["'])(.*?)\3\s*\)/);
+      if (lg) info.cbLogs.push({ topic: m[2], qos: qv[m[4]], arg: d[2], level: lg[1] === "info" ? "INFO" : lg[1] === "error" ? "ERROR" : "WARN", f: !!lg[2], text: lg[4] });
+    }
     for (const m of clean.matchAll(/create_service\(\s*(\w+)\s*,\s*["']([\w/~]+)["']/g)) info.srvs.push([m[2], T(m[1])]);
     for (const m of clean.matchAll(/create_client\(\s*(\w+)\s*,\s*["']([\w/~]+)["']/g)) info.cli.push([m[2], T(m[1])]);
     for (const m of clean.matchAll(/ActionServer\(\s*\w+\s*,\s*(\w+)\s*,\s*["']([\w/~]+)["']/g)) info.acts.push([m[2], T(m[1])]);
@@ -1586,6 +1619,10 @@ export function parseNodeCode(code, lang) {
     info.pyVars = {};
     for (const m of clean.matchAll(/(self\.\w+|\b\w+)\s*=\s*self\.(?:get_parameter|declare_parameter)\(\s*['"](\w+)['"][^)]*\)\.value/g)) info.pyVars[m[1].replace(/^self\./, "self.")] = m[2];
     for (const m of clean.matchAll(/(self\.\w+)\s*=\s*self\.get_parameter\(\s*['"](\w+)['"]\)\.value/g)) info.pyVars[m[1]] = m[2];
+    // a std_msgs String published once in the constructor on a TRANSIENT_LOCAL topic stays there for late subscribers
+    info.latched = {};
+    const ld = ctorPy.match(/\w+\.data\s*=\s*(["'])(.*?)\1/);
+    if (ld && /\.publish\(/.test(ctorPy)) for (const [t, ty, q] of info.pubs) if (q && ty === "std_msgs/msg/String") info.latched[t] = ld[2];
     info.tpl = [];
     for (const m of ctorPy.matchAll(/get_logger\(\)\.(info|warn|warning|error)\(\s*(f?)(["'])(.*?)\3/g)) if (m[2] && info.tpl.length < 3) info.tpl.push({ i: info.tpl.length, py: m[4] });
     for (const m of ctorPy.matchAll(/get_logger\(\)\.(info|warn|warning|error)\(\s*(f?)(["'])(.*?)\3/g)) if (info.logs.length < 3) info.logs.push(`[${m[1] === "info" ? "INFO" : m[1] === "error" ? "ERROR" : "WARN"}] [${info.node || "node"}]: ${m[2] ? m[4].replace(/\{[^}]*\}/g, "…") : m[4]}`);
