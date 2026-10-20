@@ -1479,7 +1479,9 @@ export function createRviz(container, opts = {}) {
     } else if (v.k === "color") { cell.append(h("span", { class: "q-swatch", style: `background:rgb(${rgbOf(v.text).map((x) => Math.round(x * 255)).join(",")})` }), h("span", { class: "q-vt", text: v.text })); }
     else cell.append(h("span", { class: "q-vt", text: v.text ?? "" }));
     if (v.edit && !r.disabled) {
-      const startEdit = (e) => { if (e.target.closest(".q-editor, .q-ecombo, .q-colored")) return; setTimeout(() => openEditor(cell, v)); };
+      // pointerdown and the click that follows both arrive here: open one editor only, or the second one replaces the
+      // first, whose blur commits and repaints the tree, and the editor is gone after a plain mouse click
+      const startEdit = (e) => { if (e.target.closest(".q-editor, .q-ecombo, .q-colored")) return; setTimeout(() => { if (cell.isConnected && !cell.querySelector(".q-editor, .q-ecombo, .q-colored")) openEditor(cell, v); }); };
       cell.addEventListener("click", startEdit);
       cell.addEventListener("pointerdown", startEdit);
     }
