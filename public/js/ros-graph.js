@@ -147,7 +147,11 @@ export class RosGraph {
     // launch_ros's node (launch_ros_<launch pid>): /rosout, /parameter_events, and the transition_event of each lifecycle
     // node the launch file watches (fixture tb3_burger/slam/qos/slam_toolbox__transition_event.txt)
     if (n.kind === "launch_ros") e.subs = (n.watch || []).map((t) => [t, "lifecycle_msgs/msg/TransitionEvent"]);
-    if (n.info) { const r = (x) => (x.startsWith("/") ? x : x.startsWith("~/") ? `${n.full}/${x.slice(2)}` : p(x)); for (const k of ["pubs", "subs", "srvs", "cli", "acts", "actc"]) for (const [nm, t, q] of n.info[k]) e[k].push([r(nm), t, q]); }
+    if (n.info) {
+      const r = (x) => { x = x.replace(/\{(\w+)\}/g, (all, k) => String(n.params[k] ?? "")); return x.startsWith("/") ? x : x.startsWith("~/") ? `${n.full}/${x.slice(2)}` : p(x); };
+      for (const k of ["pubs", "subs", "srvs", "cli", "acts", "actc"]) for (const [nm, t, q] of n.info[k]) e[k].push([r(nm), t, q]);
+      if (n.info.broadcaster && !e.pubs.some(([nm]) => nm === "/tf")) e.pubs.push(["/tf", "tf2_msgs/msg/TFMessage"]);   // tf2_ros::TransformBroadcaster publishes /tf
+    }
     if (n.kind === "arm") { e.subs.push([p("target_point"), "geometry_msgs/msg/Point"]); e.pubs.push([p("joint_states"), "sensor_msgs/msg/JointState"], [p("end_effector"), "geometry_msgs/msg/Point"]); e.srvs.push([p("arm/home"), "std_srvs/srv/Trigger"]); }
     if (n.kind === "diffbot") { e.subs.push([p("cmd_vel"), "geometry_msgs/msg/Twist"]); e.pubs.push([p("odom"), "nav_msgs/msg/Odometry"], [p("ground_truth"), "nav_msgs/msg/Odometry"], [p("wheel_states"), "sensor_msgs/msg/JointState"], ["/tf", "tf2_msgs/msg/TFMessage"]); }
     if (n.kind === "mm") { e.subs.push([p("goal_point"), "geometry_msgs/msg/Point"]); e.pubs.push([p("cmd_vel"), "geometry_msgs/msg/Twist"], [p("target_point"), "geometry_msgs/msg/Point"]); }
@@ -1634,8 +1638,8 @@ export function parseNodeCode(code, lang) {
     for (const m of clean.matchAll(/using\s+((?:\w+::)+)(\w+)\s*;/g)) alias[m[2]] = m[1] + m[2];
     const T = (x) => { x = alias[x.trim()] || x.trim(); const m = x.match(/^(\w+)::(msg|srv|action)::(\w+)$/); return m ? `${m[1]}/${m[2]}/${m[3]}` : x; };
     const nm = clean.match(/(?:rclcpp::)?Node\(\s*"(\w+)"/) || clean.match(/make_shared<rclcpp::Node>\(\s*"(\w+)"/) || clean.match(/Node::make_shared\(\s*"(\w+)"/); if (nm) info.node = nm[1];
-    for (const m of clean.matchAll(/create_publisher<\s*([\w:]+)\s*>\(\s*"([\w/~]+)"/g)) info.pubs.push([m[2], T(m[1])]);
-    for (const m of clean.matchAll(/create_subscription<\s*([\w:]+)\s*>\(\s*"([\w/~]+)"/g)) info.subs.push([m[2], T(m[1])]);
+    for (const m of clean.matchAll(/create_publisher<\s*([\w:]+)\s*>\(\s*"([\w/~]+)"(?=\s*,)/g)) info.pubs.push([m[2], T(m[1])]);
+    for (const m of clean.matchAll(/create_subscription<\s*([\w:]+)\s*>\(\s*"([\w/~]+)"(?=\s*,)/g)) info.subs.push([m[2], T(m[1])]);
     for (const m of clean.matchAll(/create_service<\s*([\w:]+)\s*>\(\s*"([\w/~]+)"/g)) info.srvs.push([m[2], T(m[1])]);
     for (const m of clean.matchAll(/create_client<\s*([\w:]+)\s*>\(\s*"([\w/~]+)"/g)) info.cli.push([m[2], T(m[1])]);
     for (const m of clean.matchAll(/rclcpp_action::create_server<\s*([\w:]+)\s*>\(\s*[\w>-]+\s*,\s*"([\w/~]+)"/g)) info.acts.push([m[2], T(m[1])]);
@@ -1649,6 +1653,12 @@ export function parseNodeCode(code, lang) {
     info.cVars = {};
     for (const m of clean.matchAll(/(\w+_?)\s*=\s*declare_parameter(?:<[^>]*>)?\(\s*"(\w+)"/g)) info.cVars[m[1]] = m[2];
     for (const m of clean.matchAll(/(\w+_?)\s*=\s*get_parameter\(\s*"(\w+)"\s*\)/g)) info.cVars[m[1]] = m[2];
+    // a topic name built from a parameter: "/" + turtle_ + "/pose" -> "/{turtlename}/pose", filled in from the node's parameters
+    for (const [k, fn] of [["pubs", "create_publisher"], ["subs", "create_subscription"]])
+      for (const m of clean.matchAll(new RegExp(`${fn}<\\s*([\\w:]+)\\s*>\\(\\s*((?:"[\\w/~]*"|\\w+)(?:\\s*\\+\\s*(?:"[\\w/~]*"|\\w+))+)\\s*,`, "g"))) {
+        const parts = m[2].split("+").map((x) => x.trim()), name = parts.map((x) => (x.startsWith('"') ? x.slice(1, -1) : info.cVars[x] ? `{${info.cVars[x]}}` : null));
+        if (!name.includes(null)) info[k].push([name.join(""), T(m[1])]);
+      }
     info.ctpl = [];
     for (const m of ctorC.matchAll(/RCLCPP_(?:INFO|WARN|ERROR)(?:_ONCE)?\(\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"((?:\s*,\s*[^;]+?)*)\);/g)) if (info.ctpl.length < 3) info.ctpl.push({ fmt: m[1], args: m[2].split(/,(?![^(]*\))/).map((x) => x.trim()).filter(Boolean) });
     for (const m of ctorC.matchAll(/RCLCPP_(INFO|WARN|ERROR)(?:_ONCE|_THROTTLE)?\(\s*[^,]+,\s*(?:[^,"]+,\s*\d+\s*,\s*)?"((?:[^"\\]|\\.)*)"/g)) if (info.logs.length < 3) info.logs.push(`[${m[1]}] [${info.node || "node"}]: ${m[2].replace(/%[-.\d]*[lz]*[sdfiu]/g, "…").replace(/%%/g, "%")}`);

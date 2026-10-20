@@ -68,3 +68,14 @@ describe("SetPen with a bare off key fails as on real (AUDIT_V2 #40)", () => {
     expect(out.get(cmd)[0]).toBe(want);
   });
 });
+
+describe("N19: node info of the C++ TF broadcaster (AUDIT_V2 #21, N19 row)", () => {
+  it("lists the subscription /turtle1/pose built from the turtlename parameter, and the /tf publisher", () => {
+    const cmd = "ros2 node info /turtle_tf_broadcaster";
+    const real = realLines(realStep("N19", 1, cmd));
+    expect(real).toContain("    /turtle1/pose: turtlesim/msg/Pose");
+    expect(real).toContain("    /tf: tf2_msgs/msg/TFMessage");
+    const { out } = runSolutions("N19", 1);
+    expect(out.get(cmd).filter((l) => l.trim())).toEqual(real);
+  });
+});
