@@ -48,11 +48,11 @@ Domains: 52 = lessons (A), 50 = physics (C), 51 = RViz2 (D). One real simulation
 Each item: what differs · REAL evidence · SITE evidence. Full REAL-vs-SITE lines for every row are in the part reports named in the last column of the totals table; this list groups identical causes so that each fix appears once.
 
 ### P1 – the lesson itself is wrong on real ROS (fix the content, then the site)
-1. **XT5 task 1 / RV1 task 1 `robot_state_publisher -p robot_description:="$(xacro chiku.urdf.xacro)"` crashes on real Jazzy** (": " in the comment "REP 105: base_footprint"); every later step of those lessons runs with no TF on a real PC. The site runs the node. REAL `parity/fixtures/lessons/XT5/term1.json` step 0, `RV1/term1.json` step 0, cause `lessons/_investigations/xt5_rsp_colon.txt`; SITE `parity/browser_out/lessons/XT5/term1.browser.json`. (weeks7-9 #1)
-2. **SetPen with `off: 0` fails on real** (`Failed to populate field: attribute name must be string, not 'bool'`, exit 1) in the lessons' own solutions D4 term2, D13, F12; the site accepts it. (weeks4-6 #1)
-3. **N23 `colcon test` fails on real** (`NO TESTS RAN`, `chiku_control … exited with code 5`); the site passes and `colcon test-result` invents a pytest.xml with 6 tests. Cause on real not established (UNVERIFIED). (weeks4-6 #2)
-4. **F15 code block `--params-file config/speed.yaml` from ~/ros2_ws crashes on real** (`Couldn't parse params file … Error opening YAML file`); the site runs it. (weeks4-6 #3)
-5. **N10, N18, N19 solutions cannot complete their own tasks** (new terminal without `source install/setup.bash` → `Package … not found` on real AND on the site; `tools/check-content.mjs` flags them). (weeks4-6, content section)
+1. **FIXED** (`FIX_V2.md`, commit "Content XT5/RV1") – **XT5 task 1 / RV1 task 1 `robot_state_publisher -p robot_description:="$(xacro chiku.urdf.xacro)"` crashes on real Jazzy** (": " in the comment "REP 105: base_footprint"); every later step of those lessons runs with no TF on a real PC. The site runs the node. REAL `parity/fixtures/lessons/XT5/term1.json` step 0, `RV1/term1.json` step 0, cause `lessons/_investigations/xt5_rsp_colon.txt`; SITE `parity/browser_out/lessons/XT5/term1.browser.json`. (weeks7-9 #1)
+2. **FIXED** (`FIX_V2.md`, commit "Content D4/D13/F12") – **SetPen with `off: 0` fails on real** (`Failed to populate field: attribute name must be string, not 'bool'`, exit 1) in the lessons' own solutions D4 term2, D13, F12; the site accepts it. (weeks4-6 #1)
+3. **FIXED** (`FIX_V2.md`, commit "Content N23"; cause now established: no pytest test dependency in setup.py, `_investigations/n23_colcon_test_cause.txt`) – **N23 `colcon test` fails on real** (`NO TESTS RAN`, `chiku_control … exited with code 5`); the site passes and `colcon test-result` invents a pytest.xml with 6 tests. Cause on real not established (UNVERIFIED). (weeks4-6 #2)
+4. **FIXED** (`FIX_V2.md`, commit "Content F15") – **F15 code block `--params-file config/speed.yaml` from ~/ros2_ws crashes on real** (`Couldn't parse params file … Error opening YAML file`); the site runs it. (weeks4-6 #3)
+5. **FIXED** (`FIX_V2.md`, commit "Content N10/N18/N19") – **N10, N18, N19 solutions cannot complete their own tasks** (new terminal without `source install/setup.bash` → `Package … not found` on real AND on the site; `tools/check-content.mjs` flags them). (weeks4-6, content section)
 6. **N4 code block uses `chiku_control_cpp log_demo` and N8 code block uses Python `safety_filter`**, neither of which is in that lesson's workspace (real: `Package 'chiku_control_cpp' not found` / no executable). REAL `lessons/N4/termcode1.json`, `N8/termcode1.json`. (weeks4-6 code-block rows)
 
 ### P2 – wrong behaviour a student acts on
@@ -99,7 +99,7 @@ Each item: what differs · REAL evidence · SITE evidence. Full REAL-vs-SITE lin
 ### Coverage gaps (NO FIXTURE / UNVERIFIED)
 - 32 of 56 workspace entries have no real fixture (TB3 empty/house/fake/rviz, every arm's rviz/mock/fake MoveIt, crazyflie (needs sudo), scout); arm fixtures exist only on the unmerged `origin/robots-p2b` branch (SIM_INVENTORY #13).
 - 15 `rviz` editor blocks (weeks 7-9) and the 9 RViz-GUI lesson steps have no real lesson fixture (the D baseline covers the GUI itself).
-- 26 lesson commands PENDING (sudo/apt, list below). Default dartsim collision detector/solver UNVERIFIED. UR5e step instability cause UNVERIFIED. N23 `colcon test` cause UNVERIFIED. RViz incompatible-QoS case UNVERIFIED on the site (its `ros2 topic pub … sensor_msgs/msg/LaserScan` fails with "The passed message type is invalid").
+- 26 lesson commands PENDING (sudo/apt, list below). Default dartsim collision detector/solver UNVERIFIED. UR5e step instability cause UNVERIFIED. N23 `colcon test` cause: FIXED, established on real in FIX_V2 (no pytest test dependency in setup.py). RViz incompatible-QoS case UNVERIFIED on the site (its `ros2 topic pub … sensor_msgs/msg/LaserScan` fails with "The passed message type is invalid").
 
 ## Owner must do
 
@@ -117,7 +117,7 @@ sudo apt install ros-jazzy-moveit ros-jazzy-moveit-resources-panda-moveit-config
 (A5, A6, R1, R2, R4, IN4.) A real `tree`-not-installed message also needs a machine without `tree` (A6 term2). The Crazyflie entry needs the sudo steps already in `parity/scripts/robots_sudo.sh`.
 
 **Decisions:**
-1. Fix the course content (`content/course-content.json`, not touched in this run): XT5/RV1 xacro comment (remove ": " or load the URDF another way), SetPen `off: 0` (D4, D13, F12 – capture a working form on real ROS before changing the lesson), N10/N18/N19 missing `source install/setup.bash`, F15 params-file path, N4/N8 code blocks naming packages that are not in the lesson workspace, N23 test expectations (find why real collects 0 Python tests).
+1. Fix the course content (`content/course-content.json`, not touched in this run) – **FIXED in FIX_V2** except N4/N8 (not in that task): XT5/RV1 xacro comment (remove ": " or load the URDF another way), SetPen `off: 0` (D4, D13, F12 – capture a working form on real ROS before changing the lesson), N10/N18/N19 missing `source install/setup.bash`, F15 params-file path, N4/N8 code blocks naming packages that are not in the lesson workspace, N23 test expectations (find why real collects 0 Python tests).
 2. Site physics: decide whether plugin-bearing models get Rapier dynamics (P2 #7-#10) – the biggest physics gap; and whether the DiffDrive should be dynamic (slip, acceleration).
 3. Merge or cherry-pick the arm/scout/tb4 fixtures from `origin/robots-p2b` into parity-v2 (STATUS.md here still says NOT BUILT).
 4. fr3: rebuild the bundle at the verified franka_description commit 7aeeddc4 or re-verify 72baf5bf; wx250s `fake` page entry → `use_sim:=true` (workspace.json page entries are the only allowed upstream-side edit).
