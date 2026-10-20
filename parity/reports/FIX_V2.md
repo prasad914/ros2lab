@@ -43,3 +43,29 @@ These are open site bugs, not content, so they are not fixed here.
 ## End state
 
 Domain 52: no processes left; Xvfb `:52` stopped. Nothing pushed or deployed.
+
+---
+
+# FIX_V2 part 2 (2026-10-20, branch fix-v2): housekeeping, N4/N8, site terminal differences
+
+## Step 0 – checks and baseline gate
+
+- `git status` clean on fix-v2 at ab869ee. `domain_pids 50 51 52` (parity/scripts/domain_procs.sh): all empty. Worktree
+  `/home/prasad/ros2lab-robots` (robots-p2b, 848765c): clean, no process running in it.
+- Baseline gate on ab869ee, two lanes in parallel (lane A every suite below except real-sweep, lane B real-sweep);
+  site on localhost:8080 and 127.0.0.1:8000:
+
+| Suite | Baseline |
+|---|---|
+| `tools/check-content.mjs` | exit 0, "All good" (92 terminals, 15 RViz blocks, 65 Python) |
+| `tools/security-check.mjs` | exit 0 |
+| `tests/{iface,physics,robot-hw,tb3-catalog,tf-buffer,urdf2sdf}.test.mjs` | exit 0 each |
+| `tests/gz-real-node.mjs`, `nav2-node.mjs`, `games-basics.mjs` | exit 0 |
+| `tests/real-tb3.mjs`, `real-tb3-nav.mjs`, `real-mobile-audit.mjs` (all parts) | exit 0, "all passed", 0 FAIL lines |
+| `tests/real-arms-audit.mjs` | exit 0, "all passed" |
+| `tests/sweep.mjs` | exit 0, 33 ok, 0 with errors |
+| `parity/scripts/lessons/site_lesson_check.mjs` (XT5,RV1,D4,D13,F12,F15,N10,N18,N19,N23) | every task ticks, ALL DONE |
+| `tests/real-sweep.mjs` (full, 7071 s) | exit 0; 56 entries: 53 ok, 3 BAD – the 3 known ones: fr3 `visualize_franka_robot.launch.py` (`died: ros2 (1)`, SIM_INVENTORY #3), fr3 `gazebo_franka_arm_example_controller.launch.py` (`link 'fr3_link0' has two parents`, SIM_INVENTORY #1), gen3 `kortex_sim_control.launch.py` (spawner `Failed to activate controller : robotiq_gripper_controller` twice, SIM_INVENTORY #12) |
+
+real-mobile-audit took 5249 s in this run because real-sweep ran in parallel (no failure).
+
