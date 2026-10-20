@@ -13,16 +13,19 @@ const block = (lesson, term) => {
   throw new Error(`no lesson ${lesson}`);
 };
 const fixture = (lesson, term) => JSON.parse(readFileSync(new URL(`parity/fixtures/lessons/${lesson}/term${term}.json`, root), "utf8"));
-const realStep = (lesson, term, cmd) => {
-  const s = fixture(lesson, term).steps.find((x) => x.kind === "cmd" && x.cmd === cmd);
+const realStep = (lesson, term, cmd, last = false) => {
+  const all = fixture(lesson, term).steps.filter((x) => x.kind === "cmd" && x.cmd === cmd), s = last ? all[all.length - 1] : all[0];
   if (!s) throw new Error(`${lesson} term${term}: no real step "${cmd}"`);
   return s;
 };
 const realLines = (step) => String(step.out || "").split(/\r?\n/).filter((l) => l.trim()).map((l) => l.replace(/^(\[\w+\]) \[\d+\.\d+\] /, "$1 "));
-// runs every solution command of the block in one Shell (tabs share one Shell on the site), returns cmd -> lines
+// runs every solution command of the block in one Shell (tabs share one Shell on the site), returns cmd -> lines of
+// its last run; {nano, replace} steps get the same first-occurrence replacement as run_lesson_terms.py
 const runSolutions = (lesson, term, extra = []) => {
   const b = block(lesson, term), sh = new Shell(b), out = new Map();
-  for (const c of b.tasks.flatMap((t) => [].concat(t.sol)).filter((c) => typeof c === "string").concat(extra)) {
+  for (const c of b.tasks.flatMap((t) => [].concat(t.sol)).concat(extra)) {
+    if (c && c.nano) { const f = sh.node(sh.abs(c.nano)); if (f) f.content = f.content.replace(...(c.replace || ["", ""])); continue; }
+    if (typeof c !== "string") continue;
     const r = sh.run(c);
     out.set(c, (r.lines || []).filter((l) => l.cls !== "hint").map((l) => l.text));
   }
@@ -87,5 +90,21 @@ describe("robot_state_publisher startup prints Robot initialized, not one 'got s
     expect(real).toEqual(["[INFO] [robot_state_publisher]: Robot initialized"]);
     const { out } = runSolutions(lesson, 1);
     expect(out.get(cmd)).toEqual(real);
+  });
+});
+
+describe("joint_state_publisher(_gui) startup lines and logger as on real (AUDIT_V2 #14)", () => {
+  for (const [lesson, cmd] of [["XT5", "ros2 run joint_state_publisher_gui joint_state_publisher_gui"], ["RV1", "ros2 run joint_state_publisher joint_state_publisher"]]) it(`${lesson}: ${cmd}`, () => {
+    const real = realLines(realStep(lesson, 1, cmd));
+    const { out } = runSolutions(lesson, 1);
+    expect(out.get(cmd).filter((l) => /^\[(INFO|WARN|ERROR)\]/.test(l))).toEqual(real);
+  });
+  it("XT7: launch output of joint_state_publisher_gui (after the CMakeLists fix)", () => {
+    const cmd = "ros2 launch my_robot_description display.launch.py", jsp = (l) => /^\[joint_state_publisher/.test(l);
+    const real = fixture("XT7", 1).steps.filter((x) => x.kind === "cmd" && x.cmd === cmd).pop().out.split(/\r?\n/).filter(jsp)
+      .map((l) => l.replace(/ \[\d+\.\d+\] /, " "));
+    expect(real.length).toBeGreaterThan(3);
+    const { out } = runSolutions("XT7", 1);
+    expect(out.get(cmd).filter(jsp).map((l) => l.replace(/ \[\d+\.\d+\] /, " "))).toEqual(real.slice(0, 4));
   });
 });

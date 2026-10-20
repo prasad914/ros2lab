@@ -919,8 +919,9 @@ export class RosGraph {
     }
     if (kind === "teleop_twist") { n.speed = Number(n.params.speed) || 0.5; n.turn = Number(n.params.turn) || 1.0; const st = n.params.stamped === true || n.params.stamped === "true"; const tp = (this.endpoints(n).pubs.find(([, t]) => /Twist/.test(t)) || [])[0]; return [...pre, ...this.lines(TELEOP_BANNER), this.hint(`(Practice terminal: press the keys below, or type them while this terminal is selected. It publishes geometry_msgs/msg/${st ? "TwistStamped" : "Twist"} on ${tp}.)`)]; }
     const L = {
-      jsp: kind !== "jsp" ? [] : this.rspNode() ? [] : ["[WARN] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic..."],
-      jsp_gui: kind !== "jsp_gui" ? [] : this.rspNode() ? ["[INFO] [joint_state_publisher_gui]: Centering", "(A window with one slider per moving joint opened below the terminal.)"] : ["[WARN] [joint_state_publisher_gui]: Waiting for robot_description to be published on the robot_description topic..."],
+      // logger joint_state_publisher for both programs, all INFO (lessons/RV1/term1.json step 2, XT5/term1.json step 6)
+      jsp: kind !== "jsp" ? [] : JSP_LINES("jsp", !!this.rspNode()).map((t) => `[INFO] [joint_state_publisher]: ${t}`),
+      jsp_gui: kind !== "jsp_gui" ? [] : [...JSP_LINES("jsp_gui", !!this.rspNode()).map((t) => `[INFO] [joint_state_publisher]: ${t}`), ...(this.rspNode() ? ["(A window with one slider per moving joint opened below the terminal.)"] : [])],
       rviz: kind !== "rviz" ? [] : ["[INFO] [rviz2]: Stereo is NOT SUPPORTED", "[INFO] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)", "(The RViz2 window opened below the terminal.)"],
       turtlesim: [`[INFO] [${name}]: Starting turtlesim with node name ${n.full}`, `[INFO] [${name}]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]`],
       teleop: ["Reading from keyboard", "---------------------------", "Use arrow keys to move the turtle.", "Use G|B|V|C|D|E|R|T keys to rotate to absolute orientations. 'F' to cancel a rotation.", "'Q' to quit."],
@@ -1583,6 +1584,13 @@ RosGraph.prototype.latchedFor = function (n) {
   }
   return out;
 };
+// joint_state_publisher(_gui) startup, as real Jazzy prints it once robot_state_publisher publishes robot_description
+// (lessons/XT5/term1.json step 6, RV1/term1.json step 2, XT7 and UR5 launch logs); without it, only the first line
+const JSP_LINES = (kind, haveDescription) => {
+  const L = kind === "jsp_gui" ? ["Waiting for robot_description to be published on the robot_description topic...", "Centering", "Got description, configuring robot", "Centering"]
+    : ["Waiting for robot_description to be published on the robot_description topic...", "Got description, configuring robot"];
+  return haveDescription ? L : L.slice(0, 1);
+};
 export function parseNodeCode(code, lang) {
   const info = { node: null, pubs: [], subs: [], srvs: [], cli: [], acts: [], actc: [], params: {}, ptypes: {}, logs: [], code };
   const clean = code.replace(lang === "python" ? /^\s*#.*$/gm : /\/\/.*$/gm, "");
@@ -2199,7 +2207,7 @@ RosGraph.prototype.launchUserInner = function (pk, file, extra = []) {
     }
     if (kind === "custom" && ws.infos && ws.infos[n.exec]) { const inf = ws.infos[n.exec]; node.info = inf; for (const [k, v] of Object.entries(inf.params)) if (!(k in node.params)) node.params[k] = v; if (inf.lang === "cpp") QOS.forEach((q, i) => { node.params[q] = [1000, "volatile", "keep_last", "reliable"][i]; }); }
     if (kind === "custom") node.ptypes = { ...Object.fromEntries(Object.entries(params).map(([k, v]) => [k, v && typeof v === "object" ? "double" : typeof v === "boolean" ? "bool" : typeof v === "string" ? "string" : "integer"])), ...((node.info && node.info.ptypes) || {}) };
-    if (kind === "jsp_gui" || kind === "jsp") post.push(this.out(`[${n.exec}-${count + 1}] [INFO] [${stamp()}] [${n.exec}]: Waiting for robot_description to be published on the robot_description topic...`));
+    if (kind === "jsp_gui" || kind === "jsp") for (const t of JSP_LINES(kind, !!this.rspNode())) post.push(this.out(`[${n.exec}-${count + 1}] [INFO] [${stamp()}] [${n.name || "joint_state_publisher"}]: ${t}`));
     if (kind === "gz_bridge" || kind === "gz_image") {
       if (kind === "gz_image") node.bridge = (n.args || []).filter((x) => !x.startsWith("-")).map((t) => ({ ros: t.startsWith("/") ? t : "/" + t, gz: t.startsWith("/") ? t : "/" + t, rosType: "sensor_msgs/msg/Image", gzType: "gz.msgs.Image", dir: "GZ_TO_ROS" }));
       else {
