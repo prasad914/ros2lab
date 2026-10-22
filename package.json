@@ -2,7 +2,7 @@
   "name": "ros2lab-course",
   "private": true,
   "scripts": {
-    "dev": "python3 -m http.server 8000 --directory public"
+    "dev": "python3 tools/dev-server.py 8000 public"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1"
