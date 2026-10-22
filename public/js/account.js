@@ -1,6 +1,6 @@
 // "My account": profile, registration and access details, extra time, password, log out, delete.
 import { auth, call, sendPasswordResetEmail } from "./fb.js";
-import { el, friendlyError, waitForUser, getStage, renderWho, signOutNow, describeProfile, fmtDate, footer, accessInfo, fmtDay, regsUsed, MAX_REGISTRATIONS, CATEGORY_NAMES, ensureConsent } from "./common.js";
+import { el, placeError, friendlyError, waitForUser, getStage, renderWho, signOutNow, describeProfile, fmtDate, footer, accessInfo, fmtDay, regsUsed, MAX_REGISTRATIONS, CATEGORY_NAMES, ensureConsent } from "./common.js";
 import { accessCard, extensionBox } from "./access-ui.js";
 import { CONTACT_EMAIL } from "./firebase-config.js";
 
@@ -50,7 +50,7 @@ const facts = (rows) => el("dl", { class: "facts" }, rows.filter(Boolean).flatMa
   const regCard = st.stage === "admin" ? null : el("section", { class: "panel" },
     el("div", { class: "card-head" }, el("h2", { text: "Registration" }), el("span", { class: `chip status-chip ${chipCls}`, text: label })),
     facts([
-      ["Registration", used <= 1 ? (used ? "First registration" : "Not approved yet") : `Re-registration ${used - 1} of ${MAX_REGISTRATIONS - 1}`],
+      ["Registration", used <= 1 ? (used ? "First registration" : "Not finished yet") : `Re-registration ${used - 1} of ${MAX_REGISTRATIONS - 1}`],
       used ? ["Re-registrations left", `${left} of ${MAX_REGISTRATIONS - 1}`] : null,
       info && !lifetime ? ["Access period", `${fmtDay(info.start)} to ${fmtDate(new Date(info.until))}`] : null,
       info && !lifetime ? ["Days left", info.ended ? "0 (ended)" : `${info.daysLeft} (day ${info.dayNo} of ${info.totalDays})`] : null,
@@ -59,7 +59,7 @@ const facts = (rows) => el("dl", { class: "facts" }, rows.filter(Boolean).flatMa
       used <= 1 && info && !lifetime ? ["Extra time", p.extensionUsed ? `${p.extensionDays} days given (used)` : p.extensionRequest ? `Request ${p.extensionRequest.status}` : "Not requested (one request allowed)"] : null,
     ]),
     fr ? el("details", { class: "first-reg" }, el("summary", { text: "Record of your first registration" }),
-      facts([["Name", fr.fullName || "–"], ["Email", fr.email || "–"], ["College / institution", fr.institution || "–"], ["Approved on", fmtDate(fr.approvedAt)]]),
+      facts([["Name", fr.fullName || "–"], ["Email", fr.email || "–"], ["College / institution", fr.institution || "–"], ["Access given on", fmtDate(fr.approvedAt)]]),
       el("p", { class: "small muted", text: "This record is kept for the registration rules and does not change when you edit your details." })) : null,
     el("div", { class: "q-actions" },
       st.stage === "approved" ? el("a", { class: "btn", href: "course.html", text: "Go to my course" })
@@ -89,8 +89,8 @@ const facts = (rows) => el("dl", { class: "facts" }, rows.filter(Boolean).flatMa
   const delErr = el("p", { class: "notice err", hidden: true, role: "alert" });
   const del = el("button", { class: "btn btn-danger", type: "button", text: "Delete my account and data" });
   del.addEventListener("click", async () => {
-    if (confirmBox.value.trim() !== "DELETE") { delErr.textContent = "Type DELETE in the box to confirm."; delErr.hidden = false; return; }
-    del.disabled = true;
+    if (confirmBox.value.trim() !== "DELETE") { placeError(delErr, "Type DELETE in the box to confirm.", confirmBox); return; }
+    placeError(delErr, ""); del.disabled = true;
     try { await call("deleteMyAccount")({ reason: delReason.value.trim().slice(0, 300) }); await auth.signOut(); location.href = "signin.html?deleted=1"; }
     catch (e) {
       del.disabled = false; delErr.textContent = friendlyError(e); delErr.hidden = false;

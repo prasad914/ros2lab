@@ -1,0 +1,48 @@
+# Excerpt of parity/fixtures/lessons/UR7/termcode1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson UR7 terminal code1: Lesson code block commands: view_ur.launch.py ur_type:=ur5e (sudo apt line PENDING: ur_description already installed here)
+2:# scratch HOME /home/prasad/lesson_ws/homes/UR7_tcode1 shown as /home/student; sourced=True running=[] start=None
+3:## [term 1] $ ros2 launch ur_description view_ur.launch.py ur_type:=ur5e   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+4:[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-19-22-12-12-117180-prasad-1214172
+5:[INFO] [launch]: Default logging verbosity is set to INFO
+6:[INFO] [joint_state_publisher_gui-1]: process started with pid [1214184]
+7:[INFO] [rviz2-2]: process started with pid [1214185]
+8:[INFO] [robot_state_publisher-3]: process started with pid [1214186]
+9:[robot_state_publisher-3] [INFO] [1792428133.167605500] [robot_state_publisher]: Robot initialized
+10:[rviz2-2] [INFO] [1792428133.747429753] [rviz2]: Stereo is NOT SUPPORTED
+11:[rviz2-2] [INFO] [1792428133.747603393] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)
+12:[rviz2-2] [INFO] [1792428133.894188468] [rviz2]: Stereo is NOT SUPPORTED
+13:[joint_state_publisher_gui-1] [INFO] [1792428134.412465007] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...
+14:[joint_state_publisher_gui-1] [INFO] [1792428134.453209608] [joint_state_publisher]: Centering
+15:[joint_state_publisher_gui-1] [INFO] [1792428134.634588750] [joint_state_publisher]: Got description, configuring robot
+16:[joint_state_publisher_gui-1] [INFO] [1792428134.682986026] [joint_state_publisher]: Centering
+17:
+18:## [new terminal 2]
+19:## [term 2] $ ros2 node list   (exit=0, 1.8 s, finished, cwd=/home/student)
+20:/joint_state_publisher
+21:/robot_state_publisher
+22:/rviz
+23:/transform_listener_impl_64fe29c17b50
+24:
+25:## [term 1] Ctrl+C to stop: ros2 launch ur_description view_ur.launch.py ur_type:=ur5e  (exit=0)
+26:[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-19-22-12-12-117180-prasad-1214172
+27:[INFO] [launch]: Default logging verbosity is set to INFO
+28:[INFO] [joint_state_publisher_gui-1]: process started with pid [1214184]
+29:[INFO] [rviz2-2]: process started with pid [1214185]
+30:[INFO] [robot_state_publisher-3]: process started with pid [1214186]
+31:[robot_state_publisher-3] [INFO] [1792428133.167605500] [robot_state_publisher]: Robot initialized
+32:[rviz2-2] [INFO] [1792428133.747429753] [rviz2]: Stereo is NOT SUPPORTED
+33:[rviz2-2] [INFO] [1792428133.747603393] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)
+34:[rviz2-2] [INFO] [1792428133.894188468] [rviz2]: Stereo is NOT SUPPORTED
+35:[joint_state_publisher_gui-1] [INFO] [1792428134.412465007] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...
+36:[joint_state_publisher_gui-1] [INFO] [1792428134.453209608] [joint_state_publisher]: Centering
+37:[joint_state_publisher_gui-1] [INFO] [1792428134.634588750] [joint_state_publisher]: Got description, configuring robot
+38:[joint_state_publisher_gui-1] [INFO] [1792428134.682986026] [joint_state_publisher]: Centering
+39:[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+40:[robot_state_publisher-3] [INFO] [1792428142.951946866] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+41:[rviz2-2] [INFO] [1792428142.953562702] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+42:[ERROR] [joint_state_publisher_gui-1]: process has died [pid 1214184, exit code -2, cmd '/opt/ros/jazzy/lib/joint_state_publisher_gui/joint_state_publisher_gui --ros-args'].
+43:[INFO] [robot_state_publisher-3]: process has finished cleanly [pid 1214186]
+44:[INFO] [rviz2-2]: process has finished cleanly [pid 1214185]
+45:

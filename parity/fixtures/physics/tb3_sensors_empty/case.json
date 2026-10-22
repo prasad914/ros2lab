@@ -1,0 +1,14 @@
+{
+ "world": "tb3_sensors_empty",
+ "until": 62.0,
+ "subs": [
+  "/scan:scan",
+  "/imu:imu",
+  "/model/burger/pose:pose_v"
+ ],
+ "tb3": true,
+ "server_extra": [
+  "--headless-rendering"
+ ],
+ "case": "tb3_sensors_empty"
+}

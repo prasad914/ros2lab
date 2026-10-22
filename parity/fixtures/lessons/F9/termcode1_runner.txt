@@ -1,0 +1,16 @@
+# Excerpt of parity/fixtures/lessons/F9/termcode1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson F9 terminal code1: Lesson code block commands: interface show SetBool
+2:# scratch HOME /home/prasad/lesson_ws/homes/F9_tcode1 shown as /home/student; sourced=True running=['turtlesim'] start=~/ros2_ws
+3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
+4:[INFO] [1792427936.134073882] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792427936.144113026] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+6:
+7:## [term 1] $ ros2 interface show std_srvs/srv/SetBool   (exit=0, 0.9 s, finished, cwd=/home/student/ros2_ws)
+8:bool data # e.g. for hardware enabling / disabling
+9:---
+10:bool success   # indicate successful run of triggered service
+11:string message # informational, e.g. for error messages
+12:
+13:# note: pre-running terminal 100 output during block: 

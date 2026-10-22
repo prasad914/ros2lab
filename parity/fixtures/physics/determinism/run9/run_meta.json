@@ -1,0 +1,13 @@
+{
+ "case": "determinism",
+ "run": 9,
+ "world_file": "parity/scripts/physics/worlds/determinism.sdf",
+ "gz_partition": "phys50_determinism_9_1230316",
+ "ros_domain_id": "50",
+ "server_cmd": "gz sim -s -v 4 --iterations 3000 /home/prasad/ros2lab-course/parity/scripts/physics/worlds/determinism.sdf",
+ "unpause_reply": "data: true",
+ "wall_seconds_after_unpause": 4.29,
+ "server_exit": 0,
+ "model_info": {},
+ "date": "2026-10-19T22:44:13+0530"
+}

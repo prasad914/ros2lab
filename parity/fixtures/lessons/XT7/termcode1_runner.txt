@@ -1,0 +1,42 @@
+# Excerpt of parity/fixtures/lessons/XT7/termcode1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson XT7 terminal code1: Lesson code block commands: ros2 pkg create my_robot_description
+2:# scratch HOME /home/prasad/lesson_ws/homes/XT7_tcode1 shown as /home/student; sourced=True running=[] start=None
+3:## [term 1] $ mkdir -p ~/ros2_ws/src   (exit=0, 0.0 s, finished, cwd=/home/student)
+4:
+5:## [term 1] $ cd ~/ros2_ws/src   (exit=0, 0.0 s, finished, cwd=/home/student/ros2_ws/src)
+6:
+7:## [term 1] $ ros2 pkg create my_robot_description --build-type ament_cmake   (exit=0, 1.1 s, finished, cwd=/home/student/ros2_ws/src)
+8:going to create a new package
+9:package name: my_robot_description
+10:destination directory: /home/student/ros2_ws/src
+11:package format: 3
+12:version: 0.0.0
+13:description: TODO: Package description
+14:maintainer: ['prasad <prasad@todo.todo>']
+15:licenses: ['TODO: License declaration']
+16:build type: ament_cmake
+17:dependencies: []
+18:creating folder ./my_robot_description
+19:creating ./my_robot_description/package.xml
+20:creating source and include folder
+21:creating folder ./my_robot_description/src
+22:creating folder ./my_robot_description/include/my_robot_description
+23:creating ./my_robot_description/CMakeLists.txt
+24:
+25:[WARNING]: Unknown license 'TODO: License declaration'.  This has been set in the package.xml, but no LICENSE file has been created.
+26:It is recommended to use one of the ament license identifiers:
+27:Apache-2.0
+28:BSL-1.0
+29:BSD-2.0
+30:BSD-2-Clause
+31:BSD-3-Clause
+32:GPL-3.0-only
+33:LGPL-3.0-only
+34:MIT
+35:MIT-0
+36:
+37:## [term 1] $ ls my_robot_description   (exit=0, 0.0 s, finished, cwd=/home/student/ros2_ws/src)
+38:CMakeLists.txt  include  package.xml  src
+39:

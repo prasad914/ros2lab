@@ -1,6 +1,6 @@
 // A safe, simulated Ubuntu terminal for practice. Nothing here touches a real computer.
 import { el, rich } from "./dom.js";
-import { RosGraph, pkgCreate, findPackages, pkgExecutables, parseNodeCode } from "./ros-graph.js";
+import { RosGraph, pkgCreate, findPackages, pkgExecutables, parseNodeCode, argparseMissing } from "./ros-graph.js";
 import { parseFlowYaml } from "./urdf-core.js";
 import { tabComplete } from "./ros2-complete.js";
 import { loadIfaces } from "./ros-iface.js";
@@ -1220,7 +1220,8 @@ export class Shell {
       return { lines: [], realRun: { pkg: a, exe: b, rest: args.slice(3) } };
     }
     if (sub === "run") {
-      if (!a || !b) return [this.err("usage: ros2 run <package_name> <executable_name>")];
+      // argparse text of ros2run (https://github.com/ros2/ros2cli/blob/jazzy/ros2run/ros2run/command/run.py)
+      if (!a || !b) return argparseMissing("run", a ? 1 : 0).map((t) => this.err(t));
       const ws = this.visibleWs().get(a);
       if (ws) {
         if (ws.notRunnable && b in ws.notRunnable) return [this.err("No executable found"), this.hint(ws.notRunnable[b])];
@@ -2301,7 +2302,7 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
   }
   function teleKey(t, dir) {
     const hit = sh.graph.teleopKey(t.proc.fulls.find((f) => (sh.graph.node(f) || {}).kind === "teleop"), dir);
-    if (!hit) addLine({ text: "[WARN] [teleop_turtle]: no turtle is listening on /turtle1/cmd_vel. Start turtlesim in another terminal.", cls: "hint" }, t);
+    if (!hit) addLine({ text: `[WARN] [teleop_turtle]: no turtle is listening on ${(sh.graph.lastTwist || {}).topic || "/turtle1/cmd_vel"}. Start turtlesim in another terminal.`, cls: "hint" }, t);
     paintSim(true); scroll(t);
   }
   // live output: talkers publish and listeners hear, once per second

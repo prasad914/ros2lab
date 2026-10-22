@@ -1,0 +1,647 @@
+[
+ {
+  "lesson": "XT5",
+  "term": 1,
+  "title": "Live terminal: from URDF to TF to RViz",
+  "tasks": [
+   {
+    "task": 1,
+    "do": "Start robot_state_publisher: `ros2 run robot_state_publisher robot_state_publisher --ros-args -p robot_description:=\"$(xacro chiku.urdf.xacro)\"`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 run robot_state_publisher robot_state_publisher --ros-args -p robot_description:=\"$(xacro chiku.urdf.xacro)\"",
+      "interrupted": null,
+      "site": [
+       "[INFO] [robot_state_publisher]: got segment base_footprint",
+       "[INFO] [robot_state_publisher]: got segment base_link",
+       "[INFO] [robot_state_publisher]: got segment caster_link",
+       "[INFO] [robot_state_publisher]: got segment left_wheel_link",
+       "[INFO] [robot_state_publisher]: got segment lidar_link",
+       "[INFO] [robot_state_publisher]: got segment right_wheel_link"
+      ],
+      "siteRunning": true,
+      "real": {
+       "out": "[INFO] [1792471467.718094439] [robot_state_publisher]: Robot initialized\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 2,
+    "do": "Open a new terminal. Ask where the lidar is: `ros2 run tf2_ros tf2_echo base_footprint lidar_link`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "newTerminal",
+      "term": 2
+     },
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "ros2 run tf2_ros tf2_echo base_footprint lidar_link",
+      "interrupted": null,
+      "site": [
+       "At time 1792500568.234999808",
+       "- Translation: [0.100, 0.000, 0.250]",
+       "- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]",
+       "- Rotation: in RPY (radian) [0.000, 0.000, 0.000]",
+       "- Rotation: in RPY (degree) [0.000, 0.000, 0.000]",
+       "- Matrix:",
+       "  1.000  0.000  0.000  0.100",
+       "  0.000  1.000  0.000  0.000",
+       "  0.000  0.000  1.000  0.250",
+       "  0.000  0.000  0.000  1.000",
+       "At time 1792500569.234999808",
+       "- Translation: [0.100, 0.000, 0.250]",
+       "- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]",
+       "- Rotation: in RPY (radian) [0.000, 0.000, 0.000]",
+       "- Rotation: in RPY (degree) [0.000, 0.000, 0.000]",
+       "- Matrix:",
+       "  1.000  0.000  0.000  0.100",
+       "  0.000  1.000  0.000  0.000",
+       "  0.000  0.000  1.000  0.250",
+       "  0.000  0.000  0.000  1.000",
+       "^C",
+       "(tf2_echo prints lidar_link as seen from base_footprint once per second until Ctrl+C.)"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "[INFO] [1792471477.233776933] [tf2_echo]: Waiting for transform base_footprint ->  lidar_link: Invalid frame ID \"base_footprint\" passed to canTransform argument target_frame - frame does not exist\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 3,
+    "do": "Now ask for a wheel: `ros2 run tf2_ros tf2_echo base_footprint left_wheel_link`. It fails. Why?",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "ros2 run tf2_ros tf2_echo base_footprint left_wheel_link",
+      "interrupted": null,
+      "site": [
+       "[INFO] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"left_wheel_link\" passed to canTransform argument source_frame - frame does not exist",
+       "^C",
+       "tf2_echo waits until both frames exist. Start the node that broadcasts them."
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "[INFO] [1792471485.659005816] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"base_footprint\" passed to canTransform argument target_frame - frame does not exist\n[INFO] [1792471487.626951889] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"left_wheel_link\" passed to canTransform argument source_frame - frame does not exist\n[INFO] [1792471488.626972417] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"left_wheel_link\" passed to canTransform argument source_frame - frame does not exist\n[INFO] [1792471489.627129888] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"left_wheel_link\" passed to canTransform argument source_frame - frame does not exist\n[INFO] [1792471491.627056719] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"left_wheel_link\" passed to canTransform argument source_frame - frame does not exist\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 4,
+    "do": "Start the sliders: `ros2 run joint_state_publisher_gui joint_state_publisher_gui`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "ros2 run joint_state_publisher_gui joint_state_publisher_gui",
+      "interrupted": null,
+      "site": [
+       "[INFO] [joint_state_publisher_gui]: Centering",
+       "(A window with one slider per moving joint opened below the terminal.)"
+      ],
+      "siteRunning": true,
+      "real": {
+       "out": "[INFO] [1792471495.899336486] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...\n[INFO] [1792471495.957435531] [joint_state_publisher]: Centering\n[INFO] [1792471496.160705814] [joint_state_publisher]: Got description, configuring robot\n[INFO] [1792471496.183739767] [joint_state_publisher]: Centering\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 5,
+    "do": "In a new tab, try the wheel again: `ros2 run tf2_ros tf2_echo base_footprint left_wheel_link`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "newTerminal",
+      "term": 3
+     },
+     {
+      "kind": "cmd",
+      "term": 3,
+      "cmd": "ros2 run tf2_ros tf2_echo base_footprint left_wheel_link",
+      "interrupted": null,
+      "site": [
+       "At time 1792500594.460999936",
+       "- Translation: [-0.100, 0.170, 0.080]",
+       "- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]",
+       "- Rotation: in RPY (radian) [0.000, 0.000, 0.000]",
+       "- Rotation: in RPY (degree) [0.000, 0.000, 0.000]",
+       "- Matrix:",
+       "  1.000  0.000  0.000 -0.100",
+       "  0.000  1.000  0.000  0.170",
+       "  0.000  0.000  1.000  0.080",
+       "  0.000  0.000  0.000  1.000",
+       "At time 1792500595.460999936",
+       "- Translation: [-0.100, 0.170, 0.080]",
+       "- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]",
+       "- Rotation: in RPY (radian) [0.000, 0.000, 0.000]",
+       "- Rotation: in RPY (degree) [0.000, 0.000, 0.000]",
+       "- Matrix:",
+       "  1.000  0.000  0.000 -0.100",
+       "  0.000  1.000  0.000  0.170",
+       "  0.000  0.000  1.000  0.080",
+       "  0.000  0.000  0.000  1.000",
+       "^C",
+       "(tf2_echo prints left_wheel_link as seen from base_footprint once per second until Ctrl+C.)"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "[INFO] [1792471503.970843088] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"base_footprint\" passed to canTransform argument target_frame - frame does not exist\nAt time 1792471504.932151195\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471505.931768578\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471506.932034125\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471507.931700079\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471508.931564232\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471509.931673072\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471510.931615626\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 6,
+    "do": "Save a picture of the tree: `ros2 run tf2_tools view_frames`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 3,
+      "cmd": "ros2 run tf2_tools view_frames",
+      "interrupted": null,
+      "site": [
+       "[INFO] [1792500603.092999935] [view_frames]: Listening to tf data for 5.0 seconds...",
+       "[INFO] [1792500603.092999935] [view_frames]: Generating graph...",
+       "[INFO] [1792500603.092999935] [view_frames]: Result:tf2_msgs.srv.FrameGraph_Response(frame_yaml=\"base_link: \\n  parent: 'base_footprint' left_wheel_link: \\n  parent: 'base_link' ...\")",
+       "[INFO] [1792500603.092999935] [view_frames]: Exporting graph in frames_2026-10-20_18.20.03.pdf file...",
+       "Created frames_2026-10-20_18.20.03.pdf and frames_2026-10-20_18.20.03.gv in this folder. The PDF shows this tree:",
+       "  base_footprint",
+       "  └─ base_link",
+       "     └─ caster_link",
+       "     └─ left_wheel_link",
+       "     └─ lidar_link",
+       "     └─ right_wheel_link"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "[INFO] [1792471513.882953750] [view_frames]: Listening to tf data for 5.0 seconds...\n[INFO] [1792471518.937137768] [view_frames]: Generating graph...\n[INFO] [1792471518.944822512] [view_frames]: Result:tf2_msgs.srv.FrameGraph_Response(frame_yaml=\"left_wheel_link: \\n  parent: 'base_link'\\n  broadcaster: 'default_authority'\\n  rate: 10.200\\n  most_recent_transform: 1792471518.932054\\n  oldest_transform: 1792471513.932074\\n  buffer_length: 5.000\\nbase_link: \\n  parent: 'base_footprint'\\n  broadcaster: 'default_authority'\\n  rate: 10000.000\\n  most_recent_transform: 0.000000\\n  oldest_transform: 0.000000\\n  buffer_length: 0.000\\nright_wheel_link: \\n  parent: 'base_link'\\n  broadcaster: 'default_authority'\\n  rate: 10.200\\n  most_recent_transform: 1792471518.932054\\n  oldest_transform: 1792471513.932074\\n  buffer_length: 5.000\\ncaster_link: \\n  parent: 'base_link'\\n  broadcaster: 'default_authority'\\n  rate: 10000.000\\n  most_recent_transform: 0.000000\\n  oldest_transform: 0.000000\\n  buffer_length: 0.000\\nlidar_link: \\n  parent: 'base_link'\\n  broadcaster: 'default_authority'\\n  rate: 10000.000\\n  most_recent_transform: 0.000000\\n  oldest_transform: 0.000000\\n  buffer_length: 0.000\\n\")\n[INFO] [1792471518.958812087] [view_frames]: Exporting graph in frames_2026-10-20_10.15.18.pdf file...\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 7,
+    "do": "Start RViz: `ros2 run rviz2 rviz2`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 3,
+      "cmd": "ros2 run rviz2 rviz2",
+      "interrupted": null,
+      "site": [
+       "[INFO] [rviz2]: Stereo is NOT SUPPORTED",
+       "[INFO] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)",
+       "(The RViz2 window opened below the terminal.)"
+      ],
+      "siteRunning": true,
+      "real": {
+       "out": "[INFO] [1792471521.387297760] [rviz2]: Stereo is NOT SUPPORTED\n[INFO] [1792471521.387402983] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)\n[INFO] [1792471521.666923421] [rviz2]: Stereo is NOT SUPPORTED\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 8,
+    "do": "RViz says Frame [map] does not exist. Set **Fixed Frame** to `base_footprint`, then **Add** a `RobotModel` and a `TF` display. A RobotModel added this way starts with an empty **Description Topic** (exactly like RViz2 on Ubuntu): click its value and choose `/robot_description` from the list.",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "gui",
+      "sol": {
+       "viz": {
+        "fixedFrame": "base_footprint",
+        "displays": {
+         "Grid": true,
+         "RobotModel": true,
+         "TF": true
+        }
+       }
+      },
+      "log": [
+       "Fixed Frame -> base_footprint",
+       "Add RobotModel: added",
+       "Add TF: added"
+      ]
+     }
+    ]
+   }
+  ],
+  "allDone": true,
+  "pageErrors": [],
+  "bareOff": null
+ },
+ {
+  "lesson": "RV1",
+  "term": 1,
+  "title": "Live terminal: drive RViz yourself",
+  "tasks": [
+   {
+    "task": 1,
+    "do": "Start robot_state_publisher: `ros2 run robot_state_publisher robot_state_publisher --ros-args -p robot_description:=\"$(xacro chiku.urdf.xacro)\"`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 run robot_state_publisher robot_state_publisher --ros-args -p robot_description:=\"$(xacro chiku.urdf.xacro)\"",
+      "interrupted": null,
+      "site": [
+       "[INFO] [robot_state_publisher]: got segment base_footprint",
+       "[INFO] [robot_state_publisher]: got segment base_link",
+       "[INFO] [robot_state_publisher]: got segment caster_link",
+       "[INFO] [robot_state_publisher]: got segment left_wheel_link",
+       "[INFO] [robot_state_publisher]: got segment lidar_link",
+       "[INFO] [robot_state_publisher]: got segment right_wheel_link"
+      ],
+      "siteRunning": true,
+      "real": {
+       "out": "[INFO] [1792471533.119704410] [robot_state_publisher]: Robot initialized\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 2,
+    "do": "New tab: `ros2 run joint_state_publisher joint_state_publisher` (no sliders this time)",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "newTerminal",
+      "term": 2
+     },
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "ros2 run joint_state_publisher joint_state_publisher",
+      "interrupted": null,
+      "site": [],
+      "siteRunning": true,
+      "real": {
+       "out": "[INFO] [1792471543.209686076] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...\n[INFO] [1792471543.228059986] [joint_state_publisher]: Got description, configuring robot\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 3,
+    "do": "New tab: `rviz2`. Read the Global Status: Frame [map] does not exist.",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "newTerminal",
+      "term": 3
+     },
+     {
+      "kind": "cmd",
+      "term": 3,
+      "cmd": "rviz2",
+      "interrupted": null,
+      "site": [
+       "[INFO] [rviz2]: Stereo is NOT SUPPORTED",
+       "[INFO] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)",
+       "(The RViz2 window opened below the terminal.)"
+      ],
+      "siteRunning": true,
+      "real": {
+       "out": "[INFO] [1792471551.926093110] [rviz2]: Stereo is NOT SUPPORTED\n[INFO] [1792471551.926205234] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)\n[INFO] [1792471552.042694512] [rviz2]: Stereo is NOT SUPPORTED\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 4,
+    "do": "Set **Fixed Frame** to `base_footprint`. The error goes away, but there is no robot yet.",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "gui",
+      "sol": {
+       "viz": {
+        "fixedFrame": "base_footprint"
+       }
+      },
+      "log": [
+       "Fixed Frame -> base_footprint"
+      ]
+     }
+    ]
+   },
+   {
+    "task": 5,
+    "do": "**Add** a `RobotModel` display and a `TF` display. A RobotModel added this way starts with an empty **Description Topic** (exactly like RViz2 on Ubuntu): click its value and choose `/robot_description` from the list.",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "gui",
+      "sol": {
+       "viz": {
+        "displays": {
+         "Grid": true,
+         "RobotModel": true,
+         "TF": true
+        }
+       }
+      },
+      "log": [
+       "Add RobotModel: added",
+       "Add TF: added"
+      ]
+     }
+    ]
+   },
+   {
+    "task": 6,
+    "do": "Send a goal: pick the **2D Goal Pose** tool in the toolbar, then press on the grid and drag to set the direction.",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "gui",
+      "sol": {
+       "rvizGoal": [
+        1,
+        0.5,
+        0
+       ]
+      },
+      "log": [
+       "2D Goal Pose drag on the 3D view"
+      ]
+     }
+    ]
+   },
+   {
+    "task": 7,
+    "do": "See the message RViz sent: `ros2 topic echo /goal_pose`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "newTerminal",
+      "term": 4
+     },
+     {
+      "kind": "cmd",
+      "term": 4,
+      "cmd": "ros2 topic echo /goal_pose",
+      "interrupted": null,
+      "site": [
+       "header:",
+       "  stamp:",
+       "    sec: 1792500651",
+       "    nanosec: 184000015",
+       "  frame_id: base_footprint",
+       "pose:",
+       "  position:",
+       "    x: -0.277940115",
+       "    y: 0.087021281",
+       "    z: 0.0",
+       "  orientation:",
+       "    x: 0.0",
+       "    y: 0.0",
+       "    z: 0.994694273",
+       "    w: 0.102875186",
+       "---"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 8,
+    "do": "Save the setup: **File → Save Config As**, type `~/chiku.rviz`, press Save.",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "gui",
+      "sol": {
+       "rvizSave": "~/chiku.rviz"
+      },
+      "log": [
+       "Save Config As ~/chiku.rviz"
+      ]
+     }
+    ]
+   },
+   {
+    "task": 9,
+    "do": "Look at it: `cat ~/chiku.rviz`. Find the Fixed Frame line.",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 4,
+      "cmd": "cat ~/chiku.rviz",
+      "interrupted": null,
+      "site": [
+       "Panels:",
+       "  - Class: rviz_common/Displays",
+       "    Help Height: 78",
+       "    Name: Displays",
+       "    Property Tree Widget:",
+       "      Expanded:",
+       "        - /Global Options1",
+       "        - /Status1",
+       "      Splitter Ratio: 0.5",
+       "    Tree Height: 555",
+       "  - Class: rviz_common/Selection",
+       "    Name: Selection",
+       "  - Class: rviz_common/Tool Properties",
+       "    Expanded:",
+       "      - /2D Goal Pose1",
+       "      - /Publish Point1",
+       "    Name: Tool Properties",
+       "    Splitter Ratio: 0.5886790156364441",
+       "  - Class: rviz_common/Views",
+       "    Expanded:",
+       "      - /Current View1",
+       "    Name: Views",
+       "    Splitter Ratio: 0.5",
+       "  - Class: rviz_common/Time",
+       "    Experimental: false",
+       "    Name: Time",
+       "    SyncMode: 0",
+       "    SyncSource: \"\"",
+       "Visualization Manager:",
+       "  Class: \"\"",
+       "  Displays:",
+       "    - Class: rviz_default_plugins/Grid",
+       "      Enabled: true",
+       "      Name: Grid",
+       "      Reference Frame: \"<Fixed Frame>\"",
+       "      Plane Cell Count: 10",
+       "      Normal Cell Count: 0",
+       "      Cell Size: 1",
+       "      Line Style: Lines",
+       "      Line Width: 0.03",
+       "      Color: 160; 160; 164",
+       "      Alpha: 0.5",
+       "      Plane: XY",
+       "      Offset: 0; 0; 0",
+       "      Value: true",
+       "    - Class: rviz_default_plugins/RobotModel",
+       "      Enabled: true",
+       "      Name: RobotModel",
+       "      Visual Enabled: true",
+       "      Collision Enabled: false",
+       "      Mass: false",
+       "      Inertia: false",
+       "      Update Interval: 0",
+       "      Alpha: 1",
+       "      Description Source: Topic",
+       "      Description Topic:",
+       "        Depth: 1",
+       "        Durability Policy: Transient Local",
+       "        History Policy: Keep Last",
+       "        Reliability Policy: Reliable",
+       "        Value: ",
+       "      TF Prefix: \"\"",
+       "      Value: true",
+       "    - Class: rviz_default_plugins/TF",
+       "      Enabled: true",
+       "      Name: TF",
+       "      Show Names: false",
+       "      Show Axes: true",
+       "      Show Arrows: true",
+       "      Marker Scale: 1",
+       "      Update Interval: 0",
+       "      Frame Timeout: 15",
+       "      Filter (whitelist): \"\"",
+       "      Filter (blacklist): \"\"",
+       "      Value: true",
+       "  Enabled: true",
+       "  Global Options:",
+       "    Background Color: 48; 48; 48",
+       "    Fixed Frame: base_footprint",
+       "    Frame Rate: 30",
+       "  Name: root",
+       "  Tools:",
+       "    - Class: rviz_default_plugins/Interact",
+       "      Hide Inactive Objects: true",
+       "    - Class: rviz_default_plugins/MoveCamera",
+       "    - Class: rviz_default_plugins/Select",
+       "    - Class: rviz_default_plugins/FocusCamera",
+       "    - Class: rviz_default_plugins/Measure",
+       "      Line color: 128; 128; 0",
+       "    - Class: rviz_default_plugins/SetInitialPose",
+       "      Covariance x: 0.25",
+       "      Covariance y: 0.25",
+       "      Covariance yaw: 0.06853891909122467",
+       "      Topic:",
+       "        Depth: 5",
+       "        Durability Policy: Volatile",
+       "        History Policy: Keep Last",
+       "        Reliability Policy: Reliable",
+       "        Value: /initialpose",
+       "    - Class: rviz_default_plugins/SetGoal",
+       "      Topic:",
+       "        Depth: 5",
+       "        Durability Policy: Volatile",
+       "        History Policy: Keep Last",
+       "        Reliability Policy: Reliable",
+       "        Value: /goal_pose",
+       "    - Class: rviz_default_plugins/PublishPoint",
+       "      Single click: true",
+       "      Topic:",
+       "        Depth: 5",
+       "        Durability Policy: Volatile",
+       "        History Policy: Keep Last",
+       "        Reliability Policy: Reliable",
+       "        Value: /clicked_point",
+       "  Transformation:",
+       "    Current:",
+       "      Class: rviz_default_plugins/TF",
+       "  Value: true",
+       "  Views:",
+       "    Current:",
+       "      Class: rviz_default_plugins/Orbit",
+       "      Distance: 1.40279",
+       "      Enable Stereo Rendering:",
+       "        Stereo Eye Separation: 0.05999999865889549",
+       "        Stereo Focal Distance: 1",
+       "        Swap Stereo Eyes: false",
+       "        Value: false",
+       "      Focal Point:",
+       "        X: 0",
+       "        Y: 0",
+       "        Z: 0.135",
+       "      Focal Shape Fixed Size: true",
+       "      Focal Shape Size: 0.05",
+       "      Invert Z Axis: false",
+       "      Name: Current View",
+       "      Near Clip Distance: 0.009999999776482582",
+       "      Pitch: 0.785398",
+       "      Target Frame: <Fixed Frame>",
+       "      Value: Orbit (rviz_default_plugins)",
+       "      Yaw: 0.785398",
+       "    Saved: ~",
+       "Window Geometry:",
+       "  Displays:",
+       "    collapsed: false",
+       "  Height: 846",
+       "  Hide Left Dock: false",
+       "  Hide Right Dock: false",
+       "  Selection:",
+       "    collapsed: false",
+       "  Time:",
+       "    collapsed: false",
+       "  Tool Properties:",
+       "    collapsed: false",
+       "  Views:",
+       "    collapsed: false",
+       "  Width: 1200",
+       "  X: 60",
+       "  Y: 60"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "cat: /home/student/chiku.rviz: No such file or directory\n",
+       "exit": 1,
+       "state": "finished"
+      }
+     }
+    ]
+   }
+  ],
+  "allDone": true,
+  "pageErrors": [],
+  "bareOff": null
+ }
+]

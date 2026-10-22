@@ -1,0 +1,24 @@
+# Excerpt of parity/fixtures/lessons/D11/termcode1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson D11 terminal code1: Lesson code block commands: tf2_echo map base_link + view_frames with NO robot running (lesson shows them for a running robot)
+2:# scratch HOME /home/prasad/lesson_ws/homes/D11_tcode1 shown as /home/student; sourced=True running=[] start=None
+3:## [term 1] $ ros2 run tf2_ros tf2_echo map base_link   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+4:[INFO] [1792427917.309456726] [tf2_echo]: Waiting for transform map ->  base_link: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+5:[INFO] [1792427919.281600091] [tf2_echo]: Waiting for transform map ->  base_link: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+6:[INFO] [1792427921.281570066] [tf2_echo]: Waiting for transform map ->  base_link: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+7:[INFO] [1792427923.281541190] [tf2_echo]: Waiting for transform map ->  base_link: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+8:
+9:## [term 1] Ctrl+C to stop: ros2 run tf2_ros tf2_echo map base_link  (exit=0)
+10:[INFO] [1792427917.309456726] [tf2_echo]: Waiting for transform map ->  base_link: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+11:[INFO] [1792427919.281600091] [tf2_echo]: Waiting for transform map ->  base_link: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+12:[INFO] [1792427921.281570066] [tf2_echo]: Waiting for transform map ->  base_link: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+13:[INFO] [1792427923.281541190] [tf2_echo]: Waiting for transform map ->  base_link: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+14:[INFO] [1792427924.915761395] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+15:
+16:## [term 1] $ ros2 run tf2_tools view_frames   (exit=0, 7.5 s, finished, cwd=/home/student)
+17:[INFO] [1792427927.133727830] [view_frames]: Listening to tf data for 5.0 seconds...
+18:[INFO] [1792427932.177989576] [view_frames]: Generating graph...
+19:[INFO] [1792427932.185241023] [view_frames]: Result:tf2_msgs.srv.FrameGraph_Response(frame_yaml='[]')
+20:[INFO] [1792427932.188209223] [view_frames]: Exporting graph in frames_2026-10-19_22.08.52.pdf file...
+21:

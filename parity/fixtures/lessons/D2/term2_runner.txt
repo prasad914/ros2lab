@@ -1,0 +1,72 @@
+# Excerpt of parity/fixtures/lessons/D2/term2_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson D2 terminal 2: Practice: two robots side by side
+2:# scratch HOME /home/prasad/lesson_ws/homes/D2_t2 shown as /home/student; sourced=True running=['turtlesim', 'teleop'] start=None
+3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
+4:[INFO] [1792425517.266901679] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792425517.289428940] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+6:
+7:## [pre-running terminal] $ ros2 run turtlesim turtle_teleop_key  (still running after 4 s)
+8:Reading from keyboard
+9:---------------------------
+10:Use arrow keys to move the turtle.
+11:Use g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.
+12:'q' to quit.
+13:
+14:## [term 1] $ ros2 run turtlesim turtlesim_node --ros-args --remap __ns:=/robot2   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+15:[INFO] [1792425529.829585991] [robot2.turtlesim]: Starting turtlesim with node name /robot2/turtlesim
+16:[INFO] [1792425529.842380200] [robot2.turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+17:
+18:## [new terminal 2]
+19:## [term 2] $ ros2 node list   (exit=0, 1.4 s, finished, cwd=/home/student)
+20:/robot2/turtlesim
+21:/teleop_turtle
+22:/turtlesim
+23:
+24:## [term 2] $ ros2 topic list   (exit=0, 1.3 s, finished, cwd=/home/student)
+25:/parameter_events
+26:/robot2/turtle1/cmd_vel
+27:/robot2/turtle1/color_sensor
+28:/robot2/turtle1/pose
+29:/rosout
+30:/turtle1/cmd_vel
+31:/turtle1/color_sensor
+32:/turtle1/pose
+33:
+34:## [term 2] $ ros2 node info /teleop_turtle   (exit=0, 1.4 s, finished, cwd=/home/student)
+35:/teleop_turtle
+36:  Subscribers:
+37:    /parameter_events: rcl_interfaces/msg/ParameterEvent
+38:  Publishers:
+39:    /parameter_events: rcl_interfaces/msg/ParameterEvent
+40:    /rosout: rcl_interfaces/msg/Log
+41:    /turtle1/cmd_vel: geometry_msgs/msg/Twist
+42:  Service Servers:
+43:    /teleop_turtle/describe_parameters: rcl_interfaces/srv/DescribeParameters
+44:    /teleop_turtle/get_parameter_types: rcl_interfaces/srv/GetParameterTypes
+45:    /teleop_turtle/get_parameters: rcl_interfaces/srv/GetParameters
+46:    /teleop_turtle/get_type_description: type_description_interfaces/srv/GetTypeDescription
+47:    /teleop_turtle/list_parameters: rcl_interfaces/srv/ListParameters
+48:    /teleop_turtle/set_parameters: rcl_interfaces/srv/SetParameters
+49:    /teleop_turtle/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically
+50:  Service Clients:
+51:
+52:  Action Servers:
+53:
+54:  Action Clients:
+55:    /turtle1/rotate_absolute: turtlesim/action/RotateAbsolute
+56:
+57:## [term 2] $ ros2 pkg executables turtlesim   (exit=0, 0.7 s, finished, cwd=/home/student)
+58:turtlesim draw_square
+59:turtlesim mimic
+60:turtlesim turtle_teleop_key
+61:turtlesim turtlesim_node
+62:
+63:## [term 1] Ctrl+C to stop: ros2 run turtlesim turtlesim_node --ros-args --remap __ns:=/robot2  (exit=0)
+64:[INFO] [1792425529.829585991] [robot2.turtlesim]: Starting turtlesim with node name /robot2/turtlesim
+65:[INFO] [1792425529.842380200] [robot2.turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+66:[INFO] [1792425545.892971176] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+67:
+68:# note: pre-running terminal 100 output during block: 
+69:# note: pre-running terminal 101 output during block: 

@@ -1,0 +1,83 @@
+{
+ "case": "drop_solver_pgs",
+ "runs": {
+  "run1": {
+   "samples": 4197,
+   "t_first": 0.001,
+   "z_start": 1.0999902,
+   "first_contact_t": 0.451,
+   "analytic_fall_time": 0.4517517378528401,
+   "bounce_max_z_after_first_contact": 0.099999091,
+   "bounce_height_m": -9.090000000072651e-07,
+   "rest_z_mean": 0.09998647696207584,
+   "rest_penetration_m": 1.3523037924165204e-05,
+   "rest_z_std": 1.6270928565137025e-05,
+   "settle_time_1e-4": 3.641,
+   "rest_contact_points_per_msg": {
+    "mean": 4.0,
+    "min": 4.0,
+    "max": 4.0,
+    "n": 501
+   },
+   "rest_contact_depth": {
+    "mean": 1.320853946597904e-05,
+    "min": 3.02333319e-07,
+    "max": 6.90541731e-05,
+    "n": 2004
+   },
+   "contact_msgs": 3745
+  },
+  "run2": {
+   "samples": 4192,
+   "t_first": 0.001,
+   "z_start": 1.0999902,
+   "first_contact_t": 0.451,
+   "analytic_fall_time": 0.4517517378528401,
+   "bounce_max_z_after_first_contact": 0.099999091,
+   "bounce_height_m": -9.090000000072651e-07,
+   "rest_z_mean": 0.09998580295009982,
+   "rest_penetration_m": 1.4197049900188663e-05,
+   "rest_z_std": 1.711185307289386e-05,
+   "settle_time_1e-4": 3.64,
+   "rest_contact_points_per_msg": {
+    "mean": 4.0,
+    "min": 4.0,
+    "max": 4.0,
+    "n": 501
+   },
+   "rest_contact_depth": {
+    "mean": 1.3889989655070857e-05,
+    "min": 3.02333319e-07,
+    "max": 7.26078404e-05,
+    "n": 2004
+   },
+   "contact_msgs": 3740
+  },
+  "run3": {
+   "samples": 4182,
+   "t_first": 0.001,
+   "z_start": 1.0999902,
+   "first_contact_t": 0.451,
+   "analytic_fall_time": 0.4517517378528401,
+   "bounce_max_z_after_first_contact": 0.099999091,
+   "bounce_height_m": -9.090000000072651e-07,
+   "rest_z_mean": 0.09998447265000002,
+   "rest_penetration_m": 1.5527349999988616e-05,
+   "rest_z_std": 1.873833994502912e-05,
+   "settle_time_1e-4": 3.6390000000000002,
+   "rest_contact_points_per_msg": {
+    "mean": 4.0,
+    "min": 4.0,
+    "max": 4.0,
+    "n": 500
+   },
+   "rest_contact_depth": {
+    "mean": 1.5235706105415e-05,
+    "min": 3.69591589e-07,
+    "max": 7.94722828e-05,
+    "n": 2000
+   },
+   "contact_msgs": 3730
+  }
+ }
+}

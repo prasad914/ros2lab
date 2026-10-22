@@ -1,0 +1,24 @@
+# Excerpt of parity/fixtures/lessons/IN7/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson IN7 terminal 1: Practice: spot ROS 1 commands
+2:# scratch HOME /home/prasad/lesson_ws/homes/IN7_t1 shown as /home/student; sourced=False running=[] start=None
+3:## [term 1] $ roscore   (exit=127, 0.4 s, finished, cwd=/home/student)
+4:Command 'roscore' not found, but can be installed with:
+5:sudo apt install python3-roslaunch
+6:
+7:## [term 1] $ rosrun turtlesim turtlesim_node   (exit=127, 0.6 s, finished, cwd=/home/student)
+8:Command 'rosrun' not found, but can be installed with:
+9:sudo apt install rosbash
+10:
+11:## [term 1] $ source /opt/ros/jazzy/setup.bash   (exit=0, 0.8 s, finished, cwd=/home/student)
+12:
+13:## [term 1] $ ros2 run turtlesim turtlesim_node   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+14:[INFO] [1792425246.655375946] [turtlesim]: Starting turtlesim with node name /turtlesim
+15:[INFO] [1792425246.667886842] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+16:
+17:## [term 1] Ctrl+C to stop: ros2 run turtlesim turtlesim_node  (exit=0)
+18:[INFO] [1792425246.655375946] [turtlesim]: Starting turtlesim with node name /turtlesim
+19:[INFO] [1792425246.667886842] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+20:[INFO] [1792425254.103084471] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+21:

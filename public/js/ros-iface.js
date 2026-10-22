@@ -153,6 +153,20 @@ export function parseYaml(src) {
   if (!/^[{[]/.test(s) && /^\w[\w ]*:\s/.test(s) && !/[{[]/.test(s.split(":")[0])) return parseFlow(`{${s}}`);
   return parseFlow(s);
 }
+// PyYAML (YAML 1.1) reads these plain keys as bool / None / int / float, not str; rosidl's set_message_fields then fails
+// with "attribute name must be string, not '<type>'" (parity/fixtures/lessons/_investigations/yaml_nonstring_keys.txt).
+// Such a key is kept as "\u0000<type>", like hero-turtle.js does.
+function plainKey(k) {
+  const t = /^(yes|Yes|YES|no|No|NO|true|True|TRUE|false|False|FALSE|on|On|ON|off|Off|OFF)$/.test(k) ? "bool" : /^(null|Null|NULL|~)$/.test(k) ? "NoneType"
+    : /^[-+]?\d+$/.test(k) ? "int" : /^[-+]?(\d+\.\d*|\.\d+)([eE][-+]?\d+)?$/.test(k) ? "float" : null;
+  return t ? `\u0000${t}` : k;
+}
+// the first such key, depth first in the order written (set_message_fields walks the fields in that order)
+export function nonStringKey(v) {
+  if (!v || typeof v !== "object") return null;
+  for (const [k, x] of Object.entries(v)) { if (k[0] === "\u0000") return k.slice(1); const d = nonStringKey(x); if (d) return d; }
+  return null;
+}
 function scalar(tok) {
   const t = tok.trim();
   if (/^(['"]).*\1$/.test(t)) return t.slice(1, -1);
@@ -177,7 +191,7 @@ function parseFlow(s) {
     let tok = ""; while (i < s.length && !/[,}\]]/.test(s[i])) tok += s[i++];
     return scalar(tok);
   }
-  function key() { let k = ""; if (s[i] === "'" || s[i] === '"') { const q = s[i++]; while (i < s.length && s[i] !== q) k += s[i++]; i++; return k; } while (i < s.length && !/[:,}]/.test(s[i])) k += s[i++]; return k.trim(); }
+  function key() { let k = ""; if (s[i] === "'" || s[i] === '"') { const q = s[i++]; while (i < s.length && s[i] !== q) k += s[i++]; i++; return k; } while (i < s.length && !/[:,}]/.test(s[i])) k += s[i++]; return plainKey(k.trim()); }
   const v = value(); ws(); if (i < s.length) err("unexpected text");
   return v;
 }
@@ -190,8 +204,9 @@ function parseBlock(lines) {
     while (i < L.length && L[i].ind === ind) {
       const m = L[i].t.match(/^([^:]+):\s*(.*)$/); if (!m) throw new Error(`cannot read "${L[i].t}"`);
       i++;
-      if (m[2]) o[m[1].trim()] = /^[{[]/.test(m[2]) ? parseFlow(m[2]) : scalar(m[2]);
-      else o[m[1].trim()] = i < L.length && L[i].ind > ind ? block(L[i].ind) : null;
+      const k = /^(['"]).*\1$/.test(m[1].trim()) ? m[1].trim().slice(1, -1) : plainKey(m[1].trim());
+      if (m[2]) o[k] = /^[{[]/.test(m[2]) ? parseFlow(m[2]) : scalar(m[2]);
+      else o[k] = i < L.length && L[i].ind > ind ? block(L[i].ind) : null;
     }
     return o;
   }
@@ -201,6 +216,22 @@ function parseBlock(lines) {
 // ---------- filling a message from YAML, the way rosidl_runtime_py.set_message_fields does ----------
 const INT_RANGE = { int8: [-128, 127], uint8: [0, 255], byte: [0, 255], char: [0, 255], int16: [-32768, 32767], uint16: [0, 65535], int32: [-2147483648, 2147483647], uint32: [0, 4294967295], int64: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER], uint64: [0, Number.MAX_SAFE_INTEGER] };
 const shortName = (t) => nameOf(t).split("/").pop();
+// A quoted value in a numeric field: set_message_fields does `value = field_type(field_value)`, i.e. Python float('2')
+// or int('2'), and ros2cli prints the ValueError after 'Failed to populate field: '. Source:
+// https://github.com/ros2/rosidl_runtime_py/blob/jazzy/rosidl_runtime_py/set_message.py (set_message_fields);
+// real output: parity/fixtures/lessons/_investigations/yaml_quoted_numbers.txt
+const pyRepr1 = (s) => (s.includes("'") && !s.includes('"') ? `"${s}"` : `'${s.replace(/'/g, "\\'")}'`);
+function pyNumber(type, s) {
+  const t = s.trim(), D = "\\d(?:_?\\d)*";
+  if (isFloatT(type)) {
+    if (new RegExp(`^[+-]?(?:${D}(?:\\.(?:${D})?)?|\\.${D})(?:[eE][+-]?${D})?$`).test(t)) return Number(t.replace(/_/g, ""));
+    const m = t.match(/^([+-]?)(inf|infinity|nan)$/i);
+    if (m) return /nan/i.test(m[2]) ? NaN : m[1] === "-" ? -Infinity : Infinity;
+    throw new Error(`Failed to populate field: could not convert string to float: ${pyRepr1(s)}`);
+  }
+  if (new RegExp(`^[+-]?${D}$`).test(t)) return Number(t.replace(/_/g, ""));
+  throw new Error(`Failed to populate field: invalid literal for int() with base 10: ${pyRepr1(s)}`);
+}
 export function buildMessage(t, value, { now = () => ({ sec: 0, nanosec: 0 }) } = {}) {
   const fill = (tt, v, path) => {
     const base = defaultValue(tt);
@@ -209,6 +240,7 @@ export function buildMessage(t, value, { now = () => ({ sec: 0, nanosec: 0 }) } 
     const d = defOf(tt);
     if (nameOf(tt) === "std_msgs/msg/Header" || nameOf(tt) === "builtin_interfaces/msg/Time") { /* handled below */ }
     for (const [k, val] of Object.entries(v)) {
+      if (k[0] === "\u0000") throw new Error(`Failed to populate field: attribute name must be string, not '${k.slice(1)}'`);
       const f = d.fields.find((x) => x.name === k);
       if (!f) throw new Error(`Failed to populate field: '${shortName(tt)}' object has no attribute '${k}'`);
       if (f.type === "builtin_interfaces/msg/Time" && val === "now") { base[k] = now(); continue; }
@@ -225,6 +257,8 @@ export function buildMessage(t, value, { now = () => ({ sec: 0, nanosec: 0 }) } 
   const prim = (type, v, k) => {
     if (type === "bool") { if (typeof v === "boolean") return v; if (v === 0 || v === 1) return !!v; throw new Error(`Failed to populate field: The '${k}' field must be of type 'bool'`); }
     if (/string/.test(type)) return typeof v === "string" ? v : String(v);
+    if (typeof v === "string") v = pyNumber(type, v);   // {x: '2'}: set_message_fields calls float('2') / int('2')
+    if (typeof v === "number" && isFloatT(type)) return v;   // float('nan') / float('inf') are accepted too
     if (typeof v !== "number" || Number.isNaN(v)) throw new Error(`Failed to populate field: The '${k}' field must be of type '${isFloatT(type) ? "float" : "int"}'`);
     if (!isFloatT(type)) {
       if (!Number.isInteger(v)) throw new Error(`Failed to populate field: The '${k}' field must be of type 'int'`);

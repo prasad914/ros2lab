@@ -1,0 +1,51 @@
+# REAL Jazzy Python libraries on this machine: yaml.safe_load (ros2topic/verb/pub.py, ros2service/verb/call.py) then
+# rosidl_runtime_py.set_message_fields (rosidl_runtime_py/set_message.py; ros2cli prints 'Failed to populate field: {e}').
+# Quoted numbers in numeric fields. Generated 2026-10-21T17:45:15+05:30 by:
+# bash -c 'source /opt/ros/jazzy/setup.bash; python3 <script below>'
+#   import yaml
+#   from rosidl_runtime_py import set_message_fields
+#   from geometry_msgs.msg import Twist
+#   from turtlesim.srv import SetPen, Spawn
+#   cases = [
+#    (Twist, "{linear: {x: '2'}}"), (Twist, "{linear: {x: '2.5'}, angular: {z: '-1.8'}}"), (Twist, '{linear: {x: "1e3"}}'),
+#    (Twist, "{linear: {x: ' 2 '}}"), (Twist, "{linear: {x: 'abc'}}"), (Twist, "{linear: {x: ''}}"), (Twist, "{linear: {x: '1_0'}}"),
+#    (SetPen.Request, "{r: '255', g: '0', b: '0', width: '4', 'off': '0'}"), (SetPen.Request, "{r: '2.5'}"), (SetPen.Request, "{r: 'abc'}"),
+#    (SetPen.Request, "{r: '300'}"), (SetPen.Request, "{r: ' 7 '}"), (SetPen.Request, "{r: '1e2'}"), (SetPen.Request, "{r: '+5'}"),
+#    (Spawn.Request, "{x: '2', y: '2', theta: '0.2', name: 'turtle2'}"),
+#   ]
+#   for T, y in cases:
+#       v = yaml.safe_load(y); m = T()
+#       try:
+#           set_message_fields(m, v); print(f"## {T.__name__} {y}\nOK {m!r}")
+#       except Exception as e:
+#           print(f"## {T.__name__} {y}\nFailed to populate field: {e}")
+## Twist {linear: {x: '2'}}
+OK geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0))
+## Twist {linear: {x: '2.5'}, angular: {z: '-1.8'}}
+OK geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.5, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=-1.8))
+## Twist {linear: {x: "1e3"}}
+OK geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=1000.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0))
+## Twist {linear: {x: ' 2 '}}
+OK geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0))
+## Twist {linear: {x: 'abc'}}
+Failed to populate field: could not convert string to float: 'abc'
+## Twist {linear: {x: ''}}
+Failed to populate field: could not convert string to float: ''
+## Twist {linear: {x: '1_0'}}
+OK geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=10.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0))
+## SetPen_Request {r: '255', g: '0', b: '0', width: '4', 'off': '0'}
+OK turtlesim.srv.SetPen_Request(r=255, g=0, b=0, width=4, off=0)
+## SetPen_Request {r: '2.5'}
+Failed to populate field: invalid literal for int() with base 10: '2.5'
+## SetPen_Request {r: 'abc'}
+Failed to populate field: invalid literal for int() with base 10: 'abc'
+## SetPen_Request {r: '300'}
+OK turtlesim.srv.SetPen_Request(r=300, g=0, b=0, width=0, off=0)
+## SetPen_Request {r: ' 7 '}
+OK turtlesim.srv.SetPen_Request(r=7, g=0, b=0, width=0, off=0)
+## SetPen_Request {r: '1e2'}
+Failed to populate field: invalid literal for int() with base 10: '1e2'
+## SetPen_Request {r: '+5'}
+OK turtlesim.srv.SetPen_Request(r=5, g=0, b=0, width=0, off=0)
+## Spawn_Request {x: '2', y: '2', theta: '0.2', name: 'turtle2'}
+OK turtlesim.srv.Spawn_Request(x=2.0, y=2.0, theta=0.2, name='turtle2')

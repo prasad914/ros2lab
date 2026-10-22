@@ -1,0 +1,76 @@
+{
+ "lesson": "XT3",
+ "term": 1,
+ "title": "Live terminal: one file, two robots",
+ "sourced": true,
+ "running": [],
+ "start": "~/urdf",
+ "scratch_home": "/home/prasad/lesson_ws/homes/XT3_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T22:03:33+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "xacro chiku.urdf.xacro > chiku.urdf",
+   "out": "",
+   "exit": 0,
+   "secs": 0.4,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/urdf"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "check_urdf chiku.urdf",
+   "out": "robot name is: chiku\n---------- Successfully Parsed XML ---------------\nroot Link: base_footprint has 1 child(ren)\n    child(1):  base_link\n        child(1):  caster_link\n        child(2):  left_wheel_link\n        child(3):  lidar_link\n        child(4):  right_wheel_link\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/urdf"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "xacro chiku.urdf.xacro use_lidar:=false > nolidar.urdf",
+   "out": "",
+   "exit": 0,
+   "secs": 0.4,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/urdf"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "check_urdf nolidar.urdf",
+   "out": "robot name is: chiku\n---------- Successfully Parsed XML ---------------\nroot Link: base_footprint has 1 child(ren)\n    child(1):  base_link\n        child(1):  caster_link\n        child(2):  left_wheel_link\n        child(3):  right_wheel_link\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/urdf"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "cat macros.xacro",
+   "out": "<?xml version=\"1.0\"?>\n<!-- Shared materials and inertia macros (solid box, cylinder along Z, sphere) -->\n<robot xmlns:xacro=\"http://www.ros.org/wiki/xacro\">\n  <material name=\"orange\"><color rgba=\"1.0 0.55 0.0 1.0\"/></material>\n  <material name=\"dark_grey\"><color rgba=\"0.2 0.2 0.2 1.0\"/></material>\n  <material name=\"light_grey\"><color rgba=\"0.75 0.75 0.78 1.0\"/></material>\n  <material name=\"sky_blue\"><color rgba=\"0.3 0.7 1.0 1.0\"/></material>\n  <material name=\"green\"><color rgba=\"0.2 0.75 0.35 1.0\"/></material>\n  <material name=\"red\"><color rgba=\"0.9 0.2 0.2 1.0\"/></material>\n  <material name=\"white\"><color rgba=\"0.95 0.95 0.95 1.0\"/></material>\n  <material name=\"prop_blue\"><color rgba=\"0.3 0.6 1.0 0.6\"/></material>\n\n  <xacro:macro name=\"box_inertia\" params=\"m x y z xyz:='0 0 0' rpy:='0 0 0'\">\n    <inertial>\n      <origin xyz=\"${xyz}\" rpy=\"${rpy}\"/>\n      <mass value=\"${m}\"/>\n      <inertia ixx=\"${m*(y*y+z*z)/12}\" ixy=\"0\" ixz=\"0\" iyy=\"${m*(x*x+z*z)/12}\" iyz=\"0\" izz=\"${m*(x*x+y*y)/12}\"/>\n    </inertial>\n  </xacro:macro>\n  <xacro:macro name=\"cylinder_inertia\" params=\"m r h xyz:='0 0 0' rpy:='0 0 0'\">\n    <inertial>\n      <origin xyz=\"${xyz}\" rpy=\"${rpy}\"/>\n      <mass value=\"${m}\"/>\n      <inertia ixx=\"${m*(3*r*r+h*h)/12}\" ixy=\"0\" ixz=\"0\" iyy=\"${m*(3*r*r+h*h)/12}\" iyz=\"0\" izz=\"${m*r*r/2}\"/>\n    </inertial>\n  </xacro:macro>\n  <xacro:macro name=\"sphere_inertia\" params=\"m r xyz:='0 0 0'\">\n    <inertial>\n      <origin xyz=\"${xyz}\"/>\n      <mass value=\"${m}\"/>\n      <inertia ixx=\"${2*m*r*r/5}\" ixy=\"0\" ixz=\"0\" iyy=\"${2*m*r*r/5}\" iyz=\"0\" izz=\"${2*m*r*r/5}\"/>\n    </inertial>\n  </xacro:macro>\n</robot>\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/urdf"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T22:03:38+0530"
+}

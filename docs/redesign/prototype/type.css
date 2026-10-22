@@ -1,0 +1,35 @@
+/* ---------- v5: Source Sans 3 kept, slightly smaller, more air, tidy section heads ---------- */
+body{font-size:17px;line-height:1.7}
+.hero h1{font-size:clamp(34px,4.2vw,50px);font-weight:700;line-height:1.08;max-width:18ch}
+.hero .lede{font-size:18.5px;line-height:1.65}
+.sec h2{font-size:clamp(26px,2.8vw,34px);font-weight:700}
+.pagehead h1{font-size:clamp(30px,3.2vw,40px)}
+/* one consistent section head: kicker, heading, one line, stacked and left aligned */
+.sec-head,.labsec .sec-head,.why .sec-head{display:block;margin-bottom:40px;max-width:46em}
+.sec-head>p,.labsec .sec-head>p,.why .sec-head>p{text-align:left!important;margin-top:10px;color:var(--text-2);font-size:17px;max-width:40em}
+.sec-head .kicker{margin-bottom:10px}
+.sec{padding-block:96px}
+.labsec{padding-block:16px 88px}
+.split2,.split{gap:72px}
+.faq{gap:0 64px}
+.rows{gap:16px}
+.row{padding:20px 24px}
+/* why section with real images */
+.whygrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.whyc{background:#FFFFFF;border:1px solid var(--rule);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .2s,transform .2s}
+.whyc:hover{box-shadow:0 20px 40px -28px rgba(11,37,69,.55);transform:translateY(-2px)}
+.whyimg{margin:0;aspect-ratio:16/10;background:var(--tint);border-bottom:1px solid var(--rule);overflow:hidden}
+.whyimg img{width:100%;height:100%;object-fit:cover;display:block}
+.whyb{padding:22px 24px 24px;display:grid;gap:8px;align-content:start}
+.whyc h3{font-size:19px;color:var(--navy)}
+.whyc p{color:var(--text-2);font-size:16px;line-height:1.6;margin:0}
+.whyc .whyl{margin-top:6px}
+.whyc .whyl a{font-weight:600;text-decoration:none}
+.whyc .whyl a:hover{text-decoration:underline}
+.whofor{margin-top:48px;display:grid;gap:12px}
+.whofor ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.whofor li{background:#FFFFFF;border:1px solid var(--rule);border-radius:999px;padding:6px 16px;font-size:15px;font-weight:600;color:var(--navy)}
+.whoreq{color:var(--text-2);font-size:15.5px}
+.whycta{display:flex;gap:14px;flex-wrap:wrap;margin-top:32px}
+@media (max-width:960px){.whygrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.split2,.split{gap:48px}}
+@media (max-width:640px){body{font-size:16.5px}.sec{padding-block:64px}.whygrid{grid-template-columns:minmax(0,1fr)}.hero .lede{font-size:17.5px}}

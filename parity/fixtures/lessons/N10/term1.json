@@ -1,0 +1,163 @@
+{
+ "lesson": "N10",
+ "term": 1,
+ "title": "Live terminal: a latched topic",
+ "sourced": true,
+ "running": [
+  "turtlesim"
+ ],
+ "start": "~/ros2_ws",
+ "scratch_home": "/home/prasad/lesson_ws/homes/N10_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-20T10:24:20+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "colcon build --packages-select chiku_control",
+   "out": "[0.4s] [0/0 complete]\n                     \nStarting >>> chiku_control\n[0.5s] [0/1 complete] [chiku_control - 0.1s]\n                                            \n[0.6s] [0/1 complete] [chiku_control - 0.2s]\n                                            \n[0.7s] [0/1 complete] [chiku_control - 0.3s]\n                                            \n[0.8s] [0/1 complete] [chiku_control - 0.4s]\n                                            \n[0.9s] [0/1 complete] [chiku_control - 0.5s]\n                                            \n[1.0s] [0/1 complete] [chiku_control - 0.6s]\n                                            \n[1.1s] [0/1 complete] [chiku_control - 0.7s]\n                                            \n[1.2s] [0/1 complete] [chiku_control - 0.8s]\n                                            \n[1.3s] [0/1 complete] [chiku_control - 0.9s]\n                                            \n[1.4s] [0/1 complete] [chiku_control - 1.0s]\n                                            \n[1.5s] [0/1 complete] [chiku_control - 1.1s]\n                                            \n[1.6s] [0/1 complete] [chiku_control - 1.2s]\n                                            \n[1.7s] [0/1 complete] [chiku_control - 1.3s]\n                                            \n[1.8s] [0/1 complete] [chiku_control - 1.4s]\n                                            \n[1.9s] [0/1 complete] [chiku_control - 1.5s]\n                                            \n[2.0s] [0/1 complete] [chiku_control - 1.6s]\n                                            \n[2.1s] [0/1 complete] [chiku_control - 1.7s]\n                                            \n[2.2s] [0/1 complete] [chiku_control - 1.8s]\n                                            \n[2.3s] [0/1 complete] [chiku_control - 1.9s]\n                                            \n[2.4s] [0/1 complete] [chiku_control - 2.0s]\n                                            \n[2.5s] [0/1 complete] [chiku_control - 2.1s]\n                                            \n[2.6s] [0/1 complete] [chiku_control - 2.2s]\n                                            \n[2.7s] [0/1 complete] [chiku_control - 2.3s]\n                                            \n[2.8s] [0/1 complete] [chiku_control - 2.4s]\n                                            \n[2.9s] [0/1 complete] [chiku_control - 2.5s]\n                                            \n[3.0s] [0/1 complete] [chiku_control - 2.6s]\n                                            \n[3.1s] [0/1 complete] [chiku_control - 2.7s]\n                                            \n[3.2s] [0/1 complete] [chiku_control - 2.8s]\n                                            \n[3.3s] [0/1 complete] [chiku_control - 2.9s]\n                                            \nFinished <<< chiku_control [2.95s]\n\nSummary: 1 package finished [3.34s]\n",
+   "exit": 0,
+   "secs": 4.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "source install/setup.bash",
+   "out": "",
+   "exit": 0,
+   "secs": 1.1,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 run chiku_control latched_status",
+   "out": "[INFO] [1792472075.807154002] [latched_status]: Published the map status once\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 3,
+   "term": 2,
+   "kind": "newTerminal",
+   "status": "RAN"
+  },
+  {
+   "task": 3,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "cd ~/ros2_ws",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 3,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "source install/setup.bash",
+   "out": "",
+   "exit": 0,
+   "secs": 0.9,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 3,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 run chiku_control late_listener",
+   "out": "[INFO] [1792472087.725550001] [late_listener]: I joined late but still got: \"map of the warehouse is ready\"\n[INFO] [1792472088.388790466] [late_listener]: 50 poses received\n[INFO] [1792472089.188937880] [late_listener]: 100 poses received\n[INFO] [1792472089.988763405] [late_listener]: 150 poses received\n[INFO] [1792472090.789181602] [late_listener]: 200 poses received\n[INFO] [1792472091.588893765] [late_listener]: 250 poses received\n[INFO] [1792472092.389819969] [late_listener]: 300 poses received\n[INFO] [1792472093.186621309] [late_listener]: 350 poses received\n[INFO] [1792472093.986493779] [late_listener]: 400 poses received\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 4,
+   "term": 3,
+   "kind": "newTerminal",
+   "status": "RAN"
+  },
+  {
+   "task": 4,
+   "term": 3,
+   "kind": "cmd",
+   "cmd": "ros2 topic info /map_status",
+   "out": "Type: std_msgs/msg/String\nPublisher count: 1\nSubscription count: 1\n",
+   "exit": 0,
+   "secs": 1.1,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "2": "[INFO] [1792472096.387985013] [late_listener]: 550 poses received\n[INFO] [1792472097.188894949] [late_listener]: 600 poses received\n"
+   }
+  },
+  {
+   "task": 5,
+   "term": 3,
+   "kind": "cmd",
+   "cmd": "ros2 node info /late_listener",
+   "out": "/late_listener\n  Subscribers:\n    /map_status: std_msgs/msg/String\n    /turtle1/pose: turtlesim/msg/Pose\n  Publishers:\n    /parameter_events: rcl_interfaces/msg/ParameterEvent\n    /rosout: rcl_interfaces/msg/Log\n  Service Servers:\n    /late_listener/describe_parameters: rcl_interfaces/srv/DescribeParameters\n    /late_listener/get_parameter_types: rcl_interfaces/srv/GetParameterTypes\n    /late_listener/get_parameters: rcl_interfaces/srv/GetParameters\n    /late_listener/get_type_description: type_description_interfaces/srv/GetTypeDescription\n    /late_listener/list_parameters: rcl_interfaces/srv/ListParameters\n    /late_listener/set_parameters: rcl_interfaces/srv/SetParameters\n    /late_listener/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically\n  Service Clients:\n\n  Action Servers:\n\n  Action Clients:\n\n",
+   "exit": 0,
+   "secs": 1.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "2": "[INFO] [1792472097.986684360] [late_listener]: 650 poses received\n[INFO] [1792472098.789685769] [late_listener]: 700 poses received\n"
+   }
+  },
+  {
+   "term": 1,
+   "kind": "interrupt-at-end",
+   "of": "ros2 run chiku_control latched_status",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792472075.807154002] [latched_status]: Published the map status once\n",
+   "exit": 0,
+   "status": "RAN"
+  },
+  {
+   "term": 2,
+   "kind": "interrupt-at-end",
+   "of": "ros2 run chiku_control late_listener",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792472087.725550001] [late_listener]: I joined late but still got: \"map of the warehouse is ready\"\n[INFO] [1792472088.388790466] [late_listener]: 50 poses received\n[INFO] [1792472089.188937880] [late_listener]: 100 poses received\n[INFO] [1792472089.988763405] [late_listener]: 150 poses received\n[INFO] [1792472090.789181602] [late_listener]: 200 poses received\n[INFO] [1792472091.588893765] [late_listener]: 250 poses received\n[INFO] [1792472092.389819969] [late_listener]: 300 poses received\n[INFO] [1792472093.186621309] [late_listener]: 350 poses received\n[INFO] [1792472093.986493779] [late_listener]: 400 poses received\n[INFO] [1792472099.588830914] [late_listener]: 750 poses received\n",
+   "exit": 0,
+   "status": "RAN"
+  }
+ ],
+ "pre": [
+  {
+   "name": "turtlesim",
+   "cmd": "ros2 run turtlesim turtlesim_node",
+   "out": "[INFO] [1792472062.300142465] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792472062.310374224] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
+   "state": "still running after 4 s"
+  }
+ ],
+ "notes": [
+  "pre-running terminal 100 output during block: "
+ ],
+ "finished": "2026-10-20T10:25:01+0530"
+}

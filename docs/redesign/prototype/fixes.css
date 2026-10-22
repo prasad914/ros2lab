@@ -1,0 +1,82 @@
+/* ---------- review fixes ---------- */
+:focus-visible{outline:3px solid #13315C;outline-offset:2px}
+.top :focus-visible{outline-color:#F2A65A}
+.skip{position:absolute;left:8px;top:-60px;z-index:100;background:#FFFFFF;color:var(--navy);padding:8px 14px;border:2px solid var(--navy);font-weight:700}
+.skip:focus{top:8px}
+.navlabel{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--text-2);font-weight:700;padding-bottom:6px;border-bottom:3px solid var(--navy);margin:0}
+footer h2.fh{color:#FFFFFF;font-size:14px;margin-bottom:6px}
+#acct .btn-main{background:transparent;border:1.5px solid #FFFFFF;color:#FFFFFF}
+#acct .btn-main:hover{background:#FFFFFF;color:var(--navy)}
+.week summary{position:relative;padding-right:40px}
+.week summary::after{content:"";position:absolute;right:16px;top:50%;width:8px;height:8px;border-right:2px solid var(--navy);border-bottom:2px solid var(--navy);transform:translateY(-70%) rotate(45deg);transition:transform .15s}
+.week[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
+.checks li{display:flex;justify-content:space-between;gap:12px}
+.checks em{font-style:normal;font-size:12.5px;font-weight:700;color:var(--navy);background:var(--tint);border:1px solid var(--rule);padding:0 7px;border-radius:2px;white-space:nowrap;align-self:flex-start}
+.checks small{color:var(--text-2)}
+.steps3{list-style:none;margin:0 0 10px;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.steps3 li{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--rule);background:#FFFFFF;padding:8px 10px;font-size:14.5px}
+.steps3 b{flex:none;width:24px;height:24px;border-radius:50%;background:var(--orange);color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:13px}
+.steps3 code{font-family:'Ubuntu Mono',var(--mono);font-size:13px;background:var(--tint);padding:0 3px;overflow-wrap:anywhere}
+details.labnote summary{cursor:pointer;font-weight:700;color:var(--link);font-size:13.5px}
+details.labnote p{margin-top:4px}
+.teach{display:flex;gap:12px;align-items:center;border:1px dashed #B8C2CC;padding:10px 12px;margin-top:14px;background:#FFFFFF}
+.tph{flex:none;width:48px;height:48px;border-radius:50%;background:var(--tint);border:1px solid var(--rule)}
+.teach b{display:block;color:var(--navy)}
+.todo{color:#8A3E07;font-size:14px}
+.simq{display:grid;gap:2px;font-size:13px;font-weight:700;color:var(--text-2)}
+.simtop{margin:16px 0 4px;font-size:14.5px}
+.rcard.tbref{grid-template-rows:1fr;background:var(--tint)}
+.rcard.tbref .rbody{padding:14px 12px 34px}
+.rpic img{aspect-ratio:16/10}
+.rgrid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.rbdl dd a{overflow-wrap:anywhere}
+.pager .why{font-size:13px;color:var(--text-2)}
+.testsline{font-size:14.5px;margin:-8px 0 18px;color:var(--text-2)}
+.testsline b{color:var(--ok)}
+@media (max-width:960px){
+  .hero .wrap{grid-template-columns:minmax(0,1fr)}
+  .layout .sidenav{display:none}
+  .layout .aside{order:-1}
+  .steps3{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:640px){
+  .keep3 th:nth-child(3),.keep3 td:nth-child(3){display:table-cell}
+  .protonote{font-size:12px;line-height:1.35}
+  .pager .wrap{flex-wrap:nowrap;min-height:52px}
+  .pager .meta,.pager .why{display:none}
+  .pager a,.pager .btn{font-size:14px}
+  .pager .lprev{max-width:40%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .chip,.gt,.lbtn,.pad button,.simtabs button{min-height:40px}
+  footer a{padding:6px 0}
+  .cmp th[scope=row]{width:96px}
+  .fitcols{grid-template-columns:minmax(0,1fr)!important}
+}
+/* ---------- channel, certificate, verify ---------- */
+.byline{display:inline-flex;align-items:center;gap:10px;margin-top:14px;text-decoration:none;color:var(--text-2);font-size:14.5px}
+.byline svg{flex:none;border-radius:7px}
+.byline b{color:var(--navy)}
+.byline:hover span{text-decoration:underline}
+.chan{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:22px;align-items:center}
+.chan svg{border-radius:18px}
+.chan h2{font-size:22px;margin-bottom:6px}
+.chan p{color:var(--text-2);max-width:48em}
+.rubric{border-collapse:collapse;width:100%;font-size:14.5px;margin:0 0 12px}
+.rubric td{padding:5px 8px;border-bottom:1px solid var(--rule)}
+.rubric td:last-child{text-align:right;font-weight:700;color:var(--navy);width:44px}
+.certmini{display:block;margin-top:14px;text-decoration:none;border:1px solid var(--rule);background:#FFFFFF;padding:10px}
+.certmini #cert-mini{display:block;min-height:120px}
+.certmini .r2c{box-shadow:none}
+.certmini-l{display:block;font-weight:700;color:var(--link);margin-top:8px}
+.certmini:hover .certmini-l{color:var(--orange)}
+.ctitle{font-size:14px;color:var(--text-2)}
+.verify{margin-top:12px;display:grid;gap:4px;max-width:520px}
+.verify label{font-weight:700;font-size:14px;color:var(--text-2)}
+.verify div{display:flex;gap:8px}
+.verify input{flex:1;min-width:0;border:1px solid #9AA5B1;border-radius:3px;min-height:42px;padding:0 12px;font:15px var(--mono);text-transform:uppercase}
+.certpage{padding-block:18px 0}
+.vstatus{border:1px solid var(--rule);border-left:5px solid var(--ok);background:#FFFFFF;padding:10px 14px;margin-bottom:12px}
+.vstatus.err{border-left-color:#B42318}
+.vact{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+#cert-big[hidden]{display:none}
+@media (max-width:760px){.chan{grid-template-columns:auto minmax(0,1fr)}.chan .btn{grid-column:1/-1;justify-self:start}.chan svg{width:64px;height:64px}}
+@media print{body *{visibility:hidden}#cert-big,#cert-big *{visibility:visible}#cert-big{position:absolute;left:0;top:0;width:100%}}

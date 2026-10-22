@@ -1,0 +1,12 @@
+{
+ "world": "collision",
+ "until": 3.0,
+ "subs": [
+  "/model/box_a/pose:pose_v",
+  "/model/box_b/pose:pose_v"
+ ],
+ "cmds": [
+  "{\"type\": \"EntityWrench\", \"topic\": \"/world/collision/wrench\", \"msg\": \"entity { name: \\\"box_a::link\\\" type: LINK } wrench { force { x: 1000.0 y: 0.0 } }\", \"t\": 0.5}"
+ ],
+ "case": "collision"
+}

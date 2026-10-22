@@ -31,17 +31,28 @@ function paintCard() {
     el("p", { class: "pg-card-note", text: n === PLAYABLE.length ? "Every stamp collected. You are ready for real ROS 2 on Ubuntu." : "Win a game to stamp its badge. Badges are saved in this browser." }));
 }
 
-// the collection: one tile per game, in course order, each with its own drawing
+// the collection, in course order: the playable games as cards (week · day, title, one line, badge, Play), then the
+// locked robot missions in a collapsed "Robot missions" section (opened when the hash names one of them)
 function paintPick(active) {
   const got = badges();
-  pick.replaceChildren(el("ul", { class: "pg-row" }, GAMES.map((g) => el("li", {},
+  const tile = (g) => el("li", {},
     el("a", { href: `#${g.id}`, class: `pg-tile${g.id === active ? " on" : ""}${got[g.id] ? " done" : ""}`, style: `--g-ink: ${INKS[g.id]}`, "aria-current": g.id === active ? "true" : null,
       "aria-label": `${g.title}. ${g.concept}. ${g.load ? `${where(g)}, ${LEVELS[g.level]}, about ${g.minutes} minutes` : `Locked: ${NOT_VALIDATED}`}${got[g.id] ? ". Badge earned" : ""}` },
-      el("span", { class: "pg-art" }, svgNode(scene(g.id))),
-      el("span", { class: "pg-text" }, el("b", { text: g.title }), el("span", { class: "pg-concept", text: g.concept }),
-        g.load ? el("span", { class: "pg-where", "aria-hidden": "true", text: `${where(g)}, ${g.minutes} min` })
-          : el("span", { class: "pg-where pg-lock", "aria-hidden": "true", text: `🔒 ${NOT_VALIDATED}` })),
-      got[g.id] ? el("span", { class: "pg-done", "aria-hidden": "true" }, svgNode(glyph(g.id))) : null)))));
+      g.load ? el("span", { class: "pg-art" }, svgNode(scene(g.id))) : null,
+      el("span", { class: "pg-text" },
+        el("span", { class: "pg-where", "aria-hidden": "true", text: `${g.week > 6 ? "With the Simulator" : `Week ${g.week}`} · ${g.lesson}` }),
+        el("b", { text: g.title }), el("span", { class: "pg-concept", text: g.blurb || g.concept }),
+        g.load ? el("span", { class: "pg-badge", "aria-hidden": "true", text: `Badge: ${g.badge}` })
+          : el("span", { class: "st st-test pg-lock", "aria-hidden": "true", text: NOT_VALIDATED })),
+      g.load ? el("span", { class: "pg-play", "aria-hidden": "true", text: "Play ›" }) : null,
+      got[g.id] ? el("span", { class: "pg-done", "aria-hidden": "true" }, svgNode(glyph(g.id))) : null));
+  const locked = GAMES.filter((g) => !g.load);
+  const wasOpen = !!pick.querySelector("details.pg-more[open]");
+  pick.replaceChildren(el("ul", { class: "pg-row" }, PLAYABLE.map(tile)),
+    locked.length ? el("details", { class: "pg-more", open: wasOpen || locked.some((g) => g.id === active) },
+      el("summary", {}, "Robot missions ", el("span", { class: "meta", text: `(${locked.length}, not yet validated)` })),
+      el("p", { class: "meta", text: "Each mission opens when it has a real game that passed its tests against real ROS 2. Until then it is marked “Not yet validated”." }),
+      el("ul", { class: "pg-row locked" }, locked.map(tile))) : null);
 }
 
 // above the game: where it sits in the course, how long it takes, and the neighbours

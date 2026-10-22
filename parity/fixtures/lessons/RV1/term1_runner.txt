@@ -1,0 +1,45 @@
+# Excerpt of parity/fixtures/lessons/RV1/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-20T10:16:43+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson RV1 terminal 1: Live terminal: drive RViz yourself
+2:# scratch HOME /home/prasad/lesson_ws/homes/RV1_t1 shown as /home/student; sourced=True running=[] start=~/urdf
+3:## [term 1] $ ros2 run robot_state_publisher robot_state_publisher --ros-args -p robot_description:="$(xacro chiku.urdf.xacro)"   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student/urdf)
+4:[INFO] [1792471533.119704410] [robot_state_publisher]: Robot initialized
+5:
+6:## [new terminal 2]
+7:## [term 2] $ ros2 run joint_state_publisher joint_state_publisher   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+8:[INFO] [1792471543.209686076] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...
+9:[INFO] [1792471543.228059986] [joint_state_publisher]: Got description, configuring robot
+10:
+11:## [new terminal 3]
+12:## [term 3] $ rviz2   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+13:[INFO] [1792471551.926093110] [rviz2]: Stereo is NOT SUPPORTED
+14:[INFO] [1792471551.926205234] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)
+15:[INFO] [1792471552.042694512] [rviz2]: Stereo is NOT SUPPORTED
+16:
+17:## [term 3] GUI {"viz": {"fixedFrame": "base_footprint"}}: PENDING RViz GUI click/drag, not a typed command (covered by the RViz baseline D)
+18:## [term 3] GUI {"viz": {"displays": {"Grid": true, "RobotModel": true, "TF": true}}}: PENDING RViz GUI click/drag, not a typed command (covered by the RViz baseline D)
+19:## [term 3] GUI {"rvizGoal": [1, 0.5, 0]}: PENDING RViz GUI click/drag, not a typed command (covered by the RViz baseline D)
+20:## [new terminal 4]
+21:## [term 4] $ ros2 topic echo /goal_pose   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+22:
+23:## [term 4] GUI {"rvizSave": "~/chiku.rviz"}: PENDING RViz GUI click/drag, not a typed command (covered by the RViz baseline D)
+24:## [term 4] Ctrl+C to stop: ros2 topic echo /goal_pose  (exit=2)
+25:
+26:## [term 4] $ cat ~/chiku.rviz   (exit=1, 0.0 s, finished, cwd=/home/student)
+27:cat: /home/student/chiku.rviz: No such file or directory
+28:
+29:## [term 1] Ctrl+C to stop: ros2 run robot_state_publisher robot_state_publisher --ros-args -p robot_description:="$(xacro chiku.urdf.xacro)"  (exit=0)
+30:[INFO] [1792471533.119704410] [robot_state_publisher]: Robot initialized
+31:[INFO] [1792471570.332224321] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+32:
+33:## [term 2] Ctrl+C to stop: ros2 run joint_state_publisher joint_state_publisher  (exit=0)
+34:[INFO] [1792471543.209686076] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...
+35:[INFO] [1792471543.228059986] [joint_state_publisher]: Got description, configuring robot
+36:
+37:## [term 3] Ctrl+C to stop: rviz2  (exit=0)
+38:[INFO] [1792471551.926093110] [rviz2]: Stereo is NOT SUPPORTED
+39:[INFO] [1792471551.926205234] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)
+40:[INFO] [1792471552.042694512] [rviz2]: Stereo is NOT SUPPORTED
+41:[INFO] [1792471570.981582740] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+42:

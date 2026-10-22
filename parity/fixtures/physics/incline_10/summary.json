@@ -1,0 +1,74 @@
+{
+ "case": "incline_10",
+ "runs": {
+  "run1": {
+   "sphere": {
+    "accel_along_slope": 1.2155376048088948,
+    "analytic": 1.2155372436685126,
+    "ratio_to_g_sin": 0.7142859265025077,
+    "expected_ratio": 0.7142857142857143,
+    "distance_1s": 0.6095885100761186
+   },
+   "cylinder": {
+    "accel_along_slope": 1.1345014368051363,
+    "analytic": 1.1345014274239449,
+    "ratio_to_g_sin": 0.6666666721793328,
+    "expected_ratio": 0.6666666666666666,
+    "distance_1s": 0.5689524700822701
+   },
+   "box_frictionless": {
+    "accel_along_slope": 1.699786738289381,
+    "analytic": 1.7017521411359173,
+    "ratio_to_g_sin": 0.9988450710306,
+    "expected_ratio": 1.0,
+    "distance_1s": 0.8549396278325492
+   }
+  },
+  "run2": {
+   "sphere": {
+    "accel_along_slope": 1.2155376048088948,
+    "analytic": 1.2155372436685126,
+    "ratio_to_g_sin": 0.7142859265025077,
+    "expected_ratio": 0.7142857142857143,
+    "distance_1s": 0.6095885100761186
+   },
+   "cylinder": {
+    "accel_along_slope": 1.1345014368051363,
+    "analytic": 1.1345014274239449,
+    "ratio_to_g_sin": 0.6666666721793328,
+    "expected_ratio": 0.6666666666666666,
+    "distance_1s": 0.5689524700822701
+   },
+   "box_frictionless": {
+    "accel_along_slope": 1.699786738289381,
+    "analytic": 1.7017521411359173,
+    "ratio_to_g_sin": 0.9988450710306,
+    "expected_ratio": 1.0,
+    "distance_1s": 0.8549396278325492
+   }
+  },
+  "run3": {
+   "sphere": {
+    "accel_along_slope": 1.2155376048088948,
+    "analytic": 1.2155372436685126,
+    "ratio_to_g_sin": 0.7142859265025077,
+    "expected_ratio": 0.7142857142857143,
+    "distance_1s": 0.6095885100761186
+   },
+   "cylinder": {
+    "accel_along_slope": 1.1345014368051363,
+    "analytic": 1.1345014274239449,
+    "ratio_to_g_sin": 0.6666666721793328,
+    "expected_ratio": 0.6666666666666666,
+    "distance_1s": 0.5689524700822701
+   },
+   "box_frictionless": {
+    "accel_along_slope": 1.699786738289381,
+    "analytic": 1.7017521411359173,
+    "ratio_to_g_sin": 0.9988450710306,
+    "expected_ratio": 1.0,
+    "distance_1s": 0.8549396278325492
+   }
+  }
+ }
+}

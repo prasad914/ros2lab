@@ -1,0 +1,15 @@
+# lines of server.log (gitignored) matching engine/warning/error keywords; <line>:<text>
+2:[Msg] Loading SDF world file[/home/prasad/ros2lab-course/parity/scripts/physics/worlds/drop_cd_ode.sdf].
+4:[Dbg] [Physics.cc:1004] Loaded [gz::physics::dartsim::Plugin] from library [/opt/ros/jazzy/opt/gz_physics_vendor/lib/gz-physics-7/engine-plugins/libgz-physics-dartsim-plugin.so]
+5:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::Physics] for entity [1]
+16:[Msg] Physics service on [/world/drop_cd_ode/set_physics] (async)
+17:[Msg] Physics service on [/world/drop_cd_ode/set_physics/blocking] (blocking)
+28:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::UserCommands] for entity [1]
+29:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::SceneBroadcaster] for entity [1]
+33:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::ApplyLinkWrench] for entity [1]
+34:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::Contact] for entity [1]
+35:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::PosePublisher] for entity [8]
+36:[Msg] Loaded level [default]
+39:[Msg] World [drop_cd_ode] initialized with [1ms] physics profile.
+54:[Msg] Using [ode] collision detector
+55:[Msg] Using [DantzigBoxedLcpSolver] solver.

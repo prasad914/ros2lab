@@ -1,0 +1,81 @@
+{
+ "lesson": "IN10",
+ "term": 1,
+ "title": "Practice: set your domain",
+ "sourced": true,
+ "running": [
+  "talker"
+ ],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/IN10_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:26:47+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "echo $ROS_DOMAIN_ID",
+   "out": "52\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "export ROS_DOMAIN_ID=7",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "100": "[INFO] [1792425416.320329209] [talker]: Publishing: 'Hello World: 7'\n"
+   }
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "echo \"export ROS_DOMAIN_ID=7\" >> ~/.bashrc",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 daemon stop",
+   "out": "The daemon is not running\n",
+   "exit": 0,
+   "secs": 1.3,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "100": "[INFO] [1792425417.320280076] [talker]: Publishing: 'Hello World: 8'\n[INFO] [1792425418.320123584] [talker]: Publishing: 'Hello World: 9'\n"
+   }
+  }
+ ],
+ "pre": [
+  {
+   "name": "talker",
+   "cmd": "ros2 run demo_nodes_cpp talker",
+   "out": "[INFO] [1792425410.320166139] [talker]: Publishing: 'Hello World: 1'\n[INFO] [1792425411.320133540] [talker]: Publishing: 'Hello World: 2'\n[INFO] [1792425412.320278431] [talker]: Publishing: 'Hello World: 3'\n",
+   "state": "still running after 4 s"
+  }
+ ],
+ "notes": [
+  "pre-running terminal 100 output during block: "
+ ],
+ "finished": "2026-10-19T21:27:00+0530"
+}

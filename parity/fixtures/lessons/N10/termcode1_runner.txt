@@ -1,0 +1,140 @@
+# Excerpt of parity/fixtures/lessons/N10/termcode1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson N10 terminal code1: Lesson code block commands: echo latched topic with QoS + info --verbose
+2:# scratch HOME /home/prasad/lesson_ws/homes/N10_tcode1 shown as /home/student; sourced=True running=['turtlesim'] start=~/ros2_ws
+3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
+4:[INFO] [1792428028.927358248] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792428028.937874839] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+6:
+7:## [term 1] $ colcon build --packages-select chiku_control   (exit=0, 4.5 s, finished, cwd=/home/student/ros2_ws)
+8:[0.4s] [0/0 complete]
+9:                     
+10:Starting >>> chiku_control
+11:[0.5s] [0/1 complete] [chiku_control - 0.1s]
+12:                                            
+13:[0.6s] [0/1 complete] [chiku_control - 0.2s]
+14:                                            
+15:[0.7s] [0/1 complete] [chiku_control - 0.3s]
+16:                                            
+17:[0.8s] [0/1 complete] [chiku_control - 0.4s]
+18:                                            
+19:[0.9s] [0/1 complete] [chiku_control - 0.5s]
+20:                                            
+21:[1.0s] [0/1 complete] [chiku_control - 0.6s]
+22:                                            
+23:[1.1s] [0/1 complete] [chiku_control - 0.7s]
+24:                                            
+25:[1.2s] [0/1 complete] [chiku_control - 0.8s]
+26:                                            
+27:[1.3s] [0/1 complete] [chiku_control - 0.9s]
+28:                                            
+29:[1.4s] [0/1 complete] [chiku_control - 1.0s]
+30:                                            
+31:[1.5s] [0/1 complete] [chiku_control - 1.1s]
+32:                                            
+33:[1.6s] [0/1 complete] [chiku_control - 1.2s]
+34:                                            
+35:[1.7s] [0/1 complete] [chiku_control - 1.3s]
+36:                                            
+37:[1.8s] [0/1 complete] [chiku_control - 1.4s]
+38:                                            
+39:[1.9s] [0/1 complete] [chiku_control - 1.5s]
+40:                                            
+41:[2.0s] [0/1 complete] [chiku_control - 1.6s]
+42:                                            
+43:[2.1s] [0/1 complete] [chiku_control - 1.7s]
+44:                                            
+45:[2.2s] [0/1 complete] [chiku_control - 1.8s]
+46:                                            
+47:[2.3s] [0/1 complete] [chiku_control - 1.9s]
+48:                                            
+49:[2.4s] [0/1 complete] [chiku_control - 2.0s]
+50:                                            
+51:[2.5s] [0/1 complete] [chiku_control - 2.1s]
+52:                                            
+53:[2.6s] [0/1 complete] [chiku_control - 2.2s]
+54:                                            
+55:[2.7s] [0/1 complete] [chiku_control - 2.3s]
+56:                                            
+57:[2.8s] [0/1 complete] [chiku_control - 2.4s]
+58:                                            
+59:[2.9s] [0/1 complete] [chiku_control - 2.5s]
+60:                                            
+61:[3.0s] [0/1 complete] [chiku_control - 2.6s]
+62:                                            
+63:[3.1s] [0/1 complete] [chiku_control - 2.7s]
+64:                                            
+65:[3.2s] [0/1 complete] [chiku_control - 2.8s]
+66:                                            
+67:[3.3s] [0/1 complete] [chiku_control - 2.9s]
+68:                                            
+69:[3.4s] [0/1 complete] [chiku_control - 3.0s]
+70:                                            
+71:[3.5s] [0/1 complete] [chiku_control - 3.1s]
+72:                                            
+73:[3.6s] [0/1 complete] [chiku_control - 3.2s]
+74:                                            
+75:[3.7s] [0/1 complete] [chiku_control - 3.3s]
+76:                                            
+77:Finished <<< chiku_control [3.36s]
+78:
+79:Summary: 1 package finished [3.78s]
+80:
+81:## [term 1] $ source install/setup.bash   (exit=0, 0.9 s, finished, cwd=/home/student/ros2_ws)
+82:
+83:## [term 1] $ ros2 run chiku_control latched_status   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student/ros2_ws)
+84:[INFO] [1792428043.421857439] [latched_status]: Published the map status once
+85:
+86:## [new terminal 2]
+87:## [term 2] $ ros2 topic echo /map_status --qos-durability transient_local --qos-reliability reliable   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+88:data: map of the warehouse is ready
+89:---
+90:
+91:## [new terminal 3]
+92:## [term 3] $ ros2 topic info /map_status --verbose   (exit=0, 1.2 s, finished, cwd=/home/student)
+93:Type: std_msgs/msg/String
+94:
+95:Publisher count: 1
+96:
+97:Node name: latched_status
+98:Node namespace: /
+99:Topic type: std_msgs/msg/String
+100:Topic type hash: RIHS01_df668c740482bbd48fb39d76a70dfd4bd59db1288021743503259e948f6b1a18
+101:Endpoint type: PUBLISHER
+102:GID: 01.0f.17.2e.b7.84.d2.fb.00.00.00.00.00.00.13.03
+103:QoS profile:
+104:  Reliability: RELIABLE
+105:  History (Depth): UNKNOWN
+106:  Durability: TRANSIENT_LOCAL
+107:  Lifespan: Infinite
+108:  Deadline: Infinite
+109:  Liveliness: AUTOMATIC
+110:  Liveliness lease duration: Infinite
+111:
+112:Subscription count: 1
+113:
+114:Node name: _ros2cli_1213712
+115:Node namespace: /
+116:Topic type: std_msgs/msg/String
+117:Topic type hash: RIHS01_df668c740482bbd48fb39d76a70dfd4bd59db1288021743503259e948f6b1a18
+118:Endpoint type: SUBSCRIPTION
+119:GID: 01.0f.17.2e.10.85.d7.89.00.00.00.00.00.00.07.04
+120:QoS profile:
+121:  Reliability: RELIABLE
+122:  History (Depth): UNKNOWN
+123:  Durability: TRANSIENT_LOCAL
+124:  Lifespan: Infinite
+125:  Deadline: Infinite
+126:  Liveliness: AUTOMATIC
+127:  Liveliness lease duration: Infinite
+128:
+129:
+130:## [term 1] Ctrl+C to stop: ros2 run chiku_control latched_status  (exit=0)
+131:[INFO] [1792428043.421857439] [latched_status]: Published the map status once
+132:
+133:## [term 2] Ctrl+C to stop: ros2 topic echo /map_status --qos-durability transient_local --qos-reliability reliable  (exit=2)
+134:data: map of the warehouse is ready
+135:---
+136:
+137:# note: pre-running terminal 100 output during block: 

@@ -98,8 +98,9 @@ const CERT_VALID_YEARS = 2;
 // Printed on every certificate.
 // Matches the six modules: Linux terminal, Python and C++ basics, ROS 2 concepts, first nodes.
 const CERT_COURSE_TITLE = "ROS 2 Fundamentals: From Linux Basics to Your First ROS 2 Nodes";
-const CERT_INSTRUCTOR = "Prasad Prabhu";
-const CERT_INSTRUCTOR_TITLE = "Course Instructor, ROS2Lab";
+// Owner decision (docs/redesign/certificate/CHANGES.md): no personal name for now. Signed certificates keep their stored values.
+const CERT_INSTRUCTOR = "Robotics & ROS 2 Lab";
+const CERT_INSTRUCTOR_TITLE = "Course team, ROS2Lab";
 
 // Modules (weeks) that count for lifetime access and the certificate. Weeks 7-9 (UR, XT, RV) are an
 // optional advanced track. Leave the list empty ([]) to make EVERY module count.

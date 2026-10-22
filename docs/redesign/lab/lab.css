@@ -1,0 +1,99 @@
+/* ---------- live lab: Ubuntu 24.04 desktop ---------- */
+.lab{border:1px solid #1B2633;background:#FFFFFF;box-shadow:0 18px 40px -24px rgba(11,37,69,.5)}
+.desk{position:relative;height:580px;overflow:hidden;font-family:'Ubuntu','Segoe UI',sans-serif;background:#3B0E33;background-image:linear-gradient(140deg,#24071F 0%,#4A1240 45%,#7A2048 78%,#B8452C 100%);user-select:none}
+.gbar{position:absolute;inset:0 0 auto;height:26px;background:#000;color:#FFFFFF;font-size:13px;display:flex;justify-content:space-between;align-items:center;padding:0 12px;z-index:2}
+.gbar .act{font-weight:500;padding:2px 10px;border-radius:12px;background:rgba(255,255,255,.12)}
+.gbar #clock{font-weight:500}
+.gbar .sys{display:flex;gap:10px;align-items:center}
+.reopen{position:absolute;left:24px;top:48px;background:none;border:0;color:#FFFFFF;display:grid;justify-items:center;gap:4px;font:12px 'Ubuntu',sans-serif;cursor:pointer;padding:6px;border-radius:6px}
+.reopen:hover{background:rgba(255,255,255,.12)}
+.win{position:absolute;background:#FFFFFF;border-radius:12px 12px 4px 4px;box-shadow:0 0 0 1px rgba(0,0,0,.35),0 14px 34px rgba(0,0,0,.45);display:flex;flex-direction:column;overflow:hidden;transition:transform .25s}
+.win.mini{transform:scale(.2) translateY(200%);opacity:.3;transition:transform .35s,opacity .35s}
+.win.max{left:0!important;top:26px!important;right:0!important;width:auto!important;height:calc(100% - 26px)!important;border-radius:0}
+.wt{flex:none;height:36px;background:#EBEBEB;border-bottom:1px solid #D0D0D0;display:flex;align-items:center;justify-content:center;position:relative;cursor:default;touch-action:none}
+.wtitle{font-weight:700;font-size:13.5px;color:#303030;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(100% - 120px)}
+.wbs{position:absolute;right:8px;display:flex;gap:8px}
+.wb{width:22px;height:22px;border-radius:50%;border:0;background:#DADADA;color:#333;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer}
+.wb svg{width:10px;height:10px}
+.wb:hover{background:#CACACA}
+.wb.wx:hover{background:#E95420;color:#FFFFFF}
+#w-term{left:16px;top:44px;width:calc(62% - 28px);height:516px}
+#w-sim{right:16px;top:44px;width:min(36%,440px)}
+#w-rqt{left:22%;top:150px;width:min(540px,60%);height:330px}
+.tabs[hidden],.win[hidden],.reopen[hidden],.ctx[hidden]{display:none!important}
+.tabs{display:flex;background:#F4F4F4;border-bottom:1px solid #CFCFCF;flex:none;overflow-x:auto}
+.ttab{display:flex;align-items:center;gap:10px;border:0;border-right:1px solid #D6D6D6;background:transparent;font:12.5px 'Ubuntu',sans-serif;color:#555;padding:5px 12px;cursor:pointer;white-space:nowrap}
+.ttab.on{background:#FFFFFF;color:#222;box-shadow:inset 0 -2px 0 #E95420}
+.ttab b{font-weight:400;color:#888}
+.ttab b:hover{color:#C80003}
+.tbody{flex:1;display:flex;min-height:0;background:#000}
+.tbody>*{flex:1}
+.tsplit{display:flex;min-width:0;min-height:0}
+.tsplit.sh{flex-direction:column}
+.tsplit.sv{flex-direction:row}
+.hd{flex:0 0 5px!important;background:#D6D6D6;cursor:row-resize;touch-action:none}
+.tsplit.sv>.hd{cursor:col-resize}
+.tpane{position:relative;display:flex;flex-direction:column;background:#000;min-width:0;min-height:0;user-select:text}
+.ttl{flex:none;height:18px;background:#C0BEBF;color:#000;font:12px 'Ubuntu',sans-serif;display:flex;align-items:center;justify-content:center;position:relative;user-select:none}
+.ttl span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(100% - 40px)}
+.ttl i{position:absolute;left:4px;top:3px;width:12px;height:12px;background:linear-gradient(currentColor,currentColor) 0 0/5px 5px no-repeat,linear-gradient(currentColor,currentColor) 7px 0/5px 5px no-repeat,linear-gradient(currentColor,currentColor) 0 7px/5px 5px no-repeat,linear-gradient(currentColor,currentColor) 7px 7px/5px 5px no-repeat;opacity:.55}
+.tpane.focus .ttl{background:#C80003;color:#FFFFFF}
+.tscroll{flex:1;overflow:auto;padding:2px 4px 6px;font:15px/1.2 'Ubuntu Mono','DejaVu Sans Mono',monospace;color:#AAAAAA;white-space:pre-wrap;word-break:break-all;cursor:text;scrollbar-width:thin;scrollbar-color:#555 #000}
+.tout span{display:inline}
+.tin[hidden]{display:none}
+.pu{color:#8AE234;font-weight:700}
+.pd{color:#729FCF;font-weight:700}
+.lw{color:#C4A000}
+.le{color:#EF2929}
+.lnote{color:#06989A}
+.tcur{display:inline-block;width:.55em;outline:1px solid #AAAAAA;outline-offset:-1px}
+.tpane.focus .tcur{background:#AAAAAA;outline:0;animation:tblink 1.1s steps(1) infinite}
+@keyframes tblink{50%{background:transparent}}
+.tkey{position:absolute;left:0;bottom:0;width:1px;height:1px;opacity:0;border:0;padding:0;resize:none;font-size:16px}
+.simc{position:relative;aspect-ratio:1/1;width:100%;background:#4556FF}
+.simc canvas{position:absolute;inset:0;width:100%;height:100%;image-rendering:auto}
+.rqtbar{display:flex;align-items:center;gap:10px;padding:5px 10px;background:#F6F6F6;border-bottom:1px solid #DDD;font:12.5px 'Ubuntu',sans-serif;color:#333;flex:none}
+.rqtbar span:first-child{border:1px solid #BBB;background:#FFF;padding:1px 8px;border-radius:3px}
+.rqtbar button{margin-left:auto;border:1px solid #BBB;background:#FFF;border-radius:3px;cursor:pointer;padding:0 8px;font-size:14px}
+.rqtc{flex:1;overflow:auto;background:#FFFFFF}
+.rqtc svg{width:100%;height:auto;display:block;font-family:'Ubuntu',sans-serif}
+.ctx{position:absolute;z-index:999;background:#FFFFFF;border-radius:8px;box-shadow:0 0 0 1px rgba(0,0,0,.18),0 10px 28px rgba(0,0,0,.35);padding:6px;min-width:250px;font:13.5px 'Ubuntu',sans-serif}
+.ctx button{display:flex;justify-content:space-between;gap:20px;width:100%;border:0;background:none;text-align:left;padding:6px 10px;border-radius:5px;cursor:pointer;color:#222;font:inherit}
+.ctx button:hover{background:#EDEDED}
+.ctx kbd{font:inherit;color:#888}
+.ctx hr{border:0;border-top:1px solid #E2E2E2;margin:4px 0}
+/* lab toolbar */
+.labbar{border-top:1px solid #1B2633;background:var(--tint);padding:8px 10px;display:grid;gap:8px}
+.lb-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.gtabs{display:flex;gap:2px;flex-wrap:wrap}
+.gt{border:1px solid transparent;background:none;font:inherit;font-size:13.5px;font-weight:700;color:var(--text-2);padding:4px 10px;border-radius:3px;cursor:pointer}
+.gt:hover{color:var(--navy)}
+.gt.on{background:#FFFFFF;border-color:var(--rule);color:var(--navy);box-shadow:inset 0 -2px 0 var(--orange)}
+.lb-tools{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.lbtn{font:inherit;font-size:13px;font-weight:700;border:1px solid #9AA5B1;background:#FFFFFF;color:var(--navy);border-radius:3px;padding:4px 10px;cursor:pointer;min-height:32px}
+.lbtn:hover{border-color:var(--navy)}
+.lbtn.main{background:var(--navy);color:#FFFFFF;border-color:var(--navy)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;flex:1;min-width:0}
+.chip{font-family:'Ubuntu Mono',var(--mono);font-size:13.5px;border:1px solid var(--rule);background:#FFFFFF;color:#1B2633;border-radius:3px;padding:3px 8px;cursor:pointer;text-align:left;max-width:100%;overflow-wrap:anywhere}
+.chip:hover{border-color:var(--navy);color:var(--navy)}
+.chip::before{content:"$ ";color:var(--ok);font-weight:700}
+.pad{display:flex;gap:4px;align-items:center;margin-left:auto}
+.pad[hidden]{display:none}
+.pad span{font-size:12px;font-weight:700;color:var(--text-2);text-transform:uppercase;letter-spacing:.05em;margin-right:4px}
+.pad button{width:36px;height:32px;border:1px solid #9AA5B1;background:#FFFFFF;border-radius:3px;font-size:16px;cursor:pointer;color:var(--navy)}
+.pad button:active{background:var(--navy);color:#FFFFFF}
+@media (max-width:1080px){#w-term{width:calc(58% - 24px)}#w-sim{width:38%}}
+@media (max-width:760px){
+  .desk{height:auto;padding:34px 8px 10px;display:grid;gap:10px}
+  .gbar{position:absolute}
+  .win{position:relative;left:auto!important;top:auto!important;right:auto!important;width:auto!important}
+  #w-term{height:380px}
+  #w-sim{order:-1;width:auto;max-width:420px;justify-self:center;width:100%!important}
+  #w-rqt{height:300px}
+  .win.max{position:relative;height:auto!important}
+  .reopen{position:relative;left:auto;top:auto;justify-self:start}
+  .tscroll{font-size:13.5px}
+  .lb-tools{margin-left:0}
+  .pad{margin-left:0}
+}
+@media (max-width:760px){.chips{flex-basis:100%}.chip{font-size:12.5px}}

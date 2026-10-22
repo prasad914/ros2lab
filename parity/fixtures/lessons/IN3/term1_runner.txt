@@ -1,0 +1,52 @@
+# Excerpt of parity/fixtures/lessons/IN3/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson IN3 terminal 1: Practice: find every part in a running system
+2:# scratch HOME /home/prasad/lesson_ws/homes/IN3_t1 shown as /home/student; sourced=True running=['turtlesim'] start=None
+3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
+4:[INFO] [1792425189.793254700] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792425189.823652321] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+6:
+7:## [term 1] $ ros2 node list   (exit=0, 1.2 s, finished, cwd=/home/student)
+8:/turtlesim
+9:
+10:## [term 1] $ ros2 topic list   (exit=0, 1.2 s, finished, cwd=/home/student)
+11:/parameter_events
+12:/rosout
+13:/turtle1/cmd_vel
+14:/turtle1/color_sensor
+15:/turtle1/pose
+16:
+17:## [term 1] $ ros2 service list   (exit=0, 1.3 s, finished, cwd=/home/student)
+18:/clear
+19:/kill
+20:/reset
+21:/spawn
+22:/turtle1/set_pen
+23:/turtle1/teleport_absolute
+24:/turtle1/teleport_relative
+25:/turtlesim/describe_parameters
+26:/turtlesim/get_parameter_types
+27:/turtlesim/get_parameters
+28:/turtlesim/get_type_description
+29:/turtlesim/list_parameters
+30:/turtlesim/set_parameters
+31:/turtlesim/set_parameters_atomically
+32:
+33:## [term 1] $ ros2 action list   (exit=0, 1.2 s, finished, cwd=/home/student)
+34:/turtle1/rotate_absolute
+35:
+36:## [term 1] $ ros2 param list   (exit=0, 2.3 s, finished, cwd=/home/student)
+37:/turtlesim:
+38:  background_b
+39:  background_g
+40:  background_r
+41:  holonomic
+42:  qos_overrides./parameter_events.publisher.depth
+43:  qos_overrides./parameter_events.publisher.durability
+44:  qos_overrides./parameter_events.publisher.history
+45:  qos_overrides./parameter_events.publisher.reliability
+46:  start_type_description_service
+47:  use_sim_time
+48:
+49:# note: pre-running terminal 100 output during block: 

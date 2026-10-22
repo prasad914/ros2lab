@@ -1,0 +1,206 @@
+{
+ "case": "tb3_sensors_empty",
+ "runs": {
+  "run1": {
+   "imu_samples": 12424,
+   "scan_msgs": 311,
+   "imu_rate_per_sim_s": 200.003219886016,
+   "imu_frame_id": "burger::imu_link::tb3_imu",
+   "imu_last1000": {
+    "wx": {
+     "mean": -1.2254130000000007e-06,
+     "std": 0.00020208508662793113
+    },
+    "wy": {
+     "mean": -1.1951348e-05,
+     "std": 0.00019342544681965425
+    },
+    "wz": {
+     "mean": -2.933216999999999e-06,
+     "std": 0.0002020801508599098
+    },
+    "ax": {
+     "mean": 0.122541503846,
+     "std": 0.01728662429400502
+    },
+    "ay": {
+     "mean": -0.00038644396499999987,
+     "std": 0.017358576275840094
+    },
+    "az": {
+     "mean": 9.79930796358,
+     "std": 0.016580022781995326
+    },
+    "qx": {
+     "mean": -3e-09,
+     "std": 0.0
+    },
+    "qy": {
+     "mean": -0.00623006,
+     "std": 0.0
+    },
+    "qz": {
+     "mean": -1.3999999999999995e-08,
+     "std": 4.963083675318166e-24
+    },
+    "qw": {
+     "mean": 0.999980593,
+     "std": 0.0
+    }
+   },
+   "imu_model_stddev": {
+    "angular_velocity": 0.0002,
+    "linear_acceleration": 0.017
+   },
+   "scan_frame_id": "base_scan",
+   "scan_rate_per_sim_s": 5.0,
+   "scan_meta": {
+    "angle_min": "0.000000000",
+    "angle_max": "6.280000000",
+    "angle_step": "0.017493036",
+    "range_min": "0.12",
+    "range_max": "3.5",
+    "count": "360"
+   },
+   "ranges_total": 111960,
+   "ranges_inf": 111960,
+   "ranges_nan": 0,
+   "ranges_eq_range_max": 0,
+   "finite_ranges": 0
+  },
+  "run2": {
+   "imu_samples": 12434,
+   "scan_msgs": 310,
+   "imu_rate_per_sim_s": 200.0032172961843,
+   "imu_frame_id": "burger::imu_link::tb3_imu",
+   "imu_last1000": {
+    "wx": {
+     "mean": -1.6634700000000003e-06,
+     "std": 0.00020285011646770898
+    },
+    "wy": {
+     "mean": 6.684332000000002e-06,
+     "std": 0.00020212916789319094
+    },
+    "wz": {
+     "mean": -1.2905106999999999e-05,
+     "std": 0.00019536480990980834
+    },
+    "ax": {
+     "mean": 0.122464688817,
+     "std": 0.017177451395714846
+    },
+    "ay": {
+     "mean": -0.00036163071500000017,
+     "std": 0.017402729639415335
+    },
+    "az": {
+     "mean": 9.799665635698998,
+     "std": 0.017003340420254465
+    },
+    "qx": {
+     "mean": -3e-09,
+     "std": 0.0
+    },
+    "qy": {
+     "mean": -0.00623006,
+     "std": 0.0
+    },
+    "qz": {
+     "mean": -1.3999999999999995e-08,
+     "std": 4.963083675318166e-24
+    },
+    "qw": {
+     "mean": 0.999980593,
+     "std": 0.0
+    }
+   },
+   "imu_model_stddev": {
+    "angular_velocity": 0.0002,
+    "linear_acceleration": 0.017
+   },
+   "scan_frame_id": "base_scan",
+   "scan_rate_per_sim_s": 5.0,
+   "scan_meta": {
+    "angle_min": "0.000000000",
+    "angle_max": "6.280000000",
+    "angle_step": "0.017493036",
+    "range_min": "0.12",
+    "range_max": "3.5",
+    "count": "360"
+   },
+   "ranges_total": 111600,
+   "ranges_inf": 111600,
+   "ranges_nan": 0,
+   "ranges_eq_range_max": 0,
+   "finite_ranges": 0
+  },
+  "run3": {
+   "imu_samples": 12431,
+   "scan_msgs": 311,
+   "imu_rate_per_sim_s": 200.00321807269626,
+   "imu_frame_id": "burger::imu_link::tb3_imu",
+   "imu_last1000": {
+    "wx": {
+     "mean": -4.030127999999996e-06,
+     "std": 0.0001973027236469928
+    },
+    "wy": {
+     "mean": 7.493076e-06,
+     "std": 0.00020105127186745232
+    },
+    "wz": {
+     "mean": -7.191413000000001e-06,
+     "std": 0.0002019300349614847
+    },
+    "ax": {
+     "mean": 0.12176786731999999,
+     "std": 0.01709254287010178
+    },
+    "ay": {
+     "mean": 0.000267368652,
+     "std": 0.017090424081194575
+    },
+    "az": {
+     "mean": 9.799418004247,
+     "std": 0.017102640678872266
+    },
+    "qx": {
+     "mean": -3e-09,
+     "std": 0.0
+    },
+    "qy": {
+     "mean": -0.00623006,
+     "std": 0.0
+    },
+    "qz": {
+     "mean": -1.3999999999999995e-08,
+     "std": 4.963083675318166e-24
+    },
+    "qw": {
+     "mean": 0.999980593,
+     "std": 0.0
+    }
+   },
+   "imu_model_stddev": {
+    "angular_velocity": 0.0002,
+    "linear_acceleration": 0.017
+   },
+   "scan_frame_id": "base_scan",
+   "scan_rate_per_sim_s": 5.0,
+   "scan_meta": {
+    "angle_min": "0.000000000",
+    "angle_max": "6.280000000",
+    "angle_step": "0.017493036",
+    "range_min": "0.12",
+    "range_max": "3.5",
+    "count": "360"
+   },
+   "ranges_total": 111960,
+   "ranges_inf": 111960,
+   "ranges_nan": 0,
+   "ranges_eq_range_max": 0,
+   "finite_ranges": 0
+  }
+ }
+}

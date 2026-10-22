@@ -1,0 +1,143 @@
+# Excerpt of parity/fixtures/lessons/D10/term2_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson D10 terminal 2: Practice: a C++ package too
+2:# scratch HOME /home/prasad/lesson_ws/homes/D10_t2 shown as /home/student; sourced=True running=[] start=~/ros2_ws/src
+3:## [term 1] $ ros2 pkg create --build-type ament_cmake --node-name hello chiku_cpp   (exit=0, 0.9 s, finished, cwd=/home/student/ros2_ws/src)
+4:going to create a new package
+5:package name: chiku_cpp
+6:destination directory: /home/student/ros2_ws/src
+7:package format: 3
+8:version: 0.0.0
+9:description: TODO: Package description
+10:maintainer: ['prasad <prasad@todo.todo>']
+11:licenses: ['TODO: License declaration']
+12:build type: ament_cmake
+13:dependencies: []
+14:node_name: hello
+15:creating folder ./chiku_cpp
+16:creating ./chiku_cpp/package.xml
+17:creating source and include folder
+18:creating folder ./chiku_cpp/src
+19:creating folder ./chiku_cpp/include/chiku_cpp
+20:creating ./chiku_cpp/CMakeLists.txt
+21:creating ./chiku_cpp/src/hello.cpp
+22:
+23:[WARNING]: Unknown license 'TODO: License declaration'.  This has been set in the package.xml, but no LICENSE file has been created.
+24:It is recommended to use one of the ament license identifiers:
+25:Apache-2.0
+26:BSL-1.0
+27:BSD-2.0
+28:BSD-2-Clause
+29:BSD-3-Clause
+30:GPL-3.0-only
+31:LGPL-3.0-only
+32:MIT
+33:MIT-0
+34:
+35:## [term 1] $ ls chiku_cpp chiku_cpp/src   (exit=0, 0.0 s, finished, cwd=/home/student/ros2_ws/src)
+36:chiku_cpp:
+37:CMakeLists.txt  include  package.xml  src
+38:
+39:chiku_cpp/src:
+40:hello.cpp
+41:
+42:## [term 1] $ cd ~/ros2_ws   (exit=0, 0.0 s, finished, cwd=/home/student/ros2_ws)
+43:
+44:## [term 1] $ colcon build --packages-select chiku_cpp   (exit=0, 5.5 s, finished, cwd=/home/student/ros2_ws)
+45:[0.6s] [0/0 complete]
+46:                     
+47:Starting >>> chiku_cpp
+48:[0.7s] [0/1 complete] [chiku_cpp:cmake - 0.1s]
+49:                                              
+50:[0.8s] [0/1 complete] [chiku_cpp:cmake - 0.2s]
+51:                                              
+52:[0.9s] [0/1 complete] [chiku_cpp:cmake - 0.3s]
+53:                                              
+54:[1.0s] [0/1 complete] [chiku_cpp:cmake - 0.4s]
+55:                                              
+56:[1.1s] [0/1 complete] [chiku_cpp:cmake - 0.5s]
+57:                                              
+58:[1.2s] [0/1 complete] [chiku_cpp:cmake - 0.6s]
+59:                                              
+60:[1.3s] [0/1 complete] [chiku_cpp:cmake - 0.7s]
+61:                                              
+62:[1.4s] [0/1 complete] [chiku_cpp:cmake - 0.8s]
+63:                                              
+64:[1.5s] [0/1 complete] [chiku_cpp:cmake - 0.9s]
+65:                                              
+66:[1.6s] [0/1 complete] [chiku_cpp:cmake - 1.0s]
+67:                                              
+68:[1.7s] [0/1 complete] [chiku_cpp:cmake - 1.1s]
+69:                                              
+70:[1.8s] [0/1 complete] [chiku_cpp:cmake - 1.2s]
+71:                                              
+72:[1.9s] [0/1 complete] [chiku_cpp:cmake - 1.3s]
+73:                                              
+74:[2.0s] [0/1 complete] [chiku_cpp:cmake - 1.4s]
+75:                                              
+76:[2.1s] [0/1 complete] [chiku_cpp:cmake - 1.5s]
+77:                                              
+78:[2.2s] [0/1 complete] [chiku_cpp:cmake - 1.6s]
+79:                                              
+80:[2.3s] [0/1 complete] [chiku_cpp:cmake - 1.7s]
+81:                                              
+82:[2.4s] [0/1 complete] [chiku_cpp:cmake - 1.8s]
+83:                                              
+84:[2.5s] [0/1 complete] [chiku_cpp:cmake - 1.9s]
+85:                                              
+86:[2.6s] [0/1 complete] [chiku_cpp:cmake - 2.0s]
+87:                                              
+88:[2.7s] [0/1 complete] [chiku_cpp:cmake - 2.1s]
+89:                                              
+90:[2.8s] [0/1 complete] [chiku_cpp:cmake - 2.2s]
+91:                                              
+92:[2.9s] [0/1 complete] [chiku_cpp:cmake - 2.3s]
+93:                                              
+94:[3.0s] [0/1 complete] [chiku_cpp:cmake - 2.4s]
+95:                                              
+96:[3.1s] [0/1 complete] [chiku_cpp:cmake - 2.5s]
+97:                                              
+98:[3.2s] [0/1 complete] [chiku_cpp:cmake - 2.6s]
+99:                                              
+100:[3.3s] [0/1 complete] [chiku_cpp:cmake - 2.7s]
+101:                                              
+102:[3.4s] [0/1 complete] [chiku_cpp:cmake - 2.8s]
+103:                                              
+104:[3.5s] [0/1 complete] [chiku_cpp:cmake - 2.9s]
+105:                                              
+106:[3.6s] [0/1 complete] [chiku_cpp:cmake - 3.0s]
+107:                                              
+108:[3.7s] [0/1 complete] [chiku_cpp:cmake - 3.1s]
+109:                                              
+110:[3.8s] [0/1 complete] [chiku_cpp:cmake - 3.2s]
+111:                                              
+112:[3.9s] [0/1 complete] [chiku_cpp:cmake - 3.3s]
+113:                                              
+114:[4.0s] [0/1 complete] [chiku_cpp:build - 3.4s]
+115:                                              
+116:[4.1s] [0/1 complete] [chiku_cpp:build - 3.5s]
+117:                                              
+118:[4.2s] [0/1 complete] [chiku_cpp:build - 3.6s]
+119:                                              
+120:[4.3s] [0/1 complete] [chiku_cpp:build 50% - 3.7s]
+121:                                                  
+122:[4.4s] [0/1 complete] [chiku_cpp:build 100% - 3.8s]
+123:                                                   
+124:[4.5s] [0/1 complete] [chiku_cpp:build 100% - 3.9s]
+125:                                                   
+126:[4.6s] [0/1 complete] [chiku_cpp:build 100% - 4.0s]
+127:                                                   
+128:[4.7s] [0/1 complete] [chiku_cpp:install - 4.1s]
+129:                                                
+130:[4.8s] [0/1 complete] [chiku_cpp:install - 4.2s]
+131:                                                
+132:Finished <<< chiku_cpp [4.26s]
+133:
+134:Summary: 1 package finished [4.82s]
+135:
+136:## [term 1] $ source install/setup.bash   (exit=0, 1.0 s, finished, cwd=/home/student/ros2_ws)
+137:
+138:## [term 1] $ ros2 run chiku_cpp hello   (exit=0, 0.7 s, finished, cwd=/home/student/ros2_ws)
+139:hello world chiku_cpp package
+140:

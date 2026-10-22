@@ -1,0 +1,31 @@
+# ROS2Lab prototype: web/UX design review
+
+**Verdict.** On desktop the site already looks like a calm, credible university course site: one navy bar, white pages, clear breadcrumbs, tables in place of cards, and very little decoration.
+**Two problems block launch.** The mobile home hero is broken by a CSS cascade bug, and the orange focus ring fails contrast on white backgrounds.
+**Most other issues are about consistency and density:** too many font sizes, heading levels used for styling, a Simulator page that is far too long, and few signs of a real institution behind the course.
+
+## Must
+
+1. **Home, mobile: `.hero .wrap` stays two columns at 390px.** The hero squeezes into 192px and the "Is this course for you?" box (`.fit`) into 142px, with one word per line. The cause is the unconditional rule under `/* home refinements */` (`.hero .wrap{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr)}`). It comes after the `@media` rule that sets one column, so it overrides it. **Fix:** move it into `@media (min-width:761px){…}`, or repeat `.hero .wrap{grid-template-columns:minmax(0,1fr)}` in a media query placed after it. On mobile, also put `.fit` below the CTAs.
+2. **All views: the focus ring is not visible enough.** `:focus-visible{outline:3px solid #F2A65A}` measures 2.02:1 against white, below the 3:1 that WCAG 1.4.11 requires. It works on the navy header (6.4:1) but not on page content. **Fix:** `:focus-visible{outline:3px solid #13315C;outline-offset:2px}` site-wide, and keep `.top :focus-visible{outline-color:#F2A65A}` for the header.
+3. **Robot view, mobile: the page scrolls sideways (scrollWidth 505px at 390px).** The cause is the unbroken source link `UniversalRobots/Universal_Robots_ROS2_Description`. **Fix:** `.spec td a{overflow-wrap:anywhere}`, or shorten the link text to "GitHub repository".
+4. **Lesson, mobile: the fixed bottom bar wraps to two rows (~80px).** It shows "‹ What ROS was built to do", "2 of 4 tasks done" and a disabled "Next" button, which covers about 10% of the screen. **Fix:** under 600px, show only the two arrow buttons, 44px tall and side by side, and move the task count into the Tasks panel. The disabled Next button (`.btn[disabled]`, #7B8794 on #E4E8ED, 2.98:1) also needs a reason. Add text like "Finish the 4 tasks to continue" and connect it with `aria-describedby`.
+
+## Should
+
+5. **All views: the type scale has too many sizes.** One view uses 12–16 distinct sizes, including fractions (10.5, 11.5, 12.04, 13.5, 14.5, 15.5, 16.5px). This makes text look slightly inconsistent from one block to the next. **Fix:** use six tokens, `--fs-xs:12px; --fs-sm:14px; --fs-base:16px; --fs-lg:19px; --fs-xl:24px; --fs-2xl:32px` (hero 40px), and map every rule to one of them.
+6. **Course, Modelling, Portal, Lesson: heading levels are used for styling.** The side-menu labels ("Weeks", "My learning", "Week 3 · Introduction to ROS") are `<h4>` and come before the `<h2>`. On Lesson, that `<h4>` comes before the `<h1>`. The footer headings are also `<h4>`. **Fix:** make the side-menu labels `<p class="navlabel">` inside `<nav aria-label="Weeks">`, and make the footer headings `<h2 class="fh">` styled at 15px.
+7. **All views: there is no skip link.** The first Tab on the header goes through 5 nav links and the search box. On Home, the next Tab stops inside the terminal's `textarea.tkey`, which can trap keyboard users. **Fix:** add `<a class="skip" href="#main">Skip to content</a>` as the first element, and give `<main>` `id="main"`.
+8. **Course and Modelling, mobile: the "Weeks" side menu drops to the bottom of the page.** It ends up below the plan, progress and requirements, where it no longer helps anyone navigate. Progress and "Continue Week 3" also sit below six week cards. **Fix:** under 900px, hide `.sidenav` and put the progress box (`.box`) with "Continue" directly under the page header.
+9. **Simulator, desktop: the page is 5,585px tall.** It shows 33 robot cards with large 4:3 images. TurtleBot3 also appears twice: in the feature panel and again as the first three Mobile cards. That conflicts with "compact". **Fix:** remove the duplicate cards, set `.rpic img{aspect-ratio:16/10}`, use 5 columns at ≥1280px, and show only the "Course robots" group by default with "Show all 33 robots" below it.
+10. **Simulator: there are two search boxes.** One is in the header ("Search, e.g. Week 4") and one is on the page ("Search robots, e.g. UR5e, lidar"). **Fix:** keep the page filter but label it "Filter robots" and give it a visible `<label>`.
+11. **Trust and legitimacy: the site does not show who runs it.** "Your instructor approves" and "signed by your instructor" appear, but the instructor is never named. The footer has no contact address and the brand is only "ROS2Lab · Robotics & ROS 2 Lab". **Fix:** add an "About the instructor" block on Home and Courses (photo, name, credentials, a single line), add a contact email and "About us" to the footer, and show a sample certificate image beside "Your certificate".
+12. **Login state varies by view.** Home, Courses, Simulator and Robot show "Log in", while Course, Modelling, Portal and Lesson show "Riya". **Fix:** even in the prototype, pick one state for each view and say it in `.protonote` ("Viewing as a signed-in student").
+
+## Could
+
+13. **Course: the progress data disagrees between views.** Week 3 says "11 lessons", but the list has 8 rows, some of them grouped ("3 lessons"). The Lesson view shows "The parts of ROS" at 2 of 4 tasks, while the Course view marks it "Done". **Fix:** list all 11 lessons or say "8 topics · 11 lessons", and use one data source for both.
+14. **Modelling: one week is expanded and the others are not.** Week 7 is open with no state, while Weeks 8–9 are collapsed rows with no toggle. **Fix:** make each `.week` header a `<button aria-expanded>` with a chevron, as on Course.
+15. **Home: the "Prototype:" bar (`.protonote`) wraps to 3 lines on mobile (~70px).** **Fix:** use a single line, "Prototype · sample data", with a "Views ▾" toggle, and remove it before launch.
+
+**Not template-like, keep it:** the week table, the compare table, the real terminal demo, and the plain cards with no gradients, emoji or icon grids.

@@ -1,0 +1,32 @@
+# Excerpt of parity/fixtures/lessons/A4/term2_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson A4 terminal 2: Practice: be a log detective
+2:# scratch HOME /home/prasad/lesson_ws/homes/A4_t2 shown as /home/student; sourced=False running=[] start=None
+3:## [term 1] $ wc -l robot.log   (exit=0, 0.0 s, finished, cwd=/home/student)
+4:10 robot.log
+5:
+6:## [term 1] $ grep ERROR robot.log   (exit=0, 0.0 s, finished, cwd=/home/student)
+7:08:12 ERROR lidar timeout
+8:08:15 ERROR mission aborted
+9:
+10:## [term 1] $ grep -i battery robot.log   (exit=0, 0.0 s, finished, cwd=/home/student)
+11:08:00 INFO Battery 92%
+12:08:09 INFO battery 88%
+13:08:13 INFO Battery 87%
+14:
+15:## [term 1] $ tail -n 4 robot.log   (exit=0, 0.0 s, finished, cwd=/home/student)
+16:08:12 WARN stopping robot
+17:08:13 INFO Battery 87%
+18:08:15 ERROR mission aborted
+19:08:16 INFO waiting for help
+20:
+21:## [term 1] $ cat robot.log | grep WARN   (exit=0, 0.0 s, finished, cwd=/home/student)
+22:08:07 WARN wifi weak
+23:08:12 WARN stopping robot
+24:
+25:## [term 1] nano /home/student/notes.txt: RAN (edited like nano: first occurrence replaced)
+26:## [term 1] $ cat notes.txt   (exit=0, 0.0 s, finished, cwd=/home/student)
+27:checked today:
+28:lidar needs checking
+29:

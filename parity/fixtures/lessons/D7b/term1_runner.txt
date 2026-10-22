@@ -1,0 +1,37 @@
+# Excerpt of parity/fixtures/lessons/D7b/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson D7b terminal 1: Practice: tune the keyboard driver
+2:# scratch HOME /home/prasad/lesson_ws/homes/D7b_t1 shown as /home/student; sourced=True running=['turtlesim', 'teleop'] start=None
+3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
+4:[INFO] [1792425687.482807797] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792425687.498499645] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+6:
+7:## [pre-running terminal] $ ros2 run turtlesim turtle_teleop_key  (still running after 4 s)
+8:Reading from keyboard
+9:---------------------------
+10:Use arrow keys to move the turtle.
+11:Use g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.
+12:'q' to quit.
+13:
+14:## [term 1] $ ros2 param list /teleop_turtle   (exit=0, 2.7 s, finished, cwd=/home/student)
+15:  qos_overrides./parameter_events.publisher.depth
+16:  qos_overrides./parameter_events.publisher.durability
+17:  qos_overrides./parameter_events.publisher.history
+18:  qos_overrides./parameter_events.publisher.reliability
+19:  scale_angular
+20:  scale_linear
+21:  start_type_description_service
+22:  use_sim_time
+23:
+24:## [term 1] $ ros2 param get /teleop_turtle scale_linear   (exit=0, 2.0 s, finished, cwd=/home/student)
+25:Double value is: 2.0
+26:
+27:## [term 1] $ ros2 param set /teleop_turtle scale_linear 4.0   (exit=0, 2.0 s, finished, cwd=/home/student)
+28:Set parameter successful
+29:
+30:## [term 1] $ ros2 param set /turtlesim background_g 200   (exit=0, 2.1 s, finished, cwd=/home/student)
+31:Set parameter successful
+32:
+33:# note: pre-running terminal 100 output during block: 
+34:# note: pre-running terminal 101 output during block: 

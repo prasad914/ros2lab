@@ -1,0 +1,92 @@
+{
+ "lesson": "A5",
+ "term": 1,
+ "title": "Practice: fix a Permission denied",
+ "sourced": false,
+ "running": [],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/A5_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T19:43:04+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ls -l",
+   "out": "total 24\ndrwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Desktop\ndrwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Documents\ndrwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Downloads\n-rw-r--r-- 1 prasad prasad   53 Oct 19 19:43 move.py\ndrwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Music\ndrwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Pictures\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "./move.py",
+   "out": "bash: ./move.py: Permission denied\n",
+   "exit": 126,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "chmod +x move.py",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "./move.py",
+   "out": "Robot moving forward\n",
+   "exit": 0,
+   "secs": 0.1,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "apt install tree",
+   "status": "PENDING",
+   "reason": "needs sudo/apt (run rules: never sudo or apt on this machine)"
+  },
+  {
+   "task": 6,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "sudo apt install tree",
+   "status": "PENDING",
+   "reason": "needs sudo/apt (run rules: never sudo or apt on this machine)"
+  },
+  {
+   "task": 7,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "tree",
+   "out": ".\n\u251c\u2500\u2500 Desktop\n\u251c\u2500\u2500 Documents\n\u251c\u2500\u2500 Downloads\n\u251c\u2500\u2500 move.py\n\u251c\u2500\u2500 Music\n\u2514\u2500\u2500 Pictures\n\n6 directories, 1 file\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T19:43:08+0530"
+}

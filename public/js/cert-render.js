@@ -77,8 +77,9 @@ function seal() {
   g.append(svg("circle", { cx: 60, cy: 60, r: 44, fill: "#0B1D3A" }), svg("circle", { cx: 60, cy: 60, r: 42.5, fill: "none", stroke: "#D4AF37", "stroke-width": 0.8 }),
     svg("circle", { cx: 60, cy: 60, r: 27, fill: "none", stroke: "#D4AF37", "stroke-width": 0.6 }),
     svg("defs", {}, svg("path", { id, d: "M60 60 m-35 0 a35 35 0 1 1 70 0 a35 35 0 1 1 -70 0" })));
-  const t = svg("text", { "font-family": "Cinzel, serif", "font-size": 7.4, "font-weight": 700, fill: "#D4AF37", "letter-spacing": 1.6 });
-  t.append(svg("textPath", { href: `#${id}`, startOffset: "0" }, "ROS2LAB • NOT YET VALIDATED • ROS 2 JAZZY •"));
+  // letter-spacing fills the ring (2π·35 ≈ 220, the text is about 191 without spacing), so none of it is cut off
+  const t = svg("text", { "font-family": "Cinzel, serif", "font-size": 7.4, "font-weight": 700, fill: "#D4AF37", "letter-spacing": 0.55 });
+  t.append(svg("textPath", { href: `#${id}`, startOffset: "0" }, "ROBOTICS & ROS 2 LAB • ROS2LAB • ROS 2 JAZZY •"));
   g.append(t);
   const logo = logoSvg();
   logo.setAttribute("x", "41"); logo.setAttribute("y", "41"); logo.setAttribute("width", "38"); logo.setAttribute("height", "38");
@@ -128,7 +129,7 @@ export function renderCertificate(c, { preview = false, sample = false, verifyUr
         c.about ? el("p", { class: "r2c-about", text: c.about }) : null,
         el("p", { class: "r2c-stmt" }, `has successfully completed the ${length}online course`,
           el("strong", { text: c.course }),
-          "offered by ROS2Lab, having passed all graded assessments and an individually assigned capstone project.")),
+          "offered by ROS2Lab from the Robotics & ROS 2 Lab YouTube channel, having passed every weekly test and an individually assigned capstone project.")),
       el("div", { class: "r2c-band" },
         el("div", { class: "r2c-card" }, el("h3", { class: "r2c-h", text: "Course modules" }),
           el("ul", { class: "r2c-mods" }, mods.map((m, i) => { const [k, t] = splitModule(m, i); return el("li", {}, el("b", { text: k }), el("span", { text: t })); }))),

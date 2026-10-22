@@ -1,0 +1,94 @@
+<!-- ===== COURSES ===== -->
+<section data-view="courses" hidden>
+  <div class="pagehead"><div class="wrap gut">
+    <p class="crumbs"><a href="#home" data-go="home">Home</a> › Courses</p>
+    <h1>Courses</h1>
+    <p class="lede">One main course with a certificate, plus an optional extra module. Start with ROS 2 from zero.</p>
+    <div class="ctas" style="margin-top:10px"><a class="btn btn-main" href="#dashboard" data-go="dashboard">Register free</a></div>
+  </div></div>
+  <div class="wrap gut cpage">
+    <div class="pgrid">
+      <article class="prog2 p-cert">
+        <div class="pimg"><img src="{{IMG_tb3_burger}}" alt="" width="800" height="600"></div>
+        <div class="pbody">
+          <span class="label cert">With certificate</span>
+          <h2>ROS 2 from zero</h2>
+          <p class="psub">Certificate course · Weeks 1–6</p>
+          <p>Start with the Ubuntu terminal and Python, then learn the core of ROS&#160;2 and write your own nodes in Python and C++.</p>
+          <p class="ctitle">Certificate title: <i>ROS 2 Fundamentals: From Linux Basics to Your First ROS 2 Nodes</i></p>
+          <dl class="pfacts"><div><dt>Length</dt><dd>6 weeks · Days 1–30</dd></div><div><dt>Lessons</dt><dd>95</dd></div><div><dt>Tests</dt><dd>6 weekly tests, 60% to pass</dd></div><div><dt>Project</dt><dd>1 project, 80% to pass</dd></div><div><dt>Award</dt><dd>Certificate, valid 2 years</dd></div><div><dt>Access</dt><dd>60 days, lifetime if you finish in time</dd></div></dl>
+          <div class="pact"><a class="btn btn-main" href="#course" data-go="course">See the course plan</a><a class="arrow" href="#certificate" data-go="certificate">Sample certificate</a></div>
+        </div>
+      </article>
+      <article class="prog2 p-opt">
+        <div class="pimg"><img src="{{IMG_ur5e}}" alt="" width="800" height="600"></div>
+        <div class="pbody">
+          <span class="label lopt">Without certificate</span>
+          <h2>Robot modelling &amp; RViz</h2>
+          <p class="psub">Optional module · Weeks 7–9</p>
+          <p>Describe a robot in URDF and Xacro, add meshes, publish its frames with TF, and view it with sensor data and markers in RViz.</p>
+          <dl class="pfacts"><div><dt>Length</dt><dd>3 weeks · Days 31–45</dd></div><div><dt>Lessons</dt><dd>22</dd></div><div><dt>Tests</dt><dd>3 practice tests</dd></div><div><dt>Project</dt><dd>Day 45 project</dd></div><div><dt>Award</dt><dd>None, not part of the certificate</dd></div><div><dt>Best after</dt><dd>Week 6</dd></div></dl>
+          <div class="pact"><a class="btn btn-sec" href="#modelling" data-go="modelling">See the module plan</a></div>
+        </div>
+      </article>
+    </div>
+    <h2 class="cmp-h">Compare</h2>
+    <div class="tablewrap"><table class="cmp keep3">
+      <thead><tr><th scope="col"></th><th scope="col">ROS 2 from zero</th><th scope="col">Robot modelling &amp; RViz</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Weeks</th><td>1–6</td><td>7–9</td></tr>
+        <tr><th scope="row">Lessons</th><td>95</td><td>22</td></tr>
+        <tr><th scope="row">Topics</th><td>Terminal, Python, C++, nodes, topics, services, actions, parameters, launch, tf2, QoS</td><td>URDF, Xacro, meshes, TF from URDF, RViz displays, markers, interactive markers</td></tr>
+        <tr><th scope="row">Assessment</th><td>6 weekly tests (15 questions, 35 min, 2 attempts) and 1 project</td><td>Practice tests only</td></tr>
+        <tr><th scope="row">Project</th><td>Personal capstone, 80% to pass, up to 2 submissions</td><td>Day 45 practice project</td></tr>
+        <tr><th scope="row">Certificate</th><td><b class="okt">Yes</b>, valid 2 years, verifiable online</td><td>No</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- ===== SIMULATOR ===== -->
+<section data-view="simulator" hidden>
+  <div class="pagehead"><div class="wrap gut">
+    <p class="crumbs"><a href="#home" data-go="home">Home</a> › Robot simulator</p>
+    <div class="simhead">
+      <div><h1>Robot simulator</h1><p class="lede">Open a robot in RViz and Gazebo in your browser. Each robot gets its own ROS&#160;2 Jazzy workspace.</p></div>
+      <label class="simq"><span>Filter robots</span><input id="sim-q" type="search" placeholder="Search robots, e.g. UR5e, lidar"></label>
+    </div>
+  </div></div>
+  <div class="wrap gut">
+    <div class="feat">
+      <div class="feat-t"><span class="label cert">Course robot</span><h2>TurtleBot3</h2><p>The robot used in the course. Drive it, read its lidar and camera, and try SLAM and Nav2 in Gazebo.</p></div>
+      <div class="feat-r" id="sim-feat"></div>
+    </div>
+    <p class="simtop"><b>New here?</b> Start with <a href="#robot" data-go="robot" data-robot="tb3_burger">TurtleBot3 Burger</a>, the robot from the course. <span class="st st-test">Under test</span> means the robot opens in the simulator but has no lessons yet.</p>
+    <div class="simtabs" id="sim-tabs" role="toolbar" aria-label="Filter by type"></div>
+    <div id="sim-list"></div>
+    
+  </div>
+</section>
+
+<!-- ===== ROBOT ===== -->
+<section data-view="robot" hidden>
+  <div class="pagehead"><div class="wrap gut">
+    <p class="crumbs"><a href="#home" data-go="home">Home</a> › <a href="#simulator" data-go="simulator">Robot simulator</a> › <span id="rb-cat"></span></p>
+  </div></div>
+  <div class="wrap gut"><div class="rb" id="rb"></div></div>
+</section>
+
+
+<!-- ===== CERTIFICATE / VERIFY ===== -->
+<section data-view="certificate" hidden>
+  <div class="pagehead"><div class="wrap gut">
+    <p class="crumbs"><a href="#home" data-go="home">Home</a> › Verify a certificate</p>
+    <h1>Verify a certificate</h1>
+    <p class="lede">Enter the certificate ID printed at the top right of the certificate, or scan its QR code.</p>
+    <form class="verify" id="verify"><label for="cid">Certificate ID</label><div><input id="cid" value="R2L-2026-SAMPLE0001" maxlength="20" autocomplete="off" spellcheck="false"><button class="btn btn-main" type="submit">Check</button></div></form>
+  </div></div>
+  <div class="wrap gut certpage">
+    <p class="vstatus" id="vstatus"><b>Sample certificate.</b> This is what a genuine ROS2Lab certificate looks like. A real ID shows “Genuine and valid”, the holder’s name, the issue date and the expiry date.</p>
+    <div class="vact"><button class="btn btn-main" type="button" onclick="window.print()">Download PDF</button><button class="btn btn-sec" type="button" data-live="linkedin.com/profile/add with this certificate filled in">Add to LinkedIn</button><button class="btn btn-sec" type="button" data-live="a copied link to certificate.html?id=R2L-2026-SAMPLE0001">Copy link</button></div>
+    <div id="cert-big"></div>
+    <p class="meta" style="text-align:center;margin:10px 0 40px">To save as PDF, press Download PDF and choose Save as PDF (landscape).</p>
+  </div>
+</section>

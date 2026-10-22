@@ -1,0 +1,37 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+body{margin:0;background:#1E1E1E;font:14px/1.55 'DejaVu Sans Mono',monospace;color:#D4D4D4}
+.w{display:grid;grid-template-columns:1fr 1fr;width:1280px;height:800px}
+.p{padding:0;border-right:1px solid #333}
+.t{background:#252526;color:#CCC;font:13px sans-serif;padding:10px 16px;border-bottom:1px solid #333}
+.t b{color:#fff;background:#1E1E1E;padding:10px 14px;margin:-10px 0 -10px -16px;display:inline-block;border-top:2px solid #0E639C}
+pre{margin:0;padding:18px 20px;font:19px/1.6 'DejaVu Sans Mono',monospace;white-space:pre}
+.k{color:#569CD6}.c{color:#4EC9B0}.s{color:#CE9178}.f{color:#DCDCAA}.n{color:#B5CEA8}.m{color:#6A9955}.v{color:#9CDCFE}
+</style></head><body><div class="w">
+<div class="p"><div class="t"><b>talker.py</b></div><pre><span class="k">import</span> rclpy
+<span class="k">from</span> rclpy.node <span class="k">import</span> <span class="c">Node</span>
+<span class="k">from</span> std_msgs.msg <span class="k">import</span> <span class="c">String</span>
+
+<span class="k">class</span> <span class="c">Talker</span>(<span class="c">Node</span>):
+    <span class="k">def</span> <span class="f">__init__</span>(<span class="v">self</span>):
+        <span class="f">super</span>().<span class="f">__init__</span>(<span class="s">'talker'</span>)
+        <span class="v">self</span>.pub = <span class="v">self</span>.<span class="f">create_publisher</span>(
+            <span class="c">String</span>, <span class="s">'chatter'</span>, <span class="n">10</span>)
+        <span class="v">self</span>.<span class="f">create_timer</span>(<span class="n">0.5</span>, <span class="v">self</span>.tick)
+
+    <span class="k">def</span> <span class="f">tick</span>(<span class="v">self</span>):
+        msg = <span class="c">String</span>(data=<span class="s">'Hello ROS 2'</span>)
+        <span class="v">self</span>.pub.<span class="f">publish</span>(msg)</pre></div>
+<div class="p"><div class="t"><b>talker.cpp</b></div><pre><span class="k">#include</span> <span class="s">"rclcpp/rclcpp.hpp"</span>
+<span class="k">#include</span> <span class="s">"std_msgs/msg/string.hpp"</span>
+<span class="k">using namespace</span> std::chrono_literals;
+
+<span class="k">class</span> <span class="c">Talker</span> : <span class="k">public</span> rclcpp::<span class="c">Node</span> {
+<span class="k">public</span>:
+  <span class="f">Talker</span>() : <span class="c">Node</span>(<span class="s">"talker"</span>) {
+    pub_ = <span class="f">create_publisher</span>&lt;std_msgs::msg::<span class="c">String</span>&gt;(
+      <span class="s">"chatter"</span>, <span class="n">10</span>);
+    timer_ = <span class="f">create_wall_timer</span>(<span class="n">500ms</span>,
+      [<span class="k">this</span>] { <span class="f">tick</span>(); });
+  }
+<span class="m">  // tick() publishes "Hello ROS 2"</span></pre></div>
+</div></body></html>

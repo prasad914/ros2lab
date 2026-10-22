@@ -1,0 +1,143 @@
+{
+ "lesson": "F17",
+ "term": 1,
+ "title": "Live terminal: install and launch",
+ "sourced": true,
+ "running": [],
+ "start": "~/ros2_ws",
+ "scratch_home": "/home/prasad/lesson_ws/homes/F17_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:48:55+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "colcon build --packages-select chiku_control",
+   "out": "[0.4s] [0/0 complete]\n                     \nStarting >>> chiku_control\n[0.5s] [0/1 complete] [chiku_control - 0.1s]\n                                            \n[0.6s] [0/1 complete] [chiku_control - 0.2s]\n                                            \n[0.7s] [0/1 complete] [chiku_control - 0.3s]\n                                            \n[0.8s] [0/1 complete] [chiku_control - 0.4s]\n                                            \n[0.9s] [0/1 complete] [chiku_control - 0.5s]\n                                            \n[1.0s] [0/1 complete] [chiku_control - 0.6s]\n                                            \n[1.1s] [0/1 complete] [chiku_control - 0.7s]\n                                            \n[1.2s] [0/1 complete] [chiku_control - 0.8s]\n                                            \n[1.3s] [0/1 complete] [chiku_control - 0.9s]\n                                            \n[1.4s] [0/1 complete] [chiku_control - 1.0s]\n                                            \n[1.5s] [0/1 complete] [chiku_control - 1.1s]\n                                            \n[1.6s] [0/1 complete] [chiku_control - 1.2s]\n                                            \n[1.7s] [0/1 complete] [chiku_control - 1.3s]\n                                            \n[1.8s] [0/1 complete] [chiku_control - 1.4s]\n                                            \n[1.9s] [0/1 complete] [chiku_control - 1.5s]\n                                            \n[2.0s] [0/1 complete] [chiku_control - 1.6s]\n                                            \n[2.1s] [0/1 complete] [chiku_control - 1.7s]\n                                            \n[2.2s] [0/1 complete] [chiku_control - 1.8s]\n                                            \n[2.3s] [0/1 complete] [chiku_control - 1.9s]\n                                            \n[2.5s] [0/1 complete] [chiku_control - 2.0s]\n                                            \n[2.6s] [0/1 complete] [chiku_control - 2.1s]\n                                            \n[2.7s] [0/1 complete] [chiku_control - 2.2s]\n                                            \n[2.8s] [0/1 complete] [chiku_control - 2.3s]\n                                            \n[2.9s] [0/1 complete] [chiku_control - 2.4s]\n                                            \n[3.0s] [0/1 complete] [chiku_control - 2.5s]\n                                            \n[3.1s] [0/1 complete] [chiku_control - 2.6s]\n                                            \n[3.2s] [0/1 complete] [chiku_control - 2.7s]\n                                            \n[3.3s] [0/1 complete] [chiku_control - 2.8s]\n                                            \n[3.4s] [0/1 complete] [chiku_control - 2.9s]\n                                            \n[3.5s] [0/1 complete] [chiku_control - 3.0s]\n                                            \n[3.6s] [0/1 complete] [chiku_control - 3.1s]\n                                            \n[3.7s] [0/1 complete] [chiku_control - 3.2s]\n                                            \n[3.8s] [0/1 complete] [chiku_control - 3.3s]\n                                            \nFinished <<< chiku_control [3.32s]\n\nSummary: 1 package finished [3.76s]\n",
+   "exit": 0,
+   "secs": 4.5,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "source install/setup.bash",
+   "out": "",
+   "exit": 0,
+   "secs": 0.8,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 launch chiku_control circle.launch.py",
+   "out": "file 'circle.launch.py' was not found in the share directory of package 'chiku_control' which is at '/home/student/ros2_ws/install/chiku_control/share/chiku_control'\n",
+   "exit": 1,
+   "secs": 0.9,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "nano",
+   "file": "/home/student/ros2_ws/src/chiku_control/setup.py",
+   "status": "RAN",
+   "out": "(edited like nano: first occurrence replaced)"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "colcon build --packages-select chiku_control",
+   "out": "[0.4s] [0/0 complete]\n                     \nStarting >>> chiku_control\n[0.5s] [0/1 complete] [chiku_control - 0.1s]\n                                            \n[0.6s] [0/1 complete] [chiku_control - 0.2s]\n                                            \n[0.7s] [0/1 complete] [chiku_control - 0.3s]\n                                            \n[0.8s] [0/1 complete] [chiku_control - 0.4s]\n                                            \n[0.9s] [0/1 complete] [chiku_control - 0.5s]\n                                            \n[1.0s] [0/1 complete] [chiku_control - 0.6s]\n                                            \n[1.1s] [0/1 complete] [chiku_control - 0.7s]\n                                            \n[1.2s] [0/1 complete] [chiku_control - 0.8s]\n                                            \n[1.3s] [0/1 complete] [chiku_control - 0.9s]\n                                            \n[1.4s] [0/1 complete] [chiku_control - 1.0s]\n                                            \n[1.5s] [0/1 complete] [chiku_control - 1.1s]\n                                            \n[1.6s] [0/1 complete] [chiku_control - 1.2s]\n                                            \n[1.7s] [0/1 complete] [chiku_control - 1.3s]\n                                            \n[1.8s] [0/1 complete] [chiku_control - 1.4s]\n                                            \n[1.9s] [0/1 complete] [chiku_control - 1.5s]\n                                            \n[2.0s] [0/1 complete] [chiku_control - 1.6s]\n                                            \n[2.1s] [0/1 complete] [chiku_control - 1.7s]\n                                            \n[2.2s] [0/1 complete] [chiku_control - 1.8s]\n                                            \n[2.3s] [0/1 complete] [chiku_control - 1.9s]\n                                            \n[2.4s] [0/1 complete] [chiku_control - 2.0s]\n                                            \n[2.5s] [0/1 complete] [chiku_control - 2.1s]\n                                            \n[2.6s] [0/1 complete] [chiku_control - 2.2s]\n                                            \n[2.7s] [0/1 complete] [chiku_control - 2.3s]\n                                            \n[2.8s] [0/1 complete] [chiku_control - 2.4s]\n                                            \n[2.9s] [0/1 complete] [chiku_control - 2.5s]\n                                            \n[3.0s] [0/1 complete] [chiku_control - 2.6s]\n                                            \n[3.1s] [0/1 complete] [chiku_control - 2.7s]\n                                            \n[3.2s] [0/1 complete] [chiku_control - 2.8s]\n                                            \n[3.3s] [0/1 complete] [chiku_control - 2.9s]\n                                            \n[3.4s] [0/1 complete] [chiku_control - 3.0s]\n                                            \n[3.5s] [0/1 complete] [chiku_control - 3.1s]\n                                            \nFinished <<< chiku_control [3.21s]\n\nSummary: 1 package finished [3.58s]\n",
+   "exit": 0,
+   "secs": 4.3,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "source install/setup.bash",
+   "out": "",
+   "exit": 0,
+   "secs": 1.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 launch chiku_control circle.launch.py",
+   "out": "[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-19-21-49-11-239008-prasad-1202929\n[INFO] [launch]: Default logging verbosity is set to INFO\n[INFO] [turtlesim_node-1]: process started with pid [1202932]\n[INFO] [speed_driver-2]: process started with pid [1202933]\n[INFO] [pose_monitor-3]: process started with pid [1202934]\n[turtlesim_node-1] [INFO] [1792426751.617084713] [sim]: Starting turtlesim with node name /sim\n[turtlesim_node-1] [INFO] [1792426751.629663086] [sim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n[speed_driver-2] [INFO] [1792426752.420440618] [speed_driver]: chiku is ready to drive\n[pose_monitor-3] [INFO] [1792426753.361408235] [pose_monitor]: x=6.52 y=5.81 theta=0.51 travelled=1.02 m\n[pose_monitor-3] [INFO] [1792426754.309489067] [pose_monitor]: x=7.53 y=7.43 theta=1.50 travelled=3.01 m\n[pose_monitor-3] [INFO] [1792426755.309120777] [pose_monitor]: x=6.69 y=9.17 theta=2.51 travelled=5.02 m\n[pose_monitor-3] [INFO] [1792426756.311361023] [pose_monitor]: x=4.80 y=9.41 theta=-2.78 travelled=7.01 m\n[pose_monitor-3] [INFO] [1792426757.307682272] [pose_monitor]: x=3.57 y=7.93 theta=-1.77 travelled=9.02 m\n[pose_monitor-3] [INFO] [1792426758.309165953] [pose_monitor]: x=4.13 y=6.11 theta=-0.78 travelled=11.01 m\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 5,
+   "term": 2,
+   "kind": "newTerminal",
+   "status": "RAN"
+  },
+  {
+   "task": 5,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 node list",
+   "out": "/pose_monitor\n/sim\n/speed_driver\n",
+   "exit": 0,
+   "secs": 1.4,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "1": "[pose_monitor-3] [INFO] [1792426760.309199669] [pose_monitor]: x=7.41 y=6.87 theta=1.22 travelled=15.01 m\n[pose_monitor-3] [INFO] [1792426761.310511552] [pose_monitor]: x=7.10 y=8.78 theta=2.23 travelled=17.02 m\n"
+   }
+  },
+  {
+   "task": 6,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 param get /speed_driver speed",
+   "out": "Double value is: 2.0\n",
+   "exit": 0,
+   "secs": 2.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "1": "[pose_monitor-3] [INFO] [1792426762.308018137] [pose_monitor]: x=5.35 y=9.54 theta=-3.06 travelled=19.01 m\n[pose_monitor-3] [INFO] [1792426763.309039726] [pose_monitor]: x=3.75 y=8.46 theta=-2.05 travelled=21.02 m\n"
+   }
+  },
+  {
+   "term": 1,
+   "kind": "interrupt-at-end",
+   "of": "ros2 launch chiku_control circle.launch.py",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-19-21-49-11-239008-prasad-1202929\n[INFO] [launch]: Default logging verbosity is set to INFO\n[INFO] [turtlesim_node-1]: process started with pid [1202932]\n[INFO] [speed_driver-2]: process started with pid [1202933]\n[INFO] [pose_monitor-3]: process started with pid [1202934]\n[turtlesim_node-1] [INFO] [1792426751.617084713] [sim]: Starting turtlesim with node name /sim\n[turtlesim_node-1] [INFO] [1792426751.629663086] [sim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n[speed_driver-2] [INFO] [1792426752.420440618] [speed_driver]: chiku is ready to drive\n[pose_monitor-3] [INFO] [1792426753.361408235] [pose_monitor]: x=6.52 y=5.81 theta=0.51 travelled=1.02 m\n[pose_monitor-3] [INFO] [1792426754.309489067] [pose_monitor]: x=7.53 y=7.43 theta=1.50 travelled=3.01 m\n[pose_monitor-3] [INFO] [1792426755.309120777] [pose_monitor]: x=6.69 y=9.17 theta=2.51 travelled=5.02 m\n[pose_monitor-3] [INFO] [1792426756.311361023] [pose_monitor]: x=4.80 y=9.41 theta=-2.78 travelled=7.01 m\n[pose_monitor-3] [INFO] [1792426757.307682272] [pose_monitor]: x=3.57 y=7.93 theta=-1.77 travelled=9.02 m\n[pose_monitor-3] [INFO] [1792426758.309165953] [pose_monitor]: x=4.13 y=6.11 theta=-0.78 travelled=11.01 m\n[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)\n[turtlesim_node-1] [INFO] [1792426764.113587468] [rclcpp]: signal_handler(SIGINT/SIGTERM)\n[INFO] [turtlesim_node-1]: process has finished cleanly [pid 1202932]\n[INFO] [pose_monitor-3]: process has finished cleanly [pid 1202934]\n[INFO] [speed_driver-2]: process has finished cleanly [pid 1202933]\n",
+   "exit": 0,
+   "status": "RAN"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T21:49:25+0530"
+}

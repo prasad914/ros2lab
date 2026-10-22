@@ -138,7 +138,7 @@ import launch.substitutions.command as _cmd_sub  # noqa: E402
 
 # ------------------------------------------------------------------------------------------------ jobs
 class Job:
-    def __init__(self, job_id, *, pid, env, cwd, tty=True, host_signals=False):
+    def __init__(self, job_id, *, pid, env, cwd, tty=True, host_signals=False, preflight=False):
         self.id = job_id
         self.pid = pid                       # pid of the `ros2 launch` process itself
         self._pids = itertools.count(pid + 1)
@@ -151,6 +151,9 @@ class Job:
         self.signal_handlers = {}            # signum -> handler registered by LaunchService
         self.service = None
         self.early_signals = set()           # signals that arrived before LaunchService registered its handlers
+        self.preflight = preflight           # True: the host checks the processes of the launch before any starts
+        self.batch = []                      # (preflight) the processes the launch is about to start
+        self.preflight_task = None
 
     def next_pid(self):
         return next(self._pids)
@@ -349,20 +352,8 @@ async def _fake_execute_process(protocol_class, cmd, cwd=None, env=None, shell=F
     # the ExecuteLocal action and its event args are in the closure of the protocol factory
     nl = inspect.getclosurevars(protocol_class).nonlocals
     action, ev_args = nl.get("self"), nl.get("process_event_args") or {}
-    # A real subprocess takes a few loop turns to start. When the launch fails while its entities are still being
-    # visited (e.g. KeyError 'TURTLEBOT3_MODEL' in a later include), ros2 launch logs the error and shuts down before
-    # any process is started: no "process started" line (parity/fixtures/tb3_burger/sensors/errors/no_tb3_model).
-    for _ in range(3):
-        await asyncio.sleep(0)
     context = nl.get("context")
-    if context is not None and context.is_shutdown:
-        raise asyncio.CancelledError()
-    err = _exec_error("/bin/sh" if shell else cmd[0], env)
-    if err is not None:
-        raise err                          # like asyncio.create_subprocess_exec / execve()
-    pid = job.next_pid()
-    inner = protocol_class()
-    info = {"pid": pid, "cmd": cmd, "cwd": cwd or job.cwd, "env": dict(env) if env is not None else dict(os.environ),
+    info = {"cmd": cmd, "cwd": cwd or job.cwd, "env": dict(env) if env is not None else dict(os.environ),
             "name": ev_args.get("name"), "shell": bool(shell), "files": {}}
     # parameter files (--params-file) and any other file the launch generated at run time (/tmp/..., e.g. a
     # RewrittenYaml result passed as `-p config_file:=/tmp/tmpab12`): the host cannot read this file system
@@ -388,6 +379,32 @@ async def _fake_execute_process(protocol_class, cmd, cwd=None, env=None, shell=F
         info["params"] = _node_params(info)
     except Exception:  # never break a launch over this convenience
         info["params"] = {}
+    # the host's real-hardware lock: it sees every process the launch starts at once, before the first one starts
+    if job.preflight:
+        rd = info["params"].get("robot_description")
+        job.batch.append({"package": (ros or {}).get("package"), "executable": (ros or {}).get("executable"),
+                          "cmd0": cmd[0], "robot_description": rd if isinstance(rd, str) else None})
+        if job.preflight_task is None:
+            job.preflight_task = asyncio.ensure_future(_preflight(job, context))
+        if await asyncio.shield(job.preflight_task):
+            # never started: the action is done (ExecuteLocal's completed future), so the launch can end
+            fut = getattr(action, "_ExecuteLocal__completed_future", None)
+            if fut is not None and not fut.done():
+                fut.set_result(None)
+            raise asyncio.CancelledError()
+    # A real subprocess takes a few loop turns to start. When the launch fails while its entities are still being
+    # visited (e.g. KeyError 'TURTLEBOT3_MODEL' in a later include), ros2 launch logs the error and shuts down before
+    # any process is started: no "process started" line (parity/fixtures/tb3_burger/sensors/errors/no_tb3_model).
+    for _ in range(3):
+        await asyncio.sleep(0)
+    if context is not None and context.is_shutdown:
+        raise asyncio.CancelledError()
+    err = _exec_error("/bin/sh" if shell else cmd[0], env)
+    if err is not None:
+        raise err                          # like asyncio.create_subprocess_exec / execve()
+    pid = job.next_pid()
+    info["pid"] = pid
+    inner = protocol_class()
     if ros:
         if ros.get("fqn"):
             job.node_procs[ros["fqn"]] = pid
@@ -402,6 +419,27 @@ async def _fake_execute_process(protocol_class, cmd, cwd=None, env=None, shell=F
 
 
 _el.async_execute_process = _fake_execute_process
+
+
+async def _preflight(job, context):
+    """Wait until the launch has visited the entities that start processes (no new one for 20 loop turns), then ask
+    the host about all of them. A lock shuts the launch down: the pending processes are cancelled unstarted."""
+    n, quiet = -1, 0
+    for _ in range(2000):
+        await asyncio.sleep(0)
+        if len(job.batch) == n:
+            quiet += 1
+            if quiet >= 20:
+                break
+        else:
+            n, quiet = len(job.batch), 0
+    res = await _host_call("preflight", job, {"procs": job.batch})
+    if res and res.get("lock"):
+        if context is not None and not context.is_shutdown:
+            from launch.events import Shutdown
+            context.emit_event_sync(Shutdown(reason="real hardware is locked"))
+        return True
+    return False
 
 
 def _deliver_signal(job, pid, sig):
@@ -924,12 +962,12 @@ def _drop_log_dir():
         pass
 
 
-def start_job(job_id, argv, env, cwd=None, pid=4300, tty=True, host_signals=False):
+def start_job(job_id, argv, env, cwd=None, pid=4300, tty=True, host_signals=False, preflight=False):
     """Schedule run_job in its own task (own contextvars copy); HOST.done(job_id, code) when it ends."""
     ctx = contextvars.copy_context()
     cwd = _opt(cwd)
     # registered now, so signals / writes that arrive before the task first runs find the job
-    JOBS[job_id] = Job(job_id, pid=pid, env=env, cwd=cwd, tty=tty, host_signals=host_signals)
+    JOBS[job_id] = Job(job_id, pid=pid, env=env, cwd=cwd, tty=tty, host_signals=host_signals, preflight=bool(preflight))
 
     async def runner():
         code = await run_job(job_id, list(argv), dict(env), cwd, pid, tty, host_signals)
@@ -1072,4 +1110,6 @@ _patch_ros2launch()
 #   HOST.exited(job_id, pid, rc)                       a process ended (host exit, default signal handling, SIGKILL)
 #   HOST.load_composable(job_id, req_json) -> Promise  {container, nodes:[...]} -> {success, error_message, ...} | null
 #   HOST.lifecycle(job_id, req_json) -> Promise        {node, transition, transition_id} -> {success, events} | null
+#   HOST.preflight(job_id, req_json) -> Promise        {procs:[{package, executable, cmd0, robot_description}]}
+#                                                      -> {lock: true} stops the launch before any process starts
 #   HOST.done(job_id, code)                            the command finished

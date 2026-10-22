@@ -1,0 +1,133 @@
+{
+ "lesson": "F2",
+ "term": 1,
+ "title": "Live terminal: your first C++ node",
+ "sourced": true,
+ "running": [],
+ "start": "~/ros2_ws/src",
+ "scratch_home": "/home/prasad/lesson_ws/homes/F2_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:36:46+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 pkg create --build-type ament_cmake --license Apache-2.0 chiku_cpp --dependencies rclcpp",
+   "out": "going to create a new package\npackage name: chiku_cpp\ndestination directory: /home/student/ros2_ws/src\npackage format: 3\nversion: 0.0.0\ndescription: TODO: Package description\nmaintainer: ['prasad <prasad@todo.todo>']\nlicenses: ['Apache-2.0']\nbuild type: ament_cmake\ndependencies: ['rclcpp']\ncreating folder ./chiku_cpp\ncreating ./chiku_cpp/package.xml\ncreating source and include folder\ncreating folder ./chiku_cpp/src\ncreating folder ./chiku_cpp/include/chiku_cpp\ncreating ./chiku_cpp/CMakeLists.txt\n",
+   "exit": 0,
+   "secs": 0.9,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws/src"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "cat chiku_cpp/CMakeLists.txt",
+   "out": "cmake_minimum_required(VERSION 3.8)\nproject(chiku_cpp)\n\nif(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES \"Clang\")\n  add_compile_options(-Wall -Wextra -Wpedantic)\nendif()\n\n# find dependencies\nfind_package(ament_cmake REQUIRED)\nfind_package(rclcpp REQUIRED)\n\nif(BUILD_TESTING)\n  find_package(ament_lint_auto REQUIRED)\n  # the following line skips the linter which checks for copyrights\n  # comment the line when a copyright and license is added to all source files\n  set(ament_cmake_copyright_FOUND TRUE)\n  # the following line skips cpplint (only works in a git repo)\n  # comment the line when this package is in a git repo and when\n  # a copyright and license is added to all source files\n  set(ament_cmake_cpplint_FOUND TRUE)\n  ament_lint_auto_find_test_dependencies()\nendif()\n\nament_package()\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws/src"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "nano",
+   "file": "/home/student/ros2_ws/src/chiku_cpp/src/hello_node.cpp",
+   "status": "RAN",
+   "out": "(edited like nano: first occurrence replaced)"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "nano",
+   "file": "/home/student/ros2_ws/src/chiku_cpp/CMakeLists.txt",
+   "status": "RAN",
+   "out": "(edited like nano: first occurrence replaced)"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "cd ~/ros2_ws",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "colcon build --packages-select chiku_cpp",
+   "out": "[0.4s] [0/0 complete]\n                     \nStarting >>> chiku_cpp\n[0.5s] [0/1 complete] [chiku_cpp:cmake - 0.1s]\n                                              \n[0.6s] [0/1 complete] [chiku_cpp:cmake - 0.2s]\n                                              \n[0.7s] [0/1 complete] [chiku_cpp:cmake - 0.3s]\n                                              \n[0.8s] [0/1 complete] [chiku_cpp:cmake - 0.4s]\n                                              \n[0.9s] [0/1 complete] [chiku_cpp:cmake - 0.5s]\n                                              \n[1.0s] [0/1 complete] [chiku_cpp:cmake - 0.6s]\n                                              \n[1.1s] [0/1 complete] [chiku_cpp:cmake - 0.7s]\n                                              \n[1.2s] [0/1 complete] [chiku_cpp:cmake - 0.8s]\n                                              \n[1.3s] [0/1 complete] [chiku_cpp:cmake - 0.9s]\n                                              \n[1.4s] [0/1 complete] [chiku_cpp:cmake - 1.0s]\n                                              \n[1.5s] [0/1 complete] [chiku_cpp:cmake - 1.1s]\n                                              \n[1.6s] [0/1 complete] [chiku_cpp:cmake - 1.2s]\n                                              \n[1.7s] [0/1 complete] [chiku_cpp:cmake - 1.3s]\n                                              \n[1.8s] [0/1 complete] [chiku_cpp:cmake - 1.4s]\n                                              \n[1.9s] [0/1 complete] [chiku_cpp:cmake - 1.5s]\n                                              \n[2.0s] [0/1 complete] [chiku_cpp:cmake - 1.6s]\n                                              \n[2.1s] [0/1 complete] [chiku_cpp:cmake - 1.7s]\n                                              \n[2.2s] [0/1 complete] [chiku_cpp:cmake - 1.8s]\n                                              \n[2.3s] [0/1 complete] [chiku_cpp:cmake - 1.9s]\n                                              \n[2.4s] [0/1 complete] [chiku_cpp:cmake - 2.0s]\n                                              \n[2.5s] [0/1 complete] [chiku_cpp:cmake - 2.1s]\n                                              \n[2.6s] [0/1 complete] [chiku_cpp:cmake - 2.2s]\n                                              \n[2.7s] [0/1 complete] [chiku_cpp:cmake - 2.3s]\n                                              \n[2.8s] [0/1 complete] [chiku_cpp:cmake - 2.4s]\n                                              \n[2.9s] [0/1 complete] [chiku_cpp:cmake - 2.5s]\n                                              \n[3.0s] [0/1 complete] [chiku_cpp:cmake - 2.6s]\n                                              \n[3.1s] [0/1 complete] [chiku_cpp:cmake - 2.7s]\n                                              \n[3.2s] [0/1 complete] [chiku_cpp:cmake - 2.8s]\n                                              \n[3.3s] [0/1 complete] [chiku_cpp:cmake - 2.9s]\n                                              \n[3.4s] [0/1 complete] [chiku_cpp:cmake - 3.0s]\n                                              \n[3.5s] [0/1 complete] [chiku_cpp:cmake - 3.1s]\n                                              \n[3.6s] [0/1 complete] [chiku_cpp:cmake - 3.2s]\n                                              \n[3.7s] [0/1 complete] [chiku_cpp:cmake - 3.3s]\n                                              \n[3.8s] [0/1 complete] [chiku_cpp:cmake - 3.4s]\n                                              \n[3.9s] [0/1 complete] [chiku_cpp:cmake - 3.5s]\n                                              \n[4.0s] [0/1 complete] [chiku_cpp:cmake - 3.6s]\n                                              \n[4.1s] [0/1 complete] [chiku_cpp:cmake - 3.7s]\n                                              \n[4.2s] [0/1 complete] [chiku_cpp:cmake - 3.8s]\n                                              \n[4.3s] [0/1 complete] [chiku_cpp:cmake - 3.9s]\n                                              \n[4.4s] [0/1 complete] [chiku_cpp:cmake - 4.0s]\n                                              \n[4.5s] [0/1 complete] [chiku_cpp:cmake - 4.1s]\n                                              \n[4.6s] [0/1 complete] [chiku_cpp:cmake - 4.2s]\n                                              \n[4.8s] [0/1 complete] [chiku_cpp:cmake - 4.3s]\n                                              \n[4.9s] [0/1 complete] [chiku_cpp:cmake - 4.4s]\n                                              \n[5.0s] [0/1 complete] [chiku_cpp:cmake - 4.5s]\n                                              \n[5.1s] [0/1 complete] [chiku_cpp:cmake - 4.6s]\n                                              \n[5.2s] [0/1 complete] [chiku_cpp:cmake - 4.7s]\n                                              \n[5.3s] [0/1 complete] [chiku_cpp:cmake - 4.8s]\n                                              \n[5.4s] [0/1 complete] [chiku_cpp:cmake - 4.9s]\n                                              \n[5.5s] [0/1 complete] [chiku_cpp:build - 5.0s]\n                                              \n[5.6s] [0/1 complete] [chiku_cpp:build - 5.1s]\n                                              \n[5.7s] [0/1 complete] [chiku_cpp:build 50% - 5.2s]\n                                                  \n[5.8s] [0/1 complete] [chiku_cpp:build 50% - 5.3s]\n                                                  \n[5.9s] [0/1 complete] [chiku_cpp:build 50% - 5.4s]\n                                                  \n[6.0s] [0/1 complete] [chiku_cpp:build 50% - 5.5s]\n                                                  \n[6.1s] [0/1 complete] [chiku_cpp:build 50% - 5.6s]\n                                                  \n[6.2s] [0/1 complete] [chiku_cpp:build 50% - 5.7s]\n                                                  \n[6.3s] [0/1 complete] [chiku_cpp:build 50% - 5.8s]\n                                                  \n[6.4s] [0/1 complete] [chiku_cpp:build 50% - 5.9s]\n                                                  \n[6.5s] [0/1 complete] [chiku_cpp:build 50% - 6.0s]\n                                                  \n[6.6s] [0/1 complete] [chiku_cpp:build 50% - 6.1s]\n                                                  \n[6.7s] [0/1 complete] [chiku_cpp:build 50% - 6.2s]\n                                                  \n[6.8s] [0/1 complete] [chiku_cpp:build 50% - 6.3s]\n                                                  \n[6.9s] [0/1 complete] [chiku_cpp:build 50% - 6.4s]\n                                                  \n[7.0s] [0/1 complete] [chiku_cpp:build 50% - 6.5s]\n                                                  \n[7.1s] [0/1 complete] [chiku_cpp:build 50% - 6.6s]\n                                                  \n[7.2s] [0/1 complete] [chiku_cpp:build 50% - 6.7s]\n                                                  \n[7.3s] [0/1 complete] [chiku_cpp:build 50% - 6.8s]\n                                                  \n[7.4s] [0/1 complete] [chiku_cpp:build 50% - 6.9s]\n                                                  \n[7.5s] [0/1 complete] [chiku_cpp:build 50% - 7.0s]\n                                                  \n[7.6s] [0/1 complete] [chiku_cpp:build 50% - 7.1s]\n                                                  \n[7.7s] [0/1 complete] [chiku_cpp:build 50% - 7.2s]\n                                                  \n[7.8s] [0/1 complete] [chiku_cpp:build 50% - 7.3s]\n                                                  \n[7.9s] [0/1 complete] [chiku_cpp:build 50% - 7.4s]\n                                                  \n[8.0s] [0/1 complete] [chiku_cpp:build 50% - 7.5s]\n                                                  \n[8.1s] [0/1 complete] [chiku_cpp:build 50% - 7.6s]\n                                                  \n[8.2s] [0/1 complete] [chiku_cpp:build 50% - 7.7s]\n                                                  \n[8.3s] [0/1 complete] [chiku_cpp:build 50% - 7.8s]\n                                                  \n[8.4s] [0/1 complete] [chiku_cpp:build 50% - 7.9s]\n                                                  \n[8.5s] [0/1 complete] [chiku_cpp:build 50% - 8.0s]\n                                                  \n[8.6s] [0/1 complete] [chiku_cpp:build 50% - 8.1s]\n                                                  \n[8.7s] [0/1 complete] [chiku_cpp:build 50% - 8.2s]\n                                                  \n[8.8s] [0/1 complete] [chiku_cpp:build 50% - 8.3s]\n                                                  \n[8.9s] [0/1 complete] [chiku_cpp:build 50% - 8.4s]\n                                                  \n[9.0s] [0/1 complete] [chiku_cpp:build 50% - 8.5s]\n                                                  \n[9.1s] [0/1 complete] [chiku_cpp:build 50% - 8.6s]\n                                                  \n[9.2s] [0/1 complete] [chiku_cpp:build 50% - 8.7s]\n                                                  \n[9.3s] [0/1 complete] [chiku_cpp:build 50% - 8.8s]\n                                                  \n[9.4s] [0/1 complete] [chiku_cpp:build 50% - 8.9s]\n                                                  \n[9.5s] [0/1 complete] [chiku_cpp:build 50% - 9.0s]\n                                                  \n[9.6s] [0/1 complete] [chiku_cpp:build 50% - 9.1s]\n                                                  \n[9.7s] [0/1 complete] [chiku_cpp:build 50% - 9.2s]\n                                                  \n[9.8s] [0/1 complete] [chiku_cpp:build 50% - 9.4s]\n                                                  \n[9.9s] [0/1 complete] [chiku_cpp:build 50% - 9.5s]\n                                                  \n[10.0s] [0/1 complete] [chiku_cpp:build 50% - 9.6s]\n                                                   \n[10.1s] [0/1 complete] [chiku_cpp:build 50% - 9.7s]\n                                                   \n[10.2s] [0/1 complete] [chiku_cpp:build 50% - 9.8s]\n                                                   \n[10.3s] [0/1 complete] [chiku_cpp:build 50% - 9.9s]\n                                                   \n[10.4s] [0/1 complete] [chiku_cpp:build 50% - 10.0s]\n                                                    \n[10.5s] [0/1 complete] [chiku_cpp:build 50% - 10.1s]\n                                                    \n[10.6s] [0/1 complete] [chiku_cpp:build 50% - 10.2s]\n                                                    \n[10.7s] [0/1 complete] [chiku_cpp:build 50% - 10.3s]\n                                                    \n[10.8s] [0/1 complete] [chiku_cpp:build 50% - 10.4s]\n                                                    \n[10.9s] [0/1 complete] [chiku_cpp:build 50% - 10.5s]\n                                                    \n[11.0s] [0/1 complete] [chiku_cpp:build 50% - 10.6s]\n                                                    \n[11.1s] [0/1 complete] [chiku_cpp:build 50% - 10.7s]\n                                                    \n[11.2s] [0/1 complete] [chiku_cpp:build 50% - 10.8s]\n                                                    \n[11.3s] [0/1 complete] [chiku_cpp:build 50% - 10.9s]\n                                                    \n[11.4s] [0/1 complete] [chiku_cpp:build 50% - 11.0s]\n                                                    \n[11.5s] [0/1 complete] [chiku_cpp:build 100% - 11.1s]\n                                                     \n[11.6s] [0/1 complete] [chiku_cpp:build 100% - 11.2s]\n                                                     \n[11.7s] [0/1 complete] [chiku_cpp:build 100% - 11.3s]\n                                                     \n[11.8s] [0/1 complete] [chiku_cpp:build 100% - 11.4s]\n                                                     \n[11.9s] [0/1 complete] [chiku_cpp:install - 11.5s]\n                                                  \n[12.0s] [0/1 complete] [chiku_cpp:install - 11.6s]\n                                                  \nFinished <<< chiku_cpp [11.6s]\n\nSummary: 1 package finished [12.1s]\n",
+   "exit": 0,
+   "secs": 12.8,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 6,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "source install/setup.bash",
+   "out": "",
+   "exit": 0,
+   "secs": 0.9,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 6,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 run chiku_cpp hello_node",
+   "out": "[INFO] [1792426024.633084078] [hello_node]: Hello! Chiku is awake.\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student/ros2_ws"
+  },
+  {
+   "task": 7,
+   "term": 2,
+   "kind": "newTerminal",
+   "status": "RAN"
+  },
+  {
+   "task": 7,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 node info /hello_node",
+   "out": "/hello_node\n  Subscribers:\n    /parameter_events: rcl_interfaces/msg/ParameterEvent\n  Publishers:\n    /parameter_events: rcl_interfaces/msg/ParameterEvent\n    /rosout: rcl_interfaces/msg/Log\n  Service Servers:\n    /hello_node/describe_parameters: rcl_interfaces/srv/DescribeParameters\n    /hello_node/get_parameter_types: rcl_interfaces/srv/GetParameterTypes\n    /hello_node/get_parameters: rcl_interfaces/srv/GetParameters\n    /hello_node/get_type_description: type_description_interfaces/srv/GetTypeDescription\n    /hello_node/list_parameters: rcl_interfaces/srv/ListParameters\n    /hello_node/set_parameters: rcl_interfaces/srv/SetParameters\n    /hello_node/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically\n  Service Clients:\n\n  Action Servers:\n\n  Action Clients:\n\n",
+   "exit": 0,
+   "secs": 1.2,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "term": 1,
+   "kind": "interrupt-at-end",
+   "of": "ros2 run chiku_cpp hello_node",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792426024.633084078] [hello_node]: Hello! Chiku is awake.\n[INFO] [1792426035.050331603] [rclcpp]: signal_handler(SIGINT/SIGTERM)\n",
+   "exit": 0,
+   "status": "RAN"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T21:37:16+0530"
+}

@@ -1,0 +1,2217 @@
+[
+ {
+  "lesson": "D4",
+  "term": 1,
+  "title": "Practice: drive the turtle by typing messages",
+  "tasks": [
+   {
+    "task": 1,
+    "do": "What type does the speed topic use? `ros2 topic type /turtle1/cmd_vel`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 topic type /turtle1/cmd_vel",
+      "interrupted": null,
+      "site": [
+       "geometry_msgs/msg/Twist"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "geometry_msgs/msg/Twist\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 2,
+    "do": "Read that type's fields: `ros2 interface show geometry_msgs/msg/Twist`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 interface show geometry_msgs/msg/Twist",
+      "interrupted": null,
+      "site": [
+       "# This expresses velocity in free space broken into its linear and angular parts.",
+       "",
+       "Vector3  linear",
+       "\tfloat64 x",
+       "\tfloat64 y",
+       "\tfloat64 z",
+       "Vector3  angular",
+       "\tfloat64 x",
+       "\tfloat64 y",
+       "\tfloat64 z"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "# This expresses velocity in free space broken into its linear and angular parts.\n\nVector3  linear\n\tfloat64 x\n\tfloat64 y\n\tfloat64 z\nVector3  angular\n\tfloat64 x\n\tfloat64 y\n\tfloat64 z\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 3,
+    "do": "Send one command to drive in a curve: `ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 2.0}, angular: {z: 1.8}}\"`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 2.0}, angular: {z: 1.8}}\"",
+      "interrupted": null,
+      "site": [
+       "publisher: beginning loop",
+       "publishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=1.8))",
+       "",
+       "(The turtle moved. turtle1 is now at x=6.56, y=6.96, facing 1.80 rad. Check with: ros2 topic echo --once /turtle1/pose)"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "publisher: beginning loop\npublishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=1.8))\n\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 4,
+    "do": "Where is the turtle now? `ros2 topic echo --once /turtle1/pose`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 topic echo --once /turtle1/pose",
+      "interrupted": null,
+      "site": [
+       "x: 6.564407",
+       "y: 6.955775",
+       "theta: 1.8",
+       "linear_velocity: 0.0",
+       "angular_velocity: 0.0",
+       "---"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "x: 6.602816581726074\ny: 6.938989639282227\ntheta: 1.8143999576568604\nlinear_velocity: 0.0\nangular_velocity: 0.0\n---\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 5,
+    "do": "Now spin on the spot: publish a Twist with `linear: {x: 0.0}` and `angular: {z: 3.0}`.",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 0.0}, angular: {z: 3.0}}\"",
+      "interrupted": null,
+      "site": [
+       "publisher: beginning loop",
+       "publishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=3.0))",
+       "",
+       "(The turtle moved. turtle1 is now at x=6.56, y=6.96, facing -1.48 rad. Check with: ros2 topic echo --once /turtle1/pose)"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "publisher: beginning loop\npublishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=3.0))\n\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   }
+  ],
+  "allDone": true,
+  "pageErrors": [],
+  "bareOff": null
+ },
+ {
+  "lesson": "D4",
+  "term": 2,
+  "title": "Practice: draw a red square",
+  "tasks": [
+   {
+    "task": 1,
+    "do": "Make the pen red and thick: `ros2 service call /turtle1/set_pen turtlesim/srv/SetPen \"{r: 255, g: 0, b: 0, width: 4, 'off': 0}\"`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 service call /turtle1/set_pen turtlesim/srv/SetPen \"{r: 255, g: 0, b: 0, width: 4, 'off': 0}\"",
+      "interrupted": null,
+      "site": [
+       "requester: making request: turtlesim.srv.SetPen_Request(r=255, g=0, b=0, width=4, off=0)",
+       "",
+       "response:",
+       "turtlesim.srv.SetPen_Response()",
+       ""
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "waiting for service to become available...\nrequester: making request: turtlesim.srv.SetPen_Request(r=255, g=0, b=0, width=4, off=0)\n\nresponse:\nturtlesim.srv.SetPen_Response()\n\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 2,
+    "do": "Side 1: drive forward. `ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 2.0}}\"`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 2.0}}\"",
+      "interrupted": null,
+      "site": [
+       "publisher: beginning loop",
+       "publishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0))",
+       "",
+       "(The turtle moved. turtle1 is now at x=7.54, y=5.54, facing 0.00 rad. Check with: ros2 topic echo --once /turtle1/pose)"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "publisher: beginning loop\npublishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0))\n\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 3,
+    "do": "Turn left a quarter: `ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist \"{angular: {z: 1.57}}\"`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist \"{angular: {z: 1.57}}\"",
+      "interrupted": null,
+      "site": [
+       "publisher: beginning loop",
+       "publishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=1.57))",
+       "",
+       "(The turtle moved. turtle1 is now at x=7.54, y=5.54, facing 1.57 rad. Check with: ros2 topic echo --once /turtle1/pose)"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "publisher: beginning loop\npublishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=1.57))\n\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 4,
+    "do": "Side 2: forward again (press ↑ twice to reuse the command).",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 2.0}}\"",
+      "interrupted": null,
+      "site": [
+       "publisher: beginning loop",
+       "publishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0))",
+       "",
+       "(The turtle moved. turtle1 is now at x=7.55, y=7.54, facing 1.57 rad. Check with: ros2 topic echo --once /turtle1/pose)"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "publisher: beginning loop\npublishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0))\n\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 5,
+    "do": "Turn again.",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist \"{angular: {z: 1.57}}\"",
+      "interrupted": null,
+      "site": [
+       "publisher: beginning loop",
+       "publishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=1.57))",
+       "",
+       "(The turtle moved. turtle1 is now at x=7.55, y=7.54, facing 3.14 rad. Check with: ros2 topic echo --once /turtle1/pose)"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "publisher: beginning loop\npublishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=1.57))\n\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 6,
+    "do": "Where is the turtle now, and which way does it face? `ros2 topic echo --once /turtle1/pose`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 topic echo --once /turtle1/pose",
+      "interrupted": null,
+      "site": [
+       "x: 7.546038",
+       "y: 7.544444",
+       "theta: 3.14",
+       "linear_velocity: 0.0",
+       "angular_velocity: 0.0",
+       "---"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "x: 7.536729335784912\ny: 7.560305118560791\ntheta: -3.118065357208252\nlinear_velocity: 0.0\nangular_velocity: 0.0\n---\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   }
+  ],
+  "allDone": true,
+  "pageErrors": [],
+  "bareOff": {
+   "cmd": "ros2 service call /turtle1/set_pen turtlesim/srv/SetPen \"{r: 255, g: 0, b: 0, width: 4, off: 0}\"",
+   "site": [
+    "Failed to populate field: attribute name must be string, not 'bool'",
+    "YAML reads an unquoted off / on / yes / no as true or false, not as a field name. Quote it: 'off': 0"
+   ]
+  }
+ },
+ {
+  "lesson": "D13",
+  "term": 1,
+  "title": "Mission: two delivery robots",
+  "tasks": [
+   {
+    "task": 1,
+    "do": "Spawn a second robot called `raju` at (2, 8): `ros2 service call /spawn turtlesim/srv/Spawn \"{x: 2, y: 8, theta: 0.0, name: 'raju'}\"`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 service call /spawn turtlesim/srv/Spawn \"{x: 2, y: 8, theta: 0.0, name: 'raju'}\"",
+      "interrupted": null,
+      "site": [
+       "requester: making request: turtlesim.srv.Spawn_Request(x=2.0, y=8.0, theta=0.0, name='raju')",
+       "",
+       "response:",
+       "turtlesim.srv.Spawn_Response(name='raju')",
+       "",
+       "(A new turtle, raju, appeared. It brings its own topics: see ros2 topic list)"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "waiting for service to become available...\nrequester: making request: turtlesim.srv.Spawn_Request(x=2.0, y=8.0, theta=0.0, name='raju')\n\nresponse:\nturtlesim.srv.Spawn_Response(name='raju')\n\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 2,
+    "do": "Give Raju a green pen: `ros2 service call /raju/set_pen turtlesim/srv/SetPen \"{r: 0, g: 200, b: 0, width: 4, 'off': 0}\"`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 service call /raju/set_pen turtlesim/srv/SetPen \"{r: 0, g: 200, b: 0, width: 4, 'off': 0}\"",
+      "interrupted": null,
+      "site": [
+       "requester: making request: turtlesim.srv.SetPen_Request(r=0, g=200, b=0, width=4, off=0)",
+       "",
+       "response:",
+       "turtlesim.srv.SetPen_Response()",
+       ""
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "waiting for service to become available...\nrequester: making request: turtlesim.srv.SetPen_Request(r=0, g=200, b=0, width=4, off=0)\n\nresponse:\nturtlesim.srv.SetPen_Response()\n\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 3,
+    "do": "Drive Raju forward on **his own** topic: `ros2 topic pub --once /raju/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 3.0}}\"`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 topic pub --once /raju/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 3.0}}\"",
+      "interrupted": null,
+      "site": [
+       "publisher: beginning loop",
+       "publishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=3.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0))",
+       "",
+       "(The turtle moved. raju is now at x=5.00, y=8.00, facing 0.00 rad. Check with: ros2 topic echo --once /raju/pose)"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "publisher: beginning loop\npublishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=3.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0))\n\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 4,
+    "do": "Drive Chiku (turtle1) in a curve: `ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 2.0}, angular: {z: 1.0}}\"`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 2.0}, angular: {z: 1.0}}\"",
+      "interrupted": null,
+      "site": [
+       "publisher: beginning loop",
+       "publishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=1.0))",
+       "",
+       "(The turtle moved. turtle1 is now at x=7.20, y=6.51, facing 1.00 rad. Check with: ros2 topic echo --once /turtle1/pose)"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "publisher: beginning loop\npublishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=1.0))\n\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 5,
+    "do": "List the topics: each robot has its own `cmd_vel` and `pose`.",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 topic list",
+      "interrupted": null,
+      "site": [
+       "/parameter_events",
+       "/raju/cmd_vel",
+       "/raju/color_sensor",
+       "/raju/pose",
+       "/rosout",
+       "/turtle1/cmd_vel",
+       "/turtle1/color_sensor",
+       "/turtle1/pose"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "/parameter_events\n/raju/cmd_vel\n/raju/color_sensor\n/raju/pose\n/rosout\n/turtle1/cmd_vel\n/turtle1/color_sensor\n/turtle1/pose\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   }
+  ],
+  "allDone": true,
+  "pageErrors": [],
+  "bareOff": null
+ },
+ {
+  "lesson": "F12",
+  "term": 1,
+  "title": "Live terminal: change the request, rebuild, spawn",
+  "tasks": [
+   {
+    "task": 1,
+    "do": "Spawn your own turtle somewhere else: `code src/chiku_control_cpp/src/spawn_client.cpp` (VS Code) or `nano src/chiku_control_cpp/src/spawn_client.cpp`. Change `request->name = \"chiku2\";` to `request->name = \"helper\";` and save.",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "nano",
+      "file": "src/chiku_control_cpp/src/spawn_client.cpp",
+      "opened": true
+     }
+    ]
+   },
+   {
+    "task": 2,
+    "do": "Compile it: `colcon build --packages-select chiku_control_cpp` and `source install/setup.bash`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "colcon build --packages-select chiku_control_cpp",
+      "interrupted": null,
+      "site": [
+       "Starting >>> chiku_control_cpp",
+       "Finished <<< chiku_control_cpp [0.90s]",
+       "",
+       "Summary: 1 package finished [1.27s]",
+       "Built. Now load the workspace in this terminal: source install/setup.bash"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "[0.8s] [0/0 complete]\n                     \nStarting >>> chiku_control_cpp\n[0.9s] [0/1 complete] [chiku_control_cpp:cmake - 0.1s]\n                                                      \n[1.0s] [0/1 complete] [chiku_control_cpp:cmake - 0.2s]\n                                                      \n[1.1s] [0/1 complete] [chiku_control_cpp:cmake - 0.3s]\n                                                      \n[1.2s] [0/1 complete] [chiku_control_cpp:cmake - 0.4s]\n                                                      \n[1.3s] [0/1 complete] [chiku_control_cpp:cmake - 0.5s]\n                                                      \n[1.4s] [0/1 complete] [chiku_control_cpp:cmake - 0.6s]\n                                                      \n[1.5s] [0/1 complete] [chiku_control_cpp:cmake - 0.7s]\n                                                      \n[1.6s] [0/1 complete] [chiku_control_cpp:cmake - 0.8s]\n                                                      \n[1.7s] [0/1 complete] [chiku_control_cpp:cmake - 0.9s]\n                                                      \n[1.8s] [0/1 complete] [chiku_control_cpp:cmake - 1.0s]\n                                                      \n[1.9s] [0/1 complete] [chiku_control_cpp:cmake - 1.1s]\n                                                      \n[2.0s] [0/1 complete] [chiku_control_cpp:cmake - 1.2s]\n                                                      \n[2.1s] [0/1 complete] [chiku_control_cpp:cmake - 1.3s]\n                                                      \n[2.2s] [0/1 complete] [chiku_control_cpp:cmake - 1.4s]\n                                                      \n[2.3s] [0/1 complete] [chiku_control_cpp:cmake - 1.5s]\n                                                      \n[2.4s] [0/1 complete] [chiku_control_cpp:cmake - 1.6s]\n                                                      \n[2.5s] [0/1 complete] [chiku_control_cpp:cmake - 1.7s]\n                                                      \n[2.6s] [0/1 complete] [chiku_control_cpp:cmake - 1.8s]\n                                                      \n[2.7s] [0/1 complete] [chiku_control_cpp:cmake - 1.9s]\n                                                      \n[2.8s] [0/1 complete] [chiku_control_cpp:cmake - 2.0s]\n                                                      \n[2.9s] [0/1 complete] [chiku_control_cpp:cmake - 2.1s]\n                                                      \n[3.0s] [0/1 complete] [chiku_control_cpp:cmake - 2.2s]\n                                                      \n[3.1s] [0/1 complete] [chiku_control_cpp:cmake - 2.3s]\n                                                      \n[3.2s] [0/1 complete] [chiku_control_cpp:cmake - 2.4s]\n                                                      \n[3.3s] [0/1 complete] [chiku_control_cpp:cmake - 2.5s]\n                                                      \n[3.4s] [0/1 complete] [chiku_control_cpp:cmake - 2.6s]\n                                                      \n[3.5s] [0/1 complete] [chiku_control_cpp:cmake - 2.7s]\n                                                      \n[3.6s] [0/1 complete] [chiku_control_cpp:cmake - 2.8s]\n                                                      \n[3.7s] [0/1 complete] [chiku_control_cpp:cmake - 2.9s]\n                                                      \n[3.8s] [0/1 complete] [chiku_control_cpp:cmake - 3.0s]\n                                                      \n[3.9s] [0/1 complete] [chiku_control_cpp:cmake - 3.1s]\n                                                      \n[4.0s] [0/1 complete] [chiku_control_cpp:cmake - 3.2s]\n                                                      \n[4.1s] [0/1 complete] [chiku_control_cpp:cmake - 3.3s]\n                                                      \n[4.2s] [0/1 complete] [chiku_control_cpp:cmake - 3.4s]\n                                                      \n[4.3s] [0/1 complete] [chiku_control_cpp:cmake - 3.5s]\n                                                      \n[4.4s] [0/1 complete] [chiku_control_cpp:cmake - 3.6s]\n                                                      \n[4.5s] [0/1 complete] [chiku_control_cpp:cmake - 3.7s]\n                                                      \n[4.6s] [0/1 complete] [chiku_control_cpp:cmake - 3.8s]\n                                                      \n[4.7s] [0/1 complete] [chiku_control_cpp:cmake - 3.9s]\n                                                      \n[4.8s] [0/1 complete] [chiku_control_cpp:cmake - 4.0s]\n                                                      \n[4.9s] [0/1 complete] [chiku_control_cpp:cmake - 4.1s]\n                                                      \n[5.0s] [0/1 complete] [chiku_control_cpp:cmake - 4.2s]\n                                                      \n[5.1s] [0/1 complete] [chiku_control_cpp:cmake - 4.3s]\n                                                      \n[5.2s] [0/1 complete] [chiku_control_cpp:cmake - 4.4s]\n                                                      \n[5.3s] [0/1 complete] [chiku_control_cpp:cmake - 4.5s]\n                                                      \n[5.4s] [0/1 complete] [chiku_control_cpp:cmake - 4.6s]\n                                                      \n[5.5s] [0/1 complete] [chiku_control_cpp:cmake - 4.7s]\n                                                      \n[5.6s] [0/1 complete] [chiku_control_cpp:cmake - 4.8s]\n                                                      \n[5.7s] [0/1 complete] [chiku_control_cpp:cmake - 4.9s]\n                                                      \n[5.8s] [0/1 complete] [chiku_control_cpp:cmake - 5.0s]\n                                                      \n[5.9s] [0/1 complete] [chiku_control_cpp:cmake - 5.1s]\n                                                      \n[6.0s] [0/1 complete] [chiku_control_cpp:cmake - 5.2s]\n                                                      \n[6.1s] [0/1 complete] [chiku_control_cpp:cmake - 5.3s]\n                                                      \n[6.2s] [0/1 complete] [chiku_control_cpp:cmake - 5.4s]\n                                                      \n[6.3s] [0/1 complete] [chiku_control_cpp:cmake - 5.5s]\n                                                      \n[6.4s] [0/1 complete] [chiku_control_cpp:cmake - 5.6s]\n                                                      \n[6.5s] [0/1 complete] [chiku_control_cpp:cmake - 5.7s]\n                                                      \n[6.6s] [0/1 complete] [chiku_control_cpp:cmake - 5.8s]\n                                                      \n[6.7s] [0/1 complete] [chiku_control_cpp:cmake - 5.9s]\n                                                      \n[6.8s] [0/1 complete] [chiku_control_cpp:cmake - 6.0s]\n                                                      \n[6.9s] [0/1 complete] [chiku_control_cpp:cmake - 6.1s]\n                                                      \n[7.0s] [0/1 complete] [chiku_control_cpp:build - 6.2s]\n                                                      \n[7.1s] [0/1 complete] [chiku_control_cpp:build - 6.3s]\n                                                      \n[7.2s] [0/1 complete] [chiku_control_cpp:build - 6.4s]\n                                                      \n[7.3s] [0/1 complete] [chiku_control_cpp:build 50% - 6.5s]\n                                                          \n[7.4s] [0/1 complete] [chiku_control_cpp:build 50% - 6.6s]\n                                                          \n[7.5s] [0/1 complete] [chiku_control_cpp:build 50% - 6.7s]\n                                                          \n[7.6s] [0/1 complete] [chiku_control_cpp:build 50% - 6.9s]\n                                                          \n[7.7s] [0/1 complete] [chiku_control_cpp:build 50% - 7.0s]\n                                                          \n[7.8s] [0/1 complete] [chiku_control_cpp:build 50% - 7.1s]\n                                                          \n[7.9s] [0/1 complete] [chiku_control_cpp:build 50% - 7.2s]\n                                                          \n[8.0s] [0/1 complete] [chiku_control_cpp:build 50% - 7.3s]\n                                                          \n[8.1s] [0/1 complete] [chiku_control_cpp:build 50% - 7.4s]\n                                                          \n[8.2s] [0/1 complete] [chiku_control_cpp:build 50% - 7.5s]\n                                                          \n[8.3s] [0/1 complete] [chiku_control_cpp:build 50% - 7.6s]\n                                                          \n[8.4s] [0/1 complete] [chiku_control_cpp:build 50% - 7.7s]\n                                                          \n[8.5s] [0/1 complete] [chiku_control_cpp:build 50% - 7.8s]\n                                                          \n[8.6s] [0/1 complete] [chiku_control_cpp:build 50% - 7.9s]\n                                                          \n[8.7s] [0/1 complete] [chiku_control_cpp:build 50% - 8.0s]\n                                                          \n[8.8s] [0/1 complete] [chiku_control_cpp:build 50% - 8.1s]\n                                                          \n[8.9s] [0/1 complete] [chiku_control_cpp:build 50% - 8.2s]\n                                                          \n[9.0s] [0/1 complete] [chiku_control_cpp:build 50% - 8.3s]\n                                                          \n[9.1s] [0/1 complete] [chiku_control_cpp:build 50% - 8.4s]\n                                                          \n[9.2s] [0/1 complete] [chiku_control_cpp:build 50% - 8.5s]\n                                                          \n[9.3s] [0/1 complete] [chiku_control_cpp:build 50% - 8.6s]\n                                                          \n[9.4s] [0/1 complete] [chiku_control_cpp:build 50% - 8.7s]\n                                                          \n[9.5s] [0/1 complete] [chiku_control_cpp:build 50% - 8.8s]\n                                                          \n[9.6s] [0/1 complete] [chiku_control_cpp:build 50% - 8.9s]\n                                                          \n[9.7s] [0/1 complete] [chiku_control_cpp:build 50% - 9.0s]\n                                                          \n[9.8s] [0/1 complete] [chiku_control_cpp:build 50% - 9.1s]\n                                                          \n[9.9s] [0/1 complete] [chiku_control_cpp:build 50% - 9.2s]\n                                                          \n[10.0s] [0/1 complete] [chiku_control_cpp:build 50% - 9.3s]\n                                                           \n[10.1s] [0/1 complete] [chiku_control_cpp:build 50% - 9.4s]\n                                                           \n[10.2s] [0/1 complete] [chiku_control_cpp:build 50% - 9.5s]\n                                                           \n[10.3s] [0/1 complete] [chiku_control_cpp:build 50% - 9.6s]\n                                                           \n[10.4s] [0/1 complete] [chiku_control_cpp:build 50% - 9.7s]\n                                                           \n[10.5s] [0/1 complete] [chiku_control_cpp:build 50% - 9.8s]\n                                                           \n[10.6s] [0/1 complete] [chiku_control_cpp:build 50% - 9.9s]\n                                                           \n[10.7s] [0/1 complete] [chiku_control_cpp:build 50% - 10.0s]\n                                                            \n[10.8s] [0/1 complete] [chiku_control_cpp:build 50% - 10.1s]\n                                                            \n[10.9s] [0/1 complete] [chiku_control_cpp:build 50% - 10.2s]\n                                                            \n[11.0s] [0/1 complete] [chiku_control_cpp:build 50% - 10.3s]\n                                                            \n[11.1s] [0/1 complete] [chiku_control_cpp:build 50% - 10.4s]\n                                                            \n[11.2s] [0/1 complete] [chiku_control_cpp:build 50% - 10.5s]\n                                                            \n[11.3s] [0/1 complete] [chiku_control_cpp:build 50% - 10.6s]\n                                                            \n[11.4s] [0/1 complete] [chiku_control_cpp:build 50% - 10.7s]\n                                                            \n[11.5s] [0/1 complete] [chiku_control_cpp:build 50% - 10.8s]\n                                                            \n[11.6s] [0/1 complete] [chiku_control_cpp:build 50% - 10.9s]\n                                                            \n[11.7s] [0/1 complete] [chiku_control_cpp:build 50% - 11.0s]\n                                                            \n[11.8s] [0/1 complete] [chiku_control_cpp:build 50% - 11.1s]\n                                                            \n[11.9s] [0/1 complete] [chiku_control_cpp:build 50% - 11.2s]\n                                                            \n[12.0s] [0/1 complete] [chiku_control_cpp:build 50% - 11.3s]\n                                                            \n[12.1s] [0/1 complete] [chiku_control_cpp:build 50% - 11.4s]\n                                                            \n[12.2s] [0/1 complete] [chiku_control_cpp:build 50% - 11.5s]\n                                                            \n[12.3s] [0/1 complete] [chiku_control_cpp:build 50% - 11.6s]\n                                                            \n[12.4s] [0/1 complete] [chiku_control_cpp:build 50% - 11.7s]\n                                                            \n[12.5s] [0/1 complete] [chiku_control_cpp:build 50% - 11.8s]\n                                                            \n[12.6s] [0/1 complete] [chiku_control_cpp:build 50% - 11.9s]\n                                                            \n[12.7s] [0/1 complete] [chiku_control_cpp:build 50% - 12.0s]\n                                                            \n[12.8s] [0/1 complete] [chiku_control_cpp:build 50% - 12.1s]\n                                                            \n[12.9s] [0/1 complete] [chiku_control_cpp:build 50% - 12.2s]\n                                                            \n[13.0s] [0/1 complete] [chiku_control_cpp:build 50% - 12.3s]\n                                                            \n[13.1s] [0/1 complete] [chiku_control_cpp:build 50% - 12.4s]\n                                                            \n[13.2s] [0/1 complete] [chiku_control_cpp:build 50% - 12.5s]\n                                                            \n[13.3s] [0/1 complete] [chiku_control_cpp:build 50% - 12.6s]\n                                                            \n[13.4s] [0/1 complete] [chiku_control_cpp:build 50% - 12.7s]\n                                                            \n[13.5s] [0/1 complete] [chiku_control_cpp:build 50% - 12.8s]\n                                                            \n[13.6s] [0/1 complete] [chiku_control_cpp:build 50% - 12.9s]\n                                                            \n[13.7s] [0/1 complete] [chiku_control_cpp:build 50% - 13.0s]\n                                                            \n[13.8s] [0/1 complete] [chiku_control_cpp:build 50% - 13.1s]\n                                                            \n[13.9s] [0/1 complete] [chiku_control_cpp:build 50% - 13.2s]\n                                                            \n[14.0s] [0/1 complete] [chiku_control_cpp:build 50% - 13.3s]\n                                                            \n[14.1s] [0/1 complete] [chiku_control_cpp:build 50% - 13.4s]\n                                                            \n[14.2s] [0/1 complete] [chiku_control_cpp:build 50% - 13.5s]\n                                                            \n[14.3s] [0/1 complete] [chiku_control_cpp:build 50% - 13.6s]\n                                                            \n[14.4s] [0/1 complete] [chiku_control_cpp:build 50% - 13.7s]\n                                                            \n[14.5s] [0/1 complete] [chiku_control_cpp:build 50% - 13.8s]\n                                                            \n[14.6s] [0/1 complete] [chiku_control_cpp:build 50% - 13.9s]\n                                                            \n[14.7s] [0/1 complete] [chiku_control_cpp:build 50% - 14.0s]\n                                                            \n[14.8s] [0/1 complete] [chiku_control_cpp:build 100% - 14.1s]\n                                                             \n[14.9s] [0/1 complete] [chiku_control_cpp:build 100% - 14.2s]\n                                                             \n[15.0s] [0/1 complete] [chiku_control_cpp:build 100% - 14.3s]\n                                                             \n[15.1s] [0/1 complete] [chiku_control_cpp:build 100% - 14.4s]\n                                                             \n[15.2s] [0/1 complete] [chiku_control_cpp:build 100% - 14.5s]\n                                                             \n[15.3s] [0/1 complete] [chiku_control_cpp:install - 14.6s]\n                                                          \nFinished <<< chiku_control_cpp [14.6s]\n\nSummary: 1 package finished [15.4s]\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     },
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "source install/setup.bash",
+      "interrupted": null,
+      "site": [],
+      "siteRunning": false,
+      "real": {
+       "out": "",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 3,
+    "do": "Run it: `ros2 run chiku_control_cpp spawn_client`. A turtle called helper appears at (2, 8).",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 run chiku_control_cpp spawn_client",
+      "interrupted": null,
+      "site": [
+       "[INFO] [spawn_client]: turtlesim made a turtle called helper",
+       "(Your client program asked turtlesim for a turtle called helper, printed the answer and ended. Look at the TurtleSim window and at: ros2 service list)"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "[INFO] [1792471759.912500671] [spawn_client]: turtlesim made a turtle called helper\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 4,
+    "do": "Talk to your new turtle: `ros2 service call /helper/set_pen turtlesim/srv/SetPen \"{r: 255, g: 0, b: 0, width: 5, 'off': 0}\"`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 service call /helper/set_pen turtlesim/srv/SetPen \"{r: 255, g: 0, b: 0, width: 5, 'off': 0}\"",
+      "interrupted": null,
+      "site": [
+       "requester: making request: turtlesim.srv.SetPen_Request(r=255, g=0, b=0, width=5, off=0)",
+       "",
+       "response:",
+       "turtlesim.srv.SetPen_Response()",
+       ""
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "requester: making request: turtlesim.srv.SetPen_Request(r=255, g=0, b=0, width=5, off=0)\n\nresponse:\nturtlesim.srv.SetPen_Response()\n\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 5,
+    "do": "Drive it to see its red pen: `ros2 topic pub --once /helper/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 2.0}}\"`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 topic pub --once /helper/cmd_vel geometry_msgs/msg/Twist \"{linear: {x: 2.0}}\"",
+      "interrupted": null,
+      "site": [
+       "publisher: beginning loop",
+       "publishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0))",
+       "",
+       "(The turtle moved. helper is now at x=4.00, y=8.00, facing 0.00 rad. Check with: ros2 topic echo --once /helper/pose)"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "publisher: beginning loop\npublishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=0.0))\n\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   }
+  ],
+  "allDone": true,
+  "pageErrors": [],
+  "bareOff": null
+ },
+ {
+  "lesson": "F15",
+  "term": 1,
+  "title": "Live terminal: tune the robot without touching the code",
+  "tasks": [
+   {
+    "task": 1,
+    "do": "Build and load: `colcon build --packages-select chiku_control` then `source install/setup.bash`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "colcon build --packages-select chiku_control",
+      "interrupted": null,
+      "site": [
+       "Starting >>> chiku_control",
+       "Finished <<< chiku_control [0.90s]",
+       "",
+       "Summary: 1 package finished [1.27s]",
+       "Built. Now load the workspace in this terminal: source install/setup.bash"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "[0.4s] [0/0 complete]\n                     \nStarting >>> chiku_control\n[0.5s] [0/1 complete] [chiku_control - 0.1s]\n                                            \n[0.6s] [0/1 complete] [chiku_control - 0.2s]\n                                            \n[0.7s] [0/1 complete] [chiku_control - 0.3s]\n                                            \n[0.8s] [0/1 complete] [chiku_control - 0.4s]\n                                            \n[0.9s] [0/1 complete] [chiku_control - 0.5s]\n                                            \n[1.0s] [0/1 complete] [chiku_control - 0.6s]\n                                            \n[1.1s] [0/1 complete] [chiku_control - 0.7s]\n                                            \n[1.2s] [0/1 complete] [chiku_control - 0.8s]\n                                            \n[1.3s] [0/1 complete] [chiku_control - 0.9s]\n                                            \n[1.4s] [0/1 complete] [chiku_control - 1.0s]\n                                            \n[1.5s] [0/1 complete] [chiku_control - 1.1s]\n                                            \n[1.6s] [0/1 complete] [chiku_control - 1.2s]\n                                            \n[1.7s] [0/1 complete] [chiku_control - 1.3s]\n                                            \n[1.8s] [0/1 complete] [chiku_control - 1.4s]\n                                            \n[1.9s] [0/1 complete] [chiku_control - 1.5s]\n                                            \n[2.0s] [0/1 complete] [chiku_control - 1.6s]\n                                            \n[2.1s] [0/1 complete] [chiku_control - 1.7s]\n                                            \n[2.2s] [0/1 complete] [chiku_control - 1.8s]\n                                            \n[2.3s] [0/1 complete] [chiku_control - 1.9s]\n                                            \n[2.4s] [0/1 complete] [chiku_control - 2.0s]\n                                            \n[2.5s] [0/1 complete] [chiku_control - 2.1s]\n                                            \n[2.6s] [0/1 complete] [chiku_control - 2.2s]\n                                            \n[2.7s] [0/1 complete] [chiku_control - 2.3s]\n                                            \n[2.8s] [0/1 complete] [chiku_control - 2.4s]\n                                            \n[2.9s] [0/1 complete] [chiku_control - 2.5s]\n                                            \n[3.0s] [0/1 complete] [chiku_control - 2.6s]\n                                            \n[3.1s] [0/1 complete] [chiku_control - 2.7s]\n                                            \n[3.2s] [0/1 complete] [chiku_control - 2.8s]\n                                            \n[3.3s] [0/1 complete] [chiku_control - 2.9s]\n                                            \n[3.4s] [0/1 complete] [chiku_control - 3.0s]\n                                            \n[3.5s] [0/1 complete] [chiku_control - 3.1s]\n                                            \nFinished <<< chiku_control [3.19s]\n\nSummary: 1 package finished [3.58s]\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     },
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "source install/setup.bash",
+      "interrupted": null,
+      "site": [],
+      "siteRunning": false,
+      "real": {
+       "out": "",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 2,
+    "do": "Start the driver: `ros2 run chiku_control speed_driver`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 run chiku_control speed_driver",
+      "interrupted": null,
+      "site": [
+       "[INFO] [speed_driver]: chiku is ready to drive"
+      ],
+      "siteRunning": true,
+      "real": {
+       "out": "[INFO] [1792426661.198096745] [speed_driver]: chiku is ready to drive\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 3,
+    "do": "Open a **new terminal** and list its parameters: `ros2 param list /speed_driver`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "newTerminal",
+      "term": 2
+     },
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "ros2 param list /speed_driver",
+      "interrupted": null,
+      "site": [
+       "/speed_driver:",
+       "  robot_name",
+       "  speed",
+       "  start_type_description_service",
+       "  turn",
+       "  use_sim_time"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "  robot_name\n  speed\n  start_type_description_service\n  turn\n  use_sim_time\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 4,
+    "do": "Make it faster while it drives: `ros2 param set /speed_driver speed 2.5` and check the new command: `ros2 topic echo --once /turtle1/cmd_vel`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "ros2 param set /speed_driver speed 2.5",
+      "interrupted": null,
+      "site": [
+       "Set parameter successful"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "Set parameter successful\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     },
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "ros2 topic echo --once /turtle1/cmd_vel",
+      "interrupted": null,
+      "site": [
+       "linear:",
+       "  x: 2.5",
+       "  y: 0.0",
+       "  z: 0.0",
+       "angular:",
+       "  x: 0.0",
+       "  y: 0.0",
+       "  z: 0.5",
+       "---"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "linear:\n  x: 2.5\n  y: 0.0\n  z: 0.0\nangular:\n  x: 0.0\n  y: 0.0\n  z: 0.5\n---\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 5,
+    "do": "Try a word instead of a number: `ros2 param set /speed_driver speed fast`. Read the error.",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "ros2 param set /speed_driver speed fast",
+      "interrupted": null,
+      "site": [
+       "Setting parameter failed: Wrong parameter type, expected 'Type.DOUBLE' got 'Type.STRING'"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "Setting parameter failed: Wrong parameter type, expected 'Type.DOUBLE' got 'Type.STRING'\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 6,
+    "do": "Save all current values: `ros2 param dump /speed_driver`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "ros2 param dump /speed_driver",
+      "interrupted": null,
+      "site": [
+       "/speed_driver:",
+       "  ros__parameters:",
+       "    robot_name: chiku",
+       "    speed: 2.5",
+       "    start_type_description_service: true",
+       "    turn: 0.5",
+       "    use_sim_time: false"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "/speed_driver:\n  ros__parameters:\n    robot_name: chiku\n    speed: 2.5\n    start_type_description_service: true\n    turn: 0.5\n    use_sim_time: false\n\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   }
+  ],
+  "allDone": true,
+  "pageErrors": [],
+  "bareOff": null
+ },
+ {
+  "lesson": "N10",
+  "term": 1,
+  "title": "Live terminal: a latched topic",
+  "tasks": [
+   {
+    "task": 1,
+    "do": "Build and source: `colcon build --packages-select chiku_control` then `source install/setup.bash`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "colcon build --packages-select chiku_control",
+      "interrupted": null,
+      "site": [
+       "Starting >>> chiku_control",
+       "Finished <<< chiku_control [0.90s]",
+       "",
+       "Summary: 1 package finished [1.27s]",
+       "Built. Now load the workspace in this terminal: source install/setup.bash"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "[0.4s] [0/0 complete]\n                     \nStarting >>> chiku_control\n[0.5s] [0/1 complete] [chiku_control - 0.1s]\n                                            \n[0.6s] [0/1 complete] [chiku_control - 0.2s]\n                                            \n[0.7s] [0/1 complete] [chiku_control - 0.3s]\n                                            \n[0.8s] [0/1 complete] [chiku_control - 0.4s]\n                                            \n[0.9s] [0/1 complete] [chiku_control - 0.5s]\n                                            \n[1.0s] [0/1 complete] [chiku_control - 0.6s]\n                                            \n[1.1s] [0/1 complete] [chiku_control - 0.7s]\n                                            \n[1.2s] [0/1 complete] [chiku_control - 0.8s]\n                                            \n[1.3s] [0/1 complete] [chiku_control - 0.9s]\n                                            \n[1.4s] [0/1 complete] [chiku_control - 1.0s]\n                                            \n[1.5s] [0/1 complete] [chiku_control - 1.1s]\n                                            \n[1.6s] [0/1 complete] [chiku_control - 1.2s]\n                                            \n[1.7s] [0/1 complete] [chiku_control - 1.3s]\n                                            \n[1.8s] [0/1 complete] [chiku_control - 1.4s]\n                                            \n[1.9s] [0/1 complete] [chiku_control - 1.5s]\n                                            \n[2.0s] [0/1 complete] [chiku_control - 1.6s]\n                                            \n[2.1s] [0/1 complete] [chiku_control - 1.7s]\n                                            \n[2.2s] [0/1 complete] [chiku_control - 1.8s]\n                                            \n[2.3s] [0/1 complete] [chiku_control - 1.9s]\n                                            \n[2.4s] [0/1 complete] [chiku_control - 2.0s]\n                                            \n[2.5s] [0/1 complete] [chiku_control - 2.1s]\n                                            \n[2.6s] [0/1 complete] [chiku_control - 2.2s]\n                                            \n[2.7s] [0/1 complete] [chiku_control - 2.3s]\n                                            \n[2.8s] [0/1 complete] [chiku_control - 2.4s]\n                                            \n[2.9s] [0/1 complete] [chiku_control - 2.5s]\n                                            \n[3.0s] [0/1 complete] [chiku_control - 2.6s]\n                                            \n[3.1s] [0/1 complete] [chiku_control - 2.7s]\n                                            \n[3.2s] [0/1 complete] [chiku_control - 2.8s]\n                                            \n[3.3s] [0/1 complete] [chiku_control - 2.9s]\n                                            \nFinished <<< chiku_control [2.95s]\n\nSummary: 1 package finished [3.34s]\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     },
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "source install/setup.bash",
+      "interrupted": null,
+      "site": [],
+      "siteRunning": false,
+      "real": {
+       "out": "",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 2,
+    "do": "Publish the status once and keep it: `ros2 run chiku_control latched_status`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 run chiku_control latched_status",
+      "interrupted": null,
+      "site": [
+       "[INFO] [latched_status]: Published the map status once"
+      ],
+      "siteRunning": true,
+      "real": {
+       "out": "[INFO] [1792472075.807154002] [latched_status]: Published the map status once\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 3,
+    "do": "Open a **new terminal**, load the workspace (`cd ~/ros2_ws`, `source install/setup.bash`) and start the late listener: `ros2 run chiku_control late_listener`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "newTerminal",
+      "term": 2
+     },
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "cd ~/ros2_ws",
+      "interrupted": null,
+      "site": [],
+      "siteRunning": false,
+      "real": {
+       "out": "",
+       "exit": 0,
+       "state": "finished"
+      }
+     },
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "source install/setup.bash",
+      "interrupted": null,
+      "site": [],
+      "siteRunning": false,
+      "real": {
+       "out": "",
+       "exit": 0,
+       "state": "finished"
+      }
+     },
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "ros2 run chiku_control late_listener",
+      "interrupted": null,
+      "site": [
+       "[INFO] [late_listener]: I joined late but still got: \"map of the warehouse is ready\""
+      ],
+      "siteRunning": true,
+      "real": {
+       "out": "[INFO] [1792472087.725550001] [late_listener]: I joined late but still got: \"map of the warehouse is ready\"\n[INFO] [1792472088.388790466] [late_listener]: 50 poses received\n[INFO] [1792472089.188937880] [late_listener]: 100 poses received\n[INFO] [1792472089.988763405] [late_listener]: 150 poses received\n[INFO] [1792472090.789181602] [late_listener]: 200 poses received\n[INFO] [1792472091.588893765] [late_listener]: 250 poses received\n[INFO] [1792472092.389819969] [late_listener]: 300 poses received\n[INFO] [1792472093.186621309] [late_listener]: 350 poses received\n[INFO] [1792472093.986493779] [late_listener]: 400 poses received\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 4,
+    "do": "Open another **new terminal** and look at the topic: `ros2 topic info /map_status`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "newTerminal",
+      "term": 3
+     },
+     {
+      "kind": "cmd",
+      "term": 3,
+      "cmd": "ros2 topic info /map_status",
+      "interrupted": null,
+      "site": [
+       "Type: std_msgs/msg/String",
+       "Publisher count: 1",
+       "Subscription count: 1"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "Type: std_msgs/msg/String\nPublisher count: 1\nSubscription count: 1\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 5,
+    "do": "And the listener's connections: `ros2 node info /late_listener`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 3,
+      "cmd": "ros2 node info /late_listener",
+      "interrupted": null,
+      "site": [
+       "/late_listener",
+       "  Subscribers:",
+       "    /map_status: std_msgs/msg/String",
+       "    /turtle1/pose: turtlesim/msg/Pose",
+       "  Publishers:",
+       "    /parameter_events: rcl_interfaces/msg/ParameterEvent",
+       "    /rosout: rcl_interfaces/msg/Log",
+       "  Service Servers:",
+       "    /late_listener/describe_parameters: rcl_interfaces/srv/DescribeParameters",
+       "    /late_listener/get_parameter_types: rcl_interfaces/srv/GetParameterTypes",
+       "    /late_listener/get_parameters: rcl_interfaces/srv/GetParameters",
+       "    /late_listener/get_type_description: type_description_interfaces/srv/GetTypeDescription",
+       "    /late_listener/list_parameters: rcl_interfaces/srv/ListParameters",
+       "    /late_listener/set_parameters: rcl_interfaces/srv/SetParameters",
+       "    /late_listener/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically",
+       "  Service Clients:",
+       "  Action Servers:",
+       "  Action Clients:"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "/late_listener\n  Subscribers:\n    /map_status: std_msgs/msg/String\n    /turtle1/pose: turtlesim/msg/Pose\n  Publishers:\n    /parameter_events: rcl_interfaces/msg/ParameterEvent\n    /rosout: rcl_interfaces/msg/Log\n  Service Servers:\n    /late_listener/describe_parameters: rcl_interfaces/srv/DescribeParameters\n    /late_listener/get_parameter_types: rcl_interfaces/srv/GetParameterTypes\n    /late_listener/get_parameters: rcl_interfaces/srv/GetParameters\n    /late_listener/get_type_description: type_description_interfaces/srv/GetTypeDescription\n    /late_listener/list_parameters: rcl_interfaces/srv/ListParameters\n    /late_listener/set_parameters: rcl_interfaces/srv/SetParameters\n    /late_listener/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically\n  Service Clients:\n\n  Action Servers:\n\n  Action Clients:\n\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   }
+  ],
+  "allDone": true,
+  "pageErrors": [],
+  "bareOff": null
+ },
+ {
+  "lesson": "N18",
+  "term": 1,
+  "title": "Live terminal: launch one robot, then two",
+  "tasks": [
+   {
+    "task": 1,
+    "do": "Build and source: `colcon build --packages-select chiku_control` then `source install/setup.bash`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "colcon build --packages-select chiku_control",
+      "interrupted": null,
+      "site": [
+       "Starting >>> chiku_control",
+       "Finished <<< chiku_control [0.90s]",
+       "",
+       "Summary: 1 package finished [1.27s]",
+       "Built. Now load the workspace in this terminal: source install/setup.bash"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "[0.3s] [0/0 complete]\n                     \nStarting >>> chiku_control\n[0.4s] [0/1 complete] [chiku_control - 0.1s]\n                                            \n[0.5s] [0/1 complete] [chiku_control - 0.2s]\n                                            \n[0.6s] [0/1 complete] [chiku_control - 0.3s]\n                                            \n[0.7s] [0/1 complete] [chiku_control - 0.4s]\n                                            \n[0.8s] [0/1 complete] [chiku_control - 0.5s]\n                                            \n[0.9s] [0/1 complete] [chiku_control - 0.6s]\n                                            \n[1.0s] [0/1 complete] [chiku_control - 0.7s]\n                                            \n[1.1s] [0/1 complete] [chiku_control - 0.8s]\n                                            \n[1.3s] [0/1 complete] [chiku_control - 0.9s]\n                                            \n[1.4s] [0/1 complete] [chiku_control - 1.0s]\n                                            \n[1.5s] [0/1 complete] [chiku_control - 1.1s]\n                                            \n[1.6s] [0/1 complete] [chiku_control - 1.2s]\n                                            \n[1.7s] [0/1 complete] [chiku_control - 1.3s]\n                                            \n[1.8s] [0/1 complete] [chiku_control - 1.4s]\n                                            \n[1.9s] [0/1 complete] [chiku_control - 1.5s]\n                                            \n[2.0s] [0/1 complete] [chiku_control - 1.6s]\n                                            \n[2.1s] [0/1 complete] [chiku_control - 1.7s]\n                                            \n[2.2s] [0/1 complete] [chiku_control - 1.8s]\n                                            \n[2.3s] [0/1 complete] [chiku_control - 1.9s]\n                                            \n[2.4s] [0/1 complete] [chiku_control - 2.0s]\n                                            \n[2.5s] [0/1 complete] [chiku_control - 2.1s]\n                                            \n[2.6s] [0/1 complete] [chiku_control - 2.2s]\n                                            \n[2.7s] [0/1 complete] [chiku_control - 2.3s]\n                                            \n[2.8s] [0/1 complete] [chiku_control - 2.4s]\n                                            \n[2.9s] [0/1 complete] [chiku_control - 2.5s]\n                                            \n[3.0s] [0/1 complete] [chiku_control - 2.6s]\n                                            \n[3.1s] [0/1 complete] [chiku_control - 2.7s]\n                                            \n[3.2s] [0/1 complete] [chiku_control - 2.8s]\n                                            \n[3.3s] [0/1 complete] [chiku_control - 2.9s]\n                                            \n[3.4s] [0/1 complete] [chiku_control - 3.0s]\n                                            \nFinished <<< chiku_control [3.10s]\n\nSummary: 1 package finished [3.44s]\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     },
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "source install/setup.bash",
+      "interrupted": null,
+      "site": [],
+      "siteRunning": false,
+      "real": {
+       "out": "",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 2,
+    "do": "See the arguments of a launch file: `ros2 launch chiku_control turtle_goal.launch.py --show-args`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 launch chiku_control turtle_goal.launch.py --show-args",
+      "interrupted": null,
+      "site": [
+       "Arguments (pass arguments as '<name>:=<value>'):",
+       "",
+       "    'goal_x':",
+       "        Goal x in metres",
+       "        (default: '8.0')",
+       "",
+       "    'goal_y':",
+       "        Goal y in metres",
+       "        (default: '8.0')",
+       ""
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "Arguments (pass arguments as '<name>:=<value>'):\n\n    'goal_x':\n        Goal x in metres\n        (default: '8.0')\n\n    'goal_y':\n        Goal y in metres\n        (default: '8.0')\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 3,
+    "do": "Launch one robot with a goal you choose: `ros2 launch chiku_control turtle_goal.launch.py goal_x:=3.0 goal_y:=3.0`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 launch chiku_control turtle_goal.launch.py goal_x:=3.0 goal_y:=3.0",
+      "interrupted": null,
+      "site": [
+       "[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-12-09-30-00-000000-ros2lab-4300",
+       "[INFO] [launch]: Default logging verbosity is set to INFO",
+       "[INFO] [turtlesim_node-1]: process started with pid [4307]",
+       "[INFO] [go_to_goal-2]: process started with pid [4314]",
+       "[INFO] [go_to_goal]: Goal reached: x=3.09 y=3.05"
+      ],
+      "siteRunning": true,
+      "real": {
+       "out": "[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-20-10-25-11-052682-prasad-1330854\n[INFO] [launch]: Default logging verbosity is set to INFO\n[INFO] [turtlesim_node-1]: process started with pid [1330864]\n[INFO] [go_to_goal-2]: process started with pid [1330865]\n[turtlesim_node-1] [INFO] [1792472111.251294036] [sim]: Starting turtlesim with node name /sim\n[turtlesim_node-1] [INFO] [1792472111.260142233] [sim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n[go_to_goal-2] [INFO] [1792472115.940277590] [go_to_goal]: Goal reached: x=3.08 y=3.05\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 4,
+    "do": "Open a **new terminal**, load the workspace (`cd ~/ros2_ws`, `source install/setup.bash`) and check: `ros2 param get /go_to_goal goal_x`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "newTerminal",
+      "term": 2
+     },
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "cd ~/ros2_ws",
+      "interrupted": null,
+      "site": [],
+      "siteRunning": false,
+      "real": {
+       "out": "",
+       "exit": 0,
+       "state": "finished"
+      }
+     },
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "source install/setup.bash",
+      "interrupted": null,
+      "site": [],
+      "siteRunning": false,
+      "real": {
+       "out": "",
+       "exit": 0,
+       "state": "finished"
+      }
+     },
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "ros2 param get /go_to_goal goal_x",
+      "interrupted": null,
+      "site": [
+       "Double value is: 3.0"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "Double value is: 3.0\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 5,
+    "do": "Go back to tab 1, stop the launch with **Ctrl+C** (or press Stop). Then in this tab launch two robots without the monitor: `ros2 launch chiku_control two_robots.launch.xml with_monitor:=false`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "ros2 launch chiku_control two_robots.launch.xml with_monitor:=false",
+      "interrupted": null,
+      "site": [
+       "[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-12-09-30-00-000000-ros2lab-4300",
+       "[INFO] [launch]: Default logging verbosity is set to INFO",
+       "[INFO] [turtlesim_node-1]: process started with pid [4307]",
+       "[INFO] [go_to_goal-2]: process started with pid [4314]",
+       "[INFO] [turtlesim_node-3]: process started with pid [4321]",
+       "[INFO] [go_to_goal-4]: process started with pid [4328]",
+       "[INFO] [go_to_goal]: Goal reached: x=8.94 y=2.07",
+       "[INFO] [go_to_goal]: Goal reached: x=2.08 y=8.94"
+      ],
+      "siteRunning": true,
+      "real": {
+       "out": "[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-20-10-25-24-382438-prasad-1330945\n[INFO] [launch]: Default logging verbosity is set to INFO\n[INFO] [turtlesim_node-1]: process started with pid [1330948]\n[INFO] [go_to_goal-2]: process started with pid [1330949]\n[INFO] [turtlesim_node-3]: process started with pid [1330950]\n[INFO] [go_to_goal-4]: process started with pid [1330951]\n[turtlesim_node-1] [INFO] [1792472124.836663390] [robot1.sim]: Starting turtlesim with node name /robot1/sim\n[turtlesim_node-3] [INFO] [1792472124.846526567] [robot2.sim]: Starting turtlesim with node name /robot2/sim\n[turtlesim_node-1] [INFO] [1792472124.850870200] [robot1.sim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n[turtlesim_node-3] [INFO] [1792472124.859161305] [robot2.sim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n[go_to_goal-4] [INFO] [1792472130.086824582] [robot2.go_to_goal]: Goal reached: x=8.94 y=2.07\n[go_to_goal-2] [INFO] [1792472131.102187055] [robot1.go_to_goal]: Goal reached: x=2.08 y=8.95\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 6,
+    "do": "Open a **new terminal**. List the nodes: `ros2 node list`. Each robot has its own namespace.",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "newTerminal",
+      "term": 3
+     },
+     {
+      "kind": "cmd",
+      "term": 3,
+      "cmd": "ros2 node list",
+      "interrupted": null,
+      "site": [
+       "/go_to_goal",
+       "/robot1/go_to_goal",
+       "/robot1/sim",
+       "/robot2/go_to_goal",
+       "/robot2/sim",
+       "/sim"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "/go_to_goal\n/robot1/go_to_goal\n/robot1/sim\n/robot2/go_to_goal\n/robot2/sim\n/sim\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 7,
+    "do": "Each robot got its own goal from goals.yaml: `ros2 param get /robot2/go_to_goal goal_x`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 3,
+      "cmd": "ros2 param get /robot2/go_to_goal goal_x",
+      "interrupted": null,
+      "site": [
+       "Double value is: 9.0"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "Double value is: 9.0\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   }
+  ],
+  "allDone": true,
+  "pageErrors": [],
+  "bareOff": null
+ },
+ {
+  "lesson": "N19",
+  "term": 1,
+  "title": "Live terminal: broadcast and inspect frames",
+  "tasks": [
+   {
+    "task": 1,
+    "do": "Build and source: `colcon build --packages-select chiku_control_cpp` then `source install/setup.bash`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "colcon build --packages-select chiku_control_cpp",
+      "interrupted": null,
+      "site": [
+       "Starting >>> chiku_control_cpp",
+       "Finished <<< chiku_control_cpp [0.90s]",
+       "",
+       "Summary: 1 package finished [1.27s]",
+       "Built. Now load the workspace in this terminal: source install/setup.bash"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "[0.3s] [0/0 complete]\n                     \nStarting >>> chiku_control_cpp\n[0.4s] [0/1 complete] [chiku_control_cpp:cmake - 0.1s]\n                                                      \n[0.5s] [0/1 complete] [chiku_control_cpp:cmake - 0.2s]\n                                                      \n[0.6s] [0/1 complete] [chiku_control_cpp:cmake - 0.3s]\n                                                      \n[0.7s] [0/1 complete] [chiku_control_cpp:cmake - 0.4s]\n                                                      \n[0.8s] [0/1 complete] [chiku_control_cpp:cmake - 0.5s]\n                                                      \n[0.9s] [0/1 complete] [chiku_control_cpp:cmake - 0.6s]\n                                                      \n[1.0s] [0/1 complete] [chiku_control_cpp:cmake - 0.7s]\n                                                      \n[1.1s] [0/1 complete] [chiku_control_cpp:cmake - 0.8s]\n                                                      \n[1.2s] [0/1 complete] [chiku_control_cpp:cmake - 0.9s]\n                                                      \n[1.3s] [0/1 complete] [chiku_control_cpp:cmake - 1.0s]\n                                                      \n[1.4s] [0/1 complete] [chiku_control_cpp:cmake - 1.1s]\n                                                      \n[1.5s] [0/1 complete] [chiku_control_cpp:cmake - 1.2s]\n                                                      \n[1.6s] [0/1 complete] [chiku_control_cpp:cmake - 1.3s]\n                                                      \n[1.7s] [0/1 complete] [chiku_control_cpp:cmake - 1.4s]\n                                                      \n[1.8s] [0/1 complete] [chiku_control_cpp:cmake - 1.5s]\n                                                      \n[1.9s] [0/1 complete] [chiku_control_cpp:cmake - 1.6s]\n                                                      \n[2.0s] [0/1 complete] [chiku_control_cpp:cmake - 1.7s]\n                                                      \n[2.1s] [0/1 complete] [chiku_control_cpp:cmake - 1.8s]\n                                                      \n[2.2s] [0/1 complete] [chiku_control_cpp:cmake - 1.9s]\n                                                      \n[2.3s] [0/1 complete] [chiku_control_cpp:cmake - 2.0s]\n                                                      \n[2.4s] [0/1 complete] [chiku_control_cpp:cmake - 2.1s]\n                                                      \n[2.5s] [0/1 complete] [chiku_control_cpp:cmake - 2.2s]\n                                                      \n[2.6s] [0/1 complete] [chiku_control_cpp:cmake - 2.3s]\n                                                      \n[2.7s] [0/1 complete] [chiku_control_cpp:cmake - 2.4s]\n                                                      \n[2.8s] [0/1 complete] [chiku_control_cpp:cmake - 2.5s]\n                                                      \n[2.9s] [0/1 complete] [chiku_control_cpp:cmake - 2.6s]\n                                                      \n[3.0s] [0/1 complete] [chiku_control_cpp:cmake - 2.7s]\n                                                      \n[3.1s] [0/1 complete] [chiku_control_cpp:cmake - 2.8s]\n                                                      \n[3.2s] [0/1 complete] [chiku_control_cpp:cmake - 2.9s]\n                                                      \n[3.3s] [0/1 complete] [chiku_control_cpp:cmake - 3.0s]\n                                                      \n[3.4s] [0/1 complete] [chiku_control_cpp:cmake - 3.1s]\n                                                      \n[3.5s] [0/1 complete] [chiku_control_cpp:cmake - 3.2s]\n                                                      \n[3.6s] [0/1 complete] [chiku_control_cpp:cmake - 3.3s]\n                                                      \n[3.7s] [0/1 complete] [chiku_control_cpp:cmake - 3.4s]\n                                                      \n[3.8s] [0/1 complete] [chiku_control_cpp:cmake - 3.5s]\n                                                      \n[3.9s] [0/1 complete] [chiku_control_cpp:cmake - 3.6s]\n                                                      \n[4.0s] [0/1 complete] [chiku_control_cpp:cmake - 3.7s]\n                                                      \n[4.1s] [0/1 complete] [chiku_control_cpp:cmake - 3.8s]\n                                                      \n[4.2s] [0/1 complete] [chiku_control_cpp:cmake - 3.9s]\n                                                      \n[4.3s] [0/1 complete] [chiku_control_cpp:cmake - 4.0s]\n                                                      \n[4.4s] [0/1 complete] [chiku_control_cpp:cmake - 4.1s]\n                                                      \n[4.5s] [0/1 complete] [chiku_control_cpp:cmake - 4.2s]\n                                                      \n[4.6s] [0/1 complete] [chiku_control_cpp:cmake - 4.3s]\n                                                      \n[4.7s] [0/1 complete] [chiku_control_cpp:cmake - 4.4s]\n                                                      \n[4.8s] [0/1 complete] [chiku_control_cpp:cmake - 4.5s]\n                                                      \n[4.9s] [0/1 complete] [chiku_control_cpp:cmake - 4.6s]\n                                                      \n[5.0s] [0/1 complete] [chiku_control_cpp:build - 4.7s]\n                                                      \n[5.1s] [0/1 complete] [chiku_control_cpp:build - 4.8s]\n                                                      \n[5.2s] [0/1 complete] [chiku_control_cpp:build 50% - 4.9s]\n                                                          \n[5.3s] [0/1 complete] [chiku_control_cpp:build 50% - 5.0s]\n                                                          \n[5.4s] [0/1 complete] [chiku_control_cpp:build 50% - 5.1s]\n                                                          \n[5.5s] [0/1 complete] [chiku_control_cpp:build 50% - 5.2s]\n                                                          \n[5.6s] [0/1 complete] [chiku_control_cpp:build 50% - 5.3s]\n                                                          \n[5.7s] [0/1 complete] [chiku_control_cpp:build 50% - 5.4s]\n                                                          \n[5.8s] [0/1 complete] [chiku_control_cpp:build 50% - 5.5s]\n                                                          \n[5.9s] [0/1 complete] [chiku_control_cpp:build 50% - 5.6s]\n                                                          \n[6.0s] [0/1 complete] [chiku_control_cpp:build 50% - 5.7s]\n                                                          \n[6.1s] [0/1 complete] [chiku_control_cpp:build 50% - 5.8s]\n                                                          \n[6.2s] [0/1 complete] [chiku_control_cpp:build 50% - 5.9s]\n                                                          \n[6.3s] [0/1 complete] [chiku_control_cpp:build 50% - 6.0s]\n                                                          \n[6.4s] [0/1 complete] [chiku_control_cpp:build 50% - 6.1s]\n                                                          \n[6.5s] [0/1 complete] [chiku_control_cpp:build 50% - 6.2s]\n                                                          \n[6.6s] [0/1 complete] [chiku_control_cpp:build 50% - 6.3s]\n                                                          \n[6.7s] [0/1 complete] [chiku_control_cpp:build 50% - 6.4s]\n                                                          \n[6.8s] [0/1 complete] [chiku_control_cpp:build 50% - 6.5s]\n                                                          \n[6.9s] [0/1 complete] [chiku_control_cpp:build 50% - 6.6s]\n                                                          \n[7.0s] [0/1 complete] [chiku_control_cpp:build 50% - 6.7s]\n                                                          \n[7.1s] [0/1 complete] [chiku_control_cpp:build 50% - 6.8s]\n                                                          \n[7.2s] [0/1 complete] [chiku_control_cpp:build 50% - 6.9s]\n                                                          \n[7.3s] [0/1 complete] [chiku_control_cpp:build 50% - 7.0s]\n                                                          \n[7.4s] [0/1 complete] [chiku_control_cpp:build 50% - 7.1s]\n                                                          \n[7.5s] [0/1 complete] [chiku_control_cpp:build 50% - 7.2s]\n                                                          \n[7.6s] [0/1 complete] [chiku_control_cpp:build 50% - 7.3s]\n                                                          \n[7.7s] [0/1 complete] [chiku_control_cpp:build 50% - 7.4s]\n                                                          \n[7.8s] [0/1 complete] [chiku_control_cpp:build 50% - 7.5s]\n                                                          \n[7.9s] [0/1 complete] [chiku_control_cpp:build 50% - 7.6s]\n                                                          \n[8.0s] [0/1 complete] [chiku_control_cpp:build 50% - 7.7s]\n                                                          \n[8.1s] [0/1 complete] [chiku_control_cpp:build 50% - 7.8s]\n                                                          \n[8.2s] [0/1 complete] [chiku_control_cpp:build 50% - 7.9s]\n                                                          \n[8.3s] [0/1 complete] [chiku_control_cpp:build 50% - 8.0s]\n                                                          \n[8.4s] [0/1 complete] [chiku_control_cpp:build 50% - 8.1s]\n                                                          \n[8.5s] [0/1 complete] [chiku_control_cpp:build 50% - 8.2s]\n                                                          \n[8.6s] [0/1 complete] [chiku_control_cpp:build 50% - 8.3s]\n                                                          \n[8.7s] [0/1 complete] [chiku_control_cpp:build 50% - 8.4s]\n                                                          \n[8.8s] [0/1 complete] [chiku_control_cpp:build 50% - 8.5s]\n                                                          \n[8.9s] [0/1 complete] [chiku_control_cpp:build 50% - 8.6s]\n                                                          \n[9.0s] [0/1 complete] [chiku_control_cpp:build 50% - 8.7s]\n                                                          \n[9.1s] [0/1 complete] [chiku_control_cpp:build 50% - 8.8s]\n                                                          \n[9.2s] [0/1 complete] [chiku_control_cpp:build 50% - 8.9s]\n                                                          \n[9.3s] [0/1 complete] [chiku_control_cpp:build 50% - 9.0s]\n                                                          \n[9.4s] [0/1 complete] [chiku_control_cpp:build 50% - 9.1s]\n                                                          \n[9.5s] [0/1 complete] [chiku_control_cpp:build 50% - 9.2s]\n                                                          \n[9.6s] [0/1 complete] [chiku_control_cpp:build 50% - 9.4s]\n                                                          \n[9.7s] [0/1 complete] [chiku_control_cpp:build 50% - 9.5s]\n                                                          \n[9.8s] [0/1 complete] [chiku_control_cpp:build 50% - 9.6s]\n                                                          \n[9.9s] [0/1 complete] [chiku_control_cpp:build 50% - 9.7s]\n                                                          \n[10.0s] [0/1 complete] [chiku_control_cpp:build 50% - 9.8s]\n                                                           \n[10.1s] [0/1 complete] [chiku_control_cpp:build 50% - 9.9s]\n                                                           \n[10.2s] [0/1 complete] [chiku_control_cpp:build 50% - 10.0s]\n                                                            \n[10.3s] [0/1 complete] [chiku_control_cpp:build 50% - 10.1s]\n                                                            \n[10.4s] [0/1 complete] [chiku_control_cpp:build 50% - 10.2s]\n                                                            \n[10.5s] [0/1 complete] [chiku_control_cpp:build 50% - 10.3s]\n                                                            \n[10.6s] [0/1 complete] [chiku_control_cpp:build 50% - 10.4s]\n                                                            \n[10.7s] [0/1 complete] [chiku_control_cpp:build 50% - 10.5s]\n                                                            \n[10.8s] [0/1 complete] [chiku_control_cpp:build 50% - 10.6s]\n                                                            \n[10.9s] [0/1 complete] [chiku_control_cpp:build 50% - 10.7s]\n                                                            \n[11.0s] [0/1 complete] [chiku_control_cpp:build 50% - 10.8s]\n                                                            \n[11.1s] [0/1 complete] [chiku_control_cpp:build 50% - 10.9s]\n                                                            \n[11.2s] [0/1 complete] [chiku_control_cpp:build 50% - 11.0s]\n                                                            \n[11.3s] [0/1 complete] [chiku_control_cpp:build 50% - 11.1s]\n                                                            \n[11.4s] [0/1 complete] [chiku_control_cpp:build 50% - 11.2s]\n                                                            \n[11.5s] [0/1 complete] [chiku_control_cpp:build 50% - 11.3s]\n                                                            \n[11.6s] [0/1 complete] [chiku_control_cpp:build 50% - 11.4s]\n                                                            \n[11.7s] [0/1 complete] [chiku_control_cpp:build 50% - 11.5s]\n                                                            \n[11.8s] [0/1 complete] [chiku_control_cpp:build 50% - 11.6s]\n                                                            \n[11.9s] [0/1 complete] [chiku_control_cpp:build 50% - 11.7s]\n                                                            \n[12.0s] [0/1 complete] [chiku_control_cpp:build 50% - 11.8s]\n                                                            \n[12.1s] [0/1 complete] [chiku_control_cpp:build 50% - 11.9s]\n                                                            \n[12.2s] [0/1 complete] [chiku_control_cpp:build 50% - 12.0s]\n                                                            \n[12.3s] [0/1 complete] [chiku_control_cpp:build 50% - 12.1s]\n                                                            \n[12.4s] [0/1 complete] [chiku_control_cpp:build 50% - 12.2s]\n                                                            \n[12.5s] [0/1 complete] [chiku_control_cpp:build 50% - 12.3s]\n                                                            \n[12.6s] [0/1 complete] [chiku_control_cpp:build 50% - 12.4s]\n                                                            \n[12.7s] [0/1 complete] [chiku_control_cpp:build 50% - 12.5s]\n                                                            \n[12.8s] [0/1 complete] [chiku_control_cpp:build 50% - 12.6s]\n                                                            \n[12.9s] [0/1 complete] [chiku_control_cpp:build 50% - 12.7s]\n                                                            \n[13.0s] [0/1 complete] [chiku_control_cpp:build 50% - 12.8s]\n                                                            \n[13.1s] [0/1 complete] [chiku_control_cpp:build 50% - 12.9s]\n                                                            \n[13.2s] [0/1 complete] [chiku_control_cpp:build 50% - 13.0s]\n                                                            \n[13.3s] [0/1 complete] [chiku_control_cpp:build 50% - 13.1s]\n                                                            \n[13.4s] [0/1 complete] [chiku_control_cpp:build 50% - 13.2s]\n                                                            \n[13.5s] [0/1 complete] [chiku_control_cpp:build 50% - 13.3s]\n                                                            \n[13.6s] [0/1 complete] [chiku_control_cpp:build 50% - 13.4s]\n                                                            \n[13.7s] [0/1 complete] [chiku_control_cpp:build 50% - 13.5s]\n                                                            \n[13.8s] [0/1 complete] [chiku_control_cpp:build 50% - 13.6s]\n                                                            \n[13.9s] [0/1 complete] [chiku_control_cpp:build 50% - 13.7s]\n                                                            \n[14.0s] [0/1 complete] [chiku_control_cpp:build 50% - 13.8s]\n                                                            \n[14.1s] [0/1 complete] [chiku_control_cpp:build 50% - 13.9s]\n                                                            \n[14.2s] [0/1 complete] [chiku_control_cpp:build 50% - 14.0s]\n                                                            \n[14.3s] [0/1 complete] [chiku_control_cpp:build 50% - 14.1s]\n                                                            \n[14.4s] [0/1 complete] [chiku_control_cpp:build 50% - 14.2s]\n                                                            \n[14.5s] [0/1 complete] [chiku_control_cpp:build 50% - 14.3s]\n                                                            \n[14.7s] [0/1 complete] [chiku_control_cpp:build 50% - 14.4s]\n                                                            \n[14.8s] [0/1 complete] [chiku_control_cpp:build 50% - 14.5s]\n                                                            \n[14.9s] [0/1 complete] [chiku_control_cpp:build 50% - 14.6s]\n                                                            \n[15.0s] [0/1 complete] [chiku_control_cpp:build 50% - 14.7s]\n                                                            \n[15.1s] [0/1 complete] [chiku_control_cpp:build 50% - 14.8s]\n                                                            \n[15.2s] [0/1 complete] [chiku_control_cpp:build 50% - 14.9s]\n                                                            \n[15.3s] [0/1 complete] [chiku_control_cpp:build 50% - 15.0s]\n                                                            \n[15.4s] [0/1 complete] [chiku_control_cpp:build 50% - 15.1s]\n                                                            \n[15.5s] [0/1 complete] [chiku_control_cpp:build 50% - 15.2s]\n                                                            \n[15.6s] [0/1 complete] [chiku_control_cpp:build 50% - 15.3s]\n                                                            \n[15.7s] [0/1 complete] [chiku_control_cpp:build 50% - 15.4s]\n                                                            \n[15.8s] [0/1 complete] [chiku_control_cpp:build 50% - 15.5s]\n                                                            \n[15.9s] [0/1 complete] [chiku_control_cpp:build 50% - 15.6s]\n                                                            \n[16.0s] [0/1 complete] [chiku_control_cpp:build 50% - 15.7s]\n                                                            \n[16.1s] [0/1 complete] [chiku_control_cpp:build 50% - 15.8s]\n                                                            \n[16.2s] [0/1 complete] [chiku_control_cpp:build 50% - 15.9s]\n                                                            \n[16.3s] [0/1 complete] [chiku_control_cpp:build 50% - 16.0s]\n                                                            \n[16.4s] [0/1 complete] [chiku_control_cpp:build 100% - 16.1s]\n                                                             \n[16.5s] [0/1 complete] [chiku_control_cpp:build 100% - 16.2s]\n                                                             \n[16.6s] [0/1 complete] [chiku_control_cpp:build 100% - 16.3s]\n                                                             \n[16.7s] [0/1 complete] [chiku_control_cpp:build 100% - 16.4s]\n                                                             \n[16.8s] [0/1 complete] [chiku_control_cpp:build 100% - 16.5s]\n                                                             \n[16.9s] [0/1 complete] [chiku_control_cpp:build 100% - 16.6s]\n                                                             \n[17.0s] [0/1 complete] [chiku_control_cpp:build 100% - 16.7s]\n                                                             \n[17.1s] [0/1 complete] [chiku_control_cpp:build 100% - 16.8s]\n                                                             \n[17.2s] [0/1 complete] [chiku_control_cpp:install - 16.9s]\n                                                          \n[17.3s] [0/1 complete] [chiku_control_cpp:install - 17.0s]\n                                                          \nFinished <<< chiku_control_cpp [17.0s]\n\nSummary: 1 package finished [17.3s]\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     },
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "source install/setup.bash",
+      "interrupted": null,
+      "site": [],
+      "siteRunning": false,
+      "real": {
+       "out": "",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 2,
+    "do": "Start the broadcaster for turtle1: `ros2 run chiku_control_cpp turtle_tf_broadcaster`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 run chiku_control_cpp turtle_tf_broadcaster",
+      "interrupted": null,
+      "site": [],
+      "siteRunning": true,
+      "real": {
+       "out": "",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 3,
+    "do": "Open a **new terminal** and load the workspace (`cd ~/ros2_ws`, `source install/setup.bash`). Your node publishes on /tf: `ros2 node info /turtle_tf_broadcaster`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "newTerminal",
+      "term": 2
+     },
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "cd ~/ros2_ws",
+      "interrupted": null,
+      "site": [],
+      "siteRunning": false,
+      "real": {
+       "out": "",
+       "exit": 0,
+       "state": "finished"
+      }
+     },
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "source install/setup.bash",
+      "interrupted": null,
+      "site": [],
+      "siteRunning": false,
+      "real": {
+       "out": "",
+       "exit": 0,
+       "state": "finished"
+      }
+     },
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "ros2 node info /turtle_tf_broadcaster",
+      "interrupted": null,
+      "site": [
+       "/turtle_tf_broadcaster",
+       "  Subscribers:",
+       "    /parameter_events: rcl_interfaces/msg/ParameterEvent",
+       "    /turtle1/pose: turtlesim/msg/Pose",
+       "  Publishers:",
+       "    /parameter_events: rcl_interfaces/msg/ParameterEvent",
+       "    /rosout: rcl_interfaces/msg/Log",
+       "    /tf: tf2_msgs/msg/TFMessage",
+       "  Service Servers:",
+       "    /turtle_tf_broadcaster/describe_parameters: rcl_interfaces/srv/DescribeParameters",
+       "    /turtle_tf_broadcaster/get_parameter_types: rcl_interfaces/srv/GetParameterTypes",
+       "    /turtle_tf_broadcaster/get_parameters: rcl_interfaces/srv/GetParameters",
+       "    /turtle_tf_broadcaster/get_type_description: type_description_interfaces/srv/GetTypeDescription",
+       "    /turtle_tf_broadcaster/list_parameters: rcl_interfaces/srv/ListParameters",
+       "    /turtle_tf_broadcaster/set_parameters: rcl_interfaces/srv/SetParameters",
+       "    /turtle_tf_broadcaster/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically",
+       "  Service Clients:",
+       "  Action Servers:",
+       "  Action Clients:"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "/turtle_tf_broadcaster\n  Subscribers:\n    /parameter_events: rcl_interfaces/msg/ParameterEvent\n    /turtle1/pose: turtlesim/msg/Pose\n  Publishers:\n    /parameter_events: rcl_interfaces/msg/ParameterEvent\n    /rosout: rcl_interfaces/msg/Log\n    /tf: tf2_msgs/msg/TFMessage\n  Service Servers:\n    /turtle_tf_broadcaster/describe_parameters: rcl_interfaces/srv/DescribeParameters\n    /turtle_tf_broadcaster/get_parameter_types: rcl_interfaces/srv/GetParameterTypes\n    /turtle_tf_broadcaster/get_parameters: rcl_interfaces/srv/GetParameters\n    /turtle_tf_broadcaster/get_type_description: type_description_interfaces/srv/GetTypeDescription\n    /turtle_tf_broadcaster/list_parameters: rcl_interfaces/srv/ListParameters\n    /turtle_tf_broadcaster/set_parameters: rcl_interfaces/srv/SetParameters\n    /turtle_tf_broadcaster/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically\n  Service Clients:\n\n  Action Servers:\n\n  Action Clients:\n\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 4,
+    "do": "Start a second broadcaster for another turtle, with a parameter and a new node name: `ros2 run chiku_control_cpp turtle_tf_broadcaster --ros-args -p turtlename:=turtle2 -r __node:=broadcaster2`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "ros2 run chiku_control_cpp turtle_tf_broadcaster --ros-args -p turtlename:=turtle2 -r __node:=broadcaster2",
+      "interrupted": null,
+      "site": [],
+      "siteRunning": true,
+      "real": {
+       "out": "",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 5,
+    "do": "Open another **new terminal** and check the parameter: `ros2 param get /broadcaster2 turtlename`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "newTerminal",
+      "term": 3
+     },
+     {
+      "kind": "cmd",
+      "term": 3,
+      "cmd": "ros2 param get /broadcaster2 turtlename",
+      "interrupted": null,
+      "site": [
+       "String value is: turtle2"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "String value is: turtle2\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   }
+  ],
+  "allDone": true,
+  "pageErrors": [],
+  "bareOff": null
+ },
+ {
+  "lesson": "N23",
+  "term": 1,
+  "title": "Live terminal: run the test suites",
+  "tasks": [
+   {
+    "task": 1,
+    "do": "Build both packages: `colcon build --packages-select chiku_control chiku_control_cpp`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "colcon build --packages-select chiku_control chiku_control_cpp",
+      "interrupted": null,
+      "site": [
+       "Starting >>> chiku_control",
+       "Starting >>> chiku_control_cpp",
+       "Finished <<< chiku_control [0.90s]",
+       "Finished <<< chiku_control_cpp [1.27s]",
+       "",
+       "Summary: 2 packages finished [1.64s]",
+       "Built. Now load the workspace in this terminal: source install/setup.bash"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "[0.7s] [0/0 complete]\n                     \nStarting >>> chiku_control\nStarting >>> chiku_control_cpp\n[0.8s] [0/2 complete] [2 ongoing] [chiku_control - 0.1s] [chiku_control_cpp - 0.1s]\n                                                                                   \n[0.9s] [0/2 complete] [2 ongoing] [chiku_control - 0.2s] [chiku_control_cpp - 0.2s]\n                                                                                   \n[1.0s] [0/2 complete] [2 ongoing] [chiku_control - 0.3s] [chiku_control_cpp - 0.3s]\n                                                                                   \n[1.1s] [0/2 complete] [2 ongoing] [chiku_control - 0.4s] [chiku_control_cpp - 0.4s]\n                                                                                   \n[1.2s] [0/2 complete] [2 ongoing] [chiku_control - 0.5s] [chiku_control_cpp - 0.5s]\n                                                                                   \n[1.3s] [0/2 complete] [2 ongoing] [chiku_control - 0.6s] [chiku_control_cpp - 0.6s]\n                                                                                   \n[1.4s] [0/2 complete] [2 ongoing] [chiku_control - 0.7s] [chiku_control_cpp - 0.7s]\n                                                                                   \n[1.5s] [0/2 complete] [2 ongoing] [chiku_control - 0.8s] [chiku_control_cpp - 0.8s]\n                                                                                   \n[1.6s] [0/2 complete] [2 ongoing] [chiku_control - 0.9s] [chiku_control_cpp:cmake - 0.9s]\n                                                                                         \n[1.7s] [0/2 complete] [2 ongoing] [chiku_control - 1.0s] [chiku_control_cpp:cmake - 1.0s]\n                                                                                         \n[1.8s] [0/2 complete] [2 ongoing] [chiku_control - 1.1s] [chiku_control_cpp:cmake - 1.1s]\n                                                                                         \n[1.9s] [0/2 complete] [2 ongoing] [chiku_control - 1.2s] [chiku_control_cpp:cmake - 1.2s]\n                                                                                         \n[2.0s] [0/2 complete] [2 ongoing] [chiku_control - 1.3s] [chiku_control_cpp:cmake - 1.3s]\n                                                                                         \n[2.1s] [0/2 complete] [2 ongoing] [chiku_control - 1.4s] [chiku_control_cpp:cmake - 1.4s]\n                                                                                         \n[2.2s] [0/2 complete] [2 ongoing] [chiku_control - 1.5s] [chiku_control_cpp:cmake - 1.5s]\n                                                                                         \n[2.3s] [0/2 complete] [2 ongoing] [chiku_control - 1.6s] [chiku_control_cpp:cmake - 1.6s]\n                                                                                         \n[2.4s] [0/2 complete] [2 ongoing] [chiku_control - 1.7s] [chiku_control_cpp:cmake - 1.7s]\n                                                                                         \n[2.5s] [0/2 complete] [2 ongoing] [chiku_control - 1.8s] [chiku_control_cpp:cmake - 1.8s]\n                                                                                         \n[2.6s] [0/2 complete] [2 ongoing] [chiku_control - 1.9s] [chiku_control_cpp:cmake - 1.9s]\n                                                                                         \n[2.7s] [0/2 complete] [2 ongoing] [chiku_control - 2.0s] [chiku_control_cpp:cmake - 2.0s]\n                                                                                         \n[2.8s] [0/2 complete] [2 ongoing] [chiku_control - 2.1s] [chiku_control_cpp:cmake - 2.1s]\n                                                                                         \n[2.9s] [0/2 complete] [2 ongoing] [chiku_control - 2.2s] [chiku_control_cpp:cmake - 2.2s]\n                                                                                         \n[3.0s] [0/2 complete] [2 ongoing] [chiku_control - 2.3s] [chiku_control_cpp:cmake - 2.3s]\n                                                                                         \n[3.1s] [0/2 complete] [2 ongoing] [chiku_control - 2.4s] [chiku_control_cpp:cmake - 2.4s]\n                                                                                         \n[3.2s] [0/2 complete] [2 ongoing] [chiku_control - 2.5s] [chiku_control_cpp:cmake - 2.5s]\n                                                                                         \n[3.3s] [0/2 complete] [2 ongoing] [chiku_control - 2.6s] [chiku_control_cpp:cmake - 2.6s]\n                                                                                         \n[3.4s] [0/2 complete] [2 ongoing] [chiku_control - 2.7s] [chiku_control_cpp:cmake - 2.7s]\n                                                                                         \n[3.5s] [0/2 complete] [2 ongoing] [chiku_control - 2.8s] [chiku_control_cpp:cmake - 2.8s]\n                                                                                         \n[3.6s] [0/2 complete] [2 ongoing] [chiku_control - 2.9s] [chiku_control_cpp:cmake - 2.9s]\n                                                                                         \n[3.7s] [0/2 complete] [2 ongoing] [chiku_control - 3.0s] [chiku_control_cpp:cmake - 3.0s]\n                                                                                         \n[3.8s] [0/2 complete] [2 ongoing] [chiku_control - 3.1s] [chiku_control_cpp:cmake - 3.1s]\n                                                                                         \n[3.9s] [0/2 complete] [2 ongoing] [chiku_control - 3.2s] [chiku_control_cpp:cmake - 3.2s]\n                                                                                         \n[4.0s] [0/2 complete] [2 ongoing] [chiku_control - 3.3s] [chiku_control_cpp:cmake - 3.3s]\n                                                                                         \n[4.1s] [0/2 complete] [2 ongoing] [chiku_control - 3.4s] [chiku_control_cpp:cmake - 3.4s]\n                                                                                         \n[4.2s] [0/2 complete] [2 ongoing] [chiku_control - 3.5s] [chiku_control_cpp:cmake - 3.5s]\n                                                                                         \n[4.3s] [0/2 complete] [2 ongoing] [chiku_control - 3.6s] [chiku_control_cpp:cmake - 3.6s]\n                                                                                         \n[4.4s] [0/2 complete] [2 ongoing] [chiku_control - 3.7s] [chiku_control_cpp:cmake - 3.7s]\n                                                                                         \n[4.5s] [0/2 complete] [2 ongoing] [chiku_control - 3.8s] [chiku_control_cpp:cmake - 3.8s]\n                                                                                         \n[4.6s] [0/2 complete] [2 ongoing] [chiku_control - 3.9s] [chiku_control_cpp:cmake - 3.9s]\n                                                                                         \n[4.7s] [0/2 complete] [2 ongoing] [chiku_control - 4.0s] [chiku_control_cpp:cmake - 4.0s]\n                                                                                         \n[4.8s] [0/2 complete] [2 ongoing] [chiku_control - 4.1s] [chiku_control_cpp:cmake - 4.1s]\n                                                                                         \n[4.9s] [0/2 complete] [2 ongoing] [chiku_control - 4.2s] [chiku_control_cpp:cmake - 4.2s]\n                                                                                         \n[5.0s] [0/2 complete] [2 ongoing] [chiku_control - 4.3s] [chiku_control_cpp:cmake - 4.3s]\n                                                                                         \n[5.1s] [0/2 complete] [2 ongoing] [chiku_control - 4.4s] [chiku_control_cpp:cmake - 4.4s]\n                                                                                         \n[5.2s] [0/2 complete] [2 ongoing] [chiku_control - 4.5s] [chiku_control_cpp:cmake - 4.5s]\n                                                                                         \n[5.3s] [0/2 complete] [2 ongoing] [chiku_control - 4.6s] [chiku_control_cpp:cmake - 4.6s]\n                                                                                         \n[5.4s] [0/2 complete] [2 ongoing] [chiku_control - 4.7s] [chiku_control_cpp:cmake - 4.7s]\n                                                                                         \n[5.5s] [0/2 complete] [2 ongoing] [chiku_control - 4.8s] [chiku_control_cpp:cmake - 4.8s]\n                                                                                         \n[5.6s] [0/2 complete] [2 ongoing] [chiku_control - 4.9s] [chiku_control_cpp:cmake - 4.9s]\n                                                                                         \n[5.7s] [0/2 complete] [2 ongoing] [chiku_control - 5.0s] [chiku_control_cpp:cmake - 5.0s]\n                                                                                         \nFinished <<< chiku_control [5.05s]\n[5.8s] [1/2 complete] [chiku_control_cpp:cmake - 5.1s]\n                                                      \n[5.9s] [1/2 complete] [chiku_control_cpp:cmake - 5.2s]\n                                                      \n[6.0s] [1/2 complete] [chiku_control_cpp:cmake - 5.3s]\n                                                      \n[6.1s] [1/2 complete] [chiku_control_cpp:cmake - 5.4s]\n                                                      \n[6.2s] [1/2 complete] [chiku_control_cpp:cmake - 5.5s]\n                                                      \n[6.3s] [1/2 complete] [chiku_control_cpp:cmake - 5.6s]\n                                                      \n[6.4s] [1/2 complete] [chiku_control_cpp:cmake - 5.7s]\n                                                      \n[6.5s] [1/2 complete] [chiku_control_cpp:cmake - 5.8s]\n                                                      \n[6.6s] [1/2 complete] [chiku_control_cpp:cmake - 5.9s]\n                                                      \n[6.7s] [1/2 complete] [chiku_control_cpp:cmake - 6.0s]\n                                                      \n[6.8s] [1/2 complete] [chiku_control_cpp:build - 6.1s]\n                                                      \n[6.9s] [1/2 complete] [chiku_control_cpp:build - 6.2s]\n                                                      \n[7.0s] [1/2 complete] [chiku_control_cpp:build 33% - 6.3s]\n                                                          \n[7.1s] [1/2 complete] [chiku_control_cpp:build 33% - 6.4s]\n                                                          \n[7.2s] [1/2 complete] [chiku_control_cpp:build 33% - 6.5s]\n                                                          \n[7.3s] [1/2 complete] [chiku_control_cpp:build 33% - 6.6s]\n                                                          \n[7.4s] [1/2 complete] [chiku_control_cpp:build 33% - 6.7s]\n                                                          \n[7.5s] [1/2 complete] [chiku_control_cpp:build 33% - 6.8s]\n                                                          \n[7.6s] [1/2 complete] [chiku_control_cpp:build 33% - 6.9s]\n                                                          \n[7.7s] [1/2 complete] [chiku_control_cpp:build 33% - 7.0s]\n                                                          \n[7.8s] [1/2 complete] [chiku_control_cpp:build 33% - 7.1s]\n                                                          \n[7.9s] [1/2 complete] [chiku_control_cpp:build 33% - 7.2s]\n                                                          \n[8.0s] [1/2 complete] [chiku_control_cpp:build 33% - 7.3s]\n                                                          \n[8.1s] [1/2 complete] [chiku_control_cpp:build 33% - 7.4s]\n                                                          \n[8.2s] [1/2 complete] [chiku_control_cpp:build 33% - 7.5s]\n                                                          \n[8.3s] [1/2 complete] [chiku_control_cpp:build 33% - 7.6s]\n                                                          \n[8.4s] [1/2 complete] [chiku_control_cpp:build 33% - 7.7s]\n                                                          \n[8.5s] [1/2 complete] [chiku_control_cpp:build 33% - 7.8s]\n                                                          \n[8.6s] [1/2 complete] [chiku_control_cpp:build 33% - 7.9s]\n                                                          \n[8.7s] [1/2 complete] [chiku_control_cpp:build 33% - 8.0s]\n                                                          \n[8.8s] [1/2 complete] [chiku_control_cpp:build 50% - 8.1s]\n                                                          \n[8.9s] [1/2 complete] [chiku_control_cpp:build 50% - 8.2s]\n                                                          \n[9.0s] [1/2 complete] [chiku_control_cpp:build 50% - 8.3s]\n                                                          \n[9.1s] [1/2 complete] [chiku_control_cpp:build 50% - 8.4s]\n                                                          \n[9.2s] [1/2 complete] [chiku_control_cpp:build 50% - 8.5s]\n                                                          \n[9.3s] [1/2 complete] [chiku_control_cpp:build 50% - 8.6s]\n                                                          \n[9.4s] [1/2 complete] [chiku_control_cpp:build 50% - 8.7s]\n                                                          \n[9.5s] [1/2 complete] [chiku_control_cpp:build 50% - 8.8s]\n                                                          \n[9.6s] [1/2 complete] [chiku_control_cpp:build 50% - 8.9s]\n                                                          \n[9.7s] [1/2 complete] [chiku_control_cpp:build 50% - 9.0s]\n                                                          \n[9.8s] [1/2 complete] [chiku_control_cpp:build 50% - 9.1s]\n                                                          \n[9.9s] [1/2 complete] [chiku_control_cpp:build 50% - 9.2s]\n                                                          \n[10.0s] [1/2 complete] [chiku_control_cpp:build 50% - 9.3s]\n                                                           \n[10.1s] [1/2 complete] [chiku_control_cpp:build 50% - 9.4s]\n                                                           \n[10.2s] [1/2 complete] [chiku_control_cpp:build 50% - 9.5s]\n                                                           \n[10.3s] [1/2 complete] [chiku_control_cpp:build 50% - 9.6s]\n                                                           \n[10.4s] [1/2 complete] [chiku_control_cpp:build 50% - 9.7s]\n                                                           \n[10.5s] [1/2 complete] [chiku_control_cpp:build 50% - 9.8s]\n                                                           \n[10.6s] [1/2 complete] [chiku_control_cpp:build 50% - 9.9s]\n                                                           \n[10.7s] [1/2 complete] [chiku_control_cpp:build 50% - 10.0s]\n                                                            \n[10.9s] [1/2 complete] [chiku_control_cpp:build 50% - 10.1s]\n                                                            \n[11.0s] [1/2 complete] [chiku_control_cpp:build 50% - 10.2s]\n                                                            \n[11.1s] [1/2 complete] [chiku_control_cpp:build 50% - 10.3s]\n                                                            \n[11.2s] [1/2 complete] [chiku_control_cpp:build 50% - 10.4s]\n                                                            \n[11.3s] [1/2 complete] [chiku_control_cpp:build 50% - 10.5s]\n                                                            \n[11.4s] [1/2 complete] [chiku_control_cpp:build 50% - 10.6s]\n                                                            \n[11.5s] [1/2 complete] [chiku_control_cpp:build 50% - 10.7s]\n                                                            \n[11.6s] [1/2 complete] [chiku_control_cpp:build 50% - 10.8s]\n                                                            \n[11.7s] [1/2 complete] [chiku_control_cpp:build 50% - 10.9s]\n                                                            \n[11.8s] [1/2 complete] [chiku_control_cpp:build 50% - 11.0s]\n                                                            \n[11.9s] [1/2 complete] [chiku_control_cpp:build 50% - 11.1s]\n                                                            \n[12.0s] [1/2 complete] [chiku_control_cpp:build 50% - 11.2s]\n                                                            \n[12.1s] [1/2 complete] [chiku_control_cpp:build 50% - 11.3s]\n                                                            \n[12.2s] [1/2 complete] [chiku_control_cpp:build 50% - 11.4s]\n                                                            \n[12.3s] [1/2 complete] [chiku_control_cpp:build 50% - 11.5s]\n                                                            \n[12.4s] [1/2 complete] [chiku_control_cpp:build 50% - 11.6s]\n                                                            \n[12.5s] [1/2 complete] [chiku_control_cpp:build 50% - 11.7s]\n                                                            \n[12.6s] [1/2 complete] [chiku_control_cpp:build 50% - 11.8s]\n                                                            \n[12.7s] [1/2 complete] [chiku_control_cpp:build 50% - 11.9s]\n                                                            \n[12.8s] [1/2 complete] [chiku_control_cpp:build 50% - 12.0s]\n                                                            \n[12.9s] [1/2 complete] [chiku_control_cpp:build 50% - 12.1s]\n                                                            \n[13.0s] [1/2 complete] [chiku_control_cpp:build 50% - 12.2s]\n                                                            \n[13.1s] [1/2 complete] [chiku_control_cpp:build 50% - 12.3s]\n                                                            \n[13.2s] [1/2 complete] [chiku_control_cpp:build 50% - 12.4s]\n                                                            \n[13.3s] [1/2 complete] [chiku_control_cpp:build 50% - 12.5s]\n                                                            \n[13.4s] [1/2 complete] [chiku_control_cpp:build 50% - 12.6s]\n                                                            \n[13.5s] [1/2 complete] [chiku_control_cpp:build 50% - 12.7s]\n                                                            \n[13.6s] [1/2 complete] [chiku_control_cpp:build 50% - 12.8s]\n                                                            \n[13.7s] [1/2 complete] [chiku_control_cpp:build 50% - 12.9s]\n                                                            \n[13.8s] [1/2 complete] [chiku_control_cpp:build 50% - 13.0s]\n                                                            \n[13.9s] [1/2 complete] [chiku_control_cpp:build 50% - 13.1s]\n                                                            \n[14.0s] [1/2 complete] [chiku_control_cpp:build 50% - 13.2s]\n                                                            \n[14.1s] [1/2 complete] [chiku_control_cpp:build 50% - 13.3s]\n                                                            \n[14.2s] [1/2 complete] [chiku_control_cpp:build 50% - 13.4s]\n                                                            \n[14.3s] [1/2 complete] [chiku_control_cpp:build 50% - 13.6s]\n                                                            \n[14.4s] [1/2 complete] [chiku_control_cpp:build 50% - 13.7s]\n                                                            \n[14.5s] [1/2 complete] [chiku_control_cpp:build 50% - 13.8s]\n                                                            \n[14.6s] [1/2 complete] [chiku_control_cpp:build 50% - 13.9s]\n                                                            \n[14.7s] [1/2 complete] [chiku_control_cpp:build 50% - 14.0s]\n                                                            \n[14.8s] [1/2 complete] [chiku_control_cpp:build 66% - 14.1s]\n                                                            \n[14.9s] [1/2 complete] [chiku_control_cpp:build 66% - 14.2s]\n                                                            \n[15.0s] [1/2 complete] [chiku_control_cpp:build 66% - 14.3s]\n                                                            \n[15.1s] [1/2 complete] [chiku_control_cpp:build 66% - 14.4s]\n                                                            \n[15.2s] [1/2 complete] [chiku_control_cpp:build 83% - 14.5s]\n                                                            \n[15.3s] [1/2 complete] [chiku_control_cpp:build 83% - 14.6s]\n                                                            \n[15.4s] [1/2 complete] [chiku_control_cpp:build 83% - 14.7s]\n                                                            \n[15.5s] [1/2 complete] [chiku_control_cpp:build 83% - 14.8s]\n                                                            \n[15.6s] [1/2 complete] [chiku_control_cpp:build 83% - 14.9s]\n                                                            \n[15.7s] [1/2 complete] [chiku_control_cpp:build 83% - 15.0s]\n                                                            \n[15.8s] [1/2 complete] [chiku_control_cpp:build 83% - 15.1s]\n                                                            \n[15.9s] [1/2 complete] [chiku_control_cpp:build 83% - 15.2s]\n                                                            \n[16.0s] [1/2 complete] [chiku_control_cpp:build 83% - 15.3s]\n                                                            \n[16.1s] [1/2 complete] [chiku_control_cpp:build 83% - 15.4s]\n                                                            \n[16.2s] [1/2 complete] [chiku_control_cpp:build 83% - 15.5s]\n                                                            \n[16.3s] [1/2 complete] [chiku_control_cpp:build 83% - 15.6s]\n                                                            \n[16.4s] [1/2 complete] [chiku_control_cpp:build 83% - 15.7s]\n                                                            \n[16.5s] [1/2 complete] [chiku_control_cpp:build 83% - 15.8s]\n                                                            \n[16.6s] [1/2 complete] [chiku_control_cpp:build 83% - 15.9s]\n                                                            \n[16.7s] [1/2 complete] [chiku_control_cpp:build 83% - 16.0s]\n                                                            \n[16.8s] [1/2 complete] [chiku_control_cpp:build 83% - 16.1s]\n                                                            \n[16.9s] [1/2 complete] [chiku_control_cpp:build 83% - 16.2s]\n                                                            \n[17.0s] [1/2 complete] [chiku_control_cpp:build 83% - 16.3s]\n                                                            \n[17.1s] [1/2 complete] [chiku_control_cpp:build 100% - 16.4s]\n                                                             \n[17.2s] [1/2 complete] [chiku_control_cpp:build 100% - 16.5s]\n                                                             \n[17.3s] [1/2 complete] [chiku_control_cpp:build 100% - 16.6s]\n                                                             \n[17.4s] [1/2 complete] [chiku_control_cpp:build 100% - 16.7s]\n                                                             \n[17.5s] [1/2 complete] [chiku_control_cpp:build 100% - 16.8s]\n                                                             \n[17.6s] [1/2 complete] [chiku_control_cpp:build 100% - 16.9s]\n                                                             \n[17.7s] [1/2 complete] [chiku_control_cpp:install - 17.0s]\n                                                          \nFinished <<< chiku_control_cpp [17.1s]\n[17.8s] [2/2 complete]\n                      \n\nSummary: 2 packages finished [17.8s]\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 2,
+    "do": "Look at the Python tests: `cat src/chiku_control/test/test_control_math.py`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "cat src/chiku_control/test/test_control_math.py",
+      "interrupted": null,
+      "site": [
+       "import math",
+       "",
+       "import pytest",
+       "",
+       "from chiku_control.control_math import p_control, wrap_angle",
+       "",
+       "",
+       "def test_wrap_angle_keeps_small_angles():",
+       "    assert wrap_angle(0.5) == pytest.approx(0.5)",
+       "",
+       "",
+       "def test_wrap_angle_wraps_big_angles():",
+       "    assert wrap_angle(3 * math.pi / 2) == pytest.approx(-math.pi / 2)",
+       "",
+       "",
+       "def test_stops_at_goal():",
+       "    assert p_control(5.0, 5.0, 0.0, 5.05, 5.0) == (0.0, 0.0)",
+       "",
+       "",
+       "def test_goal_straight_ahead_means_no_turning():",
+       "    v, w = p_control(0.0, 0.0, 0.0, 1.0, 0.0)",
+       "    assert v == pytest.approx(1.0)",
+       "    assert w == pytest.approx(0.0)",
+       "",
+       "",
+       "def test_goal_on_the_left_turns_left():",
+       "    v, w = p_control(0.0, 0.0, 0.0, 0.0, 1.0)",
+       "    assert w > 0.0",
+       "",
+       "",
+       "def test_speed_is_limited():",
+       "    v, _ = p_control(0.0, 0.0, 0.0, 100.0, 0.0)",
+       "    assert v == pytest.approx(2.0)"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "import math\n\nimport pytest\n\nfrom chiku_control.control_math import p_control, wrap_angle\n\n\ndef test_wrap_angle_keeps_small_angles():\n    assert wrap_angle(0.5) == pytest.approx(0.5)\n\n\ndef test_wrap_angle_wraps_big_angles():\n    assert wrap_angle(3 * math.pi / 2) == pytest.approx(-math.pi / 2)\n\n\ndef test_stops_at_goal():\n    assert p_control(5.0, 5.0, 0.0, 5.05, 5.0) == (0.0, 0.0)\n\n\ndef test_goal_straight_ahead_means_no_turning():\n    v, w = p_control(0.0, 0.0, 0.0, 1.0, 0.0)\n    assert v == pytest.approx(1.0)\n    assert w == pytest.approx(0.0)\n\n\ndef test_goal_on_the_left_turns_left():\n    v, w = p_control(0.0, 0.0, 0.0, 0.0, 1.0)\n    assert w > 0.0\n\n\ndef test_speed_is_limited():\n    v, _ = p_control(0.0, 0.0, 0.0, 100.0, 0.0)\n    assert v == pytest.approx(2.0)\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 3,
+    "do": "Run all tests of both packages: `colcon test --packages-select chiku_control chiku_control_cpp`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "colcon test --packages-select chiku_control chiku_control_cpp",
+      "interrupted": null,
+      "site": [
+       "Starting >>> chiku_control",
+       "Starting >>> chiku_control_cpp",
+       "Finished <<< chiku_control [1.10s]",
+       "Finished <<< chiku_control_cpp [1.70s]",
+       "",
+       "Summary: 2 packages finished [2.6s]"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "[0.7s] [0/0 complete]\n                     \nStarting >>> chiku_control\nStarting >>> chiku_control_cpp\n[0.8s] [0/2 complete] [2 ongoing] [chiku_control - 0.1s] [chiku_control_cpp - 0.1s]\n                                                                                   \n[0.9s] [0/2 complete] [2 ongoing] [chiku_control - 0.2s] [chiku_control_cpp - 0.2s]\n                                                                                   \n[1.0s] [0/2 complete] [2 ongoing] [chiku_control - 0.3s] [chiku_control_cpp - 0.3s]\n                                                                                   \n[1.1s] [0/2 complete] [2 ongoing] [chiku_control - 0.4s] [chiku_control_cpp - 0.4s]\n                                                                                   \n[1.2s] [0/2 complete] [2 ongoing] [chiku_control - 0.5s] [chiku_control_cpp - 0.5s]\n                                                                                   \n[1.3s] [0/2 complete] [2 ongoing] [chiku_control - 0.6s] [chiku_control_cpp - 0.6s]\n                                                                                   \n[1.4s] [0/2 complete] [2 ongoing] [chiku_control - 0.7s] [chiku_control_cpp - 0.7s]\n                                                                                   \n[1.5s] [0/2 complete] [2 ongoing] [chiku_control - 0.8s] [chiku_control_cpp - 0.8s]\n                                                                                   \n[1.6s] [0/2 complete] [2 ongoing] [chiku_control - 0.9s] [chiku_control_cpp - 0.9s]\n                                                                                   \n[1.7s] [0/2 complete] [2 ongoing] [chiku_control - 1.0s] [chiku_control_cpp - 1.0s]\n                                                                                   \n[1.8s] [0/2 complete] [2 ongoing] [chiku_control - 1.1s] [chiku_control_cpp - 1.1s]\n                                                                                   \nFinished <<< chiku_control_cpp [1.09s]\n[1.9s] [1/2 complete] [chiku_control - 1.2s]\n                                            \n[2.0s] [1/2 complete] [chiku_control - 1.3s]\n                                            \n[2.1s] [1/2 complete] [chiku_control - 1.4s]\n                                            \n[2.2s] [1/2 complete] [chiku_control - 1.5s]\n                                            \n[2.3s] [1/2 complete] [chiku_control - 1.6s]\n                                            \nFinished <<< chiku_control [1.62s]\n\nSummary: 2 packages finished [2.34s]\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 4,
+    "do": "Read the summary: `colcon test-result --verbose` (it lists only failures, so here just the summary)",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "colcon test-result --verbose",
+      "interrupted": null,
+      "site": [
+       "Summary: 12 tests, 0 errors, 0 failures, 0 skipped",
+       "Only failures are listed one by one. Add --all to see every result file."
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "Summary: 12 tests, 0 errors, 0 failures, 0 skipped\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 5,
+    "do": "See every result file: `colcon test-result --all`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "colcon test-result --all",
+      "interrupted": null,
+      "site": [
+       "build/chiku_control/pytest.xml: 6 tests, 0 errors, 0 failures, 0 skipped",
+       "build/chiku_control_cpp/Testing/20261012-0930/Test.xml: 1 test, 0 errors, 0 failures, 0 skipped",
+       "build/chiku_control_cpp/test_results/chiku_control_cpp/test_control_math.gtest.xml: 5 tests, 0 errors, 0 failures, 0 skipped",
+       "",
+       "Summary: 12 tests, 0 errors, 0 failures, 0 skipped"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "build/chiku_control/pytest.xml: 6 tests, 0 errors, 0 failures, 0 skipped\nbuild/chiku_control_cpp/Testing/20261020-0459/Test.xml: 1 test, 0 errors, 0 failures, 0 skipped\nbuild/chiku_control_cpp/test_results/chiku_control_cpp/test_control_math.gtest.xml: 5 tests, 0 errors, 0 failures, 0 skipped\n\nSummary: 12 tests, 0 errors, 0 failures, 0 skipped\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   }
+  ],
+  "allDone": true,
+  "pageErrors": [],
+  "bareOff": null
+ },
+ {
+  "lesson": "XT5",
+  "term": 1,
+  "title": "Live terminal: from URDF to TF to RViz",
+  "tasks": [
+   {
+    "task": 1,
+    "do": "Start robot_state_publisher: `ros2 run robot_state_publisher robot_state_publisher --ros-args -p robot_description:=\"$(xacro chiku.urdf.xacro)\"`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 run robot_state_publisher robot_state_publisher --ros-args -p robot_description:=\"$(xacro chiku.urdf.xacro)\"",
+      "interrupted": null,
+      "site": [
+       "[INFO] [robot_state_publisher]: Robot initialized"
+      ],
+      "siteRunning": true,
+      "real": {
+       "out": "[INFO] [1792471467.718094439] [robot_state_publisher]: Robot initialized\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 2,
+    "do": "Open a new terminal. Ask where the lidar is: `ros2 run tf2_ros tf2_echo base_footprint lidar_link`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "newTerminal",
+      "term": 2
+     },
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "ros2 run tf2_ros tf2_echo base_footprint lidar_link",
+      "interrupted": null,
+      "site": [
+       "At time 1792505592.992999936",
+       "- Translation: [0.100, 0.000, 0.250]",
+       "- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]",
+       "- Rotation: in RPY (radian) [0.000, 0.000, 0.000]",
+       "- Rotation: in RPY (degree) [0.000, 0.000, 0.000]",
+       "- Matrix:",
+       "  1.000  0.000  0.000  0.100",
+       "  0.000  1.000  0.000  0.000",
+       "  0.000  0.000  1.000  0.250",
+       "  0.000  0.000  0.000  1.000",
+       "At time 1792505593.992999936",
+       "- Translation: [0.100, 0.000, 0.250]",
+       "- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]",
+       "- Rotation: in RPY (radian) [0.000, 0.000, 0.000]",
+       "- Rotation: in RPY (degree) [0.000, 0.000, 0.000]",
+       "- Matrix:",
+       "  1.000  0.000  0.000  0.100",
+       "  0.000  1.000  0.000  0.000",
+       "  0.000  0.000  1.000  0.250",
+       "  0.000  0.000  0.000  1.000",
+       "^C",
+       "(tf2_echo prints lidar_link as seen from base_footprint once per second until Ctrl+C.)"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "[INFO] [1792471477.233776933] [tf2_echo]: Waiting for transform base_footprint ->  lidar_link: Invalid frame ID \"base_footprint\" passed to canTransform argument target_frame - frame does not exist\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 3,
+    "do": "Now ask for a wheel: `ros2 run tf2_ros tf2_echo base_footprint left_wheel_link`. It fails. Why?",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "ros2 run tf2_ros tf2_echo base_footprint left_wheel_link",
+      "interrupted": null,
+      "site": [
+       "[INFO] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"left_wheel_link\" passed to canTransform argument source_frame - frame does not exist",
+       "^C",
+       "tf2_echo waits until both frames exist. Start the node that broadcasts them."
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "[INFO] [1792471485.659005816] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"base_footprint\" passed to canTransform argument target_frame - frame does not exist\n[INFO] [1792471487.626951889] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"left_wheel_link\" passed to canTransform argument source_frame - frame does not exist\n[INFO] [1792471488.626972417] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"left_wheel_link\" passed to canTransform argument source_frame - frame does not exist\n[INFO] [1792471489.627129888] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"left_wheel_link\" passed to canTransform argument source_frame - frame does not exist\n[INFO] [1792471491.627056719] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"left_wheel_link\" passed to canTransform argument source_frame - frame does not exist\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 4,
+    "do": "Start the sliders: `ros2 run joint_state_publisher_gui joint_state_publisher_gui`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "ros2 run joint_state_publisher_gui joint_state_publisher_gui",
+      "interrupted": null,
+      "site": [
+       "[INFO] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...",
+       "[INFO] [joint_state_publisher]: Centering",
+       "[INFO] [joint_state_publisher]: Got description, configuring robot",
+       "[INFO] [joint_state_publisher]: Centering",
+       "(A window with one slider per moving joint opened below the terminal.)"
+      ],
+      "siteRunning": true,
+      "real": {
+       "out": "[INFO] [1792471495.899336486] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...\n[INFO] [1792471495.957435531] [joint_state_publisher]: Centering\n[INFO] [1792471496.160705814] [joint_state_publisher]: Got description, configuring robot\n[INFO] [1792471496.183739767] [joint_state_publisher]: Centering\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 5,
+    "do": "In a new tab, try the wheel again: `ros2 run tf2_ros tf2_echo base_footprint left_wheel_link`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "newTerminal",
+      "term": 3
+     },
+     {
+      "kind": "cmd",
+      "term": 3,
+      "cmd": "ros2 run tf2_ros tf2_echo base_footprint left_wheel_link",
+      "interrupted": null,
+      "site": [
+       "At time 1792505619.227000064",
+       "- Translation: [-0.100, 0.170, 0.080]",
+       "- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]",
+       "- Rotation: in RPY (radian) [0.000, 0.000, 0.000]",
+       "- Rotation: in RPY (degree) [0.000, 0.000, 0.000]",
+       "- Matrix:",
+       "  1.000  0.000  0.000 -0.100",
+       "  0.000  1.000  0.000  0.170",
+       "  0.000  0.000  1.000  0.080",
+       "  0.000  0.000  0.000  1.000",
+       "At time 1792505620.227000064",
+       "- Translation: [-0.100, 0.170, 0.080]",
+       "- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]",
+       "- Rotation: in RPY (radian) [0.000, 0.000, 0.000]",
+       "- Rotation: in RPY (degree) [0.000, 0.000, 0.000]",
+       "- Matrix:",
+       "  1.000  0.000  0.000 -0.100",
+       "  0.000  1.000  0.000  0.170",
+       "  0.000  0.000  1.000  0.080",
+       "  0.000  0.000  0.000  1.000",
+       "^C",
+       "(tf2_echo prints left_wheel_link as seen from base_footprint once per second until Ctrl+C.)"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "[INFO] [1792471503.970843088] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"base_footprint\" passed to canTransform argument target_frame - frame does not exist\nAt time 1792471504.932151195\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471505.931768578\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471506.932034125\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471507.931700079\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471508.931564232\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471509.931673072\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471510.931615626\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 6,
+    "do": "Save a picture of the tree: `ros2 run tf2_tools view_frames`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 3,
+      "cmd": "ros2 run tf2_tools view_frames",
+      "interrupted": null,
+      "site": [
+       "[INFO] [1792505627.859999895] [view_frames]: Listening to tf data for 5.0 seconds...",
+       "[INFO] [1792505627.859999895] [view_frames]: Generating graph...",
+       "[INFO] [1792505627.859999895] [view_frames]: Result:tf2_msgs.srv.FrameGraph_Response(frame_yaml=\"base_link: \\n  parent: 'base_footprint' left_wheel_link: \\n  parent: 'base_link' ...\")",
+       "[INFO] [1792505627.859999895] [view_frames]: Exporting graph in frames_2026-10-20_19.43.47.pdf file...",
+       "Created frames_2026-10-20_19.43.47.pdf and frames_2026-10-20_19.43.47.gv in this folder. The PDF shows this tree:",
+       "  base_footprint",
+       "  └─ base_link",
+       "     └─ caster_link",
+       "     └─ left_wheel_link",
+       "     └─ lidar_link",
+       "     └─ right_wheel_link"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "[INFO] [1792471513.882953750] [view_frames]: Listening to tf data for 5.0 seconds...\n[INFO] [1792471518.937137768] [view_frames]: Generating graph...\n[INFO] [1792471518.944822512] [view_frames]: Result:tf2_msgs.srv.FrameGraph_Response(frame_yaml=\"left_wheel_link: \\n  parent: 'base_link'\\n  broadcaster: 'default_authority'\\n  rate: 10.200\\n  most_recent_transform: 1792471518.932054\\n  oldest_transform: 1792471513.932074\\n  buffer_length: 5.000\\nbase_link: \\n  parent: 'base_footprint'\\n  broadcaster: 'default_authority'\\n  rate: 10000.000\\n  most_recent_transform: 0.000000\\n  oldest_transform: 0.000000\\n  buffer_length: 0.000\\nright_wheel_link: \\n  parent: 'base_link'\\n  broadcaster: 'default_authority'\\n  rate: 10.200\\n  most_recent_transform: 1792471518.932054\\n  oldest_transform: 1792471513.932074\\n  buffer_length: 5.000\\ncaster_link: \\n  parent: 'base_link'\\n  broadcaster: 'default_authority'\\n  rate: 10000.000\\n  most_recent_transform: 0.000000\\n  oldest_transform: 0.000000\\n  buffer_length: 0.000\\nlidar_link: \\n  parent: 'base_link'\\n  broadcaster: 'default_authority'\\n  rate: 10000.000\\n  most_recent_transform: 0.000000\\n  oldest_transform: 0.000000\\n  buffer_length: 0.000\\n\")\n[INFO] [1792471518.958812087] [view_frames]: Exporting graph in frames_2026-10-20_10.15.18.pdf file...\n",
+       "exit": 0,
+       "state": "finished"
+      }
+     }
+    ]
+   },
+   {
+    "task": 7,
+    "do": "Start RViz: `ros2 run rviz2 rviz2`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 3,
+      "cmd": "ros2 run rviz2 rviz2",
+      "interrupted": null,
+      "site": [
+       "[INFO] [rviz2]: Stereo is NOT SUPPORTED",
+       "[INFO] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)",
+       "(The RViz2 window opened below the terminal.)"
+      ],
+      "siteRunning": true,
+      "real": {
+       "out": "[INFO] [1792471521.387297760] [rviz2]: Stereo is NOT SUPPORTED\n[INFO] [1792471521.387402983] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)\n[INFO] [1792471521.666923421] [rviz2]: Stereo is NOT SUPPORTED\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 8,
+    "do": "RViz says Frame [map] does not exist. Set **Fixed Frame** to `base_footprint`, then **Add** a `RobotModel` and a `TF` display. A RobotModel added this way starts with an empty **Description Topic** (exactly like RViz2 on Ubuntu): click its value and choose `/robot_description` from the list.",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "gui",
+      "sol": {
+       "viz": {
+        "fixedFrame": "base_footprint",
+        "displays": {
+         "Grid": true,
+         "RobotModel": true,
+         "TF": true
+        },
+        "topics": [
+         "/robot_description"
+        ]
+       }
+      },
+      "log": [
+       "Fixed Frame -> base_footprint",
+       "Add RobotModel: added",
+       "Description Topic -> Description Topic/robot_description",
+       "Add TF: added"
+      ]
+     }
+    ]
+   }
+  ],
+  "allDone": true,
+  "pageErrors": [],
+  "bareOff": null
+ },
+ {
+  "lesson": "RV1",
+  "term": 1,
+  "title": "Live terminal: drive RViz yourself",
+  "tasks": [
+   {
+    "task": 1,
+    "do": "Start robot_state_publisher: `ros2 run robot_state_publisher robot_state_publisher --ros-args -p robot_description:=\"$(xacro chiku.urdf.xacro)\"`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 1,
+      "cmd": "ros2 run robot_state_publisher robot_state_publisher --ros-args -p robot_description:=\"$(xacro chiku.urdf.xacro)\"",
+      "interrupted": null,
+      "site": [
+       "[INFO] [robot_state_publisher]: Robot initialized"
+      ],
+      "siteRunning": true,
+      "real": {
+       "out": "[INFO] [1792471533.119704410] [robot_state_publisher]: Robot initialized\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 2,
+    "do": "New tab: `ros2 run joint_state_publisher joint_state_publisher` (no sliders this time)",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "newTerminal",
+      "term": 2
+     },
+     {
+      "kind": "cmd",
+      "term": 2,
+      "cmd": "ros2 run joint_state_publisher joint_state_publisher",
+      "interrupted": null,
+      "site": [
+       "[INFO] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...",
+       "[INFO] [joint_state_publisher]: Got description, configuring robot"
+      ],
+      "siteRunning": true,
+      "real": {
+       "out": "[INFO] [1792471543.209686076] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...\n[INFO] [1792471543.228059986] [joint_state_publisher]: Got description, configuring robot\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 3,
+    "do": "New tab: `rviz2`. Read the Global Status: Frame [map] does not exist.",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "newTerminal",
+      "term": 3
+     },
+     {
+      "kind": "cmd",
+      "term": 3,
+      "cmd": "rviz2",
+      "interrupted": null,
+      "site": [
+       "[INFO] [rviz2]: Stereo is NOT SUPPORTED",
+       "[INFO] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)",
+       "(The RViz2 window opened below the terminal.)"
+      ],
+      "siteRunning": true,
+      "real": {
+       "out": "[INFO] [1792471551.926093110] [rviz2]: Stereo is NOT SUPPORTED\n[INFO] [1792471551.926205234] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)\n[INFO] [1792471552.042694512] [rviz2]: Stereo is NOT SUPPORTED\n",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 4,
+    "do": "Set **Fixed Frame** to `base_footprint`. The error goes away, but there is no robot yet.",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "gui",
+      "sol": {
+       "viz": {
+        "fixedFrame": "base_footprint"
+       }
+      },
+      "log": [
+       "Fixed Frame -> base_footprint"
+      ]
+     }
+    ]
+   },
+   {
+    "task": 5,
+    "do": "**Add** a `RobotModel` display and a `TF` display. A RobotModel added this way starts with an empty **Description Topic** (exactly like RViz2 on Ubuntu): click its value and choose `/robot_description` from the list.",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "gui",
+      "sol": {
+       "viz": {
+        "displays": {
+         "Grid": true,
+         "RobotModel": true,
+         "TF": true
+        },
+        "topics": [
+         "/robot_description"
+        ]
+       }
+      },
+      "log": [
+       "Add RobotModel: added",
+       "Description Topic -> Description Topic/robot_description",
+       "Add TF: added"
+      ]
+     }
+    ]
+   },
+   {
+    "task": 6,
+    "do": "Send a goal: pick the **2D Goal Pose** tool in the toolbar, then press on the grid and drag to set the direction.",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "gui",
+      "sol": {
+       "rvizGoal": [
+        1,
+        0.5,
+        0
+       ]
+      },
+      "log": [
+       "2D Goal Pose drag on the 3D view"
+      ]
+     }
+    ]
+   },
+   {
+    "task": 7,
+    "do": "See the message RViz sent: `ros2 topic echo /goal_pose`",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "newTerminal",
+      "term": 4
+     },
+     {
+      "kind": "cmd",
+      "term": 4,
+      "cmd": "ros2 topic echo /goal_pose",
+      "interrupted": null,
+      "site": [
+       "header:",
+       "  stamp:",
+       "    sec: 1792505679",
+       "    nanosec: 105999946",
+       "  frame_id: base_footprint",
+       "pose:",
+       "  position:",
+       "    x: -0.277940115",
+       "    y: 0.087021281",
+       "    z: 0.0",
+       "  orientation:",
+       "    x: 0.0",
+       "    y: 0.0",
+       "    z: 0.994694273",
+       "    w: 0.102875186",
+       "---"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "",
+       "exit": null,
+       "state": "still running after 8 s"
+      }
+     }
+    ]
+   },
+   {
+    "task": 8,
+    "do": "Save the setup: **File → Save Config As**, type `~/chiku.rviz`, press Save.",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "gui",
+      "sol": {
+       "rvizSave": "~/chiku.rviz"
+      },
+      "log": [
+       "Save Config As ~/chiku.rviz"
+      ]
+     }
+    ]
+   },
+   {
+    "task": 9,
+    "do": "Look at it: `cat ~/chiku.rviz`. Find the Fixed Frame line.",
+    "tick": true,
+    "steps": [
+     {
+      "kind": "cmd",
+      "term": 4,
+      "cmd": "cat ~/chiku.rviz",
+      "interrupted": null,
+      "site": [
+       "Panels:",
+       "  - Class: rviz_common/Displays",
+       "    Help Height: 78",
+       "    Name: Displays",
+       "    Property Tree Widget:",
+       "      Expanded:",
+       "        - /Global Options1",
+       "        - /Status1",
+       "      Splitter Ratio: 0.5",
+       "    Tree Height: 555",
+       "  - Class: rviz_common/Selection",
+       "    Name: Selection",
+       "  - Class: rviz_common/Tool Properties",
+       "    Expanded:",
+       "      - /2D Goal Pose1",
+       "      - /Publish Point1",
+       "    Name: Tool Properties",
+       "    Splitter Ratio: 0.5886790156364441",
+       "  - Class: rviz_common/Views",
+       "    Expanded:",
+       "      - /Current View1",
+       "    Name: Views",
+       "    Splitter Ratio: 0.5",
+       "  - Class: rviz_common/Time",
+       "    Experimental: false",
+       "    Name: Time",
+       "    SyncMode: 0",
+       "    SyncSource: \"\"",
+       "Visualization Manager:",
+       "  Class: \"\"",
+       "  Displays:",
+       "    - Class: rviz_default_plugins/Grid",
+       "      Enabled: true",
+       "      Name: Grid",
+       "      Reference Frame: \"<Fixed Frame>\"",
+       "      Plane Cell Count: 10",
+       "      Normal Cell Count: 0",
+       "      Cell Size: 1",
+       "      Line Style: Lines",
+       "      Line Width: 0.03",
+       "      Color: 160; 160; 164",
+       "      Alpha: 0.5",
+       "      Plane: XY",
+       "      Offset: 0; 0; 0",
+       "      Value: true",
+       "    - Class: rviz_default_plugins/RobotModel",
+       "      Enabled: true",
+       "      Name: RobotModel",
+       "      Visual Enabled: true",
+       "      Collision Enabled: false",
+       "      Mass: false",
+       "      Inertia: false",
+       "      Update Interval: 0",
+       "      Alpha: 1",
+       "      Description Source: Topic",
+       "      Description Topic:",
+       "        Depth: 1",
+       "        Durability Policy: Transient Local",
+       "        History Policy: Keep Last",
+       "        Reliability Policy: Reliable",
+       "        Value: /robot_description",
+       "      TF Prefix: \"\"",
+       "      Value: true",
+       "    - Class: rviz_default_plugins/TF",
+       "      Enabled: true",
+       "      Name: TF",
+       "      Show Names: false",
+       "      Show Axes: true",
+       "      Show Arrows: true",
+       "      Marker Scale: 1",
+       "      Update Interval: 0",
+       "      Frame Timeout: 15",
+       "      Filter (whitelist): \"\"",
+       "      Filter (blacklist): \"\"",
+       "      Value: true",
+       "  Enabled: true",
+       "  Global Options:",
+       "    Background Color: 48; 48; 48",
+       "    Fixed Frame: base_footprint",
+       "    Frame Rate: 30",
+       "  Name: root",
+       "  Tools:",
+       "    - Class: rviz_default_plugins/Interact",
+       "      Hide Inactive Objects: true",
+       "    - Class: rviz_default_plugins/MoveCamera",
+       "    - Class: rviz_default_plugins/Select",
+       "    - Class: rviz_default_plugins/FocusCamera",
+       "    - Class: rviz_default_plugins/Measure",
+       "      Line color: 128; 128; 0",
+       "    - Class: rviz_default_plugins/SetInitialPose",
+       "      Covariance x: 0.25",
+       "      Covariance y: 0.25",
+       "      Covariance yaw: 0.06853891909122467",
+       "      Topic:",
+       "        Depth: 5",
+       "        Durability Policy: Volatile",
+       "        History Policy: Keep Last",
+       "        Reliability Policy: Reliable",
+       "        Value: /initialpose",
+       "    - Class: rviz_default_plugins/SetGoal",
+       "      Topic:",
+       "        Depth: 5",
+       "        Durability Policy: Volatile",
+       "        History Policy: Keep Last",
+       "        Reliability Policy: Reliable",
+       "        Value: /goal_pose",
+       "    - Class: rviz_default_plugins/PublishPoint",
+       "      Single click: true",
+       "      Topic:",
+       "        Depth: 5",
+       "        Durability Policy: Volatile",
+       "        History Policy: Keep Last",
+       "        Reliability Policy: Reliable",
+       "        Value: /clicked_point",
+       "  Transformation:",
+       "    Current:",
+       "      Class: rviz_default_plugins/TF",
+       "  Value: true",
+       "  Views:",
+       "    Current:",
+       "      Class: rviz_default_plugins/Orbit",
+       "      Distance: 1.40279",
+       "      Enable Stereo Rendering:",
+       "        Stereo Eye Separation: 0.05999999865889549",
+       "        Stereo Focal Distance: 1",
+       "        Swap Stereo Eyes: false",
+       "        Value: false",
+       "      Focal Point:",
+       "        X: 0",
+       "        Y: 0",
+       "        Z: 0.135",
+       "      Focal Shape Fixed Size: true",
+       "      Focal Shape Size: 0.05",
+       "      Invert Z Axis: false",
+       "      Name: Current View",
+       "      Near Clip Distance: 0.009999999776482582",
+       "      Pitch: 0.785398",
+       "      Target Frame: <Fixed Frame>",
+       "      Value: Orbit (rviz_default_plugins)",
+       "      Yaw: 0.785398",
+       "    Saved: ~",
+       "Window Geometry:",
+       "  Displays:",
+       "    collapsed: false",
+       "  Height: 846",
+       "  Hide Left Dock: false",
+       "  Hide Right Dock: false",
+       "  Selection:",
+       "    collapsed: false",
+       "  Time:",
+       "    collapsed: false",
+       "  Tool Properties:",
+       "    collapsed: false",
+       "  Views:",
+       "    collapsed: false",
+       "  Width: 1200",
+       "  X: 60",
+       "  Y: 60"
+      ],
+      "siteRunning": false,
+      "real": {
+       "out": "cat: /home/student/chiku.rviz: No such file or directory\n",
+       "exit": 1,
+       "state": "finished"
+      }
+     }
+    ]
+   }
+  ],
+  "allDone": true,
+  "pageErrors": [],
+  "bareOff": null
+ }
+]

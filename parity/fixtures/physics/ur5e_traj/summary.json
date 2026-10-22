@@ -1,0 +1,59 @@
+{
+ "case": "ur5e_traj",
+ "runs": {
+  "run1": {
+   "controller_state_msgs": 3694,
+   "joint_states_msgs": 3700,
+   "result": {
+    "status": 4,
+    "error_code": 0,
+    "error_string": "Goal successfully reached!"
+   },
+   "accepted": true,
+   "joint_states_rate": 500.0675949709342,
+   "controller_state_rate": 500.0677048070413,
+   "shoulder_pan_joint_max_abs_tracking_error": 0.004673037000000005,
+   "shoulder_pan_joint_final_error": 0.0,
+   "shoulder_lift_joint_max_abs_tracking_error": 0.002803821999999956,
+   "shoulder_lift_joint_final_error": 0.0,
+   "elbow_joint_max_abs_tracking_error": 0.0037384290000000014,
+   "elbow_joint_final_error": 0.0
+  },
+  "run2": {
+   "controller_state_msgs": 3934,
+   "joint_states_msgs": 3974,
+   "result": {
+    "status": 4,
+    "error_code": 0,
+    "error_string": "Goal successfully reached!"
+   },
+   "accepted": true,
+   "joint_states_rate": 499.99999999999994,
+   "controller_state_rate": 499.9999999999999,
+   "shoulder_pan_joint_max_abs_tracking_error": 0.004691901000000012,
+   "shoulder_pan_joint_final_error": 0.0,
+   "shoulder_lift_joint_max_abs_tracking_error": 0.002815141000000132,
+   "shoulder_lift_joint_final_error": 0.0,
+   "elbow_joint_max_abs_tracking_error": 0.0037535209999999958,
+   "elbow_joint_final_error": 0.0
+  },
+  "run3": {
+   "controller_state_msgs": 3745,
+   "joint_states_msgs": 3745,
+   "result": {
+    "status": 4,
+    "error_code": 0,
+    "error_string": "Goal successfully reached!"
+   },
+   "accepted": true,
+   "joint_states_rate": 499.9332354119375,
+   "controller_state_rate": 499.9332354119375,
+   "shoulder_pan_joint_max_abs_tracking_error": 0.00464642799999998,
+   "shoulder_pan_joint_final_error": 0.0,
+   "shoulder_lift_joint_max_abs_tracking_error": 0.002787856999999949,
+   "shoulder_lift_joint_final_error": 0.0,
+   "elbow_joint_max_abs_tracking_error": 0.0037171420000000066,
+   "elbow_joint_final_error": 0.0
+  }
+ }
+}

@@ -9,19 +9,19 @@
 .c-own { --c: var(--ink); --c-tint: #EDF0F4; }
 
 .cat-head { padding: 1.6rem 0 .4rem; max-width: 78ch; }
-.cat-kicker { font-family: var(--font-mono); font-size: .8rem; letter-spacing: .02em; color: var(--ink-soft); margin: 0 0 .5rem; }
+.cat-kicker { font-family: var(--font-mono); font-size: var(--fs-sm); letter-spacing: .02em; color: var(--ink-soft); margin: 0 0 .5rem; }
 .cat-head h1 { margin: 0 0 .5rem; }
 .cat-head .lead { color: var(--ink-soft); margin: 0; }
 
 .cat-bar { position: sticky; top: 60px; z-index: 5; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding: .7rem 0; margin: .8rem 0 .4rem;
   background: linear-gradient(var(--paper) 78%, rgba(243, 245, 248, 0)); }
 .cat-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
-.cat-tab { font: inherit; font-size: .92rem; font-weight: 600; display: inline-flex; align-items: center; gap: .45em; padding: .38em .8em; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--ink); cursor: pointer; }
+.cat-tab { font: inherit; font-size: var(--fs-sm); font-weight: 600; display: inline-flex; align-items: center; gap: .45em; padding: .38em .8em; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--ink); cursor: pointer; }
 .cat-tab:hover { border-color: var(--ink-soft); }
 .cat-tab[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
-.cat-n { font-family: var(--font-mono); font-size: .78rem; font-weight: 400; opacity: .7; }
+.cat-n { font-family: var(--font-mono); font-size: var(--fs-xs); font-weight: 400; opacity: .7; }
 .cat-search { margin-left: auto; flex: 0 1 220px; }
-.cat-search input { font: inherit; font-size: .95rem; width: 100%; padding: .42em .75em; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+.cat-search input { font: inherit; font-size: var(--fs-base); width: 100%; padding: .42em .75em; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
 
 .cat-list { scroll-margin-top: 130px; }
 .cat-sec { margin: 1.4rem 0 .6rem; }
@@ -37,12 +37,12 @@
   background: radial-gradient(120% 95% at 50% 15%, #fff 0%, var(--c-tint) 75%); transition: transform .14s ease, box-shadow .14s ease; }
 .cat-hero-tile:nth-child(even) { transform: translateY(14px); }
 .cat-hero-tile img { width: 100%; height: 100%; object-fit: contain; padding: 6% 6% 16%; display: block; }
-.cat-hero-tile span { position: absolute; left: 10px; bottom: 8px; font-size: .75rem; font-weight: 700; color: var(--c); letter-spacing: .01em; }
+.cat-hero-tile span { position: absolute; left: 10px; bottom: 8px; font-size: var(--fs-xs); font-weight: 700; color: var(--c); letter-spacing: .01em; }
 .cat-hero-tile:hover { box-shadow: 0 10px 24px rgba(23,33,47,.12); }
 .cat-hero-tile:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }
 .cat-sec-head { display: grid; grid-template-columns: auto auto 1fr; align-items: baseline; gap: 0 .6rem; border-top: 2px solid var(--c); padding-top: .6rem; margin-bottom: .8rem; }
-.cat-sec-head h2 { margin: 0; font-size: 1.25rem; }
-.cat-sec-head .cat-count { font-family: var(--font-mono); font-size: .85rem; color: var(--c); }
+.cat-sec-head h2 { margin: 0; font-size: var(--fs-lg); }
+.cat-sec-head .cat-count { font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--c); }
 .cat-sec-head p { grid-column: 1 / -1; margin: .15rem 0 0; max-width: 70ch; }
 
 .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
@@ -53,17 +53,17 @@
 .cat-pic { aspect-ratio: 4 / 3; display: grid; place-items: center; background: radial-gradient(120% 90% at 50% 18%, #fff 0%, var(--c-tint) 70%, #fff 120%); border-bottom: 1px solid var(--line-soft); }
 .cat-pic img { width: 100%; height: 100%; object-fit: contain; padding: 3% 4% 1%; transition: transform .25s ease; }
 .cat-card:hover .cat-pic img { transform: scale(1.035); }
-.cat-pic-wait { font-size: .85rem; color: var(--ink-soft); }
+.cat-pic-wait { font-size: var(--fs-sm); color: var(--ink-soft); }
 .cat-pic.drawing { background-image: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.65) 50%, transparent 70%), radial-gradient(120% 90% at 50% 18%, #fff 0%, var(--c-tint) 70%, #fff 120%); background-size: 200% 100%, auto; animation: cat-shine 1.4s linear infinite; }
 @keyframes cat-shine { from { background-position: 150% 0, 0 0; } to { background-position: -50% 0, 0 0; } }
-.cat-pic-own span { font-family: var(--font-mono); font-size: 2.2rem; color: var(--ink-soft); }
+.cat-pic-own span { font-family: var(--font-mono); font-size: var(--fs-2xl); color: var(--ink-soft); }
 .cat-body { padding: .7rem .85rem 2.4rem; }
-.cat-body h3 { font-size: 1rem; margin: 0 0 .25rem; line-height: 1.25; }
-.cat-about { font-size: .85rem; color: var(--ink-soft); margin: 0 0 .5rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.cat-body h3 { font-size: var(--fs-base); margin: 0 0 .25rem; line-height: 1.25; }
+.cat-about { font-size: var(--fs-sm); color: var(--ink-soft); margin: 0 0 .5rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .cat-facts { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px; }
-.cat-facts li { font-size: .72rem; line-height: 1.2; padding: .2em .5em; border-radius: 5px; background: #F1F4F8; color: var(--ink-soft); }
+.cat-facts li { font-size: var(--fs-xs); line-height: 1.2; padding: .2em .5em; border-radius: 5px; background: #F1F4F8; color: var(--ink-soft); }
 .cat-facts li:first-child { background: var(--c-tint); color: var(--ink); font-weight: 600; }
-.cat-open { position: absolute; right: .7rem; bottom: .6rem; font-size: .8rem; font-weight: 700; color: var(--c); }
+.cat-open { position: absolute; right: .7rem; bottom: .6rem; font-size: var(--fs-sm); font-weight: 700; color: var(--c); }
 .cat-card:hover .cat-open { text-decoration: underline; text-underline-offset: 3px; }
 .cat-foot { margin-top: 1.6rem; max-width: 80ch; }
 @media (prefers-reduced-motion: reduce) { .cat-card, .cat-pic img, .cat-hero-tile { transition: none; } .cat-card:hover { transform: none; } .cat-pic.drawing { animation: none; } }
@@ -79,7 +79,6 @@
 .rv-cat { margin: 0 0 .1rem; color: var(--c, var(--ink-soft)); font-weight: 700; font-size: .8rem; text-transform: none; }
 .rv-robot h2 { font-size: 1.1rem; margin: 0 0 .3rem; }
 @media (max-width: 520px) { .rv-robot { grid-template-columns: 1fr; } .rv-pic { max-width: 220px; } }
-@media (max-width: 520px) { .top-nav { flex-wrap: wrap; } }
 
 /* ---------- official ROS 2 Jazzy workspace card (robots with the makers' real packages) ---------- */
 .rvp-real h3 { margin: .9rem 0 .35rem; font-size: .8rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); }

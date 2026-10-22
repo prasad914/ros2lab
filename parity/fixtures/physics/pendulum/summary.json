@@ -1,0 +1,222 @@
+{
+ "case": "pendulum",
+ "runs": {
+  "run1": {
+   "pend_d0": {
+    "source": "joint_state",
+    "samples": 11085,
+    "theta0": 0.5,
+    "period_mean": 2.039925847290602,
+    "n_half_periods": 9,
+    "first_peaks": [
+     0.500000161,
+     0.500000296,
+     0.500000406,
+     0.50000049
+    ],
+    "amplitude_at_end": 0.5000005219999999,
+    "log_decrement": -2.699998764912429e-07,
+    "analytic_small_angle_period": 2.008093217355195,
+    "analytic_period_with_amplitude_0.5": 2.03946967387637
+   },
+   "pend_d01": {
+    "source": "joint_state",
+    "samples": 11086,
+    "theta0": 0.5,
+    "period_mean": 2.028046202813282,
+    "n_half_periods": 9,
+    "first_peaks": [
+     0.451076493,
+     0.407144082,
+     0.367639702,
+     0.332076417,
+     0.300032696
+    ],
+    "amplitude_at_end": 0.32790345600000004,
+    "log_decrement": 0.10246980003583828,
+    "analytic_small_angle_period": 2.008093217355195,
+    "analytic_period_with_amplitude_0.5": 2.03946967387637
+   },
+   "pend_d1": {
+    "source": "joint_state",
+    "samples": 11085,
+    "theta0": 0.5,
+    "period_mean": 2.0366629665352862,
+    "n_half_periods": 9,
+    "first_peaks": [
+     0.17870325599999998,
+     0.064602104,
+     0.023387824999999973,
+     0.008468662000000016
+    ],
+    "amplitude_at_end": 0.008461215999999994,
+    "log_decrement": 1.0174796625630258,
+    "analytic_small_angle_period": 2.008093217355195,
+    "analytic_period_with_amplitude_0.5": 2.03946967387637
+   },
+   "pend_spring": {
+    "source": "joint_state",
+    "samples": 11085,
+    "theta0": 0.5,
+    "period_mean": 1.4231635123773547,
+    "n_half_periods": 13,
+    "first_peaks": [
+     0.496435663,
+     0.492895531,
+     0.489382885,
+     0.485895214,
+     0.482433007,
+     0.47899611200000003
+    ],
+    "amplitude_at_end": 0.47899611200000003,
+    "log_decrement": 0.00715664709899322,
+    "analytic_small_angle_period": 1.4127467340052546,
+    "analytic_period_with_amplitude_0.5": null
+   }
+  },
+  "run2": {
+   "pend_d0": {
+    "source": "joint_state",
+    "samples": 11153,
+    "theta0": 0.5,
+    "period_mean": 2.039925847290602,
+    "n_half_periods": 9,
+    "first_peaks": [
+     0.500000161,
+     0.500000296,
+     0.500000406,
+     0.50000049
+    ],
+    "amplitude_at_end": 0.5000005219999999,
+    "log_decrement": -2.699998764912429e-07,
+    "analytic_small_angle_period": 2.008093217355195,
+    "analytic_period_with_amplitude_0.5": 2.03946967387637
+   },
+   "pend_d01": {
+    "source": "joint_state",
+    "samples": 11153,
+    "theta0": 0.5,
+    "period_mean": 2.028046202813282,
+    "n_half_periods": 9,
+    "first_peaks": [
+     0.451076493,
+     0.407144082,
+     0.367639702,
+     0.332076417
+    ],
+    "amplitude_at_end": 0.332074076,
+    "log_decrement": 0.10246980003583828,
+    "analytic_small_angle_period": 2.008093217355195,
+    "analytic_period_with_amplitude_0.5": 2.03946967387637
+   },
+   "pend_d1": {
+    "source": "joint_state",
+    "samples": 11153,
+    "theta0": 0.5,
+    "period_mean": 2.0366629665352862,
+    "n_half_periods": 9,
+    "first_peaks": [
+     0.17870325599999998,
+     0.064602104,
+     0.023387824999999973,
+     0.008468662000000016
+    ],
+    "amplitude_at_end": 0.008468662000000016,
+    "log_decrement": 1.0174796625630258,
+    "analytic_small_angle_period": 2.008093217355195,
+    "analytic_period_with_amplitude_0.5": 2.03946967387637
+   },
+   "pend_spring": {
+    "source": "joint_state",
+    "samples": 11153,
+    "theta0": 0.5,
+    "period_mean": 1.4231635123773547,
+    "n_half_periods": 13,
+    "first_peaks": [
+     0.496435663,
+     0.492895531,
+     0.489382885,
+     0.485895214,
+     0.482433007,
+     0.47899611200000003
+    ],
+    "amplitude_at_end": 0.47899611200000003,
+    "log_decrement": 0.00715664709899322,
+    "analytic_small_angle_period": 1.4127467340052546,
+    "analytic_period_with_amplitude_0.5": null
+   }
+  },
+  "run3": {
+   "pend_d0": {
+    "source": "joint_state",
+    "samples": 11120,
+    "theta0": 0.5,
+    "period_mean": 2.039925847290602,
+    "n_half_periods": 9,
+    "first_peaks": [
+     0.500000161,
+     0.500000296,
+     0.500000406,
+     0.50000049
+    ],
+    "amplitude_at_end": 0.5000005219999999,
+    "log_decrement": -2.699998764912429e-07,
+    "analytic_small_angle_period": 2.008093217355195,
+    "analytic_period_with_amplitude_0.5": 2.03946967387637
+   },
+   "pend_d01": {
+    "source": "joint_state",
+    "samples": 11119,
+    "theta0": 0.5,
+    "period_mean": 2.028046202813282,
+    "n_half_periods": 9,
+    "first_peaks": [
+     0.451076493,
+     0.407144082,
+     0.367639702,
+     0.332076417
+    ],
+    "amplitude_at_end": 0.331486742,
+    "log_decrement": 0.10246980003583828,
+    "analytic_small_angle_period": 2.008093217355195,
+    "analytic_period_with_amplitude_0.5": 2.03946967387637
+   },
+   "pend_d1": {
+    "source": "joint_state",
+    "samples": 11119,
+    "theta0": 0.5,
+    "period_mean": 2.0366629665352862,
+    "n_half_periods": 9,
+    "first_peaks": [
+     0.17870325599999998,
+     0.064602104,
+     0.023387824999999973,
+     0.008468662000000016
+    ],
+    "amplitude_at_end": 0.008468662000000016,
+    "log_decrement": 1.0174796625630258,
+    "analytic_small_angle_period": 2.008093217355195,
+    "analytic_period_with_amplitude_0.5": 2.03946967387637
+   },
+   "pend_spring": {
+    "source": "joint_state",
+    "samples": 11120,
+    "theta0": 0.5,
+    "period_mean": 1.4231635123773547,
+    "n_half_periods": 13,
+    "first_peaks": [
+     0.496435663,
+     0.492895531,
+     0.489382885,
+     0.485895214,
+     0.482433007,
+     0.47899611200000003
+    ],
+    "amplitude_at_end": 0.47899611200000003,
+    "log_decrement": 0.00715664709899322,
+    "analytic_small_angle_period": 1.4127467340052546,
+    "analytic_period_with_amplitude_0.5": null
+   }
+  }
+ }
+}

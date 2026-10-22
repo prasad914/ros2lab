@@ -1,0 +1,53 @@
+{
+ "case": "noinertial",
+ "runs": {
+  "run1": {
+   "model_info": {
+    "box_noinertial": "\nRequesting state for world [noinertial]...\n\n- Link [9]\n  - Name: link\n  - Parent: box_noinertial [8]\n  - Mass (kg): 1.000000\n  - Inertial Pose [ XYZ (m) ] [ RPY (rad) ]:\n    [0.000000 0.000000 0.000000]\n    [0.000000 -0.000000 0.000000]\n  - Inertial Matrix (kg.m^2):\n    [1.000000 0.000000 0.000000]\n    [0.000000 1.000000 0.000000]\n    [0.000000 0.000000 1.000000]\n  - Pose [ XYZ (m) ] [ RPY (rad) ]:\n    [0.000000 0.000000 0.000000]\n    [0.000000 -0.000000 0.000000]\n",
+    "box_ref": "\nRequesting state for world [noinertial]...\n\n- Link [13]\n  - Name: link\n  - Parent: box_ref [12]\n  - Mass (kg): 1.000000\n  - Inertial Pose [ XYZ (m) ] [ RPY (rad) ]:\n    [0.000000 0.000000 0.000000]\n    [0.000000 -0.000000 0.000000]\n  - Inertial Matrix (kg.m^2):\n    [0.006667 0.000000 0.000000]\n    [0.000000 0.006667 0.000000]\n    [0.000000 0.000000 0.006667]\n  - Pose [ XYZ (m) ] [ RPY (rad) ]:\n    [0.000000 0.000000 0.000000]\n    [0.000000 -0.000000 0.000000]\n"
+   },
+   "box_noinertial": {
+    "v_after_1Ns_impulse": 0.9901999999998893,
+    "z_rest_before_push": 0.09999915299999997,
+    "mass_effective": 1.0098969905070811
+   },
+   "box_ref": {
+    "v_after_1Ns_impulse": 0.9902000000001092,
+    "z_rest_before_push": 0.09999914499999998,
+    "mass_effective": 1.0098969905068569
+   }
+  },
+  "run2": {
+   "model_info": {
+    "box_noinertial": "\nRequesting state for world [noinertial]...\n\n- Link [9]\n  - Name: link\n  - Parent: box_noinertial [8]\n  - Mass (kg): 1.000000\n  - Inertial Pose [ XYZ (m) ] [ RPY (rad) ]:\n    [0.000000 0.000000 0.000000]\n    [0.000000 -0.000000 0.000000]\n  - Inertial Matrix (kg.m^2):\n    [1.000000 0.000000 0.000000]\n    [0.000000 1.000000 0.000000]\n    [0.000000 0.000000 1.000000]\n  - Pose [ XYZ (m) ] [ RPY (rad) ]:\n    [0.000000 0.000000 0.000000]\n    [0.000000 -0.000000 0.000000]\n",
+    "box_ref": "\nRequesting state for world [noinertial]...\n\n- Link [13]\n  - Name: link\n  - Parent: box_ref [12]\n  - Mass (kg): 1.000000\n  - Inertial Pose [ XYZ (m) ] [ RPY (rad) ]:\n    [0.000000 0.000000 0.000000]\n    [0.000000 -0.000000 0.000000]\n  - Inertial Matrix (kg.m^2):\n    [0.006667 0.000000 0.000000]\n    [0.000000 0.006667 0.000000]\n    [0.000000 0.000000 0.006667]\n  - Pose [ XYZ (m) ] [ RPY (rad) ]:\n    [0.000000 0.000000 0.000000]\n    [0.000000 -0.000000 0.000000]\n"
+   },
+   "box_noinertial": {
+    "v_after_1Ns_impulse": 0.9902000000001092,
+    "z_rest_before_push": 0.09999915299999997,
+    "mass_effective": 1.0098969905068569
+   },
+   "box_ref": {
+    "v_after_1Ns_impulse": 0.9902000000001092,
+    "z_rest_before_push": 0.09999914499999998,
+    "mass_effective": 1.0098969905068569
+   }
+  },
+  "run3": {
+   "model_info": {
+    "box_noinertial": "\nRequesting state for world [noinertial]...\n\n- Link [9]\n  - Name: link\n  - Parent: box_noinertial [8]\n  - Mass (kg): 1.000000\n  - Inertial Pose [ XYZ (m) ] [ RPY (rad) ]:\n    [0.000000 0.000000 0.000000]\n    [0.000000 -0.000000 0.000000]\n  - Inertial Matrix (kg.m^2):\n    [1.000000 0.000000 0.000000]\n    [0.000000 1.000000 0.000000]\n    [0.000000 0.000000 1.000000]\n  - Pose [ XYZ (m) ] [ RPY (rad) ]:\n    [0.000000 0.000000 0.000000]\n    [0.000000 -0.000000 0.000000]\n",
+    "box_ref": "\nRequesting state for world [noinertial]...\n\n- Link [13]\n  - Name: link\n  - Parent: box_ref [12]\n  - Mass (kg): 1.000000\n  - Inertial Pose [ XYZ (m) ] [ RPY (rad) ]:\n    [0.000000 0.000000 0.000000]\n    [0.000000 -0.000000 0.000000]\n  - Inertial Matrix (kg.m^2):\n    [0.006667 0.000000 0.000000]\n    [0.000000 0.006667 0.000000]\n    [0.000000 0.000000 0.006667]\n  - Pose [ XYZ (m) ] [ RPY (rad) ]:\n    [0.000000 0.000000 0.000000]\n    [0.000000 -0.000000 0.000000]\n"
+   },
+   "box_noinertial": {
+    "v_after_1Ns_impulse": 0.9902000000001092,
+    "z_rest_before_push": 0.09999915299999997,
+    "mass_effective": 1.0098969905068569
+   },
+   "box_ref": {
+    "v_after_1Ns_impulse": 0.9902000000001092,
+    "z_rest_before_push": 0.09999914499999998,
+    "mass_effective": 1.0098969905068569
+   }
+  }
+ }
+}

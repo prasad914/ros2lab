@@ -1,24 +1,18 @@
-// The robot catalog of the Robotic Models Simulator: the gallery robots by category, each with its picture. A robot
-// opens in this window (rviz.html?robot=<id>) with a workspace of its own, so two robots never share packages.
-import { gallery } from "./rviz-block.js";
+// The robot catalog of the Robotic Models Simulator (rviz.html without ?robot=): the TurtleBot3 course robots, then the
+// gallery robots by category. A card opens the robot info page (robot.html?id=<id>); its button opens the workbench
+// (rviz.html?robot=<id>), where each robot has a workspace of its own, so two robots never share packages.
+import { h, firstSentence, loadRobots, statusOf, statusBadge, sensorsOf, sensorKind, facts, picture } from "./robot-info.js";
 
 export const CATEGORIES = [
-  { id: "manipulator", title: "Manipulators", blurb: "Arms on a fixed base: plan with MoveIt 2, pick and place, follow trajectories." },
   { id: "mobile", title: "Mobile robots", blurb: "Wheeled robots: differential, car-like and mecanum drives with lidar, camera and IMU." },
+  { id: "manipulator", title: "Manipulators", blurb: "Arms on a fixed base: plan with MoveIt 2, pick and place, follow trajectories." },
   { id: "legged", title: "Legged robots and humanoids", blurb: "Quadrupeds, a hexapod and humanoids: many joints, a floating base." },
-  { id: "drone", title: "Drones", blurb: "Multirotors that fly in Gazebo with velocity control." },
+  { id: "drone", title: "Drones", blurb: "Multirotors with velocity control." },
   { id: "hybrid", title: "Hybrid robots", blurb: "An arm on a mobile base or on legs: navigation and manipulation in one robot." },
 ];
 // robots listed before index.json had a category
 const GUESS = [[/arm|ur5|fr3|gen3|xarm|lite6|cr5|magician|so101|wx250|irb|kr6|lrmate/, "manipulator"], [/manipulator/, "hybrid"], [/quad.*copter|crazyflie|drone/, "drone"], [/quadruped|hexapod|humanoid|go2|g1|h1|spot|legged/, "legged"]];
 export const categoryOf = (g) => g.category || (GUESS.find(([re]) => re.test(g.id)) || [, "mobile"])[1];
-
-const h = (tag, attrs = {}, ...kids) => {
-  const e = document.createElement(tag);
-  for (const [k, v] of Object.entries(attrs)) { if (v == null || v === false) continue; if (k === "text") e.textContent = v; else if (k === "class") e.className = v; else if (k.startsWith("on")) e.addEventListener(k.slice(2), v); else e.setAttribute(k, v === true ? "" : v); }
-  for (const c of kids.flat()) if (c != null && c !== false) e.append(c.nodeType ? c : document.createTextNode(String(c)));
-  return e;
-};
 
 // a robot opens in this same window (rviz.html?robot=<id>); each robot still has its own workspace, so two robots
 // never share packages. Ctrl/Cmd/middle click still lets the browser open a tab.
@@ -28,66 +22,60 @@ export function openRobot(id, ev) {
   location.href = `rviz.html?robot=${encodeURIComponent(id)}`;
 }
 
-let OFFICIAL = new Set();   // gallery ids with an official ROS 2 Jazzy workspace (public/robots/ws/index.json)
-let NO_GAZEBO = new Set();   // ... whose page has no Gazebo simulation (index.json gazebo: false, e.g. Scout, Crazyflie)
-const facts = (g) => {
-  const out = [];
-  if (OFFICIAL.has(g.id)) out.push("Official Jazzy workspace");
-  if (g.vendor) out.push(g.vendor); else out.push("ROS2Lab course robot");
-  if (g.moveit) out.push("MoveIt 2");
-  const arm = g.category === "manipulator" || /arm/.test(g.id);
-  if (!NO_GAZEBO.has(g.id)) out.push(arm ? "Gazebo + ros2_control" : "Gazebo sensors");
-  else if (arm) out.push("ros2_control");
-  return out;
-};
-const firstSentence = (t) => { const m = String(t || "").match(/^.*?[.!?](\s|$)/); return (m ? m[0] : String(t || "")).trim(); };
+const shortTitle = (c) => c.title.replace(" and humanoids", " & humanoids");
+const TB3 = ["tb3_burger", "tb3_waffle", "tb3_waffle_pi"];
+const infoUrl = (id) => `robot.html?id=${encodeURIComponent(id)}`;
 
-// pictures: the shipped one, else drawn here once (one at a time, when the card scrolls into view)
-let queue = Promise.resolve();
-function picture(g) {
-  const fig = h("div", { class: "cat-pic" });
-  const img = h("img", { src: `img/robots/${g.id}.webp`, alt: `${g.title}`, loading: "lazy", width: "400", height: "300", decoding: "async" });
-  img.addEventListener("error", () => {
-    img.remove(); fig.classList.add("drawing"); fig.append(h("span", { class: "cat-pic-wait", text: "Drawing the robot…" }));
-    const io = new IntersectionObserver((en) => {
-      if (!en[0].isIntersecting) return; io.disconnect();
-      queue = queue.then(async () => {
-        try { const { robotPicture } = await import("./robot-thumb.js"); const url = await robotPicture(g); fig.replaceChildren(h("img", { src: url, alt: g.title, width: "400", height: "300" })); }
-        catch { fig.replaceChildren(h("span", { class: "cat-pic-wait", text: g.title })); }
-        fig.classList.remove("drawing");
-      });
-    }, { rootMargin: "200px" });
-    io.observe(fig);
-  }, { once: true });
-  fig.append(img);
-  return fig;
-}
-
-function card(g) {
+function card(g, data) {
   const cat = categoryOf(g);
-  const a = h("a", { class: `cat-card c-${cat}`, href: `rviz.html?robot=${encodeURIComponent(g.id)}`, "data-id": g.id, onclick: (e) => openRobot(g.id, e), "aria-label": `${g.title}: open the simulator` },
+  const sens = sensorsOf(g);
+  const a = h("a", { class: `cat-card c-${cat}`, href: infoUrl(g.id), "data-id": g.id, "aria-label": `${g.title}: robot information` },
     picture(g),
     h("div", { class: "cat-body" },
+      h("span", { class: "cat-st" }, statusBadge(g)),
       h("h3", { text: g.title }),
       h("p", { class: "cat-about", text: firstSentence(g.about) }),
-      h("ul", { class: "cat-facts" }, ...facts(g).map((f) => h("li", { text: f })))),
+      h("ul", { class: "cat-facts" }, ...facts(g, data).map((f) => h("li", { text: f })))),
     h("span", { class: "cat-open", "aria-hidden": "true", text: "Open →" }));
-  a.dataset.search = `${g.title} ${g.vendor || ""} ${g.id} ${g.about || ""} ${cat}`.toLowerCase();
+  a.dataset.search = `${g.title} ${g.vendor || ""} ${g.id} ${g.about || ""} ${cat} ${statusOf(g) === "course" ? "course robot" : "under test"} ${sens.map((s) => `${s.name || ""} ${s.type || ""} ${sensorKind(s)}`).join(" ")}`.toLowerCase();
   return a;
 }
 
 export async function mountCatalog() {
-  const [list, wsIdx] = await Promise.all([gallery(), fetch("/robots/ws/index.json").then((r) => (r.ok ? r.json() : { workspaces: {} })).catch(() => ({ workspaces: {} }))]);
-  OFFICIAL = new Set(Object.values(wsIdx.workspaces || {}).flatMap((w) => w.robots || []));
-  NO_GAZEBO = new Set(Object.values(wsIdx.workspaces || {}).filter((w) => w.gazebo === false).flatMap((w) => w.robots || []));
-  const tabs = document.getElementById("cat-tabs"), box = document.getElementById("cat-list"), q = document.getElementById("cat-q");
+  const data = await loadRobots();
+  const list = data.list;
+  const tabs = document.getElementById("cat-tabs"), box = document.getElementById("cat-list"), q = document.getElementById("cat-q"), feat = document.getElementById("cat-feat");
   const by = new Map(CATEGORIES.map((c) => [c.id, []]));
   for (const g of list) { const c = categoryOf(g); if (!by.has(c)) by.set(c, []); by.get(c).push(g); }
   // the course's own robots first in each category, then the makers' robots
   for (const arr of by.values()) arr.sort((a, b) => (!!a.vendor - !!b.vendor));
+
+  // the featured TurtleBot3 panel: the three course robots
+  const tb3 = TB3.map((id) => list.find((g) => g.id === id)).filter(Boolean);
+  feat.dataset.search = `turtlebot3 tb3 course robot ${tb3.map((g) => `${g.title} ${sensorsOf(g).map(sensorKind).join(" ")}`).join(" ")}`.toLowerCase();
+  feat.querySelector(".feat-r").replaceChildren(...tb3.map((g) => {
+    const kinds = [...new Set(sensorsOf(g).map(sensorKind))];
+    return h("a", { class: "fcard cat-card", href: infoUrl(g.id), "data-id": g.id },
+      picture(g, "fpic"),
+      h("b", { text: g.title.replace("TurtleBot3 ", "") }),
+      h("span", { text: kinds.length ? `Sensors: ${kinds.join(", ")}` : "Sensors: UNKNOWN" }),
+      h("ul", { class: "cat-facts" }, ...facts(g, data).map((f) => h("li", { text: f }))));
+  }));
+
+  const tbRef = () => {
+    const a = h("a", { class: "cat-card tbref", href: "#cat-feat", "aria-label": "TurtleBot3 Burger, Waffle and Waffle Pi: shown at the top of this page" },
+      h("div", { class: "cat-body" },
+        h("span", { class: "cat-st" }, h("span", { class: "st st-ok", text: "Course robot" })),
+        h("h3", { text: "TurtleBot3 Burger, Waffle and Waffle Pi" }),
+        h("p", { class: "cat-about", text: "The course robots are shown at the top of this page." })),
+      h("span", { class: "cat-open", "aria-hidden": "true", text: "Go there ↑" }));
+    a.dataset.search = feat.dataset.search;
+    a.addEventListener("click", (e) => { e.preventDefault(); feat.scrollIntoView({ block: "start", behavior: "smooth" }); feat.focus({ preventScroll: true }); });
+    return a;
+  };
   const sections = CATEGORIES.filter((c) => by.get(c.id).length).map((c) => h("section", { class: `cat-sec c-${c.id}`, id: `cat-${c.id}`, "data-cat": c.id, "aria-labelledby": `cat-h-${c.id}` },
-    h("header", { class: "cat-sec-head" }, h("h2", { id: `cat-h-${c.id}`, text: c.title }), h("span", { class: "cat-count", text: `${by.get(c.id).length}` }), h("p", { class: "muted small", text: c.blurb })),
-    h("div", { class: "cat-grid" }, ...by.get(c.id).map(card))));
+    h("header", { class: "cat-sec-head" }, h("h2", { id: `cat-h-${c.id}`, text: shortTitle(c) }), h("span", { class: "cat-count", text: `${by.get(c.id).length}` }), h("p", { class: "muted small", text: c.blurb })),
+    h("div", { class: "cat-grid" }, ...by.get(c.id).filter((g) => !TB3.includes(g.id)).map((g) => card(g, data)), c.id === "mobile" ? tbRef() : null)));
   const own = h("section", { class: "cat-sec c-own", "data-cat": "own" },
     h("header", { class: "cat-sec-head" }, h("h2", { text: "Your own robot" }), h("p", { class: "muted small", text: "Open your .urdf / .urdf.xacro and mesh files, or a package folder, with a workspace of its own. Nothing is uploaded: the files stay on your computer." })),
     h("div", { class: "cat-grid" }, h("a", { class: "cat-card cat-own", href: "rviz.html?robot=own", onclick: (e) => openRobot("own", e) },
@@ -95,30 +83,28 @@ export async function mountCatalog() {
       h("div", { class: "cat-body" }, h("h3", { text: "My robot package" }), h("p", { class: "cat-about", text: "Your URDF, built and launched like the others." })),
       h("span", { class: "cat-open", "aria-hidden": "true", text: "Open →" }))));
   box.replaceChildren(...sections, own);
-  // the category tabs filter the list; "All" shows every section
-  let active = "all";
-  const tabBtn = (id, title, n) => h("button", { type: "button", class: "cat-tab", "data-cat": id, "aria-pressed": id === active ? "true" : "false", onclick: () => { active = id; paint(); } }, title, n != null ? h("span", { class: "cat-n", text: String(n) }) : null);
-  tabs.replaceChildren(tabBtn("all", "All", list.length), ...CATEGORIES.filter((c) => by.get(c.id).length).map((c) => tabBtn(c.id, c.title.replace(" and humanoids", " & humanoids"), by.get(c.id).length)));
-  const paint = () => {
+
+  // the category tabs filter the list; "All" shows every section. A first visit shows only the course robots (the
+  // TurtleBot3 panel) with a "Show all" button (docs/redesign/reviews/webdesign.md #9); typing a filter searches them all.
+  let active = "course";
+  const more = h("p", { class: "cat-more" }, h("button", { type: "button", class: "btn btn-sec", onclick: () => { active = "all"; paint(true); tabs.querySelector("button[data-cat=all]").focus(); } }, `Show all ${list.length} robots`));
+  box.before(more);
+  const tabBtn = (id, title, n) => h("button", { type: "button", class: "cat-tab", "data-cat": id, "aria-pressed": id === active ? "true" : "false", onclick: () => { active = id; paint(true); } }, title, n != null ? h("span", { class: "cat-n", text: String(n) }) : null);
+  tabs.replaceChildren(tabBtn("all", "All", list.length), ...CATEGORIES.filter((c) => by.get(c.id).length).map((c) => tabBtn(c.id, shortTitle(c), by.get(c.id).length)));
+  const paint = (save) => {
     const term = (q.value || "").trim().toLowerCase();
+    const only = active === "course" && !term;
+    more.hidden = !only; box.hidden = only;
     tabs.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.cat === active ? "true" : "false"));
+    feat.hidden = !!term && !feat.dataset.search.includes(term);
     for (const s of box.querySelectorAll(".cat-sec")) {
       let shown = 0;
       for (const c of s.querySelectorAll(".cat-card")) { const ok = !term || (c.dataset.search || "").includes(term) || c.classList.contains("cat-own"); c.hidden = !ok; shown += ok && !c.classList.contains("cat-own") ? 1 : 0; }
-      s.hidden = !(active === "all" || s.dataset.cat === active || (s.dataset.cat === "own" && active === "all")) || (term && !shown && s.dataset.cat !== "own");
+      s.hidden = !(active === "all" || active === "course" || s.dataset.cat === active || (s.dataset.cat === "own" && active === "all")) || (term && !shown && s.dataset.cat !== "own");
     }
-    try { localStorage.setItem("ros2lab.sim.tab", active); } catch { /* off */ }
+    if (save) try { localStorage.setItem("ros2lab.sim.tab", active); } catch { /* off */ }
   };
-  q.addEventListener("input", paint);
-  // the hero: one robot of each kind; a tile shows that category
-  const head = document.querySelector(".cat-head");
-  if (head && !head.querySelector(".cat-hero")) {
-    const pickOne = (cat, pref) => (by.get(cat) || []).find((g) => g.id === pref) || (by.get(cat) || []).find((g) => g.vendor) || (by.get(cat) || [])[0];
-    const tiles = [["manipulator", "ur5e"], ["mobile", "tb3_burger"], ["legged", "spot"], ["drone", "crazyflie"]].map(([cat, pref]) => [CATEGORIES.find((c) => c.id === cat), pickOne(cat, pref)]).filter(([, g]) => g);
-    head.append(h("div", { class: "cat-hero" }, ...tiles.map(([c, g]) => h("button", { type: "button", class: `cat-hero-tile c-${c.id}`, "aria-label": `Show ${c.title}`, onclick: () => { active = c.id; q.value = ""; paint(); document.getElementById("cat-list").scrollIntoView({ block: "start", behavior: "smooth" }); } },
-      h("img", { src: `img/robots/${g.id}.webp`, alt: "", width: "400", height: "300", decoding: "async", onerror: (e) => { e.target.remove(); } }),
-      h("span", { text: c.title.replace(" and humanoids", "") })))));
-  }
+  q.addEventListener("input", () => paint());
   try { const t = localStorage.getItem("ros2lab.sim.tab"); if (t && (t === "all" || by.has(t))) active = t; } catch { /* off */ }
   const hash = location.hash.replace("#", ""); if (by.has(hash)) active = hash;
   paint();

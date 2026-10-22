@@ -1,0 +1,57 @@
+{
+ "lesson": "UR7",
+ "term": "code1",
+ "title": "Lesson code block commands: view_ur.launch.py ur_type:=ur5e (sudo apt line PENDING: ur_description already installed here)",
+ "sourced": true,
+ "running": [],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/UR7_tcode1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T22:12:10+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 launch ur_description view_ur.launch.py ur_type:=ur5e",
+   "out": "[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-19-22-12-12-117180-prasad-1214172\n[INFO] [launch]: Default logging verbosity is set to INFO\n[INFO] [joint_state_publisher_gui-1]: process started with pid [1214184]\n[INFO] [rviz2-2]: process started with pid [1214185]\n[INFO] [robot_state_publisher-3]: process started with pid [1214186]\n[robot_state_publisher-3] [INFO] [1792428133.167605500] [robot_state_publisher]: Robot initialized\n[rviz2-2] [INFO] [1792428133.747429753] [rviz2]: Stereo is NOT SUPPORTED\n[rviz2-2] [INFO] [1792428133.747603393] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)\n[rviz2-2] [INFO] [1792428133.894188468] [rviz2]: Stereo is NOT SUPPORTED\n[joint_state_publisher_gui-1] [INFO] [1792428134.412465007] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...\n[joint_state_publisher_gui-1] [INFO] [1792428134.453209608] [joint_state_publisher]: Centering\n[joint_state_publisher_gui-1] [INFO] [1792428134.634588750] [joint_state_publisher]: Got description, configuring robot\n[joint_state_publisher_gui-1] [INFO] [1792428134.682986026] [joint_state_publisher]: Centering\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 1,
+   "term": 2,
+   "kind": "newTerminal",
+   "status": "RAN"
+  },
+  {
+   "task": 1,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 node list",
+   "out": "/joint_state_publisher\n/robot_state_publisher\n/rviz\n/transform_listener_impl_64fe29c17b50\n",
+   "exit": 0,
+   "secs": 1.8,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "term": 1,
+   "kind": "interrupt-at-end",
+   "of": "ros2 launch ur_description view_ur.launch.py ur_type:=ur5e",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-19-22-12-12-117180-prasad-1214172\n[INFO] [launch]: Default logging verbosity is set to INFO\n[INFO] [joint_state_publisher_gui-1]: process started with pid [1214184]\n[INFO] [rviz2-2]: process started with pid [1214185]\n[INFO] [robot_state_publisher-3]: process started with pid [1214186]\n[robot_state_publisher-3] [INFO] [1792428133.167605500] [robot_state_publisher]: Robot initialized\n[rviz2-2] [INFO] [1792428133.747429753] [rviz2]: Stereo is NOT SUPPORTED\n[rviz2-2] [INFO] [1792428133.747603393] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)\n[rviz2-2] [INFO] [1792428133.894188468] [rviz2]: Stereo is NOT SUPPORTED\n[joint_state_publisher_gui-1] [INFO] [1792428134.412465007] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...\n[joint_state_publisher_gui-1] [INFO] [1792428134.453209608] [joint_state_publisher]: Centering\n[joint_state_publisher_gui-1] [INFO] [1792428134.634588750] [joint_state_publisher]: Got description, configuring robot\n[joint_state_publisher_gui-1] [INFO] [1792428134.682986026] [joint_state_publisher]: Centering\n[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)\n[robot_state_publisher-3] [INFO] [1792428142.951946866] [rclcpp]: signal_handler(SIGINT/SIGTERM)\n[rviz2-2] [INFO] [1792428142.953562702] [rclcpp]: signal_handler(SIGINT/SIGTERM)\n[ERROR] [joint_state_publisher_gui-1]: process has died [pid 1214184, exit code -2, cmd '/opt/ros/jazzy/lib/joint_state_publisher_gui/joint_state_publisher_gui --ros-args'].\n[INFO] [robot_state_publisher-3]: process has finished cleanly [pid 1214186]\n[INFO] [rviz2-2]: process has finished cleanly [pid 1214185]\n",
+   "exit": 0,
+   "status": "RAN"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T22:12:24+0530"
+}

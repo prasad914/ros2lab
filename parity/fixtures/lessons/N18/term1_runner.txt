@@ -1,0 +1,163 @@
+# Excerpt of parity/fixtures/lessons/N18/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-20T10:26:35+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson N18 terminal 1: Live terminal: launch one robot, then two
+2:# scratch HOME /home/prasad/lesson_ws/homes/N18_t1 shown as /home/student; sourced=True running=[] start=~/ros2_ws
+3:## [term 1] $ colcon build --packages-select chiku_control   (exit=0, 3.9 s, finished, cwd=/home/student/ros2_ws)
+4:[0.3s] [0/0 complete]
+5:                     
+6:Starting >>> chiku_control
+7:[0.4s] [0/1 complete] [chiku_control - 0.1s]
+8:                                            
+9:[0.5s] [0/1 complete] [chiku_control - 0.2s]
+10:                                            
+11:[0.6s] [0/1 complete] [chiku_control - 0.3s]
+12:                                            
+13:[0.7s] [0/1 complete] [chiku_control - 0.4s]
+14:                                            
+15:[0.8s] [0/1 complete] [chiku_control - 0.5s]
+16:                                            
+17:[0.9s] [0/1 complete] [chiku_control - 0.6s]
+18:                                            
+19:[1.0s] [0/1 complete] [chiku_control - 0.7s]
+20:                                            
+21:[1.1s] [0/1 complete] [chiku_control - 0.8s]
+22:                                            
+23:[1.3s] [0/1 complete] [chiku_control - 0.9s]
+24:                                            
+25:[1.4s] [0/1 complete] [chiku_control - 1.0s]
+26:                                            
+27:[1.5s] [0/1 complete] [chiku_control - 1.1s]
+28:                                            
+29:[1.6s] [0/1 complete] [chiku_control - 1.2s]
+30:                                            
+31:[1.7s] [0/1 complete] [chiku_control - 1.3s]
+32:                                            
+33:[1.8s] [0/1 complete] [chiku_control - 1.4s]
+34:                                            
+35:[1.9s] [0/1 complete] [chiku_control - 1.5s]
+36:                                            
+37:[2.0s] [0/1 complete] [chiku_control - 1.6s]
+38:                                            
+39:[2.1s] [0/1 complete] [chiku_control - 1.7s]
+40:                                            
+41:[2.2s] [0/1 complete] [chiku_control - 1.8s]
+42:                                            
+43:[2.3s] [0/1 complete] [chiku_control - 1.9s]
+44:                                            
+45:[2.4s] [0/1 complete] [chiku_control - 2.0s]
+46:                                            
+47:[2.5s] [0/1 complete] [chiku_control - 2.1s]
+48:                                            
+49:[2.6s] [0/1 complete] [chiku_control - 2.2s]
+50:                                            
+51:[2.7s] [0/1 complete] [chiku_control - 2.3s]
+52:                                            
+53:[2.8s] [0/1 complete] [chiku_control - 2.4s]
+54:                                            
+55:[2.9s] [0/1 complete] [chiku_control - 2.5s]
+56:                                            
+57:[3.0s] [0/1 complete] [chiku_control - 2.6s]
+58:                                            
+59:[3.1s] [0/1 complete] [chiku_control - 2.7s]
+60:                                            
+61:[3.2s] [0/1 complete] [chiku_control - 2.8s]
+62:                                            
+63:[3.3s] [0/1 complete] [chiku_control - 2.9s]
+64:                                            
+65:[3.4s] [0/1 complete] [chiku_control - 3.0s]
+66:                                            
+67:Finished <<< chiku_control [3.10s]
+68:
+69:Summary: 1 package finished [3.44s]
+70:
+71:## [term 1] $ source install/setup.bash   (exit=0, 0.9 s, finished, cwd=/home/student/ros2_ws)
+72:
+73:## [term 1] $ ros2 launch chiku_control turtle_goal.launch.py --show-args   (exit=0, 1.5 s, finished, cwd=/home/student/ros2_ws)
+74:Arguments (pass arguments as '<name>:=<value>'):
+75:
+76:    'goal_x':
+77:        Goal x in metres
+78:        (default: '8.0')
+79:
+80:    'goal_y':
+81:        Goal y in metres
+82:        (default: '8.0')
+83:
+84:## [term 1] $ ros2 launch chiku_control turtle_goal.launch.py goal_x:=3.0 goal_y:=3.0   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student/ros2_ws)
+85:[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-20-10-25-11-052682-prasad-1330854
+86:[INFO] [launch]: Default logging verbosity is set to INFO
+87:[INFO] [turtlesim_node-1]: process started with pid [1330864]
+88:[INFO] [go_to_goal-2]: process started with pid [1330865]
+89:[turtlesim_node-1] [INFO] [1792472111.251294036] [sim]: Starting turtlesim with node name /sim
+90:[turtlesim_node-1] [INFO] [1792472111.260142233] [sim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+91:[go_to_goal-2] [INFO] [1792472115.940277590] [go_to_goal]: Goal reached: x=3.08 y=3.05
+92:
+93:## [new terminal 2]
+94:## [term 2] $ cd ~/ros2_ws   (exit=0, 0.0 s, finished, cwd=/home/student/ros2_ws)
+95:
+96:## [term 2] $ source install/setup.bash   (exit=0, 0.8 s, finished, cwd=/home/student/ros2_ws)
+97:
+98:## [term 2] $ ros2 param get /go_to_goal goal_x   (exit=0, 1.6 s, finished, cwd=/home/student/ros2_ws)
+99:Double value is: 3.0
+100:
+101:## [term 2] $ ros2 launch chiku_control two_robots.launch.xml with_monitor:=false   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student/ros2_ws)
+102:[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-20-10-25-24-382438-prasad-1330945
+103:[INFO] [launch]: Default logging verbosity is set to INFO
+104:[INFO] [turtlesim_node-1]: process started with pid [1330948]
+105:[INFO] [go_to_goal-2]: process started with pid [1330949]
+106:[INFO] [turtlesim_node-3]: process started with pid [1330950]
+107:[INFO] [go_to_goal-4]: process started with pid [1330951]
+108:[turtlesim_node-1] [INFO] [1792472124.836663390] [robot1.sim]: Starting turtlesim with node name /robot1/sim
+109:[turtlesim_node-3] [INFO] [1792472124.846526567] [robot2.sim]: Starting turtlesim with node name /robot2/sim
+110:[turtlesim_node-1] [INFO] [1792472124.850870200] [robot1.sim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+111:[turtlesim_node-3] [INFO] [1792472124.859161305] [robot2.sim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+112:[go_to_goal-4] [INFO] [1792472130.086824582] [robot2.go_to_goal]: Goal reached: x=8.94 y=2.07
+113:[go_to_goal-2] [INFO] [1792472131.102187055] [robot1.go_to_goal]: Goal reached: x=2.08 y=8.95
+114:
+115:## [new terminal 3]
+116:## [term 3] $ ros2 node list   (exit=0, 1.0 s, finished, cwd=/home/student)
+117:/go_to_goal
+118:/robot1/go_to_goal
+119:/robot1/sim
+120:/robot2/go_to_goal
+121:/robot2/sim
+122:/sim
+123:
+124:## [term 3] $ ros2 param get /robot2/go_to_goal goal_x   (exit=0, 1.9 s, finished, cwd=/home/student)
+125:Double value is: 9.0
+126:
+127:## [term 1] Ctrl+C to stop: ros2 launch chiku_control turtle_goal.launch.py goal_x:=3.0 goal_y:=3.0  (exit=0)
+128:[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-20-10-25-11-052682-prasad-1330854
+129:[INFO] [launch]: Default logging verbosity is set to INFO
+130:[INFO] [turtlesim_node-1]: process started with pid [1330864]
+131:[INFO] [go_to_goal-2]: process started with pid [1330865]
+132:[turtlesim_node-1] [INFO] [1792472111.251294036] [sim]: Starting turtlesim with node name /sim
+133:[turtlesim_node-1] [INFO] [1792472111.260142233] [sim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+134:[go_to_goal-2] [INFO] [1792472115.940277590] [go_to_goal]: Goal reached: x=3.08 y=3.05
+135:[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+136:[turtlesim_node-1] [INFO] [1792472137.209189028] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+137:[INFO] [turtlesim_node-1]: process has finished cleanly [pid 1330864]
+138:[INFO] [go_to_goal-2]: process has finished cleanly [pid 1330865]
+139:
+140:## [term 2] Ctrl+C to stop: ros2 launch chiku_control two_robots.launch.xml with_monitor:=false  (exit=0)
+141:[INFO] [launch]: All log files can be found below /home/student/.ros/log/2026-10-20-10-25-24-382438-prasad-1330945
+142:[INFO] [launch]: Default logging verbosity is set to INFO
+143:[INFO] [turtlesim_node-1]: process started with pid [1330948]
+144:[INFO] [go_to_goal-2]: process started with pid [1330949]
+145:[INFO] [turtlesim_node-3]: process started with pid [1330950]
+146:[INFO] [go_to_goal-4]: process started with pid [1330951]
+147:[turtlesim_node-1] [INFO] [1792472124.836663390] [robot1.sim]: Starting turtlesim with node name /robot1/sim
+148:[turtlesim_node-3] [INFO] [1792472124.846526567] [robot2.sim]: Starting turtlesim with node name /robot2/sim
+149:[turtlesim_node-1] [INFO] [1792472124.850870200] [robot1.sim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+150:[turtlesim_node-3] [INFO] [1792472124.859161305] [robot2.sim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+151:[go_to_goal-4] [INFO] [1792472130.086824582] [robot2.go_to_goal]: Goal reached: x=8.94 y=2.07
+152:[go_to_goal-2] [INFO] [1792472131.102187055] [robot1.go_to_goal]: Goal reached: x=2.08 y=8.95
+153:[WARNING] [launch]: user interrupted with ctrl-c (SIGINT)
+154:[turtlesim_node-3] [INFO] [1792472137.650740673] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+155:[turtlesim_node-1] [INFO] [1792472137.651785369] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+156:[INFO] [turtlesim_node-1]: process has finished cleanly [pid 1330948]
+157:[INFO] [turtlesim_node-3]: process has finished cleanly [pid 1330950]
+158:[INFO] [go_to_goal-4]: process has finished cleanly [pid 1330951]
+159:[INFO] [go_to_goal-2]: process has finished cleanly [pid 1330949]
+160:

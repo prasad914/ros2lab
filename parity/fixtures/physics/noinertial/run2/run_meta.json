@@ -1,0 +1,16 @@
+{
+ "case": "noinertial",
+ "run": 2,
+ "world_file": "parity/scripts/physics/worlds/noinertial.sdf",
+ "gz_partition": "phys50_noinertial_2_1221330",
+ "ros_domain_id": "50",
+ "server_cmd": "gz sim -s -v 4 /home/prasad/ros2lab-course/parity/scripts/physics/worlds/noinertial.sdf",
+ "unpause_reply": "data: true",
+ "wall_seconds_after_unpause": 3.78,
+ "server_exit": null,
+ "model_info": {
+  "box_noinertial": "\nRequesting state for world [noinertial]...\n\n- Link [9]\n  - Name: link\n  - Parent: box_noinertial [8]\n  - Mass (kg): 1.000000\n  - Inertial Pose [ XYZ (m) ] [ RPY (rad) ]:\n    [0.000000 0.000000 0.000000]\n    [0.000000 -0.000000 0.000000]\n  - Inertial Matrix (kg.m^2):\n    [1.000000 0.000000 0.000000]\n    [0.000000 1.000000 0.000000]\n    [0.000000 0.000000 1.000000]\n  - Pose [ XYZ (m) ] [ RPY (rad) ]:\n    [0.000000 0.000000 0.000000]\n    [0.000000 -0.000000 0.000000]\n",
+  "box_ref": "\nRequesting state for world [noinertial]...\n\n- Link [13]\n  - Name: link\n  - Parent: box_ref [12]\n  - Mass (kg): 1.000000\n  - Inertial Pose [ XYZ (m) ] [ RPY (rad) ]:\n    [0.000000 0.000000 0.000000]\n    [0.000000 -0.000000 0.000000]\n  - Inertial Matrix (kg.m^2):\n    [0.006667 0.000000 0.000000]\n    [0.000000 0.006667 0.000000]\n    [0.000000 0.000000 0.006667]\n  - Pose [ XYZ (m) ] [ RPY (rad) ]:\n    [0.000000 0.000000 0.000000]\n    [0.000000 -0.000000 0.000000]\n"
+ },
+ "date": "2026-10-19T22:19:20+0530"
+}

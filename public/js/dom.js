@@ -69,3 +69,22 @@ export function svg(tag, attrs = {}, ...kids) {
 }
 
 export const reducedMotion = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// Shows a form message. With `input`, the message moves under that field (and the field is marked invalid);
+// without it, the message goes back to where it was placed in the form. Only the position changes, not the checks.
+let fieldErrN = 0;
+export function placeError(n, msg, input = null) {
+  if (!n.id) n.id = `field-err-${++fieldErrN}`;
+  if (!n._home && n.parentNode) { n._home = document.createComment("message"); n.before(n._home); }
+  for (const x of document.querySelectorAll(`[aria-describedby="${n.id}"]`)) { x.removeAttribute("aria-invalid"); x.removeAttribute("aria-describedby"); }
+  n.textContent = msg; n.hidden = !msg;
+  const row = msg && input ? input.closest(".form-row, .consent") : null;
+  if (row) {
+    if (row.classList.contains("consent")) row.after(n); else row.append(n);
+    n.classList.add("field-err");
+    input.setAttribute("aria-invalid", "true"); input.setAttribute("aria-describedby", n.id);
+  } else {
+    n.classList.remove("field-err");
+    if (n._home && n._home.parentNode) n._home.after(n);
+  }
+}

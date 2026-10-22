@@ -9,34 +9,57 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Lexend:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/app.css">
 <link rel="stylesheet" href="css/sim.css">
+<link rel="stylesheet" href="css/theme.css">
 </head>
 <body>
+<!-- site-header: written by tools/build-chrome.mjs, edit it there -->
+<a class="skip" href="#main">Skip to content</a>
 <header class="top"><div class="wrap">
-  <a class="brand" href="index.html"><img class="brand-logo" src="img/logo-axes.svg" alt="" width="36" height="36"><span>ROS2Lab <small>ROS 2 for beginners</small></span></a>
-  <nav class="top-nav" aria-label="Site">
-    <a href="index.html">Home</a>
-    <a href="playground.html">Playground</a>
-    <a href="rviz.html" aria-current="page">Simulator</a>
-    <a href="resources.html">Free resources</a>
+  <a class="brand" href="index.html" aria-label="ROS2Lab home"><img src="img/logo-axes.svg" alt="" width="34" height="34"><span><b>ROS2Lab</b><small>Robotics &amp; ROS 2 Lab</small></span></a>
+  <nav id="nav" aria-label="Main">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="courses.html">Courses</a></li>
+      <li><a href="rviz.html" aria-current="page">Simulator</a></li>
+      <li><a href="playground.html">Playground</a></li>
+      <li><a href="course.html">Student portal</a></li>
+      <li><a href="index.html#faq">Help</a></li>
+      <li class="nav-reg"><a href="register.html">Register free</a></li>
+    </ul>
+    <form class="search" role="search" action="index.html">
+      <input id="site-q" name="q" type="search" list="site-pages" placeholder="Search, e.g. Week 4" aria-label="Search the site" autocomplete="off">
+      <button type="submit" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M11 11l4 4" stroke="currentColor" stroke-width="2"/></svg></button>
+      <datalist id="site-pages"></datalist>
+    </form>
   </nav>
-  <div class="top-right" id="who"><a class="btn btn-white btn-small" href="signin.html">Log in</a><a class="btn btn-small" href="register.html">Register</a></div>
+  <div class="top-right" id="who"><a class="login" href="signin.html">Log in</a><a class="btn btn-main" href="register.html">Register free</a></div>
+  <button class="burger" type="button" aria-controls="nav" aria-expanded="false" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 5h16M2 10h16M2 15h16" stroke="currentColor" stroke-width="2"/></svg></button>
 </div></header>
-<main class="wrap rvp">
+<!-- /site-header -->
+<main id="main" class="wrap rvp">
   <section id="catalog" class="cat" aria-labelledby="cat-title" hidden>
-    <div class="cat-head">
-      <p class="cat-kicker">ROS 2 Jazzy · Gazebo Harmonic · MoveIt 2</p>
-      <h1 id="cat-title">Robotic Models Simulator</h1>
-      <p class="lead">Pick a robot. It opens right here, with its own ROS 2 workspace: only that robot's packages (description, Gazebo, MoveIt, bringup), a terminal, RViz, Gazebo and VS Code. Each robot has a separate workspace, as if each were on its own Ubuntu computer.</p>
+    <div class="pagehead"><div class="wrap">
+      <p class="crumbs"><a href="index.html">Home</a> › Robot simulator</p>
+      <div class="simhead">
+        <div><h1 id="cat-title">Robot simulator</h1><p class="lede">Open a robot in RViz and Gazebo in your browser. Each robot gets its own ROS&#160;2 Jazzy workspace.</p></div>
+        <label class="simq"><span>Filter robots</span><input id="cat-q" type="search" placeholder="Search robots, e.g. UR5e, lidar" autocomplete="off"></label>
+      </div>
+    </div></div>
+    <div class="wrap simbody">
+      <section class="feat" id="cat-feat" tabindex="-1" aria-labelledby="feat-h">
+        <div class="feat-t"><span class="lbl cert">Course robot</span><h2 id="feat-h">TurtleBot3</h2><p>The robot used in the course. Drive it, read its lidar and camera, and try SLAM and Nav2 in Gazebo.</p></div>
+        <div class="feat-r"></div>
+      </section>
+      <p class="simtop"><b>New here?</b> Start with <a href="robot.html?id=tb3_burger">TurtleBot3 Burger</a>, the robot from the course. <span class="st st-test">Under test</span> means the robot opens in the simulator but has no lessons yet.</p>
+      <div class="cat-bar">
+        <nav class="cat-tabs" id="cat-tabs" aria-label="Robot categories"></nav>
+      </div>
+      <div id="cat-list" class="cat-list" aria-live="polite"></div>
+      <p class="small muted cat-foot">Each robot keeps its own settings. The robot models come from their makers' public ROS repositories (licences are in each package); the pictures are drawn from the same URDF and meshes you will launch.</p>
     </div>
-    <div class="cat-bar">
-      <nav class="cat-tabs" id="cat-tabs" aria-label="Robot categories"></nav>
-      <label class="cat-search"><span class="sr-only">Find a robot</span><input id="cat-q" type="search" placeholder="Find a robot or maker" autocomplete="off"></label>
-    </div>
-    <div id="cat-list" class="cat-list" aria-live="polite"></div>
-    <p class="small muted cat-foot">Each robot keeps its own settings. The robot models come from their makers' public ROS repositories (licences are in each package); the pictures are drawn from the same URDF and meshes you will launch.</p>
   </section>
 
   <div id="bench" hidden>
@@ -126,11 +149,17 @@
   </details>
   </div>
 </main>
-<footer class="site-foot"><div class="wrap"><span>ROS2Lab: a free ROS 2 course for students and engineers</span>
-  <span class="credit">Developed by the Robotics and ROS2 lab Channel</span>
-  <a href="terms.html">Terms of Use</a>
-  <a href="privacy.html">Privacy notice</a></div></footer>
+<!-- site-footer: written by tools/build-chrome.mjs, edit it there -->
+<footer class="site-foot"><div class="wrap">
+  <div><h2 class="fh">ROS2Lab · Robotics &amp; ROS 2 Lab</h2><p>Online robotics courses for beginners, with a terminal, simulator and RViz in the browser.</p>
+    <a class="chan" id="yt-foot" href="https://youtu.be/-tL0dp7Kloc" target="_blank" rel="noopener"><img src="img/logo-axes.svg" alt="" width="28" height="28" loading="lazy">From the Robotics &amp; ROS 2 Lab YouTube channel</a></div>
+  <div><h2 class="fh">Courses</h2><a href="courses.html">All courses</a><a href="plan.html">Certificate course</a><a href="modelling.html">Robot modelling &amp; RViz</a></div>
+  <div><h2 class="fh">Students</h2><a href="course.html">Student portal</a><a href="rviz.html">Simulator</a><a href="playground.html">Playground</a><a href="certificate.html">Verify a certificate</a></div>
+  <div><h2 class="fh">About</h2><a href="index.html#channel">About ROS2Lab</a><a href="index.html#faq">Help</a><a href="terms.html">Terms of Use</a><a href="privacy.html">Privacy notice</a></div>
+  <div class="bottom"><span>© 2026 Robotics &amp; ROS 2 Lab</span><span>ROS 2 Jazzy · Gazebo Harmonic</span></div>
+</div></footer>
+<!-- /site-footer -->
 <script type="module" src="js/sim-entry.js"></script>
-<script type="module" src="js/who.js"></script>
+<script type="module" src="js/chrome.js"></script>
 </body>
 </html>

@@ -1,0 +1,107 @@
+{
+ "lesson": "D7",
+ "term": 1,
+ "title": "Practice: turn turtlesim's knobs",
+ "sourced": true,
+ "running": [
+  "turtlesim",
+  "teleop"
+ ],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/D7_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:30:55+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 param list",
+   "out": "/teleop_turtle:\n  qos_overrides./parameter_events.publisher.depth\n  qos_overrides./parameter_events.publisher.durability\n  qos_overrides./parameter_events.publisher.history\n  qos_overrides./parameter_events.publisher.reliability\n  scale_angular\n  scale_linear\n  start_type_description_service\n  use_sim_time\n/turtlesim:\n  background_b\n  background_g\n  background_r\n  holonomic\n  qos_overrides./parameter_events.publisher.depth\n  qos_overrides./parameter_events.publisher.durability\n  qos_overrides./parameter_events.publisher.history\n  qos_overrides./parameter_events.publisher.reliability\n  start_type_description_service\n  use_sim_time\n",
+   "exit": 0,
+   "secs": 2.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 param get /turtlesim background_g",
+   "out": "Integer value is: 86\n",
+   "exit": 0,
+   "secs": 2.1,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 param set /turtlesim background_r 150",
+   "out": "Set parameter successful\n",
+   "exit": 0,
+   "secs": 2.4,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 param set /turtlesim background_r 1.5",
+   "out": "Setting parameter failed: Wrong parameter type, parameter {background_r} is of type {integer}, setting it to {double} is not allowed.\n",
+   "exit": 0,
+   "secs": 2.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 param dump /turtlesim > turtlesim.yaml",
+   "out": "",
+   "exit": 0,
+   "secs": 2.2,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 6,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "cat turtlesim.yaml",
+   "out": "/turtlesim:\n  ros__parameters:\n    background_b: 255\n    background_g: 86\n    background_r: 150\n    holonomic: false\n    qos_overrides:\n      /parameter_events:\n        publisher:\n          depth: 1000\n          durability: volatile\n          history: keep_last\n          reliability: reliable\n    start_type_description_service: true\n    use_sim_time: false\n\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  }
+ ],
+ "pre": [
+  {
+   "name": "turtlesim",
+   "cmd": "ros2 run turtlesim turtlesim_node",
+   "out": "[INFO] [1792425657.651584828] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792425657.661538837] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
+   "state": "still running after 4 s"
+  },
+  {
+   "name": "teleop",
+   "cmd": "ros2 run turtlesim turtle_teleop_key",
+   "out": "Reading from keyboard\n---------------------------\nUse arrow keys to move the turtle.\nUse g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.\n'q' to quit.\n",
+   "state": "still running after 4 s"
+  }
+ ],
+ "notes": [
+  "pre-running terminal 100 output during block: ",
+  "pre-running terminal 101 output during block: "
+ ],
+ "finished": "2026-10-19T21:31:25+0530"
+}

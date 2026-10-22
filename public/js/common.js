@@ -2,8 +2,9 @@
 import { screenGuard } from "./guard.js";
 import { auth, db, onAuthStateChanged, signOut, getIdTokenResult, reload, doc, getDoc, updateDoc, serverTimestamp } from "./fb.js";
 import { CONSENT_VERSION } from "./firebase-config.js";
-import { el, rich, toast, passwordBox } from "./dom.js";
-export { el, rich, toast, passwordBox };
+import { el, rich, toast, passwordBox, placeError } from "./dom.js";
+import { paintWho } from "./chrome.js";
+export { el, rich, toast, passwordBox, placeError };
 
 export const qs = (name) => new URLSearchParams(location.search).get(name);
 export const fmtDate = (ts) => {
@@ -155,13 +156,9 @@ export function ensureConsent(user, profile) {
 }
 
 export function renderWho(user, profile, claims) {
-  const slot = document.getElementById("who");
-  if (!slot) return;
-  slot.replaceChildren(...[
-    el("div", { class: "who" }, el("b", { text: (profile && profile.fullName) || user.displayName || "Signed in" }), user.email),
-    claims && claims.admin ? el("a", { class: "btn btn-white btn-small", href: "admin.html", text: "Instructor" }) : null,
-    el("button", { class: "btn btn-white btn-small", type: "button", onclick: signOutNow, text: "Log out" }),
-  ].filter(Boolean));
+  const c = claims || {};
+  const stage = c.admin ? "admin" : c.status === "approved" ? "approved" : c.status === "expired" || c.status === "cancelled" ? "expired" : "pending";
+  paintWho({ name: (profile && profile.fullName) || user.displayName, email: user.email, stage, admin: !!c.admin, signOut: signOutNow });
 }
 
 // ---------- watermark with the student's identity ----------
@@ -204,11 +201,7 @@ export function protectPage({ onEvent, allowTyping = true } = {}) {
   });
 }
 
+// The site footer is stamped into every page (tools/build-chrome.mjs); pages that still append footer() get nothing.
 export function footer() {
-  return el("footer", { class: "site-foot" }, el("div", { class: "wrap" },
-    el("span", { text: "ROS2Lab: a free ROS 2 course for students and engineers" }),
-    el("span", { class: "credit", text: "Developed by the Robotics and ROS2 lab Channel" }),
-    el("a", { href: "terms.html", text: "Terms of Use" }),
-    el("a", { href: "privacy.html", text: "Privacy notice" }),
-    el("a", { href: "account.html", text: "My account" })));
+  return document.createDocumentFragment();
 }

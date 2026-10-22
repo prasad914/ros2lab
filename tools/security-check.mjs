@@ -39,7 +39,7 @@ for (const f of pub) {
 
 // 3) HTML sinks: only files whose HTML strings are fixed text or escaped (reviewed by hand).
 const SINK = /\.(innerHTML|outerHTML)\s*=|insertAdjacentHTML\(|document\.write\(|\bnew Function\(|[^.\w]eval\(/;
-const REVIEWED = new Set(["public/js/rviz.js", "public/js/vscode.js", "public/js/terminal-sim.js", "public/js/games/art.js", "public/js/puzzles.js"]);   // fixed SVG/HTML text or esc() only
+const REVIEWED = new Set(["public/js/rviz.js", "public/js/vscode.js", "public/js/terminal-sim.js", "public/js/games/art.js", "public/js/puzzles.js", "public/js/lab.js"]);   // fixed SVG/HTML text or esc() only
 for (const f of pub.filter((x) => /public\/js\/.*\.m?js$/.test(x) && !x.includes("/vendor/"))) {
   const rel = relative(root, f);
   readFileSync(f, "utf8").split("\n").forEach((line, i) => {

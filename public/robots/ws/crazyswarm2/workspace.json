@@ -208,8 +208,9 @@
   ],
   "sim_note": "Crazyswarm2's simulator is its own Python node (crazyflie_sim), not Gazebo. Bitcraze's Gazebo Harmonic model (bitcraze/crazyflie-simulation) is not a ROS 2 package and its ROS bridge (knmcguire/ros_gz_crazyflie) is a personal Humble demo, so there is no official ROS 2 Jazzy + Gazebo launch.",
   "teleop": {
-   "title": "Keyboard velocity control (needs crazyflie launch running)",
-   "cmd": "ros2 launch crazyflie_examples keyboard_velmux_launch.py"
+   "title": "Keyboard velocity control (real Crazyflie)",
+   "cmd": "ros2 launch crazyflie_examples keyboard_velmux_launch.py",
+   "hw": "the real radio (cpp backend)"
   },
   "real": {
    "title": "Real Crazyflie (Crazyradio)",

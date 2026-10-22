@@ -1,4 +1,4 @@
-import { db, doc, getDoc, setDoc, updateDoc, serverTimestamp } from "./fb.js";
+import { db, collection, doc, getDoc, getDocs, setDoc, updateDoc, serverTimestamp } from "./fb.js";
 import { el, rich, qs, requireMember, watermark, watermarkLines, protectPage, friendlyError, footer } from "./common.js";
 import { renderLesson } from "./lesson-render.js";
 
@@ -43,6 +43,12 @@ function fail(msg) {
   document.title = `${lesson.title} | ROS2Lab`;
 
   // ---------- layout ----------
+  const core = CORE_MODULES.includes(lesson.moduleId);
+  const wk = Number(String(mod.short || mod.title || "").replace(/^Week\s*(\d+).*$/i, "$1")) || mod.week || null;
+  const day = pos >= 0 ? list[pos].day : null;
+  const crumbs = el("div", { class: "pagehead" }, el("div", { class: "wrap" }, el("p", { class: "crumbs" },
+    el("a", { href: "index.html", text: "Home" }), " › ", el("a", { href: core ? "plan.html" : "modelling.html", text: core ? "Certificate course" : "Robot modelling & RViz" }),
+    wk ? [" › ", el("a", { href: `${core ? "plan.html" : "modelling.html"}#wk${wk}`, text: `Week ${wk}` })] : null, " › ", lesson.title)));
   const meterFill = el("span");
   const meterText = el("span", { class: "muted small" });
   const top = el("div", { class: "lesson-top" }, el("div", { class: "narrow" },
@@ -52,20 +58,43 @@ function fail(msg) {
   const completeMsg = el("p", { style: { margin: 0 } });
   const completeBtn = el("button", { class: "btn", type: "button", text: "Mark lesson complete", disabled: true });
   const completeBar = el("div", { class: "complete-bar" }, el("div", {}, el("h3", { style: { margin: 0 }, text: "Finish this lesson" }), completeMsg), completeBtn);
-  const nav = el("div", { class: "q-actions", style: { justifyContent: "space-between" } },
-    prev ? el("a", { class: "btn btn-white", href: `lesson.html?id=${encodeURIComponent(prev.id)}`, text: `Previous: ${prev.title}` }) : el("span"),
-    next ? el("a", { class: "btn btn-white", href: `lesson.html?id=${encodeURIComponent(next.id)}`, text: `Next: ${next.title}` }) : el("a", { class: "btn btn-white", href: "course.html", text: "Back to course" }));
 
-  main.replaceChildren(top,
-    el("div", { class: "narrow", "data-mod": lesson.moduleId },
-      el("header", { class: "lesson-hero" },
-        el("div", { class: "kicker", text: `${mod.short || mod.title || ""}: lesson ${pos + 1} of ${list.length}` }),
-        el("h1", { text: lesson.title }),
-        CORE_MODULES.includes(lesson.moduleId) ? null : el("p", { class: "chip going", style: { display: "inline-block", margin: "0 0 8px" }, text: "Introductory experience (Weeks 7 to 9): not part of the certificate" }),
-        lesson.summary ? el("p", { class: "lead muted" }, rich(lesson.summary)) : null,
-        el("p", { class: "small muted", text: `About ${lesson.minutes || 15} minutes. Do the practice parts; they are where the learning happens.` })),
-      body, completeBar, nav),
-    footer());
+  // left list: this week's lessons, ticked once the student's progress has loaded (a failed read just leaves the list unticked)
+  const doneIds = new Set(prog.status === "completed" ? [id] : []);
+  const navLabel = el("p", { class: "navlabel", text: mod.title || mod.short || "This week" });
+  const navMeter = el("div", { class: "side-prog", hidden: true });
+  const sideNav = el("nav", { class: "sidenav", "aria-label": `${mod.short || mod.title || "Week"} lessons` });
+  const paintNav = () => {
+    sideNav.replaceChildren(navLabel, ...list.map((l) => el("a", { href: `lesson.html?id=${encodeURIComponent(l.id)}`, class: doneIds.has(l.id) ? "done" : null, "aria-current": l.id === id ? "page" : null, text: l.title })), navMeter);
+    const n = list.filter((l) => doneIds.has(l.id)).length;
+    navMeter.hidden = !list.length;
+    navMeter.replaceChildren(el("span", { class: "meta", text: `${n} of ${list.length} lessons done` }), el("div", { class: "bar-meter", role: "img", "aria-label": `${list.length ? Math.round((n / list.length) * 100) : 0}% of this week's lessons done` }, el("i", { style: { width: `${list.length ? Math.round((n / list.length) * 100) : 0}%` } })));
+  };
+  paintNav();
+  getDocs(collection(db, "progress", user.uid, "lessonProgress")).then((snap) => {
+    snap.docs.forEach((d) => { if (d.data().status === "completed") doneIds.add(d.id); });
+    paintNav();
+  }).catch(() => {});
+
+  // sticky Previous / Next bar. Next stays a link (the site has never locked it); while tasks are open the bar says why the lesson is not complete yet.
+  const nextWhy = el("span", { class: "why", id: "nextwhy" });
+  const prevLink = prev ? el("a", { class: "lprev", href: `lesson.html?id=${encodeURIComponent(prev.id)}`, title: prev.title }, el("span", { "aria-hidden": "true", text: "‹ " }), el("span", { class: "lt", text: `Previous: ${prev.title}` })) : el("span", { class: "lprev" });
+  const nextLink = next ? el("a", { class: "btn btn-main", href: `lesson.html?id=${encodeURIComponent(next.id)}`, "aria-describedby": "nextwhy", title: next.title }, el("span", { class: "lt", text: `Next: ${next.title}` }), el("span", { "aria-hidden": "true", text: "›" }))
+    : el("a", { class: "btn btn-main", href: "course.html", "aria-describedby": "nextwhy", text: "Back to course" });
+  const nav = el("div", { class: "pager" }, el("div", { class: "wrap" }, prevLink, nextWhy, nextLink));
+
+  main.classList.add("v3lesson");
+  main.replaceChildren(crumbs, top,
+    el("div", { class: "wrap" }, el("div", { class: "lessonwrap" }, sideNav,
+      el("article", { class: "article", "data-mod": lesson.moduleId },
+        el("header", { class: "lesson-hero" },
+          el("p", { class: "meta kicker-line", text: `${mod.short || mod.title || ""}: lesson ${pos + 1} of ${list.length}${day ? ` · Day ${day}` : ""}` }),
+          el("h1", { text: lesson.title }),
+          core ? null : el("p", { class: "chip going", style: { display: "inline-block", margin: "0 0 8px" }, text: "Introductory experience (Weeks 7 to 9): not part of the certificate" }),
+          lesson.summary ? el("p", { class: "lead lede" }, rich(lesson.summary)) : null,
+          el("p", { class: "small muted", text: `About ${lesson.minutes || 15} minutes. Do the practice parts; they are where the learning happens.` })),
+        body, completeBar))),
+    nav, footer());
 
   // ---------- render blocks + activity tracking ----------
   let activity = { total: 0, done: 0 };
@@ -96,6 +125,8 @@ function fail(msg) {
     const pct = activity.total ? Math.round((activity.done / activity.total) * 100) : 100;
     meterFill.style.width = pct + "%";
     meterText.textContent = activity.total ? `${activity.done} of ${activity.total} practice parts` : "";
+    const open = completed ? 0 : activity.total - activity.done;
+    nextWhy.textContent = open > 0 ? `Finish ${open} more task${open > 1 ? "s" : ""} to complete this lesson` : completed ? "Lesson complete" : "All tasks done. Mark the lesson complete above.";
     if (completed) {
       completeBtn.disabled = true; completeBtn.textContent = "Lesson completed";
       completeMsg.replaceChildren(document.createTextNode("Well done! "), next ? el("a", { href: `lesson.html?id=${encodeURIComponent(next.id)}`, text: `Go to the next lesson: ${next.title}` }) : el("a", { href: "course.html", text: "Back to the course page" }));
@@ -110,7 +141,7 @@ function fail(msg) {
     completeBtn.disabled = true;
     try {
       await updateDoc(pref, { status: "completed", completedAt: serverTimestamp(), lastUpdate: serverTimestamp() });
-      completed = true; lastFlush = Date.now(); paint();
+      completed = true; doneIds.add(id); paintNav(); lastFlush = Date.now(); paint();
     } catch (e) { completeMsg.textContent = friendlyError(e); completeBtn.disabled = false; }
   });
   paint();

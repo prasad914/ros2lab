@@ -1,0 +1,218 @@
+# Excerpt of parity/fixtures/lessons/N4/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson N4 terminal 1: Live terminal: change the log level
+2:# scratch HOME /home/prasad/lesson_ws/homes/N4_t1 shown as /home/student; sourced=True running=[] start=~/ros2_ws
+3:## [term 1] $ colcon build --packages-select chiku_control   (exit=0, 4.4 s, finished, cwd=/home/student/ros2_ws)
+4:[0.4s] [0/0 complete]
+5:                     
+6:Starting >>> chiku_control
+7:[0.5s] [0/1 complete] [chiku_control - 0.1s]
+8:                                            
+9:[0.6s] [0/1 complete] [chiku_control - 0.2s]
+10:                                            
+11:[0.7s] [0/1 complete] [chiku_control - 0.3s]
+12:                                            
+13:[0.8s] [0/1 complete] [chiku_control - 0.4s]
+14:                                            
+15:[0.9s] [0/1 complete] [chiku_control - 0.5s]
+16:                                            
+17:[1.0s] [0/1 complete] [chiku_control - 0.6s]
+18:                                            
+19:[1.1s] [0/1 complete] [chiku_control - 0.7s]
+20:                                            
+21:[1.2s] [0/1 complete] [chiku_control - 0.8s]
+22:                                            
+23:[1.3s] [0/1 complete] [chiku_control - 0.9s]
+24:                                            
+25:[1.4s] [0/1 complete] [chiku_control - 1.0s]
+26:                                            
+27:[1.5s] [0/1 complete] [chiku_control - 1.1s]
+28:                                            
+29:[1.6s] [0/1 complete] [chiku_control - 1.2s]
+30:                                            
+31:[1.7s] [0/1 complete] [chiku_control - 1.3s]
+32:                                            
+33:[1.8s] [0/1 complete] [chiku_control - 1.4s]
+34:                                            
+35:[1.9s] [0/1 complete] [chiku_control - 1.5s]
+36:                                            
+37:[2.0s] [0/1 complete] [chiku_control - 1.6s]
+38:                                            
+39:[2.1s] [0/1 complete] [chiku_control - 1.7s]
+40:                                            
+41:[2.2s] [0/1 complete] [chiku_control - 1.8s]
+42:                                            
+43:[2.3s] [0/1 complete] [chiku_control - 1.9s]
+44:                                            
+45:[2.4s] [0/1 complete] [chiku_control - 2.0s]
+46:                                            
+47:[2.5s] [0/1 complete] [chiku_control - 2.1s]
+48:                                            
+49:[2.6s] [0/1 complete] [chiku_control - 2.2s]
+50:                                            
+51:[2.7s] [0/1 complete] [chiku_control - 2.3s]
+52:                                            
+53:[2.8s] [0/1 complete] [chiku_control - 2.4s]
+54:                                            
+55:[2.9s] [0/1 complete] [chiku_control - 2.5s]
+56:                                            
+57:[3.0s] [0/1 complete] [chiku_control - 2.6s]
+58:                                            
+59:[3.1s] [0/1 complete] [chiku_control - 2.7s]
+60:                                            
+61:[3.2s] [0/1 complete] [chiku_control - 2.8s]
+62:                                            
+63:[3.3s] [0/1 complete] [chiku_control - 2.9s]
+64:                                            
+65:[3.4s] [0/1 complete] [chiku_control - 3.0s]
+66:                                            
+67:[3.5s] [0/1 complete] [chiku_control - 3.1s]
+68:                                            
+69:[3.6s] [0/1 complete] [chiku_control - 3.2s]
+70:                                            
+71:Finished <<< chiku_control [3.25s]
+72:
+73:Summary: 1 package finished [3.68s]
+74:
+75:## [term 1] $ source install/setup.bash   (exit=0, 0.9 s, finished, cwd=/home/student/ros2_ws)
+76:
+77:## [term 1] $ ros2 run chiku_control log_demo --ros-args --log-level log_demo:=debug   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student/ros2_ws)
+78:[INFO] [1792427001.961176971] [log_demo]: Battery watcher started
+79:[DEBUG] [1792427002.144212415] [log_demo]: raw battery value: 98.5
+80:[INFO] [1792427002.145823427] [log_demo]: battery 98 %
+81:[DEBUG] [1792427002.344348161] [log_demo]: raw battery value: 97.0
+82:[DEBUG] [1792427002.545073660] [log_demo]: raw battery value: 95.5
+83:[DEBUG] [1792427002.744326430] [log_demo]: raw battery value: 94.0
+84:[DEBUG] [1792427002.944135296] [log_demo]: raw battery value: 92.5
+85:[DEBUG] [1792427003.144309122] [log_demo]: raw battery value: 91.0
+86:[INFO] [1792427003.145911179] [log_demo]: battery 91 %
+87:[DEBUG] [1792427003.344285050] [log_demo]: raw battery value: 89.5
+88:[DEBUG] [1792427003.544280367] [log_demo]: raw battery value: 88.0
+89:[DEBUG] [1792427003.744230703] [log_demo]: raw battery value: 86.5
+90:[DEBUG] [1792427003.944157048] [log_demo]: raw battery value: 85.0
+91:[DEBUG] [1792427004.144298754] [log_demo]: raw battery value: 83.5
+92:[DEBUG] [1792427004.344374836] [log_demo]: raw battery value: 82.0
+93:[INFO] [1792427004.346031710] [log_demo]: battery 82 %
+94:[DEBUG] [1792427004.544254934] [log_demo]: raw battery value: 80.5
+95:[DEBUG] [1792427004.744737806] [log_demo]: raw battery value: 79.0
+96:[WARN] [1792427004.748385904] [log_demo]: battery below 80 %
+97:[DEBUG] [1792427004.944072250] [log_demo]: raw battery value: 77.5
+98:[DEBUG] [1792427005.144175929] [log_demo]: raw battery value: 76.0
+99:[DEBUG] [1792427005.344233104] [log_demo]: raw battery value: 74.5
+100:[DEBUG] [1792427005.544907777] [log_demo]: raw battery value: 73.0
+101:[INFO] [1792427005.546846704] [log_demo]: battery 73 %
+102:[DEBUG] [1792427005.744261201] [log_demo]: raw battery value: 71.5
+103:[DEBUG] [1792427005.944164590] [log_demo]: raw battery value: 70.0
+104:[DEBUG] [1792427006.144333585] [log_demo]: raw battery value: 68.5
+105:[ERROR] [1792427006.148745317] [log_demo]: battery low, going home!
+106:[DEBUG] [1792427006.344383377] [log_demo]: raw battery value: 67.0
+107:[DEBUG] [1792427006.544423593] [log_demo]: raw battery value: 65.5
+108:[DEBUG] [1792427006.744128766] [log_demo]: raw battery value: 64.0
+109:[INFO] [1792427006.745766002] [log_demo]: battery 64 %
+110:[DEBUG] [1792427006.945058942] [log_demo]: raw battery value: 62.5
+111:[DEBUG] [1792427007.144246423] [log_demo]: raw battery value: 61.0
+112:[DEBUG] [1792427007.344744253] [log_demo]: raw battery value: 59.5
+113:[DEBUG] [1792427007.544261613] [log_demo]: raw battery value: 58.0
+114:[DEBUG] [1792427007.744217045] [log_demo]: raw battery value: 56.5
+115:[INFO] [1792427007.745824909] [log_demo]: battery 56 %
+116:[DEBUG] [1792427007.944204565] [log_demo]: raw battery value: 55.0
+117:[DEBUG] [1792427008.144148799] [log_demo]: raw battery value: 53.5
+118:[DEBUG] [1792427008.344120865] [log_demo]: raw battery value: 52.0
+119:[ERROR] [1792427008.348628948] [log_demo]: battery low, going home!
+120:[DEBUG] [1792427008.544264802] [log_demo]: raw battery value: 50.5
+121:
+122:## [new terminal 2]
+123:## [term 2] $ ros2 topic echo --once /rosout   (exit=0, 2.2 s, finished, cwd=/home/student)
+124:stamp:
+125:  sec: 1792427009
+126:  nanosec: 945645750
+127:level: 20
+128:name: log_demo
+129:msg: battery 40 %
+130:file: /home/student/ros2_ws/install/chiku_control/lib/python3.12/site-packages/chiku_control/log_demo.py
+131:function: on_timer
+132:line: 17
+133:---
+134:
+135:### output meanwhile in terminal 1:
+136:[DEBUG] [1792427010.144196408] [log_demo]: raw battery value: 38.5
+137:[DEBUG] [1792427010.343299665] [log_demo]: raw battery value: 37.0
+138:[DEBUG] [1792427010.542780191] [log_demo]: raw battery value: 35.5
+139:[ERROR] [1792427010.544347894] [log_demo]: battery low, going home!
+140:[DEBUG] [1792427010.743026802] [log_demo]: raw battery value: 34.0
+141:[DEBUG] [1792427010.943218170] [log_demo]: raw battery value: 32.5
+142:[DEBUG] [1792427011.142809780] [log_demo]: raw battery value: 31.0
+143:[INFO] [1792427011.143448043] [log_demo]: battery 31 %
+144:[DEBUG] [1792427011.344229509] [log_demo]: raw battery value: 29.5
+145:[DEBUG] [1792427011.544275375] [log_demo]: raw battery value: 28.0
+146:[DEBUG] [1792427011.745185008] [log_demo]: raw battery value: 26.5
+147:[DEBUG] [1792427011.944266685] [log_demo]: raw battery value: 25.0
+148:[DEBUG] [1792427012.143337411] [log_demo]: raw battery value: 23.5
+149:[INFO] [1792427012.144380849] [log_demo]: battery 24 %
+150:[DEBUG] [1792427012.344154960] [log_demo]: raw battery value: 22.0
+151:[DEBUG] [1792427012.544226806] [log_demo]: raw battery value: 20.5
+152:[ERROR] [1792427012.548567944] [log_demo]: battery low, going home!
+153:
+154:## [term 2] $ ros2 topic info /rosout   (exit=0, 1.2 s, finished, cwd=/home/student)
+155:Type: rcl_interfaces/msg/Log
+156:Publisher count: 2
+157:Subscription count: 0
+158:
+159:### output meanwhile in terminal 1:
+160:[DEBUG] [1792427012.744227923] [log_demo]: raw battery value: 19.0
+161:[DEBUG] [1792427012.942753443] [log_demo]: raw battery value: 17.5
+162:[DEBUG] [1792427013.143826259] [log_demo]: raw battery value: 16.0
+163:[INFO] [1792427013.145324463] [log_demo]: battery 16 %
+164:[DEBUG] [1792427013.343126747] [log_demo]: raw battery value: 14.5
+165:[DEBUG] [1792427013.542862524] [log_demo]: raw battery value: 13.0
+166:[DEBUG] [1792427013.743770395] [log_demo]: raw battery value: 11.5
+167:[DEBUG] [1792427013.944231759] [log_demo]: raw battery value: 10.0
+168:[DEBUG] [1792427014.144095171] [log_demo]: raw battery value: 8.5
+169:[INFO] [1792427014.145721585] [log_demo]: battery 8 %
+170:
+171:## [term 1] Ctrl+C to stop: ros2 run chiku_control log_demo --ros-args --log-level log_demo:=debug  (exit=0)
+172:[INFO] [1792427001.961176971] [log_demo]: Battery watcher started
+173:[DEBUG] [1792427002.144212415] [log_demo]: raw battery value: 98.5
+174:[INFO] [1792427002.145823427] [log_demo]: battery 98 %
+175:[DEBUG] [1792427002.344348161] [log_demo]: raw battery value: 97.0
+176:[DEBUG] [1792427002.545073660] [log_demo]: raw battery value: 95.5
+177:[DEBUG] [1792427002.744326430] [log_demo]: raw battery value: 94.0
+178:[DEBUG] [1792427002.944135296] [log_demo]: raw battery value: 92.5
+179:[DEBUG] [1792427003.144309122] [log_demo]: raw battery value: 91.0
+180:[INFO] [1792427003.145911179] [log_demo]: battery 91 %
+181:[DEBUG] [1792427003.344285050] [log_demo]: raw battery value: 89.5
+182:[DEBUG] [1792427003.544280367] [log_demo]: raw battery value: 88.0
+183:[DEBUG] [1792427003.744230703] [log_demo]: raw battery value: 86.5
+184:[DEBUG] [1792427003.944157048] [log_demo]: raw battery value: 85.0
+185:[DEBUG] [1792427004.144298754] [log_demo]: raw battery value: 83.5
+186:[DEBUG] [1792427004.344374836] [log_demo]: raw battery value: 82.0
+187:[INFO] [1792427004.346031710] [log_demo]: battery 82 %
+188:[DEBUG] [1792427004.544254934] [log_demo]: raw battery value: 80.5
+189:[DEBUG] [1792427004.744737806] [log_demo]: raw battery value: 79.0
+190:[WARN] [1792427004.748385904] [log_demo]: battery below 80 %
+191:[DEBUG] [1792427004.944072250] [log_demo]: raw battery value: 77.5
+192:[DEBUG] [1792427005.144175929] [log_demo]: raw battery value: 76.0
+193:[DEBUG] [1792427005.344233104] [log_demo]: raw battery value: 74.5
+194:[DEBUG] [1792427005.544907777] [log_demo]: raw battery value: 73.0
+195:[INFO] [1792427005.546846704] [log_demo]: battery 73 %
+196:[DEBUG] [1792427005.744261201] [log_demo]: raw battery value: 71.5
+197:[DEBUG] [1792427005.944164590] [log_demo]: raw battery value: 70.0
+198:[DEBUG] [1792427006.144333585] [log_demo]: raw battery value: 68.5
+199:[ERROR] [1792427006.148745317] [log_demo]: battery low, going home!
+200:[DEBUG] [1792427006.344383377] [log_demo]: raw battery value: 67.0
+201:[DEBUG] [1792427006.544423593] [log_demo]: raw battery value: 65.5
+202:[DEBUG] [1792427006.744128766] [log_demo]: raw battery value: 64.0
+203:[INFO] [1792427006.745766002] [log_demo]: battery 64 %
+204:[DEBUG] [1792427006.945058942] [log_demo]: raw battery value: 62.5
+205:[DEBUG] [1792427007.144246423] [log_demo]: raw battery value: 61.0
+206:[DEBUG] [1792427007.344744253] [log_demo]: raw battery value: 59.5
+207:[DEBUG] [1792427007.544261613] [log_demo]: raw battery value: 58.0
+208:[DEBUG] [1792427007.744217045] [log_demo]: raw battery value: 56.5
+209:[INFO] [1792427007.745824909] [log_demo]: battery 56 %
+210:[DEBUG] [1792427007.944204565] [log_demo]: raw battery value: 55.0
+211:[DEBUG] [1792427008.144148799] [log_demo]: raw battery value: 53.5
+212:[DEBUG] [1792427008.344120865] [log_demo]: raw battery value: 52.0
+213:[ERROR] [1792427008.348628948] [log_demo]: battery low, going home!
+214:[DEBUG] [1792427008.544264802] [log_demo]: raw battery value: 50.5
+215:

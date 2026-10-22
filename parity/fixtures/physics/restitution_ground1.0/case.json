@@ -1,0 +1,11 @@
+{
+ "world": "restitution_ground1.0",
+ "until": 4.0,
+ "subs": [
+  "/model/sphere_e0.0/pose:pose_v",
+  "/model/sphere_e0.5/pose:pose_v",
+  "/model/sphere_e0.9/pose:pose_v",
+  "/model/sphere_e1.0/pose:pose_v"
+ ],
+ "case": "restitution_ground1.0"
+}

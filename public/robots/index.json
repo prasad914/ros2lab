@@ -1,6 +1,7 @@
 [
  {
   "id": "arm3",
+  "status": "under_test",
   "category": "manipulator",
   "title": "3-DOF arm with a gripper",
   "file": "arm3/urdf/arm3_gripper.urdf.xacro",
@@ -44,6 +45,7 @@
  },
  {
   "id": "arm6",
+  "status": "under_test",
   "category": "manipulator",
   "title": "6-DOF industrial arm",
   "file": "arm6/urdf/arm6.urdf.xacro",
@@ -84,6 +86,7 @@
  },
  {
   "id": "quadcopter",
+  "status": "under_test",
   "category": "drone",
   "title": "Quadcopter",
   "file": "quadcopter/urdf/quadcopter.urdf.xacro",
@@ -99,6 +102,7 @@
  },
  {
   "id": "chiku",
+  "status": "under_test",
   "category": "mobile",
   "title": "Chiku: 2-wheeled mobile robot",
   "file": "chiku/urdf/chiku.urdf.xacro",
@@ -118,6 +122,7 @@
  },
  {
   "id": "chiku_mesh",
+  "status": "under_test",
   "category": "mobile",
   "title": "Chiku with mesh files",
   "file": "chiku_description/urdf/chiku_mesh.urdf.xacro",
@@ -128,6 +133,7 @@
  },
  {
   "id": "quadruped",
+  "status": "under_test",
   "category": "legged",
   "title": "4-legged robot",
   "file": "quadruped/urdf/quadruped.urdf.xacro",
@@ -147,6 +153,7 @@
  },
  {
   "id": "hexapod",
+  "status": "under_test",
   "category": "legged",
   "title": "6-legged spider robot",
   "file": "hexapod/urdf/hexapod.urdf.xacro",
@@ -162,6 +169,7 @@
  },
  {
   "id": "humanoid",
+  "status": "under_test",
   "category": "legged",
   "title": "Humanoid",
   "file": "humanoid/urdf/humanoid.urdf.xacro",
@@ -177,6 +185,7 @@
  },
  {
   "id": "mobile_manipulator",
+  "status": "under_test",
   "category": "hybrid",
   "title": "Hybrid: mobile manipulator",
   "file": "mobile_manipulator/urdf/mobile_manipulator.urdf.xacro",
@@ -193,6 +202,7 @@
  },
  {
   "id": "legged_manipulator",
+  "status": "under_test",
   "category": "hybrid",
   "title": "Hybrid: legged manipulator",
   "file": "legged_manipulator/urdf/legged_manipulator.urdf.xacro",
@@ -204,6 +214,7 @@
  },
  {
   "id": "ackermann",
+  "status": "under_test",
   "category": "mobile",
   "title": "Car-like (Ackermann) robot",
   "file": "ackermann/urdf/ackermann.urdf.xacro",
@@ -214,6 +225,7 @@
  },
  {
   "id": "mecanum",
+  "status": "under_test",
   "category": "mobile",
   "title": "Mecanum (omnidirectional) robot",
   "file": "mecanum/urdf/mecanum.urdf.xacro",
@@ -224,6 +236,7 @@
  },
  {
   "id": "ur5e",
+  "status": "under_test",
   "category": "manipulator",
   "title": "Universal Robots UR5e",
   "vendor": "Universal Robots",
@@ -269,6 +282,7 @@
  },
  {
   "id": "fr3",
+  "status": "under_test",
   "category": "manipulator",
   "title": "Franka Research 3 with Franka Hand",
   "vendor": "Franka Robotics",
@@ -325,6 +339,7 @@
  },
  {
   "id": "gen3",
+  "status": "under_test",
   "category": "manipulator",
   "title": "Kinova Gen3 7-DOF with vision module",
   "vendor": "Kinova",
@@ -409,6 +424,7 @@
  },
  {
   "id": "xarm6",
+  "status": "under_test",
   "category": "manipulator",
   "title": "UFACTORY xArm 6",
   "vendor": "UFACTORY",
@@ -454,6 +470,7 @@
  },
  {
   "id": "lite6",
+  "status": "under_test",
   "category": "manipulator",
   "title": "UFACTORY Lite 6",
   "vendor": "UFACTORY",
@@ -499,6 +516,7 @@
  },
  {
   "id": "cr5",
+  "status": "under_test",
   "category": "manipulator",
   "title": "Dobot CR5",
   "vendor": "Dobot",
@@ -545,6 +563,7 @@
  },
  {
   "id": "magician",
+  "status": "under_test",
   "category": "manipulator",
   "title": "Dobot Magician",
   "vendor": "Dobot",
@@ -597,6 +616,7 @@
  },
  {
   "id": "so101",
+  "status": "under_test",
   "category": "manipulator",
   "title": "SO-101 (LeRobot arm)",
   "vendor": "The Robot Studio / Hugging Face",
@@ -659,6 +679,7 @@
  },
  {
   "id": "wx250s",
+  "status": "under_test",
   "category": "manipulator",
   "title": "Trossen WidowX 250 6DOF",
   "vendor": "Trossen Robotics",
@@ -713,6 +734,7 @@
  },
  {
   "id": "irb120",
+  "status": "under_test",
   "category": "manipulator",
   "title": "ABB IRB 120",
   "vendor": "ABB",
@@ -758,6 +780,7 @@
  },
  {
   "id": "kr6",
+  "status": "under_test",
   "category": "manipulator",
   "title": "KUKA KR 6 R900 sixx (Agilus)",
   "vendor": "KUKA",
@@ -804,6 +827,7 @@
  },
  {
   "id": "lrmate",
+  "status": "under_test",
   "category": "manipulator",
   "title": "FANUC LR Mate 200iD",
   "vendor": "FANUC",
@@ -850,6 +874,7 @@
  },
  {
   "id": "tb3_waffle",
+  "status": "course",
   "category": "mobile",
   "title": "TurtleBot3 Waffle",
   "vendor": "ROBOTIS",
@@ -929,6 +954,7 @@
  },
  {
   "id": "tb3_waffle_pi",
+  "status": "course",
   "category": "mobile",
   "title": "TurtleBot3 Waffle Pi",
   "vendor": "ROBOTIS",
@@ -940,10 +966,21 @@
   "source": {
    "url": "https://github.com/ROBOTIS-GIT/turtlebot3",
    "license": "Apache-2.0"
+  },
+  "specs": {
+   "source": "https://emanual.robotis.com/docs/en/platform/turtlebot3/features/",
+   "maxLinear": 0.26,
+   "maxAngular": 1.82,
+   "sensors": [
+    { "name": "360\u00b0 lidar (LDS-02)", "type": "gpu_lidar", "topic": "scan" },
+    { "name": "Raspberry Pi Camera Module v2.1", "type": "camera", "topic": "camera/image_raw" },
+    { "name": "IMU (3-axis gyroscope, 3-axis accelerometer)", "type": "imu", "topic": "imu" }
+   ]
   }
  },
  {
   "id": "tb3_burger",
+  "status": "course",
   "category": "mobile",
   "title": "TurtleBot3 Burger",
   "vendor": "ROBOTIS",
@@ -1008,6 +1045,7 @@
  },
  {
   "id": "scout",
+  "status": "under_test",
   "category": "mobile",
   "title": "AgileX Scout V2",
   "vendor": "AgileX Robotics",
@@ -1052,6 +1090,7 @@
  },
  {
   "id": "go2",
+  "status": "under_test",
   "category": "legged",
   "title": "Unitree Go2",
   "vendor": "Unitree Robotics",
@@ -1124,6 +1163,7 @@
  },
  {
   "id": "g1",
+  "status": "under_test",
   "category": "legged",
   "title": "Unitree G1 humanoid (29 DOF)",
   "vendor": "Unitree Robotics",
@@ -1196,6 +1236,7 @@
  },
  {
   "id": "h1",
+  "status": "under_test",
   "category": "legged",
   "title": "Unitree H1 humanoid",
   "vendor": "Unitree Robotics",
@@ -1269,6 +1310,7 @@
  },
  {
   "id": "spot",
+  "status": "under_test",
   "category": "legged",
   "title": "Boston Dynamics Spot",
   "vendor": "Boston Dynamics (description by RAI Institute)",
@@ -1317,6 +1359,7 @@
  },
  {
   "id": "crazyflie",
+  "status": "under_test",
   "category": "drone",
   "title": "Bitcraze Crazyflie 2.1",
   "vendor": "Bitcraze",

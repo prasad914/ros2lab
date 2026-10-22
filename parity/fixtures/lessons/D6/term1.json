@@ -1,0 +1,101 @@
+{
+ "lesson": "D6",
+ "term": 1,
+ "title": "Practice: create a second turtle",
+ "sourced": true,
+ "running": [
+  "turtlesim",
+  "teleop"
+ ],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/D6_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:30:30+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 service list",
+   "out": "/clear\n/kill\n/reset\n/spawn\n/teleop_turtle/describe_parameters\n/teleop_turtle/get_parameter_types\n/teleop_turtle/get_parameters\n/teleop_turtle/get_type_description\n/teleop_turtle/list_parameters\n/teleop_turtle/set_parameters\n/teleop_turtle/set_parameters_atomically\n/turtle1/set_pen\n/turtle1/teleport_absolute\n/turtle1/teleport_relative\n/turtlesim/describe_parameters\n/turtlesim/get_parameter_types\n/turtlesim/get_parameters\n/turtlesim/get_type_description\n/turtlesim/list_parameters\n/turtlesim/set_parameters\n/turtlesim/set_parameters_atomically\n",
+   "exit": 0,
+   "secs": 1.4,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 service type /spawn",
+   "out": "turtlesim/srv/Spawn\n",
+   "exit": 0,
+   "secs": 1.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 service call /spawn turtlesim/srv/Spawn \"{x: 2, y: 2, theta: 0.2, name: ''}\"",
+   "out": "waiting for service to become available...\nrequester: making request: turtlesim.srv.Spawn_Request(x=2.0, y=2.0, theta=0.2, name='')\n\nresponse:\nturtlesim.srv.Spawn_Response(name='turtle2')\n\n",
+   "exit": 0,
+   "secs": 1.9,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "100": "[INFO] [1792425648.918941253] [turtlesim]: Spawning turtle [turtle2] at x=[2.000000], y=[2.000000], theta=[0.200000]\n"
+   }
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 topic list",
+   "out": "/parameter_events\n/rosout\n/turtle1/cmd_vel\n/turtle1/color_sensor\n/turtle1/pose\n/turtle2/cmd_vel\n/turtle2/color_sensor\n/turtle2/pose\n",
+   "exit": 0,
+   "secs": 1.3,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 service call /spawn turtlesim/srv/Spawn \"{x: 8, y: 3, theta: 0.0, name: 'chiku'}\"",
+   "out": "requester: making request: turtlesim.srv.Spawn_Request(x=8.0, y=3.0, theta=0.0, name='chiku')\n\nresponse:\nturtlesim.srv.Spawn_Response(name='chiku')\n\n",
+   "exit": 0,
+   "secs": 1.4,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "100": "[INFO] [1792425652.780449650] [turtlesim]: Spawning turtle [chiku] at x=[8.000000], y=[3.000000], theta=[0.000000]\n"
+   }
+  }
+ ],
+ "pre": [
+  {
+   "name": "turtlesim",
+   "cmd": "ros2 run turtlesim turtlesim_node",
+   "out": "[INFO] [1792425632.158780919] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792425632.175228129] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
+   "state": "still running after 4 s"
+  },
+  {
+   "name": "teleop",
+   "cmd": "ros2 run turtlesim turtle_teleop_key",
+   "out": "Reading from keyboard\n---------------------------\nUse arrow keys to move the turtle.\nUse g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.\n'q' to quit.\n",
+   "state": "still running after 4 s"
+  }
+ ],
+ "notes": [
+  "pre-running terminal 100 output during block: ",
+  "pre-running terminal 101 output during block: "
+ ],
+ "finished": "2026-10-19T21:30:55+0530"
+}

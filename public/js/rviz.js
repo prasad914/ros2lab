@@ -1479,7 +1479,9 @@ export function createRviz(container, opts = {}) {
     } else if (v.k === "color") { cell.append(h("span", { class: "q-swatch", style: `background:rgb(${rgbOf(v.text).map((x) => Math.round(x * 255)).join(",")})` }), h("span", { class: "q-vt", text: v.text })); }
     else cell.append(h("span", { class: "q-vt", text: v.text ?? "" }));
     if (v.edit && !r.disabled) {
-      const startEdit = (e) => { if (e.target.closest(".q-editor, .q-ecombo, .q-colored")) return; setTimeout(() => openEditor(cell, v)); };
+      // pointerdown and the click that follows both arrive here: open one editor only, or the second one replaces the
+      // first, whose blur commits and repaints the tree, and the editor is gone after a plain mouse click
+      const startEdit = (e) => { if (e.target.closest(".q-editor, .q-ecombo, .q-colored")) return; setTimeout(() => { if (cell.isConnected && !cell.querySelector(".q-editor, .q-ecombo, .q-colored")) openEditor(cell, v); }); };
       cell.addEventListener("click", startEdit);
       cell.addEventListener("pointerdown", startEdit);
     }
@@ -2001,7 +2003,11 @@ export function createRviz(container, opts = {}) {
       if (ids.length) { S.tools = ids; if (!ids.includes(S.tool)) S.tool = ids[0]; renderToolbar(); }
     }
     if (Array.isArray(cfg.Panels)) buildPanels(cfg.Panels);
-    if (go["Fixed Frame"]) S.fixedFrame = String(go["Fixed Frame"]).replace(/^\//, "");
+    if (go["Fixed Frame"]) {
+      S.fixedFrame = String(go["Fixed Frame"]).replace(/^\//, "");
+      // the page's frame manager (Global Status, tools) uses the file's frame too
+      if (opts.frameManager && typeof opts.frameManager.setFixedFrame === "function") opts.frameManager.setFixedFrame(S.fixedFrame, { persist: false });
+    }
     if (go["Background Color"]) { S.background = String(go["Background Color"]).trim(); bg(); }
     if (Number.isFinite(Number(go["Frame Rate"]))) S.frameRate = Number(go["Frame Rate"]);
     const cur = vm.Views && vm.Views.Current;

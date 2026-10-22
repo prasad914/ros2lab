@@ -32,14 +32,15 @@ export class FrameManager {
     return this._fixedFrame;
   }
 
-  setFixedFrame(frame) {
+  // persist: false for a frame that comes from a loaded .rviz file (RViz takes it from the file, not from the last choice)
+  setFixedFrame(frame, { persist = true } = {}) {
     const clean = String(frame || "").trim().replace(/^\//, "");
     if (!clean) return false;
     if (clean === this._fixedFrame) return false;
     this._fixedFrame = clean;
 
     // Persist to localStorage per robot/lesson
-    if (typeof localStorage !== "undefined") {
+    if (persist && typeof localStorage !== "undefined") {
       try {
         const key = this.robotId ? `ros2lab.fixed_frame.${this.robotId}` : "ros2lab.fixed_frame.default";
         localStorage.setItem(key, clean);

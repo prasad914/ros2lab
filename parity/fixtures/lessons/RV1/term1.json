@@ -1,0 +1,191 @@
+{
+ "lesson": "RV1",
+ "term": 1,
+ "title": "Live terminal: drive RViz yourself",
+ "sourced": true,
+ "running": [],
+ "start": "~/urdf",
+ "scratch_home": "/home/prasad/lesson_ws/homes/RV1_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-20T10:15:30+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 run robot_state_publisher robot_state_publisher --ros-args -p robot_description:=\"$(xacro chiku.urdf.xacro)\"",
+   "out": "[INFO] [1792471533.119704410] [robot_state_publisher]: Robot initialized\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student/urdf"
+  },
+  {
+   "task": 2,
+   "term": 2,
+   "kind": "newTerminal",
+   "status": "RAN"
+  },
+  {
+   "task": 2,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 run joint_state_publisher joint_state_publisher",
+   "out": "[INFO] [1792471543.209686076] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...\n[INFO] [1792471543.228059986] [joint_state_publisher]: Got description, configuring robot\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 3,
+   "kind": "newTerminal",
+   "status": "RAN"
+  },
+  {
+   "task": 3,
+   "term": 3,
+   "kind": "cmd",
+   "cmd": "rviz2",
+   "out": "[INFO] [1792471551.926093110] [rviz2]: Stereo is NOT SUPPORTED\n[INFO] [1792471551.926205234] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)\n[INFO] [1792471552.042694512] [rviz2]: Stereo is NOT SUPPORTED\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 4,
+   "term": 3,
+   "kind": "gui",
+   "action": {
+    "viz": {
+     "fixedFrame": "base_footprint"
+    }
+   },
+   "status": "PENDING",
+   "reason": "RViz GUI click/drag, not a typed command (covered by the RViz baseline D)"
+  },
+  {
+   "task": 5,
+   "term": 3,
+   "kind": "gui",
+   "action": {
+    "viz": {
+     "displays": {
+      "Grid": true,
+      "RobotModel": true,
+      "TF": true
+     }
+    }
+   },
+   "status": "PENDING",
+   "reason": "RViz GUI click/drag, not a typed command (covered by the RViz baseline D)"
+  },
+  {
+   "task": 6,
+   "term": 3,
+   "kind": "gui",
+   "action": {
+    "rvizGoal": [
+     1,
+     0.5,
+     0
+    ]
+   },
+   "status": "PENDING",
+   "reason": "RViz GUI click/drag, not a typed command (covered by the RViz baseline D)"
+  },
+  {
+   "task": 7,
+   "term": 4,
+   "kind": "newTerminal",
+   "status": "RAN"
+  },
+  {
+   "task": 7,
+   "term": 4,
+   "kind": "cmd",
+   "cmd": "ros2 topic echo /goal_pose",
+   "out": "",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 8,
+   "term": 4,
+   "kind": "gui",
+   "action": {
+    "rvizSave": "~/chiku.rviz"
+   },
+   "status": "PENDING",
+   "reason": "RViz GUI click/drag, not a typed command (covered by the RViz baseline D)"
+  },
+  {
+   "task": 9,
+   "term": 4,
+   "kind": "interrupt",
+   "of": "ros2 topic echo /goal_pose",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "",
+   "exit": 2,
+   "status": "RAN"
+  },
+  {
+   "task": 9,
+   "term": 4,
+   "kind": "cmd",
+   "cmd": "cat ~/chiku.rviz",
+   "out": "cat: /home/student/chiku.rviz: No such file or directory\n",
+   "exit": 1,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "term": 1,
+   "kind": "interrupt-at-end",
+   "of": "ros2 run robot_state_publisher robot_state_publisher --ros-args -p robot_description:=\"$(xacro chiku.urdf.xacro)\"",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792471533.119704410] [robot_state_publisher]: Robot initialized\n[INFO] [1792471570.332224321] [rclcpp]: signal_handler(SIGINT/SIGTERM)\n",
+   "exit": 0,
+   "status": "RAN"
+  },
+  {
+   "term": 2,
+   "kind": "interrupt-at-end",
+   "of": "ros2 run joint_state_publisher joint_state_publisher",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792471543.209686076] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...\n[INFO] [1792471543.228059986] [joint_state_publisher]: Got description, configuring robot\n",
+   "exit": 0,
+   "status": "RAN"
+  },
+  {
+   "term": 3,
+   "kind": "interrupt-at-end",
+   "of": "rviz2",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792471551.926093110] [rviz2]: Stereo is NOT SUPPORTED\n[INFO] [1792471551.926205234] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)\n[INFO] [1792471552.042694512] [rviz2]: Stereo is NOT SUPPORTED\n[INFO] [1792471570.981582740] [rclcpp]: signal_handler(SIGINT/SIGTERM)\n",
+   "exit": 0,
+   "status": "RAN"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-20T10:16:12+0530"
+}

@@ -1,0 +1,75 @@
+{
+ "lesson": "A6",
+ "term": 1,
+ "title": "Practice: install turtlesim",
+ "sourced": false,
+ "running": [],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/A6_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:17:15+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "sudo apt update",
+   "status": "PENDING",
+   "reason": "needs sudo/apt (run rules: never sudo or apt on this machine)"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "apt search turtlesim",
+   "status": "PENDING",
+   "reason": "needs sudo/apt (run rules: never sudo or apt on this machine)"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "sudo apt install ros-jazzy-turtlesim",
+   "status": "PENDING",
+   "reason": "needs sudo/apt (run rules: never sudo or apt on this machine)"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "source /opt/ros/jazzy/setup.bash",
+   "out": "",
+   "exit": 0,
+   "secs": 0.9,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 run turtlesim turtlesim_node",
+   "out": "[INFO] [1792424839.383528983] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792424839.417172647] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "term": 1,
+   "kind": "interrupt-at-end",
+   "of": "ros2 run turtlesim turtlesim_node",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792424839.383528983] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792424839.417172647] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n[INFO] [1792424846.602205996] [rclcpp]: signal_handler(SIGINT/SIGTERM)\n",
+   "exit": 0,
+   "status": "RAN"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T21:17:28+0530"
+}

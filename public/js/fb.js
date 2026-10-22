@@ -1,5 +1,5 @@
 // Loads Firebase and exposes the pieces the pages use. Every page loads this file
-// (directly, or through who.js / index.js), so it also sends the anonymous visitor heartbeat.
+// (directly, or through chrome.js / index.js), so it also sends the anonymous visitor heartbeat.
 import { firebaseConfig, REGION, RECAPTCHA_ENTERPRISE_SITE_KEY } from "./firebase-config.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import {

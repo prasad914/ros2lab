@@ -9,7 +9,7 @@ import { gzMethods, GZ_EXES, GZ_NAMES, GZ_PKG_EXES, IMAGE_TRANSPORTS, TELEOP_BAN
 import { urdfGazebo } from "./gz-sdf.js";
 import { DOCTOR_PASSED_LINES } from "./doctor-text.js";
 import { xacro as runXacro, parseURDF, urdfEdges, checkUrdfText, graphviz, jointValue } from "./urdf-core.js";
-import { ifacesReady, hasIface, parseYaml, buildMessage, pyRepr, showLines, protoBlock, allIfaces as realIfaces, ifacePackages, normType as normIface, sectionType, echoLines, noArrYaml } from "./ros-iface.js";
+import { ifacesReady, hasIface, parseYaml, buildMessage, pyRepr, showLines, protoBlock, allIfaces as realIfaces, ifacePackages, normType as normIface, sectionType, echoLines, noArrYaml, nonStringKey } from "./ros-iface.js";
 // A pretend running ROS 2 system for the practice terminal: nodes, topics, services,
 // parameters, actions, bags and workspace packages. Outputs follow the official ROS 2 Jazzy tutorials.
 // Used by terminal-sim.js when a lesson's terminal block has "running": [...] (or "graph": true).
@@ -17,6 +17,35 @@ import { ifacesReady, hasIface, parseYaml, buildMessage, pyRepr, showLines, prot
 const HOME = "/home/student";
 const fnum = (n) => (Number.isInteger(n) ? `${n}.0` : String(+n.toFixed(6)));
 const hex = () => Array.from({ length: 32 }, () => "0123456789abcdef"[Math.floor(Math.random() * 16)]).join("");
+// argparse "usage:" text of the real verbs at 80 columns (Terminator's default size) and their required positionals in
+// order, captured with COLUMNS=80 on Jazzy (ros2cli 0.32.13): parity/fixtures/cli/argparse_missing_args.txt.
+// Each verb's add_arguments(): https://github.com/ros2/ros2cli/tree/jazzy (ros2node/verb/info.py, ros2topic/verb/*.py, ...)
+const ARGPARSE = {
+  "node info": [["usage: ros2 node info [-h] [--spin-time SPIN_TIME] [-s] [--no-daemon]", "                      [--include-hidden]", "                      node_name"], ["node_name"]],
+  "topic echo": [["usage: ros2 topic echo [-h] [--spin-time SPIN_TIME] [-s] [--no-daemon]", "                       [--qos-profile {unknown,default,system_default,sensor_data,services_default,parameters,parameter_events,action_status_default,best_available}]", "                       [--qos-depth N]", "                       [--qos-history {system_default,keep_last,keep_all,unknown}]", "                       [--qos-reliability {system_default,reliable,best_effort,unknown,best_available}]", "                       [--qos-durability {system_default,transient_local,volatile,unknown,best_available}]", "                       [--qos-liveliness {system_default,automatic,manual_by_topic,unknown,best_available}]", "                       [--qos-liveliness-lease-duration-seconds QOS_LIVELINESS_LEASE_DURATION_SECONDS]", "                       [--csv] [--field FIELD] [--full-length]", "                       [--truncate-length TRUNCATE_LENGTH] [--no-arr]", "                       [--no-str] [--flow-style] [--no-lost-messages] [--raw]", "                       [--filter FILTER_EXPR] [--once] [--timeout N]", "                       [--include-message-info]", "                       topic_name [message_type]"], ["topic_name"]],
+  "topic type": [["usage: ros2 topic type [-h] [--spin-time SPIN_TIME] [-s] [--no-daemon]", "                       topic_name"], ["topic_name"]],
+  "topic info": [["usage: ros2 topic info [-h] [--spin-time SPIN_TIME] [-s] [--no-daemon]", "                       [--verbose]", "                       topic_name"], ["topic_name"]],
+  "topic hz": [["usage: ros2 topic hz [-h] [--window WINDOW] [--filter EXPR] [--wall-time]", "                     [--spin-time SPIN_TIME] [-s]", "                     topic_name"], ["topic_name"]],
+  "topic pub": [["usage: ros2 topic pub [-h] [--stdin] [-r N] [-p N] [-1 | -t TIMES]", "                      [-w WAIT_MATCHING_SUBSCRIPTIONS]", "                      [--max-wait-time-secs MAX_WAIT_TIME_SECS]", "                      [--keep-alive N] [-n NODE_NAME]", "                      [--qos-profile {unknown,default,system_default,sensor_data,services_default,parameters,parameter_events,action_status_default,best_available}]", "                      [--qos-depth N]", "                      [--qos-history {system_default,keep_last,keep_all,unknown}]", "                      [--qos-reliability {system_default,reliable,best_effort,unknown,best_available}]", "                      [--qos-durability {system_default,transient_local,volatile,unknown,best_available}]", "                      [--qos-liveliness {system_default,automatic,manual_by_topic,unknown,best_available}]", "                      [--qos-liveliness-lease-duration-seconds QOS_LIVELINESS_LEASE_DURATION_SECONDS]", "                      [--spin-time SPIN_TIME] [-s]", "                      topic_name message_type [values]"], ["topic_name", "message_type"]],
+  "service type": [["usage: ros2 service type [-h] service_name"], ["service_name"]],
+  "service info": [["usage: ros2 service info [-h] [--spin-time SPIN_TIME] [-s] [--no-daemon]", "                         service_name"], ["service_name"]],
+  "service call": [["usage: ros2 service call [-h] [--stdin] [-r N]", "                         service_name service_type [values]"], ["service_name", "service_type"]],
+  "action type": [["usage: ros2 action type [-h] action_name"], ["action_name"]],
+  "action info": [["usage: ros2 action info [-h] [-t] [-c] action_name"], ["action_name"]],
+  "action send_goal": [["usage: ros2 action send_goal [-h] [--stdin] [-f] [-t N]", "                             action_name action_type [goal]"], ["action_name", "action_type"]],
+  "param get": [["usage: ros2 param get [-h] [--spin-time SPIN_TIME] [-s] [--no-daemon]", "                      [--include-hidden-nodes] [--hide-type] [--timeout N]", "                      node_name parameter_name"], ["node_name", "parameter_name"]],
+  "param set": [["usage: ros2 param set [-h] [--spin-time SPIN_TIME] [-s] [--no-daemon]", "                      [--include-hidden-nodes] [--timeout N]", "                      node_name parameter_name value"], ["node_name", "parameter_name", "value"]],
+  "param describe": [["usage: ros2 param describe [-h] [--spin-time SPIN_TIME] [-s] [--no-daemon]", "                           [--include-hidden-nodes] [--timeout N]", "                           node_name parameter_names [parameter_names ...]"], ["node_name", "parameter_names"]],
+  "param dump": [["usage: ros2 param dump [-h] [--spin-time SPIN_TIME] [-s] [--no-daemon]", "                       [--include-hidden-nodes] [--timeout N]", "                       node_name"], ["node_name"]],
+  "run": [["usage: ros2 run [-h] [--prefix PREFIX] package_name executable_name ..."], ["package_name", "executable_name", "argv"]],
+};
+// argparse's error for missing positionals: the usage, then "ros2 <verb>: error: the following arguments are required:"
+// with only the missing names (`have` = how many positionals were given); null when the verb has no captured text.
+// `ros2 run` also lists argv (argparse.REMAINDER counts as required).
+export function argparseMissing(verb, have) {
+  const a = ARGPARSE[verb]; if (!a) return null;
+  return [...a[0], `ros2 ${verb}: error: the following arguments are required: ${a[1].slice(have).join(", ")}`];
+}
 
 const IFACES = {
   "geometry_msgs/msg/Point": "# This contains the position of a point in free space\nfloat64 x\nfloat64 y\nfloat64 z",
@@ -91,7 +120,8 @@ export class RosGraph {
     this.lastTwist = null;
     for (const r of running) {
       const kind = typeof r === "string" ? r : r.kind;
-      this.add(kind, typeof r === "object" && r.name ? r.name : DEFAULT_NAME[kind], typeof r === "object" && r.ns ? r.ns : "");
+      const n = this.add(kind, typeof r === "object" && r.name ? r.name : DEFAULT_NAME[kind], typeof r === "object" && r.ns ? r.ns : "");
+      if (kind === "listener") n.rclpy = true;   // a block's running "listener" is demo_nodes_py listener (parity/scripts/lessons/run_lesson_terms.py RUNNING_CMD)
     }
   }
   out(t, c) { return this.sh.out(t, c); } err(t) { return this.sh.err(t); } hint(t) { return this.sh.hint(t); }
@@ -139,7 +169,10 @@ export class RosGraph {
   endpoints(n) {
     const p = (s) => `${n.ns}/${s}`;
     // every node's /rosout publisher is transient_local (`ros2 topic info -v /rosout` on Jazzy, parity/fixtures/*/sensors/qos/rosout.txt)
-    const e = { pubs: [["/parameter_events", "rcl_interfaces/msg/ParameterEvent"], ["/rosout", "rcl_interfaces/msg/Log", "RELIABLE/TRANSIENT_LOCAL"]], subs: [["/parameter_events", "rcl_interfaces/msg/ParameterEvent"]],
+    // rclcpp nodes subscribe /parameter_events (ParameterEventHandler); rclpy nodes do not (every node info in
+    // parity/fixtures/lessons: rclpy late_listener, circle_driver, pose_monitor, battery_monitor, demo_nodes_py listener)
+    const rclpy = n.rclpy || (n.kind === "custom" && n.info && n.info.lang === "python");
+    const e = { pubs: [["/parameter_events", "rcl_interfaces/msg/ParameterEvent"], ["/rosout", "rcl_interfaces/msg/Log", "RELIABLE/TRANSIENT_LOCAL"]], subs: rclpy ? [] : [["/parameter_events", "rcl_interfaces/msg/ParameterEvent"]],
       srvs: PARAM_SRVS.map(([s, t]) => [`${n.full}/${s}`, t]), cli: [], acts: [], actc: [] };
     // tf2_ros::TransformListener's own node (transform_listener_impl_<address>): /tf, /tf_static (transient_local),
     // /parameter_events, its /rosout, no parameter services or events (fixtures */slam, */cartographer, */nav_robotis qos)
@@ -147,7 +180,11 @@ export class RosGraph {
     // launch_ros's node (launch_ros_<launch pid>): /rosout, /parameter_events, and the transition_event of each lifecycle
     // node the launch file watches (fixture tb3_burger/slam/qos/slam_toolbox__transition_event.txt)
     if (n.kind === "launch_ros") e.subs = (n.watch || []).map((t) => [t, "lifecycle_msgs/msg/TransitionEvent"]);
-    if (n.info) { const r = (x) => (x.startsWith("/") ? x : x.startsWith("~/") ? `${n.full}/${x.slice(2)}` : p(x)); for (const k of ["pubs", "subs", "srvs", "cli", "acts", "actc"]) for (const [nm, t, q] of n.info[k]) e[k].push([r(nm), t, q]); }
+    if (n.info) {
+      const r = (x) => { x = x.replace(/\{(\w+)\}/g, (all, k) => String(n.params[k] ?? "")); return x.startsWith("/") ? x : x.startsWith("~/") ? `${n.full}/${x.slice(2)}` : p(x); };
+      for (const k of ["pubs", "subs", "srvs", "cli", "acts", "actc"]) for (const [nm, t, q] of n.info[k]) e[k].push([r(nm), t, q]);
+      if (n.info.broadcaster && !e.pubs.some(([nm]) => nm === "/tf")) e.pubs.push(["/tf", "tf2_msgs/msg/TFMessage"]);   // tf2_ros::TransformBroadcaster publishes /tf
+    }
     if (n.kind === "arm") { e.subs.push([p("target_point"), "geometry_msgs/msg/Point"]); e.pubs.push([p("joint_states"), "sensor_msgs/msg/JointState"], [p("end_effector"), "geometry_msgs/msg/Point"]); e.srvs.push([p("arm/home"), "std_srvs/srv/Trigger"]); }
     if (n.kind === "diffbot") { e.subs.push([p("cmd_vel"), "geometry_msgs/msg/Twist"]); e.pubs.push([p("odom"), "nav_msgs/msg/Odometry"], [p("ground_truth"), "nav_msgs/msg/Odometry"], [p("wheel_states"), "sensor_msgs/msg/JointState"], ["/tf", "tf2_msgs/msg/TFMessage"]); }
     if (n.kind === "mm") { e.subs.push([p("goal_point"), "geometry_msgs/msg/Point"]); e.pubs.push([p("cmd_vel"), "geometry_msgs/msg/Twist"], [p("target_point"), "geometry_msgs/msg/Point"]); }
@@ -295,10 +332,12 @@ export class RosGraph {
     if (a === "list") return this.nodes.some((n) => !this.unseen(n)) ? (() => { const L = this.nodes.filter((n) => !this.unseen(n)).map((n) => n.full).sort(); return new Set(L).size < L.length ? ["WARNING: Be aware that there are nodes in the graph that share an exact name, which can have unintended side effects.", ...L] : L; })().map((t) => this.out(t)) : this.noNodes();
     if (a === "info") {
       const n0 = this.node(rest[0] || ""), n = n0 && !this.unseen(n0) ? n0 : null;
-      if (!rest[0]) return [this.err("usage: ros2 node info <node_name>")];
+      if (!rest[0]) return argparseMissing("node info", 0).map((t) => this.err(t));
       if (!n) return [this.err(`Unable to find node '${rest[0]}'`), this.hint("Node names start with /. See them with: ros2 node list")];
       const e = this.endpoints(n);
-      const sec = (title, list) => [this.out(`  ${title}:`), ...list.map(([x, t]) => this.out(`    ${x}: ${t}`))];
+      // print(*[], sep='\n') prints an empty line for an empty section (ros2node/verb/info.py print_names_and_types,
+      // https://github.com/ros2/ros2cli/blob/jazzy/ros2node/ros2node/verb/info.py)
+      const sec = (title, list) => [this.out(`  ${title}:`), ...(list.length ? list.map(([x, t]) => this.out(`    ${x}: ${t}`)) : [this.out("")])];
       return [this.out(n.full), ...sec("Subscribers", e.subs), ...sec("Publishers", e.pubs), ...sec("Service Servers", e.srvs), ...sec("Service Clients", e.cli), ...sec("Action Servers", e.acts), ...sec("Action Clients", e.actc)];
     }
     return [this.err("usage: ros2 node list | ros2 node info <node_name>")];
@@ -311,11 +350,17 @@ export class RosGraph {
     const showT = flags.includes("-t") || rest.includes("--show-types");
     if (a === "list") { const E = [...T.entries()]; if (!E.length) E.push(["/parameter_events", { type: "rcl_interfaces/msg/ParameterEvent" }], ["/rosout", { type: "rcl_interfaces/msg/Log" }]); return E.map(([k, v]) => this.out(showT ? `${k} [${v.type}]` : k)); }   // the ros2 CLI daemon itself publishes these two
     const name = pos[0];
-    const need = () => (name ? null : [this.err(`usage: ros2 topic ${a} <topic_name>`)]);
+    const need = () => (name ? null : (argparseMissing(`topic ${a}`, 0) || [`usage: ros2 topic ${a} <topic_name>`]).map((x) => this.err(x)));
     if (a === "find") { const hits = [...T.entries()].filter(([, v]) => v.type === name).map(([k]) => this.out(k)); return hits; }
     if (a === "pub") return this.topicPub(rest);
     const bad = need(); if (bad) return bad;
     const t = T.get(name);
+    // an unknown name prints nothing and exits 1 (https://github.com/ros2/ros2cli/blob/jazzy/ros2topic/ros2topic/verb/type.py)
+    if (a === "type" && !t) return [];
+    // argparse reads "-1" as the optional message_type positional (echo has no -1 option, unlike pub), and
+    // "-1" is no type: RuntimeError('The passed message type is invalid')
+    // (https://github.com/ros2/ros2cli/blob/jazzy/ros2topic/ros2topic/verb/echo.py; parity/fixtures/cli/argparse_missing_args.txt)
+    if (a === "echo" && rest.some((x) => /^-\d+$|^-\d*\.\d+$/.test(x))) return [this.err("The passed message type is invalid")];
     // the TurtleBot3 Burger has no camera (only Waffle and Waffle Pi publish /camera/...): say so instead of "spelling"
     const burger = /^\/camera\//.test(name) && this.nodes.some((n) => n.kind === "rsp" && /name="turtlebot3_burger"/.test(String((n.params || {}).robot_description || "")));
     if (!t) return [this.out(`WARNING: topic [${name}] does not appear to be published yet`), this.hint(burger ? `The TurtleBot3 Burger has no camera, so nothing publishes ${name}: only the Waffle and the Waffle Pi have one. See this robot's topics with: ros2 topic list` : `Nobody uses ${name}. Check the spelling (names are case-sensitive) with: ros2 topic list`)];
@@ -408,7 +453,7 @@ export class RosGraph {
   }
   pubTimes(rest) { const i = rest.findIndex((x) => x === "-t" || x === "--times"); return i >= 0 ? Math.max(1, parseInt(rest[i + 1], 10) || 1) : 0; }
   simNow() { const t = this.gzRunning && this.gzRunning() && this.gz ? this.gz.time : (Date.now() / 1000) % 100000; const ns = Math.round(t * 1e9); return { sec: Math.floor(ns / 1e9), nanosec: ns % 1e9 }; }
-  num(yaml, key, dflt = 0) { const m = String(yaml).match(new RegExp(`(?:^|[{,\\s])${key}:\\s*(-?[\\d.]+(?:e-?\\d+)?)`)); return m ? Number(m[1]) : dflt; }
+  num(yaml, key, dflt = 0) { const m = String(yaml).match(new RegExp(`(?:^|[{,\\s])${key}:\\s*(['"]?)\\s*([+-]?[\\d.]+(?:[eE][+-]?\\d+)?)\\s*\\1`)); return m ? Number(m[2]) : dflt; }   // {x: '2'} too: Python float('2') (rosidl_runtime_py set_message_fields)
   str(yaml, key) { const m = String(yaml).match(new RegExp(`${key}:\\s*['"]?([^'",}]*)['"]?`)); return m ? m[1].trim() : ""; }
 
   topicPub(rest) {
@@ -416,7 +461,7 @@ export class RosGraph {
     const pos = [];
     for (let i = 0; i < rest.length; i++) { const x = rest[i]; if (/^(-r|--rate|-t|--times|-w|--wait-matching-subscriptions)$/.test(x)) { i++; continue; } if (!x.startsWith("-")) pos.push(x); }
     const [topic, type, yaml = "{}"] = pos;
-    if (!topic || !type) return [this.err("usage: ros2 topic pub [-h] [-r N] [-p N] [-1 | -t N] [-w N] [--keep-alive N] topic_name message_type [values]"), this.err("ros2 topic pub: error: the following arguments are required: topic_name, message_type")];
+    if (!topic || !type) return argparseMissing("topic pub", pos.length).map((x) => this.err(x));
     const full = type.includes("/msg/") ? type : type.replace("/", "/msg/");
     // the real message definition (ros-iface.js): any message type of a Jazzy install, checked field by field like ros2cli
     let parsed = null;
@@ -426,6 +471,7 @@ export class RosGraph {
       try { parsed = buildMessage(full, val || {}, { now: () => this.simNow() }); } catch (e) { return [this.err(e.message), this.hint(`See the fields with: ros2 interface show ${full}   (or press Tab after the type: it fills in every field)`)]; }
     }
     if ((!IFACES[full] && !parsed) || !/msg/.test(full)) return [this.err(`The passed message type is invalid`), this.hint("Message types look like geometry_msgs/msg/Twist or std_msgs/msg/String. Press Tab twice after the topic name to see them.")];
+    { let y0 = null; try { y0 = parseYaml(yaml); } catch { y0 = null; } const nk = nonStringKey(y0); if (nk) return [this.err(`Failed to populate field: attribute name must be string, not '${nk}'`), this.hint(nk === "bool" ? "YAML reads an unquoted off / on / yes / no as true or false, not as a field name. Quote it: 'off': 0" : "A field name must be text. Quote it, for example 'x': 1")]; }   // {off: 0}: PyYAML reads off as False
     const T = this.topics().get(topic);
     // a different type than the topic's: ROS 2 still publishes, but no subscriber of the other type receives it (the endpoints never match)
     if (T && T.type !== full && (T.by.pubs.length || T.by.subs.length)) {
@@ -578,13 +624,18 @@ export class RosGraph {
     if (a === "list") return S.size ? [...S.entries()].map(([k, v]) => this.out(showT ? `${k} [${v.type}]` : k)) : this.noNodes();
     if (a === "find") return [...S.entries()].filter(([, v]) => v.type === pos[0]).map(([k]) => this.out(k));
     const name = pos[0];
-    if (!name) return [this.err(`usage: ros2 service ${a || "list"} <service_name>`)];
+    if (!name) return (argparseMissing(`service ${a}`, 0) || [`usage: ros2 service ${a || "list"} <service_name>`]).map((x) => this.err(x));
     const s = S.get(name);
-    if (a === "type") return s ? [this.out(s.type)] : [this.err(`Unable to find service '${name}'`)];
+    // an unknown name prints nothing and exits 1 (https://github.com/ros2/ros2cli/blob/jazzy/ros2service/ros2service/verb/type.py)
+    if (a === "type") return s ? [this.out(s.type)] : [];
     if (a === "info") return s ? [this.out(`Type: ${s.type}`), this.out("Clients count: 0"), this.out(`Services count: ${s.by.srvs.length}`)] : [this.err(`Unable to find service '${name}'`)];
     if (a !== "call") return [this.err(`ros2 service: unknown command '${a}'`), this.hint("Try: list, type, find, info, call")];
     const type = pos[1] ? normIface(pos[1], "srv") : pos[1], yaml = pos.slice(2).join(" ") || "{}";
-    if (!type) return [this.err("usage: ros2 service call <service_name> <service_type> [values]"), this.hint(s ? `This service's type is ${s.type}` : "Find the type with: ros2 service type <service_name>")];
+    if (!type) return [...argparseMissing("service call", 1).map((x) => this.err(x)), this.hint(s ? `This service's type is ${s.type}` : "Find the type with: ros2 service type <service_name>")];
+    { let y0 = null; try { y0 = parseYaml(yaml); } catch { y0 = null; } const nk = nonStringKey(y0); if (nk) return [this.err(`Failed to populate field: attribute name must be string, not '${nk}'`), this.hint(nk === "bool" ? "YAML reads an unquoted off / on / yes / no as true or false, not as a field name. Quote it: 'off': 0" : "A field name must be text. Quote it, for example 'x': 1")]; }   // before waiting for the service (ros2service call.py); {off: 0}: PyYAML reads off as False
+    // a quoted value that Python's float() / int() cannot read fails in set_message_fields, before the wait for the service
+    // (https://github.com/ros2/ros2cli/blob/jazzy/ros2service/ros2service/verb/call.py; rosidl_runtime_py jazzy set_message.py)
+    { const rq0 = ifacesReady() && hasIface(type) ? sectionType(type, "request") : null; if (rq0) { try { buildMessage(rq0, parseYaml(yaml) || {}); } catch (e) { if (/could not convert string to float|invalid literal for int\(\)/.test(e.message)) return [this.err(e.message)]; } } }
     if (!s) return [this.out("waiting for service to become available..."), this.out("^C"), this.hint(`Nobody offers ${name}, so the call waits forever. Check the name with: ros2 service list`)];
     if (s.type !== type) return [this.err(`The passed service type is invalid`), this.hint(`${name} has type ${s.type}`)];
     if (this.nav2Api && this.nav2) { let rq = {}; try { rq = parseYaml(yaml) || {}; } catch { rq = {}; } const nv = this.nav2Api.nav2Service(this, name, type, rq); if (nv) return nv; }
@@ -639,6 +690,9 @@ export class RosGraph {
       return list.flatMap((n) => [this.out(`${n.full}:`), ...Object.keys(n.params).sort().map((k) => this.out(`  ${k}`))]);
     }
     const n = this.node(pos[0] || "");
+    // argparse checks the positionals before anything looks for the node (ros2param/verb/*.py add_arguments)
+    const need = { get: 2, set: 3, describe: 2, dump: 1 }[a];
+    if (need && pos.length < need) return argparseMissing(`param ${a}`, pos.length).map((x) => this.err(x));
     if (!pos[0]) return [this.err(`usage: ros2 param ${a || "list"} <node_name> ...`)];
     if (!n) return [this.err("Node not found"), this.hint("See the running nodes with: ros2 node list")];
     if (a === "get") {
@@ -712,12 +766,14 @@ export class RosGraph {
     const servers = [...A.entries()].filter(([, v]) => v.by.acts.length);
     if (a === "list") return servers.map(([k, v]) => this.out(showT ? `${k} [${v.type}]` : k));
     const name = pos[0], s = A.get(name || "");
-    if (!name) return [this.err(`usage: ros2 action ${a || "list"} <action_name>`)];
-    if (a === "type") return s ? [this.out(s.type)] : [this.err(`Unable to find action '${name}'`)];
+    if (!name) return (argparseMissing(`action ${a}`, 0) || [`usage: ros2 action ${a || "list"} <action_name>`]).map((x) => this.err(x));
+    // an unknown name prints nothing and exits 1 (https://github.com/ros2/ros2cli/blob/jazzy/ros2action/ros2action/verb/type.py)
+    if (a === "type") return s ? [this.out(s.type)] : [];
     if (a === "info") return s ? [this.out(`Action: ${name}`), this.out(`Action clients: ${s.by.actc.length}`), ...s.by.actc.map((c) => this.out(`    ${c}`)), this.out(`Action servers: ${s.by.acts.length}`), ...s.by.acts.map((c) => this.out(`    ${c}`))] : [this.err(`Unable to find action '${name}'`)];
     if (a !== "send_goal") return [this.err(`ros2 action: unknown command '${a}'`), this.hint("Try: list, info, type, send_goal")];
     const type = pos[1] ? normIface(pos[1], "action") : pos[1], yaml = pos.slice(2).join(" ");
-    if (!type || !yaml) return [this.err("usage: ros2 action send_goal [-h] [-f] action_name action_type goal"), this.err("ros2 action send_goal: error: the following arguments are required: action_name, action_type, goal")];
+    if (!type) return argparseMissing("action send_goal", 1).map((x) => this.err(x));
+    if (!yaml) return [this.err("usage: ros2 action send_goal [-h] [-f] action_name action_type goal"), this.err("ros2 action send_goal: error: the following arguments are required: action_name, action_type, goal")];
     if (!s || !s.by.acts.length) return [this.out("Waiting for an action server to become available..."), this.out("^C"), this.hint(`Nobody serves ${name}. Check with: ros2 action list`)];
     if (type !== s.type) return [this.err("The passed action type is invalid"), this.hint(`${name} has type ${s.type}`)];
     const own = this.node(s.by.acts[0]);
@@ -746,6 +802,8 @@ export class RosGraph {
     const L = [this.out("Waiting for an action server to become available..."), this.out("Sending goal:"), this.out(`     theta: ${goal}`), this.out(""), this.out(`Goal accepted with ID: ${hex()}`), this.out("")];
     if (rest.includes("--feedback") || rest.includes("-f")) for (let k = 0; k < 4; k++) L.push(this.out("Feedback:"), this.out(`    remaining: ${fnum(+(diff * (1 - k * 0.3)).toFixed(6))}`), this.out(""));
     hit.t.theta = +goal.toFixed(6);
+    // turtlesim logs this when the goal is reached (Turtle::update, https://github.com/ros/ros_tutorials/blob/jazzy/turtlesim/src/turtle.cpp)
+    (this.notices = this.notices || []).push({ node: hit.n.full, text: `[INFO] [${hit.n.name}]: Rotation goal completed successfully` });
     L.push(this.out("Result:"), this.out(`    delta: ${fnum(+(-diff + 0.002 * Math.sign(-diff || 1)).toFixed(6))}`), this.out(""), this.out("Goal finished with status: SUCCEEDED"));
     return L;
   }
@@ -902,6 +960,7 @@ export class RosGraph {
     }
     if (kind === "rviz") { const di = extra.indexOf("-d"); const r = this.rvizConfig(di >= 0 ? extra[di + 1] : null); if (r) pre.push(...r); }
     const n = this.add(kind, name, ns, params, remaps, dup);
+    if (pkg === "demo_nodes_py") n.rclpy = true;
     this.lastStarted = [n.full];
     if (kind === "gz_bridge" || kind === "gz_image") {
       const argv = extra.slice(0, extra.includes("--ros-args") ? extra.indexOf("--ros-args") : extra.length);
@@ -913,11 +972,13 @@ export class RosGraph {
     }
     if (kind === "teleop_twist") { n.speed = Number(n.params.speed) || 0.5; n.turn = Number(n.params.turn) || 1.0; const st = n.params.stamped === true || n.params.stamped === "true"; const tp = (this.endpoints(n).pubs.find(([, t]) => /Twist/.test(t)) || [])[0]; return [...pre, ...this.lines(TELEOP_BANNER), this.hint(`(Practice terminal: press the keys below, or type them while this terminal is selected. It publishes geometry_msgs/msg/${st ? "TwistStamped" : "Twist"} on ${tp}.)`)]; }
     const L = {
-      jsp: kind !== "jsp" ? [] : this.rspNode() ? [] : ["[WARN] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic..."],
-      jsp_gui: kind !== "jsp_gui" ? [] : this.rspNode() ? ["[INFO] [joint_state_publisher_gui]: Centering", "(A window with one slider per moving joint opened below the terminal.)"] : ["[WARN] [joint_state_publisher_gui]: Waiting for robot_description to be published on the robot_description topic..."],
+      // logger joint_state_publisher for both programs, all INFO (lessons/RV1/term1.json step 2, XT5/term1.json step 6)
+      jsp: kind !== "jsp" ? [] : JSP_LINES("jsp", !!this.rspNode()).map((t) => `[INFO] [joint_state_publisher]: ${t}`),
+      jsp_gui: kind !== "jsp_gui" ? [] : [...JSP_LINES("jsp_gui", !!this.rspNode()).map((t) => `[INFO] [joint_state_publisher]: ${t}`), ...(this.rspNode() ? ["(A window with one slider per moving joint opened below the terminal.)"] : [])],
       rviz: kind !== "rviz" ? [] : ["[INFO] [rviz2]: Stereo is NOT SUPPORTED", "[INFO] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)", "(The RViz2 window opened below the terminal.)"],
       turtlesim: [`[INFO] [${name}]: Starting turtlesim with node name ${n.full}`, `[INFO] [${name}]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]`],
-      teleop: ["Reading from keyboard", "---------------------------", "Use arrow keys to move the turtle.", "Use G|B|V|C|D|E|R|T keys to rotate to absolute orientations. 'F' to cancel a rotation.", "'Q' to quit."],
+      // puts() in TeleopTurtle::keyLoop (https://github.com/ros/ros_tutorials/blob/jazzy/turtlesim/tutorials/teleop_turtle_key.cpp)
+      teleop: ["Reading from keyboard", "---------------------------", "Use arrow keys to move the turtle.", "Use g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.", "'q' to quit."],
       talker: [1, 2, 3].map((i) => `[INFO] [${name}]: Publishing: 'Hello World: ${i}'`),
       listener: this.has("/talker") ? [1, 2, 3].map((i) => `[INFO] [${name}]: I heard: [Hello World: ${i}]`) : [],
       adder: [],
@@ -956,7 +1017,7 @@ export class RosGraph {
       return out;
     } n.ptypes = { ...Object.fromEntries(Object.entries(n.params).map(([k, v]) => [k, typeof v === "boolean" ? "bool" : typeof v === "string" ? "string" : Number.isInteger(v) ? "integer" : "double"])), ...info.ptypes };
     this.lastStarted = [n.full];
-    const shown = this.renderLogs(n, lines);
+    const shown = this.renderLogs(n, lines).concat(this.latchedFor(n));
     return [...shown.map((t) => this.out(t.replace(`[${info.node}]`, `[${name}]`))), this.hint(`(Practice terminal: your node ${n.full} now keeps running. Open a new terminal tab and look at it with ros2 node info ${n.full})`)];
   }
   launch(pkg, file) {
@@ -983,9 +1044,12 @@ RosGraph.prototype.teleopKey = function (teleFull, key) {
   const lin = Number(tele.params.scale_linear) || 2, ang = Number(tele.params.scale_angular) || 2;
   const v = { up: [lin, 0], down: [-lin, 0], left: [0, ang], right: [0, -ang] }[key];
   if (!v) return null;
-  const topic = `${tele.ns}/turtle1/cmd_vel`;
+  // the publisher is created on the relative name "turtle1/cmd_vel", so --ros-args -r applies to it
+  // (https://github.com/ros/ros_tutorials/blob/jazzy/turtlesim/tutorials/teleop_turtle_key.cpp, TeleopTurtle())
+  const res = (x) => (x.startsWith("/") ? x : `${tele.ns}/${x}`), rm = (tele.remaps || []).find(([f]) => res(f) === `${tele.ns}/turtle1/cmd_vel`);
+  const topic = rm ? res(rm[1]) : `${tele.ns}/turtle1/cmd_vel`;
   this.lastTwist = { lx: v[0], ly: 0, az: v[1], topic };
-  const hit = this.turtle(`${tele.ns}/turtle1`);
+  const hit = this.turtle(topic.replace(/\/cmd_vel$/, ""));
   if (hit) this.move(hit.t, v[0], v[1], 1);
   return hit;
 };
@@ -1554,6 +1618,36 @@ function constantTwist(code) {
   const linN = all(/\.linear\.x\s*=\s*-?\d*\.?\d+\s*[;\n]/g), angN = all(/\.angular\.z\s*=\s*-?\d*\.?\d+\s*[;\n]/g);
   return /create_(wall_)?timer\s*[<(]/.test(body) && (lin + ang) > 0 && lin === linN && ang === angN && lin <= 1 && ang <= 1 && !/\bif\b|\?/.test(body.replace(/#.*$/gm, "").replace(/\/\/.*$/gm, ""));
 }
+// A TRANSIENT_LOCAL subscription of a student's node gets, at once, the message a running TRANSIENT_LOCAL publisher already
+// sent (N10 late_listener: `I joined late but still got: "…"`, parity/fixtures/lessons/N10/term1.json step 6).
+RosGraph.prototype.latchedFor = function (n) {
+  const I = n.info, out = [];
+  if (!I || !I.cbLogs) return out;
+  const res = (node, x) => {
+    const abs = (y) => (y.startsWith("/") ? y : y.startsWith("~/") ? `${node.full}/${y.slice(2)}` : `${node.ns}/${y}`);
+    const nm = abs(x), r = (node.remaps || []).find(([f]) => abs(f) === nm);
+    return r ? abs(r[1]) : nm;
+  };
+  for (const cb of I.cbLogs) {
+    if (!cb.qos) continue;
+    for (const m of this.nodes) {
+      if (m === n || !m.info || !m.info.latched) continue;
+      for (const [t, data] of Object.entries(m.info.latched)) {
+        if (res(m, t) !== res(n, cb.topic)) continue;
+        const text = cb.f ? cb.text.replace(new RegExp(`\\{${cb.arg}\\.data\\}`, "g"), data) : cb.text;
+        if (!/[{}]/.test(text)) out.push(`[${cb.level}] [${I.node}]: ${text}`);
+      }
+    }
+  }
+  return out;
+};
+// joint_state_publisher(_gui) startup, as real Jazzy prints it once robot_state_publisher publishes robot_description
+// (lessons/XT5/term1.json step 6, RV1/term1.json step 2, XT7 and UR5 launch logs); without it, only the first line
+const JSP_LINES = (kind, haveDescription) => {
+  const L = kind === "jsp_gui" ? ["Waiting for robot_description to be published on the robot_description topic...", "Centering", "Got description, configuring robot", "Centering"]
+    : ["Waiting for robot_description to be published on the robot_description topic...", "Got description, configuring robot"];
+  return haveDescription ? L : L.slice(0, 1);
+};
 export function parseNodeCode(code, lang) {
   const info = { node: null, pubs: [], subs: [], srvs: [], cli: [], acts: [], actc: [], params: {}, ptypes: {}, logs: [], code };
   const clean = code.replace(lang === "python" ? /^\s*#.*$/gm : /\/\/.*$/gm, "");
@@ -1572,8 +1666,18 @@ export function parseNodeCode(code, lang) {
     for (const m of clean.matchAll(/from[ \t]+(\w+)\.(msg|srv|action)[ \t]+import[ \t]+(\([^)]*\)|[\w \t,]+)/g)) for (const t of m[3].replace(/[()]/g, "").split(",").map((x) => x.trim()).filter(Boolean)) types[t.split(/\s+as\s+/).pop()] = `${m[1]}/${m[2]}/${t.split(/\s+as\s+/)[0]}`;
     const T = (x) => types[x] || x;
     const nm = clean.match(/super\(\)\.__init__\(\s*(?:node_name\s*=\s*)?["']([\w]+)["']/) || clean.match(/Node\(\s*["']([\w]+)["']/); if (nm) info.node = nm[1];
-    for (const m of clean.matchAll(/create_publisher\(\s*(\w+)\s*,\s*["']([\w/~]+)["']/g)) info.pubs.push([m[2], T(m[1])]);
-    for (const m of clean.matchAll(/create_subscription\(\s*(\w+)\s*,\s*["']([\w/~]+)["']/g)) info.subs.push([m[2], T(m[1])]);
+    // QoSProfile(..., durability=DurabilityPolicy.TRANSIENT_LOCAL): the publisher keeps its last messages for late subscribers
+    const qv = {};
+    for (const m of clean.matchAll(/([\w.]+)\s*=\s*QoSProfile\(([^)]*)\)/g)) if (/TRANSIENT_LOCAL/.test(m[2])) qv[m[1]] = `${/BEST_EFFORT/.test(m[2]) ? "BEST_EFFORT" : "RELIABLE"}/TRANSIENT_LOCAL`;
+    for (const m of clean.matchAll(/create_publisher\(\s*(\w+)\s*,\s*["']([\w/~]+)["']\s*(?:,\s*([\w.]+))?/g)) info.pubs.push([m[2], T(m[1]), qv[m[3]]]);
+    info.cbLogs = [];
+    for (const m of clean.matchAll(/create_subscription\(\s*(\w+)\s*,\s*["']([\w/~]+)["']\s*(?:,\s*([\w.]+)\s*(?:,\s*([\w.]+))?)?/g)) {
+      info.subs.push([m[2], T(m[1]), qv[m[4]]]);
+      // the first log line of the subscription callback: def on_x(self, msg): ... get_logger().info(f'... {msg.data} ...')
+      const d = m[3] && clean.match(new RegExp(`\\n(\\s*)def ${m[3].replace(/^self\./, "")}\\(\\s*self\\s*,\\s*(\\w+)\\s*\\)\\s*:([\\s\\S]*?)(?=\\n\\1def |\\n\\S|$)`));
+      const lg = d && d[3].match(/get_logger\(\)\.(info|warn|warning|error)\(\s*(f?)(["'])(.*?)\3\s*\)/);
+      if (lg) info.cbLogs.push({ topic: m[2], qos: qv[m[4]], arg: d[2], level: lg[1] === "info" ? "INFO" : lg[1] === "error" ? "ERROR" : "WARN", f: !!lg[2], text: lg[4] });
+    }
     for (const m of clean.matchAll(/create_service\(\s*(\w+)\s*,\s*["']([\w/~]+)["']/g)) info.srvs.push([m[2], T(m[1])]);
     for (const m of clean.matchAll(/create_client\(\s*(\w+)\s*,\s*["']([\w/~]+)["']/g)) info.cli.push([m[2], T(m[1])]);
     for (const m of clean.matchAll(/ActionServer\(\s*\w+\s*,\s*(\w+)\s*,\s*["']([\w/~]+)["']/g)) info.acts.push([m[2], T(m[1])]);
@@ -1586,6 +1690,10 @@ export function parseNodeCode(code, lang) {
     info.pyVars = {};
     for (const m of clean.matchAll(/(self\.\w+|\b\w+)\s*=\s*self\.(?:get_parameter|declare_parameter)\(\s*['"](\w+)['"][^)]*\)\.value/g)) info.pyVars[m[1].replace(/^self\./, "self.")] = m[2];
     for (const m of clean.matchAll(/(self\.\w+)\s*=\s*self\.get_parameter\(\s*['"](\w+)['"]\)\.value/g)) info.pyVars[m[1]] = m[2];
+    // a std_msgs String published once in the constructor on a TRANSIENT_LOCAL topic stays there for late subscribers
+    info.latched = {};
+    const ld = ctorPy.match(/\w+\.data\s*=\s*(["'])(.*?)\1/);
+    if (ld && /\.publish\(/.test(ctorPy)) for (const [t, ty, q] of info.pubs) if (q && ty === "std_msgs/msg/String") info.latched[t] = ld[2];
     info.tpl = [];
     for (const m of ctorPy.matchAll(/get_logger\(\)\.(info|warn|warning|error)\(\s*(f?)(["'])(.*?)\3/g)) if (m[2] && info.tpl.length < 3) info.tpl.push({ i: info.tpl.length, py: m[4] });
     for (const m of ctorPy.matchAll(/get_logger\(\)\.(info|warn|warning|error)\(\s*(f?)(["'])(.*?)\3/g)) if (info.logs.length < 3) info.logs.push(`[${m[1] === "info" ? "INFO" : m[1] === "error" ? "ERROR" : "WARN"}] [${info.node || "node"}]: ${m[2] ? m[4].replace(/\{[^}]*\}/g, "…") : m[4]}`);
@@ -1595,8 +1703,8 @@ export function parseNodeCode(code, lang) {
     for (const m of clean.matchAll(/using\s+((?:\w+::)+)(\w+)\s*;/g)) alias[m[2]] = m[1] + m[2];
     const T = (x) => { x = alias[x.trim()] || x.trim(); const m = x.match(/^(\w+)::(msg|srv|action)::(\w+)$/); return m ? `${m[1]}/${m[2]}/${m[3]}` : x; };
     const nm = clean.match(/(?:rclcpp::)?Node\(\s*"(\w+)"/) || clean.match(/make_shared<rclcpp::Node>\(\s*"(\w+)"/) || clean.match(/Node::make_shared\(\s*"(\w+)"/); if (nm) info.node = nm[1];
-    for (const m of clean.matchAll(/create_publisher<\s*([\w:]+)\s*>\(\s*"([\w/~]+)"/g)) info.pubs.push([m[2], T(m[1])]);
-    for (const m of clean.matchAll(/create_subscription<\s*([\w:]+)\s*>\(\s*"([\w/~]+)"/g)) info.subs.push([m[2], T(m[1])]);
+    for (const m of clean.matchAll(/create_publisher<\s*([\w:]+)\s*>\(\s*"([\w/~]+)"(?=\s*,)/g)) info.pubs.push([m[2], T(m[1])]);
+    for (const m of clean.matchAll(/create_subscription<\s*([\w:]+)\s*>\(\s*"([\w/~]+)"(?=\s*,)/g)) info.subs.push([m[2], T(m[1])]);
     for (const m of clean.matchAll(/create_service<\s*([\w:]+)\s*>\(\s*"([\w/~]+)"/g)) info.srvs.push([m[2], T(m[1])]);
     for (const m of clean.matchAll(/create_client<\s*([\w:]+)\s*>\(\s*"([\w/~]+)"/g)) info.cli.push([m[2], T(m[1])]);
     for (const m of clean.matchAll(/rclcpp_action::create_server<\s*([\w:]+)\s*>\(\s*[\w>-]+\s*,\s*"([\w/~]+)"/g)) info.acts.push([m[2], T(m[1])]);
@@ -1610,6 +1718,12 @@ export function parseNodeCode(code, lang) {
     info.cVars = {};
     for (const m of clean.matchAll(/(\w+_?)\s*=\s*declare_parameter(?:<[^>]*>)?\(\s*"(\w+)"/g)) info.cVars[m[1]] = m[2];
     for (const m of clean.matchAll(/(\w+_?)\s*=\s*get_parameter\(\s*"(\w+)"\s*\)/g)) info.cVars[m[1]] = m[2];
+    // a topic name built from a parameter: "/" + turtle_ + "/pose" -> "/{turtlename}/pose", filled in from the node's parameters
+    for (const [k, fn] of [["pubs", "create_publisher"], ["subs", "create_subscription"]])
+      for (const m of clean.matchAll(new RegExp(`${fn}<\\s*([\\w:]+)\\s*>\\(\\s*((?:"[\\w/~]*"|\\w+)(?:\\s*\\+\\s*(?:"[\\w/~]*"|\\w+))+)\\s*,`, "g"))) {
+        const parts = m[2].split("+").map((x) => x.trim()), name = parts.map((x) => (x.startsWith('"') ? x.slice(1, -1) : info.cVars[x] ? `{${info.cVars[x]}}` : null));
+        if (!name.includes(null)) info[k].push([name.join(""), T(m[1])]);
+      }
     info.ctpl = [];
     for (const m of ctorC.matchAll(/RCLCPP_(?:INFO|WARN|ERROR)(?:_ONCE)?\(\s*[^,]+,\s*"((?:[^"\\]|\\.)*)"((?:\s*,\s*[^;]+?)*)\);/g)) if (info.ctpl.length < 3) info.ctpl.push({ fmt: m[1], args: m[2].split(/,(?![^(]*\))/).map((x) => x.trim()).filter(Boolean) });
     for (const m of ctorC.matchAll(/RCLCPP_(INFO|WARN|ERROR)(?:_ONCE|_THROTTLE)?\(\s*[^,]+,\s*(?:[^,"]+,\s*\d+\s*,\s*)?"((?:[^"\\]|\\.)*)"/g)) if (info.logs.length < 3) info.logs.push(`[${m[1]}] [${info.node || "node"}]: ${m[2].replace(/%[-.\d]*[lz]*[sdfiu]/g, "…").replace(/%%/g, "%")}`);
@@ -1965,8 +2079,9 @@ RosGraph.prototype.hwLocked = function (msg) {
   return [this.out("[INFO] [launch]: Default logging verbosity is set to INFO"), this.err(`[ERROR] [ros2lab_hardware_license]: ${msg}`), this.err("[ERROR] [launch]: real hardware is locked: nothing was started"), this.hint(this.hwSimHint())];
 };
 // a launch that started a real driver or a real hardware plugin (real-launch.js): it is stopped there
-RosGraph.prototype.hwLockNote = function (msg, what) {
-  return [this.err(`[ERROR] [ros2lab_hardware_license]: ${msg}`), this.err(`[ERROR] [ros2lab_hardware_license]: real hardware is locked: this launch starts ${what}, which drives the real robot, so ROS2Lab stopped the launch`), this.hint(this.hwSimHint())];
+// before: stopped before any process started (the launch runtime's preflight)
+RosGraph.prototype.hwLockNote = function (msg, what, before) {
+  return [this.err(`[ERROR] [ros2lab_hardware_license]: ${msg}`), this.err(`[ERROR] [ros2lab_hardware_license]: real hardware is locked: this launch starts ${what}, which drives the real robot, so ROS2Lab stopped the launch${before ? " before it started any process" : ""}`), this.hint(this.hwSimHint())];
 };
 // the license hint names what runs without a robot on THIS page (expert_review_robots_2026-10-18 site-wide #4):
 // the card's own simulation / mock commands, or the launch files of the packages in the workspace
@@ -1974,7 +2089,7 @@ RosGraph.prototype.hwSimHint = function () {
   const R = this.sh.realWs, list = (v) => (Array.isArray(v) ? v : v ? [v] : []);
   let cmds = [];
   if (R && R.json) {
-    for (const [kind, v] of Object.entries(R.json.entry || {})) if (kind !== "real" && !/note|issues/.test(kind)) for (const e of list(v)) if (e && e.cmd && (!e.robot || e.robot === R.robot) && /^ros2 launch /.test(e.cmd)) cmds.push(e.cmd);
+    for (const [kind, v] of Object.entries(R.json.entry || {})) if (kind !== "real" && !/note|issues/.test(kind)) for (const e of list(v)) if (e && e.cmd && !e.hw && (!e.robot || e.robot === R.robot) && /^ros2 launch /.test(e.cmd)) cmds.push(e.cmd);
   } else {
     for (const p of this.sh.wsPkgs ? this.sh.wsPkgs.values() : []) for (const f of Object.keys(p.launch || {})) if (/sim|gazebo|demo|mock|display/.test(f)) cmds.push(`ros2 launch ${p.name} ${f}`);
   }
@@ -2149,7 +2264,7 @@ RosGraph.prototype.launchUserInner = function (pk, file, extra = []) {
     }
     if (kind === "custom" && ws.infos && ws.infos[n.exec]) { const inf = ws.infos[n.exec]; node.info = inf; for (const [k, v] of Object.entries(inf.params)) if (!(k in node.params)) node.params[k] = v; if (inf.lang === "cpp") QOS.forEach((q, i) => { node.params[q] = [1000, "volatile", "keep_last", "reliable"][i]; }); }
     if (kind === "custom") node.ptypes = { ...Object.fromEntries(Object.entries(params).map(([k, v]) => [k, v && typeof v === "object" ? "double" : typeof v === "boolean" ? "bool" : typeof v === "string" ? "string" : "integer"])), ...((node.info && node.info.ptypes) || {}) };
-    if (kind === "jsp_gui" || kind === "jsp") post.push(this.out(`[${n.exec}-${count + 1}] [INFO] [${stamp()}] [${n.exec}]: Waiting for robot_description to be published on the robot_description topic...`));
+    if (kind === "jsp_gui" || kind === "jsp") for (const t of JSP_LINES(kind, !!this.rspNode())) post.push(this.out(`[${n.exec}-${count + 1}] [INFO] [${stamp()}] [${n.name || "joint_state_publisher"}]: ${t}`));
     if (kind === "gz_bridge" || kind === "gz_image") {
       if (kind === "gz_image") node.bridge = (n.args || []).filter((x) => !x.startsWith("-")).map((t) => ({ ros: t.startsWith("/") ? t : "/" + t, gz: t.startsWith("/") ? t : "/" + t, rosType: "sensor_msgs/msg/Image", gzType: "gz.msgs.Image", dir: "GZ_TO_ROS" }));
       else {
@@ -2221,7 +2336,7 @@ RosGraph.prototype.jointValues = function () { const J = { ...(this.sh.viz ? thi
 RosGraph.prototype.rspMessages = function (n) {
   const txt = String(n.params.robot_description);
   if (/<xacro:/.test(txt.replace(/<!--[\s\S]*?-->/g, ""))) return ["[ERROR] [robot_state_publisher]: Failed to parse robot description: it still contains <xacro:...> tags. Run it through xacro first: -p robot_description:=\"$(xacro file.urdf.xacro)\""];
-  try { const m = parseURDF(txt); return [...Object.values(m.joints).filter((j) => j.type === "floating" || j.type === "planar").map((j) => `[WARN] [kdl_parser]: Converting unknown joint type of joint '${j.name}' into a fixed joint`), ...Object.keys(m.links).sort().map((l) => `[INFO] [robot_state_publisher]: got segment ${l}`)]; }
+  try { const m = parseURDF(txt); return [...Object.values(m.joints).filter((j) => j.type === "floating" || j.type === "planar").map((j) => `[WARN] [kdl_parser]: Converting unknown joint type of joint '${j.name}' into a fixed joint`), ...(m.links[m.root] && m.links[m.root].inertial ? [`[WARN] [kdl_parser]: The root link ${m.root} has an inertia specified in the URDF, but KDL does not support a root link with an inertia.  As a workaround, you can add an extra dummy link to your URDF.`] : []), "[INFO] [robot_state_publisher]: Robot initialized"]; }   // Jazzy: one line (lessons/XT5/term1.json step 0); kdl root inertia warning first (lessons/R4/term1_runner.log)
   catch (e) { return ["[ERROR] [robot_state_publisher]: Failed to parse robot description using: urdf_xml_parser/URDFXMLParser", `[ERROR] [robot_state_publisher]: ${e.message.replace(/^Error:\s*/, "")}`]; }
 };
 // ros2 run tf2_tools view_frames

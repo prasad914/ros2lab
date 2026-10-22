@@ -1,0 +1,181 @@
+# Excerpt of parity/fixtures/lessons/XT6/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson XT6 terminal 1: Live terminal: give Chiku a camera frame
+2:# scratch HOME /home/prasad/lesson_ws/homes/XT6_t1 shown as /home/student; sourced=True running=[] start=~
+3:## [term 1] $ ros2 run tf2_ros static_transform_publisher --x 0.2 --z 0.1 --yaw 1.5708 --frame-id base_link --child-frame-id camera_link   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+4:[INFO] [1792427678.695485707] [static_transform_publisher_bSu8kh1vd98CK4nb]: Spinning until stopped - publishing transform
+5:translation: ('0.200000', '0.000000', '0.100000')
+6:rotation: ('0.000000', '0.000000', '0.707108', '0.707105')
+7:from 'base_link' to 'camera_link'
+8:
+9:## [new terminal 2]
+10:## [term 2] $ ros2 run tf2_ros tf2_echo base_link camera_link   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+11:[INFO] [1792427688.337124701] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "base_link" passed to canTransform argument target_frame - frame does not exist
+12:At time 0.0
+13:- Translation: [0.200, 0.000, 0.100]
+14:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.707, 0.707]
+15:- Rotation: in RPY (radian) [0.000, -0.000, 1.571]
+16:- Rotation: in RPY (degree) [0.000, -0.000, 90.000]
+17:- Matrix:
+18: -0.000 -1.000  0.000  0.200
+19:  1.000 -0.000  0.000  0.000
+20:  0.000  0.000  1.000  0.100
+21:  0.000  0.000  0.000  1.000
+22:At time 0.0
+23:- Translation: [0.200, 0.000, 0.100]
+24:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.707, 0.707]
+25:- Rotation: in RPY (radian) [0.000, -0.000, 1.571]
+26:- Rotation: in RPY (degree) [0.000, -0.000, 90.000]
+27:- Matrix:
+28: -0.000 -1.000  0.000  0.200
+29:  1.000 -0.000  0.000  0.000
+30:  0.000  0.000  1.000  0.100
+31:  0.000  0.000  0.000  1.000
+32:At time 0.0
+33:- Translation: [0.200, 0.000, 0.100]
+34:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.707, 0.707]
+35:- Rotation: in RPY (radian) [0.000, -0.000, 1.571]
+36:- Rotation: in RPY (degree) [0.000, -0.000, 90.000]
+37:- Matrix:
+38: -0.000 -1.000  0.000  0.200
+39:  1.000 -0.000  0.000  0.000
+40:  0.000  0.000  1.000  0.100
+41:  0.000  0.000  0.000  1.000
+42:At time 0.0
+43:- Translation: [0.200, 0.000, 0.100]
+44:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.707, 0.707]
+45:- Rotation: in RPY (radian) [0.000, -0.000, 1.571]
+46:- Rotation: in RPY (degree) [0.000, -0.000, 90.000]
+47:- Matrix:
+48: -0.000 -1.000  0.000  0.200
+49:  1.000 -0.000  0.000  0.000
+50:  0.000  0.000  1.000  0.100
+51:  0.000  0.000  0.000  1.000
+52:At time 0.0
+53:- Translation: [0.200, 0.000, 0.100]
+54:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.707, 0.707]
+55:- Rotation: in RPY (radian) [0.000, -0.000, 1.571]
+56:- Rotation: in RPY (degree) [0.000, -0.000, 90.000]
+57:- Matrix:
+58: -0.000 -1.000  0.000  0.200
+59:  1.000 -0.000  0.000  0.000
+60:  0.000  0.000  1.000  0.100
+61:  0.000  0.000  0.000  1.000
+62:At time 0.0
+63:- Translation: [0.200, 0.000, 0.100]
+64:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.707, 0.707]
+65:- Rotation: in RPY (radian) [0.000, -0.000, 1.571]
+66:- Rotation: in RPY (degree) [0.000, -0.000, 90.000]
+67:- Matrix:
+68: -0.000 -1.000  0.000  0.200
+69:  1.000 -0.000  0.000  0.000
+70:  0.000  0.000  1.000  0.100
+71:  0.000  0.000  0.000  1.000
+72:At time 0.0
+73:- Translation: [0.200, 0.000, 0.100]
+74:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.707, 0.707]
+75:- Rotation: in RPY (radian) [0.000, -0.000, 1.571]
+76:- Rotation: in RPY (degree) [0.000, -0.000, 90.000]
+77:- Matrix:
+78: -0.000 -1.000  0.000  0.200
+79:  1.000 -0.000  0.000  0.000
+80:  0.000  0.000  1.000  0.100
+81:  0.000  0.000  0.000  1.000
+82:
+83:## [term 2] Ctrl+C to stop: ros2 run tf2_ros tf2_echo base_link camera_link  (exit=0)
+84:[INFO] [1792427688.337124701] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "base_link" passed to canTransform argument target_frame - frame does not exist
+85:At time 0.0
+86:- Translation: [0.200, 0.000, 0.100]
+87:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.707, 0.707]
+88:- Rotation: in RPY (radian) [0.000, -0.000, 1.571]
+89:- Rotation: in RPY (degree) [0.000, -0.000, 90.000]
+90:- Matrix:
+91: -0.000 -1.000  0.000  0.200
+92:  1.000 -0.000  0.000  0.000
+93:  0.000  0.000  1.000  0.100
+94:  0.000  0.000  0.000  1.000
+95:At time 0.0
+96:- Translation: [0.200, 0.000, 0.100]
+97:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.707, 0.707]
+98:- Rotation: in RPY (radian) [0.000, -0.000, 1.571]
+99:- Rotation: in RPY (degree) [0.000, -0.000, 90.000]
+100:- Matrix:
+101: -0.000 -1.000  0.000  0.200
+102:  1.000 -0.000  0.000  0.000
+103:  0.000  0.000  1.000  0.100
+104:  0.000  0.000  0.000  1.000
+105:At time 0.0
+106:- Translation: [0.200, 0.000, 0.100]
+107:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.707, 0.707]
+108:- Rotation: in RPY (radian) [0.000, -0.000, 1.571]
+109:- Rotation: in RPY (degree) [0.000, -0.000, 90.000]
+110:- Matrix:
+111: -0.000 -1.000  0.000  0.200
+112:  1.000 -0.000  0.000  0.000
+113:  0.000  0.000  1.000  0.100
+114:  0.000  0.000  0.000  1.000
+115:At time 0.0
+116:- Translation: [0.200, 0.000, 0.100]
+117:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.707, 0.707]
+118:- Rotation: in RPY (radian) [0.000, -0.000, 1.571]
+119:- Rotation: in RPY (degree) [0.000, -0.000, 90.000]
+120:- Matrix:
+121: -0.000 -1.000  0.000  0.200
+122:  1.000 -0.000  0.000  0.000
+123:  0.000  0.000  1.000  0.100
+124:  0.000  0.000  0.000  1.000
+125:At time 0.0
+126:- Translation: [0.200, 0.000, 0.100]
+127:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.707, 0.707]
+128:- Rotation: in RPY (radian) [0.000, -0.000, 1.571]
+129:- Rotation: in RPY (degree) [0.000, -0.000, 90.000]
+130:- Matrix:
+131: -0.000 -1.000  0.000  0.200
+132:  1.000 -0.000  0.000  0.000
+133:  0.000  0.000  1.000  0.100
+134:  0.000  0.000  0.000  1.000
+135:At time 0.0
+136:- Translation: [0.200, 0.000, 0.100]
+137:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.707, 0.707]
+138:- Rotation: in RPY (radian) [0.000, -0.000, 1.571]
+139:- Rotation: in RPY (degree) [0.000, -0.000, 90.000]
+140:- Matrix:
+141: -0.000 -1.000  0.000  0.200
+142:  1.000 -0.000  0.000  0.000
+143:  0.000  0.000  1.000  0.100
+144:  0.000  0.000  0.000  1.000
+145:At time 0.0
+146:- Translation: [0.200, 0.000, 0.100]
+147:- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.707, 0.707]
+148:- Rotation: in RPY (radian) [0.000, -0.000, 1.571]
+149:- Rotation: in RPY (degree) [0.000, -0.000, 90.000]
+150:- Matrix:
+151: -0.000 -1.000  0.000  0.200
+152:  1.000 -0.000  0.000  0.000
+153:  0.000  0.000  1.000  0.100
+154:  0.000  0.000  0.000  1.000
+155:[INFO] [1792427695.990986322] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+156:
+157:## [term 2] $ ros2 run tf2_ros static_transform_publisher 0 0 0.3 0 0 0 base_link imu_link   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+158:[WARN] [1792427696.973488421] []: Old-style arguments are deprecated; see --help for new-style arguments
+159:[INFO] [1792427697.042669232] [static_transform_publisher_i86QeqWtsNcHuAPL]: Spinning until stopped - publishing transform
+160:translation: ('0.000000', '0.000000', '0.300000')
+161:rotation: ('0.000000', '0.000000', '0.000000', '1.000000')
+162:from 'base_link' to 'imu_link'
+163:
+164:## [term 1] Ctrl+C to stop: ros2 run tf2_ros static_transform_publisher --x 0.2 --z 0.1 --yaw 1.5708 --frame-id base_link --child-frame-id camera_link  (exit=0)
+165:[INFO] [1792427678.695485707] [static_transform_publisher_bSu8kh1vd98CK4nb]: Spinning until stopped - publishing transform
+166:translation: ('0.200000', '0.000000', '0.100000')
+167:rotation: ('0.000000', '0.000000', '0.707108', '0.707105')
+168:from 'base_link' to 'camera_link'
+169:[INFO] [1792427704.717519297] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+170:
+171:## [term 2] Ctrl+C to stop: ros2 run tf2_ros static_transform_publisher 0 0 0.3 0 0 0 base_link imu_link  (exit=0)
+172:[WARN] [1792427696.973488421] []: Old-style arguments are deprecated; see --help for new-style arguments
+173:[INFO] [1792427697.042669232] [static_transform_publisher_i86QeqWtsNcHuAPL]: Spinning until stopped - publishing transform
+174:translation: ('0.000000', '0.000000', '0.300000')
+175:rotation: ('0.000000', '0.000000', '0.000000', '1.000000')
+176:from 'base_link' to 'imu_link'
+177:[INFO] [1792427704.987204383] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+178:

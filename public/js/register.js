@@ -3,7 +3,7 @@ import {
   auth, db, storage, call, createUserWithEmailAndPassword, sendEmailVerification, updateProfile, reload, getIdTokenResult,
   doc, setDoc, updateDoc, serverTimestamp, onSnapshot, storageRef, uploadBytes, deleteField,
 } from "./fb.js";
-import { el, rich, toast, friendlyError, waitForUser, getStage, renderWho, signOutNow, describeProfile, fmtDate, passwordBox, regsUsed, MAX_REGISTRATIONS } from "./common.js";
+import { el, rich, toast, friendlyError, waitForUser, getStage, renderWho, signOutNow, describeProfile, fmtDate, passwordBox, placeError, regsUsed, MAX_REGISTRATIONS } from "./common.js";
 import { CONSENT_VERSION, CONTACT_EMAIL, REGISTRATION_MODE } from "./firebase-config.js";
 
 const main = document.getElementById("main");
@@ -37,7 +37,7 @@ function passwordProblem(pw, email, name) {
 
 const field = (label, input, help) => el("div", { class: "form-row" }, el("label", { for: input.id, text: label }), input, help ? el("small", { class: "muted", text: help }) : null);
 const notice = () => el("p", { class: "notice err", hidden: true, role: "alert" });
-const showErr = (n, msg) => { n.textContent = msg; n.hidden = !msg; };
+const showErr = (n, msg, input) => placeError(n, msg, input);   // with `input`, the message shows under that field
 
 function frame(stepIndex, ...body) {
   const steps = el("ol", { class: "wizard-steps", "aria-label": "Registration steps" },
@@ -82,12 +82,12 @@ function createAccount() {
   form.addEventListener("submit", async (e) => {
     e.preventDefault(); showErr(err, "");
     const n = name.value.trim().replace(/\s+/g, " ");
-    if (n.length < 2) return showErr(err, "Please enter your full name.");
-    if (!/^\S+@\S+\.\S+$/.test(email.value.trim())) return showErr(err, "Please enter a valid email address.");
+    if (n.length < 2) return showErr(err, "Please enter your full name.", name);
+    if (!/^\S+@\S+\.\S+$/.test(email.value.trim())) return showErr(err, "Please enter a valid email address.", email);
     const weak = passwordProblem(pw.value, email.value.trim(), n);
-    if (weak) return showErr(err, weak);
-    if (pw.value !== pw2.value) return showErr(err, "The two passwords are not the same.");
-    if (!agree.checked) return showErr(err, "Please tick the box to accept the Terms of Use and the Privacy Notice.");
+    if (weak) return showErr(err, weak, pw);
+    if (pw.value !== pw2.value) return showErr(err, "The two passwords are not the same.", pw2);
+    if (!agree.checked) return showErr(err, "Please tick the box to accept the Terms of Use and the Privacy Notice.", agree);
     btn.disabled = true;
     try {
       const cred = await createUserWithEmailAndPassword(auth, email.value.trim(), pw.value);
@@ -203,12 +203,12 @@ function detailsForm(user, st, existing, resubmit) {
       data.department = tidy(dept.value === "Other" ? deptOther.value : dept.value);
       data.gradYear = Number(grad.value);
     }
-    if (data.fullName.length < 2) return showErr(err, "Please enter your full name.");
-    if (data.institution.length < 2) return showErr(err, c === "working" ? "Please enter the name of your institution or company." : "Please enter your college name.");
-    if (c === "working" && data.designation.length < 2) return showErr(err, "Please enter your designation.");
-    if (c !== "working" && data.programme.length < 2) return showErr(err, "Please enter your programme.");
-    if (c !== "working" && data.department.length < 2) return showErr(err, "Please enter your department or branch.");
-    if (!existing && !agree.checked) return showErr(err, "Please tick the box to accept the Terms of Use and the Privacy Notice.");
+    if (data.fullName.length < 2) return showErr(err, "Please enter your full name.", name);
+    if (data.institution.length < 2) return showErr(err, c === "working" ? "Please enter the name of your institution or company." : "Please enter your college name.", inst);
+    if (c === "working" && data.designation.length < 2) return showErr(err, "Please enter your designation.", desig);
+    if (c !== "working" && data.programme.length < 2) return showErr(err, "Please enter your programme.", prog);
+    if (c !== "working" && data.department.length < 2) return showErr(err, "Please enter your department or branch.", dept);
+    if (!existing && !agree.checked) return showErr(err, "Please tick the box to accept the Terms of Use and the Privacy Notice.", agree);
     btn.disabled = true;
     try {
       const ref = doc(db, "users", user.uid);

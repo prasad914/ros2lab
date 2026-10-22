@@ -51,24 +51,35 @@ function render(p, user, page) {
     failed: `Not passed: both submissions scored below ${p.passPercent || 80}%. Please contact your instructor.`,
   }[p.status] || p.status;
 
-  const brief = el("section", { class: "panel" },
+  const pass = p.passPercent || 80;
+  const statusLabel = { assigned: "Not submitted", submitted: "Being marked", "needs-resubmit": "Submit again", passed: "Passed", failed: "Not passed" }[p.status] || p.status;
+  const graded = attempts.some((a) => a.status === "graded");
+  const fact = (k, v) => el("div", {}, el("dt", { text: k }), el("dd", { text: v }));
+  const head = el("section", { class: "panel p-head" },
     el("div", { class: "kicker", text: "Your personal project" }),
     el("h1", { style: { marginTop: "4px" }, text: p.title }),
-    el("p", { class: `notice ${p.status === "passed" ? "ok" : p.status === "failed" ? "err" : ""}`, text: statusText }),
+    el("dl", { class: "p-facts" }, fact("Status", statusLabel), fact("Pass mark", `${pass}%`), fact("Submissions", `${attempts.length} of ${maxA} used`),
+      graded ? fact("Best score", `${p.best}%`) : null),
+    el("p", { class: `notice ${p.status === "passed" ? "ok" : p.status === "failed" ? "err" : ""}`, text: statusText }));
+  const rubric = p.rubric || [];
+  const marking = el("section", { class: "panel" },
+    el("h2", { text: `How it is marked (pass mark ${pass}%)` }),
+    el("div", { class: "table-wrap" }, el("table", { class: "data p-rubric" },
+      el("thead", {}, el("tr", {}, el("th", { text: "Criterion" }), el("th", { class: "num", text: "Marks" }))),
+      el("tbody", {}, rubric.map((c) => el("tr", {}, el("td", { style: { whiteSpace: "normal" }, text: c.label }), el("td", { class: "num", text: c.max })))),
+      rubric.length ? el("tfoot", {}, el("tr", {}, el("td", { text: "Total" }), el("td", { class: "num", text: String(rubric.reduce((t, c) => t + (Number(c.max) || 0), 0)) }))) : null)),
+    el("p", { class: "small muted", text: "You may write your code in Python or C++. Build and test it on your own Ubuntu with ROS 2 Jazzy if you can; otherwise write it carefully from the Week 5 and Week 6 lessons. Your instructor reads and runs every submission." }));
+  const brief = el("section", { class: "panel" },
+    el("h2", { text: "Your brief" }),
     el("p", { text: p.summary }),
-    el("h2", { text: "Requirements" }),
+    el("h3", { text: "Requirements" }),
     el("ol", { class: "proj-reqs" }, (p.requirements || []).map((r) => el("li", {}, rich(r)))),
     el("h3", { text: "Interfaces you must use" }),
     el("ul", {}, (p.interfaces || []).map((r) => el("li", {}, el("code", { text: r })))),
     el("h3", { text: "What to submit" }),
-    el("ul", {}, (p.deliverables || []).map((r) => el("li", { text: r }))),
-    el("h3", { text: `How it is marked (pass mark ${p.passPercent || 80}%)` }),
-    el("div", { class: "table-wrap" }, el("table", { class: "data" },
-      el("thead", {}, el("tr", {}, el("th", { text: "Criterion" }), el("th", { text: "Marks" }))),
-      el("tbody", {}, (p.rubric || []).map((c) => el("tr", {}, el("td", { style: { whiteSpace: "normal" }, text: c.label }), el("td", { class: "num", text: c.max })))))),
-    el("p", { class: "small muted", text: "You may write your code in Python or C++. Build and test it on your own Ubuntu with ROS 2 Jazzy if you can; otherwise write it carefully from the Week 5 and Week 6 lessons. Your instructor reads and runs every submission." }));
+    el("ul", {}, (p.deliverables || []).map((r) => el("li", { text: r }))));
 
-  const history = attempts.length ? el("section", { class: "panel" }, el("h2", { style: { marginTop: 0 }, text: "Your submissions" }),
+  const history = attempts.length ? el("section", { class: "panel" }, el("h2", { text: "Your submissions and feedback" }),
     attempts.slice().reverse().map((a) => {
       const pass = a.status === "graded" && a.score >= (p.passPercent || 80);
       return el("div", { class: `attempt-card ${a.status === "graded" ? (pass ? "pass" : "fail") : ""}` },
@@ -76,11 +87,11 @@ function render(p, user, page) {
         a.status === "graded" ? el("div", {},
           el("p", { style: { margin: "8px 0" } }, el("strong", { text: `Score: ${a.score} / 100` }), pass ? " (passed)" : " (below the pass mark)"),
           el("ul", { class: "small" }, (p.rubric || []).map((c) => el("li", { text: `${c.label}: ${a.scores ? a.scores[c.id] : "–"} / ${c.max}` }))),
-          el("p", { style: { whiteSpace: "pre-wrap" } }, el("strong", { text: "Feedback: " }), a.feedback || ""))
+          el("p", { class: "p-feedback", style: { whiteSpace: "pre-wrap" } }, el("strong", { text: "Feedback: " }), a.feedback || ""))
           : el("p", { class: "muted", style: { margin: "8px 0 0" }, text: "Waiting for marking." }));
     })) : null;
 
-  page(el("p", { class: "small" }, el("a", { href: "course.html", text: "← Back to my course" })), brief, history, canSubmit ? form(p, user) : null);
+  page(el("p", { class: "small" }, el("a", { href: "course.html", text: "← Back to my course" })), el("div", { class: "stack" }, head, history, brief, marking, canSubmit ? form(p, user) : null));
 }
 
 function form(p, user) {
@@ -135,7 +146,7 @@ function form(p, user) {
     } catch (e) { go.disabled = false; go.textContent = `Submit (submission ${attempts.length + 1} of ${maxA})`; err.textContent = friendlyError(e); err.hidden = false; }
   });
   return el("section", { class: "panel" },
-    el("h2", { style: { marginTop: 0 }, text: attempts.length ? "Submit your improved project" : "Submit your project" }),
+    el("h2", { text: attempts.length ? "Submit your improved project" : "Submit your project" }),
     el("p", { class: "small muted", text: "Your work is saved on this device as you type, so you can come back later. Nothing is sent until you press Submit." }),
     el("div", { class: "form-row" }, el("label", { for: "p-lang", text: "Language" }), lang),
     el("h3", { text: "Files (up to 15)" }), el("p", { class: "small muted", text: "One box per file. Use the path inside your package as the name, e.g. setup.py, launch/patrol.launch.py, config/patrol.yaml." }),

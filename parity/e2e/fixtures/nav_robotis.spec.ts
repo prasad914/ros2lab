@@ -135,7 +135,9 @@ for (const robot of ROBOTS) {
 }
 
 test("tb3_burger nav_robotis: no initial pose -> navigation bringup aborts after the transform timeout", async ({ page }) => {
-  test.setTimeout(600000);
+  // initial_transform_timeout counts sim time (real: ~57.6 s sim); headless Chromium runs Gazebo at ~0.18x, so the
+  // abort comes ~340 s wall after the activation (Phase 1 item 7 probe: 60.2 s sim at 337 s wall)
+  test.setTimeout(1000000);
   const robot = "tb3_burger", dir = path.join(FIX, robot, "nav_robotis", "readiness_deadlock_2026-10-17");
   const rec = new Recorder(robot, "nav_robotis_no_initial_pose");
   try {
@@ -143,7 +145,8 @@ test("tb3_burger nav_robotis: no initial pose -> navigation bringup aborts after
     const activating = await startNav(page, robot, rec, path.join(dir, "run_info.txt"));
     rec.exact("navigation lifecycle reaches 'Activating planner_server'", true, activating, ex);
     const t0 = Date.now();
-    const aborted = await waitText(page, /Aborting bringup/, 300000);
+    const aborted = await waitText(page, /Aborting bringup/, 720000);
+    rec.exact("ROS2Lab note to set the initial pose on screen while Nav2 waits (site only)", true, /\(ROS2Lab: Nav2 is waiting for the map -> base_link transform\./.test(await screens(page)), ex);
     const wall = (Date.now() - t0) / 1000;
     const errs = L.filter((l) => l.level === "ERROR");
     checkLines(rec, await screens(page), ex, errs, "no initial pose");

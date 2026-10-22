@@ -1,0 +1,51 @@
+{
+ "lesson": "IN11",
+ "term": 1,
+ "title": "Practice: see the QoS of a real topic",
+ "sourced": true,
+ "running": [
+  "talker",
+  "listener"
+ ],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/IN11_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:27:00+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 topic info -v /chatter",
+   "out": "Type: std_msgs/msg/String\n\nPublisher count: 1\n\nNode name: talker\nNode namespace: /\nTopic type: std_msgs/msg/String\nTopic type hash: RIHS01_df668c740482bbd48fb39d76a70dfd4bd59db1288021743503259e948f6b1a18\nEndpoint type: PUBLISHER\nGID: 01.0f.17.2e.d8.2d.31.4a.00.00.00.00.00.00.14.03\nQoS profile:\n  Reliability: RELIABLE\n  History (Depth): UNKNOWN\n  Durability: VOLATILE\n  Lifespan: Infinite\n  Deadline: Infinite\n  Liveliness: AUTOMATIC\n  Liveliness lease duration: Infinite\n\nSubscription count: 1\n\nNode name: listener\nNode namespace: /\nTopic type: std_msgs/msg/String\nTopic type hash: RIHS01_df668c740482bbd48fb39d76a70dfd4bd59db1288021743503259e948f6b1a18\nEndpoint type: SUBSCRIPTION\nGID: 01.0f.17.2e.fb.2d.9f.3c.00.00.00.00.00.00.13.04\nQoS profile:\n  Reliability: RELIABLE\n  History (Depth): UNKNOWN\n  Durability: VOLATILE\n  Lifespan: Infinite\n  Deadline: Infinite\n  Liveliness: AUTOMATIC\n  Liveliness lease duration: Infinite\n\n",
+   "exit": 0,
+   "secs": 1.3,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "100": "[INFO] [1792425434.448799235] [talker]: Publishing: 'Hello World: 12'\n[INFO] [1792425435.448844961] [talker]: Publishing: 'Hello World: 13'\n",
+    "101": "[INFO] [1792425434.450698264] [listener]: I heard: [Hello World: 12]\n[INFO] [1792425435.451734850] [listener]: I heard: [Hello World: 13]\n"
+   }
+  }
+ ],
+ "pre": [
+  {
+   "name": "talker",
+   "cmd": "ros2 run demo_nodes_cpp talker",
+   "out": "[INFO] [1792425423.448883336] [talker]: Publishing: 'Hello World: 1'\n[INFO] [1792425424.448835888] [talker]: Publishing: 'Hello World: 2'\n[INFO] [1792425425.448825917] [talker]: Publishing: 'Hello World: 3'\n",
+   "state": "still running after 4 s"
+  },
+  {
+   "name": "listener",
+   "cmd": "ros2 run demo_nodes_py listener",
+   "out": "[INFO] [1792425429.478223902] [listener]: I heard: [Hello World: 7]\n[INFO] [1792425430.451810901] [listener]: I heard: [Hello World: 8]\n",
+   "state": "still running after 4 s"
+  }
+ ],
+ "notes": [
+  "pre-running terminal 100 output during block: ",
+  "pre-running terminal 101 output during block: "
+ ],
+ "finished": "2026-10-19T21:27:18+0530"
+}

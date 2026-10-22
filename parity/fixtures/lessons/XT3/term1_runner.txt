@@ -1,0 +1,64 @@
+# Excerpt of parity/fixtures/lessons/XT3/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson XT3 terminal 1: Live terminal: one file, two robots
+2:# scratch HOME /home/prasad/lesson_ws/homes/XT3_t1 shown as /home/student; sourced=True running=[] start=~/urdf
+3:## [term 1] $ xacro chiku.urdf.xacro > chiku.urdf   (exit=0, 0.4 s, finished, cwd=/home/student/urdf)
+4:
+5:## [term 1] $ check_urdf chiku.urdf   (exit=0, 0.0 s, finished, cwd=/home/student/urdf)
+6:robot name is: chiku
+7:---------- Successfully Parsed XML ---------------
+8:root Link: base_footprint has 1 child(ren)
+9:    child(1):  base_link
+10:        child(1):  caster_link
+11:        child(2):  left_wheel_link
+12:        child(3):  lidar_link
+13:        child(4):  right_wheel_link
+14:
+15:## [term 1] $ xacro chiku.urdf.xacro use_lidar:=false > nolidar.urdf   (exit=0, 0.4 s, finished, cwd=/home/student/urdf)
+16:
+17:## [term 1] $ check_urdf nolidar.urdf   (exit=0, 0.0 s, finished, cwd=/home/student/urdf)
+18:robot name is: chiku
+19:---------- Successfully Parsed XML ---------------
+20:root Link: base_footprint has 1 child(ren)
+21:    child(1):  base_link
+22:        child(1):  caster_link
+23:        child(2):  left_wheel_link
+24:        child(3):  right_wheel_link
+25:
+26:## [term 1] $ cat macros.xacro   (exit=0, 0.0 s, finished, cwd=/home/student/urdf)
+27:<?xml version="1.0"?>
+28:<!-- Shared materials and inertia macros (solid box, cylinder along Z, sphere) -->
+29:<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+30:  <material name="orange"><color rgba="1.0 0.55 0.0 1.0"/></material>
+31:  <material name="dark_grey"><color rgba="0.2 0.2 0.2 1.0"/></material>
+32:  <material name="light_grey"><color rgba="0.75 0.75 0.78 1.0"/></material>
+33:  <material name="sky_blue"><color rgba="0.3 0.7 1.0 1.0"/></material>
+34:  <material name="green"><color rgba="0.2 0.75 0.35 1.0"/></material>
+35:  <material name="red"><color rgba="0.9 0.2 0.2 1.0"/></material>
+36:  <material name="white"><color rgba="0.95 0.95 0.95 1.0"/></material>
+37:  <material name="prop_blue"><color rgba="0.3 0.6 1.0 0.6"/></material>
+38:
+39:  <xacro:macro name="box_inertia" params="m x y z xyz:='0 0 0' rpy:='0 0 0'">
+40:    <inertial>
+41:      <origin xyz="${xyz}" rpy="${rpy}"/>
+42:      <mass value="${m}"/>
+43:      <inertia ixx="${m*(y*y+z*z)/12}" ixy="0" ixz="0" iyy="${m*(x*x+z*z)/12}" iyz="0" izz="${m*(x*x+y*y)/12}"/>
+44:    </inertial>
+45:  </xacro:macro>
+46:  <xacro:macro name="cylinder_inertia" params="m r h xyz:='0 0 0' rpy:='0 0 0'">
+47:    <inertial>
+48:      <origin xyz="${xyz}" rpy="${rpy}"/>
+49:      <mass value="${m}"/>
+50:      <inertia ixx="${m*(3*r*r+h*h)/12}" ixy="0" ixz="0" iyy="${m*(3*r*r+h*h)/12}" iyz="0" izz="${m*r*r/2}"/>
+51:    </inertial>
+52:  </xacro:macro>
+53:  <xacro:macro name="sphere_inertia" params="m r xyz:='0 0 0'">
+54:    <inertial>
+55:      <origin xyz="${xyz}"/>
+56:      <mass value="${m}"/>
+57:      <inertia ixx="${2*m*r*r/5}" ixy="0" ixz="0" iyy="${2*m*r*r/5}" iyz="0" izz="${2*m*r*r/5}"/>
+58:    </inertial>
+59:  </xacro:macro>
+60:</robot>
+61:

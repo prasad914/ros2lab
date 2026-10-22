@@ -1,0 +1,13 @@
+{
+ "case": "restitution_ground1.0",
+ "run": 3,
+ "world_file": "parity/scripts/physics/worlds/restitution_ground1.0.sdf",
+ "gz_partition": "phys50_restitution_ground1.0_3_1219064",
+ "ros_domain_id": "50",
+ "server_cmd": "gz sim -s -v 4 /home/prasad/ros2lab-course/parity/scripts/physics/worlds/restitution_ground1.0.sdf",
+ "unpause_reply": "data: true",
+ "wall_seconds_after_unpause": 5.96,
+ "server_exit": null,
+ "model_info": {},
+ "date": "2026-10-19T22:16:36+0530"
+}

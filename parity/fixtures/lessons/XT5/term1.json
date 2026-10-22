@@ -1,0 +1,198 @@
+{
+ "lesson": "XT5",
+ "term": 1,
+ "title": "Live terminal: from URDF to TF to RViz",
+ "sourced": true,
+ "running": [],
+ "start": "~/urdf",
+ "scratch_home": "/home/prasad/lesson_ws/homes/XT5_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-20T10:14:24+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 run robot_state_publisher robot_state_publisher --ros-args -p robot_description:=\"$(xacro chiku.urdf.xacro)\"",
+   "out": "[INFO] [1792471467.718094439] [robot_state_publisher]: Robot initialized\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student/urdf"
+  },
+  {
+   "task": 2,
+   "term": 2,
+   "kind": "newTerminal",
+   "status": "RAN"
+  },
+  {
+   "task": 2,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 run tf2_ros tf2_echo base_footprint lidar_link",
+   "out": "[INFO] [1792471477.233776933] [tf2_echo]: Waiting for transform base_footprint ->  lidar_link: Invalid frame ID \"base_footprint\" passed to canTransform argument target_frame - frame does not exist\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 2,
+   "kind": "interrupt",
+   "of": "ros2 run tf2_ros tf2_echo base_footprint lidar_link",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792471477.233776933] [tf2_echo]: Waiting for transform base_footprint ->  lidar_link: Invalid frame ID \"base_footprint\" passed to canTransform argument target_frame - frame does not exist\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\nAt time 0.0\n- Translation: [0.100, 0.000, 0.250]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000  0.100\n  0.000  1.000  0.000  0.000\n  0.000  0.000  1.000  0.250\n  0.000  0.000  0.000  1.000\n[INFO] [1792471484.715053545] [rclcpp]: signal_handler(SIGINT/SIGTERM)\n",
+   "exit": 0,
+   "status": "RAN"
+  },
+  {
+   "task": 3,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 run tf2_ros tf2_echo base_footprint left_wheel_link",
+   "out": "[INFO] [1792471485.659005816] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"base_footprint\" passed to canTransform argument target_frame - frame does not exist\n[INFO] [1792471487.626951889] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"left_wheel_link\" passed to canTransform argument source_frame - frame does not exist\n[INFO] [1792471488.626972417] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"left_wheel_link\" passed to canTransform argument source_frame - frame does not exist\n[INFO] [1792471489.627129888] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"left_wheel_link\" passed to canTransform argument source_frame - frame does not exist\n[INFO] [1792471491.627056719] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"left_wheel_link\" passed to canTransform argument source_frame - frame does not exist\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 4,
+   "term": 2,
+   "kind": "interrupt",
+   "of": "ros2 run tf2_ros tf2_echo base_footprint left_wheel_link",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792471485.659005816] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"base_footprint\" passed to canTransform argument target_frame - frame does not exist\n[INFO] [1792471487.626951889] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"left_wheel_link\" passed to canTransform argument source_frame - frame does not exist\n[INFO] [1792471488.626972417] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"left_wheel_link\" passed to canTransform argument source_frame - frame does not exist\n[INFO] [1792471489.627129888] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"left_wheel_link\" passed to canTransform argument source_frame - frame does not exist\n[INFO] [1792471491.627056719] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"left_wheel_link\" passed to canTransform argument source_frame - frame does not exist\n[INFO] [1792471493.429743868] [rclcpp]: signal_handler(SIGINT/SIGTERM)\n",
+   "exit": 0,
+   "status": "RAN"
+  },
+  {
+   "task": 4,
+   "term": 2,
+   "kind": "cmd",
+   "cmd": "ros2 run joint_state_publisher_gui joint_state_publisher_gui",
+   "out": "[INFO] [1792471495.899336486] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...\n[INFO] [1792471495.957435531] [joint_state_publisher]: Centering\n[INFO] [1792471496.160705814] [joint_state_publisher]: Got description, configuring robot\n[INFO] [1792471496.183739767] [joint_state_publisher]: Centering\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 5,
+   "term": 3,
+   "kind": "newTerminal",
+   "status": "RAN"
+  },
+  {
+   "task": 5,
+   "term": 3,
+   "kind": "cmd",
+   "cmd": "ros2 run tf2_ros tf2_echo base_footprint left_wheel_link",
+   "out": "[INFO] [1792471503.970843088] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"base_footprint\" passed to canTransform argument target_frame - frame does not exist\nAt time 1792471504.932151195\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471505.931768578\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471506.932034125\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471507.931700079\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471508.931564232\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471509.931673072\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471510.931615626\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 6,
+   "term": 3,
+   "kind": "interrupt",
+   "of": "ros2 run tf2_ros tf2_echo base_footprint left_wheel_link",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792471503.970843088] [tf2_echo]: Waiting for transform base_footprint ->  left_wheel_link: Invalid frame ID \"base_footprint\" passed to canTransform argument target_frame - frame does not exist\nAt time 1792471504.932151195\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471505.931768578\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471506.932034125\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471507.931700079\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471508.931564232\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471509.931673072\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\nAt time 1792471510.931615626\n- Translation: [-0.100, 0.170, 0.080]\n- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]\n- Rotation: in RPY (radian) [0.000, -0.000, 0.000]\n- Rotation: in RPY (degree) [0.000, -0.000, 0.000]\n- Matrix:\n  1.000  0.000  0.000 -0.100\n  0.000  1.000  0.000  0.170\n  0.000  0.000  1.000  0.080\n  0.000  0.000  0.000  1.000\n[INFO] [1792471511.842329955] [rclcpp]: signal_handler(SIGINT/SIGTERM)\n",
+   "exit": 0,
+   "status": "RAN"
+  },
+  {
+   "task": 6,
+   "term": 3,
+   "kind": "cmd",
+   "cmd": "ros2 run tf2_tools view_frames",
+   "out": "[INFO] [1792471513.882953750] [view_frames]: Listening to tf data for 5.0 seconds...\n[INFO] [1792471518.937137768] [view_frames]: Generating graph...\n[INFO] [1792471518.944822512] [view_frames]: Result:tf2_msgs.srv.FrameGraph_Response(frame_yaml=\"left_wheel_link: \\n  parent: 'base_link'\\n  broadcaster: 'default_authority'\\n  rate: 10.200\\n  most_recent_transform: 1792471518.932054\\n  oldest_transform: 1792471513.932074\\n  buffer_length: 5.000\\nbase_link: \\n  parent: 'base_footprint'\\n  broadcaster: 'default_authority'\\n  rate: 10000.000\\n  most_recent_transform: 0.000000\\n  oldest_transform: 0.000000\\n  buffer_length: 0.000\\nright_wheel_link: \\n  parent: 'base_link'\\n  broadcaster: 'default_authority'\\n  rate: 10.200\\n  most_recent_transform: 1792471518.932054\\n  oldest_transform: 1792471513.932074\\n  buffer_length: 5.000\\ncaster_link: \\n  parent: 'base_link'\\n  broadcaster: 'default_authority'\\n  rate: 10000.000\\n  most_recent_transform: 0.000000\\n  oldest_transform: 0.000000\\n  buffer_length: 0.000\\nlidar_link: \\n  parent: 'base_link'\\n  broadcaster: 'default_authority'\\n  rate: 10000.000\\n  most_recent_transform: 0.000000\\n  oldest_transform: 0.000000\\n  buffer_length: 0.000\\n\")\n[INFO] [1792471518.958812087] [view_frames]: Exporting graph in frames_2026-10-20_10.15.18.pdf file...\n",
+   "exit": 0,
+   "secs": 7.3,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 7,
+   "term": 3,
+   "kind": "cmd",
+   "cmd": "ros2 run rviz2 rviz2",
+   "out": "[INFO] [1792471521.387297760] [rviz2]: Stereo is NOT SUPPORTED\n[INFO] [1792471521.387402983] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)\n[INFO] [1792471521.666923421] [rviz2]: Stereo is NOT SUPPORTED\n",
+   "exit": null,
+   "secs": 8.0,
+   "state": "still running after 8 s",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 8,
+   "term": 3,
+   "kind": "gui",
+   "action": {
+    "viz": {
+     "fixedFrame": "base_footprint",
+     "displays": {
+      "Grid": true,
+      "RobotModel": true,
+      "TF": true
+     }
+    }
+   },
+   "status": "PENDING",
+   "reason": "RViz GUI click/drag, not a typed command (covered by the RViz baseline D)"
+  },
+  {
+   "term": 1,
+   "kind": "interrupt-at-end",
+   "of": "ros2 run robot_state_publisher robot_state_publisher --ros-args -p robot_description:=\"$(xacro chiku.urdf.xacro)\"",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792471467.718094439] [robot_state_publisher]: Robot initialized\n[INFO] [1792471528.484884956] [rclcpp]: signal_handler(SIGINT/SIGTERM)\n",
+   "exit": 0,
+   "status": "RAN"
+  },
+  {
+   "term": 2,
+   "kind": "interrupt-at-end",
+   "of": "ros2 run joint_state_publisher_gui joint_state_publisher_gui",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792471495.899336486] [joint_state_publisher]: Waiting for robot_description to be published on the robot_description topic...\n[INFO] [1792471495.957435531] [joint_state_publisher]: Centering\n[INFO] [1792471496.160705814] [joint_state_publisher]: Got description, configuring robot\n[INFO] [1792471496.183739767] [joint_state_publisher]: Centering\n[ros2run]: Interrupt\n",
+   "exit": 254,
+   "status": "RAN"
+  },
+  {
+   "term": 3,
+   "kind": "interrupt-at-end",
+   "of": "ros2 run rviz2 rviz2",
+   "how": [
+    "Ctrl+C"
+   ],
+   "out": "[INFO] [1792471521.387297760] [rviz2]: Stereo is NOT SUPPORTED\n[INFO] [1792471521.387402983] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)\n[INFO] [1792471521.666923421] [rviz2]: Stereo is NOT SUPPORTED\n[INFO] [1792471528.950462886] [rclcpp]: signal_handler(SIGINT/SIGTERM)\n",
+   "exit": 0,
+   "status": "RAN"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-20T10:15:30+0530"
+}

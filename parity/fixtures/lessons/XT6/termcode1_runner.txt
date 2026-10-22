@@ -1,0 +1,39 @@
+# Excerpt of parity/fixtures/lessons/XT6/termcode1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson XT6 terminal code1: Lesson code block commands: named-argument static_transform_publisher (continuation line joined)
+2:# scratch HOME /home/prasad/lesson_ws/homes/XT6_tcode1 shown as /home/student; sourced=True running=[] start=~
+3:## [term 1] $ ros2 run tf2_ros static_transform_publisher --x 0.2 --z 0.1 --yaw 1.5708 --frame-id base_link --child-frame-id camera_link   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+4:[INFO] [1792428146.841782476] [static_transform_publisher_J1N3vCEcW42UyCOn]: Spinning until stopped - publishing transform
+5:translation: ('0.200000', '0.000000', '0.100000')
+6:rotation: ('0.000000', '0.000000', '0.707108', '0.707105')
+7:from 'base_link' to 'camera_link'
+8:
+9:## [new terminal 2]
+10:## [term 2] $ ros2 topic echo --once /tf_static   (exit=0, 2.5 s, finished, cwd=/home/student)
+11:transforms:
+12:- header:
+13:    stamp:
+14:      sec: 1792428146
+15:      nanosec: 832555562
+16:    frame_id: base_link
+17:  child_frame_id: camera_link
+18:  transform:
+19:    translation:
+20:      x: 0.2
+21:      y: 0.0
+22:      z: 0.1
+23:    rotation:
+24:      x: 0.0
+25:      y: 0.0
+26:      z: 0.7071080798594735
+27:      w: 0.7071054825112363
+28:---
+29:
+30:## [term 1] Ctrl+C to stop: ros2 run tf2_ros static_transform_publisher --x 0.2 --z 0.1 --yaw 1.5708 --frame-id base_link --child-frame-id camera_link  (exit=0)
+31:[INFO] [1792428146.841782476] [static_transform_publisher_J1N3vCEcW42UyCOn]: Spinning until stopped - publishing transform
+32:translation: ('0.200000', '0.000000', '0.100000')
+33:rotation: ('0.000000', '0.000000', '0.707108', '0.707105')
+34:from 'base_link' to 'camera_link'
+35:[INFO] [1792428158.507808380] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+36:

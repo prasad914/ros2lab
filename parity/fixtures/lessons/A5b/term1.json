@@ -1,0 +1,100 @@
+{
+ "lesson": "A5b",
+ "term": 1,
+ "title": "Practice: lock and unlock files",
+ "sourced": false,
+ "running": [],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/A5b_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T19:43:08+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ls -l",
+   "out": "total 28\n-rw-r--r-- 1 prasad prasad   21 Oct 19 19:43 blink.py\ndrwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Desktop\ndrwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Documents\ndrwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Downloads\ndrwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Music\ndrwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Pictures\n-rw-r--r-- 1 prasad prasad   30 Oct 19 19:43 secret_plan.txt\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "chmod 600 secret_plan.txt",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "chmod 755 blink.py",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ls -l",
+   "out": "total 28\n-rwxr-xr-x 1 prasad prasad   21 Oct 19 19:43 blink.py\ndrwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Desktop\ndrwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Documents\ndrwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Downloads\ndrwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Music\ndrwxrwxr-x 2 prasad prasad 4096 Oct 19 19:43 Pictures\n-rw------- 1 prasad prasad   30 Oct 19 19:43 secret_plan.txt\n",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 5,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "./blink.py",
+   "out": "./blink.py: line 1: syntax error near unexpected token `\"blink blink\"'\n./blink.py: line 1: `print(\"blink blink\")'\n",
+   "exit": 2,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 6,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "chmod -x blink.py",
+   "out": "",
+   "exit": 0,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 6,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "./blink.py",
+   "out": "bash: ./blink.py: Permission denied\n",
+   "exit": 126,
+   "secs": 0.0,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  }
+ ],
+ "pre": [],
+ "notes": [],
+ "finished": "2026-10-19T19:43:13+0530"
+}

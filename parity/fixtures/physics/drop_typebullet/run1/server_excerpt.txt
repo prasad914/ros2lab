@@ -1,0 +1,48 @@
+# lines of server.log (gitignored) matching engine/warning/error keywords; <line>:<text>
+2:[Msg] Loading SDF world file[/home/prasad/ros2lab-course/parity/scripts/physics/worlds/drop_typebullet.sdf].
+4:[Dbg] [Physics.cc:1004] Loaded [gz::physics::dartsim::Plugin] from library [/opt/ros/jazzy/opt/gz_physics_vendor/lib/gz-physics-7/engine-plugins/libgz-physics-dartsim-plugin.so]
+5:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::Physics] for entity [1]
+6:[Msg] Create service on [/world/drop_typebullet/create_multiple] (async)
+7:[Msg] Create service on [/world/drop_typebullet/create_multiple/blocking] (blocking)
+8:[Msg] Remove service on [/world/drop_typebullet/remove] (async)
+9:[Msg] Remove service on [/world/drop_typebullet/remove/blocking] (blocking)
+10:[Msg] Pose service on [/world/drop_typebullet/set_pose] (async)
+11:[Msg] Pose service on [/world/drop_typebullet/set_pose/blocking] (blocking)
+12:[Msg] Pose service on [/world/drop_typebullet/set_pose_vector] (async)
+13:[Msg] Pose service on [/world/drop_typebullet/set_pose_vector/blocking] (blocking)
+14:[Msg] Light configuration service on [/world/drop_typebullet/light_config] (async)
+15:[Msg] Light configuration service on [/world/drop_typebullet/light_config/blocking] (blocking)
+16:[Msg] Physics service on [/world/drop_typebullet/set_physics] (async)
+17:[Msg] Physics service on [/world/drop_typebullet/set_physics/blocking] (blocking)
+18:[Msg] SphericalCoordinates service on [/world/drop_typebullet/set_spherical_coordinates] (async)
+19:[Msg] SphericalCoordinates service on [/world/drop_typebullet/set_spherical_coordinates/blocking] (blocking)
+20:[Msg] Enable collision service on [/world/drop_typebullet/enable_collision] (async)
+21:[Msg] Enable collision service on [/world/drop_typebullet/enable_collision/blocking] (blocking)
+22:[Msg] Disable collision service on [/world/drop_typebullet/disable_collision] (async)
+23:[Msg] Disable collision service on [/world/drop_typebullet/disable_collision/blocking] (blocking)
+24:[Msg] Material service on [/world/drop_typebullet/visual_config] (async)
+25:[Msg] Material service on [/world/drop_typebullet/visual_config/blocking] (blocking)
+26:[Msg] Material service on [/world/drop_typebullet/wheel_slip] (async)
+27:[Msg] Material service on [/world/drop_typebullet/wheel_slip/blocking] (blocking)
+28:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::UserCommands] for entity [1]
+29:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::SceneBroadcaster] for entity [1]
+30:[Msg] Listening to instantaneous wrench commands in [/world/drop_typebullet/wrench]
+31:[Msg] Listening to persistent wrench commands in [/world/drop_typebullet/wrench/persistent]
+32:[Msg] Listening to wrench clear commands in [/world/drop_typebullet/wrench/clear]
+33:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::ApplyLinkWrench] for entity [1]
+34:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::Contact] for entity [1]
+35:[Dbg] [SystemManager.cc:80] Loaded system [gz::sim::systems::PosePublisher] for entity [8]
+36:[Msg] Loaded level [default]
+37:[Msg] Serving world controls on [/world/drop_typebullet/control], [/world/drop_typebullet/control/state] and [/world/drop_typebullet/playback/control]
+38:[Msg] Serving GUI information on [/world/drop_typebullet/gui/info]
+39:[Msg] World [drop_typebullet] initialized with [1ms] physics profile.
+40:[Msg] Serving world SDF generation service on [/world/drop_typebullet/generate_world_sdf]
+54:[Msg] Serving scene information on [/world/drop_typebullet/scene/info]
+55:[Msg] Serving graph information on [/world/drop_typebullet/scene/graph]
+56:[Msg] Serving full state on [/world/drop_typebullet/state]
+57:[Msg] Serving full state (async) on [/world/drop_typebullet/state_async]
+58:[Msg] Publishing scene information on [/world/drop_typebullet/scene/info]
+59:[Msg] Publishing entity deletions on [/world/drop_typebullet/scene/deletion]
+60:[Msg] Publishing state changes on [/world/drop_typebullet/state]
+61:[Msg] Publishing pose messages on [/world/drop_typebullet/pose/info]
+62:[Msg] Publishing dynamic pose messages on [/world/drop_typebullet/dynamic_pose/info]

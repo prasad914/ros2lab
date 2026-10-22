@@ -1,0 +1,10 @@
+# REAL rviz2 14.1.24 (Jazzy), "Add" -> "Create visualization" -> "By display type", read from
+# add_dialog_by_display_type.png + add_dialog_by_display_type_page1..4.png (this machine; packages beyond a
+# stock ros-jazzy-desktop install also contribute: moveit, nav2, rtabmap, rviz_2d_overlay).
+moveit_ros_visualization: MotionPlanning, PlanningScene, RobotState, Trajectory
+nav2_rviz_plugins: ParticleCloud
+rtabmap_rviz_plugins: Info, MapCloud, MapGraph
+rviz_2d_overlay_plugins: PieChartOverlay, TextOverlay
+rviz_common: Group
+rviz_default_plugins: AccelStamped, Axes, Camera, CameraInfo, DepthCloud, Effort, FluidPressure, Grid, GridCells, Illuminance, Image, InteractiveMarkers, LaserScan, Map, Marker, MarkerArray, Odometry, Path, PointCloud, PointCloud2, PointStamped, Polygon, Pose, PoseArray, PoseWithCovariance, Range, RelativeHumidity, RobotModel, TF, Temperature, TwistStamped, Wrench
+# Dialog: title "Create visualization", tabs "By display type" | "By topic", "Description:" box, "Display Name" field, buttons OK (disabled until a type is chosen) / Cancel.

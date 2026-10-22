@@ -8,15 +8,22 @@ const actions = document.getElementById("actions");
 const ID_RE = /^R2L-\d{4}-[A-Z0-9]{10}$/;
 const id = (new URLSearchParams(location.search).get("id") || "").trim().toUpperCase();
 
-function lookup(msg) {
-  const input = el("input", { id: "cid", placeholder: "R2L-2026-XXXXXXXXXX", maxlength: "20", value: id, autocomplete: "off" });
-  const form = el("form", { class: "lookup" },
-    el("h1", { style: { marginTop: 0, fontFamily: "Lexend, sans-serif" }, text: "Check a ROS2Lab certificate" }),
-    msg ? el("p", { class: "status err", style: { margin: "0 0 12px" }, text: msg }) : null,
-    el("label", { for: "cid", text: "Certificate ID (in the box at the bottom of the certificate)" }), input,
-    el("button", { class: "btn", type: "submit", text: "Check" }));
+// The page head (as the prototype's "certificate" view): title, the ID field and Check, on every state of the page.
+function head() {
+  const input = el("input", { id: "cid", placeholder: "R2L-2026-XXXXXXXXXX", maxlength: "20", value: id, autocomplete: "off", spellcheck: "false" });
+  const form = el("form", { class: "lookup verify" },
+    el("label", { for: "cid", text: "Certificate ID" }),
+    el("div", {}, input, el("button", { class: "btn", type: "submit", text: "Check" })));
   form.addEventListener("submit", (e) => { e.preventDefault(); location.search = `?id=${encodeURIComponent(input.value.trim().toUpperCase())}`; });
-  main.replaceChildren(form);
+  return el("div", { class: "pagehead" }, el("div", { class: "wrap" },
+    el("p", { class: "crumbs" }, el("a", { href: "index.html", text: "Home" }), " › Verify a certificate"),
+    el("h1", { text: "Verify a certificate" }),
+    el("p", { class: "lede", text: "Enter the certificate ID printed at the top right of the certificate, or scan its QR code." }),
+    form));
+}
+
+function lookup(msg) {
+  main.replaceChildren(head(), msg ? el("div", { class: "wrap certpage" }, el("p", { class: "status err", text: msg })) : null);
 }
 
 (async () => {
@@ -42,14 +49,15 @@ function lookup(msg) {
     .forEach(([k, v]) => li.searchParams.set(k, String(v)));
   actions.replaceChildren(
     el("button", { class: "btn", type: "button", text: "Download PDF", onclick: () => window.print() }),
-    el("a", { class: "btn white", href: li.toString(), target: "_blank", rel: "noopener", text: "Add to LinkedIn" }),
-    el("button", { class: "btn white", type: "button", text: "Copy link", onclick: async (e) => {
+    el("a", { class: "btn btn-white white", href: li.toString(), target: "_blank", rel: "noopener", text: "Add to LinkedIn" }),
+    el("button", { class: "btn btn-white white", type: "button", text: "Copy link", onclick: async (e) => {
       try { await navigator.clipboard.writeText(url); e.target.textContent = "Link copied"; } catch { prompt("Copy this link:", url); }
     } }));
-  main.replaceChildren(
+  main.replaceChildren(head(), el("div", { class: "wrap certpage" },
     el("p", { class: `status ${valid ? "" : "err"}` },
       el("strong", { text: valid ? "Genuine and valid. " : "Genuine, but expired. " }),
       valid ? `Issued by ROS2Lab to ${c.name} on ${d(issued)}, valid until ${d(until)}.` : `Issued by ROS2Lab to ${c.name} on ${d(issued)}; it expired on ${d(until)}.`),
+    actions,
     el("div", { class: "wrapc" }, renderCertificate(c, { verifyUrl: url })),
-    el("p", { class: "hint", text: "To save as PDF, press Download PDF and choose Save as PDF (landscape)." }));
+    el("p", { class: "hint", text: "To save as PDF, press Download PDF and choose Save as PDF (landscape)." })));
 })();

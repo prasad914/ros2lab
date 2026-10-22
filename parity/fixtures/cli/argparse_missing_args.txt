@@ -1,0 +1,131 @@
+# Captured 2026-10-21 on this machine: source /opt/ros/jazzy/setup.bash; ROS_DOMAIN_ID=77 COLUMNS=80 ros2 <verb> (ros2cli 0.32.13). Nothing else was running. ros2 pkg executables output omitted.
+### ros2 node info
+usage: ros2 node info [-h] [--spin-time SPIN_TIME] [-s] [--no-daemon]
+                      [--include-hidden]
+                      node_name
+ros2 node info: error: the following arguments are required: node_name
+[exit 2]
+### ros2 topic echo
+usage: ros2 topic echo [-h] [--spin-time SPIN_TIME] [-s] [--no-daemon]
+                       [--qos-profile {unknown,default,system_default,sensor_data,services_default,parameters,parameter_events,action_status_default,best_available}]
+                       [--qos-depth N]
+                       [--qos-history {system_default,keep_last,keep_all,unknown}]
+                       [--qos-reliability {system_default,reliable,best_effort,unknown,best_available}]
+                       [--qos-durability {system_default,transient_local,volatile,unknown,best_available}]
+                       [--qos-liveliness {system_default,automatic,manual_by_topic,unknown,best_available}]
+                       [--qos-liveliness-lease-duration-seconds QOS_LIVELINESS_LEASE_DURATION_SECONDS]
+                       [--csv] [--field FIELD] [--full-length]
+                       [--truncate-length TRUNCATE_LENGTH] [--no-arr]
+                       [--no-str] [--flow-style] [--no-lost-messages] [--raw]
+                       [--filter FILTER_EXPR] [--once] [--timeout N]
+                       [--include-message-info]
+                       topic_name [message_type]
+ros2 topic echo: error: the following arguments are required: topic_name
+[exit 2]
+### ros2 topic type
+usage: ros2 topic type [-h] [--spin-time SPIN_TIME] [-s] [--no-daemon]
+                       topic_name
+ros2 topic type: error: the following arguments are required: topic_name
+[exit 2]
+### ros2 topic info
+usage: ros2 topic info [-h] [--spin-time SPIN_TIME] [-s] [--no-daemon]
+                       [--verbose]
+                       topic_name
+ros2 topic info: error: the following arguments are required: topic_name
+[exit 2]
+### ros2 topic hz
+usage: ros2 topic hz [-h] [--window WINDOW] [--filter EXPR] [--wall-time]
+                     [--spin-time SPIN_TIME] [-s]
+                     topic_name
+ros2 topic hz: error: the following arguments are required: topic_name
+[exit 2]
+### ros2 service type
+usage: ros2 service type [-h] service_name
+ros2 service type: error: the following arguments are required: service_name
+[exit 2]
+### ros2 service info
+usage: ros2 service info [-h] [--spin-time SPIN_TIME] [-s] [--no-daemon]
+                         service_name
+ros2 service info: error: the following arguments are required: service_name
+[exit 2]
+### ros2 action type
+usage: ros2 action type [-h] action_name
+ros2 action type: error: the following arguments are required: action_name
+[exit 2]
+### ros2 action info
+usage: ros2 action info [-h] [-t] [-c] action_name
+ros2 action info: error: the following arguments are required: action_name
+[exit 2]
+### ros2 param get
+usage: ros2 param get [-h] [--spin-time SPIN_TIME] [-s] [--no-daemon]
+                      [--include-hidden-nodes] [--hide-type] [--timeout N]
+                      node_name parameter_name
+ros2 param get: error: the following arguments are required: node_name, parameter_name
+[exit 2]
+### ros2 param get /turtlesim
+usage: ros2 param get [-h] [--spin-time SPIN_TIME] [-s] [--no-daemon]
+                      [--include-hidden-nodes] [--hide-type] [--timeout N]
+                      node_name parameter_name
+ros2 param get: error: the following arguments are required: parameter_name
+[exit 2]
+### ros2 param set /turtlesim background_r
+usage: ros2 param set [-h] [--spin-time SPIN_TIME] [-s] [--no-daemon]
+                      [--include-hidden-nodes] [--timeout N]
+                      node_name parameter_name value
+ros2 param set: error: the following arguments are required: value
+[exit 2]
+### ros2 param list
+[exit 0]
+### ros2 param describe /turtlesim
+usage: ros2 param describe [-h] [--spin-time SPIN_TIME] [-s] [--no-daemon]
+                           [--include-hidden-nodes] [--timeout N]
+                           node_name parameter_names [parameter_names ...]
+ros2 param describe: error: the following arguments are required: parameter_names
+[exit 2]
+### ros2 param dump
+usage: ros2 param dump [-h] [--spin-time SPIN_TIME] [-s] [--no-daemon]
+                       [--include-hidden-nodes] [--timeout N]
+                       node_name
+ros2 param dump: error: the following arguments are required: node_name
+[exit 2]
+### ros2 interface show
+usage: ros2 interface show [-h] [--all-comments | --no-comments] type
+ros2 interface show: error: the following arguments are required: type
+[exit 2]
+### ros2 run
+usage: ros2 run [-h] [--prefix PREFIX] package_name executable_name ...
+ros2 run: error: the following arguments are required: package_name, executable_name, argv
+[exit 2]
+### ros2 run turtlesim
+usage: ros2 run [-h] [--prefix PREFIX] package_name executable_name ...
+ros2 run: error: the following arguments are required: executable_name, argv
+[exit 2]
+### ros2 service call /spawn
+usage: ros2 service call [-h] [--stdin] [-r N]
+                         service_name service_type [values]
+ros2 service call: error: the following arguments are required: service_type
+[exit 2]
+### ros2 topic echo /turtle1/pose -1
+The passed message type is invalid
+[exit 1]
+### ros2 topic pub /turtle1/cmd_vel
+usage: ros2 topic pub [-h] [--stdin] [-r N] [-p N] [-1 | -t TIMES]
+                      [-w WAIT_MATCHING_SUBSCRIPTIONS]
+                      [--max-wait-time-secs MAX_WAIT_TIME_SECS]
+                      [--keep-alive N] [-n NODE_NAME]
+                      [--qos-profile {unknown,default,system_default,sensor_data,services_default,parameters,parameter_events,action_status_default,best_available}]
+                      [--qos-depth N]
+                      [--qos-history {system_default,keep_last,keep_all,unknown}]
+                      [--qos-reliability {system_default,reliable,best_effort,unknown,best_available}]
+                      [--qos-durability {system_default,transient_local,volatile,unknown,best_available}]
+                      [--qos-liveliness {system_default,automatic,manual_by_topic,unknown,best_available}]
+                      [--qos-liveliness-lease-duration-seconds QOS_LIVELINESS_LEASE_DURATION_SECONDS]
+                      [--spin-time SPIN_TIME] [-s]
+                      topic_name message_type [values]
+ros2 topic pub: error: the following arguments are required: message_type
+[exit 2]
+### ros2 action send_goal /x
+usage: ros2 action send_goal [-h] [--stdin] [-f] [-t N]
+                             action_name action_type [goal]
+ros2 action send_goal: error: the following arguments are required: action_type
+[exit 2]

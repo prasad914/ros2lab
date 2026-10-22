@@ -1,5 +1,5 @@
 import { auth, signInWithEmailAndPassword, sendPasswordResetEmail } from "./fb.js";
-import { el, friendlyError, waitForUser, getStage, qs, passwordBox } from "./common.js";
+import { el, friendlyError, waitForUser, getStage, qs, passwordBox, placeError } from "./common.js";
 
 const main = document.getElementById("main");
 const go = async (user) => {
@@ -27,13 +27,13 @@ const go = async (user) => {
     el("div", { class: "q-actions" }, btn, forgot),
     el("p", { style: { marginTop: "18px" } }, "New here? ", el("a", { href: "register.html", text: "Register for the course (free)" }), "."));
   form.addEventListener("submit", async (e) => {
-    e.preventDefault(); err.hidden = true; info.hidden = true; btn.disabled = true;
+    e.preventDefault(); placeError(err, ""); info.hidden = true; btn.disabled = true;
     try { const cred = await signInWithEmailAndPassword(auth, email.value.trim(), pw.value); await go(cred.user); }
     catch (e2) { err.textContent = friendlyError(e2); err.hidden = false; btn.disabled = false; }
   });
   forgot.addEventListener("click", async () => {
-    err.hidden = true; info.hidden = true;
-    if (!/^\S+@\S+\.\S+$/.test(email.value.trim())) { err.textContent = "Type your email address above first, then press Forgot password."; err.hidden = false; return; }
+    placeError(err, ""); info.hidden = true;
+    if (!/^\S+@\S+\.\S+$/.test(email.value.trim())) { placeError(err, "Type your email address above first, then press Forgot password.", email); return; }
     try { await sendPasswordResetEmail(auth, email.value.trim()); } catch { /* same message either way */ }
     info.textContent = "If this email is registered, a password reset link is on its way. Check your inbox and Spam folder."; info.hidden = false;
   });

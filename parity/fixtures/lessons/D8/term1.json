@@ -1,0 +1,89 @@
+{
+ "lesson": "D8",
+ "term": 1,
+ "title": "Practice: give the turtle a long job",
+ "sourced": true,
+ "running": [
+  "turtlesim",
+  "teleop"
+ ],
+ "start": null,
+ "scratch_home": "/home/prasad/lesson_ws/homes/D8_t1",
+ "home_shown_as": "/home/student",
+ "started": "2026-10-19T21:31:52+0530",
+ "steps": [
+  {
+   "task": 1,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 action list -t",
+   "out": "/turtle1/rotate_absolute [turtlesim/action/RotateAbsolute]\n",
+   "exit": 0,
+   "secs": 1.2,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 2,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 action info /turtle1/rotate_absolute",
+   "out": "Action: /turtle1/rotate_absolute\nAction clients: 1\n    /teleop_turtle\nAction servers: 1\n    /turtlesim\n",
+   "exit": 0,
+   "secs": 1.3,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student"
+  },
+  {
+   "task": 3,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 action send_goal /turtle1/rotate_absolute turtlesim/action/RotateAbsolute \"{theta: 1.57}\"",
+   "out": "Waiting for an action server to become available...\nSending goal:\n     theta: 1.57\n\nGoal accepted with ID: 57ba1e3bc8d3488a9c4a1525c30c7643\n\nResult:\n    delta: -1.5520000457763672\n\nGoal finished with status: SUCCEEDED\n",
+   "exit": 0,
+   "secs": 2.9,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "100": "[INFO] [1792425731.885952217] [turtlesim]: Rotation goal completed successfully\n"
+   }
+  },
+  {
+   "task": 4,
+   "term": 1,
+   "kind": "cmd",
+   "cmd": "ros2 action send_goal /turtle1/rotate_absolute turtlesim/action/RotateAbsolute \"{theta: -1.57}\" --feedback",
+   "out": "Waiting for an action server to become available...\nSending goal:\n     theta: -1.57\n\nGoal accepted with ID: 5213c86a005444a3ae60ad6b1c3d420b\n\nFeedback:\n    remaining: -3.122000217437744\n\nFeedback:\n    remaining: -3.1059999465942383\n\nFeedback:\n    remaining: -3.0900001525878906\n\nFeedback:\n    remaining: -3.0739998817443848\n\nFeedback:\n    remaining: -3.058000087738037\n\nFeedback:\n    remaining: -3.0420000553131104\n\nFeedback:\n    remaining: -3.0260000228881836\n\nFeedback:\n    remaining: -3.010000228881836\n\nFeedback:\n    remaining: -2.99399995803833\n\nFeedback:\n    remaining: -2.9780001640319824\n\nFeedback:\n    remaining: -2.9619998931884766\n\nFeedback:\n    remaining: -2.946000099182129\n\nFeedback:\n    remaining: -2.930000066757202\n\nFeedback:\n    remaining: -2.9140000343322754\n\nFeedback:\n    remaining: -2.8980000019073486\n\nFeedback:\n    remaining: -2.881999969482422\n\nFeedback:\n    remaining: -2.866000175476074\n\nFeedback:\n    remaining: -2.8499999046325684\n\nFeedback:\n    remaining: -2.8340001106262207\n\nFeedback:\n    remaining: -2.818000078201294\n\nFeedback:\n    remaining: -2.802000045776367\n\nFeedback:\n    remaining: -2.7860000133514404\n\nFeedback:\n    remaining: -2.7699999809265137\n\nFeedback:\n    remaining: -2.754000186920166\n\nFeedback:\n    remaining: -2.73799991607666\n\nFeedback:\n    remaining: -2.7220001220703125\n\nFeedback:\n    remaining: -2.7060000896453857\n\nFeedback:\n    remaining: -2.690000057220459\n\nFeedback:\n    remaining: -2.6740000247955322\n\nFeedback:\n    remaining: -2.6579999923706055\n\nFeedback:\n    remaining: -2.642000198364258\n\nFeedback:\n    remaining: -2.625999927520752\n\nFeedback:\n    remaining: -2.6100001335144043\n\nFeedback:\n    remaining: -2.5940001010894775\n\nFeedback:\n    remaining: -2.578000068664551\n\nFeedback:\n    remaining: -2.562000036239624\n\nFeedback:\n    remaining: -2.5460000038146973\n\nFeedback:\n    remaining: -2.5299999713897705\n\nFeedback:\n    remaining: -2.5139999389648438\n\nFeedback:\n    remaining: -2.498000144958496\n\nFeedback:\n    remaining: -2.4820001125335693\n\nFeedback:\n    remaining: -2.4660000801086426\n\nFeedback:\n    remaining: -2.450000047683716\n\nFeedback:\n    remaining: -2.434000015258789\n\nFeedback:\n    remaining: -2.4179999828338623\n\nFeedback:\n    remaining: -2.4019999504089355\n\nFeedback:\n    remaining: -2.386000156402588\n\nFeedback:\n    remaining: -2.370000123977661\n\nFeedback:\n    remaining: -2.3540000915527344\n\nFeedback:\n    remaining: -2.3380000591278076\n\nFeedback:\n    remaining: -2.322000026702881\n\nFeedback:\n    remaining: -2.305999994277954\n\nFeedback:\n    remaining: -2.2899999618530273\n\nFeedback:\n    remaining: -2.2740001678466797\n\nFeedback:\n    remaining: -2.258000135421753\n\nFeedback:\n    remaining: -2.242000102996826\n\nFeedback:\n    remaining: -2.2260000705718994\n\nFeedback:\n    remaining: -2.2100000381469727\n\nFeedback:\n    remaining: -2.194000005722046\n\nFeedback:\n    remaining: -2.177999973297119\n\nFeedback:\n    remaining: -2.1620001792907715\n\nFeedback:\n    remaining: -2.1459999084472656\n\nFeedback:\n    remaining: -2.130000114440918\n\nFeedback:\n    remaining: -2.114000082015991\n\nFeedback:\n    remaining: -2.0980000495910645\n\nFeedback:\n    remaining: -2.0820000171661377\n\nFeedback:\n    remaining: -2.065999984741211\n\nFeedback:\n    remaining: -2.049999952316284\n\nFeedback:\n    remaining: -2.0339999198913574\n\nFeedback:\n    remaining: -2.0180001258850098\n\nFeedback:\n    remaining: -2.002000093460083\n\nFeedback:\n    remaining: -1.9860000610351562\n\nFeedback:\n    remaining: -1.9700000286102295\n\nFeedback:\n    remaining: -1.9539999961853027\n\nFeedback:\n    remaining: -1.9380000829696655\n\nFeedback:\n    remaining: -1.9220000505447388\n\nFeedback:\n    remaining: -1.906000018119812\n\nFeedback:\n    remaining: -1.8900001049041748\n\nFeedback:\n    remaining: -1.874000072479248\n\nFeedback:\n    remaining: -1.8580000400543213\n\nFeedback:\n    remaining: -1.8420000076293945\n\nFeedback:\n    remaining: -1.8260000944137573\n\nFeedback:\n    remaining: -1.8100000619888306\n\nFeedback:\n    remaining: -1.7940000295639038\n\nFeedback:\n    remaining: -1.7780001163482666\n\nFeedback:\n    remaining: -1.7620000839233398\n\nFeedback:\n    remaining: -1.746000051498413\n\nFeedback:\n    remaining: -1.7300000190734863\n\nFeedback:\n    remaining: -1.7139999866485596\n\nFeedback:\n    remaining: -1.6980000734329224\n\nFeedback:\n    remaining: -1.6820000410079956\n\nFeedback:\n    remaining: -1.6660000085830688\n\nFeedback:\n    remaining: -1.6500000953674316\n\nFeedback:\n    remaining: -1.6340000629425049\n\nFeedback:\n    remaining: -1.6180000305175781\n\nFeedback:\n    remaining: -1.6019999980926514\n\nFeedback:\n    remaining: -1.5860000848770142\n\nFeedback:\n    remaining: -1.5700000524520874\n\nFeedback:\n    remaining: -1.5540000200271606\n\nFeedback:\n    remaining: -1.5380001068115234\n\nFeedback:\n    remaining: -1.5220000743865967\n\nFeedback:\n    remaining: -1.50600004196167\n\nFeedback:\n    remaining: -1.4900000095367432\n\nFeedback:\n    remaining: -1.474000096321106\n\nFeedback:\n    remaining: -1.4580000638961792\n\nFeedback:\n    remaining: -1.4420000314712524\n\nFeedback:\n    remaining: -1.4260001182556152\n\nFeedback:\n    remaining: -1.4100000858306885\n\nFeedback:\n    remaining: -1.3940000534057617\n\nFeedback:\n    remaining: -1.378000020980835\n\nFeedback:\n    remaining: -1.3619999885559082\n\nFeedback:\n    remaining: -1.346000075340271\n\nFeedback:\n    remaining: -1.3300000429153442\n\nFeedback:\n    remaining: -1.3140000104904175\n\nFeedback:\n    remaining: -1.2980000972747803\n\nFeedback:\n    remaining: -1.2820000648498535\n\nFeedback:\n    remaining: -1.2660000324249268\n\nFeedback:\n    remaining: -1.25\n\nFeedback:\n    remaining: -1.2340000867843628\n\nFeedback:\n    remaining: -1.218000054359436\n\nFeedback:\n    remaining: -1.2020000219345093\n\nFeedback:\n    remaining: -1.186000108718872\n\nFeedback:\n    remaining: -1.1700000762939453\n\nFeedback:\n    remaining: -1.1540000438690186\n\nFeedback:\n    remaining: -1.1380000114440918\n\nFeedback:\n    remaining: -1.121999979019165\n\nFeedback:\n    remaining: -1.1060000658035278\n\nFeedback:\n    remaining: -1.090000033378601\n\nFeedback:\n    remaining: -1.0740001201629639\n\nFeedback:\n    remaining: -1.058000087738037\n\nFeedback:\n    remaining: -1.0420000553131104\n\nFeedback:\n    remaining: -1.0260000228881836\n\nFeedback:\n    remaining: -1.0099999904632568\n\nFeedback:\n    remaining: -0.9940000772476196\n\nFeedback:\n    remaining: -0.9780000448226929\n\nFeedback:\n    remaining: -0.9620000720024109\n\nFeedback:\n    remaining: -0.9460000395774841\n\nFeedback:\n    remaining: -0.9300000667572021\n\nFeedback:\n    remaining: -0.9140000343322754\n\nFeedback:\n    remaining: -0.8980000615119934\n\nFeedback:\n    remaining: -0.8820000290870667\n\nFeedback:\n    remaining: -0.8660000562667847\n\nFeedback:\n    remaining: -0.8500000238418579\n\nFeedback:\n    remaining: -0.8340000510215759\n\nFeedback:\n    remaining: -0.818000078201294\n\nFeedback:\n    remaining: -0.8020000457763672\n\nFeedback:\n    remaining: -0.7860000729560852\n\nFeedback:\n    remaining: -0.7700000405311584\n\nFeedback:\n    remaining: -0.7540000677108765\n\nFeedback:\n    remaining: -0.7380000352859497\n\nFeedback:\n    remaining: -0.7220000624656677\n\nFeedback:\n    remaining: -0.706000030040741\n\nFeedback:\n    remaining: -0.690000057220459\n\nFeedback:\n    remaining: -0.6740000247955322\n\nFeedback:\n    remaining: -0.6580000519752502\n\nFeedback:\n    remaining: -0.6420000791549683\n\nFeedback:\n    remaining: -0.6260000467300415\n\nFeedback:\n    remaining: -0.6100000739097595\n\nFeedback:\n    remaining: -0.5940000414848328\n\nFeedback:\n    remaining: -0.5780000686645508\n\nFeedback:\n    remaining: -0.562000036239624\n\nFeedback:\n    remaining: -0.5460000038146973\n\nFeedback:\n    remaining: -0.5300000905990601\n\nFeedback:\n    remaining: -0.5140000581741333\n\nFeedback:\n    remaining: -0.49800002574920654\n\nFeedback:\n    remaining: -0.4819999933242798\n\nFeedback:\n    remaining: -0.4660000801086426\n\nFeedback:\n    remaining: -0.4500000476837158\n\nFeedback:\n    remaining: -0.43400001525878906\n\nFeedback:\n    remaining: -0.41800010204315186\n\nFeedback:\n    remaining: -0.4020000696182251\n\nFeedback:\n    remaining: -0.38600003719329834\n\nFeedback:\n    remaining: -0.3700000047683716\n\nFeedback:\n    remaining: -0.3540000915527344\n\nFeedback:\n    remaining: -0.3380000591278076\n\nFeedback:\n    remaining: -0.32200002670288086\n\nFeedback:\n    remaining: -0.3059999942779541\n\nFeedback:\n    remaining: -0.2900000810623169\n\nFeedback:\n    remaining: -0.27400004863739014\n\nFeedback:\n    remaining: -0.2580000162124634\n\nFeedback:\n    remaining: -0.24200010299682617\n\nFeedback:\n    remaining: -0.22600007057189941\n\nFeedback:\n    remaining: -0.21000003814697266\n\nFeedback:\n    remaining: -0.1940000057220459\n\nFeedback:\n    remaining: -0.1780000925064087\n\nFeedback:\n    remaining: -0.16200006008148193\n\nFeedback:\n    remaining: -0.14600002765655518\n\nFeedback:\n    remaining: -0.12999999523162842\n\nFeedback:\n    remaining: -0.11400008201599121\n\nFeedback:\n    remaining: -0.09800004959106445\n\nFeedback:\n    remaining: -0.0820000171661377\n\nFeedback:\n    remaining: -0.06600010395050049\n\nFeedback:\n    remaining: -0.05000007152557373\n\nFeedback:\n    remaining: -0.03400003910064697\n\nFeedback:\n    remaining: -0.018000006675720215\n\nResult:\n    delta: 3.1040000915527344\n\nGoal finished with status: SUCCEEDED\n",
+   "exit": 0,
+   "secs": 4.6,
+   "state": "finished",
+   "status": "RAN",
+   "cwd_after": "/home/student",
+   "other_terminals": {
+    "100": "[INFO] [1792425737.037290299] [turtlesim]: Rotation goal completed successfully\n"
+   }
+  }
+ ],
+ "pre": [
+  {
+   "name": "turtlesim",
+   "cmd": "ros2 run turtlesim turtlesim_node",
+   "out": "[INFO] [1792425714.129196061] [turtlesim]: Starting turtlesim with node name /turtlesim\n[INFO] [1792425714.141169263] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]\n",
+   "state": "still running after 4 s"
+  },
+  {
+   "name": "teleop",
+   "cmd": "ros2 run turtlesim turtle_teleop_key",
+   "out": "Reading from keyboard\n---------------------------\nUse arrow keys to move the turtle.\nUse g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.\n'q' to quit.\n",
+   "state": "still running after 4 s"
+  }
+ ],
+ "notes": [
+  "pre-running terminal 100 output during block: ",
+  "pre-running terminal 101 output during block: "
+ ],
+ "finished": "2026-10-19T21:32:19+0530"
+}

@@ -1,0 +1,32 @@
+{
+ "case": "ur5e_step_r100_g0.1",
+ "runs": {
+  "run1": {
+   "rows": 373,
+   "joint_states_rate": 100.0,
+   "final_fraction": 1.0,
+   "time_constant_63pct": 0.0990000000000002,
+   "time_to_95pct": 0.29000000000000004,
+   "overshoot_fraction": 0.0,
+   "gain_param_reply": "Double value is: 0.1"
+  },
+  "run2": {
+   "rows": 423,
+   "joint_states_rate": 100.02370229912303,
+   "final_fraction": 1.0,
+   "time_constant_63pct": 0.09999999999999964,
+   "time_to_95pct": 0.29000000000000004,
+   "overshoot_fraction": 0.0,
+   "gain_param_reply": "Double value is: 0.1"
+  },
+  "run3": {
+   "rows": 411,
+   "joint_states_rate": 100.00000000000001,
+   "final_fraction": 1.0,
+   "time_constant_63pct": 0.09999999999999964,
+   "time_to_95pct": 0.29000000000000004,
+   "overshoot_fraction": 0.0,
+   "gain_param_reply": "Double value is: 0.1"
+  }
+ }
+}

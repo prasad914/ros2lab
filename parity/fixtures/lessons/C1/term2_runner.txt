@@ -1,0 +1,20 @@
+# Excerpt of parity/fixtures/lessons/C1/term2_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson C1 terminal 2: Practice: fix the missing semicolon
+2:# scratch HOME /home/prasad/lesson_ws/homes/C1_t2 shown as /home/student; sourced=False running=[] start=None
+3:## [term 1] $ g++ speed.cpp -o speed   (exit=1, 0.5 s, finished, cwd=/home/student)
+4:speed.cpp: In function ‘int main()’:
+5:speed.cpp:5:47: error: expected ‘;’ before ‘return’
+6:    5 |   std::cout << "Speed: " << speed << std::endl
+7:      |                                               ^
+8:      |                                               ;
+9:    6 |   return 0;
+10:      |   ~~~~~~                                       
+11:
+12:## [term 1] nano /home/student/speed.cpp: RAN (edited like nano: first occurrence replaced)
+13:## [term 1] $ g++ speed.cpp -o speed   (exit=0, 0.8 s, finished, cwd=/home/student)
+14:
+15:## [term 1] $ ./speed   (exit=0, 0.0 s, finished, cwd=/home/student)
+16:Speed: 0.5
+17:

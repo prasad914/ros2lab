@@ -1,0 +1,8 @@
+2:[1;32m[Msg] [0m[1;32mLoading SDF world file[[0m[1;32m/home/prasad/ros2lab-course/parity/scripts/physics/worlds/tb3_sensors_wall.sdf[0m[1;32m].[0m
+3:[1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="turtlebot3_burger"]/link[@name="base_scan"]/sensor[@name="hls_lfcd_lds"]/gz_frame_id:/opt/ros/jazzy/share/turtlebot3_gazebo/models/turtlebot3_burger/model.sdf:L141]: XML Element[gz_frame_id], child of element[sensor], not defined in SDF. Copying[gz_frame_id] as children of [sensor].
+5:[1;36m[Dbg] [Physics.cc:1004] [0m[1;36mLoaded [[0m[1;36mgz::physics::dartsim::Plugin[0m[1;36m] from library [[0m[1;36m/opt/ros/jazzy/opt/gz_physics_vendor/lib/gz-physics-7/engine-plugins/libgz-physics-dartsim-plugin.so[0m[1;36m][0m[1;36m[0m
+17:[1;32m[Msg] [0m[1;32mPhysics[0m[1;32m service on [[0m[1;32m/world/tb3_sensors_wall/set_physics[0m[1;32m] (async)[0m[1;32m[0m
+18:[1;32m[Msg] [0m[1;32mPhysics[0m[1;32m service on [[0m[1;32m/world/tb3_sensors_wall/set_physics/blocking[0m[1;32m] (blocking)[0m[1;32m[0m
+49:[1;32m[Msg] [0m[1;32mWorld [[0m[1;32mtb3_sensors_wall[0m[1;32m] initialized with [[0m[1;32m1ms[0m[1;32m] physics profile.[0m[1;32m[0m
+80:[1;36m[Dbg] [Sensors.cc:349] [0m[1;36mInitializing render context[0m[1;36m[0m
+81:[1;32m[Msg] [0m[1;32mLoading plugin [[0m[1;32mgz-rendering-ogre2[0m[1;32m][0m[1;32m[0m

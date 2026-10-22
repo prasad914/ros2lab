@@ -71,6 +71,7 @@ The browser tests expect the site on `localhost:8080`.
 | `LINES=80 node tests/real-entry.mjs <robot> "<cmd>" <secs>` | prints the terminal after one command (debugging) |
 | `node tests/sweep.mjs`, `node tests/physics.test.mjs`, `node tests/gz-real-node.mjs`, `node tests/nav2-node.mjs`, `node tests/games-basics.mjs` | older regression suites |
 | `node tools/security-check.mjs` | security rules |
+| `node tests/chrome-sync.test.mjs`, `node tests/ui-chrome.mjs` | shared header/footer: in sync on every page; 1440/1024/390 layout, keyboard menu (edit them in `tools/build-chrome.mjs`, then run it) |
 
 ## Real ROS 2 comparison (ground truth)
 

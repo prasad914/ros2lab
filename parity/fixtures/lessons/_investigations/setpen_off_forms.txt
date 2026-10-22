@@ -1,0 +1,20 @@
+# REAL Jazzy, domain 52, turtlesim_node running. ros2 service call /turtle1/set_pen with three request forms
+## $ ros2 service call /turtle1/set_pen turtlesim/srv/SetPen "{r: 255, g: 0, b: 0, width: 4, off: 0}"
+Failed to populate field: attribute name must be string, not 'bool'
+exit=1
+## $ ros2 service call /turtle1/set_pen turtlesim/srv/SetPen "{r: 255, g: 0, b: 0, width: 4, 'off': 0}"
+waiting for service to become available...
+requester: making request: turtlesim.srv.SetPen_Request(r=255, g=0, b=0, width=4, off=0)
+
+response:
+turtlesim.srv.SetPen_Response()
+
+exit=0
+## $ ros2 service call /turtle1/set_pen turtlesim/srv/SetPen "{r: 255, g: 0, b: 0, width: 4}"
+waiting for service to become available...
+requester: making request: turtlesim.srv.SetPen_Request(r=255, g=0, b=0, width=4, off=0)
+
+response:
+turtlesim.srv.SetPen_Response()
+
+exit=0

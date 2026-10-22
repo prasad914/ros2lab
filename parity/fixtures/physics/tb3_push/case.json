@@ -1,0 +1,14 @@
+{
+ "world": "tb3_push",
+ "until": 9.0,
+ "subs": [
+  "/model/burger/pose:pose_v",
+  "/model/light_box/pose:pose_v",
+  "/odom:odom"
+ ],
+ "cmds": [
+  "{\"t\": 1.0, \"type\": \"Twist\", \"topic\": \"/cmd_vel\", \"msg\": \"linear { x: 0.2 } angular { z: 0.0 }\"}"
+ ],
+ "tb3": true,
+ "case": "tb3_push"
+}

@@ -1,0 +1,198 @@
+# Excerpt of parity/fixtures/lessons/D12/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson D12 terminal 1: Practice: record and replay a drive
+2:# scratch HOME /home/prasad/lesson_ws/homes/D12_t1 shown as /home/student; sourced=True running=['turtlesim', 'teleop'] start=None
+3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
+4:[INFO] [1792425814.955585152] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792425814.972716861] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+6:
+7:## [pre-running terminal] $ ros2 run turtlesim turtle_teleop_key  (still running after 4 s)
+8:Reading from keyboard
+9:---------------------------
+10:Use arrow keys to move the turtle.
+11:Use g|b|v|c|d|e|r|t keys to rotate to absolute orientations. 'f' to cancel a rotation.
+12:'q' to quit.
+13:
+14:## [term 1] $ ros2 bag record -o drive /turtle1/cmd_vel /turtle1/pose   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+15:[WARN] [ros2bag]: Positional "topics" argument deprecated. Please use optional "--topics" argument instead.
+16:[INFO] [1792425827.839709521] [rosbag2_recorder]: Press SPACE for pausing/resuming
+17:[INFO] [1792425827.839745559] [rosbag2_recorder]: Event publisher thread: Started
+18:[INFO] [1792425827.845625074] [rosbag2_recorder]: Starting recording to 'drive'
+19:[INFO] [1792425827.848579021] [rosbag2_recorder]: Listening for topics...
+20:[INFO] [1792425827.848635444] [rosbag2_recorder]: Recording...
+21:[INFO] [1792425827.848744960] [rosbag2_recorder]: Topics discovery started.
+22:[INFO] [1792425827.950867156] [rosbag2_recorder]: Subscribed to topic '/turtle1/cmd_vel'
+23:[INFO] [1792425827.959852457] [rosbag2_recorder]: Subscribed to topic '/turtle1/pose'
+24:[INFO] [1792425827.959996285] [rosbag2_recorder]: All requested topics are subscribed. Stopping discovery...
+25:[INFO] [1792425827.960022391] [rosbag2_recorder]: Topics discovery stopped.
+26:
+27:## [term 1] Ctrl+C to stop: ros2 bag record -o drive /turtle1/cmd_vel /turtle1/pose  (exit=0)
+28:[WARN] [ros2bag]: Positional "topics" argument deprecated. Please use optional "--topics" argument instead.
+29:[INFO] [1792425827.839709521] [rosbag2_recorder]: Press SPACE for pausing/resuming
+30:[INFO] [1792425827.839745559] [rosbag2_recorder]: Event publisher thread: Started
+31:[INFO] [1792425827.845625074] [rosbag2_recorder]: Starting recording to 'drive'
+32:[INFO] [1792425827.848579021] [rosbag2_recorder]: Listening for topics...
+33:[INFO] [1792425827.848635444] [rosbag2_recorder]: Recording...
+34:[INFO] [1792425827.848744960] [rosbag2_recorder]: Topics discovery started.
+35:[INFO] [1792425827.950867156] [rosbag2_recorder]: Subscribed to topic '/turtle1/cmd_vel'
+36:[INFO] [1792425827.959852457] [rosbag2_recorder]: Subscribed to topic '/turtle1/pose'
+37:[INFO] [1792425827.959996285] [rosbag2_recorder]: All requested topics are subscribed. Stopping discovery...
+38:[INFO] [1792425827.960022391] [rosbag2_recorder]: Topics discovery stopped.
+39:[INFO] [1792425834.970849883] [rosbag2_recorder]: Pausing recording.
+40:[INFO] [1792425834.971117911] [rosbag2_cpp]: Writing remaining messages from cache to the bag. It may take a while
+41:[INFO] [1792425834.982279059] [rosbag2_recorder]: Recording stopped
+42:[INFO] [1792425834.990659170] [rosbag2_recorder]: Event publisher thread: Exited
+43:
+44:## [term 1] $ ros2 bag info drive   (exit=0, 0.9 s, finished, cwd=/home/student)
+45:
+46:Files:             drive_0.mcap
+47:Bag size:          37.4 KiB
+48:Storage id:        mcap
+49:ROS Distro:        jazzy
+50:Duration:          6.992515853s
+51:Start:             Oct 19 2026 21:33:47.973260163 (1792425827.973260163)
+52:End:               Oct 19 2026 21:33:54.965776016 (1792425834.965776016)
+53:Messages:          438
+54:Topic information: Topic: /turtle1/cmd_vel | Type: geometry_msgs/msg/Twist | Count: 0 | Serialization Format: cdr
+55:                   Topic: /turtle1/pose | Type: turtlesim/msg/Pose | Count: 438 | Serialization Format: cdr
+56:Service:           0
+57:Service information: 
+58:
+59:## [term 1] $ ros2 bag play drive   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student)
+60:[INFO] [1792425837.975876941] [rosbag2_player]: Set rate to 1
+61:[INFO] [1792425837.988152427] [rosbag2_player]: Adding keyboard callbacks.
+62:[INFO] [1792425837.988208973] [rosbag2_player]: Press SPACE for Pause/Resume
+63:[INFO] [1792425837.988220203] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+64:[INFO] [1792425837.988233740] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+65:[INFO] [1792425837.988244513] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+66:[INFO] [1792425837.989590866] [rosbag2_player]: Playback until timestamp: -1
+67:
+68:## [term 1] Ctrl+C to stop: ros2 bag play drive  (exit=130)
+69:[INFO] [1792425837.975876941] [rosbag2_player]: Set rate to 1
+70:[INFO] [1792425837.988152427] [rosbag2_player]: Adding keyboard callbacks.
+71:[INFO] [1792425837.988208973] [rosbag2_player]: Press SPACE for Pause/Resume
+72:[INFO] [1792425837.988220203] [rosbag2_player]: Press CURSOR_RIGHT for Play Next Message
+73:[INFO] [1792425837.988233740] [rosbag2_player]: Press CURSOR_UP for Increase Rate 10%
+74:[INFO] [1792425837.988244513] [rosbag2_player]: Press CURSOR_DOWN for Decrease Rate 10%
+75:[INFO] [1792425837.989590866] [rosbag2_player]: Playback until timestamp: -1
+76:
+77:
+78:## [term 1] $ ros2 topic echo --once /turtle1/pose   (exit=0, 2.1 s, finished, cwd=/home/student)
+79:x: 5.544444561004639
+80:y: 5.544444561004639
+81:theta: 0.0
+82:linear_velocity: 0.0
+83:angular_velocity: 0.0
+84:---
+85:
+86:## [term 1] $ ros2 doctor   (exit=0, 77.2 s, finished, cwd=/home/student)
+87:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: dwb_plugins has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+88:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_loopback_sim has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+89:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: range_sensor_broadcaster has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+90:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: controller_manager has been updated to a new version. local: 4.48.1 < latest: 4.49.0
+91:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_behaviors has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+92:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_core has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+93:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: ros_gz_interfaces has been updated to a new version. local: 1.0.24 < latest: 1.0.25
+94:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_voxel_grid has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+95:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: realsense2_description has been updated to a new version. local: 4.58.4 < latest: 4.59.1
+96:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav_2d_utils has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+97:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_graceful_controller has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+98:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: opennav_docking_bt has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+99:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: position_controllers has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+100:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: tricycle_controller has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+101:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_simple_commander has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+102:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: force_torque_sensor_broadcaster has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+103:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: tricycle_steering_controller has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+104:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_regulated_pure_pursuit_controller has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+105:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_mppi_controller has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+106:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: ros2controlcli has been updated to a new version. local: 4.48.1 < latest: 4.49.0
+107:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_bt_navigator has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+108:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: imu_sensor_broadcaster has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+109:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: navigation2 has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+110:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: dwb_core has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+111:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: effort_controllers has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+112:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: joint_limits has been updated to a new version. local: 4.48.1 < latest: 4.49.0
+113:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: bicycle_steering_controller has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+114:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: admittance_controller has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+115:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: costmap_queue has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+116:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_map_server has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+117:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: pid_controller has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+118:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: ros2_control_test_assets has been updated to a new version. local: 4.48.1 < latest: 4.49.0
+119:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: ros_gz_bridge has been updated to a new version. local: 1.0.24 < latest: 1.0.25
+120:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: zed_description has been updated to a new version. local: 0.1.5 < latest: 0.2.0
+121:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_route has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+122:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: ros2_controllers has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+123:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_rviz_plugins has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+124:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: steering_controllers_library has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+125:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: ros2_controllers_test_nodes has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+126:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_controller has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+127:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: dwb_msgs has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+128:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_amcl has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+129:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: hardware_interface_testing has been updated to a new version. local: 4.48.1 < latest: 4.49.0
+130:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_behavior_tree has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+131:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: joint_trajectory_controller has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+132:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_velocity_smoother has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+133:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: forward_command_controller has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+134:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_planner has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+135:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_waypoint_follower has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+136:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: battery_state_broadcaster has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+137:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_smac_planner has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+138:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_theta_star_planner has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+139:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: gps_sensor_broadcaster has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+140:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_msgs has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+141:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_dwb_controller has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+142:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_lifecycle_manager has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+143:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: pose_broadcaster has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+144:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: omni_wheel_drive_controller has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+145:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: generate_parameter_library has been updated to a new version. local: 0.7.6 < latest: 0.7.7
+146:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: parallel_gripper_controller has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+147:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_bringup has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+148:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: joint_state_broadcaster has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+149:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: dwb_critics has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+150:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: generate_parameter_library_py has been updated to a new version. local: 0.7.6 < latest: 0.7.7
+151:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: ros_gz_image has been updated to a new version. local: 1.0.24 < latest: 1.0.25
+152:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: diff_drive_controller has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+153:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_constrained_smoother has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+154:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: controller_manager_msgs has been updated to a new version. local: 4.48.1 < latest: 4.49.0
+155:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: chained_filter_controller has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+156:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav_2d_msgs has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+157:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: ros_gz_sim has been updated to a new version. local: 1.0.24 < latest: 1.0.25
+158:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_costmap_2d has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+159:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_smoother has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+160:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: ros_gz_sim_demos has been updated to a new version. local: 1.0.24 < latest: 1.0.25
+161:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: opennav_docking has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+162:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: foxglove_bridge has been updated to a new version. local: 3.6.0 < latest: 3.6.1
+163:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: ur_client_library has been updated to a new version. local: 2.15.2 < latest: 2.16.0
+164:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_navfn_planner has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+165:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: gz_rendering_vendor has been updated to a new version. local: 0.0.7 < latest: 0.0.8
+166:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: ros_gz has been updated to a new version. local: 1.0.24 < latest: 1.0.25
+167:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: realsense2_camera has been updated to a new version. local: 4.58.4 < latest: 4.59.1
+168:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: magnetometer_broadcaster has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+169:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: opennav_docking_core has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+170:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: controller_interface has been updated to a new version. local: 4.48.1 < latest: 4.49.0
+171:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: realsense2_camera_msgs has been updated to a new version. local: 4.58.4 < latest: 4.59.1
+172:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: gripper_controllers has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+173:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: ros2_control has been updated to a new version. local: 4.48.1 < latest: 4.49.0
+174:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_common has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+175:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: zed_msgs has been updated to a new version. local: 5.3.0 < latest: 5.5.0
+176:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: transmission_interface has been updated to a new version. local: 4.48.1 < latest: 4.49.0
+177:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: gpio_controllers has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+178:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_collision_monitor has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+179:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_util has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+180:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: parameter_traits has been updated to a new version. local: 0.7.6 < latest: 0.7.7
+181:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: aruco_msgs has been updated to a new version. local: 5.0.5 < latest: 5.0.6
+182:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: ackermann_steering_controller has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+183:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: velocity_controllers has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+184:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: nav2_rotation_shim_controller has been updated to a new version. local: 1.3.13 < latest: 1.3.14
+185:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: hardware_interface has been updated to a new version. local: 4.48.1 < latest: 4.49.0
+186:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: mecanum_drive_controller has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+187:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/package.py: 122: UserWarning: state_interfaces_broadcaster has been updated to a new version. local: 4.42.1 < latest: 4.43.0
+188:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/topic.py: 42: UserWarning: Publisher without subscriber detected on /turtle1/color_sensor.
+189:/opt/ros/jazzy/lib/python3.12/site-packages/ros2doctor/api/topic.py: 42: UserWarning: Publisher without subscriber detected on /turtle1/pose.
+190:
+191:All 5 checks passed
+192:
+193:
+194:# note: pre-running terminal 100 output during block: 
+195:# note: pre-running terminal 101 output during block: 

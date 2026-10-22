@@ -1,0 +1,959 @@
+# Excerpt of parity/fixtures/lessons/F13/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson F13 terminal 1: Live terminal: goals, feedback and cancel
+2:# scratch HOME /home/prasad/lesson_ws/homes/F13_t1 shown as /home/student; sourced=True running=['turtlesim'] start=~/ros2_ws
+3:## [pre-running terminal] $ ros2 run turtlesim turtlesim_node  (still running after 4 s)
+4:[INFO] [1792426481.113100422] [turtlesim]: Starting turtlesim with node name /turtlesim
+5:[INFO] [1792426481.127774264] [turtlesim]: Spawning turtle [turtle1] at x=[5.544445], y=[5.544445], theta=[0.000000]
+6:
+7:## [term 1] $ colcon build --packages-select my_robot_interfaces chiku_control   (exit=0, 36.6 s, finished, cwd=/home/student/ros2_ws)
+8:[0.4s] [0/0 complete]
+9:                     
+10:Starting >>> my_robot_interfaces
+11:[0.5s] [0/2 complete] [my_robot_interfaces:cmake - 0.1s]
+12:                                                        
+13:[0.6s] [0/2 complete] [my_robot_interfaces:cmake - 0.2s]
+14:                                                        
+15:[0.7s] [0/2 complete] [my_robot_interfaces:cmake - 0.3s]
+16:                                                        
+17:[0.8s] [0/2 complete] [my_robot_interfaces:cmake - 0.4s]
+18:                                                        
+19:[0.9s] [0/2 complete] [my_robot_interfaces:cmake - 0.5s]
+20:                                                        
+21:[1.0s] [0/2 complete] [my_robot_interfaces:cmake - 0.6s]
+22:                                                        
+23:[1.1s] [0/2 complete] [my_robot_interfaces:cmake - 0.7s]
+24:                                                        
+25:[1.2s] [0/2 complete] [my_robot_interfaces:cmake - 0.8s]
+26:                                                        
+27:[1.3s] [0/2 complete] [my_robot_interfaces:cmake - 0.9s]
+28:                                                        
+29:[1.4s] [0/2 complete] [my_robot_interfaces:cmake - 1.0s]
+30:                                                        
+31:[1.5s] [0/2 complete] [my_robot_interfaces:cmake - 1.1s]
+32:                                                        
+33:[1.6s] [0/2 complete] [my_robot_interfaces:cmake - 1.2s]
+34:                                                        
+35:[1.7s] [0/2 complete] [my_robot_interfaces:cmake - 1.3s]
+36:                                                        
+37:[1.8s] [0/2 complete] [my_robot_interfaces:cmake - 1.4s]
+38:                                                        
+39:[1.9s] [0/2 complete] [my_robot_interfaces:cmake - 1.5s]
+40:                                                        
+41:[2.0s] [0/2 complete] [my_robot_interfaces:cmake - 1.6s]
+42:                                                        
+43:[2.1s] [0/2 complete] [my_robot_interfaces:cmake - 1.7s]
+44:                                                        
+45:[2.2s] [0/2 complete] [my_robot_interfaces:cmake - 1.8s]
+46:                                                        
+47:[2.3s] [0/2 complete] [my_robot_interfaces:cmake - 1.9s]
+48:                                                        
+49:[2.4s] [0/2 complete] [my_robot_interfaces:cmake - 2.0s]
+50:                                                        
+51:[2.5s] [0/2 complete] [my_robot_interfaces:cmake - 2.1s]
+52:                                                        
+53:[2.6s] [0/2 complete] [my_robot_interfaces:cmake - 2.2s]
+54:                                                        
+55:[2.7s] [0/2 complete] [my_robot_interfaces:cmake - 2.3s]
+56:                                                        
+57:[2.8s] [0/2 complete] [my_robot_interfaces:cmake - 2.4s]
+58:                                                        
+59:[2.9s] [0/2 complete] [my_robot_interfaces:cmake - 2.5s]
+60:                                                        
+61:[3.0s] [0/2 complete] [my_robot_interfaces:cmake - 2.6s]
+62:                                                        
+63:[3.1s] [0/2 complete] [my_robot_interfaces:cmake - 2.7s]
+64:                                                        
+65:[3.2s] [0/2 complete] [my_robot_interfaces:cmake - 2.8s]
+66:                                                        
+67:[3.3s] [0/2 complete] [my_robot_interfaces:cmake - 2.9s]
+68:                                                        
+69:[3.4s] [0/2 complete] [my_robot_interfaces:cmake - 3.0s]
+70:                                                        
+71:[3.5s] [0/2 complete] [my_robot_interfaces:cmake - 3.1s]
+72:                                                        
+73:[3.6s] [0/2 complete] [my_robot_interfaces:cmake - 3.2s]
+74:                                                        
+75:[3.7s] [0/2 complete] [my_robot_interfaces:cmake - 3.3s]
+76:                                                        
+77:[3.8s] [0/2 complete] [my_robot_interfaces:cmake - 3.4s]
+78:                                                        
+79:[3.9s] [0/2 complete] [my_robot_interfaces:cmake - 3.5s]
+80:                                                        
+81:[4.0s] [0/2 complete] [my_robot_interfaces:cmake - 3.6s]
+82:                                                        
+83:[4.1s] [0/2 complete] [my_robot_interfaces:cmake - 3.7s]
+84:                                                        
+85:[4.2s] [0/2 complete] [my_robot_interfaces:cmake - 3.8s]
+86:                                                        
+87:[4.3s] [0/2 complete] [my_robot_interfaces:cmake - 3.9s]
+88:                                                        
+89:[4.4s] [0/2 complete] [my_robot_interfaces:cmake - 4.0s]
+90:                                                        
+91:[4.5s] [0/2 complete] [my_robot_interfaces:cmake - 4.1s]
+92:                                                        
+93:[4.6s] [0/2 complete] [my_robot_interfaces:cmake - 4.2s]
+94:                                                        
+95:[4.7s] [0/2 complete] [my_robot_interfaces:cmake - 4.3s]
+96:                                                        
+97:[4.8s] [0/2 complete] [my_robot_interfaces:cmake - 4.4s]
+98:                                                        
+99:[4.9s] [0/2 complete] [my_robot_interfaces:cmake - 4.5s]
+100:                                                        
+101:[5.0s] [0/2 complete] [my_robot_interfaces:cmake - 4.6s]
+102:                                                        
+103:[5.1s] [0/2 complete] [my_robot_interfaces:cmake - 4.7s]
+104:                                                        
+105:[5.2s] [0/2 complete] [my_robot_interfaces:cmake - 4.8s]
+106:                                                        
+107:[5.3s] [0/2 complete] [my_robot_interfaces:cmake - 4.9s]
+108:                                                        
+109:[5.4s] [0/2 complete] [my_robot_interfaces:cmake - 5.0s]
+110:                                                        
+111:[5.5s] [0/2 complete] [my_robot_interfaces:cmake - 5.1s]
+112:                                                        
+113:[5.6s] [0/2 complete] [my_robot_interfaces:cmake - 5.2s]
+114:                                                        
+115:[5.7s] [0/2 complete] [my_robot_interfaces:cmake - 5.3s]
+116:                                                        
+117:[5.8s] [0/2 complete] [my_robot_interfaces:cmake - 5.4s]
+118:                                                        
+119:[5.9s] [0/2 complete] [my_robot_interfaces:cmake - 5.5s]
+120:                                                        
+121:[6.0s] [0/2 complete] [my_robot_interfaces:cmake - 5.6s]
+122:                                                        
+123:[6.1s] [0/2 complete] [my_robot_interfaces:cmake - 5.7s]
+124:                                                        
+125:[6.2s] [0/2 complete] [my_robot_interfaces:cmake - 5.8s]
+126:                                                        
+127:[6.3s] [0/2 complete] [my_robot_interfaces:cmake - 5.9s]
+128:                                                        
+129:[6.4s] [0/2 complete] [my_robot_interfaces:cmake - 6.0s]
+130:                                                        
+131:[6.5s] [0/2 complete] [my_robot_interfaces:cmake - 6.1s]
+132:                                                        
+133:[6.6s] [0/2 complete] [my_robot_interfaces:cmake - 6.2s]
+134:                                                        
+135:[6.7s] [0/2 complete] [my_robot_interfaces:cmake - 6.3s]
+136:                                                        
+137:[6.8s] [0/2 complete] [my_robot_interfaces:cmake - 6.4s]
+138:                                                        
+139:[6.9s] [0/2 complete] [my_robot_interfaces:cmake - 6.6s]
+140:                                                        
+141:[7.0s] [0/2 complete] [my_robot_interfaces:cmake - 6.7s]
+142:                                                        
+143:[7.1s] [0/2 complete] [my_robot_interfaces:cmake - 6.8s]
+144:                                                        
+145:[7.2s] [0/2 complete] [my_robot_interfaces:cmake - 6.9s]
+146:                                                        
+147:[7.3s] [0/2 complete] [my_robot_interfaces:cmake - 7.0s]
+148:                                                        
+149:[7.4s] [0/2 complete] [my_robot_interfaces:cmake - 7.1s]
+150:                                                        
+151:[7.5s] [0/2 complete] [my_robot_interfaces:cmake - 7.2s]
+152:                                                        
+153:[7.6s] [0/2 complete] [my_robot_interfaces:cmake - 7.3s]
+154:                                                        
+155:[7.7s] [0/2 complete] [my_robot_interfaces:cmake - 7.4s]
+156:                                                        
+157:[7.8s] [0/2 complete] [my_robot_interfaces:cmake - 7.5s]
+158:                                                        
+159:[7.9s] [0/2 complete] [my_robot_interfaces:cmake - 7.6s]
+160:                                                        
+161:[8.0s] [0/2 complete] [my_robot_interfaces:cmake - 7.7s]
+162:                                                        
+163:[8.1s] [0/2 complete] [my_robot_interfaces:cmake - 7.8s]
+164:                                                        
+165:[8.2s] [0/2 complete] [my_robot_interfaces:cmake - 7.9s]
+166:                                                        
+167:[8.3s] [0/2 complete] [my_robot_interfaces:cmake - 8.0s]
+168:                                                        
+169:[8.4s] [0/2 complete] [my_robot_interfaces:cmake - 8.1s]
+170:                                                        
+171:[8.5s] [0/2 complete] [my_robot_interfaces:cmake - 8.2s]
+172:                                                        
+173:[8.6s] [0/2 complete] [my_robot_interfaces:cmake - 8.3s]
+174:                                                        
+175:[8.7s] [0/2 complete] [my_robot_interfaces:cmake - 8.4s]
+176:                                                        
+177:[8.8s] [0/2 complete] [my_robot_interfaces:cmake - 8.5s]
+178:                                                        
+179:[8.9s] [0/2 complete] [my_robot_interfaces:cmake - 8.6s]
+180:                                                        
+181:[9.0s] [0/2 complete] [my_robot_interfaces:cmake - 8.7s]
+182:                                                        
+183:[9.1s] [0/2 complete] [my_robot_interfaces:cmake - 8.8s]
+184:                                                        
+185:[9.2s] [0/2 complete] [my_robot_interfaces:cmake - 8.9s]
+186:                                                        
+187:[9.3s] [0/2 complete] [my_robot_interfaces:cmake - 9.0s]
+188:                                                        
+189:[9.4s] [0/2 complete] [my_robot_interfaces:cmake - 9.1s]
+190:                                                        
+191:[9.5s] [0/2 complete] [my_robot_interfaces:cmake - 9.2s]
+192:                                                        
+193:[9.6s] [0/2 complete] [my_robot_interfaces:cmake - 9.3s]
+194:                                                        
+195:[9.7s] [0/2 complete] [my_robot_interfaces:cmake - 9.4s]
+196:                                                        
+197:[9.8s] [0/2 complete] [my_robot_interfaces:cmake - 9.5s]
+198:                                                        
+199:[9.9s] [0/2 complete] [my_robot_interfaces:cmake - 9.6s]
+200:                                                        
+201:[10.0s] [0/2 complete] [my_robot_interfaces:cmake - 9.7s]
+202:                                                         
+203:[10.1s] [0/2 complete] [my_robot_interfaces:cmake - 9.8s]
+204:                                                         
+205:[10.2s] [0/2 complete] [my_robot_interfaces:cmake - 9.9s]
+206:                                                         
+207:[10.3s] [0/2 complete] [my_robot_interfaces:cmake - 10.0s]
+208:                                                          
+209:[10.4s] [0/2 complete] [my_robot_interfaces:cmake - 10.1s]
+210:                                                          
+211:[10.5s] [0/2 complete] [my_robot_interfaces:cmake - 10.2s]
+212:                                                          
+213:[10.6s] [0/2 complete] [my_robot_interfaces:cmake - 10.3s]
+214:                                                          
+215:[10.7s] [0/2 complete] [my_robot_interfaces:cmake - 10.4s]
+216:                                                          
+217:[10.9s] [0/2 complete] [my_robot_interfaces:cmake - 10.5s]
+218:                                                          
+219:[11.0s] [0/2 complete] [my_robot_interfaces:cmake - 10.6s]
+220:                                                          
+221:[11.1s] [0/2 complete] [my_robot_interfaces:cmake - 10.7s]
+222:                                                          
+223:[11.2s] [0/2 complete] [my_robot_interfaces:cmake - 10.8s]
+224:                                                          
+225:[11.3s] [0/2 complete] [my_robot_interfaces:cmake - 10.9s]
+226:                                                          
+227:[11.4s] [0/2 complete] [my_robot_interfaces:cmake - 11.0s]
+228:                                                          
+229:[11.5s] [0/2 complete] [my_robot_interfaces:cmake - 11.1s]
+230:                                                          
+231:[11.6s] [0/2 complete] [my_robot_interfaces:cmake - 11.2s]
+232:                                                          
+233:[11.7s] [0/2 complete] [my_robot_interfaces:cmake - 11.3s]
+234:                                                          
+235:[11.8s] [0/2 complete] [my_robot_interfaces:cmake - 11.4s]
+236:                                                          
+237:[11.9s] [0/2 complete] [my_robot_interfaces:cmake - 11.5s]
+238:                                                          
+239:[12.0s] [0/2 complete] [my_robot_interfaces:cmake - 11.6s]
+240:                                                          
+241:[12.1s] [0/2 complete] [my_robot_interfaces:cmake - 11.7s]
+242:                                                          
+243:[12.2s] [0/2 complete] [my_robot_interfaces:cmake - 11.8s]
+244:                                                          
+245:[12.3s] [0/2 complete] [my_robot_interfaces:cmake - 11.9s]
+246:                                                          
+247:[12.4s] [0/2 complete] [my_robot_interfaces:cmake - 12.0s]
+248:                                                          
+249:[12.5s] [0/2 complete] [my_robot_interfaces:cmake - 12.1s]
+250:                                                          
+251:[12.6s] [0/2 complete] [my_robot_interfaces:cmake - 12.2s]
+252:                                                          
+253:[12.7s] [0/2 complete] [my_robot_interfaces:cmake - 12.3s]
+254:                                                          
+255:[12.8s] [0/2 complete] [my_robot_interfaces:cmake - 12.4s]
+256:                                                          
+257:[12.9s] [0/2 complete] [my_robot_interfaces:cmake - 12.5s]
+258:                                                          
+259:[13.0s] [0/2 complete] [my_robot_interfaces:cmake - 12.6s]
+260:                                                          
+261:[13.1s] [0/2 complete] [my_robot_interfaces:cmake - 12.7s]
+262:                                                          
+263:[13.2s] [0/2 complete] [my_robot_interfaces:cmake - 12.8s]
+264:                                                          
+265:[13.3s] [0/2 complete] [my_robot_interfaces:cmake - 12.9s]
+266:                                                          
+267:[13.4s] [0/2 complete] [my_robot_interfaces:cmake - 13.0s]
+268:                                                          
+269:[13.5s] [0/2 complete] [my_robot_interfaces:cmake - 13.1s]
+270:                                                          
+271:[13.6s] [0/2 complete] [my_robot_interfaces:cmake - 13.2s]
+272:                                                          
+273:[13.7s] [0/2 complete] [my_robot_interfaces:cmake - 13.3s]
+274:                                                          
+275:[13.8s] [0/2 complete] [my_robot_interfaces:build - 13.4s]
+276:                                                          
+277:[13.9s] [0/2 complete] [my_robot_interfaces:build - 13.5s]
+278:                                                          
+279:[14.0s] [0/2 complete] [my_robot_interfaces:build - 13.6s]
+280:                                                          
+281:[14.1s] [0/2 complete] [my_robot_interfaces:build 2% - 13.7s]
+282:                                                             
+283:[14.2s] [0/2 complete] [my_robot_interfaces:build 2% - 13.8s]
+284:                                                             
+285:[14.3s] [0/2 complete] [my_robot_interfaces:build 2% - 13.9s]
+286:                                                             
+287:[14.4s] [0/2 complete] [my_robot_interfaces:build 2% - 14.0s]
+288:                                                             
+289:[14.5s] [0/2 complete] [my_robot_interfaces:build 2% - 14.1s]
+290:                                                             
+291:[14.6s] [0/2 complete] [my_robot_interfaces:build 2% - 14.2s]
+292:                                                             
+293:[14.7s] [0/2 complete] [my_robot_interfaces:build 2% - 14.3s]
+294:                                                             
+295:[14.8s] [0/2 complete] [my_robot_interfaces:build 2% - 14.4s]
+296:                                                             
+297:[14.9s] [0/2 complete] [my_robot_interfaces:build 2% - 14.5s]
+298:                                                             
+299:[15.0s] [0/2 complete] [my_robot_interfaces:build 4% - 14.6s]
+300:                                                             
+301:[15.1s] [0/2 complete] [my_robot_interfaces:build 4% - 14.7s]
+302:                                                             
+303:[15.2s] [0/2 complete] [my_robot_interfaces:build 4% - 14.8s]
+304:                                                             
+305:[15.3s] [0/2 complete] [my_robot_interfaces:build 4% - 14.9s]
+306:                                                             
+307:[15.4s] [0/2 complete] [my_robot_interfaces:build 4% - 15.0s]
+308:                                                             
+309:[15.5s] [0/2 complete] [my_robot_interfaces:build 4% - 15.1s]
+310:                                                             
+311:[15.6s] [0/2 complete] [my_robot_interfaces:build 4% - 15.2s]
+312:                                                             
+313:[15.7s] [0/2 complete] [my_robot_interfaces:build 4% - 15.3s]
+314:                                                             
+315:[15.8s] [0/2 complete] [my_robot_interfaces:build 4% - 15.4s]
+316:                                                             
+317:[15.9s] [0/2 complete] [my_robot_interfaces:build 4% - 15.5s]
+318:                                                             
+319:[16.0s] [0/2 complete] [my_robot_interfaces:build 4% - 15.6s]
+320:                                                             
+321:[16.1s] [0/2 complete] [my_robot_interfaces:build 4% - 15.7s]
+322:                                                             
+323:[16.2s] [0/2 complete] [my_robot_interfaces:build 4% - 15.8s]
+324:                                                             
+325:[16.3s] [0/2 complete] [my_robot_interfaces:build 4% - 15.9s]
+326:                                                             
+327:[16.4s] [0/2 complete] [my_robot_interfaces:build 4% - 16.0s]
+328:                                                             
+329:[16.5s] [0/2 complete] [my_robot_interfaces:build 4% - 16.1s]
+330:                                                             
+331:[16.6s] [0/2 complete] [my_robot_interfaces:build 4% - 16.2s]
+332:                                                             
+333:[16.7s] [0/2 complete] [my_robot_interfaces:build 4% - 16.3s]
+334:                                                             
+335:[16.8s] [0/2 complete] [my_robot_interfaces:build 4% - 16.4s]
+336:                                                             
+337:[16.9s] [0/2 complete] [my_robot_interfaces:build 4% - 16.5s]
+338:                                                             
+339:[17.0s] [0/2 complete] [my_robot_interfaces:build 4% - 16.6s]
+340:                                                             
+341:[17.1s] [0/2 complete] [my_robot_interfaces:build 4% - 16.7s]
+342:                                                             
+343:[17.2s] [0/2 complete] [my_robot_interfaces:build 4% - 16.8s]
+344:                                                             
+345:[17.3s] [0/2 complete] [my_robot_interfaces:build 4% - 16.9s]
+346:                                                             
+347:[17.4s] [0/2 complete] [my_robot_interfaces:build 11% - 17.0s]
+348:                                                              
+349:[17.5s] [0/2 complete] [my_robot_interfaces:build 18% - 17.1s]
+350:                                                              
+351:[17.6s] [0/2 complete] [my_robot_interfaces:build 25% - 17.2s]
+352:                                                              
+353:[17.7s] [0/2 complete] [my_robot_interfaces:build 25% - 17.3s]
+354:                                                              
+355:[17.8s] [0/2 complete] [my_robot_interfaces:build 25% - 17.4s]
+356:                                                              
+357:[17.9s] [0/2 complete] [my_robot_interfaces:build 25% - 17.5s]
+358:                                                              
+359:[18.0s] [0/2 complete] [my_robot_interfaces:build 27% - 17.6s]
+360:                                                              
+361:[18.1s] [0/2 complete] [my_robot_interfaces:build 27% - 17.7s]
+362:                                                              
+363:[18.2s] [0/2 complete] [my_robot_interfaces:build 27% - 17.8s]
+364:                                                              
+365:[18.3s] [0/2 complete] [my_robot_interfaces:build 34% - 17.9s]
+366:                                                              
+367:[18.4s] [0/2 complete] [my_robot_interfaces:build 34% - 18.0s]
+368:                                                              
+369:[18.5s] [0/2 complete] [my_robot_interfaces:build 34% - 18.1s]
+370:                                                              
+371:[18.6s] [0/2 complete] [my_robot_interfaces:build 34% - 18.2s]
+372:                                                              
+373:[18.7s] [0/2 complete] [my_robot_interfaces:build 34% - 18.3s]
+374:                                                              
+375:[18.8s] [0/2 complete] [my_robot_interfaces:build 34% - 18.4s]
+376:                                                              
+377:[18.9s] [0/2 complete] [my_robot_interfaces:build 34% - 18.5s]
+378:                                                              
+379:[19.0s] [0/2 complete] [my_robot_interfaces:build 34% - 18.6s]
+380:                                                              
+381:[19.1s] [0/2 complete] [my_robot_interfaces:build 34% - 18.7s]
+382:                                                              
+383:[19.2s] [0/2 complete] [my_robot_interfaces:build 34% - 18.8s]
+384:                                                              
+385:[19.3s] [0/2 complete] [my_robot_interfaces:build 34% - 18.9s]
+386:                                                              
+387:[19.4s] [0/2 complete] [my_robot_interfaces:build 34% - 19.0s]
+388:                                                              
+389:[19.5s] [0/2 complete] [my_robot_interfaces:build 34% - 19.1s]
+390:                                                              
+391:[19.6s] [0/2 complete] [my_robot_interfaces:build 34% - 19.2s]
+392:                                                              
+393:[19.7s] [0/2 complete] [my_robot_interfaces:build 41% - 19.3s]
+394:                                                              
+395:[19.8s] [0/2 complete] [my_robot_interfaces:build 41% - 19.4s]
+396:                                                              
+397:[19.9s] [0/2 complete] [my_robot_interfaces:build 49% - 19.5s]
+398:                                                              
+399:[20.0s] [0/2 complete] [my_robot_interfaces:build 49% - 19.6s]
+400:                                                              
+401:[20.1s] [0/2 complete] [my_robot_interfaces:build 49% - 19.7s]
+402:                                                              
+403:[20.2s] [0/2 complete] [my_robot_interfaces:build 49% - 19.8s]
+404:                                                              
+405:[20.3s] [0/2 complete] [my_robot_interfaces:build 49% - 19.9s]
+406:                                                              
+407:[20.4s] [0/2 complete] [my_robot_interfaces:build 49% - 20.0s]
+408:                                                              
+409:[20.5s] [0/2 complete] [my_robot_interfaces:build 49% - 20.1s]
+410:                                                              
+411:[20.6s] [0/2 complete] [my_robot_interfaces:build 52% - 20.3s]
+412:                                                              
+413:[20.7s] [0/2 complete] [my_robot_interfaces:build 52% - 20.4s]
+414:                                                              
+415:[20.8s] [0/2 complete] [my_robot_interfaces:build 52% - 20.5s]
+416:                                                              
+417:[20.9s] [0/2 complete] [my_robot_interfaces:build 52% - 20.6s]
+418:                                                              
+419:[21.0s] [0/2 complete] [my_robot_interfaces:build 54% - 20.7s]
+420:                                                              
+421:[21.1s] [0/2 complete] [my_robot_interfaces:build 55% - 20.8s]
+422:                                                              
+423:[21.2s] [0/2 complete] [my_robot_interfaces:build 55% - 20.9s]
+424:                                                              
+425:[21.3s] [0/2 complete] [my_robot_interfaces:build 55% - 21.0s]
+426:                                                              
+427:[21.4s] [0/2 complete] [my_robot_interfaces:build 56% - 21.1s]
+428:                                                              
+429:[21.5s] [0/2 complete] [my_robot_interfaces:build 58% - 21.2s]
+430:                                                              
+431:[21.6s] [0/2 complete] [my_robot_interfaces:build 58% - 21.3s]
+432:                                                              
+433:[21.7s] [0/2 complete] [my_robot_interfaces:build 61% - 21.4s]
+434:                                                              
+435:[21.8s] [0/2 complete] [my_robot_interfaces:build 61% - 21.5s]
+436:                                                              
+437:[21.9s] [0/2 complete] [my_robot_interfaces:build 63% - 21.6s]
+438:                                                              
+439:[22.0s] [0/2 complete] [my_robot_interfaces:build 63% - 21.7s]
+440:                                                              
+441:[22.1s] [0/2 complete] [my_robot_interfaces:build 65% - 21.8s]
+442:                                                              
+443:[22.2s] [0/2 complete] [my_robot_interfaces:build 67% - 21.9s]
+444:                                                              
+445:[22.3s] [0/2 complete] [my_robot_interfaces:build 68% - 22.0s]
+446:                                                              
+447:[22.4s] [0/2 complete] [my_robot_interfaces:build 70% - 22.1s]
+448:                                                              
+449:[22.5s] [0/2 complete] [my_robot_interfaces:build 71% - 22.2s]
+450:                                                              
+451:[22.6s] [0/2 complete] [my_robot_interfaces:build 71% - 22.3s]
+452:                                                              
+453:[22.7s] [0/2 complete] [my_robot_interfaces:build 71% - 22.4s]
+454:                                                              
+455:[22.8s] [0/2 complete] [my_robot_interfaces:build 71% - 22.5s]
+456:                                                              
+457:[22.9s] [0/2 complete] [my_robot_interfaces:build 72% - 22.6s]
+458:                                                              
+459:[23.0s] [0/2 complete] [my_robot_interfaces:build 72% - 22.7s]
+460:                                                              
+461:[23.1s] [0/2 complete] [my_robot_interfaces:build 72% - 22.8s]
+462:                                                              
+463:[23.2s] [0/2 complete] [my_robot_interfaces:build 72% - 22.9s]
+464:                                                              
+465:[23.3s] [0/2 complete] [my_robot_interfaces:build 72% - 23.0s]
+466:                                                              
+467:[23.4s] [0/2 complete] [my_robot_interfaces:build 76% - 23.1s]
+468:                                                              
+469:[23.5s] [0/2 complete] [my_robot_interfaces:build 77% - 23.2s]
+470:                                                              
+471:[23.6s] [0/2 complete] [my_robot_interfaces:build 77% - 23.3s]
+472:                                                              
+473:[23.7s] [0/2 complete] [my_robot_interfaces:build 77% - 23.4s]
+474:                                                              
+475:[23.9s] [0/2 complete] [my_robot_interfaces:build 77% - 23.5s]
+476:                                                              
+477:[24.0s] [0/2 complete] [my_robot_interfaces:build 78% - 23.6s]
+478:                                                              
+479:[24.1s] [0/2 complete] [my_robot_interfaces:build 78% - 23.7s]
+480:                                                              
+481:[24.2s] [0/2 complete] [my_robot_interfaces:build 78% - 23.8s]
+482:                                                              
+483:[24.3s] [0/2 complete] [my_robot_interfaces:build 80% - 23.9s]
+484:                                                              
+485:[24.4s] [0/2 complete] [my_robot_interfaces:build 80% - 24.0s]
+486:                                                              
+487:[24.5s] [0/2 complete] [my_robot_interfaces:build 80% - 24.1s]
+488:                                                              
+489:[24.6s] [0/2 complete] [my_robot_interfaces:build 80% - 24.2s]
+490:                                                              
+491:[24.7s] [0/2 complete] [my_robot_interfaces:build 80% - 24.3s]
+492:                                                              
+493:[24.8s] [0/2 complete] [my_robot_interfaces:build 81% - 24.4s]
+494:                                                              
+495:[24.9s] [0/2 complete] [my_robot_interfaces:build 81% - 24.5s]
+496:                                                              
+497:[25.0s] [0/2 complete] [my_robot_interfaces:build 81% - 24.6s]
+498:                                                              
+499:[25.1s] [0/2 complete] [my_robot_interfaces:build 81% - 24.7s]
+500:                                                              
+501:[25.2s] [0/2 complete] [my_robot_interfaces:build 81% - 24.8s]
+502:                                                              
+503:[25.3s] [0/2 complete] [my_robot_interfaces:build 81% - 24.9s]
+504:                                                              
+505:[25.4s] [0/2 complete] [my_robot_interfaces:build 81% - 25.0s]
+506:                                                              
+507:[25.5s] [0/2 complete] [my_robot_interfaces:build 81% - 25.1s]
+508:                                                              
+509:[25.6s] [0/2 complete] [my_robot_interfaces:build 81% - 25.2s]
+510:                                                              
+511:[25.7s] [0/2 complete] [my_robot_interfaces:build 81% - 25.3s]
+512:                                                              
+513:[25.8s] [0/2 complete] [my_robot_interfaces:build 81% - 25.4s]
+514:                                                              
+515:[25.9s] [0/2 complete] [my_robot_interfaces:build 81% - 25.5s]
+516:                                                              
+517:[26.0s] [0/2 complete] [my_robot_interfaces:build 81% - 25.6s]
+518:                                                              
+519:[26.1s] [0/2 complete] [my_robot_interfaces:build 81% - 25.7s]
+520:                                                              
+521:[26.2s] [0/2 complete] [my_robot_interfaces:build 82% - 25.8s]
+522:                                                              
+523:[26.3s] [0/2 complete] [my_robot_interfaces:build 82% - 25.9s]
+524:                                                              
+525:[26.4s] [0/2 complete] [my_robot_interfaces:build 82% - 26.0s]
+526:                                                              
+527:[26.5s] [0/2 complete] [my_robot_interfaces:build 83% - 26.1s]
+528:                                                              
+529:[26.6s] [0/2 complete] [my_robot_interfaces:build 83% - 26.2s]
+530:                                                              
+531:[26.7s] [0/2 complete] [my_robot_interfaces:build 83% - 26.3s]
+532:                                                              
+533:[26.8s] [0/2 complete] [my_robot_interfaces:build 83% - 26.4s]
+534:                                                              
+535:[26.9s] [0/2 complete] [my_robot_interfaces:build 83% - 26.5s]
+536:                                                              
+537:[27.0s] [0/2 complete] [my_robot_interfaces:build 83% - 26.6s]
+538:                                                              
+539:[27.1s] [0/2 complete] [my_robot_interfaces:build 84% - 26.7s]
+540:                                                              
+541:[27.2s] [0/2 complete] [my_robot_interfaces:build 84% - 26.8s]
+542:                                                              
+543:[27.3s] [0/2 complete] [my_robot_interfaces:build 84% - 26.9s]
+544:                                                              
+545:[27.4s] [0/2 complete] [my_robot_interfaces:build 84% - 27.0s]
+546:                                                              
+547:[27.5s] [0/2 complete] [my_robot_interfaces:build 84% - 27.1s]
+548:                                                              
+549:[27.6s] [0/2 complete] [my_robot_interfaces:build 84% - 27.2s]
+550:                                                              
+551:[27.7s] [0/2 complete] [my_robot_interfaces:build 84% - 27.3s]
+552:                                                              
+553:[27.8s] [0/2 complete] [my_robot_interfaces:build 84% - 27.4s]
+554:                                                              
+555:[27.9s] [0/2 complete] [my_robot_interfaces:build 84% - 27.5s]
+556:                                                              
+557:[28.0s] [0/2 complete] [my_robot_interfaces:build 84% - 27.6s]
+558:                                                              
+559:[28.1s] [0/2 complete] [my_robot_interfaces:build 84% - 27.7s]
+560:                                                              
+561:[28.2s] [0/2 complete] [my_robot_interfaces:build 84% - 27.8s]
+562:                                                              
+563:[28.3s] [0/2 complete] [my_robot_interfaces:build 84% - 27.9s]
+564:                                                              
+565:[28.4s] [0/2 complete] [my_robot_interfaces:build 84% - 28.0s]
+566:                                                              
+567:[28.5s] [0/2 complete] [my_robot_interfaces:build 84% - 28.1s]
+568:                                                              
+569:[28.6s] [0/2 complete] [my_robot_interfaces:build 84% - 28.2s]
+570:                                                              
+571:[28.7s] [0/2 complete] [my_robot_interfaces:build 84% - 28.3s]
+572:                                                              
+573:[28.8s] [0/2 complete] [my_robot_interfaces:build 84% - 28.4s]
+574:                                                              
+575:[28.9s] [0/2 complete] [my_robot_interfaces:build 84% - 28.5s]
+576:                                                              
+577:[29.0s] [0/2 complete] [my_robot_interfaces:build 84% - 28.6s]
+578:                                                              
+579:[29.1s] [0/2 complete] [my_robot_interfaces:build 84% - 28.7s]
+580:                                                              
+581:[29.2s] [0/2 complete] [my_robot_interfaces:build 84% - 28.8s]
+582:                                                              
+583:[29.3s] [0/2 complete] [my_robot_interfaces:build 84% - 28.9s]
+584:                                                              
+585:[29.4s] [0/2 complete] [my_robot_interfaces:build 84% - 29.0s]
+586:                                                              
+587:[29.5s] [0/2 complete] [my_robot_interfaces:build 84% - 29.1s]
+588:                                                              
+589:[29.6s] [0/2 complete] [my_robot_interfaces:build 84% - 29.2s]
+590:                                                              
+591:[29.7s] [0/2 complete] [my_robot_interfaces:build 84% - 29.3s]
+592:                                                              
+593:[29.8s] [0/2 complete] [my_robot_interfaces:build 84% - 29.4s]
+594:                                                              
+595:[29.9s] [0/2 complete] [my_robot_interfaces:build 84% - 29.5s]
+596:                                                              
+597:[30.0s] [0/2 complete] [my_robot_interfaces:build 84% - 29.6s]
+598:                                                              
+599:[30.1s] [0/2 complete] [my_robot_interfaces:build 84% - 29.7s]
+600:                                                              
+601:[30.2s] [0/2 complete] [my_robot_interfaces:build 84% - 29.8s]
+602:                                                              
+603:[30.3s] [0/2 complete] [my_robot_interfaces:build 84% - 29.9s]
+604:                                                              
+605:[Processing: my_robot_interfaces]
+606:[30.4s] [0/2 complete] [my_robot_interfaces:build 84% - 30.0s]
+607:                                                              
+608:[30.5s] [0/2 complete] [my_robot_interfaces:build 84% - 30.1s]
+609:                                                              
+610:[30.6s] [0/2 complete] [my_robot_interfaces:build 91% - 30.2s]
+611:                                                              
+612:[30.7s] [0/2 complete] [my_robot_interfaces:build 91% - 30.3s]
+613:                                                              
+614:[30.8s] [0/2 complete] [my_robot_interfaces:build 91% - 30.4s]
+615:                                                              
+616:[30.9s] [0/2 complete] [my_robot_interfaces:build 91% - 30.5s]
+617:                                                              
+618:[31.0s] [0/2 complete] [my_robot_interfaces:build 91% - 30.6s]
+619:                                                              
+620:[31.1s] [0/2 complete] [my_robot_interfaces:build 91% - 30.7s]
+621:                                                              
+622:[31.2s] [0/2 complete] [my_robot_interfaces:build 92% - 30.8s]
+623:                                                              
+624:[31.3s] [0/2 complete] [my_robot_interfaces:build 92% - 30.9s]
+625:                                                              
+626:[31.4s] [0/2 complete] [my_robot_interfaces:build 92% - 31.0s]
+627:                                                              
+628:[31.5s] [0/2 complete] [my_robot_interfaces:build 92% - 31.1s]
+629:                                                              
+630:[31.6s] [0/2 complete] [my_robot_interfaces:build 96% - 31.2s]
+631:                                                              
+632:[31.7s] [0/2 complete] [my_robot_interfaces:build 96% - 31.3s]
+633:                                                              
+634:[31.8s] [0/2 complete] [my_robot_interfaces:build 96% - 31.4s]
+635:                                                              
+636:[31.9s] [0/2 complete] [my_robot_interfaces:build 96% - 31.5s]
+637:                                                              
+638:[32.0s] [0/2 complete] [my_robot_interfaces:build 100% - 31.6s]
+639:                                                               
+640:[32.1s] [0/2 complete] [my_robot_interfaces:build 100% - 31.7s]
+641:                                                               
+642:[32.2s] [0/2 complete] [my_robot_interfaces:install - 31.8s]
+643:                                                            
+644:[32.3s] [0/2 complete] [my_robot_interfaces:install - 31.9s]
+645:                                                            
+646:[32.4s] [0/2 complete] [my_robot_interfaces:install - 32.0s]
+647:                                                            
+648:[32.5s] [0/2 complete] [my_robot_interfaces:install - 32.1s]
+649:                                                            
+650:Finished <<< my_robot_interfaces [32.2s]
+651:Starting >>> chiku_control
+652:[32.6s] [1/2 complete] [chiku_control - 0.1s]
+653:                                             
+654:[32.7s] [1/2 complete] [chiku_control - 0.2s]
+655:                                             
+656:[32.8s] [1/2 complete] [chiku_control - 0.3s]
+657:                                             
+658:[32.9s] [1/2 complete] [chiku_control - 0.4s]
+659:                                             
+660:[33.0s] [1/2 complete] [chiku_control - 0.5s]
+661:                                             
+662:[33.1s] [1/2 complete] [chiku_control - 0.6s]
+663:                                             
+664:[33.2s] [1/2 complete] [chiku_control - 0.7s]
+665:                                             
+666:[33.3s] [1/2 complete] [chiku_control - 0.8s]
+667:                                             
+668:[33.4s] [1/2 complete] [chiku_control - 0.9s]
+669:                                             
+670:[33.5s] [1/2 complete] [chiku_control - 1.0s]
+671:                                             
+672:[33.6s] [1/2 complete] [chiku_control - 1.1s]
+673:                                             
+674:[33.7s] [1/2 complete] [chiku_control - 1.2s]
+675:                                             
+676:[33.8s] [1/2 complete] [chiku_control - 1.3s]
+677:                                             
+678:[33.9s] [1/2 complete] [chiku_control - 1.4s]
+679:                                             
+680:[34.0s] [1/2 complete] [chiku_control - 1.5s]
+681:                                             
+682:[34.1s] [1/2 complete] [chiku_control - 1.6s]
+683:                                             
+684:[34.2s] [1/2 complete] [chiku_control - 1.7s]
+685:                                             
+686:[34.3s] [1/2 complete] [chiku_control - 1.8s]
+687:                                             
+688:[34.4s] [1/2 complete] [chiku_control - 1.9s]
+689:                                             
+690:[34.5s] [1/2 complete] [chiku_control - 2.0s]
+691:                                             
+692:[34.6s] [1/2 complete] [chiku_control - 2.1s]
+693:                                             
+694:[34.7s] [1/2 complete] [chiku_control - 2.2s]
+695:                                             
+696:[34.8s] [1/2 complete] [chiku_control - 2.3s]
+697:                                             
+698:[34.9s] [1/2 complete] [chiku_control - 2.4s]
+699:                                             
+700:[35.0s] [1/2 complete] [chiku_control - 2.5s]
+701:                                             
+702:[35.1s] [1/2 complete] [chiku_control - 2.6s]
+703:                                             
+704:[35.2s] [1/2 complete] [chiku_control - 2.7s]
+705:                                             
+706:[35.3s] [1/2 complete] [chiku_control - 2.8s]
+707:                                             
+708:[35.4s] [1/2 complete] [chiku_control - 2.9s]
+709:                                             
+710:[35.5s] [1/2 complete] [chiku_control - 3.0s]
+711:                                             
+712:[35.6s] [1/2 complete] [chiku_control - 3.1s]
+713:                                             
+714:[35.7s] [1/2 complete] [chiku_control - 3.2s]
+715:                                             
+716:[35.8s] [1/2 complete] [chiku_control - 3.3s]
+717:                                             
+718:[35.9s] [1/2 complete] [chiku_control - 3.4s]
+719:                                             
+720:Finished <<< chiku_control [3.41s]
+721:
+722:Summary: 2 packages finished [36.0s]
+723:
+724:## [term 1] $ source install/setup.bash   (exit=0, 0.9 s, finished, cwd=/home/student/ros2_ws)
+725:
+726:## [term 1] $ ros2 run chiku_control drive_distance_server   (exit=None, 8.0 s, still running after 8 s, cwd=/home/student/ros2_ws)
+727:[INFO] [1792426527.850799092] [drive_distance_server]: Action server /chiku/drive_distance is ready
+728:
+729:## [new terminal 2]
+730:## [term 2] $ cd ~/ros2_ws   (exit=0, 0.0 s, finished, cwd=/home/student/ros2_ws)
+731:
+732:## [term 2] $ source install/setup.bash   (exit=0, 1.0 s, finished, cwd=/home/student/ros2_ws)
+733:
+734:## [term 2] $ ros2 action send_goal /chiku/drive_distance my_robot_interfaces/action/DriveDistance "{distance: -1.0, speed: 0.5}"   (exit=0, 1.7 s, finished, cwd=/home/student/ros2_ws)
+735:Waiting for an action server to become available...
+736:Sending goal:
+737:     distance: -1.0
+738:speed: 0.5
+739:
+740:Goal was rejected.
+741:
+742:### output meanwhile in terminal 1:
+743:[WARN] [1792426539.143931397] [drive_distance_server]: Rejected: distance must be > 0 and speed in (0, 2]
+744:
+745:## [term 2] $ ros2 action send_goal --feedback /chiku/drive_distance my_robot_interfaces/action/DriveDistance "{distance: 2.0, speed: 0.5}"   (exit=0, 6.0 s, finished, cwd=/home/student/ros2_ws)
+746:Waiting for an action server to become available...
+747:Sending goal:
+748:     distance: 2.0
+749:speed: 0.5
+750:
+751:Goal accepted with ID: 1093120b49ea42b4ab704145af350356
+752:
+753:Feedback:
+754:    remaining: 1.95
+755:
+756:Feedback:
+757:    remaining: 1.9
+758:
+759:Feedback:
+760:    remaining: 1.85
+761:
+762:Feedback:
+763:    remaining: 1.8
+764:
+765:Feedback:
+766:    remaining: 1.75
+767:
+768:Feedback:
+769:    remaining: 1.7
+770:
+771:Feedback:
+772:    remaining: 1.65
+773:
+774:Feedback:
+775:    remaining: 1.6
+776:
+777:Feedback:
+778:    remaining: 1.55
+779:
+780:Feedback:
+781:    remaining: 1.5
+782:
+783:Feedback:
+784:    remaining: 1.4500000000000002
+785:
+786:Feedback:
+787:    remaining: 1.4
+788:
+789:Feedback:
+790:    remaining: 1.35
+791:
+792:Feedback:
+793:    remaining: 1.2999999999999998
+794:
+795:Feedback:
+796:    remaining: 1.25
+797:
+798:Feedback:
+799:    remaining: 1.1999999999999997
+800:
+801:Feedback:
+802:    remaining: 1.15
+803:
+804:Feedback:
+805:    remaining: 1.0999999999999996
+806:
+807:Feedback:
+808:    remaining: 1.0499999999999998
+809:
+810:Feedback:
+811:    remaining: 0.9999999999999998
+812:
+813:Feedback:
+814:    remaining: 0.9499999999999997
+815:
+816:Feedback:
+817:    remaining: 0.8999999999999997
+818:
+819:Feedback:
+820:    remaining: 0.8499999999999996
+821:
+822:Feedback:
+823:    remaining: 0.7999999999999996
+824:
+825:Feedback:
+826:    remaining: 0.7499999999999996
+827:
+828:Feedback:
+829:    remaining: 0.6999999999999995
+830:
+831:Feedback:
+832:    remaining: 0.6499999999999995
+833:
+834:Feedback:
+835:    remaining: 0.5999999999999994
+836:
+837:Feedback:
+838:    remaining: 0.5499999999999994
+839:
+840:Feedback:
+841:    remaining: 0.49999999999999933
+842:
+843:Feedback:
+844:    remaining: 0.4499999999999993
+845:
+846:Feedback:
+847:    remaining: 0.39999999999999925
+848:
+849:Feedback:
+850:    remaining: 0.3499999999999992
+851:
+852:Feedback:
+853:    remaining: 0.29999999999999916
+854:
+855:Feedback:
+856:    remaining: 0.2499999999999991
+857:
+858:Feedback:
+859:    remaining: 0.19999999999999907
+860:
+861:Feedback:
+862:    remaining: 0.14999999999999902
+863:
+864:Feedback:
+865:    remaining: 0.09999999999999898
+866:
+867:Feedback:
+868:    remaining: 0.049999999999998934
+869:
+870:Feedback:
+871:    remaining: 0.0
+872:
+873:Result:
+874:    distance_driven: 2.0
+875:
+876:Goal finished with status: SUCCEEDED
+877:
+878:### output meanwhile in terminal 1:
+879:[INFO] [1792426545.685213605] [drive_distance_server]: Done: drove 2.00 m
+880:
+881:## [term 2] $ ros2 run chiku_control drive_distance_client   (exit=0, 5.8 s, finished, cwd=/home/student/ros2_ws)
+882:[INFO] [1792426547.894291772] [drive_distance_client]: Sending goal: 2.0 m at 0.5 m/s
+883:[INFO] [1792426547.924698588] [drive_distance_client]: Goal accepted
+884:[INFO] [1792426548.008171826] [drive_distance_client]: remaining: 1.95 m
+885:[INFO] [1792426548.109520553] [drive_distance_client]: remaining: 1.90 m
+886:[INFO] [1792426548.210510505] [drive_distance_client]: remaining: 1.85 m
+887:[INFO] [1792426548.311884943] [drive_distance_client]: remaining: 1.80 m
+888:[INFO] [1792426548.413001761] [drive_distance_client]: remaining: 1.75 m
+889:[INFO] [1792426548.514208214] [drive_distance_client]: remaining: 1.70 m
+890:[INFO] [1792426548.615763770] [drive_distance_client]: remaining: 1.65 m
+891:[INFO] [1792426548.716717370] [drive_distance_client]: remaining: 1.60 m
+892:[INFO] [1792426548.818171992] [drive_distance_client]: remaining: 1.55 m
+893:[INFO] [1792426548.919490003] [drive_distance_client]: remaining: 1.50 m
+894:[INFO] [1792426549.020742034] [drive_distance_client]: remaining: 1.45 m
+895:[INFO] [1792426549.121889242] [drive_distance_client]: remaining: 1.40 m
+896:[INFO] [1792426549.224519806] [drive_distance_client]: remaining: 1.35 m
+897:[INFO] [1792426549.326026473] [drive_distance_client]: remaining: 1.30 m
+898:[INFO] [1792426549.427206270] [drive_distance_client]: remaining: 1.25 m
+899:[INFO] [1792426549.526801384] [drive_distance_client]: remaining: 1.20 m
+900:[INFO] [1792426549.627943369] [drive_distance_client]: remaining: 1.15 m
+901:[INFO] [1792426549.729284042] [drive_distance_client]: remaining: 1.10 m
+902:[INFO] [1792426549.830620071] [drive_distance_client]: remaining: 1.05 m
+903:[INFO] [1792426549.929964277] [drive_distance_client]: remaining: 1.00 m
+904:[INFO] [1792426550.033822026] [drive_distance_client]: remaining: 0.95 m
+905:[INFO] [1792426550.133560151] [drive_distance_client]: remaining: 0.90 m
+906:[INFO] [1792426550.236714861] [drive_distance_client]: remaining: 0.85 m
+907:[INFO] [1792426550.337483044] [drive_distance_client]: remaining: 0.80 m
+908:[INFO] [1792426550.437535641] [drive_distance_client]: remaining: 0.75 m
+909:[INFO] [1792426550.537558886] [drive_distance_client]: remaining: 0.70 m
+910:[INFO] [1792426550.638573872] [drive_distance_client]: remaining: 0.65 m
+911:[INFO] [1792426550.739228058] [drive_distance_client]: remaining: 0.60 m
+912:[INFO] [1792426550.840470317] [drive_distance_client]: remaining: 0.55 m
+913:[INFO] [1792426550.941958933] [drive_distance_client]: remaining: 0.50 m
+914:[INFO] [1792426551.043345644] [drive_distance_client]: remaining: 0.45 m
+915:[INFO] [1792426551.144647709] [drive_distance_client]: remaining: 0.40 m
+916:[INFO] [1792426551.245693596] [drive_distance_client]: remaining: 0.35 m
+917:[INFO] [1792426551.347064787] [drive_distance_client]: remaining: 0.30 m
+918:[INFO] [1792426551.448180737] [drive_distance_client]: remaining: 0.25 m
+919:[INFO] [1792426551.549312914] [drive_distance_client]: remaining: 0.20 m
+920:[INFO] [1792426551.650688920] [drive_distance_client]: remaining: 0.15 m
+921:[INFO] [1792426551.751596227] [drive_distance_client]: remaining: 0.10 m
+922:[INFO] [1792426551.853007564] [drive_distance_client]: remaining: 0.05 m
+923:[INFO] [1792426551.954071259] [drive_distance_client]: remaining: 0.00 m
+924:[INFO] [1792426551.963195567] [drive_distance_client]: Result: drove 2.00 m (status 4)
+925:
+926:### output meanwhile in terminal 1:
+927:[INFO] [1792426551.956676379] [drive_distance_server]: Done: drove 2.00 m
+928:
+929:## [term 2] $ ros2 run chiku_control drive_distance_client --ros-args -p distance:=3.0 -p cancel_after:=1.5   (exit=0, 3.3 s, finished, cwd=/home/student/ros2_ws)
+930:[INFO] [1792426554.307661427] [drive_distance_client]: Sending goal: 3.0 m at 0.5 m/s
+931:[INFO] [1792426554.313629102] [drive_distance_client]: Goal accepted
+932:[INFO] [1792426554.416785511] [drive_distance_client]: remaining: 2.95 m
+933:[INFO] [1792426554.517609677] [drive_distance_client]: remaining: 2.90 m
+934:[INFO] [1792426554.618444240] [drive_distance_client]: remaining: 2.85 m
+935:[INFO] [1792426554.719931756] [drive_distance_client]: remaining: 2.80 m
+936:[INFO] [1792426554.820793490] [drive_distance_client]: remaining: 2.75 m
+937:[INFO] [1792426554.921986006] [drive_distance_client]: remaining: 2.70 m
+938:[INFO] [1792426555.022579859] [drive_distance_client]: remaining: 2.65 m
+939:[INFO] [1792426555.123590750] [drive_distance_client]: remaining: 2.60 m
+940:[INFO] [1792426555.225819125] [drive_distance_client]: remaining: 2.55 m
+941:[INFO] [1792426555.326860209] [drive_distance_client]: remaining: 2.50 m
+942:[INFO] [1792426555.427773036] [drive_distance_client]: remaining: 2.45 m
+943:[INFO] [1792426555.528654156] [drive_distance_client]: remaining: 2.40 m
+944:[INFO] [1792426555.628298054] [drive_distance_client]: remaining: 2.35 m
+945:[INFO] [1792426555.729058060] [drive_distance_client]: remaining: 2.30 m
+946:[INFO] [1792426555.816442742] [drive_distance_client]: Changed my mind: cancelling
+947:[INFO] [1792426555.830554649] [drive_distance_client]: remaining: 2.25 m
+948:[INFO] [1792426555.835650998] [drive_distance_client]: Result: drove 0.75 m (status 5)
+949:
+950:### output meanwhile in terminal 1:
+951:[INFO] [1792426555.825748655] [drive_distance_server]: Cancel requested
+952:
+953:## [term 1] Ctrl+C to stop: ros2 run chiku_control drive_distance_server  (exit=0)
+954:[INFO] [1792426527.850799092] [drive_distance_server]: Action server /chiku/drive_distance is ready
+955:
+956:# note: pre-running terminal 100 output during block: 

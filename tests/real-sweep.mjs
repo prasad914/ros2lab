@@ -5,6 +5,14 @@ import { openRobot, run, screens } from "./real-lib.mjs";
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 const idx = JSON.parse(readFileSync(new URL("../public/robots/ws/index.json", import.meta.url)));
 const want = process.argv.slice(2);
+// BAD entries that are known and recorded in parity/reports/SIM_INVENTORY.md ("Findings" list). Any other BAD entry
+// makes the sweep exit 1.
+const KNOWN = [
+  { robot: "fr3", cmd: "visualize_franka_robot.launch.py", why: "SIM_INVENTORY #3 (fr3 sim#1: dead load_controller, real UNVERIFIED)" },
+  { robot: "fr3", cmd: "gazebo_franka_arm_example_controller.launch.py", why: "SIM_INVENTORY #1 (fr3 sim#2: link 'fr3_link0' has two parents)" },
+  { robot: "gen3", cmd: "kortex_sim_control.launch.py", why: "SIM_INVENTORY #12 (gen3 robotiq_gripper_controller activation fails as on real, printed twice)" },
+];
+const known = (robot, cmd) => KNOWN.find((k) => k.robot === robot && cmd.includes(k.cmd));
 const results = [];
 for (const [wsid, w] of Object.entries(idx.workspaces)) {
   const ws = JSON.parse(readFileSync(new URL(`../public/robots/ws/${wsid}/workspace.json`, import.meta.url)));
@@ -24,12 +32,17 @@ for (const [wsid, w] of Object.entries(idx.workspaces)) {
       const unmod = [...s.matchAll(/ROS2Lab: ([^ ]+) is running, but/g)].map((m) => m[1]);
       const launchErr = [...s.matchAll(/\[ERROR\] \[launch\]: (.*)/g)].map((m) => m[1].slice(0, 200));
       const errors = s.split("\n").filter((l) => /\[ERROR\]|\[Err\]/.test(l) && !/process has died/.test(l)).slice(0, 6).map((l) => l.slice(0, 220));
-      const r = { robot, kind: e.kind, cmd: e.cmd, ...st, died, unmod, launchErr, errors, pageErrors: errs.slice(0, 3) };
+      const bad = !!(died.length || launchErr.length || errs.length), k = bad ? known(robot, e.cmd) : null;
+      const r = { robot, kind: e.kind, cmd: e.cmd, ...st, died, unmod, launchErr, errors, pageErrors: errs.slice(0, 3), bad, known: k ? k.why : undefined };
       results.push(r);
-      console.log(`${died.length || launchErr.length || errs.length ? "BAD " : "ok  "} ${robot} ${e.cmd}\n     gz=${st.gz} models=${st.models.join(",")} ctrls=${st.ctrls.join(",")} mg=${st.mg} nav2=${st.nav2}${died.length ? `\n     died: ${died.join("; ")}` : ""}${unmod.length ? `\n     unmodelled: ${unmod.join(", ")}` : ""}${launchErr.length ? `\n     launch: ${launchErr.join(" | ")}` : ""}${errors.length ? `\n     errors: ${errors.join("\n             ")}` : ""}${errs.length ? `\n     page: ${errs.join(" | ")}` : ""}`);
+      console.log(`${bad ? "BAD " : "ok  "} ${robot} ${e.cmd}\n     gz=${st.gz} models=${st.models.join(",")} ctrls=${st.ctrls.join(",")} mg=${st.mg} nav2=${st.nav2}${died.length ? `\n     died: ${died.join("; ")}` : ""}${unmod.length ? `\n     unmodelled: ${unmod.join(", ")}` : ""}${launchErr.length ? `\n     launch: ${launchErr.join(" | ")}` : ""}${errors.length ? `\n     errors: ${errors.join("\n             ")}` : ""}${errs.length ? `\n     page: ${errs.join(" | ")}` : ""}${k ? `\n     known: ${k.why}` : ""}`);
       await b.close();
     }
   }
 }
 mkdirSync(new URL("./out/", import.meta.url), { recursive: true });
 writeFileSync(new URL("./out/real-sweep.json", import.meta.url), JSON.stringify(results, null, 1));
+const unknown = results.filter((r) => r.bad && !r.known);
+console.log(`${results.length} entries: ${results.filter((r) => !r.bad).length} ok, ${results.filter((r) => r.known).length} BAD known, ${unknown.length} BAD unknown`);
+for (const r of unknown) console.log(`UNKNOWN BAD: ${r.robot} ${r.cmd}`);
+process.exit(unknown.length ? 1 : 0);

@@ -42,11 +42,16 @@ function logEvent(type) {
     const t = await getDoc(doc(db, "tests", id));
     if (!t.exists() || (t.data().published !== true && claims.admin !== true)) return screen(el("h1", { text: "This test is not available" }), el("a", { class: "btn", href: "course.html", text: "Back to course" }));
     const atts = (await getDocs(query(collection(db, "attempts"), where("uid", "==", user.uid)))).docs.map((d) => ({ id: d.id, ...d.data() })).filter((a) => a.testId === id);
-    showIntro(id, t.data(), atts, Number(((profile && profile.extraAttempts) || {})[id]) || 0);
+    // the week label for the header box comes from the test's module (modules/<id>.short, e.g. "Week 3"); left out if unknown
+    const mod = t.data().moduleId ? await getDoc(doc(db, "modules", t.data().moduleId)).catch(() => null) : null;
+    const week = mod && mod.exists() && /^Week \d+/.test(mod.data().short || "") ? mod.data().short : null;
+    showIntro(id, t.data(), atts, Number(((profile && profile.extraAttempts) || {})[id]) || 0, week);
   } catch (e) { screen(el("p", { class: "notice err", text: friendlyError(e) })); }
 })();
 
-function showIntro(id, test, atts, extra = 0) {
+const fact = (k, v) => el("div", {}, el("dt", { text: k }), el("dd", { text: v }));
+
+function showIntro(id, test, atts, extra = 0, week = null) {
   const n = (test.topics || []).reduce((s, x) => s + (x.count || 0), 0);
   const used = atts.filter((a) => a.status !== "voided").length;
   const running = atts.find((a) => a.status === "in_progress");
@@ -58,10 +63,14 @@ function showIntro(id, test, atts, extra = 0) {
   agree.addEventListener("change", () => { go.disabled = !agree.checked; });
   go.addEventListener("click", () => begin(id, go, err));
   screen(
+    week ? el("p", { class: "t-kicker", text: week }) : null,
     el("h1", { text: test.title }),
     test.description ? el("p", {}, rich(test.description)) : null,
-    el("p", { class: "muted", text: `${n} questions, up to ${test.totalMinutes || 30} minutes.${test.closeAt ? ` Open until ${fmtDate(test.closeAt)}.` : ""} You need at least 60% to pass.` }),
-    el("h3", { text: "How this test works" }),
+    el("dl", { class: "t-facts" },
+      fact("Questions", String(n)), fact("Time limit", `${test.totalMinutes || 30} min`),
+      fact("Attempts left", running ? "Test in progress" : `${left} of ${allowed}`), fact("Pass mark", "60%"), fact("Score kept", "Your best")),
+    test.closeAt ? el("p", { class: "muted", text: `Open until ${fmtDate(test.closeAt)}.` }) : null,
+    el("h2", { text: "How this test works" }),
     el("ul", { class: "rules" },
       el("li", { text: "You see one question at a time. You cannot go back to earlier questions." }),
       el("li", { text: "Each question has its own timer. When it reaches zero, your answer is saved and the next question appears." }),
@@ -120,8 +129,7 @@ function showQuestion(q) {
   }
 
   main.replaceChildren(el("div", { class: "narrow" }, el("div", { class: "panel test-card" },
-    el("div", { class: "q-top" }, el("span", { text: `Question ${q.index + 1} of ${q.total}` }), timerText),
-    qbar,
+    el("div", { class: "q-sticky" }, el("div", { class: "q-top" }, el("span", { text: `Question ${q.index + 1} of ${q.total}` }), timerText), qbar),
     el("div", { class: "q-prompt" }, rich(q.prompt)),
     q.code ? el("pre", { class: "code", style: { marginBottom: "16px" }, text: q.code }) : null,
     widget, err,
@@ -165,7 +173,10 @@ function finish(res) {
   if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
   screen(
     el("h1", { text: "Test submitted" }),
-    res.score != null ? el("p", { style: { fontSize: "1.4rem" } }, "Your score: ", el("strong", { text: `${res.score} out of ${res.maxScore}` })) : el("p", { text: "Your answers are saved. Your instructor will share the scores." }),
+    res.score != null ? el("div", { class: `t-result ${res.maxScore && res.score / res.maxScore >= 0.6 ? "pass" : "below"}` },
+      el("p", { class: "t-score" }, "Your score: ", el("strong", { text: `${res.score} out of ${res.maxScore}` })),
+      res.maxScore ? el("p", { class: "small", text: res.score / res.maxScore >= 0.6 ? "60% or more: this attempt passes. Your best attempt counts." : "Below the 60% pass mark. Your best attempt counts." }) : null)
+      : el("p", { text: "Your answers are saved. Your instructor will share the scores." }),
     el("p", { class: "muted", text: "Correct answers and explanations appear under \"See answers\" on the course page when your instructor allows it." }),
     el("div", { class: "q-actions" }, el("a", { class: "btn", href: "course.html", text: "Back to course" }),
       el("a", { class: "btn btn-white", href: `test.html?review=${encodeURIComponent(attemptId)}`, text: "See answers" })));

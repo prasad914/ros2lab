@@ -42,8 +42,27 @@ for (const [robot, cmd, driver] of LOCKED) {
     expect(s).not.toMatch(/Failed to load hardware component/);
     const nodes: string[] = await page.evaluate(() => (window as any).__ros2lab.sh.graph.nodes.map((n: any) => n.full));
     expect(nodes.filter((n) => driver.test(n))).toEqual([]);
+    // Phase 1 item 3: stopped before any process starts, the note once, no made-up process exits, nothing left
+    expect(s.match(/real hardware is locked/g)).toHaveLength(1);
+    expect(s).not.toMatch(/process started with pid/);
+    expect(s).not.toMatch(/process has died/);
+    expect(s).not.toMatch(/user interrupted with ctrl-c/);
+    expect(s).not.toMatch(/You can start planning now!/);
+    expect(nodes).toEqual([]);
   });
 }
+test("hardware lock: ur5e.launch.py leaves no /controller_manager in ros2 node list", async ({ page }) => {
+  test.setTimeout(240000);
+  await launch(page, "ur5e", "ros2 launch ur_robot_driver ur5e.launch.py robot_ip:=192.168.56.101");
+  await page.waitForFunction(() => /real hardware is locked/.test([...document.querySelectorAll(".term-screen")].map((x) => (x as HTMLElement).innerText).join("\n")), null, { timeout: 150000 });
+  await page.waitForFunction(() => !(window as any).__ros2lab.term.busy(), null, { timeout: 30000 });
+  await page.waitForTimeout(8000);   // a model started by the launch must not come up after it ended
+  await run(page, "ros2 node list");
+  await page.waitForTimeout(1500);
+  const after = (await screen(page)).split("ros2 node list").pop() || "";
+  expect(await page.evaluate(() => (window as any).__ros2lab.sh.graph.nodes.map((n: any) => n.full))).toEqual([]);
+  expect(after).not.toMatch(/\/controller_manager/);
+});
 // the same packages with the makers' mock / sim switches need no license
 const OPEN: [string, string, RegExp][] = [
   ["ur5e", "ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur5e robot_ip:=192.168.56.101 use_mock_hardware:=true", /Configured and activated .*joint_state_broadcaster|Successful 'activate' of hardware/],

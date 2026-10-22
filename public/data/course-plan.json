@@ -1,0 +1,1048 @@
+{
+ "note": "Written by tools/build-course-plan.mjs from content/course-content.json and functions/config.js. Do not edit.",
+ "rules": {
+  "coreModules": [
+   "W1",
+   "W2",
+   "IN",
+   "W3",
+   "PF",
+   "NP"
+  ],
+  "passTestPercent": 60,
+  "passProjectPercent": 80,
+  "projectMaxAttempts": 2,
+  "certValidYears": 2,
+  "certCourseTitle": "ROS 2 Fundamentals: From Linux Basics to Your First ROS 2 Nodes",
+  "accessDays": 60,
+  "maxExtensionDays": 30,
+  "maxReregistrations": 2
+ },
+ "project": {
+  "rubric": [
+   {
+    "id": "works",
+    "label": "Works as specified: every requirement in your brief",
+    "max": 40
+   },
+   {
+    "id": "interfaces",
+    "label": "Uses exactly the names, message types and values in your brief",
+    "max": 15
+   },
+   {
+    "id": "code",
+    "label": "Clean ROS 2 code: node class, timers/callbacks, logging, no busy loops",
+    "max": 20
+   },
+   {
+    "id": "launch",
+    "label": "Launch file and YAML parameters start the whole project",
+    "max": 10
+   },
+   {
+    "id": "report",
+    "label": "Report: explains the design and gives the exact commands to run it",
+    "max": 15
+   }
+  ],
+  "deliverables": [
+   "Every file of your package: node source files, launch file, YAML file, package.xml, and setup.py (Python) or CMakeLists.txt (C++). Include any .msg, .srv or .action file.",
+   "A short report: how your nodes work together (which node publishes, subscribes or serves what) and the exact commands to build and run it.",
+   "Optional but recommended: the terminal output of a real run, or a link to a short screen recording (unlisted YouTube or Google Drive)."
+  ],
+  "types": 10
+ },
+ "modules": [
+  {
+   "id": "W1",
+   "order": 1,
+   "week": 1,
+   "title": "Week 1: Talk to the robot's computer",
+   "description": "The Ubuntu terminal and Python from zero: move around, manage files, install software, and write your first programs.",
+   "core": true,
+   "lessons": [
+    {
+     "id": "A0",
+     "title": "Start here: how this course works",
+     "day": 1,
+     "dayTitle": "Meet the terminal",
+     "minutes": 30
+    },
+    {
+     "id": "A1",
+     "title": "Meet the terminal",
+     "day": 1,
+     "dayTitle": "Meet the terminal",
+     "minutes": 30
+    },
+    {
+     "id": "A2",
+     "title": "Folders and paths: moving around (part 1)",
+     "day": 1,
+     "dayTitle": "Meet the terminal",
+     "minutes": 30
+    },
+    {
+     "id": "A2b",
+     "title": "Folders and paths: moving around (part 2)",
+     "day": 1,
+     "dayTitle": "Meet the terminal",
+     "minutes": 30
+    },
+    {
+     "id": "A3",
+     "title": "Making, copying and deleting (part 1)",
+     "day": 2,
+     "dayTitle": "Files, permissions and installing",
+     "minutes": 30
+    },
+    {
+     "id": "A3b",
+     "title": "Making, copying and deleting (part 2)",
+     "day": 2,
+     "dayTitle": "Files, permissions and installing",
+     "minutes": 30
+    },
+    {
+     "id": "A4",
+     "title": "Reading and editing files",
+     "day": 2,
+     "dayTitle": "Files, permissions and installing",
+     "minutes": 30
+    },
+    {
+     "id": "A5",
+     "title": "Permissions and sudo (part 1)",
+     "day": 2,
+     "dayTitle": "Files, permissions and installing",
+     "minutes": 30
+    },
+    {
+     "id": "A5b",
+     "title": "Permissions and sudo (part 2)",
+     "day": 2,
+     "dayTitle": "Files, permissions and installing",
+     "minutes": 30
+    },
+    {
+     "id": "A6",
+     "title": "Installing software with apt",
+     "day": 2,
+     "dayTitle": "Files, permissions and installing",
+     "minutes": 30
+    },
+    {
+     "id": "P1",
+     "title": "Python 1: the robot's notebook (part 1)",
+     "day": 3,
+     "dayTitle": "Python from zero",
+     "minutes": 30
+    },
+    {
+     "id": "P1b",
+     "title": "Python 1: the robot's notebook (part 2)",
+     "day": 3,
+     "dayTitle": "Python from zero",
+     "minutes": 30
+    },
+    {
+     "id": "P2",
+     "title": "Python 2: should the robot stop? (part 1)",
+     "day": 4,
+     "dayTitle": "Decisions and loops",
+     "minutes": 30
+    },
+    {
+     "id": "P2b",
+     "title": "Python 2: should the robot stop? (part 2)",
+     "day": 4,
+     "dayTitle": "Decisions and loops",
+     "minutes": 30
+    },
+    {
+     "id": "P3",
+     "title": "Python 3: memory and skills",
+     "day": 5,
+     "dayTitle": "Lists, dictionaries and functions",
+     "minutes": 30
+    }
+   ],
+   "tests": [
+    {
+     "id": "testW1",
+     "title": "Week 1 test: terminal and Python basics",
+     "questions": 15,
+     "minutes": 35,
+     "maxAttempts": 2
+    }
+   ]
+  },
+  {
+   "id": "W2",
+   "order": 2,
+   "week": 2,
+   "title": "Week 2: Build the robot's brain",
+   "description": "Python objects, C++ from the basics, your first ROS 2 nodes, then installing ROS 2 Jazzy and setting up the robotics lab.",
+   "core": true,
+   "lessons": [
+    {
+     "id": "B2",
+     "title": "Classes and objects",
+     "day": 6,
+     "dayTitle": "Python classes and objects",
+     "minutes": 30
+    },
+    {
+     "id": "B3",
+     "title": "Attributes and __init__",
+     "day": 6,
+     "dayTitle": "Python classes and objects",
+     "minutes": 30
+    },
+    {
+     "id": "B4",
+     "title": "Methods: what an object can do",
+     "day": 6,
+     "dayTitle": "Python classes and objects",
+     "minutes": 30
+    },
+    {
+     "id": "B5",
+     "title": "Objects inside objects",
+     "day": 6,
+     "dayTitle": "Python classes and objects",
+     "minutes": 30
+    },
+    {
+     "id": "B6",
+     "title": "Inheritance and super()",
+     "day": 7,
+     "dayTitle": "Inheritance, callbacks and your first node",
+     "minutes": 30
+    },
+    {
+     "id": "B7",
+     "title": "Callbacks and timers",
+     "day": 7,
+     "dayTitle": "Inheritance, callbacks and your first node",
+     "minutes": 30
+    },
+    {
+     "id": "B8",
+     "title": "Reading a real ROS 2 node",
+     "day": 7,
+     "dayTitle": "Inheritance, callbacks and your first node",
+     "minutes": 30
+    },
+    {
+     "id": "C1",
+     "title": "Hello, C++: compile and run",
+     "day": 8,
+     "dayTitle": "C++ basics",
+     "minutes": 30
+    },
+    {
+     "id": "C2",
+     "title": "C++ decisions, loops, functions and vectors",
+     "day": 8,
+     "dayTitle": "C++ basics",
+     "minutes": 30
+    },
+    {
+     "id": "C3",
+     "title": "C++ classes: same blueprint, stricter rules",
+     "day": 9,
+     "dayTitle": "C++ classes and ROS 2 C++ nodes",
+     "minutes": 30
+    },
+    {
+     "id": "C4",
+     "title": "Reading a real ROS 2 C++ node",
+     "day": 9,
+     "dayTitle": "C++ classes and ROS 2 C++ nodes",
+     "minutes": 30
+    },
+    {
+     "id": "R1",
+     "title": "Get Ubuntu 24.04 ready",
+     "day": 10,
+     "dayTitle": "Install ROS 2 and set up the lab",
+     "minutes": 30
+    },
+    {
+     "id": "R2",
+     "title": "Install ROS 2 Jazzy (part 1)",
+     "day": 10,
+     "dayTitle": "Install ROS 2 and set up the lab",
+     "minutes": 30
+    },
+    {
+     "id": "R2b",
+     "title": "Install ROS 2 Jazzy (part 2)",
+     "day": 10,
+     "dayTitle": "Install ROS 2 and set up the lab",
+     "minutes": 30
+    },
+    {
+     "id": "A7",
+     "title": "Environment variables, source and ~/.bashrc",
+     "day": 10,
+     "dayTitle": "Install ROS 2 and set up the lab",
+     "minutes": 30
+    },
+    {
+     "id": "R4",
+     "title": "Set up the ROS 2 robotics lab",
+     "day": 10,
+     "dayTitle": "Install ROS 2 and set up the lab",
+     "minutes": 30
+    }
+   ],
+   "tests": [
+    {
+     "id": "testW2",
+     "title": "Week 2 test: objects, C++ and ROS 2 setup",
+     "questions": 15,
+     "minutes": 35,
+     "maxAttempts": 2
+    }
+   ]
+  },
+  {
+   "id": "IN",
+   "order": 3,
+   "week": 3,
+   "title": "Week 3: Introduction to ROS",
+   "description": "Why robots need a software platform, the goals, parts and ecosystem of ROS, its history and versions, ROS 1 vs ROS 2, middleware, DDS and Quality of Service.",
+   "core": true,
+   "lessons": [
+    {
+     "id": "IN1",
+     "title": "Why robots need a software platform",
+     "day": 11,
+     "dayTitle": "Why robots need ROS",
+     "minutes": 30
+    },
+    {
+     "id": "IN2",
+     "title": "What ROS was built to do",
+     "day": 11,
+     "dayTitle": "Why robots need ROS",
+     "minutes": 30
+    },
+    {
+     "id": "IN3",
+     "title": "The parts of ROS",
+     "day": 12,
+     "dayTitle": "Inside ROS and its ecosystem",
+     "minutes": 30
+    },
+    {
+     "id": "IN4",
+     "title": "The ROS ecosystem",
+     "day": 12,
+     "dayTitle": "Inside ROS and its ecosystem",
+     "minutes": 30
+    },
+    {
+     "id": "IN5",
+     "title": "The ROS story: 2007 to 2026",
+     "day": 13,
+     "dayTitle": "History and versions",
+     "minutes": 30
+    },
+    {
+     "id": "IN6",
+     "title": "ROS versions: which one and why",
+     "day": 13,
+     "dayTitle": "History and versions",
+     "minutes": 30
+    },
+    {
+     "id": "IN7",
+     "title": "ROS 1 vs ROS 2",
+     "day": 14,
+     "dayTitle": "ROS 1 vs ROS 2 and middleware",
+     "minutes": 30
+    },
+    {
+     "id": "IN8",
+     "title": "Middleware: the robot's postal service",
+     "day": 14,
+     "dayTitle": "ROS 1 vs ROS 2 and middleware",
+     "minutes": 30
+    },
+    {
+     "id": "IN9",
+     "title": "Why use ROS 2",
+     "day": 14,
+     "dayTitle": "ROS 1 vs ROS 2 and middleware",
+     "minutes": 30
+    },
+    {
+     "id": "IN10",
+     "title": "DDS: how nodes find each other",
+     "day": 15,
+     "dayTitle": "DDS and Quality of Service",
+     "minutes": 30
+    },
+    {
+     "id": "IN11",
+     "title": "Quality of Service (QoS)",
+     "day": 15,
+     "dayTitle": "DDS and Quality of Service",
+     "minutes": 30
+    }
+   ],
+   "tests": [
+    {
+     "id": "testIN",
+     "title": "Week 3 test: Introduction to ROS",
+     "questions": 15,
+     "minutes": 35,
+     "maxAttempts": 2
+    }
+   ]
+  },
+  {
+   "id": "W3",
+   "order": 4,
+   "week": 4,
+   "title": "Week 4: Speak ROS 2",
+   "description": "The core ideas of ROS 2, hands-on in a practice terminal: nodes, topics, messages, services, parameters, actions, launch files, packages, TF2 and debugging tools. Ends with a mini-project.",
+   "core": true,
+   "lessons": [
+    {
+     "id": "D1",
+     "title": "What ROS 2 really is",
+     "day": 16,
+     "dayTitle": "The ROS 2 graph",
+     "minutes": 30
+    },
+    {
+     "id": "D2",
+     "title": "Nodes: the robot's team members",
+     "day": 16,
+     "dayTitle": "The ROS 2 graph",
+     "minutes": 30
+    },
+    {
+     "id": "D3",
+     "title": "Topics: publish and subscribe",
+     "day": 17,
+     "dayTitle": "Topics and messages",
+     "minutes": 30
+    },
+    {
+     "id": "D4",
+     "title": "Messages: what travels on a topic",
+     "day": 17,
+     "dayTitle": "Topics and messages",
+     "minutes": 30
+    },
+    {
+     "id": "D5",
+     "title": "Write a publisher and a subscriber",
+     "day": 17,
+     "dayTitle": "Topics and messages",
+     "minutes": 30
+    },
+    {
+     "id": "D6",
+     "title": "Services: ask a question, get an answer",
+     "day": 18,
+     "dayTitle": "Services and parameters",
+     "minutes": 30
+    },
+    {
+     "id": "D7",
+     "title": "Parameters: settings you can change (part 1)",
+     "day": 18,
+     "dayTitle": "Services and parameters",
+     "minutes": 30
+    },
+    {
+     "id": "D7b",
+     "title": "Parameters: settings you can change (part 2)",
+     "day": 18,
+     "dayTitle": "Services and parameters",
+     "minutes": 30
+    },
+    {
+     "id": "D8",
+     "title": "Actions: long jobs with feedback",
+     "day": 19,
+     "dayTitle": "Actions and launch files",
+     "minutes": 30
+    },
+    {
+     "id": "D9",
+     "title": "Launch files: start everything at once",
+     "day": 19,
+     "dayTitle": "Actions and launch files",
+     "minutes": 30
+    },
+    {
+     "id": "D10",
+     "title": "Packages and workspaces: build, source, run",
+     "day": 20,
+     "dayTitle": "Packages, frames and tools",
+     "minutes": 30
+    },
+    {
+     "id": "D11",
+     "title": "Coordinate frames and TF2",
+     "day": 20,
+     "dayTitle": "Packages, frames and tools",
+     "minutes": 30
+    },
+    {
+     "id": "D12",
+     "title": "Your debugging toolbox",
+     "day": 20,
+     "dayTitle": "Packages, frames and tools",
+     "minutes": 30
+    },
+    {
+     "id": "D13",
+     "title": "Mini-project: design Chiku's ROS 2 graph",
+     "day": 20,
+     "dayTitle": "Packages, frames and tools",
+     "minutes": 30
+    }
+   ],
+   "tests": [
+    {
+     "id": "testW3",
+     "title": "Week 4 test: ROS 2 core concepts",
+     "questions": 15,
+     "minutes": 35,
+     "maxAttempts": 2
+    }
+   ]
+  },
+  {
+   "id": "PF",
+   "order": 5,
+   "week": 5,
+   "title": "Week 5: ROS Programming Fundamentals",
+   "description": "Write your own ROS 2 programs, one idea at a time, first in Python and then in C++: packages and nodes, timers and publishers, subscribers, custom messages, services and clients, actions, parameters and launch files, and a mini-project. Every chapter has a live Ubuntu terminal with TurtleSim.",
+   "core": true,
+   "lessons": [
+    {
+     "id": "F1",
+     "title": "Python: your first package and node",
+     "day": 21,
+     "dayTitle": "Your first package, node and publisher",
+     "minutes": 30
+    },
+    {
+     "id": "F2",
+     "title": "C++: your first package and node",
+     "day": 21,
+     "dayTitle": "Your first package, node and publisher",
+     "minutes": 30
+    },
+    {
+     "id": "F3",
+     "title": "Python: a timer and a publisher drive the turtle",
+     "day": 21,
+     "dayTitle": "Your first package, node and publisher",
+     "minutes": 30
+    },
+    {
+     "id": "F4",
+     "title": "C++: a timer and a publisher drive the turtle",
+     "day": 21,
+     "dayTitle": "Your first package, node and publisher",
+     "minutes": 30
+    },
+    {
+     "id": "F5",
+     "title": "Python: a subscriber that listens to the robot",
+     "day": 22,
+     "dayTitle": "Listening, and your own messages",
+     "minutes": 30
+    },
+    {
+     "id": "F6",
+     "title": "C++: a subscriber that listens to the robot",
+     "day": 22,
+     "dayTitle": "Listening, and your own messages",
+     "minutes": 30
+    },
+    {
+     "id": "F7",
+     "title": "Your own message, used from Python",
+     "day": 22,
+     "dayTitle": "Listening, and your own messages",
+     "minutes": 30
+    },
+    {
+     "id": "F8",
+     "title": "C++: publishing your own message",
+     "day": 22,
+     "dayTitle": "Listening, and your own messages",
+     "minutes": 30
+    },
+    {
+     "id": "F9",
+     "title": "Python: a service server that switches the robot on and off",
+     "day": 23,
+     "dayTitle": "Services: ask the robot, get an answer",
+     "minutes": 30
+    },
+    {
+     "id": "F10",
+     "title": "C++: a service server that switches the robot on and off",
+     "day": 23,
+     "dayTitle": "Services: ask the robot, get an answer",
+     "minutes": 30
+    },
+    {
+     "id": "F11",
+     "title": "Python: a service client that asks turtlesim for help",
+     "day": 23,
+     "dayTitle": "Services: ask the robot, get an answer",
+     "minutes": 30
+    },
+    {
+     "id": "F12",
+     "title": "C++: a service client that asks turtlesim for help",
+     "day": 23,
+     "dayTitle": "Services: ask the robot, get an answer",
+     "minutes": 30
+    },
+    {
+     "id": "F13",
+     "title": "Python: an action that drives a distance, with progress",
+     "day": 24,
+     "dayTitle": "Actions and parameters",
+     "minutes": 30
+    },
+    {
+     "id": "F14",
+     "title": "C++: an action that drives a distance, with progress",
+     "day": 24,
+     "dayTitle": "Actions and parameters",
+     "minutes": 30
+    },
+    {
+     "id": "F15",
+     "title": "Python: parameters, change the robot without changing the code",
+     "day": 24,
+     "dayTitle": "Actions and parameters",
+     "minutes": 30
+    },
+    {
+     "id": "F16",
+     "title": "C++: parameters, change the robot without changing the code",
+     "day": 24,
+     "dayTitle": "Actions and parameters",
+     "minutes": 30
+    },
+    {
+     "id": "F17",
+     "title": "Python: a launch file starts the whole robot",
+     "day": 25,
+     "dayTitle": "Launch files and your first robot project",
+     "minutes": 30
+    },
+    {
+     "id": "F18",
+     "title": "C++: launch files for a C++ package",
+     "day": 25,
+     "dayTitle": "Launch files and your first robot project",
+     "minutes": 30
+    },
+    {
+     "id": "F19",
+     "title": "Python mini-project: Chiku's battery monitor",
+     "day": 25,
+     "dayTitle": "Launch files and your first robot project",
+     "minutes": 30
+    },
+    {
+     "id": "F20",
+     "title": "C++ mini-project: Chiku's battery monitor",
+     "day": 25,
+     "dayTitle": "Launch files and your first robot project",
+     "minutes": 30
+    }
+   ],
+   "tests": [
+    {
+     "id": "testPF",
+     "title": "Week 5 test: ROS programming fundamentals",
+     "questions": 16,
+     "minutes": 40,
+     "maxAttempts": 2
+    }
+   ]
+  },
+  {
+   "id": "NP",
+   "order": 6,
+   "week": 6,
+   "title": "Week 6: Writing your own ROS 2 nodes",
+   "description": "Build on Week 5 and write nodes that really control a robot, each one in Python AND in C++: time and logging, open- and closed-loop driving, chaining nodes, messages in code, QoS, safe parameters, launch files for several robots, tf2 frames, executors, lifecycle nodes and components, tests, and a patrol-robot project. Every lesson has a live Ubuntu terminal.",
+   "core": true,
+   "lessons": [
+    {
+     "id": "N2",
+     "title": "Time in your nodes: rates, clocks and stopping timers",
+     "day": 26,
+     "dayTitle": "Time, logs and driving patterns",
+     "minutes": 30
+    },
+    {
+     "id": "N4",
+     "title": "Logging like a pro: levels, throttle and once",
+     "day": 26,
+     "dayTitle": "Time, logs and driving patterns",
+     "minutes": 30
+    },
+    {
+     "id": "N5",
+     "title": "Driving patterns: a square with a state machine (open loop)",
+     "day": 26,
+     "dayTitle": "Time, logs and driving patterns",
+     "minutes": 30
+    },
+    {
+     "id": "N7",
+     "title": "Closed-loop control: go to a goal by yourself (part 1)",
+     "day": 27,
+     "dayTitle": "Closing the loop",
+     "minutes": 30
+    },
+    {
+     "id": "N7b",
+     "title": "Closed-loop control: go to a goal by yourself (part 2)",
+     "day": 27,
+     "dayTitle": "Closing the loop",
+     "minutes": 30
+    },
+    {
+     "id": "N8",
+     "title": "A safety filter node: chaining nodes with remapping",
+     "day": 27,
+     "dayTitle": "Closing the loop",
+     "minutes": 30
+    },
+    {
+     "id": "N9",
+     "title": "Building messages in code: nested fields, arrays and stamps",
+     "day": 27,
+     "dayTitle": "Closing the loop",
+     "minutes": 30
+    },
+    {
+     "id": "N10",
+     "title": "QoS in code: reliable, best effort and latched topics",
+     "day": 28,
+     "dayTitle": "QoS, safe parameters and launch for two robots",
+     "minutes": 30
+    },
+    {
+     "id": "N17",
+     "title": "Parameters in depth: descriptors, ranges, read-only and callbacks (part 1)",
+     "day": 28,
+     "dayTitle": "QoS, safe parameters and launch for two robots",
+     "minutes": 30
+    },
+    {
+     "id": "N17b",
+     "title": "Parameters in depth: descriptors, ranges, read-only and callbacks (part 2)",
+     "day": 28,
+     "dayTitle": "QoS, safe parameters and launch for two robots",
+     "minutes": 30
+    },
+    {
+     "id": "N18",
+     "title": "Launch in depth: arguments, YAML, namespaces and two robots",
+     "day": 28,
+     "dayTitle": "QoS, safe parameters and launch for two robots",
+     "minutes": 30
+    },
+    {
+     "id": "N19",
+     "title": "Publishing frames: a tf2 broadcaster",
+     "day": 29,
+     "dayTitle": "Frames and executors",
+     "minutes": 30
+    },
+    {
+     "id": "N20",
+     "title": "Using frames: a tf2 listener that follows another robot",
+     "day": 29,
+     "dayTitle": "Frames and executors",
+     "minutes": 30
+    },
+    {
+     "id": "N21",
+     "title": "Executors and callback groups: waiting without freezing",
+     "day": 29,
+     "dayTitle": "Frames and executors",
+     "minutes": 30
+    },
+    {
+     "id": "N22",
+     "title": "Lifecycle nodes and components: starting robots safely and efficiently (part 1)",
+     "day": 30,
+     "dayTitle": "Robust robots and the patrol project",
+     "minutes": 30
+    },
+    {
+     "id": "N22b",
+     "title": "Lifecycle nodes and components: starting robots safely and efficiently (part 2)",
+     "day": 30,
+     "dayTitle": "Robust robots and the patrol project",
+     "minutes": 30
+    },
+    {
+     "id": "N23",
+     "title": "Testing your nodes: pytest and gtest",
+     "day": 30,
+     "dayTitle": "Robust robots and the patrol project",
+     "minutes": 30
+    },
+    {
+     "id": "N24",
+     "title": "Mini-project: Chiku's patrol robot (part 1)",
+     "day": 30,
+     "dayTitle": "Robust robots and the patrol project",
+     "minutes": 30
+    },
+    {
+     "id": "N24b",
+     "title": "Mini-project: Chiku's patrol robot (part 2)",
+     "day": 30,
+     "dayTitle": "Robust robots and the patrol project",
+     "minutes": 30
+    }
+   ],
+   "tests": [
+    {
+     "id": "testNP",
+     "title": "Week 6 test: writing your own ROS 2 nodes",
+     "questions": 16,
+     "minutes": 40,
+     "maxAttempts": 2
+    }
+   ]
+  },
+  {
+   "id": "UR",
+   "order": 7,
+   "week": 7,
+   "title": "Week 7: Describe a robot with URDF",
+   "description": "Advanced track. Write robot descriptions from scratch: links and joints, shapes, origins in metres and radians, colours, the joint-frame rule and REP 105 frames, a 2-wheeled mobile robot, a 3-DOF arm with a mimic gripper, a 6-DOF arm, and collision and inertia. A live 3D RViz checks every robot you write.",
+   "core": false,
+   "lessons": [
+    {
+     "id": "UR1",
+     "title": "What a robot description (URDF) is",
+     "day": 31,
+     "dayTitle": "Describe a robot's body",
+     "minutes": 25
+    },
+    {
+     "id": "UR2",
+     "title": "Shapes, positions and colours",
+     "day": 31,
+     "dayTitle": "Describe a robot's body",
+     "minutes": 30
+    },
+    {
+     "id": "UR3",
+     "title": "Joints: how links connect and move",
+     "day": 32,
+     "dayTitle": "Joints and frames",
+     "minutes": 30
+    },
+    {
+     "id": "UR4",
+     "title": "The joint-frame rule and robot frame conventions",
+     "day": 32,
+     "dayTitle": "Joints and frames",
+     "minutes": 25
+    },
+    {
+     "id": "UR5",
+     "title": "Write Chiku: a 2-wheeled mobile robot",
+     "day": 33,
+     "dayTitle": "Chiku's URDF",
+     "minutes": 35
+    },
+    {
+     "id": "UR6",
+     "title": "Write a 3-DOF arm with a gripper",
+     "day": 34,
+     "dayTitle": "Robot arms",
+     "minutes": 35
+    },
+    {
+     "id": "UR7",
+     "title": "A 6-DOF industrial arm and real robot descriptions",
+     "day": 34,
+     "dayTitle": "Robot arms",
+     "minutes": 25
+    },
+    {
+     "id": "UR8",
+     "title": "Collision and inertia: getting ready for physics",
+     "day": 35,
+     "dayTitle": "Ready for physics",
+     "minutes": 35
+    }
+   ],
+   "tests": [
+    {
+     "id": "testUR",
+     "title": "Week 7 test: describing robots with URDF",
+     "questions": 15,
+     "minutes": 40,
+     "maxAttempts": 2
+    }
+   ]
+  },
+  {
+   "id": "XT",
+   "order": 8,
+   "week": 8,
+   "title": "Week 8: Xacro, meshes and TF",
+   "description": "Advanced track. Clean up robot descriptions with xacro properties, maths, macros, arguments and includes (a 4-legged and a 6-legged robot from one macro each), add CAD meshes, publish TF from the URDF with robot_state_publisher and joint_state_publisher, add static transforms from the terminal, and package everything with Python and XML display launch files.",
+   "core": false,
+   "lessons": [
+    {
+     "id": "XT1",
+     "title": "Xacro: properties and maths",
+     "day": 36,
+     "dayTitle": "Xacro",
+     "minutes": 30
+    },
+    {
+     "id": "XT2",
+     "title": "Xacro macros: one leg, four legs",
+     "day": 36,
+     "dayTitle": "Xacro",
+     "minutes": 35
+    },
+    {
+     "id": "XT3",
+     "title": "Xacro arguments, includes and if/unless",
+     "day": 37,
+     "dayTitle": "Xacro options",
+     "minutes": 30
+    },
+    {
+     "id": "XT4",
+     "title": "Meshes: real robot shapes from CAD",
+     "day": 38,
+     "dayTitle": "Meshes",
+     "minutes": 30
+    },
+    {
+     "id": "XT5",
+     "title": "Publishing TFs from the URDF",
+     "day": 39,
+     "dayTitle": "TF from the URDF",
+     "minutes": 35
+    },
+    {
+     "id": "XT6",
+     "title": "Static transforms from the terminal",
+     "day": 39,
+     "dayTitle": "TF from the URDF",
+     "minutes": 25
+    },
+    {
+     "id": "XT7",
+     "title": "A description package and a display launch file",
+     "day": 40,
+     "dayTitle": "Package and launch",
+     "minutes": 40
+    }
+   ],
+   "tests": [
+    {
+     "id": "testXT",
+     "title": "Week 8 test: xacro, meshes and TF",
+     "questions": 15,
+     "minutes": 40,
+     "maxAttempts": 2
+    }
+   ]
+  },
+  {
+   "id": "RV",
+   "order": 9,
+   "week": 9,
+   "title": "Week 9: RViz, markers and interactive markers",
+   "description": "Advanced track. Drive RViz2 yourself (displays, Fixed Frame, status, saved configs), show sensor data (scans, clouds, maps, paths, QoS), draw markers and MarkerArrays from Python and C++, drag interactive markers, explore drones, legged, humanoid, car-like and hybrid robots, and finish with a mobile-manipulator project.",
+   "core": false,
+   "lessons": [
+    {
+     "id": "RV1",
+     "title": "RViz2 tour: displays, Fixed Frame and status",
+     "day": 41,
+     "dayTitle": "Meet RViz2",
+     "minutes": 35
+    },
+    {
+     "id": "RV2",
+     "title": "Sensor data in RViz: scans, clouds, maps and paths",
+     "day": 42,
+     "dayTitle": "Sensors in RViz",
+     "minutes": 30
+    },
+    {
+     "id": "RV3",
+     "title": "Markers: draw your own shapes",
+     "day": 43,
+     "dayTitle": "Markers",
+     "minutes": 35
+    },
+    {
+     "id": "RV4",
+     "title": "MarkerArray: draw Chiku's planned path",
+     "day": 43,
+     "dayTitle": "Markers",
+     "minutes": 35
+    },
+    {
+     "id": "RV5",
+     "title": "Interactive markers: drag a goal for Chiku",
+     "day": 44,
+     "dayTitle": "Interactive markers",
+     "minutes": 40
+    },
+    {
+     "id": "RV6",
+     "title": "Robot gallery: flying, legged, hybrid and more",
+     "day": 45,
+     "dayTitle": "Many kinds of robots",
+     "minutes": 30
+    },
+    {
+     "id": "RV7",
+     "title": "Mini-project: Chiku the mobile manipulator",
+     "day": 45,
+     "dayTitle": "Many kinds of robots",
+     "minutes": 45
+    }
+   ],
+   "tests": [
+    {
+     "id": "testRV",
+     "title": "Week 9 test: RViz, markers and interactive markers",
+     "questions": 15,
+     "minutes": 40,
+     "maxAttempts": 2
+    }
+   ]
+  }
+ ]
+}

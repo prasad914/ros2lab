@@ -1,0 +1,25 @@
+# Excerpt of parity/fixtures/lessons/A3b/term1_runner.log (gitignored)
+# Selection: every line
+# Generated 2026-10-19T22:13:12+05:30 by parity/scripts/log_excerpts.py; format <source line>:<line>
+1:# REAL Ubuntu 24.04 + ROS 2 Jazzy, bash on a pty, ROS_DOMAIN_ID=52. Lesson A3b terminal 1: Practice: tidy Chiku's messy Desktop
+2:# scratch HOME /home/prasad/lesson_ws/homes/A3b_t1 shown as /home/student; sourced=False running=[] start=None
+3:## [term 1] $ cd Desktop   (exit=0, 0.0 s, finished, cwd=/home/student/Desktop)
+4:
+5:## [term 1] $ ls   (exit=0, 0.0 s, finished, cwd=/home/student/Desktop)
+6:junk.tmp  lab_map.yaml  todo.txt  untitled.py
+7:
+8:## [term 1] $ mkdir notes maps   (exit=0, 0.0 s, finished, cwd=/home/student/Desktop)
+9:
+10:## [term 1] $ mv todo.txt notes/   (exit=0, 0.0 s, finished, cwd=/home/student/Desktop)
+11:
+12:## [term 1] $ mv lab_map.yaml maps/   (exit=0, 0.0 s, finished, cwd=/home/student/Desktop)
+13:
+14:## [term 1] $ cp maps/lab_map.yaml maps/lab_map_backup.yaml   (exit=0, 0.0 s, finished, cwd=/home/student/Desktop)
+15:
+16:## [term 1] $ mv untitled.py patrol.py   (exit=0, 0.0 s, finished, cwd=/home/student/Desktop)
+17:
+18:## [term 1] $ rm junk.tmp   (exit=0, 0.0 s, finished, cwd=/home/student/Desktop)
+19:
+20:## [term 1] $ ls   (exit=0, 0.0 s, finished, cwd=/home/student/Desktop)
+21:maps  notes  patrol.py
+22:
