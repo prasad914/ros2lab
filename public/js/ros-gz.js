@@ -10,6 +10,7 @@ import { urdfToSdf } from "./urdf2sdf.js";
 import { GzPhysics, loadRapier, driveWheels, stepJointDynamics } from "./gz-physics.js";
 import { gzWorldFromSdf, gzModelFromSdf, gzLoadMeshes } from "./gz-sdformat.js";
 import { parseGzSimArgs, parseCreateArgs, parseBridgeConfigYaml, bridgeTypesOk, gzTopic } from "./gz-cli.js";
+import { tb3Kind, Tb3Body } from "./tb3-motion.js";
 
 // gz-sim 8's examples/worlds/empty.sdf (the world most robot launches start with: gz_args "-r empty.sdf")
 export const EMPTY_SDF = `<?xml version="1.0" ?>
@@ -251,7 +252,7 @@ export const gzMethods = {
   // gz_ros2_control plugin starts a controller_manager
   gzAddModel(r, pose) {
     const name = r.name, model = r.model, gz = r.gazebo, gzLines = [];
-    const m = { name, urdf: r.urdf, sdfText: r.sdfText || null, model, urdfModel: r.urdfModel || model, sdf: r.sdf, gazebo: gz, pose: { ...pose }, start: { ...pose }, cmd: { vx: 0, wz: 0 }, joints: {}, qd: {}, vFall: 0, native: !r.urdf, targets: {} };
+    const m = { name, urdf: r.urdf, sdfText: r.sdfText || null, file: r.file || null, uri: r.uri || null, model, urdfModel: r.urdfModel || model, sdf: r.sdf, gazebo: gz, pose: { ...pose }, start: { ...pose }, cmd: { vx: 0, wz: 0 }, joints: {}, qd: {}, vFall: 0, native: !r.urdf, targets: {} };
     for (const j of Object.values(model.joints)) if (!["fixed", "floating", "planar"].includes(j.type) && !j.mimic) m.joints[j.name] = 0;
     for (const p of gz.plugins) if (p.kind === "joint_position" && p.joint in m.joints) { m.joints[p.joint] = p.initial; m.targets[p.joint] = p.initial; }
     for (const p of gz.plugins) if (p.kind === "joint_trajectory") p.joints.forEach((j, i) => { if (j in m.joints && Number.isFinite(p.initial[i])) { m.joints[j] = p.initial[i]; m.targets[j] = p.initial[i]; } });
@@ -397,10 +398,15 @@ export const gzMethods = {
       if (vc && !flying) vz = 0;
       if (ak) { const steer = Math.atan((wz * ak.wheelbase) / (Math.abs(vx) > 1e-6 ? vx : 1e-6)), lim = ak.steerLimit || 0.6; const st = Math.max(-lim, Math.min(lim, steer)); wz = Math.abs(vx) > 1e-6 ? (vx * Math.tan(st)) / ak.wheelbase : 0; for (const j of [ak.leftSteer, ak.rightSteer]) if (j in m.joints) m.joints[j] = st; }
       if (m.jv) for (const j in m.jv) m.jv[j] = 0;   // wheel joint velocities (JointStatePublisher), set again below while it drives
-      if (!vx && !vy && !vz && !wz) { if (dd) this.gzWheelOdom(m, dd, dt); continue; }
-      const blocked = this.gzDrive(m, vx, vy, vz, wz, dt, flying);
+      // TurtleBot3: the wheels (and odom) follow the SpeedLimiter output, the body lags them (tb3-motion.js)
+      const T = dd && !flying && (m.tb3 !== undefined ? m.tb3 : (m.tb3 = tb3Kind(m) ? new Tb3Body(tb3Kind(m)) : null));
+      const body = T ? T.step(vx, wz, dt) : { vx, wz };
+      if (!vx && !vy && !vz && !wz && !body.vx && !body.wz) { if (dd) this.gzWheelOdom(m, dd, dt); continue; }
+      const blocked = this.gzDrive(m, body.vx, vy, vz, body.wz, dt, flying);
+      if (T && blocked) T.blocked();
       const wheel = (j, v, r) => { if (j in m.joints) { m.joints[j] += (v / r) * dt; (m.jv || (m.jv = {}))[j] = v / r; } };
-      if (dd && !blocked) { for (const j of dd.left) wheel(j, vx - (wz * dd.separation) / 2, dd.radius); for (const j of dd.right) wheel(j, vx + (wz * dd.separation) / 2, dd.radius); }
+      // a TurtleBot3 against a wall keeps turning its wheels (they slip), so /odom keeps counting (tb3_wall capture)
+      if (dd && (!blocked || T)) { for (const j of dd.left) wheel(j, vx - (wz * dd.separation) / 2, dd.radius); for (const j of dd.right) wheel(j, vx + (wz * dd.separation) / 2, dd.radius); }
       if (dd) this.gzWheelOdom(m, dd, dt);
       if (mc && !blocked) { const k = (mc.separation + mc.wheelbase) / 2; wheel(mc.fl, vx - vy - k * wz, mc.radius); wheel(mc.fr, vx + vy + k * wz, mc.radius); wheel(mc.rl, vx + vy - k * wz, mc.radius); wheel(mc.rr, vx - vy + k * wz, mc.radius); }
       if (ak && !blocked) { for (const j of ak.wheels) wheel(j, vx, ak.radius); }
@@ -517,7 +523,7 @@ export const gzMethods = {
     return blocked;
   },
   gzOdom(m) {   // DiffDrive odometry: integrated from the wheel joints (gz::math::DiffDriveOdometry), else relative to the spawn pose
-    if (m.wheelOdom) { const o = m.wheelOdom; return { x: o.x, y: o.y, z: 0, yaw: o.th, vx: m.bumped ? 0 : o.v, vy: 0, wz: o.w }; }
+    if (m.wheelOdom) { const o = m.wheelOdom; return { x: o.x, y: o.y, z: 0, yaw: o.th, vx: m.bumped && !m.tb3 ? 0 : o.v, vy: 0, wz: o.w }; }
     const c = Math.cos(-m.start.yaw), s = Math.sin(-m.start.yaw), dx = m.pose.x - m.start.x, dy = m.pose.y - m.start.y;
     const flying = m.gazebo.plugins.some((p) => p.kind === "odometry_publisher" && p.dims === 3);
     return { x: c * dx - s * dy, y: s * dx + c * dy, z: flying ? m.pose.z - m.start.z : 0, yaw: m.pose.yaw - m.start.yaw, vx: m.bumped ? 0 : m.cmd.vx, vy: m.bumped ? 0 : m.cmd.vy || 0, wz: m.cmd.wz };
