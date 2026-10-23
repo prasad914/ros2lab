@@ -5,6 +5,7 @@ const FIXDIR = new URL("./fixtures/robots/", import.meta.url).pathname;
 export async function open(page = "rviz.html") {
   const b = await chromium.launch();
   const p = await b.newPage({ viewport: { width: 1500, height: 1100 } });
+  await p.addInitScript(() => { try { localStorage.setItem("ros2lab.dev.underTest", "open"); } catch { /* no storage */ } });   // under-test robots too (robot-info.js)
   if (process.env.FIX) await p.route("**/robots/**", (r) => { const rel = new URL(r.request().url()).pathname.replace(/^\/robots\//, ""); const f = FIXDIR + rel; return existsSync(f) ? r.fulfill({ body: readFileSync(f), contentType: "text/plain" }) : r.continue(); });
   if (process.env.LIC) {   // pretend: signed in as an instructor, and getHardwareSources answers from functions/hw-sources.json
     const hw = readFileSync(new URL("../functions/hw-sources.json", import.meta.url), "utf8");

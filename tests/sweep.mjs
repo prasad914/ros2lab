@@ -13,6 +13,7 @@ let bad = 0, skipped = 0;
 for (const id of want) {
   const g = robots.find((x) => x.id === id);
   const ctx = await b.newContext({ viewport: { width: 1400, height: 1000 } }), p = await ctx.newPage();
+  await ctx.addInitScript(() => { try { localStorage.setItem("ros2lab.dev.underTest", "open"); } catch { /* no storage */ } });   // under-test robots too (robot-info.js)
   if (process.env.FIX) await p.route("**/robots/**", async (r) => { const rel = new URL(r.request().url()).pathname.replace(/^\/robots\//, ""); try { return r.fulfill({ body: readFileSync(FIXDIR + rel), contentType: "text/plain" }); } catch { return r.continue(); } });
   const errs = []; p.on("pageerror", (e) => errs.push("PAGEERROR " + e.message));
   await p.goto("http://localhost:8080/rviz.html"); await p.waitForTimeout(1200);

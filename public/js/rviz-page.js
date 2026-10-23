@@ -635,6 +635,11 @@ gallery().then(async (list) => {
   robotCard(g);
   const about = $("pkg-about"); about.replaceChildren(document.createTextNode((g.about || "") + " "));
   if (g.source) { const a = document.createElement("a"); a.href = g.source.url; a.target = "_blank"; a.rel = "noopener"; a.textContent = `Source: ${g.source.url.replace(/^https:\/\/github.com\//, "")} (${g.source.license})`; about.append(a); }
+  // an under-test robot (public/robots/index.json "status"): no workspace or package is loaded and Launch is
+  // disabled, so no simulation starts; the page says why in a ROS2Lab notice (never as ROS output)
+  const info = await import("./robot-info.js");
+  if (info.statusOf(g) !== "active" && !info.underTestOpen()) { underTestPage(g, info); return; }
+  if (info.isLegacy(g)) legacy = true;
   // an official ROS 2 Jazzy workspace from the maker's GitHub repositories, when there is one
   try {
     const { workspaceFor } = await import("./real-launch.js");
@@ -648,6 +653,16 @@ gallery().then(async (list) => {
   catch (e) { term.say(`(Could not load ${g.title}: ${e.message})`); }
 });
 
+let legacy = false;   // an active robot kept for an older lesson: a "Legacy" label on the card
+function underTestPage(g, info) {
+  cardBadges(["Under test"]);
+  const note = Object.assign(document.createElement("p"), { id: "under-test-note", className: "small rvp-unval rvp-lock", textContent: info.underTestNote(g) });
+  note.dataset.underTest = g.id;
+  $("go").disabled = true; $("go").title = "Under test: launching is switched off for this robot";
+  $("go").parentElement.before(note);
+  term.say(`(${info.underTestNote(g)} Course robots: TurtleBot3 Burger and TurtleBot3 Waffle Pi.)`);
+}
+
 // ---------------- 1b. an official workspace (public/robots/ws/<id>): the makers' real packages, run by the real launch system
 async function openRealWorkspace(g, W) {
   const mod = await import("./real-launch.js");
@@ -660,7 +675,7 @@ async function openRealWorkspace(g, W) {
   if (lead) lead.textContent = `This page has the maker's own ROS 2 Jazzy workspace for ${g.title}, cloned from GitHub at pinned commits. Build it with colcon, source it, and start it with the same ros2 launch commands as on Ubuntu: the real launch files run, and Gazebo, RViz2, ros2_control, Nav2 and MoveIt 2 are ROS2Lab's models of those programs.`;
   $("pkg-about").textContent = `${(g.about || "").replace(/\s*sim(_control)?\.launch\.py[^.]*\./g, "").trim()} `;
   $("real-about").textContent = `${ws.title}. ${ws.repos.length} repositor${ws.repos.length === 1 ? "y" : "ies"} at pinned commits, ${ws.packages.length} packages, in ~/ros2_ws/src.`;
-  cardBadges(robotValidated(g.id) ? [] : [UNVALIDATED]);
+  cardBadges([...(legacy ? ["Legacy"] : []), ...(robotValidated(g.id) ? [] : [UNVALIDATED])]);
   if (ws.honesty && !$("real-honesty")) { const h = Object.assign(document.createElement("p"), { id: "real-honesty", className: "small muted", textContent: ws.honesty }); $("real-about").after(h); }
   $("real-repos").replaceChildren(...ws.repos.map((r) => { const li = document.createElement("li"), a = document.createElement("a"); a.href = `${r.url}/tree/${r.commit}`; a.target = "_blank"; a.rel = "noopener"; a.textContent = r.url.replace(/^https:\/\/github.com\//, ""); li.append(a, ` @ ${r.commit.slice(0, 8)} (${r.branch}, ${r.license})`); return li; }));
   // environment the maker's instructions ask for (e.g. TURTLEBOT3_MODEL)
@@ -680,6 +695,8 @@ async function openRealWorkspace(g, W) {
     // a card entry that starts a real driver (e.hw: what it needs, e.g. crazyflie keyboard_velmux_launch.py: backend cpp)
     if (e.hw) b.append(document.createElement("br"), Object.assign(document.createElement("span"), { className: "rvp-unval", textContent: `Needs ${e.hw}: locked without a hardware license` }));
     if (isReal || !cmdValidated(g.id, e.cmd)) { b.append(document.createElement("br"), Object.assign(document.createElement("span"), { className: "rvp-unval", textContent: UNVALIDATED })); }
+    // an entry under test (workspace.json "status"): shown, but it cannot be started from here
+    if (e.status === "under_test") { b.disabled = true; b.dataset.underTest = ""; b.append(document.createElement("br"), Object.assign(document.createElement("span"), { className: "rvp-unval", textContent: "Under test: launching is switched off" })); }
     b.addEventListener("click", () => runEntry(e, isReal));
     return b;
   };
@@ -697,6 +714,7 @@ async function openRealWorkspace(g, W) {
   paintRealTree(R);
   term.say(`(${g.title}: the makers' packages are in ~/ros2_ws/src. Build with colcon build, source install/setup.bash${envCmds.length ? `, ${envCmds.join(", ")}` : ""}, then launch. Pick a command above, or type it.)`);
   function runEntry(e, isReal) {
+    if (e.status === "under_test") return;
     if (isReal) { const gate = R.hwGate(); if (!gate.ok) { term.say(`(Real hardware: ${gate.message})`); return; } }
     if (term.busy()) term.newTerminal();   // a launch is running: like on Ubuntu, the next one goes in a new terminal
     const cmds = [...(sh.realWs.built.size ? ["cd ~/ros2_ws", "source install/setup.bash"] : base), ...(sh.realWs.built.size ? envCmds : []), e.cmd];

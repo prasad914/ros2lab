@@ -1,6 +1,6 @@
 // robot.html?id=<id>: the info page of one robot of the Robot simulator. Everything shown is read from
 // robots/index.json and robots/ws/index.json (js/robot-info.js); "Open in the simulator" goes to rviz.html?robot=<id>.
-import { h, loadRobots, statusOf, statusBadge, sensorsOf, speedOf, noteOf, hasGazebo, picture } from "./robot-info.js";
+import { h, loadRobots, statusOf, statusBadge, isLegacy, sensorsOf, speedOf, noteOf, hasGazebo, picture } from "./robot-info.js";
 import { CATEGORIES, categoryOf } from "./sim-catalog.js";
 
 const id = new URLSearchParams(location.search).get("id") || "";
@@ -48,7 +48,8 @@ function render(g, data) {
       h("p", { class: "rblede", text: g.about }),
       note ? h("p", { class: "rbnote", text: note }) : null,
       h("div", { class: "rbact" }, h("a", { class: "btn btn-main", href: url, text: "Open in the simulator" }), h("a", { class: "btn btn-sec", href: "rviz.html", text: "All robots" })),
-      test ? h("p", { class: "rbwarn" }, h("b", { text: "Under test. " }), `This robot opens in RViz${hasGazebo(g, data) ? " and Gazebo" : ""}, but it is not used in the course lessons yet.`) : null,
+      test ? h("p", { class: "rbwarn" }, h("b", { text: "Under test. " }), `It is not used in the course lessons, and its simulation${hasGazebo(g, data) ? " (RViz and Gazebo)" : " (RViz)"} is switched off until it has been checked against real ROS 2 Jazzy. The simulator page shows its description only.`) : null,
+      isLegacy(g) ? h("p", { class: "rbwarn" }, h("b", { text: "Legacy. " }), g.status_reason || "") : null,
       h("dl", { class: "rbdl" }, ...rows.flatMap(([k, v]) => [h("dt", { text: k }), h("dd", {}, v)])),
       g.real && g.real.length ? [h("h2", { text: "Real robots like this" }), h("ul", { class: "rreal" }, ...g.real.map((x) => h("li", {}, link(x.url, x.title))))] : null));
 }

@@ -94,7 +94,7 @@ for (const w of [1440, 1024, 390]) {
     check((await p.textContent(".rbinfo")).includes(r.about), `${id}: full about text`);
     const dl = await p.textContent(".rbdl");
     check(/Type/.test(dl) && /Made by/.test(dl) && /Fixed frame/.test(dl) && /Gazebo/.test(dl) && /Source/.test(dl), `${id}: spec list`);
-    check(await p.isVisible(".rbwarn") === (r.status !== "active"), `${id}: under-test notice ${r.status !== "active" ? "shown" : "hidden"}`);
+    check(await p.isVisible(".rbwarn") === (r.status !== "active" || r.legacy === true), `${id}: under-test notice ${r.status !== "active" ? "shown" : "hidden"}`);
     if (id === "tb3_waffle_pi") check(/\/scan/.test(dl) && /0\.26 m\/s, 1\.82 rad\/s/.test(dl) && /emanual\.robotis\.com/.test(dl), "tb3_waffle_pi: specs block (sensors with topics, speed, source)");
     if (r.real?.length) check(/Real robots like this/.test(await p.textContent(".rbinfo")), `${id}: Real robots like this`);
     check(await p.$eval(".rbact .btn-main", (e) => e.getAttribute("href")) === `rviz.html?robot=${id}`, `${id}: Open in the simulator link`);

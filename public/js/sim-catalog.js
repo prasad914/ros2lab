@@ -1,7 +1,7 @@
 // The robot catalog of the Robotic Models Simulator (rviz.html without ?robot=): the TurtleBot3 course robots, then the
 // gallery robots by category. A card opens the robot info page (robot.html?id=<id>); its button opens the workbench
 // (rviz.html?robot=<id>), where each robot has a workspace of its own, so two robots never share packages.
-import { h, firstSentence, loadRobots, statusOf, statusBadge, sensorsOf, sensorKind, facts, picture } from "./robot-info.js";
+import { h, firstSentence, loadRobots, statusOf, statusBadge, isLegacy, sensorsOf, sensorKind, facts, picture } from "./robot-info.js";
 
 export const CATEGORIES = [
   { id: "mobile", title: "Mobile robots", blurb: "Wheeled robots: differential, car-like and mecanum drives with lidar, camera and IMU." },
@@ -37,7 +37,7 @@ function card(g, data) {
       h("p", { class: "cat-about", text: firstSentence(g.about) }),
       h("ul", { class: "cat-facts" }, ...facts(g, data).map((f) => h("li", { text: f })))),
     h("span", { class: "cat-open", "aria-hidden": "true", text: "Open →" }));
-  a.dataset.search = `${g.title} ${g.vendor || ""} ${g.id} ${g.about || ""} ${cat} ${statusOf(g) === "active" ? "course robot" : "under test"} ${sens.map((s) => `${s.name || ""} ${s.type || ""} ${sensorKind(s)}`).join(" ")}`.toLowerCase();
+  a.dataset.search = `${g.title} ${g.vendor || ""} ${g.id} ${g.about || ""} ${cat} ${statusOf(g) === "active" ? (isLegacy(g) ? "course robot legacy" : "course robot") : "under test"} ${sens.map((s) => `${s.name || ""} ${s.type || ""} ${sensorKind(s)}`).join(" ")}`.toLowerCase();
   return a;
 }
 
@@ -58,6 +58,7 @@ export async function mountCatalog() {
     return h("a", { class: "fcard cat-card", href: infoUrl(g.id), "data-id": g.id },
       picture(g, "fpic"),
       h("b", { text: g.title.replace("TurtleBot3 ", "") }),
+      isLegacy(g) ? statusBadge(g) : null,
       h("span", { text: kinds.length ? `Sensors: ${kinds.join(", ")}` : "Sensors: UNKNOWN" }),
       h("ul", { class: "cat-facts" }, ...facts(g, data).map((f) => h("li", { text: f }))));
   }));

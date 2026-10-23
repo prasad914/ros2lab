@@ -6,6 +6,8 @@ const PYO = process.env.PYODIDE_DIR || "/tmp/claude-0/pyo/pyodide/";
 export async function openRobot(id, { webgl = false } = {}) {
   const b = await chromium.launch({ args: webgl ? ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"] : [] });
   const ctx = await b.newContext({ viewport: { width: 1500, height: 1000 } });
+  // these suites also launch robots that are under test on the site: open their simulation (robot-info.js underTestOpen)
+  await ctx.addInitScript(() => { try { localStorage.setItem("ros2lab.dev.underTest", "open"); } catch { /* no storage */ } });
   // offline test machines keep a local copy of Pyodide; with internet access (no local copy) it loads from the CDN as on the site
   if (existsSync(PYO)) await ctx.route("https://cdn.jsdelivr.net/npm/pyodide@314.0.7/**", (r) => { const p = PYO + new URL(r.request().url()).pathname.split("/").pop(); if (!existsSync(p)) return r.fulfill({ status: 404, body: "" });
     return r.fulfill({ body: readFileSync(p), contentType: p.endsWith(".wasm") ? "application/wasm" : /js$/.test(p) ? "text/javascript" : "application/octet-stream", headers: { "access-control-allow-origin": "*" } }); });

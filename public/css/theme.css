@@ -202,6 +202,7 @@ html { scroll-padding-top: calc(var(--top-h, 65px) + 8px); }
 .st { display: inline-block; font-size: var(--fs-xs); font-weight: 700; padding: 2px 10px; border-radius: 999px; white-space: nowrap; letter-spacing: .02em; }
 .st-ok { background: var(--ok-lt); color: var(--ok); border: 1px solid #B9DFC6; }
 .st-test { background: var(--test-lt); color: var(--test); border: 1px solid #EBD58A; }
+.st-legacy { background: #F1F3F6; color: #4B5563; border: 1px solid #CBD2DC; }
 .lbl { display: inline-block; width: max-content; font-size: var(--fs-xs); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 2px 10px; border-radius: 999px; }
 .lbl.cert { background: var(--navy); color: #FFFFFF; }
 .lbl.lopt { background: var(--orange-lt); color: #8A3E07; border: 1px solid #F3D3BA; }

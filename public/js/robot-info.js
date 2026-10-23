@@ -25,6 +25,12 @@ export async function loadRobots() {
 // "active" for the robots the course uses (public/robots/course-required.json, written into index.json by
 // tools/apply-robot-status.mjs); every other robot is under test, also when the field is missing
 export const statusOf = (g) => (g.status === "active" ? "active" : "under_test");
+// an active robot kept for an older lesson (TurtleBot3 Waffle: same base as the Waffle Pi)
+export const isLegacy = (g) => statusOf(g) === "active" && g.legacy === true;
+// test suites that exercise an under-test robot's simulation set localStorage "ros2lab.dev.underTest" = "open"
+export const underTestOpen = () => { try { return localStorage.getItem("ros2lab.dev.underTest") === "open"; } catch { return false; } };
+// the ROS2Lab notice for an under-test robot (a site message, never ROS output)
+export const underTestNote = (g) => `ROS2Lab: ${g.title} is under test. Its simulation is switched off on this site until it has been checked against real ROS 2 Jazzy. ${g.status_reason || ""}`.trim();
 
 // sensors: [{ name, type, topic }] from the Gazebo setup (sim) or the Waffle Pi's published specs
 export const sensorsOf = (g) => (g.sim && g.sim.sensors) || (g.specs && g.specs.sensors) || [];
@@ -50,7 +56,8 @@ export function facts(g, data) {
   return out;
 }
 
-export const statusBadge = (g) => statusOf(g) === "active" ? h("span", { class: "st st-ok", text: "Course robot" }) : h("span", { class: "st st-test", text: "Under test" });
+export const statusBadge = (g) => statusOf(g) !== "active" ? h("span", { class: "st st-test", text: "Under test" })
+  : isLegacy(g) ? h("span", { class: "st st-legacy", text: "Legacy" }) : h("span", { class: "st st-ok", text: "Course robot" });
 
 // the picture: the shipped one, else drawn once from the URDF when the card scrolls into view (one at a time)
 let queue = Promise.resolve();

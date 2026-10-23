@@ -14,6 +14,9 @@ export default defineConfig({
     baseURL: "http://127.0.0.1:8000",
     trace: "on-first-retry",
     headless: true,
+    // the specs also exercise robots that are under test on the site (public/robots/index.json "status"): open
+    // their simulation (robot-info.js underTestOpen). parity/e2e/under-test.spec.ts clears this to test the lock.
+    storageState: { cookies: [], origins: ["http://127.0.0.1:8000", "http://localhost:8000", "http://localhost:8080"].map((origin) => ({ origin, localStorage: [{ name: "ros2lab.dev.underTest", value: "open" }] })) },
   },
   webServer: {
     command: "npm run dev",
