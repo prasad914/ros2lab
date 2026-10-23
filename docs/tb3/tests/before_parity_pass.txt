@@ -23,15 +23,15 @@
 [chromium] › parity/e2e/fixed-frame.spec.ts:86:7 › RViz Fixed Frame Parity (Spec S3, Prompt P3) › options per robot: tb3_waffle includes camera frames
 [chromium] › parity/e2e/fixtures/mapping.spec.ts:14:9 › tb3_burger cartographer: graph, QoS, TF
 [chromium] › parity/e2e/fixtures/mapping.spec.ts:14:9 › tb3_burger slam: graph, QoS, TF
-[chromium] › parity/e2e/fixtures/mapping.spec.ts:14:9 › tb3_waffle cartographer: graph, QoS, TF (1.0m)
+[chromium] › parity/e2e/fixtures/mapping.spec.ts:14:9 › tb3_waffle cartographer: graph, QoS, TF
 [chromium] › parity/e2e/fixtures/mapping.spec.ts:14:9 › tb3_waffle_pi cartographer: graph, QoS, TF
 [chromium] › parity/e2e/fixtures/mapping.spec.ts:14:9 › tb3_waffle_pi slam: graph, QoS, TF
 [chromium] › parity/e2e/fixtures/mapping.spec.ts:14:9 › tb3_waffle slam: graph, QoS, TF
 [chromium] › parity/e2e/fixtures/mistakes.spec.ts:24:5 › tb3_burger no_tb3_model: turtlebot3_world.launch.py without TURTLEBOT3_MODEL
 [chromium] › parity/e2e/fixtures/mistakes.spec.ts:40:5 › tb3_burger bad_map_path: navigation2.launch.py with a missing map file
 [chromium] › parity/e2e/fixtures/mistakes.spec.ts:58:5 › tb3_burger nav2_bringup tb3_simulation_launch.py: honest note, no fake failure
-[chromium] › parity/e2e/fixtures/mistakes.spec.ts:78:5 › tb3_burger teleop: /cmd_vel types of teleop_twist_keyboard and turtlebot3_teleop (1.0m)
-[chromium] › parity/e2e/fixtures/nav_robotis.spec.ts:137:5 › tb3_burger nav_robotis: no initial pose -> navigation bringup aborts after the transform timeout (4.0m)
+[chromium] › parity/e2e/fixtures/mistakes.spec.ts:78:5 › tb3_burger teleop: /cmd_vel types of teleop_twist_keyboard and turtlebot3_teleop
+[chromium] › parity/e2e/fixtures/nav_robotis.spec.ts:137:5 › tb3_burger nav_robotis: no initial pose -> navigation bringup aborts after the transform timeout
 [chromium] › parity/e2e/fixtures/sensors.spec.ts:7:7 › tb3_burger sensors: graph, QoS, TF, sensors, camera
 [chromium] › parity/e2e/fixtures/sensors.spec.ts:7:7 › tb3_waffle_pi sensors: graph, QoS, TF, sensors, camera
 [chromium] › parity/e2e/fixtures/sensors.spec.ts:7:7 › tb3_waffle sensors: graph, QoS, TF, sensors, camera
