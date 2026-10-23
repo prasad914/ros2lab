@@ -1,0 +1,1 @@
+join of parity/fixtures/_installed/dpkg_versions.txt with: dpkg -l 'ros-jazzy-*' | awk '/^ii/{print $2, $3}' | sort  (rows where the version differs)

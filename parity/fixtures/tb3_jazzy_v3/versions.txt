@@ -1,0 +1,130 @@
+# captured 2026-10-23T21:33:11+05:30 on prasad
+## lsb_release -ds
+Ubuntu 24.04.3 LTS
+## uname -r
+7.0.0-38-generic
+## dpkg -l turtlebot3* nav2* navigation2 slam_toolbox cartographer* ros-gz* opennav* gz-*-vendor
+ros-jazzy-cartographer 2.0.9004-1noble.20260225.051215
+ros-jazzy-cartographer-ros 2.0.9003-2noble.20260920.232954
+ros-jazzy-cartographer-ros-msgs 2.0.9003-2noble.20260911.110311
+ros-jazzy-gz-cmake-vendor 0.0.10-1noble.20250523.125451
+ros-jazzy-gz-common-vendor 0.0.8-1noble.20250523.130249
+ros-jazzy-gz-dartsim-vendor 0.0.3-1noble.20250424.111403
+ros-jazzy-gz-fuel-tools-vendor 0.0.6-1noble.20250906.000852
+ros-jazzy-gz-gui-vendor 0.0.5-1noble.20251024.110750
+ros-jazzy-gz-math-vendor 0.0.8-1noble.20250523.130039
+ros-jazzy-gz-msgs-vendor 0.0.6-1noble.20250905.234538
+ros-jazzy-gz-ogre-next-vendor 0.0.5-1noble.20250424.111422
+ros-jazzy-gz-physics-vendor 0.0.7-1noble.20251024.203612
+ros-jazzy-gz-plugin-vendor 0.0.5-1noble.20250906.000904
+ros-jazzy-gz-rendering-vendor 0.0.6-1noble.20250906.002408
+ros-jazzy-gz-sensors-vendor 0.0.6-1noble.20251024.110748
+ros-jazzy-gz-sim-vendor 0.0.9-1noble.20251024.204712
+ros-jazzy-gz-tools-vendor 0.0.7-1noble.20250905.232830
+ros-jazzy-gz-transport-vendor 0.0.7-1noble.20251024.110154
+ros-jazzy-gz-utils-vendor 0.0.5-1noble.20250523.125912
+ros-jazzy-nav2-amcl 1.3.10-1noble.20260126.194652
+ros-jazzy-nav2-behavior-tree 1.3.10-1noble.20260126.194658
+ros-jazzy-nav2-behaviors 1.3.10-1noble.20260126.201101
+ros-jazzy-nav2-bringup 1.3.13-1noble.20261006.042503
+ros-jazzy-nav2-bt-navigator 1.3.10-1noble.20260126.201106
+ros-jazzy-nav2-collision-monitor 1.3.10-1noble.20260126.200155
+ros-jazzy-nav2-common 1.3.10-1noble.20260126.192739
+ros-jazzy-nav2-constrained-smoother 1.3.10-1noble.20260126.201107
+ros-jazzy-nav2-controller 1.3.10-1noble.20260126.201111
+ros-jazzy-nav2-core 1.3.10-1noble.20260126.200842
+ros-jazzy-nav2-costmap-2d 1.3.10-1noble.20260126.194646
+ros-jazzy-nav2-dwb-controller 1.3.10-1noble.20260126.202054
+ros-jazzy-nav2-graceful-controller 1.3.13-1noble.20260921.031753
+ros-jazzy-nav2-lifecycle-manager 1.3.10-1noble.20260126.194706
+ros-jazzy-nav2-loopback-sim 1.3.13-1noble.20260921.030448
+ros-jazzy-nav2-map-server 1.3.10-1noble.20260126.194718
+ros-jazzy-nav2-minimal-tb3-sim 1.0.1-1noble.20261006.041307
+ros-jazzy-nav2-minimal-tb4-description 1.0.1-1noble.20260915.195305
+ros-jazzy-nav2-minimal-tb4-sim 1.0.1-1noble.20261006.041301
+ros-jazzy-nav2-mppi-controller 1.3.10-1noble.20260126.201121
+ros-jazzy-nav2-msgs 1.3.10-1noble.20251108.004642
+ros-jazzy-nav2-navfn-planner 1.3.10-1noble.20260126.201119
+ros-jazzy-nav2-planner 1.3.10-1noble.20260126.201125
+ros-jazzy-nav2-regulated-pure-pursuit-controller 1.3.10-1noble.20260126.201136
+ros-jazzy-nav2-rotation-shim-controller 1.3.10-1noble.20260126.201631
+ros-jazzy-nav2-route 1.3.13-1noble.20260921.031810
+ros-jazzy-nav2-rviz-plugins 1.3.10-1noble.20260126.195902
+ros-jazzy-nav2-simple-commander 1.3.10-1noble.20260126.194209
+ros-jazzy-nav2-smac-planner 1.3.10-1noble.20260126.201204
+ros-jazzy-nav2-smoother 1.3.10-1noble.20260126.201236
+ros-jazzy-nav2-theta-star-planner 1.3.10-1noble.20260126.201333
+ros-jazzy-nav2-util 1.3.10-1noble.20260126.194201
+ros-jazzy-nav2-velocity-smoother 1.3.10-1noble.20260126.194730
+ros-jazzy-nav2-voxel-grid 1.3.10-1noble.20260126.193644
+ros-jazzy-nav2-waypoint-follower 1.3.10-1noble.20260126.201342
+ros-jazzy-navigation2 1.3.13-1noble.20260921.033624
+ros-jazzy-opennav-docking 1.3.13-1noble.20260921.032237
+ros-jazzy-opennav-docking-bt 1.3.10-1noble.20260126.201659
+ros-jazzy-opennav-docking-core 1.3.10-1noble.20260126.194737
+ros-jazzy-ros-gz 1.0.24-1noble.20261006.041805
+ros-jazzy-ros-gz-bridge 1.0.18-1noble.20260126.180325
+ros-jazzy-ros-gz-bridge-dbgsym 1.0.18-1noble.20260126.180325
+ros-jazzy-ros-gz-image 1.0.16-1noble.20251108.004119
+ros-jazzy-ros-gz-image-dbgsym 1.0.16-1noble.20251108.004119
+ros-jazzy-ros-gz-interfaces 1.0.16-1noble.20251007.214807
+ros-jazzy-ros-gz-interfaces-dbgsym 1.0.16-1noble.20251007.214807
+ros-jazzy-ros-gz-sim 1.0.16-1noble.20251107.233731
+ros-jazzy-ros-gz-sim-dbgsym 1.0.16-1noble.20251107.233731
+ros-jazzy-ros-gz-sim-demos 1.0.16-1noble.20251108.005406
+ros-jazzy-slam-toolbox 2.8.5-1noble.20260915.204151
+ros-jazzy-turtlebot3 2.3.6-1noble.20261006.044254
+ros-jazzy-turtlebot3-applications 1.3.3-1noble.20260921.030626
+ros-jazzy-turtlebot3-applications-msgs 1.0.1-1noble.20260911.141326
+ros-jazzy-turtlebot3-applications-msgs-dbgsym 1.0.1-1noble.20260911.141326
+ros-jazzy-turtlebot3-aruco-tracker 1.3.3-1noble.20260915.185322
+ros-jazzy-turtlebot3-automatic-parking 1.3.3-1noble.20260912.165343
+ros-jazzy-turtlebot3-automatic-parking-vision 1.3.3-1noble.20260915.185324
+ros-jazzy-turtlebot3-autorace 1.2.2-1noble.20260913.065636
+ros-jazzy-turtlebot3-autorace-camera 1.2.2-1noble.20260912.163700
+ros-jazzy-turtlebot3-autorace-detect 1.2.2-1noble.20260912.165327
+ros-jazzy-turtlebot3-autorace-mission 1.2.2-1noble.20260913.065117
+ros-jazzy-turtlebot3-bringup 2.3.6-1noble.20260915.204906
+ros-jazzy-turtlebot3-cartographer 2.3.6-1noble.20260921.021821
+ros-jazzy-turtlebot3-description 2.3.6-1noble.20260911.051522
+ros-jazzy-turtlebot3-example 2.3.6-1noble.20260912.165343
+ros-jazzy-turtlebot3-fake-node 2.3.7-1noble.20260915.185432
+ros-jazzy-turtlebot3-fake-node-dbgsym 2.3.7-1noble.20260915.185432
+ros-jazzy-turtlebot3-follower 1.3.3-1noble.20260921.030007
+ros-jazzy-turtlebot3-follower-dbgsym 1.3.3-1noble.20260921.030007
+ros-jazzy-turtlebot3-gazebo 2.3.7-1noble.20261006.041329
+ros-jazzy-turtlebot3-gazebo-dbgsym 2.3.7-1noble.20261006.041329
+ros-jazzy-turtlebot3-home-service-challenge 1.0.5-1noble.20261006.044843
+ros-jazzy-turtlebot3-home-service-challenge-aruco 1.0.5-1noble.20260915.185336
+ros-jazzy-turtlebot3-home-service-challenge-core 1.0.5-1noble.20261006.044748
+ros-jazzy-turtlebot3-home-service-challenge-manipulator 1.0.5-1noble.20261006.044210
+ros-jazzy-turtlebot3-home-service-challenge-manipulator-dbgsym 1.0.5-1noble.20261006.044210
+ros-jazzy-turtlebot3-home-service-challenge-tools 1.0.5-1noble.20261006.043705
+ros-jazzy-turtlebot3-manipulation 2.2.1-1noble.20261006.044135
+ros-jazzy-turtlebot3-manipulation-bringup 2.2.1-1noble.20261006.041257
+ros-jazzy-turtlebot3-manipulation-cartographer 2.2.1-1noble.20260921.021829
+ros-jazzy-turtlebot3-manipulation-description 2.2.1-1noble.20260915.204952
+ros-jazzy-turtlebot3-manipulation-hardware 2.2.1-1noble.20260924.185509
+ros-jazzy-turtlebot3-manipulation-hardware-dbgsym 2.2.1-1noble.20260924.185509
+ros-jazzy-turtlebot3-manipulation-moveit-config 2.2.1-1noble.20260915.210917
+ros-jazzy-turtlebot3-manipulation-navigation2 2.2.1-1noble.20260921.033752
+ros-jazzy-turtlebot3-manipulation-teleop 2.2.1-1noble.20261006.043214
+ros-jazzy-turtlebot3-manipulation-teleop-dbgsym 2.2.1-1noble.20261006.043214
+ros-jazzy-turtlebot3-msgs 2.4.0-1noble.20260911.111529
+ros-jazzy-turtlebot3-msgs-dbgsym 2.4.0-1noble.20260911.111529
+ros-jazzy-turtlebot3-navigation2 2.3.6-1noble.20261006.044113
+ros-jazzy-turtlebot3-node 2.3.6-1noble.20260915.183530
+ros-jazzy-turtlebot3-node-dbgsym 2.3.6-1noble.20260915.183530
+ros-jazzy-turtlebot3-panorama 1.3.3-1noble.20260915.181051
+ros-jazzy-turtlebot3-panorama-dbgsym 1.3.3-1noble.20260915.181051
+ros-jazzy-turtlebot3-simulations 2.3.7-1noble.20261006.043915
+ros-jazzy-turtlebot3-teleop 2.3.6-1noble.20260912.165408
+ros-jazzy-turtlebot3-yolo-object-detection 1.3.3-1noble.20260912.181718
+## dpkg -l ros-jazzy-nav2-docking
+dpkg-query: no packages found matching ros-jazzy-nav2-docking
+## which gz
+/opt/ros/jazzy/opt/gz_tools_vendor/bin/gz
+## gz sim --versions
+8.10.0
+## TB3_WS=<unset> ROBOTS_WS=/home/prasad/robots_ws
+## TURTLEBOT3_MODEL=burger
