@@ -1,0 +1,4 @@
+# 2026-10-23T22:34:49+05:30 capture_nav.sh tb3_waffle 61 nopose  (git 84487d6)
+bash parity/scripts/tb3_v3/capture_nav.sh tb3_waffle 61 nopose
+world: ros2 launch parity/scripts/launch/tb3_world_headless.launch.py   (REF_RENDER=egl, TURTLEBOT3_MODEL=waffle)
+nav2 (15 s later): xvfb-run -a ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True

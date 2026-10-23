@@ -1,0 +1,8 @@
+route_server: present
+docking_server: present
+smoother_server: present
+collision_detector: absent
+collision_monitor: present
+velocity_smoother: present
+waypoint_follower: present
+behavior_server: present

@@ -1,0 +1,184 @@
+12:[component_container_isolated-1] [INFO] [1792773940.279801388] [amcl]: Creating
+17:[component_container_isolated-1] [INFO] [1792773940.299287246] [lifecycle_manager_localization]: Creating
+19:[component_container_isolated-1] [INFO] [1792773940.307606096] [lifecycle_manager_localization]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+26:[component_container_isolated-1] [INFO] [1792773940.455345208] [lifecycle_manager_localization]: [34m[1mConfiguring map_server[0m[0m
+32:[component_container_isolated-1] [INFO] [1792773940.455890438] [map_server]: Creating
+33:[component_container_isolated-1] [INFO] [1792773940.456405249] [map_server]: Configuring
+48:[component_container_isolated-1] [INFO] [1792773940.472613710] [lifecycle_manager_localization]: [34m[1mConfiguring amcl[0m[0m
+49:[component_container_isolated-1] [INFO] [1792773940.472739014] [amcl]: Configuring
+57:[component_container_isolated-1] [INFO] [1792773940.506008974] [controller_server]: Creating controller server
+58:[component_container_isolated-1] [INFO] [1792773940.506809216] [lifecycle_manager_localization]: [34m[1mActivating map_server[0m[0m
+59:[component_container_isolated-1] [INFO] [1792773940.506957871] [map_server]: Activating
+60:[component_container_isolated-1] [INFO] [1792773940.507243103] [map_server]: Creating bond (map_server) to lifecycle manager.
+66:[component_container_isolated-1] [INFO] [1792773940.526781018] [local_costmap.local_costmap]: Creating Costmap
+75:[component_container_isolated-1] [INFO] [1792773940.540754027] [smoother_server]: Creating smoother server
+84:[component_container_isolated-1] [INFO] [1792773940.551203835] [planner_server]: Creating
+89:[component_container_isolated-1] [INFO] [1792773940.558010747] [global_costmap.global_costmap]: Creating Costmap
+103:[component_container_isolated-1] [INFO] [1792773940.610080401] [lifecycle_manager_localization]: [34m[1mActivating amcl[0m[0m
+104:[component_container_isolated-1] [INFO] [1792773940.610226159] [amcl]: Activating
+105:[component_container_isolated-1] [INFO] [1792773940.610271146] [amcl]: Creating bond (amcl) to lifecycle manager.
+120:[component_container_isolated-1] [INFO] [1792773940.638328966] [bt_navigator]: Creating
+130:[component_container_isolated-1] [INFO] [1792773940.655710878] [waypoint_follower]: Creating
+156:[component_container_isolated-1] [INFO] [1792773940.711780746] [docking_server]: Creating docking_server
+158:[component_container_isolated-1] [INFO] [1792773940.712641258] [lifecycle_manager_localization]: [34m[1mManaged nodes are active[0m[0m
+159:[component_container_isolated-1] [INFO] [1792773940.712655903] [lifecycle_manager_localization]: [34m[1mCreating bond timer...[0m[0m
+163:[component_container_isolated-1] [INFO] [1792773940.726123470] [lifecycle_manager_navigation]: Creating
+165:[component_container_isolated-1] [INFO] [1792773940.727605614] [lifecycle_manager_navigation]: [34m[1mCreating and initializing lifecycle service clients[0m[0m
+167:[component_container_isolated-1] [INFO] [1792773940.739236643] [lifecycle_manager_navigation]: [34m[1mConfiguring controller_server[0m[0m
+168:[component_container_isolated-1] [INFO] [1792773940.739379091] [controller_server]: Configuring controller interface
+172:[component_container_isolated-1] [INFO] [1792773940.740967815] [local_costmap.local_costmap]: Configuring
+206:[component_container_isolated-1] [INFO] [1792773940.819710372] [lifecycle_manager_navigation]: [34m[1mConfiguring smoother_server[0m[0m
+207:[component_container_isolated-1] [INFO] [1792773940.819881101] [smoother_server]: Configuring smoother server
+211:[component_container_isolated-1] [INFO] [1792773940.835308747] [lifecycle_manager_navigation]: [34m[1mConfiguring planner_server[0m[0m
+212:[component_container_isolated-1] [INFO] [1792773940.835452996] [planner_server]: Configuring
+213:[component_container_isolated-1] [INFO] [1792773940.835511746] [global_costmap.global_costmap]: Configuring
+231:[component_container_isolated-1] [INFO] [1792773940.881994383] [planner_server]: Configuring plugin GridBased of type NavfnPlanner
+233:[component_container_isolated-1] [INFO] [1792773940.891762274] [lifecycle_manager_navigation]: [34m[1mConfiguring route_server[0m[0m
+234:[component_container_isolated-1] [INFO] [1792773940.892377237] [route_server]: Configuring
+236:[component_container_isolated-1] [INFO] [1792773940.905250088] [route_server]: Configuring geojson graph file loader
+239:[component_container_isolated-1] [INFO] [1792773940.908658919] [route_server]: Configuring distance scorer.
+241:[component_container_isolated-1] [INFO] [1792773940.908943675] [route_server]: Configuring adjust edges scorer.
+243:[component_container_isolated-1] [INFO] [1792773940.911934431] [route_server]: Configuring Adjust speed limit operation.
+247:[component_container_isolated-1] [INFO] [1792773940.912447251] [route_server]: Configuring Rerouting service operation.
+248:[component_container_isolated-1] [INFO] [1792773940.914280116] [lifecycle_manager_navigation]: [34m[1mConfiguring behavior_server[0m[0m
+249:[component_container_isolated-1] [INFO] [1792773940.914482000] [behavior_server]: Configuring
+250:[component_container_isolated-1] [INFO] [1792773940.919547491] [behavior_server]: Creating behavior plugin spin of type nav2_behaviors::Spin
+253:[component_container_isolated-1] [INFO] [1792773940.921529476] [behavior_server]: Creating behavior plugin backup of type nav2_behaviors::BackUp
+254:[component_container_isolated-1] [INFO] [1792773940.923453397] [behavior_server]: Creating behavior plugin drive_on_heading of type nav2_behaviors::DriveOnHeading
+257:[component_container_isolated-1] [INFO] [1792773940.925098185] [behavior_server]: Creating behavior plugin wait of type nav2_behaviors::Wait
+258:[component_container_isolated-1] [INFO] [1792773940.926635284] [behavior_server]: Creating behavior plugin assisted_teleop of type nav2_behaviors::AssistedTeleop
+259:[component_container_isolated-1] [INFO] [1792773940.929747591] [behavior_server]: Configuring spin
+260:[component_container_isolated-1] [INFO] [1792773940.932375129] [behavior_server]: Configuring backup
+261:[component_container_isolated-1] [INFO] [1792773940.934523650] [behavior_server]: Configuring drive_on_heading
+262:[component_container_isolated-1] [INFO] [1792773940.936636910] [behavior_server]: Configuring wait
+263:[component_container_isolated-1] [INFO] [1792773940.939670535] [behavior_server]: Configuring assisted_teleop
+264:[component_container_isolated-1] [INFO] [1792773940.944477579] [lifecycle_manager_navigation]: [34m[1mConfiguring velocity_smoother[0m[0m
+265:[component_container_isolated-1] [INFO] [1792773940.944688115] [velocity_smoother]: Configuring velocity smoother
+266:[component_container_isolated-1] [INFO] [1792773940.948631549] [lifecycle_manager_navigation]: [34m[1mConfiguring collision_monitor[0m[0m
+267:[component_container_isolated-1] [INFO] [1792773940.948835580] [collision_monitor]: Configuring
+268:[component_container_isolated-1] [INFO] [1792773940.952367362] [collision_monitor]: [scan]: Creating Scan
+269:[component_container_isolated-1] [INFO] [1792773940.955120058] [collision_monitor]: [PolygonStop]: Creating Polygon
+270:[component_container_isolated-1] [INFO] [1792773940.955148361] [collision_monitor]: [PolygonStop]: Creating Circle
+271:[component_container_isolated-1] [INFO] [1792773940.960881158] [collision_monitor]: [PolygonSlow]: Creating Polygon
+272:[component_container_isolated-1] [INFO] [1792773940.963549972] [collision_monitor]: [FootprintApproach]: Creating Polygon
+275:[component_container_isolated-1] [INFO] [1792773940.968815429] [lifecycle_manager_navigation]: [34m[1mConfiguring bt_navigator[0m[0m
+276:[component_container_isolated-1] [INFO] [1792773940.968938631] [bt_navigator]: Configuring
+277:[component_container_isolated-1] [INFO] [1792773940.974190197] [bt_navigator]: Creating navigator id navigate_to_pose of type nav2_bt_navigator::NavigateToPoseNavigator
+283:[component_container_isolated-1] [INFO] [1792773941.069546373] [bt_navigator]: Creating navigator id navigate_through_poses of type nav2_bt_navigator::NavigateThroughPosesNavigator
+284:[component_container_isolated-1] [INFO] [1792773941.120376189] [lifecycle_manager_navigation]: [34m[1mConfiguring waypoint_follower[0m[0m
+285:[component_container_isolated-1] [INFO] [1792773941.120546321] [waypoint_follower]: Configuring
+287:[component_container_isolated-1] [INFO] [1792773941.132493820] [lifecycle_manager_navigation]: [34m[1mConfiguring docking_server[0m[0m
+288:[component_container_isolated-1] [INFO] [1792773941.132612390] [docking_server]: Configuring docking_server
+294:[component_container_isolated-1] [INFO] [1792773941.172606047] [lifecycle_manager_navigation]: [34m[1mActivating controller_server[0m[0m
+295:[component_container_isolated-1] [INFO] [1792773941.172894260] [controller_server]: Activating
+296:[component_container_isolated-1] [INFO] [1792773941.172926635] [local_costmap.local_costmap]: Activating
+300:[rviz2-2] [ERROR] [1792773941.181073944] [rviz2]: rviz/glsl120/indexed_8bit_image.vert
+304:[component_container_isolated-1] [INFO] [1792773941.423996174] [controller_server]: Creating bond (controller_server) to lifecycle manager.
+306:[component_container_isolated-1] [INFO] [1792773941.526415584] [lifecycle_manager_navigation]: [34m[1mActivating smoother_server[0m[0m
+307:[component_container_isolated-1] [INFO] [1792773941.526658974] [smoother_server]: Activating
+308:[component_container_isolated-1] [INFO] [1792773941.526692010] [smoother_server]: Creating bond (smoother_server) to lifecycle manager.
+310:[component_container_isolated-1] [INFO] [1792773941.628488299] [lifecycle_manager_navigation]: [34m[1mActivating planner_server[0m[0m
+311:[component_container_isolated-1] [INFO] [1792773941.628760866] [planner_server]: Activating
+312:[component_container_isolated-1] [INFO] [1792773941.628806040] [global_costmap.global_costmap]: Activating
+314:[component_container_isolated-1] [INFO] [1792773941.628836827] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+315:[component_container_isolated-1] [INFO] [1792773942.128925375] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+320:[component_container_isolated-1] [INFO] [1792773942.630869354] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+324:[component_container_isolated-1] [WARN] [1792773943.004709230] [amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+325:[component_container_isolated-1] [INFO] [1792773943.128896780] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+332:[component_container_isolated-1] [INFO] [1792773943.628953908] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+339:[component_container_isolated-1] [INFO] [1792773944.128899966] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+347:[component_container_isolated-1] [INFO] [1792773944.628899848] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+354:[component_container_isolated-1] [INFO] [1792773945.128899872] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+361:[component_container_isolated-1] [INFO] [1792773945.628950093] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+362:[component_container_isolated-1] [WARN] [1792773945.638880395] [amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+369:[component_container_isolated-1] [INFO] [1792773946.128923560] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+377:[component_container_isolated-1] [INFO] [1792773946.628908882] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+384:[component_container_isolated-1] [INFO] [1792773947.128908307] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+392:[component_container_isolated-1] [INFO] [1792773947.630882098] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+399:[component_container_isolated-1] [INFO] [1792773948.128897652] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+402:[component_container_isolated-1] [WARN] [1792773948.354099666] [amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+407:[component_container_isolated-1] [INFO] [1792773948.628908324] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+414:[component_container_isolated-1] [INFO] [1792773949.128902476] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+422:[component_container_isolated-1] [INFO] [1792773949.628899768] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+430:[component_container_isolated-1] [INFO] [1792773950.128902825] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+439:[component_container_isolated-1] [INFO] [1792773950.633851153] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+444:[component_container_isolated-1] [WARN] [1792773950.955426431] [amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+447:[component_container_isolated-1] [INFO] [1792773951.128910849] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+457:[component_container_isolated-1] [INFO] [1792773951.628945291] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+463:[component_container_isolated-1] [INFO] [1792773952.128922078] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+472:[component_container_isolated-1] [INFO] [1792773952.629606534] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+479:[component_container_isolated-1] [INFO] [1792773953.128905865] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+487:[component_container_isolated-1] [INFO] [1792773953.628895453] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+488:[component_container_isolated-1] [WARN] [1792773953.650868462] [amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+496:[component_container_isolated-1] [INFO] [1792773954.128908986] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+502:[component_container_isolated-1] [INFO] [1792773954.628898957] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+507:[component_container_isolated-1] [INFO] [1792773955.128904582] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+516:[component_container_isolated-1] [INFO] [1792773955.628935630] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+524:[component_container_isolated-1] [INFO] [1792773956.130660478] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+533:[component_container_isolated-1] [INFO] [1792773956.628891648] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+535:[component_container_isolated-1] [WARN] [1792773956.776836944] [amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+542:[component_container_isolated-1] [INFO] [1792773957.128910731] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+551:[component_container_isolated-1] [INFO] [1792773957.628895799] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+560:[component_container_isolated-1] [INFO] [1792773958.128888719] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+570:[component_container_isolated-1] [INFO] [1792773958.628890337] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+574:[component_container_isolated-1] [WARN] [1792773958.893184477] [amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+580:[component_container_isolated-1] [INFO] [1792773959.128891744] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+589:[component_container_isolated-1] [INFO] [1792773959.628926009] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+597:[component_container_isolated-1] [INFO] [1792773960.128898377] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+607:[component_container_isolated-1] [INFO] [1792773960.628896026] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+614:[component_container_isolated-1] [WARN] [1792773961.032762531] [amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+616:[component_container_isolated-1] [INFO] [1792773961.128891401] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+626:[component_container_isolated-1] [INFO] [1792773961.628903004] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+635:[component_container_isolated-1] [INFO] [1792773962.128891543] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+645:[component_container_isolated-1] [INFO] [1792773962.628891379] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+653:[component_container_isolated-1] [INFO] [1792773963.128893063] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+656:[component_container_isolated-1] [WARN] [1792773963.228129044] [amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+663:[component_container_isolated-1] [INFO] [1792773963.628892008] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+672:[component_container_isolated-1] [INFO] [1792773964.128910246] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+681:[component_container_isolated-1] [INFO] [1792773964.628892994] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+690:[component_container_isolated-1] [INFO] [1792773965.128896430] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+695:[component_container_isolated-1] [WARN] [1792773965.418911372] [amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+701:[component_container_isolated-1] [INFO] [1792773965.629277398] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+707:[component_container_isolated-1] [INFO] [1792773966.128900451] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+717:[component_container_isolated-1] [INFO] [1792773966.628890660] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+724:[component_container_isolated-1] [INFO] [1792773967.129598586] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+732:[component_container_isolated-1] [INFO] [1792773967.628908790] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+739:[component_container_isolated-1] [WARN] [1792773968.075370747] [amcl]: AMCL cannot publish a pose or update the transform. Please set the initial pose...
+741:[component_container_isolated-1] [INFO] [1792773968.130499028] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+749:[component_container_isolated-1] [INFO] [1792773968.628900595] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+756:[component_container_isolated-1] [INFO] [1792773969.128895307] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+764:[component_container_isolated-1] [INFO] [1792773969.628944835] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+771:[component_container_isolated-1] [INFO] [1792773970.129107281] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+773:[component_container_isolated-1] [WARN] [1792773970.155624526] [amcl]: Failed to transform initial pose in time (Lookup would require extrapolation into the future.  Requested time 34.201000 but the latest data is at time 34.200000, when looking up transform from frame [base_footprint] to frame [odom])
+783:[component_container_isolated-1] [INFO] [1792773970.628927476] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Lookup would require extrapolation into the past.  Requested time 34.540000 but the earliest data is at time 34.700000, when looking up transform from frame [base_link] to frame [map]
+792:[component_container_isolated-1] [INFO] [1792773972.180076973] [planner_server]: Activating plugin GridBased of type NavfnPlanner
+793:[component_container_isolated-1] [INFO] [1792773972.180852893] [planner_server]: Creating bond (planner_server) to lifecycle manager.
+795:[component_container_isolated-1] [INFO] [1792773972.284988870] [lifecycle_manager_navigation]: [34m[1mActivating route_server[0m[0m
+796:[component_container_isolated-1] [INFO] [1792773972.285257880] [route_server]: Activating
+797:[component_container_isolated-1] [INFO] [1792773972.285357394] [route_server]: Creating bond (route_server) to lifecycle manager.
+799:[component_container_isolated-1] [INFO] [1792773972.387843934] [lifecycle_manager_navigation]: [34m[1mActivating behavior_server[0m[0m
+800:[component_container_isolated-1] [INFO] [1792773972.388423330] [behavior_server]: Activating
+801:[component_container_isolated-1] [INFO] [1792773972.388452785] [behavior_server]: Activating spin
+802:[component_container_isolated-1] [INFO] [1792773972.388480343] [behavior_server]: Activating backup
+803:[component_container_isolated-1] [INFO] [1792773972.388493887] [behavior_server]: Activating drive_on_heading
+804:[component_container_isolated-1] [INFO] [1792773972.388507273] [behavior_server]: Activating wait
+805:[component_container_isolated-1] [INFO] [1792773972.388520535] [behavior_server]: Activating assisted_teleop
+806:[component_container_isolated-1] [INFO] [1792773972.388537054] [behavior_server]: Creating bond (behavior_server) to lifecycle manager.
+808:[component_container_isolated-1] [INFO] [1792773972.494798125] [lifecycle_manager_navigation]: [34m[1mActivating velocity_smoother[0m[0m
+809:[component_container_isolated-1] [INFO] [1792773972.498813625] [velocity_smoother]: Activating
+810:[component_container_isolated-1] [INFO] [1792773972.498921443] [velocity_smoother]: Creating bond (velocity_smoother) to lifecycle manager.
+812:[component_container_isolated-1] [INFO] [1792773972.603634793] [lifecycle_manager_navigation]: [34m[1mActivating collision_monitor[0m[0m
+813:[component_container_isolated-1] [INFO] [1792773972.604529072] [collision_monitor]: Activating
+814:[component_container_isolated-1] [INFO] [1792773972.604641941] [collision_monitor]: Creating bond (collision_monitor) to lifecycle manager.
+816:[component_container_isolated-1] [INFO] [1792773972.716250029] [lifecycle_manager_navigation]: [34m[1mActivating bt_navigator[0m[0m
+817:[component_container_isolated-1] [INFO] [1792773972.717067997] [bt_navigator]: Activating
+818:[component_container_isolated-1] [INFO] [1792773972.751936547] [bt_navigator]: Creating bond (bt_navigator) to lifecycle manager.
+820:[component_container_isolated-1] [INFO] [1792773972.856783414] [lifecycle_manager_navigation]: [34m[1mActivating waypoint_follower[0m[0m
+821:[component_container_isolated-1] [INFO] [1792773972.857047590] [waypoint_follower]: Activating
+822:[component_container_isolated-1] [INFO] [1792773972.857107763] [waypoint_follower]: Creating bond (waypoint_follower) to lifecycle manager.
+824:[component_container_isolated-1] [INFO] [1792773972.962447770] [lifecycle_manager_navigation]: [34m[1mActivating docking_server[0m[0m
+825:[component_container_isolated-1] [INFO] [1792773972.962689320] [docking_server]: Activating docking_server
+826:[component_container_isolated-1] [INFO] [1792773972.971225112] [docking_server]: Creating bond (docking_server) to lifecycle manager.
+828:[component_container_isolated-1] [INFO] [1792773973.073859275] [lifecycle_manager_navigation]: [34m[1mManaged nodes are active[0m[0m
+829:[component_container_isolated-1] [INFO] [1792773973.073868449] [lifecycle_manager_navigation]: [34m[1mCreating bond timer...[0m[0m
+timed_out_lines=59 please_set_initial_pose_lines=11

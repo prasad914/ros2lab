@@ -1,0 +1,4 @@
+# 2026-10-23T22:13:09+05:30 capture_nav.sh tb3_burger 61 pose  (git 84487d6)
+bash parity/scripts/tb3_v3/capture_nav.sh tb3_burger 61 pose
+world: ros2 launch parity/scripts/launch/tb3_world_headless.launch.py   (REF_RENDER=egl, TURTLEBOT3_MODEL=burger)
+nav2 (15 s later): xvfb-run -a ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True

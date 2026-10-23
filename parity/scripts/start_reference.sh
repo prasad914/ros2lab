@@ -2,7 +2,7 @@
 # Start a REAL ROS 2 Jazzy reference run, headless, in the background.
 # Usage: start_reference.sh <robot> <scenario> <ros_domain_id> <gz_partition>
 #   robot:    tb3_burger | tb3_waffle | tb3_waffle_pi | tb4
-#   scenario (TB3): sensors | slam | cartographer | nav_robotis | nav2_bringup | nav2_bringup_slam
+#   scenario (TB3): sensors | slam | cartographer | nav_robotis | nav_robotis_default | nav2_bringup | nav2_bringup_slam
 #   scenario (TB4): tb4_slam_nav | tb4_nav2_bringup
 #   any other robot: a script at parity/robots/<robot>/scenarios/<scenario>.sh (created in P2b)
 # Optional env: TB3_WS, ROBOTS_WS (source workspaces, see env.sh), MAP=<map yaml>,
@@ -58,6 +58,10 @@ case $SCEN in
     need_map
     bg gazebo $TB3_WORLD; sleep 15
     bg nav2 xvfb-run -a ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True map:="$MAP" ;;
+  nav_robotis_default)
+    # the site's nav#1 entry: navigation2.launch.py with the map it ships (no map:= argument)
+    bg gazebo $TB3_WORLD; sleep 15
+    bg nav2 xvfb-run -a ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True ;;
   nav2_bringup)
     # Nav2's own TB3 demo; its robot model (nav2_minimal_tb3_sim) may differ from TURTLEBOT3_MODEL.
     EXTRA_ARGS=""

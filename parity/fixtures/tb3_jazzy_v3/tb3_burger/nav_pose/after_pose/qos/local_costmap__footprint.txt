@@ -1,0 +1,21 @@
+Type: geometry_msgs/msg/Polygon
+
+Publisher count: 0
+
+Subscription count: 1
+
+Node name: local_costmap
+Node namespace: /local_costmap
+Topic type: geometry_msgs/msg/Polygon
+Topic type hash: RIHS01_3782f9f0bf044964d692d6c017d705e37611afb1f0bf6a9dee248a7dda0f784a
+Endpoint type: SUBSCRIPTION
+GID: 01.10.e8.80.a1.05.22.c1.b8.9d.ff.32.00.02.29.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): KEEP_LAST (1)
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+

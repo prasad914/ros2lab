@@ -1,0 +1,21 @@
+Type: geometry_msgs/msg/PoseStamped
+
+Publisher count: 1
+
+Node name: docking_server
+Node namespace: /
+Topic type: geometry_msgs/msg/PoseStamped
+Topic type hash: RIHS01_10f3786d7d40fd2b54367835614bff85d4ad3b5dab62bf8bca0cc232d73b4cd8
+Endpoint type: PUBLISHER
+GID: 01.10.94.43.5a.6e.dc.50.97.75.1c.78.00.03.75.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): KEEP_LAST (1)
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 0
+

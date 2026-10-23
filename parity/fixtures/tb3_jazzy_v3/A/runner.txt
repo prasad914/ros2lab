@@ -1,0 +1,3 @@
+# Part 2.A, 2026-10-23, this PC (versions: ../versions.txt), ROS_DOMAIN_ID=61, sourced via parity/scripts/env.sh
+ros2 pkg list | grep -E 'nav2_route|opennav_docking|nav2_docking|nav2_collision_monitor'   > pkg_list_grep.txt
+ros2 interface show nav2_msgs/action/NavigateToPose                                          > NavigateToPose.txt

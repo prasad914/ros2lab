@@ -1,0 +1,36 @@
+Type: nav2_msgs/msg/BehaviorTreeLog
+
+Publisher count: 2
+
+Node name: bt_navigator_navigate_to_pose_rclcpp_node
+Node namespace: /
+Topic type: nav2_msgs/msg/BehaviorTreeLog
+Topic type hash: RIHS01_9335ecb688a4f61b7eb82a7c10f23eea5f4e8bbdb7edfa048e3539aa928f51b7
+Endpoint type: PUBLISHER
+GID: 01.10.0d.5b.be.0d.da.58.cd.bd.75.e6.00.03.ce.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): KEEP_LAST (10)
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: bt_navigator_navigate_through_poses_rclcpp_node
+Node namespace: /
+Topic type: nav2_msgs/msg/BehaviorTreeLog
+Topic type hash: RIHS01_9335ecb688a4f61b7eb82a7c10f23eea5f4e8bbdb7edfa048e3539aa928f51b7
+Endpoint type: PUBLISHER
+GID: 01.10.0d.5b.be.0d.da.58.cd.bd.75.e6.00.04.01.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): KEEP_LAST (10)
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 0
+

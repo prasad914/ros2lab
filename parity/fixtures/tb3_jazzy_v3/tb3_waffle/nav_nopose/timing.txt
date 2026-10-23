@@ -1,0 +1,12 @@
+lm_nav_first_configuring: wall_epoch=1792775090.879 sim=11.281
+    [component_container_isolated-1] [INFO] [1792775090.878880736] [lifecycle_manager_navigation]: [34m[1mConfiguring controller_server[0m[0m
+global_costmap_checking_transform: wall_epoch=1792775091.536 sim=11.896
+    [component_container_isolated-1] [INFO] [1792775091.536478159] [global_costmap.global_costmap]: Checking transform
+first_timed_out_waiting_for_transform: wall_epoch=1792775091.537 sim=11.896
+    [component_container_isolated-1] [INFO] [1792775091.536516571] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+failed_to_activate: wall_epoch=1792775157.037 sim=71.987
+    [component_container_isolated-1] [ERROR] [1792775157.036642258] [global_costmap.global_costmap]: Failed to activate global_costmap because transform from base_link to map did not become available before timeout
+aborting_bringup: wall_epoch=1792775157.037 sim=71.987
+    [component_container_isolated-1] [ERROR] [1792775157.036998469] [lifecycle_manager_navigation]: Failed to bring up all requested nodes. Aborting bringup.
+lm_nav_active: not in log
+WAIT checking transform -> aborting bringup: wall 65.501 s, sim 60.092 s

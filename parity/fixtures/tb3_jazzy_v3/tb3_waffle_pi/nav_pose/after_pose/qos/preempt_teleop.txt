@@ -1,0 +1,21 @@
+Type: std_msgs/msg/Empty
+
+Publisher count: 0
+
+Subscription count: 1
+
+Node name: behavior_server
+Node namespace: /
+Topic type: std_msgs/msg/Empty
+Topic type hash: RIHS01_20b625256f32d5dbc0d04fee44f43c41e51c70d3502f84b4a08e7a9c26a96312
+Endpoint type: SUBSCRIPTION
+GID: 01.10.94.43.5a.6e.dc.50.97.75.1c.78.00.02.f6.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): KEEP_LAST (1)
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+

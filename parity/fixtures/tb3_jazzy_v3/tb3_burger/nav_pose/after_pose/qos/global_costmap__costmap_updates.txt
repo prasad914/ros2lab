@@ -1,0 +1,36 @@
+Type: map_msgs/msg/OccupancyGridUpdate
+
+Publisher count: 1
+
+Node name: global_costmap
+Node namespace: /global_costmap
+Topic type: map_msgs/msg/OccupancyGridUpdate
+Topic type hash: RIHS01_c4095b0be2e4363f8978a1570e0293ee093436f1e1c61d99b48502ac317025e8
+Endpoint type: PUBLISHER
+GID: 01.10.e8.80.a1.05.22.c1.b8.9d.ff.32.00.02.75.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): KEEP_LAST (1)
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 1
+
+Node name: rviz2
+Node namespace: /
+Topic type: map_msgs/msg/OccupancyGridUpdate
+Topic type hash: RIHS01_c4095b0be2e4363f8978a1570e0293ee093436f1e1c61d99b48502ac317025e8
+Endpoint type: SUBSCRIPTION
+GID: 01.10.f0.39.de.84.aa.b6.bb.e6.a6.a5.00.00.5e.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): KEEP_LAST (5)
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
