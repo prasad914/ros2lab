@@ -63,9 +63,18 @@ def load_odom(run):
 
 
 def speeds(g, win=0.02):
-    """gt body speed along heading and yaw rate, by central differences over +-win s (at least one sample step)"""
+    """gt body speed along heading and yaw rate: central differences over +-win s for the 1 kHz real recordings;
+    for coarse samples (the site's 50 ms page frames) the speed over the last sample interval, given at its end time"""
     T = [r[0] for r in g]
-    if len(T) > 2: win = max(win, 1.01 * sorted(T[i + 1] - T[i] for i in range(len(T) - 1))[len(T) // 2])
+    step = sorted(T[i + 1] - T[i] for i in range(len(T) - 1))[len(T) // 2] if len(T) > 2 else 0
+    if step >= 0.01:
+        out = []
+        for a, b in zip(g, g[1:]):
+            dt = b[0] - a[0]
+            if dt <= 0: continue
+            th = a[3]
+            out.append((b[0], ((b[1] - a[1]) * math.cos(th) + (b[2] - a[2]) * math.sin(th)) / dt, (b[3] - a[3]) / dt))
+        return out
     out = []
     j0 = j1 = 0
     for i, (t, x, y, th) in enumerate(g):
