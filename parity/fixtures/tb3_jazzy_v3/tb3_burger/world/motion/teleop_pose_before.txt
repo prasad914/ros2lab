@@ -1,0 +1,9 @@
+
+Requesting state for world [default]...
+
+[1;33mWarning [Utils.cc:132][0m [/sdf/model[@name="turtlebot3_burger"]/link[@name="base_scan"]/sensor[@name="hls_lfcd_lds"]/gz_frame_id:<data-string>:L163]: XML Element[gz_frame_id], child of element[sensor], not defined in SDF. Copying[gz_frame_id] as children of [sensor].
+Model: [43]
+  - Name: burger
+  - Pose [ XYZ (m) ] [ RPY (rad) ]:
+    [-2.014230 -0.500000 0.010009]
+    [-0.000000 -0.012460 -0.000000]
