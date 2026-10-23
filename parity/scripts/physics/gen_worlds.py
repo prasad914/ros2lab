@@ -186,12 +186,12 @@ TB3_SENSOR_SYSTEMS = '''    <plugin filename="gz-sim-sensors-system" name="gz::s
     <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"/>'''
 
 
-def tb3(uri='model://turtlebot3_burger', x=0.0):
+def tb3(uri='model://turtlebot3_burger', x=0.0, name='burger'):
     """The INSTALLED TurtleBot3 burger model (turtlebot3_gazebo/models), unchanged, plus a PosePublisher for ground truth
     (a <plugin> inside <include> is merged into the model by SDFormat 1.9+)."""
     return f'''    <include>
       <uri>{uri}</uri>
-      <name>burger</name>
+      <name>{name}</name>
       <pose>{x} 0 0.01 0 0 0</pose>
       {pose_pub()}
     </include>'''
@@ -210,6 +210,9 @@ def tb3_worlds():
       <link name="link"><collision name="c"><geometry><box><size>0.1 4 1</size></box></geometry></collision>
         <visual name="v"><geometry><box><size>0.1 4 1</size></box></geometry></visual></link></model>'''
     W['tb3_sensors_wall'] = world('tb3_sensors_wall', TB3_SENSOR_SYSTEMS + '\n' + ground() + '\n' + tb3() + '\n' + wall)
+    # Night 1 (2026-10-23): driving into the same wall (no sensor systems), and the installed Waffle Pi model
+    W['tb3_wall'] = world('tb3_wall', ground() + '\n' + tb3() + '\n' + wall)
+    W['tb3_drive_wp'] = world('tb3_drive_wp', ground() + '\n' + tb3('model://turtlebot3_waffle_pi', name='waffle_pi'))
     return W
 
 

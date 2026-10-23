@@ -20,7 +20,7 @@ import time
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..', '..'))
 WORLDS = os.path.join(HERE, 'worlds')
-OUT = os.path.join(REPO, 'parity', 'fixtures', 'physics')
+OUT = os.environ.get('PHYS_OUT') or os.path.join(REPO, 'parity', 'fixtures', 'physics')
 DOMAIN = '50'
 
 
@@ -76,6 +76,16 @@ for name, world in (('tb3_lin', 'tb3_drive'), ('tb3_lin_noacc', 'tb3_drive_noacc
     CASES[name] = dict(world=world, until=11.0, subs=poses('burger') + ['/odom:odom'], cmds=[TW(vx=0.2)], tb3=True)
 for name, world in (('tb3_ang', 'tb3_drive'), ('tb3_ang_noacc', 'tb3_drive_noacc')):
     CASES[name] = dict(world=world, until=11.0, subs=poses('burger') + ['/odom:odom'], cmds=[TW(wz=1.0)], tb3=True)
+# Night 1 (2026-10-23) calibration cases: commands at any time (TWt), stop distance, no clamp above the teleop limits,
+# driving into a wall, and the Waffle Pi (wheel separation 0.287 m)
+TWt = lambda t, vx=0.0, wz=0.0: json.dumps(dict(t=t, type='Twist', topic='/cmd_vel', msg=f'linear {{ x: {vx} }} angular {{ z: {wz} }}'))
+CASES['tb3_stop'] = dict(world='tb3_drive', until=9.0, subs=poses('burger') + ['/odom:odom'], cmds=[TWt(1.0, vx=0.2), TWt(6.0)], tb3=True)
+CASES['tb3_fast'] = dict(world='tb3_drive', until=6.0, subs=poses('burger') + ['/odom:odom'], cmds=[TWt(1.0, vx=0.5)], tb3=True)
+CASES['tb3_spin_fast'] = dict(world='tb3_drive', until=6.0, subs=poses('burger') + ['/odom:odom'], cmds=[TWt(1.0, wz=4.0)], tb3=True)
+CASES['tb3_wall'] = dict(world='tb3_wall', until=11.0, subs=poses('burger') + ['/odom:odom'], cmds=[TWt(1.0, vx=0.2)], tb3=True)
+CASES['tb3wp_lin'] = dict(world='tb3_drive_wp', until=11.0, subs=poses('waffle_pi') + ['/odom:odom'], cmds=[TWt(1.0, vx=0.2)], tb3=True)
+CASES['tb3wp_ang'] = dict(world='tb3_drive_wp', until=11.0, subs=poses('waffle_pi') + ['/odom:odom'], cmds=[TWt(1.0, wz=1.0)], tb3=True)
+CASES['tb3wp_stop'] = dict(world='tb3_drive_wp', until=9.0, subs=poses('waffle_pi') + ['/odom:odom'], cmds=[TWt(1.0, vx=0.26), TWt(6.0)], tb3=True)
 CASES['tb3_push'] = dict(world='tb3_push', until=9.0, subs=poses('burger', 'light_box') + ['/odom:odom'], cmds=[TW(vx=0.2)], tb3=True)
 for w in ('tb3_sensors_empty', 'tb3_sensors_wall'):
     CASES[w] = dict(world=w, until=62.0, subs=['/scan:scan', '/imu:imu'] + poses('burger'), tb3=True,

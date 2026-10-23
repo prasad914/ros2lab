@@ -1,0 +1,14 @@
+{
+ "world": "tb3_drive_wp",
+ "until": 9.0,
+ "subs": [
+  "/model/waffle_pi/pose:pose_v",
+  "/odom:odom"
+ ],
+ "cmds": [
+  "{\"t\": 1.0, \"type\": \"Twist\", \"topic\": \"/cmd_vel\", \"msg\": \"linear { x: 0.26 } angular { z: 0.0 }\"}",
+  "{\"t\": 6.0, \"type\": \"Twist\", \"topic\": \"/cmd_vel\", \"msg\": \"linear { x: 0.0 } angular { z: 0.0 }\"}"
+ ],
+ "tb3": true,
+ "case": "tb3wp_stop"
+}
