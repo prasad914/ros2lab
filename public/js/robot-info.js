@@ -22,8 +22,9 @@ export async function loadRobots() {
   };
 }
 
-// "course" for the TurtleBot3 robots; every other robot is under test, also when the field is missing
-export const statusOf = (g) => (g.status === "course" ? "course" : "under_test");
+// "active" for the robots the course uses (public/robots/course-required.json, written into index.json by
+// tools/apply-robot-status.mjs); every other robot is under test, also when the field is missing
+export const statusOf = (g) => (g.status === "active" ? "active" : "under_test");
 
 // sensors: [{ name, type, topic }] from the Gazebo setup (sim) or the Waffle Pi's published specs
 export const sensorsOf = (g) => (g.sim && g.sim.sensors) || (g.specs && g.specs.sensors) || [];
@@ -49,7 +50,7 @@ export function facts(g, data) {
   return out;
 }
 
-export const statusBadge = (g) => statusOf(g) === "course" ? h("span", { class: "st st-ok", text: "Course robot" }) : h("span", { class: "st st-test", text: "Under test" });
+export const statusBadge = (g) => statusOf(g) === "active" ? h("span", { class: "st st-ok", text: "Course robot" }) : h("span", { class: "st st-test", text: "Under test" });
 
 // the picture: the shipped one, else drawn once from the URDF when the card scrolls into view (one at a time)
 let queue = Promise.resolve();

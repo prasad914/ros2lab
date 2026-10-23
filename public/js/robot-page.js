@@ -39,7 +39,7 @@ function render(g, data) {
     ["Source", g.source && g.source.url && h("span", {}, link(g.source.url, g.source.url.replace("https://github.com/", "")), g.source.license ? ` · ${g.source.license}` : "")],
   ].filter(([, v]) => v);
   const url = `rviz.html?robot=${encodeURIComponent(g.id)}`;
-  const test = statusOf(g) !== "course";
+  const test = statusOf(g) !== "active";
   root.replaceChildren(
     h("div", { class: "rbpic" }, picture(g, "rbimg")),
     h("div", { class: "rbinfo" },

@@ -2,6 +2,8 @@
  {
   "id": "arm3",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "manipulator",
   "title": "3-DOF arm with a gripper",
   "file": "arm3/urdf/arm3_gripper.urdf.xacro",
@@ -45,7 +47,9 @@
  },
  {
   "id": "arm6",
-  "status": "under_test",
+  "status": "active",
+  "status_reason": "Robots used by lessons stay active: lesson UR7 RViz block (\"robot\": \"arm6\").",
+  "status_since": "2026-10-23",
   "category": "manipulator",
   "title": "6-DOF industrial arm",
   "file": "arm6/urdf/arm6.urdf.xacro",
@@ -86,7 +90,9 @@
  },
  {
   "id": "quadcopter",
-  "status": "under_test",
+  "status": "active",
+  "status_reason": "Lesson RV6 gallery block opens with it (\"robot\": \"quadcopter\", gallery: true). Kept active on Night 1; owner to confirm (UNRESOLVED in COURSE_ROBOT_REFERENCES.md).",
+  "status_since": "2026-10-23",
   "category": "drone",
   "title": "Quadcopter",
   "file": "quadcopter/urdf/quadcopter.urdf.xacro",
@@ -102,7 +108,9 @@
  },
  {
   "id": "chiku",
-  "status": "under_test",
+  "status": "active",
+  "status_reason": "Owner decision 2026-10-23: the chiku URDF. Lessons UR4, RV2, RV4 RViz blocks (\"robot\": \"chiku\").",
+  "status_since": "2026-10-23",
   "category": "mobile",
   "title": "Chiku: 2-wheeled mobile robot",
   "file": "chiku/urdf/chiku.urdf.xacro",
@@ -122,7 +130,9 @@
  },
  {
   "id": "chiku_mesh",
-  "status": "under_test",
+  "status": "active",
+  "status_reason": "Lesson XT4 RViz block edits its file /robots/chiku_description/urdf/chiku_mesh.urdf.xacro (the chiku URDF with meshes).",
+  "status_since": "2026-10-23",
   "category": "mobile",
   "title": "Chiku with mesh files",
   "file": "chiku_description/urdf/chiku_mesh.urdf.xacro",
@@ -134,6 +144,8 @@
  {
   "id": "quadruped",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "legged",
   "title": "4-legged robot",
   "file": "quadruped/urdf/quadruped.urdf.xacro",
@@ -153,7 +165,9 @@
  },
  {
   "id": "hexapod",
-  "status": "under_test",
+  "status": "active",
+  "status_reason": "Robots used by lessons stay active: lesson XT3 RViz block (\"robot\": \"hexapod\").",
+  "status_since": "2026-10-23",
   "category": "legged",
   "title": "6-legged spider robot",
   "file": "hexapod/urdf/hexapod.urdf.xacro",
@@ -170,6 +184,8 @@
  {
   "id": "humanoid",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "legged",
   "title": "Humanoid",
   "file": "humanoid/urdf/humanoid.urdf.xacro",
@@ -186,6 +202,8 @@
  {
   "id": "mobile_manipulator",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "hybrid",
   "title": "Hybrid: mobile manipulator",
   "file": "mobile_manipulator/urdf/mobile_manipulator.urdf.xacro",
@@ -203,6 +221,8 @@
  {
   "id": "legged_manipulator",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "hybrid",
   "title": "Hybrid: legged manipulator",
   "file": "legged_manipulator/urdf/legged_manipulator.urdf.xacro",
@@ -215,6 +235,8 @@
  {
   "id": "ackermann",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "mobile",
   "title": "Car-like (Ackermann) robot",
   "file": "ackermann/urdf/ackermann.urdf.xacro",
@@ -226,6 +248,8 @@
  {
   "id": "mecanum",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "mobile",
   "title": "Mecanum (omnidirectional) robot",
   "file": "mecanum/urdf/mecanum.urdf.xacro",
@@ -236,7 +260,9 @@
  },
  {
   "id": "ur5e",
-  "status": "under_test",
+  "status": "active",
+  "status_reason": "Owner decision 2026-10-23: the UR arm of the UR/XT/RV lessons. Lesson UR7 RViz block (\"robot\": \"ur5e\").",
+  "status_since": "2026-10-23",
   "category": "manipulator",
   "title": "Universal Robots UR5e",
   "vendor": "Universal Robots",
@@ -283,6 +309,8 @@
  {
   "id": "fr3",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "manipulator",
   "title": "Franka Research 3 with Franka Hand",
   "vendor": "Franka Robotics",
@@ -340,6 +368,8 @@
  {
   "id": "gen3",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "manipulator",
   "title": "Kinova Gen3 7-DOF with vision module",
   "vendor": "Kinova",
@@ -425,6 +455,8 @@
  {
   "id": "xarm6",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "manipulator",
   "title": "UFACTORY xArm 6",
   "vendor": "UFACTORY",
@@ -471,6 +503,8 @@
  {
   "id": "lite6",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "manipulator",
   "title": "UFACTORY Lite 6",
   "vendor": "UFACTORY",
@@ -517,6 +551,8 @@
  {
   "id": "cr5",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "manipulator",
   "title": "Dobot CR5",
   "vendor": "Dobot",
@@ -564,6 +600,8 @@
  {
   "id": "magician",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "manipulator",
   "title": "Dobot Magician",
   "vendor": "Dobot",
@@ -617,6 +655,8 @@
  {
   "id": "so101",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "manipulator",
   "title": "SO-101 (LeRobot arm)",
   "vendor": "The Robot Studio / Hugging Face",
@@ -680,6 +720,8 @@
  {
   "id": "wx250s",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "manipulator",
   "title": "Trossen WidowX 250 6DOF",
   "vendor": "Trossen Robotics",
@@ -735,6 +777,8 @@
  {
   "id": "irb120",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "manipulator",
   "title": "ABB IRB 120",
   "vendor": "ABB",
@@ -781,6 +825,8 @@
  {
   "id": "kr6",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "manipulator",
   "title": "KUKA KR 6 R900 sixx (Agilus)",
   "vendor": "KUKA",
@@ -828,6 +874,8 @@
  {
   "id": "lrmate",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "manipulator",
   "title": "FANUC LR Mate 200iD",
   "vendor": "FANUC",
@@ -874,7 +922,10 @@
  },
  {
   "id": "tb3_waffle",
-  "status": "course",
+  "status": "active",
+  "status_reason": "Legacy (same base as the Waffle Pi, RealSense camera). Active because lesson RV2 tells students to choose TurtleBot3 Waffle on the Simulator page (content/course-content.json:28383).",
+  "status_since": "2026-10-23",
+  "legacy": true,
   "category": "mobile",
   "title": "TurtleBot3 Waffle",
   "vendor": "ROBOTIS",
@@ -954,7 +1005,9 @@
  },
  {
   "id": "tb3_waffle_pi",
-  "status": "course",
+  "status": "active",
+  "status_reason": "Owner decision 2026-10-23: course robot.",
+  "status_since": "2026-10-23",
   "category": "mobile",
   "title": "TurtleBot3 Waffle Pi",
   "vendor": "ROBOTIS",
@@ -980,7 +1033,9 @@
  },
  {
   "id": "tb3_burger",
-  "status": "course",
+  "status": "active",
+  "status_reason": "Owner decision 2026-10-23: course robot. Lesson R4 (TURTLEBOT3_MODEL=burger, turtlebot3_gazebo turtlebot3_world.launch.py).",
+  "status_since": "2026-10-23",
   "category": "mobile",
   "title": "TurtleBot3 Burger",
   "vendor": "ROBOTIS",
@@ -1046,6 +1101,8 @@
  {
   "id": "scout",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "mobile",
   "title": "AgileX Scout V2",
   "vendor": "AgileX Robotics",
@@ -1091,6 +1148,8 @@
  {
   "id": "go2",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "legged",
   "title": "Unitree Go2",
   "vendor": "Unitree Robotics",
@@ -1164,6 +1223,8 @@
  {
   "id": "g1",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "legged",
   "title": "Unitree G1 humanoid (29 DOF)",
   "vendor": "Unitree Robotics",
@@ -1237,6 +1298,8 @@
  {
   "id": "h1",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "legged",
   "title": "Unitree H1 humanoid",
   "vendor": "Unitree Robotics",
@@ -1311,6 +1374,8 @@
  {
   "id": "spot",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "legged",
   "title": "Boston Dynamics Spot",
   "vendor": "Boston Dynamics (description by RAI Institute)",
@@ -1360,6 +1425,8 @@
  {
   "id": "crazyflie",
   "status": "under_test",
+  "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+  "status_since": "2026-10-23",
   "category": "drone",
   "title": "Bitcraze Crazyflie 2.1",
   "vendor": "Bitcraze",

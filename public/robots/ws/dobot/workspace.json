@@ -532,22 +532,34 @@
   "sim": [
    {
     "title": "Gazebo simulation",
-    "cmd": "ros2 launch dobot_gazebo dobot_gazebo.launch.py"
+    "cmd": "ros2 launch dobot_gazebo dobot_gazebo.launch.py",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    }
   ],
   "moveit": [
    {
     "title": "Gazebo + MoveIt 2",
-    "cmd": "ros2 launch dobot_gazebo sim.launch.py"
+    "cmd": "ros2 launch dobot_gazebo sim.launch.py",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    },
    {
     "title": "MoveIt 2 virtual simulation (no Gazebo)",
-    "cmd": "ros2 launch dobot_moveit moveit_demo.launch.py"
+    "cmd": "ros2 launch dobot_moveit moveit_demo.launch.py",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    }
   ],
   "rviz": {
    "title": "Robot model in RViz",
-   "cmd": "ros2 launch dobot_rviz dobot_rviz.launch.py"
+   "cmd": "ros2 launch dobot_rviz dobot_rviz.launch.py",
+   "status": "under_test",
+   "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+   "status_since": "2026-10-23"
   },
   "real": {
    "title": "Real CR5 (TCP/IP driver) + MoveIt 2",
@@ -557,7 +569,10 @@
     "IP_address": "192.168.5.1"
    },
    "needs": "a Dobot CR5 (V4 controller firmware) on the same subnet",
-   "notes": "export DOBOT_TYPE=cr5 and export IP_address=<robot IP> first. Demo: ros2 run dobot_demo demo"
+   "notes": "export DOBOT_TYPE=cr5 and export IP_address=<robot IP> first. Demo: ros2 run dobot_demo demo",
+   "status": "under_test",
+   "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+   "status_since": "2026-10-23"
   }
  },
  "ubuntu": {

@@ -537,29 +537,44 @@
   "sim": [
    {
     "title": "Gazebo: show the FR3",
-    "cmd": "ros2 launch franka_gazebo_bringup visualize_franka_robot.launch.py"
+    "cmd": "ros2 launch franka_gazebo_bringup visualize_franka_robot.launch.py",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    },
    {
     "title": "Gazebo: joint impedance example controller",
-    "cmd": "ros2 launch franka_gazebo_bringup gazebo_franka_arm_example_controller.launch.py load_gripper:=true franka_hand:='franka_hand' controller:='joint_impedance_example_controller'"
+    "cmd": "ros2 launch franka_gazebo_bringup gazebo_franka_arm_example_controller.launch.py load_gripper:=true franka_hand:='franka_hand' controller:='joint_impedance_example_controller'",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    }
   ],
   "moveit": [
    {
     "title": "MoveIt 2 with fake hardware",
-    "cmd": "ros2 launch franka_fr3_moveit_config moveit.launch.py robot_ip:=dont-care use_fake_hardware:=true"
+    "cmd": "ros2 launch franka_fr3_moveit_config moveit.launch.py robot_ip:=dont-care use_fake_hardware:=true",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    }
   ],
   "rviz": {
    "title": "Robot model in RViz",
-   "cmd": "ros2 launch franka_description visualize_franka.launch.py robot_type:=fr3"
+   "cmd": "ros2 launch franka_description visualize_franka.launch.py robot_type:=fr3",
+   "status": "under_test",
+   "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+   "status_since": "2026-10-23"
   },
   "real": {
    "title": "Real FR3 (franka_hardware + libfranka)",
    "cmd": "ros2 launch franka_fr3_moveit_config moveit.launch.py robot_ip:=<fci-ip>",
    "then": "ros2 launch franka_bringup example.launch.py controller_names:=move_to_start_example_controller",
    "needs": "an FR3 with the Franka Control Interface (FCI) feature, a real-time kernel and libfranka 0.20.5",
-   "notes": "Set the robot IP in franka_bringup/config/franka.config.yaml for example.launch.py."
+   "notes": "Set the robot IP in franka_bringup/config/franka.config.yaml for example.launch.py.",
+   "status": "under_test",
+   "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+   "status_since": "2026-10-23"
   }
  },
  "ubuntu": {

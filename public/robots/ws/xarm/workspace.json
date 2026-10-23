@@ -314,56 +314,86 @@
    {
     "robot": "xarm6",
     "title": "Gazebo: xArm6 beside a table",
-    "cmd": "ros2 launch xarm_gazebo xarm6_beside_table_gazebo.launch.py"
+    "cmd": "ros2 launch xarm_gazebo xarm6_beside_table_gazebo.launch.py",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    },
    {
     "robot": "lite6",
     "title": "Gazebo: Lite 6 beside a table",
-    "cmd": "ros2 launch xarm_gazebo lite6_beside_table_gazebo.launch.py"
+    "cmd": "ros2 launch xarm_gazebo lite6_beside_table_gazebo.launch.py",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    },
    {
     "robot": "xarm6",
     "title": "Gazebo: xArm6 beside a table + controllers and RViz",
-    "cmd": "ros2 launch xarm_gazebo xarm6_beside_table_gazebo.launch.py load_controller:=true show_rviz:=true"
+    "cmd": "ros2 launch xarm_gazebo xarm6_beside_table_gazebo.launch.py load_controller:=true show_rviz:=true",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    },
    {
     "robot": "lite6",
     "title": "Gazebo: Lite 6 beside a table + controllers and RViz",
-    "cmd": "ros2 launch xarm_gazebo lite6_beside_table_gazebo.launch.py load_controller:=true show_rviz:=true"
+    "cmd": "ros2 launch xarm_gazebo lite6_beside_table_gazebo.launch.py load_controller:=true show_rviz:=true",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    }
   ],
   "moveit": [
    {
     "robot": "xarm6",
     "title": "MoveIt 2 (fake controllers)",
-    "cmd": "ros2 launch xarm_moveit_config xarm6_moveit_fake.launch.py"
+    "cmd": "ros2 launch xarm_moveit_config xarm6_moveit_fake.launch.py",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    },
    {
     "robot": "xarm6",
     "title": "Gazebo + MoveIt 2",
-    "cmd": "ros2 launch xarm_moveit_config xarm6_moveit_gazebo.launch.py"
+    "cmd": "ros2 launch xarm_moveit_config xarm6_moveit_gazebo.launch.py",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    },
    {
     "robot": "lite6",
     "title": "MoveIt 2 (fake controllers)",
-    "cmd": "ros2 launch xarm_moveit_config lite6_moveit_fake.launch.py"
+    "cmd": "ros2 launch xarm_moveit_config lite6_moveit_fake.launch.py",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    },
    {
     "robot": "lite6",
     "title": "Gazebo + MoveIt 2",
-    "cmd": "ros2 launch xarm_moveit_config lite6_moveit_gazebo.launch.py"
+    "cmd": "ros2 launch xarm_moveit_config lite6_moveit_gazebo.launch.py",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    }
   ],
   "rviz": [
    {
     "robot": "xarm6",
     "title": "Robot model in RViz",
-    "cmd": "ros2 launch xarm_description xarm6_rviz_display.launch.py"
+    "cmd": "ros2 launch xarm_description xarm6_rviz_display.launch.py",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    },
    {
     "robot": "lite6",
     "title": "Robot model in RViz",
-    "cmd": "ros2 launch xarm_description lite6_rviz_display.launch.py"
+    "cmd": "ros2 launch xarm_description lite6_rviz_display.launch.py",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    }
   ],
   "real": [
@@ -372,14 +402,20 @@
     "title": "Real xArm6 + MoveIt 2",
     "cmd": "ros2 launch xarm_moveit_config xarm6_moveit_realmove.launch.py robot_ip:=192.168.1.117",
     "needs": "an xArm6 controller on the network",
-    "notes": "Use the controller's IP. Driver only: ros2 launch xarm_api xarm6_driver.launch.py robot_ip:=192.168.1.117"
+    "notes": "Use the controller's IP. Driver only: ros2 launch xarm_api xarm6_driver.launch.py robot_ip:=192.168.1.117",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    },
    {
     "robot": "lite6",
     "title": "Real Lite 6 + MoveIt 2",
     "cmd": "ros2 launch xarm_moveit_config lite6_moveit_realmove.launch.py robot_ip:=192.168.1.161",
     "needs": "a Lite 6 controller on the network",
-    "notes": "Use the controller's IP. Driver only: ros2 launch xarm_api lite6_driver.launch.py robot_ip:=192.168.1.161"
+    "notes": "Use the controller's IP. Driver only: ros2 launch xarm_api lite6_driver.launch.py robot_ip:=192.168.1.161",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    }
   ]
  },

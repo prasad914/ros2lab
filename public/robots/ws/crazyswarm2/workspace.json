@@ -203,21 +203,30 @@
    {
     "title": "Crazyswarm2 software-in-the-loop simulation (crazyflie_sim, RViz)",
     "cmd": "ros2 launch crazyflie launch.py backend:=sim rviz:=True",
-    "then": "ros2 run crazyflie_examples hello_world --ros-args -p use_sim_time:=True"
+    "then": "ros2 run crazyflie_examples hello_world --ros-args -p use_sim_time:=True",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    }
   ],
   "sim_note": "Crazyswarm2's simulator is its own Python node (crazyflie_sim), not Gazebo. Bitcraze's Gazebo Harmonic model (bitcraze/crazyflie-simulation) is not a ROS 2 package and its ROS bridge (knmcguire/ros_gz_crazyflie) is a personal Humble demo, so there is no official ROS 2 Jazzy + Gazebo launch.",
   "teleop": {
    "title": "Keyboard velocity control (real Crazyflie)",
    "cmd": "ros2 launch crazyflie_examples keyboard_velmux_launch.py",
-   "hw": "the real radio (cpp backend)"
+   "hw": "the real radio (cpp backend)",
+   "status": "under_test",
+   "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+   "status_since": "2026-10-23"
   },
   "real": {
    "title": "Real Crazyflie (Crazyradio)",
    "cmd": "ros2 launch crazyflie launch.py",
    "then": "ros2 run crazyflie_examples hello_world",
    "needs": "a Crazyflie 2.x and a Crazyradio PA/2.0 (and cflib installed with pip)",
-   "notes": "Edit crazyflie/config/crazyflies.yaml with the radio URI of each drone."
+   "notes": "Edit crazyflie/config/crazyflies.yaml with the radio URI of each drone.",
+   "status": "under_test",
+   "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+   "status_since": "2026-10-23"
   }
  },
  "ubuntu": {

@@ -639,6 +639,7 @@ async function main() {
     index[id] = { title: ws.title, robots: ws.robots, bytes: ws.stats.bytes, files: ws.stats.files, gazebo: cmds.some((c) => /gazebo|\bgz\b|_gz\b|gz_|_sim_control/.test(c)) };
   }
   fs.writeFileSync(path.join(OUT, "index.json"), JSON.stringify({ distro: "jazzy", workspaces: index }, null, 1) + "\n");
+  await import("./apply-robot-status.mjs");   // status / status_reason / status_since on the regenerated files
   const total = Object.values(index).reduce((s, w) => s + w.bytes, 0);
   console.log(`\nTOTAL ${(total / 1e6).toFixed(2)} MB in ${Object.keys(index).length} workspaces`);
 }

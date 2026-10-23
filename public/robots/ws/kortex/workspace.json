@@ -282,33 +282,51 @@
   "sim": [
    {
     "title": "Gazebo + ros2_control (Gen3 7-DoF)",
-    "cmd": "ros2 launch kortex_bringup kortex_sim_control.launch.py use_sim_time:=true launch_rviz:=false"
+    "cmd": "ros2 launch kortex_bringup kortex_sim_control.launch.py use_sim_time:=true launch_rviz:=false",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    }
   ],
   "moveit": [
    {
     "title": "MoveIt 2 for the Gazebo arm (start \"Gazebo + ros2_control\" first)",
-    "cmd": "ros2 launch kinova_gen3_7dof_robotiq_2f_85_moveit_config sim.launch.py use_sim_time:=true"
+    "cmd": "ros2 launch kinova_gen3_7dof_robotiq_2f_85_moveit_config sim.launch.py use_sim_time:=true",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    },
    {
     "title": "MoveIt 2 with fake hardware",
-    "cmd": "ros2 launch kinova_gen3_7dof_robotiq_2f_85_moveit_config robot.launch.py robot_ip:=yyy.yyy.yyy.yyy use_fake_hardware:=true"
+    "cmd": "ros2 launch kinova_gen3_7dof_robotiq_2f_85_moveit_config robot.launch.py robot_ip:=yyy.yyy.yyy.yyy use_fake_hardware:=true",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    }
   ],
   "rviz": {
    "title": "Robot model in RViz",
-   "cmd": "ros2 launch kortex_description view_robot.launch.py"
+   "cmd": "ros2 launch kortex_description view_robot.launch.py",
+   "status": "under_test",
+   "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+   "status_since": "2026-10-23"
   },
   "fake": {
    "title": "ros2_control with fake hardware",
-   "cmd": "ros2 launch kortex_bringup gen3.launch.py robot_ip:=yyy.yyy.yyy.yyy use_fake_hardware:=true"
+   "cmd": "ros2 launch kortex_bringup gen3.launch.py robot_ip:=yyy.yyy.yyy.yyy use_fake_hardware:=true",
+   "status": "under_test",
+   "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+   "status_since": "2026-10-23"
   },
   "real": {
    "title": "Real Gen3 (kortex_driver)",
    "cmd": "ros2 launch kortex_bringup gen3.launch.py robot_ip:=192.168.1.10",
    "then": "ros2 launch kinova_gen3_7dof_robotiq_2f_85_moveit_config robot.launch.py robot_ip:=192.168.1.10",
    "needs": "a Kinova Gen3 arm on the network (the Kortex API is downloaded by kortex_api at build time)",
-   "notes": "Default IP of the arm is 192.168.1.10."
+   "notes": "Default IP of the arm is 192.168.1.10.",
+   "status": "under_test",
+   "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+   "status_since": "2026-10-23"
   }
  },
  "known_issues": [

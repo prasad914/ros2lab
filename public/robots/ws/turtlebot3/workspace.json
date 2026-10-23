@@ -398,48 +398,78 @@
   "sim": [
    {
     "title": "Gazebo: TurtleBot3 World",
-    "cmd": "ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py"
+    "cmd": "ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py",
+    "status": "active",
+    "status_reason": "Entry of course robot(s) tb3_burger, tb3_waffle, tb3_waffle_pi.",
+    "status_since": "2026-10-23"
    },
    {
     "title": "Gazebo: empty world",
-    "cmd": "ros2 launch turtlebot3_gazebo empty_world.launch.py"
+    "cmd": "ros2 launch turtlebot3_gazebo empty_world.launch.py",
+    "status": "active",
+    "status_reason": "Entry of course robot(s) tb3_burger, tb3_waffle, tb3_waffle_pi.",
+    "status_since": "2026-10-23"
    },
    {
     "title": "Gazebo: TurtleBot3 House",
-    "cmd": "ros2 launch turtlebot3_gazebo turtlebot3_house.launch.py"
+    "cmd": "ros2 launch turtlebot3_gazebo turtlebot3_house.launch.py",
+    "status": "active",
+    "status_reason": "Entry of course robot(s) tb3_burger, tb3_waffle, tb3_waffle_pi.",
+    "status_since": "2026-10-23"
    }
   ],
   "slam": [
    {
     "title": "SLAM with Cartographer (run with a Gazebo world)",
-    "cmd": "ros2 launch turtlebot3_cartographer cartographer.launch.py use_sim_time:=True"
+    "cmd": "ros2 launch turtlebot3_cartographer cartographer.launch.py use_sim_time:=True",
+    "status": "active",
+    "status_reason": "Entry of course robot(s) tb3_burger, tb3_waffle, tb3_waffle_pi.",
+    "status_since": "2026-10-23"
    }
   ],
   "map_save": {
    "title": "Save the map",
-   "cmd": "ros2 run nav2_map_server map_saver_cli -f ~/map"
+   "cmd": "ros2 run nav2_map_server map_saver_cli -f ~/map",
+   "status": "active",
+   "status_reason": "Entry of course robot(s) tb3_burger, tb3_waffle, tb3_waffle_pi.",
+   "status_since": "2026-10-23"
   },
   "nav": [
    {
     "title": "Nav2 with the map shipped in turtlebot3_navigation2 (TurtleBot3 World)",
-    "cmd": "ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True"
+    "cmd": "ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True",
+    "status": "active",
+    "status_reason": "Entry of course robot(s) tb3_burger, tb3_waffle, tb3_waffle_pi.",
+    "status_since": "2026-10-23"
    },
    {
     "title": "Navigation2 with a saved map (run with a Gazebo world)",
-    "cmd": "ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True map:=$HOME/map.yaml"
+    "cmd": "ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True map:=$HOME/map.yaml",
+    "status": "active",
+    "status_reason": "Entry of course robot(s) tb3_burger, tb3_waffle, tb3_waffle_pi.",
+    "status_since": "2026-10-23"
    }
   ],
   "teleop": {
    "title": "Keyboard teleoperation",
-   "cmd": "ros2 run turtlebot3_teleop teleop_keyboard"
+   "cmd": "ros2 run turtlebot3_teleop teleop_keyboard",
+   "status": "active",
+   "status_reason": "Entry of course robot(s) tb3_burger, tb3_waffle, tb3_waffle_pi.",
+   "status_since": "2026-10-23"
   },
   "rviz": {
    "title": "Robot model in RViz",
-   "cmd": "ros2 launch turtlebot3_bringup rviz2.launch.py"
+   "cmd": "ros2 launch turtlebot3_bringup rviz2.launch.py",
+   "status": "active",
+   "status_reason": "Entry of course robot(s) tb3_burger, tb3_waffle, tb3_waffle_pi.",
+   "status_since": "2026-10-23"
   },
   "fake": {
    "title": "Fake node (no physics) + RViz",
-   "cmd": "ros2 launch turtlebot3_fake_node turtlebot3_fake_node.launch.py"
+   "cmd": "ros2 launch turtlebot3_fake_node turtlebot3_fake_node.launch.py",
+   "status": "active",
+   "status_reason": "Entry of course robot(s) tb3_burger, tb3_waffle, tb3_waffle_pi.",
+   "status_since": "2026-10-23"
   },
   "real": {
    "title": "Real TurtleBot3 (run on the robot's Raspberry Pi)",
@@ -448,7 +478,10 @@
     "LDS_MODEL": "LDS-02"
    },
    "needs": "a TurtleBot3 with OpenCR board and LDS-01/02/03 lidar",
-   "notes": "Set LDS_MODEL to LDS-01, LDS-02 or LDS-03 to match the lidar, and TURTLEBOT3_MODEL to burger or waffle. Run teleop/SLAM/Nav2 on the remote PC with the same ROS_DOMAIN_ID."
+   "notes": "Set LDS_MODEL to LDS-01, LDS-02 or LDS-03 to match the lidar, and TURTLEBOT3_MODEL to burger or waffle. Run teleop/SLAM/Nav2 on the remote PC with the same ROS_DOMAIN_ID.",
+   "status": "active",
+   "status_reason": "Real-hardware entry of a course robot (behind the hardware license lock).",
+   "status_since": "2026-10-23"
   }
  },
  "ubuntu": {

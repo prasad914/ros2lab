@@ -250,34 +250,52 @@
   "sim": [
    {
     "title": "Gazebo + ros2_control",
-    "cmd": "ros2 launch ur_simulation_gz ur_sim_control.launch.py ur_type:=ur5e"
+    "cmd": "ros2 launch ur_simulation_gz ur_sim_control.launch.py ur_type:=ur5e",
+    "status": "active",
+    "status_reason": "Entry of course robot(s) ur5e.",
+    "status_since": "2026-10-23"
    }
   ],
   "moveit": [
    {
     "title": "Gazebo + MoveIt 2",
-    "cmd": "ros2 launch ur_simulation_gz ur_sim_moveit.launch.py ur_type:=ur5e"
+    "cmd": "ros2 launch ur_simulation_gz ur_sim_moveit.launch.py ur_type:=ur5e",
+    "status": "active",
+    "status_reason": "Entry of course robot(s) ur5e.",
+    "status_since": "2026-10-23"
    },
    {
     "title": "MoveIt 2 with mock hardware (start the mock driver first)",
     "cmd": "ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur5e robot_ip:=yyy.yyy.yyy.yyy use_mock_hardware:=true launch_rviz:=false",
-    "then": "ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur5e launch_rviz:=true"
+    "then": "ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur5e launch_rviz:=true",
+    "status": "active",
+    "status_reason": "Entry of course robot(s) ur5e.",
+    "status_since": "2026-10-23"
    }
   ],
   "example": {
    "title": "Example trajectory (with the Gazebo sim running)",
-   "cmd": "ros2 run ur_robot_driver example_move.py"
+   "cmd": "ros2 run ur_robot_driver example_move.py",
+   "status": "active",
+   "status_reason": "Entry of course robot(s) ur5e.",
+   "status_since": "2026-10-23"
   },
   "rviz": {
    "title": "Robot model in RViz",
-   "cmd": "ros2 launch ur_description view_ur.launch.py ur_type:=ur5e"
+   "cmd": "ros2 launch ur_description view_ur.launch.py ur_type:=ur5e",
+   "status": "active",
+   "status_reason": "Entry of course robot(s) ur5e.",
+   "status_since": "2026-10-23"
   },
   "real": {
    "title": "Real UR5e (ur_robot_driver)",
    "cmd": "ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur5e robot_ip:=192.168.56.101 launch_rviz:=true",
    "then": "ros2 launch ur_moveit_config ur_moveit.launch.py ur_type:=ur5e launch_rviz:=true",
    "needs": "a UR5e (PolyScope 5.x) with the External Control URCap installed",
-   "notes": "Use the robot's IP address; install the externalcontrol URCap from ur_robot_driver/resources and start the program on the teach pendant. URSim works too: ros2 run ur_client_library start_ursim.sh -m ur5e"
+   "notes": "Use the robot's IP address; install the externalcontrol URCap from ur_robot_driver/resources and start the program on the teach pendant. URSim works too: ros2 run ur_client_library start_ursim.sh -m ur5e",
+   "status": "active",
+   "status_reason": "Real-hardware entry of a course robot (behind the hardware license lock).",
+   "status_since": "2026-10-23"
   }
  },
  "ubuntu": {

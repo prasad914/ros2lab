@@ -508,23 +508,35 @@
   "moveit": [
    {
     "title": "MoveIt 2 with fake hardware",
-    "cmd": "ros2 launch interbotix_xsarm_moveit xsarm_moveit.launch.py robot_model:=wx250s hardware_type:=fake"
+    "cmd": "ros2 launch interbotix_xsarm_moveit xsarm_moveit.launch.py robot_model:=wx250s hardware_type:=fake",
+    "status": "under_test",
+    "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+    "status_since": "2026-10-23"
    }
   ],
   "rviz": {
    "title": "Robot model in RViz",
-   "cmd": "ros2 launch interbotix_xsarm_descriptions xsarm_description.launch.py robot_model:=wx250s use_joint_pub_gui:=true"
+   "cmd": "ros2 launch interbotix_xsarm_descriptions xsarm_description.launch.py robot_model:=wx250s use_joint_pub_gui:=true",
+   "status": "under_test",
+   "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+   "status_since": "2026-10-23"
   },
   "fake": {
    "title": "Control stack with fake hardware",
-   "cmd": "ros2 launch interbotix_xsarm_control xsarm_control.launch.py robot_model:=wx250s hardware_type:=fake"
+   "cmd": "ros2 launch interbotix_xsarm_control xsarm_control.launch.py robot_model:=wx250s hardware_type:=fake",
+   "status": "under_test",
+   "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+   "status_since": "2026-10-23"
   },
   "real": {
    "title": "Real WidowX 250 s (interbotix_xs_sdk)",
    "cmd": "ros2 launch interbotix_xsarm_control xsarm_control.launch.py robot_model:=wx250s",
    "then": "ros2 launch interbotix_xsarm_moveit xsarm_moveit.launch.py robot_model:=wx250s hardware_type:=actual",
    "needs": "a WidowX 250 s on USB (U2D2) with the udev rules from interbotix_xs_sdk",
-   "notes": "interbotix_ros_core needs its git submodules (dynamixel_workbench_toolbox, interbotix_xs_driver): vcs import --recursive fetches them."
+   "notes": "interbotix_ros_core needs its git submodules (dynamixel_workbench_toolbox, interbotix_xs_driver): vcs import --recursive fetches them.",
+   "status": "under_test",
+   "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+   "status_since": "2026-10-23"
   }
  },
  "ubuntu": {

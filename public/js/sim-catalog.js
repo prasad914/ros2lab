@@ -37,7 +37,7 @@ function card(g, data) {
       h("p", { class: "cat-about", text: firstSentence(g.about) }),
       h("ul", { class: "cat-facts" }, ...facts(g, data).map((f) => h("li", { text: f })))),
     h("span", { class: "cat-open", "aria-hidden": "true", text: "Open →" }));
-  a.dataset.search = `${g.title} ${g.vendor || ""} ${g.id} ${g.about || ""} ${cat} ${statusOf(g) === "course" ? "course robot" : "under test"} ${sens.map((s) => `${s.name || ""} ${s.type || ""} ${sensorKind(s)}`).join(" ")}`.toLowerCase();
+  a.dataset.search = `${g.title} ${g.vendor || ""} ${g.id} ${g.about || ""} ${cat} ${statusOf(g) === "active" ? "course robot" : "under test"} ${sens.map((s) => `${s.name || ""} ${s.type || ""} ${sensorKind(s)}`).join(" ")}`.toLowerCase();
   return a;
 }
 

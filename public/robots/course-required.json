@@ -1,0 +1,15 @@
+{
+ "about": "COURSE_REQUIRED_ROBOTS: the simulator robots the course needs. Each must stay \"status\": \"active\" in public/robots/index.json (checked by tests/robot-status.test.mjs). Every other robot is under_test. Lesson references: parity/reports/COURSE_ROBOT_REFERENCES.md. turtlesim and the course's own packages (chiku_control, chiku_control_cpp, ...) run in the lesson terminals and are not simulator robots.",
+ "since": "2026-10-23",
+ "robots": {
+  "tb3_burger": { "why": "Owner decision 2026-10-23: course robot. Lesson R4 (TURTLEBOT3_MODEL=burger, turtlebot3_gazebo turtlebot3_world.launch.py)." },
+  "tb3_waffle_pi": { "why": "Owner decision 2026-10-23: course robot." },
+  "tb3_waffle": { "why": "Legacy (same base as the Waffle Pi, RealSense camera). Active because lesson RV2 tells students to choose TurtleBot3 Waffle on the Simulator page (content/course-content.json:28383).", "legacy": true },
+  "ur5e": { "why": "Owner decision 2026-10-23: the UR arm of the UR/XT/RV lessons. Lesson UR7 RViz block (\"robot\": \"ur5e\")." },
+  "chiku": { "why": "Owner decision 2026-10-23: the chiku URDF. Lessons UR4, RV2, RV4 RViz blocks (\"robot\": \"chiku\")." },
+  "chiku_mesh": { "why": "Lesson XT4 RViz block edits its file /robots/chiku_description/urdf/chiku_mesh.urdf.xacro (the chiku URDF with meshes)." },
+  "arm6": { "why": "Robots used by lessons stay active: lesson UR7 RViz block (\"robot\": \"arm6\")." },
+  "hexapod": { "why": "Robots used by lessons stay active: lesson XT3 RViz block (\"robot\": \"hexapod\")." },
+  "quadcopter": { "why": "Lesson RV6 gallery block opens with it (\"robot\": \"quadcopter\", gallery: true). Kept active on Night 1; owner to confirm (UNRESOLVED in COURSE_ROBOT_REFERENCES.md)." }
+ }
+}

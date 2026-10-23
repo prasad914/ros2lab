@@ -86,14 +86,20 @@
   "sim_note": "The official jazzy branch has no Gazebo package.",
   "rviz": {
    "title": "Robot model (robot_state_publisher)",
-   "cmd": "ros2 launch scout_description scout_base_description.launch.py"
+   "cmd": "ros2 launch scout_description scout_base_description.launch.py",
+   "status": "under_test",
+   "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+   "status_since": "2026-10-23"
   },
   "real": {
    "title": "Real Scout (CAN)",
    "cmd": "ros2 launch scout_base scout_base.launch.py",
    "then": "ros2 run teleop_twist_keyboard teleop_twist_keyboard",
    "needs": "an AgileX Scout connected with a CAN adapter (can0 up at 500k)",
-   "notes": "Needs ugv_sdk in the workspace (included in scout.repos)."
+   "notes": "Needs ugv_sdk in the workspace (included in scout.repos).",
+   "status": "under_test",
+   "status_reason": "Not used by the course lessons; its simulation is being checked against real ROS 2 Jazzy (owner decision 2026-10-23).",
+   "status_since": "2026-10-23"
   }
  },
  "known_issues": [
