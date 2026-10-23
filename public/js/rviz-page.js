@@ -14,6 +14,7 @@ import { licenseStatus, cachedLicense, licensed, licenseMessage, requestLicense 
 import { TfBuffer } from "./tf-buffer.js";
 import { FrameManager } from "./frame-manager.js";
 import { FIXTURE_STATUS } from "./games/fixture-status.js";
+import { underTestOpen } from "./robot-info.js";
 
 const ROBOT = typeof location !== "undefined" ? (new URLSearchParams(location.search).get("robot") || "") : "";
 const tfRegistry = new TfBuffer({ robotId: ROBOT });
@@ -696,7 +697,7 @@ async function openRealWorkspace(g, W) {
     if (e.hw) b.append(document.createElement("br"), Object.assign(document.createElement("span"), { className: "rvp-unval", textContent: `Needs ${e.hw}: locked without a hardware license` }));
     if (isReal || !cmdValidated(g.id, e.cmd)) { b.append(document.createElement("br"), Object.assign(document.createElement("span"), { className: "rvp-unval", textContent: UNVALIDATED })); }
     // an entry under test (workspace.json "status"): shown, but it cannot be started from here
-    if (e.status === "under_test") { b.disabled = true; b.dataset.underTest = ""; b.append(document.createElement("br"), Object.assign(document.createElement("span"), { className: "rvp-unval", textContent: "Under test: launching is switched off" })); }
+    if (e.status === "under_test" && !underTestOpen()) { b.disabled = true; b.dataset.underTest = ""; b.append(document.createElement("br"), Object.assign(document.createElement("span"), { className: "rvp-unval", textContent: "Under test: launching is switched off" })); }
     b.addEventListener("click", () => runEntry(e, isReal));
     return b;
   };
@@ -714,7 +715,7 @@ async function openRealWorkspace(g, W) {
   paintRealTree(R);
   term.say(`(${g.title}: the makers' packages are in ~/ros2_ws/src. Build with colcon build, source install/setup.bash${envCmds.length ? `, ${envCmds.join(", ")}` : ""}, then launch. Pick a command above, or type it.)`);
   function runEntry(e, isReal) {
-    if (e.status === "under_test") return;
+    if (e.status === "under_test" && !underTestOpen()) return;
     if (isReal) { const gate = R.hwGate(); if (!gate.ok) { term.say(`(Real hardware: ${gate.message})`); return; } }
     if (term.busy()) term.newTerminal();   // a launch is running: like on Ubuntu, the next one goes in a new terminal
     const cmds = [...(sh.realWs.built.size ? ["cd ~/ros2_ws", "source install/setup.bash"] : base), ...(sh.realWs.built.size ? envCmds : []), e.cmd];
