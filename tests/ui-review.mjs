@@ -20,8 +20,9 @@ const MEMBER = ["index.html", "courses.html", "plan.html", "modelling.html", "rv
 const WIDTHS = [1440, 390];
 // noise that is not from the page (as in tests/ui-chrome.mjs): Firebase network messages and the localhost heartbeat
 const IGNORE = /firestore|firebase|googleapis|gstatic|recaptcha|ERR_INTERNET|net::ERR|Failed to load resource|cloudfunctions\.net\/heartbeat/i;
-// the type scale per checked width (theme.css --fs-*, step A0): xs, sm, base, lg, xl, 2xl, hero; anything else is reported
-const SCALE = { 1440: [13, 15, 18, 21, 26, 36, 48], 390: [13, 15, 17, 19, 23, 29, 34] };
+// the type scale per checked width (theme.css --fs-*, type polish): xs, label, sm, btn, base, lg, card, xl, 2xl, hero
+// (on phones btn = base = 17); anything else is reported
+const SCALE = { 1440: [13, 14, 15, 17, 18, 21, 23, 26, 36, 47], 390: [13, 14, 15, 17, 19, 21, 23, 29, 35] };
 // the practice computer, the certificate drawing, the simulator workbench, games and code blocks (15/14px, step A0)
 // keep their own type
 const OWN_TYPE = ".plab, .cert-sheet, .certmini, #cert-mini, #bench, .term, .tmr, .game, .pg-stage, #anim-stage, .anim, .lp-gz-view, .hg3-hud, .vsc, svg, pre.code";
