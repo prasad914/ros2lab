@@ -44,12 +44,13 @@ export function parseRvizYaml(text) {
   try { return L.length ? block(L[0].ind) : {}; } catch { return {}; }
 }
 
-// The display list of a .rviz file, flattened (displays inside a Group come after the group): [{ cls, item, groupOff }]
-// groupOff: a Group around the display is disabled, so the display is inactive although its own Enabled may be true
+// The display list of a .rviz file, flattened (displays inside a Group come after the group): [{ cls, item, groupOff, depth }]
+// groupOff: a Group around the display is disabled, so the display is inactive although its own Enabled may be true;
+// depth: how many Groups it is inside (0 = top level), so a writer can nest the list again
 export function rvizDisplays(cfg) {
   const out = [];
   const on = (d) => (d.Enabled ?? d.Value) !== false;
-  const walk = (list, off = false) => { for (const d of Array.isArray(list) ? list : []) { if (!d || typeof d !== "object") continue; out.push({ cls: String(d.Class || ""), item: d, groupOff: off }); if (Array.isArray(d.Displays)) walk(d.Displays, off || !on(d)); } };
+  const walk = (list, off = false, depth = 0) => { for (const d of Array.isArray(list) ? list : []) { if (!d || typeof d !== "object") continue; out.push({ cls: String(d.Class || ""), item: d, groupOff: off, depth }); if (Array.isArray(d.Displays)) walk(d.Displays, off || !on(d), depth + 1); } };
   walk(cfg && cfg["Visualization Manager"] && cfg["Visualization Manager"].Displays);
   return out;
 }

@@ -174,7 +174,7 @@ export function createRviz(container, opts = {}) {
   const resolve = opts.resolve || ((url) => url);
   const mkDisplay = (type, name, enabled = true, props = {}, configured = false) => ({ id: ++seq, type, name: name || type, enabled, props: { ...defaultsOf(type), ...(configured ? CONFIGURED[type] || {} : {}), ...props }, status: [], autoNs: configured && type === "InteractiveMarkers", autoTopic: configured && (type === "Marker" || type === "MarkerArray") });
   const asMap = () => { const m = {}; for (const d of S.displays) m[d.type] = m[d.type] || d.enabled; return m; };
-  const enabled = (type) => S.displays.filter((d) => d.type === type && d.enabled);
+  const enabled = (type) => S.displays.filter((d) => d.type === type && d.enabled && !d.groupOff);   // a display in a disabled Group draws nothing
   const first = (type) => enabled(type)[0];
   const applyDisplayMap = (map) => {
     for (const [type, on] of Object.entries(map || {})) {
@@ -707,7 +707,7 @@ export function createRviz(container, opts = {}) {
     }
   }
   function placeRobot() {
-    const d = first("RobotModel") || (!S.displays.some((x) => x.type === "RobotModel") ? { props: { "Description Source": "Topic", "Description Topic": "/robot_description", "Visual Enabled": true, "Collision Enabled": false }, enabled: true } : null);
+    const d = first("RobotModel") || (!S.fromConfig && !S.displays.some((x) => x.type === "RobotModel") ? { props: { "Description Source": "Topic", "Description Topic": "/robot_description", "Visual Enabled": true, "Collision Enabled": false }, enabled: true } : null);
     const missing = [];
     const show = d && d.props["Description Source"] === "Topic" && d.props["Description Topic"] && descPublished(d.props["Description Topic"]) && S.model;
     for (const [name, g] of linkObjs) {
@@ -1115,7 +1115,7 @@ export function createRviz(container, opts = {}) {
     }
     // Image and Camera: their own render windows (docked under Displays, like RViz2)
     const live = new Set();
-    for (const d of S.displays.filter((x) => x.enabled && (x.type === "Image" || x.type === "Camera"))) {
+    for (const d of S.displays.filter((x) => x.enabled && !x.groupOff && (x.type === "Image" || x.type === "Camera"))) {
       live.add(d.id);
       const x = ready(d), k = dockFor(d);
       if (x && d.type === "Image") drawImage(k, x, d);
@@ -1945,10 +1945,30 @@ export function createRviz(container, opts = {}) {
   }
   function configText() {   // a .rviz file (YAML), like File -> Save Config
     const val = (v) => (typeof v === "string" && (v === "" || /[:#<>]/.test(v)) ? `"${v}"` : String(v));
-    const ds = S.displays.map((d) => [`    - Class: ${d.failed ? d.failed : `${pluginPkg(d.type)}/${d.type}`}`, `      Enabled: ${d.enabled}`, `      Name: ${d.name}`,
-      ...Object.entries(d.props).filter(([k]) => !k.includes(":")).map(([k, v]) => (k === "Topic" || k === "Description Topic" ? `      ${k}:\n        Depth: ${d.props.Depth ?? 5}\n        Durability Policy: ${d.props["Durability Policy"] || "Volatile"}\n        History Policy: ${d.props["History Policy"] || "Keep Last"}\n        Reliability Policy: ${d.props["Reliability Policy"] || "Reliable"}\n        Value: ${v}` : ["Depth", "Durability Policy", "History Policy", "Reliability Policy"].includes(k) ? null : `      ${k}: ${val(v)}`)).filter(Boolean), `      Value: ${d.enabled}`].join("\n")).join("\n");
+    // one display; a Group's children (the next displays one level deeper) go under its "Displays:" like rviz2 writes them
+    // a property with sub-properties (SCHEMA: Grid Line Style, Odometry Shape) is written as a map with its own Value, like rviz2
+    const qos = (pad, q, v) => `\n${pad}    Depth: ${q.Depth ?? 5}\n${pad}    Durability Policy: ${q["Durability Policy"] || "Volatile"}\n${pad}    History Policy: ${q["History Policy"] || "Keep Last"}\n${pad}    Reliability Policy: ${q["Reliability Policy"] || "Reliable"}\n${pad}    Value: ${v}`;
+    const one = (d, pad) => {
+      const kidsOf = Object.fromEntries((SCHEMA[d.type] || []).map((e) => [e, e[1] === "cat" ? e[3] : e[4]]).filter(([e, k]) => Array.isArray(k) && e[1] !== "topic").map(([e, k]) => [e[0], k.map((c) => c[0])]));
+      const cats = new Set((SCHEMA[d.type] || []).filter((e) => e[1] === "cat").map((e) => e[0]));
+      const isKid = new Set(Object.values(kidsOf).flat());
+      return [`${pad}- Class: ${d.failed ? d.failed : `${pluginPkg(d.type)}/${d.type}`}`, `${pad}  Enabled: ${d.enabled}`, `${pad}  Name: ${d.name}`,
+        ...[...cats].filter((k) => kidsOf[k].some((c) => c in d.props)).map((k) => `${pad}  ${k}:\n${kidsOf[k].filter((c) => c in d.props).map((c) => `${pad}    ${c}: ${val(d.props[c])}`).join("\n")}`),
+        ...Object.entries(d.props).filter(([k]) => !k.includes(":") && !isKid.has(k) && !cats.has(k)).map(([k, v]) => (k === "Topic" || k === "Description Topic" ? `${pad}  ${k}:${qos(pad, d.props, v)}`
+          : k === "Update Topic" ? `${pad}  ${k}:${qos(pad, d.updQos || {}, v)}`
+          : kidsOf[k] ? `${pad}  ${k}:\n${kidsOf[k].filter((c) => c in d.props).map((c) => `${pad}    ${c}: ${val(d.props[c])}\n`).join("")}${pad}    Value: ${val(v)}`
+          : ["Depth", "Durability Policy", "History Policy", "Reliability Policy"].includes(k) ? null : `${pad}  ${k}: ${val(v)}`)).filter(Boolean), `${pad}  Value: ${d.enabled}`];
+    };
+    const lines = [], L = S.displays;
+    const emit = (i, depth, pad) => { while (i < L.length && (L[i].depth || 0) >= depth) { const d = L[i]; if ((d.depth || 0) > depth) { i++; continue; } lines.push(...one(d, pad)); i++; if (/Group$/.test(d.type) && i < L.length && (L[i].depth || 0) > depth) { lines.push(`${pad}  Displays:`); i = emit(i, depth + 1, pad + "    "); } } return i; };
+    emit(0, 0, "    ");
+    const ds = lines.join("\n");
+    // the file's own Tools and Panels lists (rviz2 writes back what it loaded), else RViz's defaults
+    const dump = (o, pad) => Object.entries(o).map(([k, v]) => (v && typeof v === "object" && !Array.isArray(v) ? `${pad}${k}:\n${dump(v, pad + "  ")}` : Array.isArray(v) ? `${pad}${k}:${v.length ? "\n" + v.map((x) => (x && typeof x === "object" ? dump(x, pad + "    ").replace(/^\s+/, `${pad}  - `) : `${pad}  - ${val(x)}`)).join("\n") : " []"}` : `${pad}${k}: ${v === null ? "~" : val(v)}`)).join("\n");
+    const list = (items, pad) => items.map((x) => dump(x, pad + "  ").replace(/^\s+/, `${pad}- `)).join("\n");
     const V = S.view;
-    return `Panels:\n  - Class: rviz_common/Displays\n    Help Height: 78\n    Name: Displays\n    Property Tree Widget:\n      Expanded:\n        - /Global Options1\n        - /Status1\n      Splitter Ratio: 0.5\n    Tree Height: 555\n  - Class: rviz_common/Selection\n    Name: Selection\n  - Class: rviz_common/Tool Properties\n    Expanded:\n      - /2D Goal Pose1\n      - /Publish Point1\n    Name: Tool Properties\n    Splitter Ratio: 0.5886790156364441\n  - Class: rviz_common/Views\n    Expanded:\n      - /Current View1\n    Name: Views\n    Splitter Ratio: 0.5\n  - Class: rviz_common/Time\n    Experimental: false\n    Name: Time\n    SyncMode: 0\n    SyncSource: ""\nVisualization Manager:\n  Class: ""\n  Displays:\n${ds}\n  Enabled: true\n  Global Options:\n    Background Color: ${S.background}\n    Fixed Frame: ${S.fixedFrame}\n    Frame Rate: ${S.frameRate}\n  Name: root\n  Tools:\n    - Class: rviz_default_plugins/Interact\n      Hide Inactive Objects: true\n    - Class: rviz_default_plugins/MoveCamera\n    - Class: rviz_default_plugins/Select\n    - Class: rviz_default_plugins/FocusCamera\n    - Class: rviz_default_plugins/Measure\n      Line color: 128; 128; 0\n    - Class: rviz_default_plugins/SetInitialPose\n      Covariance x: 0.25\n      Covariance y: 0.25\n      Covariance yaw: 0.06853891909122467\n      Topic:\n        Depth: 5\n        Durability Policy: Volatile\n        History Policy: Keep Last\n        Reliability Policy: Reliable\n        Value: /initialpose\n    - Class: rviz_default_plugins/SetGoal\n      Topic:\n        Depth: 5\n        Durability Policy: Volatile\n        History Policy: Keep Last\n        Reliability Policy: Reliable\n        Value: /goal_pose\n    - Class: rviz_default_plugins/PublishPoint\n      Single click: true\n      Topic:\n        Depth: 5\n        Durability Policy: Volatile\n        History Policy: Keep Last\n        Reliability Policy: Reliable\n        Value: /clicked_point\n  Transformation:\n    Current:\n      Class: rviz_default_plugins/TF\n  Value: true\n  Views:\n    Current:\n      Class: rviz_default_plugins/${V.type}\n      Distance: ${qnum(V.distance)}\n      Enable Stereo Rendering:\n        Stereo Eye Separation: 0.05999999865889549\n        Stereo Focal Distance: 1\n        Swap Stereo Eyes: false\n        Value: false\n      Focal Point:\n        X: ${qnum(V.focal[0])}\n        Y: ${qnum(V.focal[1])}\n        Z: ${qnum(V.focal[2])}\n      Focal Shape Fixed Size: ${V.focalFixed}\n      Focal Shape Size: ${qnum(V.focalSize)}\n      Invert Z Axis: ${V.invertZ}\n      Name: Current View\n      Near Clip Distance: 0.009999999776482582\n      Pitch: ${qnum(V.pitch)}\n      Target Frame: <Fixed Frame>\n      Value: ${V.type} (rviz_default_plugins)\n      Yaw: ${qnum(V.yaw)}\n    Saved: ~\nWindow Geometry:\n  Displays:\n    collapsed: false\n  Height: 846\n  Hide Left Dock: false\n  Hide Right Dock: false\n  Selection:\n    collapsed: false\n  Time:\n    collapsed: false\n  Tool Properties:\n    collapsed: false\n  Views:\n    collapsed: false\n  Width: 1200\n  X: 60\n  Y: 60\n`;
+    const panelsTxt = S.cfgPanels ? list(S.cfgPanels, "  ") : `  - Class: rviz_common/Displays\n    Help Height: 78\n    Name: Displays\n    Property Tree Widget:\n      Expanded:\n        - /Global Options1\n        - /Status1\n      Splitter Ratio: 0.5\n    Tree Height: 555\n  - Class: rviz_common/Selection\n    Name: Selection\n  - Class: rviz_common/Tool Properties\n    Expanded:\n      - /2D Goal Pose1\n      - /Publish Point1\n    Name: Tool Properties\n    Splitter Ratio: 0.5886790156364441\n  - Class: rviz_common/Views\n    Expanded:\n      - /Current View1\n    Name: Views\n    Splitter Ratio: 0.5\n  - Class: rviz_common/Time\n    Experimental: false\n    Name: Time\n    SyncMode: 0\n    SyncSource: ""`;
+    return `Panels:\n${panelsTxt}\nVisualization Manager:\n  Class: ""\n  Displays:\n${ds}\n  Enabled: true\n  Global Options:\n    Background Color: ${S.background}\n    Fixed Frame: ${S.fixedFrame}\n    Frame Rate: ${S.frameRate}\n  Name: root\n  Tools:\n${S.cfgTools ? list(S.cfgTools, "    ") : "    - Class: rviz_default_plugins/Interact\n      Hide Inactive Objects: true\n    - Class: rviz_default_plugins/MoveCamera\n    - Class: rviz_default_plugins/Select\n    - Class: rviz_default_plugins/FocusCamera\n    - Class: rviz_default_plugins/Measure\n      Line color: 128; 128; 0\n    - Class: rviz_default_plugins/SetInitialPose\n      Covariance x: 0.25\n      Covariance y: 0.25\n      Covariance yaw: 0.06853891909122467\n      Topic:\n        Depth: 5\n        Durability Policy: Volatile\n        History Policy: Keep Last\n        Reliability Policy: Reliable\n        Value: /initialpose\n    - Class: rviz_default_plugins/SetGoal\n      Topic:\n        Depth: 5\n        Durability Policy: Volatile\n        History Policy: Keep Last\n        Reliability Policy: Reliable\n        Value: /goal_pose\n    - Class: rviz_default_plugins/PublishPoint\n      Single click: true\n      Topic:\n        Depth: 5\n        Durability Policy: Volatile\n        History Policy: Keep Last\n        Reliability Policy: Reliable\n        Value: /clicked_point"}\n  Transformation:\n    Current:\n      Class: rviz_default_plugins/TF\n  Value: true\n  Views:\n    Current:\n${V.type === "TopDownOrtho" ? `      Angle: ${qnum(V.angle)}\n` : ""}      Class: rviz_default_plugins/${V.type}\n${V.type === "TopDownOrtho" ? "" : `      Distance: ${qnum(V.distance)}\n`}      Enable Stereo Rendering:\n        Stereo Eye Separation: 0.05999999865889549\n        Stereo Focal Distance: 1\n        Swap Stereo Eyes: false\n        Value: false\n${V.type === "TopDownOrtho" ? "" : `      Focal Point:\n        X: ${qnum(V.focal[0])}\n        Y: ${qnum(V.focal[1])}\n        Z: ${qnum(V.focal[2])}\n      Focal Shape Fixed Size: ${V.focalFixed}\n      Focal Shape Size: ${qnum(V.focalSize)}\n`}      Invert Z Axis: ${V.invertZ}\n      Name: Current View\n      Near Clip Distance: 0.009999999776482582\n${V.type === "TopDownOrtho" ? `      Scale: ${qnum(V.scale)}\n` : `      Pitch: ${qnum(V.pitch)}\n`}      Target Frame: <Fixed Frame>\n      Value: ${S.cfgView && S.cfgView.value && S.cfgView.type === V.type ? S.cfgView.value : `${V.type} (rviz_default_plugins)`}\n${V.type === "TopDownOrtho" ? `      X: ${qnum(V.x)}\n      Y: ${qnum(V.y)}\n` : `      Yaw: ${qnum(V.yaw)}\n`}    Saved: ~\nWindow Geometry:\n  Displays:\n    collapsed: false\n  Height: 846\n  Hide Left Dock: false\n  Hide Right Dock: false\n  Selection:\n    collapsed: false\n  Time:\n    collapsed: false\n  Tool Properties:\n    collapsed: false\n  Views:\n    collapsed: false\n  Width: 1200\n  X: 60\n  Y: 60\n`;
   }
   // read a .rviz file: displays (with Topic and properties), Fixed Frame, background and the view
   function loadConfig(text, name) {
@@ -1965,22 +1985,26 @@ export function createRviz(container, opts = {}) {
     if (!Array.isArray(vm.Tools)) toolTopics.classes = null;   // no Tools list: keep RViz's default tool set
     const META = new Set(["Class", "Name", "Enabled", "Value"]);
     const ds = [];
-    for (const { cls, item, groupOff } of rvizDisplays(cfg)) {
+    for (const { cls, item, groupOff, depth } of rvizDisplays(cfg)) {
       const type = cls.split("/").pop(), pkg = cls.split("/")[0];
       const ok = type === "Group" || (PLUGINS[type] && SCHEMA[type] && pkg === pluginPkg(type) && (!EXTRA_PLUGINS[type] || installed.has(pkg)));
       if (!ok) {   // pluginlib could not find the class: RViz keeps the display (red) with its saved settings
-        ds.push({ id: ++seq, type: cls, name: String(item.Name ?? type), enabled: (item.Enabled ?? item.Value) !== false, props: {}, status: [], failed: cls, saved: item });
+        ds.push({ id: ++seq, type: cls, name: String(item.Name ?? type), enabled: (item.Enabled ?? item.Value) !== false, props: {}, status: [], failed: cls, saved: item, depth });
         continue;
       }
       // first the display's own keys (a nested map's "Value", or X/Y/Z), then nested sub-properties (Line Width, the
       // Topic's QoS...) without overwriting anything; per-link / per-frame maps (Links, Frames, Tree) are not properties
-      const flat = {}, SKIP = new Set(["Links", "Frames", "Tree", "Namespaces", "Enabled Links"]);
+      const flat = {}, SKIP = new Set(["Links", "Frames", "Tree", "Namespaces", "Enabled Links"]); let d0upd = null;
       const own = (k, v) => { if (v && typeof v === "object" && !Array.isArray(v)) return "Value" in v ? v.Value : ("X" in v && "Y" in v && "Z" in v ? `${v.X}; ${v.Y}; ${v.Z}` : undefined); return v; };
       for (const [k, v] of Object.entries(item)) { if (META.has(k)) continue; const x = own(k, v); if (x !== undefined) flat[k] = x; }
+      // a property's own sub-properties first (Odometry Shape/Color, not Covariance/Orientation/Color; Grid Line Style/Line Width)
+      for (const [k, ty, , o3, o4] of SCHEMA[type] || []) for (const kids of [ty === "cat" ? o3 : o4]) if (Array.isArray(kids) && item[k] && typeof item[k] === "object") for (const [c] of kids) if (c in item[k] && !(c in flat) && (item[k][c] === null || typeof item[k][c] !== "object")) flat[c] = item[k][c];
+      if (item["Update Topic"] && typeof item["Update Topic"] === "object") d0upd = item["Update Topic"];
       const deep = (obj) => { for (const [k, v] of Object.entries(obj)) { if (SKIP.has(k) || META.has(k)) continue; if (v && typeof v === "object" && !Array.isArray(v)) { const x = own(k, v); if (x !== undefined && !(k in flat)) flat[k] = x; deep(v); } else if (!(k in flat)) flat[k] = v; } };
       for (const [k, v] of Object.entries(item)) if (!SKIP.has(k) && v && typeof v === "object" && !Array.isArray(v)) deep(v);
       const d = mkDisplay(type, String(item.Name ?? type), (item.Enabled ?? item.Value) !== false);
       if (groupOff) d.groupOff = true;
+      d.depth = depth; if (d0upd) d.updQos = d0upd;
       for (const k of Object.keys(d.props)) {
         if (!(k in flat) || flat[k] === null || (typeof flat[k] === "object")) continue;
         const v = flat[k], was = d.props[k];
@@ -1988,20 +2012,15 @@ export function createRviz(container, opts = {}) {
       }
       ds.push(d);
     }
-    let rm = ds.find((d) => d.type === "RobotModel");
-    if (!rm) {
-      rm = mkDisplay("RobotModel", "RobotModel", true, { "Description Topic": "/robot_description" }, true);
-      rm.notInFile = true;   // not in the file: drawn for the student, but not part of RViz's ROS graph
-      const gridIdx = ds.findIndex((d) => d.type === "Grid");
-      if (gridIdx >= 0) ds.splice(gridIdx + 1, 0, rm);
-      else ds.unshift(rm);
-    } else {
-      if (!rm.enabled) rm.notInFile = true;   // disabled in the file: drawn for the student, not subscribed like RViz
-      rm.enabled = true;
-    }
+    // the displays exactly as the file has them: no RobotModel is added or enabled (real rviz2 with tb3_navigation2.rviz
+    // shows RobotModel unchecked, with tb3_cartographer.rviz none: parity/fixtures/tb3_jazzy_v3/rviz/)
+    S.fromConfig = true;
     if (ds.length) S.displays = ds;
     // the tool bar of the file (Visualization Manager / Tools) and the plugin panels of its Panels list
     const tl = Array.isArray(vm.Tools) ? vm.Tools : null;
+    S.cfgTools = tl; S.cfgPanels = Array.isArray(cfg.Panels) ? cfg.Panels : null;   // written back by Save Config
+    // rviz2 shows the panels of the file's Panels list: no rviz_common/Time there, no Time panel (tb3_navigation2.rviz)
+    if (S.cfgPanels) { S.panels.time = S.cfgPanels.some((x) => x && x.Class === "rviz_common/Time"); layout(); }
     if (tl) {
       const byCls = Object.fromEntries(Object.entries(TOOL_CLASS).map(([id, c]) => [c, id])), ids = [];
       for (const t of tl) { const id = byCls[String(t.Class || "")]; const T = TOOLS.find((x) => x.id === id); if (T && (!T.plugin || installed.has(T.plugin))) ids.push(id); else if (opts.onLog) opts.onLog(`[ERROR] [${(Date.now() / 1000).toFixed(9)}] [rviz2]: PluginlibFactory: The plugin for class '${t.Class}' failed to load. Error: According to the loaded plugin descriptions the class ${t.Class} with base class type rviz_common::Tool does not exist.`); }
@@ -2018,6 +2037,7 @@ export function createRviz(container, opts = {}) {
     const cur = vm.Views && vm.Views.Current;
     if (cur && typeof cur === "object") {
       const vt = String(cur.Class || "").split("/").pop(); if (["Orbit", "XYOrbit", "TopDownOrtho"].includes(vt)) S.view.type = vt;
+      S.cfgView = { type: vt, value: typeof cur.Value === "string" ? cur.Value : null };
       for (const [k, p] of [["Distance", "distance"], ["Yaw", "yaw"], ["Pitch", "pitch"], ["Scale", "scale"], ["Angle", "angle"], ["X", "x"], ["Y", "y"]]) if (Number.isFinite(Number(cur[k])) && cur[k] !== null && cur[k] !== "") S.view[p] = Number(cur[k]);
       const fp = cur["Focal Point"]; if (fp && typeof fp === "object") S.view.focal = [Number(fp.X) || 0, Number(fp.Y) || 0, Number(fp.Z) || 0];
       S.autoFit = false; S.needFit = false; S.fitOnJoints = false; S.viewFromConfig = true;   // the config's saved view wins over auto-framing
