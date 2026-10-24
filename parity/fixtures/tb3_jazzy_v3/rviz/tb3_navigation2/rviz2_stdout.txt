@@ -1,0 +1,35 @@
+[INFO] [1792812304.681096984] [rviz2]: Stereo is NOT SUPPORTED
+[INFO] [1792812304.681222048] [rviz2]: OpenGl version: 4.5 (GLSL 4.5)
+[INFO] [1792812304.784933840] [rviz2]: Stereo is NOT SUPPORTED
+[INFO] [1792812304.905137592] [rviz]: Subscribing to: /mobile_base/sensors/bumper_pointcloud
+
+[INFO] [1792812304.905816428] [rviz]: Subscribing to: /mobile_base/sensors/bumper_pointcloud
+
+[INFO] [1792812304.926294199] [rviz]: Subscribing to: /local_costmap/voxel_marked_cloud
+
+[INFO] [1792812304.938945446] [rviz]: Subscribing to: /global_costmap/voxel_marked_cloud
+
+[INFO] [1792812304.948970103] [rviz]: Subscribing to: /mobile_base/sensors/bumper_pointcloud
+
+[INFO] [1792812304.951032897] [rviz]: Subscribing to: /local_costmap/voxel_marked_cloud
+
+[INFO] [1792812304.953294039] [rviz]: Subscribing to: /global_costmap/voxel_marked_cloud
+
+[INFO] [1792812304.990465369] [nav2_rviz_selector_node]: Trying to load plugins...
+[INFO] [1792812305.993314253] [nav2_rviz_selector_node]: controller_server service not available
+[INFO] [1792812307.001704169] [nav2_rviz_selector_node]: planner_server service not available
+[INFO] [1792812307.068756873] [rviz2]: Trying to create a map of size 384 x 384 using 1 swatches
+[ERROR] [1792812307.108131403] [rviz2]: rviz/glsl120/indexed_8bit_image.vert
+rviz/glsl120/indexed_8bit_image.frag
+ GLSL link result : 
+active samplers with a different type refer to the same texture image unit
+[INFO] [1792812307.235829957] [rviz2]: Trying to create a map of size 384 x 384 using 1 swatches
+[INFO] [1792812307.698468779] [nav2_rviz_docking_panel_node]: Loading dock plugins
+[INFO] [1792812307.998160827] [nav2_rviz_selector_node]: Failed to load plugins. Retrying...
+[INFO] [1792812308.411372640] [rviz2]: Trying to create a map of size 60 x 60 using 1 swatches
+[INFO] [1792812309.990609845] [nav2_rviz_selector_node]: Trying to load plugins...
+[INFO] [1792812319.178996230] [rviz]: Message Filter dropping message: frame 'base_scan' at time 33.600 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[INFO] [1792812319.465840848] [rviz]: Message Filter dropping message: frame 'odom' at time 34.287 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[INFO] [1792812319.686603865] [rviz]: Message Filter dropping message: frame 'odom' at time 34.420 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+[INFO] [1792812328.815903519] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+terminate called without an active exception
