@@ -211,6 +211,9 @@ export class RosGraph {
     // the "Navigation 2" panel's own node: /waypoints (transient local), /rosout, /parameter_events (qos waypoints.txt, node_list.txt)
     if (n.kind === "rviz_nav2_client") { e.pubs.push(["/waypoints", "visualization_msgs/msg/MarkerArray", "RELIABLE/TRANSIENT_LOCAL"]); }
     if (n.kind === "rsp") { e.subs.push([p("joint_states"), "sensor_msgs/msg/JointState", "BEST_EFFORT/VOLATILE"]); e.pubs.push(["/tf", "tf2_msgs/msg/TFMessage"], ["/tf_static", "tf2_msgs/msg/TFMessage"], [p("robot_description"), "std_msgs/msg/String", "RELIABLE/TRANSIENT_LOCAL"]); }
+    // rclcpp_components::ComponentManager: start_parameter_services(false), start_parameter_event_publisher(false):
+    // /rosout and get_type_description only (tb3_burger/nav_robotis/qos rosout.txt, parameter_events.txt, service_list.txt)
+    if (n.kind === "container" || n.container) { e.pubs = e.pubs.filter(([nm]) => nm !== "/parameter_events"); e.srvs = e.srvs.filter(([nm]) => nm.endsWith("/get_type_description")); }
     if (n.kind === "container") e.srvs.push([`${n.full}/_container/load_node`, "composition_interfaces/srv/LoadNode"], [`${n.full}/_container/unload_node`, "composition_interfaces/srv/UnloadNode"], [`${n.full}/_container/list_nodes`, "composition_interfaces/srv/ListNodes"]);
     if (n.kind === "gz_bridge" || n.kind === "gz_image") for (const b of n.bridge || []) { if (b.broken) continue; const rn = b.ros.startsWith("/") ? b.ros : p(b.ros); if (b.dir !== "ROS_TO_GZ") e.pubs.push([rn, b.rosType]); if (b.dir !== "GZ_TO_ROS") e.subs.push([rn, b.rosType]); }
     if (n.kind === "gz_image") for (const b of n.bridge || []) { if (b.broken) continue; const rn = b.ros.startsWith("/") ? b.ros : p(b.ros); for (const [tr, ty] of IMAGE_TRANSPORTS) e.pubs.push([`${rn}/${tr}`, ty]); }   // image_transport adds these to each image (published by ros_gz_image)

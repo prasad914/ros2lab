@@ -648,8 +648,10 @@ class BehaviorServer extends NavNode {
   stamped() { return bool(this.P.enable_stamped_cmd_vel, false); }   // Jazzy default false (nav2_util twist_publisher.hpp)
   actionType(id) { const pl = String((this.P[id] || {}).plugin || id); const t = pl.split(/::|\//).pop(); return `nav2_msgs/action/${{ Spin: "Spin", BackUp: "BackUp", DriveOnHeading: "DriveOnHeading", Wait: "Wait", AssistedTeleop: "AssistedTeleop" }[t] || t}`; }
   // only the local costmap is subscribed (tb3_burger/nav_robotis/qos: no behavior_server on /global_costmap/*)
+  // the AssistedTeleop plugin subscribes cmd_vel_teleop and preempt_teleop, best effort (tb3_burger/nav_robotis/qos)
   endpoints() {
     const T = this.stamped() ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist", subs = costmapSubs(this.P.local_costmap_topic || "local_costmap/costmap_raw", this.P.local_footprint_topic || "local_costmap/published_footprint");
+    if (this.ids.some((id) => this.actionType(id) === "nav2_msgs/action/AssistedTeleop")) subs.push(["cmd_vel_teleop", T, BE], ["preempt_teleop", "std_msgs/msg/Empty", BE]);
     return { pubs: [["cmd_vel", T]], subs, acts: this.ids.map((id) => [id, this.actionType(id)]) };
   }
   onConfigure() { for (const id of this.ids) this.info(`Creating behavior plugin ${id} of type ${(this.P[id] || {}).plugin || id}`); for (const id of this.ids) this.info(`Configuring ${id}`); return true; }
@@ -722,7 +724,7 @@ class CollisionMonitor extends NavNode {
   constructor(sys, desc) { super(sys, "collision", desc); this.announce(null); this.stateTxt = ""; }   // no "Creating" line (nav_robotis/logs/nav2.log:147-275)
   stamped() { return bool(this.P.enable_stamped_cmd_vel, false); }   // Jazzy default false (nav2_util twist_publisher.hpp)
   endpoints() {
-    const T = this.stamped() ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist", e = { subs: [[String(this.P.cmd_vel_in_topic || "cmd_vel_smoothed"), T]], pubs: [[String(this.P.cmd_vel_out_topic || "cmd_vel"), T], [String(this.P.state_topic || "collision_monitor_state"), "nav2_msgs/msg/CollisionMonitorState"]] };
+    const T = this.stamped() ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist", e = { subs: [[String(this.P.cmd_vel_in_topic || "cmd_vel_smoothed"), T]], pubs: [[String(this.P.cmd_vel_out_topic || "cmd_vel"), T], [String(this.P.state_topic || "collision_monitor_state"), "nav2_msgs/msg/CollisionMonitorState"], ["~/collision_points_marker", "visualization_msgs/msg/MarkerArray"]] };
     for (const s of [].concat(this.P.observation_sources || [])) { const sp = this.P[s] || {}; e.subs.push([String(sp.topic || "/scan"), sp.type === "pointcloud" ? "sensor_msgs/msg/PointCloud2" : sp.type === "range" ? "sensor_msgs/msg/Range" : "sensor_msgs/msg/LaserScan", BE]); }
     for (const p of this.polygons()) { if (p.visualize) e.pubs.push([p.pubTopic, "geometry_msgs/msg/PolygonStamped", TL]); if (p.footprintTopic) e.subs.push([p.footprintTopic, "geometry_msgs/msg/PolygonStamped", BE]); }
     return e;
