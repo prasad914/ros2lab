@@ -216,6 +216,8 @@ class NavNode {
 // turtlebot3_navigation2 (parity/fixtures/tb3_burger/nav_robotis/qos): latched maps, costmaps and footprints are
 // transient_local, sensor and pose inputs best effort
 const TL = "RELIABLE/TRANSIENT_LOCAL", BE = "BEST_EFFORT/VOLATILE";
+// nav2_costmap_2d::CostmapSubscriber (<raw>, <raw>_updates, transient local) and FootprintSubscriber (best effort)
+const costmapSubs = (raw, footprint) => [[String(raw), "nav2_msgs/msg/Costmap", TL], [`${raw}_updates`, "nav2_msgs/msg/CostmapUpdate", TL], ...(footprint ? [[String(footprint), "geometry_msgs/msg/PolygonStamped", BE]] : [])];
 
 class MapServer extends NavNode {
   constructor(sys, desc) { super(sys, "map_server", desc); this.announce(); }
@@ -333,7 +335,12 @@ class Costmap extends NavNode {
     for (const l of this.layers) {
       const t = this.layerType(l);
       if (t === "static") e.subs.push(["/map", "nav_msgs/msg/OccupancyGrid", TL]);
-      if (t === "obstacle" || t === "voxel") { const lp = this.layerP(l); for (const src of String(lp.observation_sources || "").split(/\s+/).filter(Boolean)) { const sp = lp[src] || {}; e.subs.push([String(sp.topic || src).startsWith("/") ? String(sp.topic || src) : `/${sp.topic || src}`, sp.data_type === "PointCloud2" ? "sensor_msgs/msg/PointCloud2" : "sensor_msgs/msg/LaserScan", BE]); } if (t === "voxel" && bool(lp.publish_voxel_map, false)) e.pubs.push([`${l}/voxel_grid`, "nav2_msgs/msg/VoxelGrid"]); }
+      if (t === "obstacle" || t === "voxel") { const lp = this.layerP(l); for (const src of String(lp.observation_sources || "").split(/\s+/).filter(Boolean)) { const sp = lp[src] || {}; e.subs.push([String(sp.topic || src).startsWith("/") ? String(sp.topic || src) : `/${sp.topic || src}`, sp.data_type === "PointCloud2" ? "sensor_msgs/msg/PointCloud2" : "sensor_msgs/msg/LaserScan", BE]); } }
+      // every CostmapLayer (static / obstacle / voxel, not inflation) has its own Costmap2DPublisher named after the layer;
+      // the voxel layer adds voxel_grid and clearing_endpoints on the costmap's namespace (fixtures tb3_*/nav_robotis/qos
+      // and nav2_bringup topic_list.txt; only publish_voxel_map: true was captured)
+      if (t === "static" || t === "obstacle" || t === "voxel") e.pubs.push([l, "nav_msgs/msg/OccupancyGrid", TL], [`${l}_raw`, "nav2_msgs/msg/Costmap", TL], [`${l}_updates`, "map_msgs/msg/OccupancyGridUpdate", TL], [`${l}_raw_updates`, "nav2_msgs/msg/CostmapUpdate", TL]);
+      if (t === "voxel" && bool(this.layerP(l).publish_voxel_map, false)) e.pubs.push(["voxel_grid", "nav2_msgs/msg/VoxelGrid", TL], ["clearing_endpoints", "sensor_msgs/msg/PointCloud2", TL]);
     }
     return e;
   }
@@ -635,7 +642,11 @@ class BehaviorServer extends NavNode {
   get ids() { return [].concat(this.P.behavior_plugins || ["spin", "backup", "drive_on_heading", "wait"]); }
   stamped() { return bool(this.P.enable_stamped_cmd_vel, false); }   // Jazzy default false (nav2_util twist_publisher.hpp)
   actionType(id) { const pl = String((this.P[id] || {}).plugin || id); const t = pl.split(/::|\//).pop(); return `nav2_msgs/action/${{ Spin: "Spin", BackUp: "BackUp", DriveOnHeading: "DriveOnHeading", Wait: "Wait", AssistedTeleop: "AssistedTeleop" }[t] || t}`; }
-  endpoints() { return { pubs: [["cmd_vel", this.stamped() ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist"]], subs: [[String(this.P.local_costmap_topic || "local_costmap/costmap_raw"), "nav2_msgs/msg/Costmap", TL], [String(this.P.local_footprint_topic || "local_costmap/published_footprint"), "geometry_msgs/msg/PolygonStamped", BE], [String(this.P.global_costmap_topic || "global_costmap/costmap_raw"), "nav2_msgs/msg/Costmap", TL], [String(this.P.global_footprint_topic || "global_costmap/published_footprint"), "geometry_msgs/msg/PolygonStamped", BE]], acts: this.ids.map((id) => [id, this.actionType(id)]) }; }
+  // only the local costmap is subscribed (tb3_burger/nav_robotis/qos: no behavior_server on /global_costmap/*)
+  endpoints() {
+    const T = this.stamped() ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist", subs = costmapSubs(this.P.local_costmap_topic || "local_costmap/costmap_raw", this.P.local_footprint_topic || "local_costmap/published_footprint");
+    return { pubs: [["cmd_vel", T]], subs, acts: this.ids.map((id) => [id, this.actionType(id)]) };
+  }
   onConfigure() { for (const id of this.ids) this.info(`Creating behavior plugin ${id} of type ${(this.P[id] || {}).plugin || id}`); for (const id of this.ids) this.info(`Configuring ${id}`); return true; }
   onActivate() { this.info("Activating"); for (const id of this.ids) this.info(`Activating ${id}`); return true; }
   // run a behavior; onDone(code) 0 = success
@@ -903,9 +914,10 @@ class WaypointFollower extends NavNode {
 class SimpleServer extends NavNode {
   constructor(sys, role, desc) { super(sys, role, desc); this.announce(); }
   endpoints() {
-    if (this.role === "smoother") return { pubs: [["plan_smoothed", "nav_msgs/msg/Path"]], acts: [["smooth_path", "nav2_msgs/action/SmoothPath"]] };
-    if (this.role === "docking") return { acts: [["dock_robot", "nav2_msgs/action/DockRobot"], ["undock_robot", "nav2_msgs/action/UndockRobot"]], pubs: [["dock_pose", "geometry_msgs/msg/PoseStamped"], ["filtered_dock_pose", "geometry_msgs/msg/PoseStamped"]], subs: [["detected_dock_pose", "geometry_msgs/msg/PoseStamped"]] };
-    if (this.role === "route") return { acts: [["compute_route", "nav2_msgs/action/ComputeRoute"], ["compute_and_track_route", "nav2_msgs/action/ComputeAndTrackRoute"]], srvs: [["~/set_route_graph", "nav2_msgs/srv/SetRouteGraph"]] };
+    // costmap subscribers as captured (tb3_burger/nav_robotis/qos): smoother_server and route_server the global costmap, docking_server the local one
+    if (this.role === "smoother") return { pubs: [["plan_smoothed", "nav_msgs/msg/Path"]], subs: costmapSubs(this.P.costmap_topic || "global_costmap/costmap_raw", this.P.footprint_topic || "global_costmap/published_footprint"), acts: [["smooth_path", "nav2_msgs/action/SmoothPath"]] };
+    if (this.role === "docking") return { acts: [["dock_robot", "nav2_msgs/action/DockRobot"], ["undock_robot", "nav2_msgs/action/UndockRobot"]], pubs: [["dock_pose", "geometry_msgs/msg/PoseStamped"], ["filtered_dock_pose", "geometry_msgs/msg/PoseStamped"]], subs: [["detected_dock_pose", "geometry_msgs/msg/PoseStamped"], ...costmapSubs("local_costmap/costmap_raw", "local_costmap/published_footprint")] };
+    if (this.role === "route") return { acts: [["compute_route", "nav2_msgs/action/ComputeRoute"], ["compute_and_track_route", "nav2_msgs/action/ComputeAndTrackRoute"]], srvs: [["~/set_route_graph", "nav2_msgs/srv/SetRouteGraph"]], subs: costmapSubs("global_costmap/costmap_raw") };
     return {};
   }
   onConfigure() {
