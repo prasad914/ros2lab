@@ -211,6 +211,17 @@ export const gzMethods = {
       if (r.failed) return fail(r.lines);
       const name = this.gzUniqueName(C.name || r.name, C.allowRenaming);
       if (!name) return fail([`[Wrn] [UserCommands.cc:997] Entity named [${C.name || r.name}] already exists and [allow_renaming] is false. Entity not spawned.`]);
+      // a static model with no joints, plugins or sensors is a fixed obstacle in Gazebo, like the static models of a world
+      // file (gzWorldFromSdf's rule): lidar, costmaps and robots meet it (the box ring of
+      // parity/fixtures/tb3_jazzy_v3/tb3_burger/nav_errors/blocked/). The create pose replaces the model's own <pose>.
+      const wr = gzWorldFromSdf(xml, { resolve, env, path: file && file.startsWith("/") ? file : null });
+      const wm = wr.world && !wr.world.robots.length && wr.world.models.length === 1 ? wr.world.models[0] : null;
+      if (wm && wm.static && ![...(wm.shapes || []), ...(wm.colShapes || [])].some((x) => x.type === "mesh")) {
+        Object.assign(wm, { name, pose: [pose.x, pose.y, pose.z, pose.roll, pose.pitch, pose.yaw], spawned: true });
+        this.gz.world.models.push(wm); this.gz.world.rev = (this.gz.world.rev || 0) + 1;
+        if (this.gzPhys) this.gzPhys.addWorldModel(wm);
+        return { lines: [...out, I("Entity creation successful.")], model: wm, gzErr: r.lines };
+      }
       const res = this.gzAddModel({ ...r, name, urdf: null, sdfText: xml }, pose);
       if (!opts.model && r.model) gzLoadMeshes({ models: [], robots: [r] }, { resolve, env }).catch(() => {});
       return { lines: [...out, I("Entity creation successful.")], model: res.m, gzErr: [...r.lines, ...res.gzLines], gzInfo: res.info, cmHint: res.cmHint, hint: res.hint };

@@ -140,7 +140,7 @@ export class GzSim {
   sync(gz) {
     if (!gz) { if (this.world) { this.worldG.clear(); this.worldMeshes = []; this.world = null; } for (const n of [...this.robots.keys()]) this.remove(n); return; }
     const meshN = (w) => (w.models || []).reduce((a, m) => a + (m.shapes || []).filter((x) => x.mesh).length, 0);
-    if (this.world !== gz.world || (gz.world.native && this.meshN !== meshN(gz.world))) { this.load(gz.world); this.meshN = meshN(gz.world); }
+    if (this.world !== gz.world || (gz.world.native && this.meshN !== meshN(gz.world)) || this.worldRev !== gz.world.rev) { this.load(gz.world); this.meshN = meshN(gz.world); this.worldRev = gz.world.rev; }   // rev: a static model spawned with create
     if (gz.dyn) { let moved = false; for (const [name, P] of Object.entries(gz.dyn)) { const g = this.modelGroups.get(name); if (!g) continue; g.matrix.compose(new THREE.Vector3(P.x, P.y, P.z), new THREE.Quaternion(...P.q), new THREE.Vector3(1, 1, 1)); moved = true; } if (moved) this.worldG.updateMatrixWorld(true); }
     for (const n of [...this.robots.keys()]) if (!gz.models.has(n) || this.robots.get(n).model !== gz.models.get(n).model) this.remove(n);
     for (const m of gz.models.values()) {
