@@ -179,8 +179,13 @@ export function createRviz(container, opts = {}) {
   const applyDisplayMap = (map) => {
     for (const [type, on] of Object.entries(map || {})) {
       if (!PLUGINS[type]) continue;
-      const d = S.displays.find((x) => x.type === type);
-      if (d) d.enabled = on !== false; else S.displays.push(mkDisplay(type, type, on !== false, {}, true));
+      // a type-level switch: "on" keeps the per-display states of a loaded .rviz when one display of the type is already
+      // enabled (tb3_navigation2.rviz has a disabled "Trajectories" MarkerArray before the enabled /waypoints one, and a
+      // disabled global Polygon before the enabled local one); "off" turns every display of the type off
+      const all = S.displays.filter((x) => x.type === type);
+      if (!all.length) S.displays.push(mkDisplay(type, type, on !== false, {}, true));
+      else if (on === false) for (const d of all) d.enabled = false;
+      else if (!all.some((d) => d.enabled)) all[0].enabled = true;
     }
   };
   applyDisplayMap({ Grid: true, ...(opts.displays || {}) });
@@ -1240,10 +1245,10 @@ export function createRviz(container, opts = {}) {
       const cls = String(item.Class || ""), ep = EXTRA_PANELS[cls]; if (!ep) continue;
       const title = String(item.Name || ep.title);
       if (!installed.has(ep.pkg)) { panels.push({ cls, remove: addDock(title, h("div", { class: "rv-panel-err", html: `The class required for this panel, '${esc(cls)}', could not be loaded.<br><b>Error:</b><br>According to the loaded plugin descriptions the class ${esc(cls)} with base class type rviz_common::Panel does not exist.` })) }); continue; }
-      if (/^nav2_rviz_plugins\/Navigation( 2)?$/.test(cls)) { panels.push(makeNav2Panel(title)); continue; }
-      if (cls === "slam_toolbox/SlamToolboxPlugin") { panels.push(makeSlamToolboxPanel(title)); continue; }
+      if (/^nav2_rviz_plugins\/Navigation( 2)?$/.test(cls)) { panels.push({ ...makeNav2Panel(title), loaded: true }); continue; }
+      if (cls === "slam_toolbox/SlamToolboxPlugin") { panels.push({ ...makeSlamToolboxPanel(title), loaded: true }); continue; }
       const nb = h("div", { class: "rv-panel-note", text: `(ROS2Lab) The ${ep.title} panel of ${ep.pkg} is in this configuration but is not modelled in the practice RViz.` });
-      panels.push({ cls, remove: addDock(title, nb, { side: "right" }) }); if (nb.parentElement) nb.parentElement.classList.add("rv-notedock");
+      panels.push({ cls, loaded: true, remove: addDock(title, nb, { side: "right" }) }); if (nb.parentElement) nb.parentElement.classList.add("rv-notedock");
     }
   }
   function makeSlamToolboxPanel(title) {
@@ -2068,6 +2073,8 @@ export function createRviz(container, opts = {}) {
       if (has(TOOL_CLASS.pose)) out.push([toolTopics.pose || "/initialpose", "geometry_msgs/msg/PoseWithCovarianceStamped"]);
       return out;
     },
+    // the classes of the extra panels that loaded (their plugin package is installed): their ROS endpoints are in ros-graph.js
+    panelClasses() { return panels.filter((p) => p.loaded).map((p) => p.cls); },
     // the topics this RViz subscribes to: the TF listener, plus each enabled display's topic
     subscriptions() {
       const out = [["/tf", "tf2_msgs/msg/TFMessage"], ["/tf_static", "tf2_msgs/msg/TFMessage"]], abs = (t) => (t.startsWith("/") ? t : "/" + t);

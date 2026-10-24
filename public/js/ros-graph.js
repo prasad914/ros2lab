@@ -206,6 +206,10 @@ export class RosGraph {
     if (n.kind === "rviz" && this.sh.viz && this.sh.viz.subsFn && this.sh.viz.subsFn()) { const seen = new Set(); for (const x of this.sh.viz.subsFn()) if (!seen.has(x[0])) { seen.add(x[0]); e.subs.push(x); } e.pubs.push(...(this.sh.viz.pubsFn ? this.sh.viz.pubsFn() : [["/clicked_point", "geometry_msgs/msg/PointStamped"], ["/goal_pose", "geometry_msgs/msg/PoseStamped"], ["/initialpose", "geometry_msgs/msg/PoseWithCovarianceStamped"]])); }
     else if (n.kind === "rviz") { e.subs.push(["/tf", "tf2_msgs/msg/TFMessage"], ["/tf_static", "tf2_msgs/msg/TFMessage"], ["/robot_description", "std_msgs/msg/String"]); if (this.sh.viz) { if (this.sh.viz.displays.Marker) e.subs.push(["/visualization_marker", "visualization_msgs/msg/Marker"]); if (this.sh.viz.displays.MarkerArray) e.subs.push(["/visualization_marker_array", "visualization_msgs/msg/MarkerArray"]); } e.pubs.push(["/clicked_point", "geometry_msgs/msg/PointStamped"], ["/goal_pose", "geometry_msgs/msg/PoseStamped"], ["/initialpose", "geometry_msgs/msg/PoseWithCovarianceStamped"]); }
     if (n.kind === "rviz") e.subs = e.subs.filter(([nm]) => nm !== "/tf" && nm !== "/tf_static");   // rviz2 listens through its transform_listener_impl node
+    // nav2_rviz_plugins/Selector panel: rviz2 publishes the five selector topics, transient local (tb3_burger/nav_robotis/qos *_selector.txt)
+    if (n.kind === "rviz" && this.rvizPanels().includes("nav2_rviz_plugins/Selector")) for (const t of ["controller", "goal_checker", "planner", "progress_checker", "smoother"]) e.pubs.push([`/${t}_selector`, "std_msgs/msg/String", "RELIABLE/TRANSIENT_LOCAL"]);
+    // the "Navigation 2" panel's own node: /waypoints (transient local), /rosout, /parameter_events (qos waypoints.txt, node_list.txt)
+    if (n.kind === "rviz_nav2_client") { e.pubs.push(["/waypoints", "visualization_msgs/msg/MarkerArray", "RELIABLE/TRANSIENT_LOCAL"]); }
     if (n.kind === "rsp") { e.subs.push([p("joint_states"), "sensor_msgs/msg/JointState", "BEST_EFFORT/VOLATILE"]); e.pubs.push(["/tf", "tf2_msgs/msg/TFMessage"], ["/tf_static", "tf2_msgs/msg/TFMessage"], [p("robot_description"), "std_msgs/msg/String", "RELIABLE/TRANSIENT_LOCAL"]); }
     if (n.kind === "container") e.srvs.push([`${n.full}/_container/load_node`, "composition_interfaces/srv/LoadNode"], [`${n.full}/_container/unload_node`, "composition_interfaces/srv/UnloadNode"], [`${n.full}/_container/list_nodes`, "composition_interfaces/srv/ListNodes"]);
     if (n.kind === "gz_bridge" || n.kind === "gz_image") for (const b of n.bridge || []) { if (b.broken) continue; const rn = b.ros.startsWith("/") ? b.ros : p(b.ros); if (b.dir !== "ROS_TO_GZ") e.pubs.push([rn, b.rosType]); if (b.dir !== "GZ_TO_ROS") e.subs.push([rn, b.rosType]); }
@@ -244,8 +248,21 @@ export class RosGraph {
       l.params = { use_sim_time: o.kind === "rviz" || o.nav2.role === "slam_carto" ? [true, "true", "True"].includes(o.params && o.params.use_sim_time) : false };
     }
   }
+  rvizPanels() { return (this.sh && this.sh.viz && this.sh.viz.panelsFn && this.sh.viz.panelsFn()) || []; }
+  // the node the Nav2 "Navigation 2" panel creates inside rviz2 while that panel is loaded; with use_sim_time it
+  // subscribes /clock like rviz2 (fixture: rviz_navigation_dialog_action_client, /clock best effort)
+  syncRvizNav2Client() {
+    const rv = this.nodes.find((n) => n.kind === "rviz"), want = rv && this.rvizPanels().some((c) => /^nav2_rviz_plugins\/Navigation( 2)?$/.test(c));
+    const have = this.nodes.find((n) => n.kind === "rviz_nav2_client");
+    if (!want) { if (have) this.nodes = this.nodes.filter((n) => n !== have); return; }
+    if (have && have.owner === rv) return;
+    if (have) this.nodes = this.nodes.filter((n) => n !== have);
+    const k = this.add("rviz_nav2_client", "rviz_navigation_dialog_action_client", "", {}, [], true);
+    k.owner = rv; k.domain = rv.domain; k.rmw = rv.rmw; k.params = { use_sim_time: [true, "true", "True"].includes(rv.params && rv.params.use_sim_time) };
+  }
   collect(kinds) {
     this.syncTfListeners();
+    this.syncRvizNav2Client();
     const m = new Map();
     for (const n of this.nodes) { if (this.unseen(n)) continue; const e = this.endpoints(n); for (const k of kinds) for (const [name, type, q] of e[k]) { if (!m.has(name)) m.set(name, { type, by: { pubs: [], subs: [], srvs: [], cli: [], acts: [], actc: [] }, qos: {}, etype: {} }); else if (k === "acts") m.get(name).type = type; m.get(name).by[k].push(n.full); m.get(name).etype[`${k}|${n.full}`] = type; if (q) m.get(name).qos[`${k}|${n.full}`] = q; } }
     return new Map([...m.entries()].sort((a, b) => a[0].localeCompare(b[0])));
@@ -328,7 +345,7 @@ export class RosGraph {
   }
 
   cmdNode(a, rest) {
-    if (a === "list") this.syncTfListeners();
+    if (a === "list") { this.syncTfListeners(); this.syncRvizNav2Client(); }
     if (a === "list") return this.nodes.some((n) => !this.unseen(n)) ? (() => { const L = this.nodes.filter((n) => !this.unseen(n)).map((n) => n.full).sort(); return new Set(L).size < L.length ? ["WARNING: Be aware that there are nodes in the graph that share an exact name, which can have unintended side effects.", ...L] : L; })().map((t) => this.out(t)) : this.noNodes();
     if (a === "info") {
       const n0 = this.node(rest[0] || ""), n = n0 && !this.unseen(n0) ? n0 : null;

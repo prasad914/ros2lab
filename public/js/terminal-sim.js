@@ -1602,6 +1602,7 @@ export function mountTerminal(container, spec, { onComplete } = {}) {
         if (sh.viz.configText) viewer.loadConfig(sh.viz.configText, sh.viz.configName);
         sh.viz.subsFn = () => (viewer ? viewer.subscriptions() : null);
         sh.viz.pubsFn = () => (viewer ? viewer.publications() : null);
+        sh.viz.panelsFn = () => (viewer && viewer.panelClasses ? viewer.panelClasses() : []);
         deliverPending();
         paintViz();
       }).catch((e) => { vizLoading = false; rvizHolder.replaceChildren(el("p", { class: "notice err", text: "The 3D viewer could not load: " + e.message })); });
