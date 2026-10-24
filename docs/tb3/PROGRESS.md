@@ -25,9 +25,15 @@ master. Night 1: `docs/tb3/NIGHT1_REPORT.md`. Night 2 report: `docs/tb3/NIGHT2_R
   2cbcb7f spec: waffle / waffle_pi graph against the complete Night 2 capture -> nav_robotis FAIL 0 / 0 / 0.
 - **Part 3** turtlebot3_drive model (0366042), velocity chain (f44d837); captures 0a8ac8c.
 
+- **Part 3 (cont.)** velocity chain f44d837 (one cmd_vel publisher per behavior plugin, node info dedupe, smoother fixed
+  20 Hz schedule; spec tb3-cmdvel-chain).
+- **Part 4** 2c9fb59 (static spawned model = world object), 48d4074 (recovery round-robin per goal, failed behavior aborts,
+  footprint collision check, NavFn tolerance fallback), 727d699 spec nav-errors: all 4 cases match status / error_code /
+  error_msg / recovery sequence / log lines; durations differ (recorded).
+- **Part 5** captures 1d0fe5f, ca26ffb (RViz config fidelity), 1ae83fe spec tb3-rviz-configs: 3 configs match real rviz2.
+
 ## In progress
-- **Part 4** error codes (captured 0a8ac8c; spec parity/e2e/nav-errors.spec.ts). **Part 5** RViz (captured 1d0fe5f; spec
-  parity/e2e/tb3-rviz-configs.spec.ts). Then Part 7.
+- **Part 7** `bash parity/scripts/tb3_v3/run_suites.sh night2_after`, then docs/tb3/NIGHT2_REPORT.md.
 
 ## Resume commands
 ```bash
