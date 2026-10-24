@@ -3,6 +3,7 @@ import { rcMethods, parseCtrlMsg } from "./ros-control-graph.js";
 import { moveitMethods } from "./ros-moveit.js";
 import { goalMethods } from "./goal-pose.js";
 import { fakeMethods } from "./tb3-fake.js";
+import { driveMethods } from "./tb3-drive.js";
 import { cfMethods } from "./cf-sim.js";
 import { moveitServiceMethods } from "./moveit-services.js";
 import { gzMethods, GZ_EXES, GZ_NAMES, GZ_PKG_EXES, IMAGE_TRANSPORTS, TELEOP_BANNER, gzIncludePy, gzIncludeXml, gzArgv, nodeArgsPy, takeExpr, pyEval as pyEvalVar } from "./ros-gz.js";
@@ -218,6 +219,8 @@ export class RosGraph {
     if (n.kind === "gz_bridge" || n.kind === "gz_image") for (const b of n.bridge || []) { if (b.broken) continue; const rn = b.ros.startsWith("/") ? b.ros : p(b.ros); if (b.dir !== "ROS_TO_GZ") e.pubs.push([rn, b.rosType]); if (b.dir !== "GZ_TO_ROS") e.subs.push([rn, b.rosType]); }
     if (n.kind === "gz_image") for (const b of n.bridge || []) { if (b.broken) continue; const rn = b.ros.startsWith("/") ? b.ros : p(b.ros); for (const [tr, ty] of IMAGE_TRANSPORTS) e.pubs.push([`${rn}/${tr}`, ty]); }   // image_transport adds these to each image (published by ros_gz_image)
     if (n.kind === "cf_sim") this.cfEndpoints(n, e);
+    // turtlebot3_drive: Twist on cmd_vel (KeepLast 10), scan SensorDataQoS, odom KeepLast 10 (turtlebot3_drive.cpp; world/motion/drive_cmd_vel_info_v.txt)
+    if (n.kind === "tb3_drive") { e.pubs.push([p("cmd_vel"), "geometry_msgs/msg/Twist"]); e.subs.push([p("scan"), "sensor_msgs/msg/LaserScan", "BEST_EFFORT/VOLATILE"], [p("odom"), "nav_msgs/msg/Odometry"]); }
     if (n.kind === "tb3_fake") { e.subs.push([p("cmd_vel"), "geometry_msgs/msg/Twist"]); e.pubs.push([p("odom"), "nav_msgs/msg/Odometry"], [p("joint_states"), "sensor_msgs/msg/JointState"], [p("tf"), "tf2_msgs/msg/TFMessage"]); }
     if (n.kind === "pubcli" && n.pub) e.pubs.push([n.pub.topic, n.pub.type]);
     if (n.kind === "teleop_twist") e.pubs.push([p("cmd_vel"), n.params.stamped === true || n.params.stamped === "true" ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist"]);
@@ -2514,6 +2517,7 @@ Object.assign(RosGraph.prototype, rcMethods);
 Object.assign(RosGraph.prototype, moveitMethods);
 Object.assign(RosGraph.prototype, goalMethods);
 Object.assign(RosGraph.prototype, fakeMethods);   // turtlebot3_fake_node (tb3-fake.js)
+Object.assign(RosGraph.prototype, driveMethods);   // turtlebot3_drive (tb3-drive.js)
 Object.assign(RosGraph.prototype, cfMethods);   // crazyflie_sim crazyflie_server (cf-sim.js)
 // models without Gazebo that keep moving (RViz needs a timer): turtlebot3_fake_node, crazyflie_sim
 RosGraph.prototype.lightSims = function () { return !this.gzRunning() && (this.fakeBases().length > 0 || this.cfSims().length > 0); };

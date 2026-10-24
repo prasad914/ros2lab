@@ -374,7 +374,7 @@ function makeContext(sh, ui, getJob) {
       const b = byPid.get(pid); if (!b) return;
       byPid.delete(pid);
       for (const f of b.nav2) { stopNav2Node(g, f); fulls.delete(f); }
-      for (const f of b.fulls) { if (g.node(f)) g.stop(f); fulls.delete(f); }
+      for (const f of b.fulls) { const nd = g.node(f); if (nd && nd.onStop) lines(nd.onStop()); if (nd) g.stop(f); fulls.delete(f); }
       ui.nodes([...fulls]); ui.paint();
     },
     async loadComposable(req) {
@@ -634,6 +634,11 @@ function makeContext(sh, ui, getJob) {
       if (key === "turtlebot3_fake_node turtlebot3_fake_node") {   // modelled in tb3-fake.js (odom / joint_states / tf from cmd_vel)
         const n = g.add("tb3_fake", nodeName, ns, params, remaps);
         lines(g.fakeInit(n, params, info.files).map(P));
+        n.pid = pid; n.procName = tag; track(pid, n.full); ui.paint(); return;
+      }
+      if (key === "turtlebot3_gazebo turtlebot3_drive") {   // modelled in tb3-drive.js (Twist on cmd_vel; the Jazzy bridge takes TwistStamped)
+        const n = g.add("tb3_drive", "turtlebot3_drive_node", ns, params, remaps);
+        lines(g.driveInit(n).map(P)); n.onStop = () => g.driveStop(n).map(P);
         n.pid = pid; n.procName = tag; track(pid, n.full); ui.paint(); return;
       }
       if (key === "turtlebot3_teleop teleop_keyboard" || key === "teleop_twist_keyboard teleop_twist_keyboard") {
