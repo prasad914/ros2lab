@@ -26,13 +26,18 @@ const ids = [...new Set(scan.refs.map((r) => r.id))].sort();
 L.push("## Summary per id", "", "| id | SIM | VIEWER | FILE | GALLERY | LINK | MENTION | lessons (non-MENTION) |", "|---|---|---|---|---|---|---|---|");
 for (const id of ids) { const rs = scan.refs.filter((r) => r.id === id); const c = (k) => rs.filter((r) => r.kind === k).length; L.push(`| ${id} | ${c("SIM")} | ${c("VIEWER")} | ${c("FILE")} | ${c("GALLERY")} | ${c("LINK")} | ${c("MENTION")} | ${[...new Set(rs.filter((r) => r.kind !== "MENTION").map((r) => r.lesson))].join(", ")} |`); }
 L.push("", "Robot ids with no reference at all: " + scan.robots.filter((id) => !ids.includes(id)).join(", ") + ".", "");
-L.push("## UNRESOLVED (names that do not map to one id; not guessed)", "", "| name | lesson | file:line | text |", "|---|---|---|---|", ...scan.unresolved.map((u) => `| ${esc(u.name)} | ${u.lesson || ""} | \`${u.file}:${u.line}\` | ${esc(u.text.slice(0, 140))} |`), "");
-L.push("Notes on UNRESOLVED:",
-  "- **Panda**: R4 installs and launches `moveit_resources_panda_moveit_config demo.launch.py` (a real-Ubuntu setup check). The site has no `panda` id; `fr3` is a different robot (Franka Research 3). Not mapped.",
-  "- **UR5** (no `e`): the only hit is the lesson id `UR5` (line of `\"id\": \"UR5\"`), not a robot. Listed for completeness.",
-  "- **TurtleBot3 without a model**: text that says TurtleBot3 without Burger / Waffle / Waffle Pi. Where the same lesson sets `TURTLEBOT3_MODEL`, the SIM row above carries the model.",
-  "- **quadcopter (GALLERY)**: RV6's gallery block opens with `quadcopter` first, but the student can pick any robot. Whether a gallery default counts as \"used by a lesson\" is the owner's call; Night 1 keeps it **active** so RV6 is unchanged (status only gates the Simulator page's Launch).", "");
+L.push("## UNRESOLVED (names that do not map to one id; not guessed)", "", scan.unresolved.length ? "| name | lesson | file:line | text |\n|---|---|---|---|\n" + scan.unresolved.map((u) => `| ${esc(u.name)} | ${u.lesson || ""} | \`${u.file}:${u.line}\` | ${esc(u.text.slice(0, 140))} |`).join("\n") : "None: every ambiguous name has an owner decision (next section).", "");
+const owned = [...new Set((scan.resolved || []).map((u) => u.name))];
+L.push("## Resolved by the owner (2026-10-24, Night 2)", "", "| name | owner decision | lines | lessons |", "|---|---|---|---|",
+  ...owned.map((nm) => { const rs = scan.resolved.filter((u) => u.name === nm); return `| ${esc(nm)} | ${esc(rs[0].owner)} | ${rs.length} | ${[...new Set(rs.map((u) => u.lesson || ""))].join(", ")} |`; }), "",
+  "| name | lesson | file:line | text |", "|---|---|---|---|", ...(scan.resolved || []).map((u) => `| ${esc(u.name)} | ${u.lesson || ""} | \`${u.file}:${u.line}\` | ${esc(u.text.slice(0, 140))} |`), "");
+L.push("Notes:",
+  "- **UR5** (no `e`): the only hit is the lesson id `UR5` (line of `\"id\": \"UR5\"`); the owner maps \"UR5\" to `ur5e`, which is active.",
+  "- **Panda**: R4 installs and launches `moveit_resources_panda_moveit_config demo.launch.py` (a real-Ubuntu setup check). The site has no `panda` id; the owner keeps it a mention: no robot id, no change.",
+  "- **TurtleBot3 without a model**: text that says TurtleBot3 without Burger / Waffle / Waffle Pi; the owner: no robot id, it is the real error a student sees when `TURTLEBOT3_MODEL` is not exported. Where the same lesson sets `TURTLEBOT3_MODEL`, the SIM row above carries the model.",
+  "- **quadcopter (GALLERY)**: RV6's gallery block opens with `quadcopter` first; owner decision 2026-10-24: it stays **active**.",
+  "- **Home page strip**: owner decision 2026-10-24: it links only active robots (tb3_burger, tb3_waffle_pi, ur5e); `tests/robot-status.test.mjs` checks it.", "");
 L.push("## MENTION rows", "", "Chiku is the course's own robot persona: its " + by("MENTION").filter((r) => r.id === "chiku").length + " MENTION rows (package names `chiku_control`, turtles named chiku, etc.) are counted in the summary but not listed.", "",
   "| id | lesson | file:line | match | text |", "|---|---|---|---|---|", ...by("MENTION").filter((r) => r.id !== "chiku").map(row), "");
 writeFileSync(`${root}/parity/reports/COURSE_ROBOT_REFERENCES.md`, L.join("\n"));
-console.log("wrote parity/reports/COURSE_ROBOT_REFERENCES.md", scan.refs.length, "refs", scan.unresolved.length, "unresolved");
+console.log("wrote parity/reports/COURSE_ROBOT_REFERENCES.md", scan.refs.length, "refs", scan.unresolved.length, "unresolved", (scan.resolved || []).length, "resolved by the owner");

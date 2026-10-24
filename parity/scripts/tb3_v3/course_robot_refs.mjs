@@ -1,7 +1,7 @@
 // Lists every place the course (lessons weeks 1-9, practice terminals, tests, the home page strip) refers to a
 // simulator robot id (public/robots/index.json) or to a workspace (public/robots/ws/index.json).
 // Read-only. Usage: node parity/scripts/tb3_v3/course_robot_refs.mjs [--json out.json]
-// Prints JSON { refs: [...], unresolved: [...] } that parity/scripts/tb3_v3/write_course_refs_md.mjs turns into
+// Prints JSON { refs: [...], unresolved: [...], resolved: [...] } that parity/scripts/tb3_v3/write_course_refs_md.mjs turns into
 // parity/reports/COURSE_ROBOT_REFERENCES.md and that tests/course-robot-status.test.mjs re-runs.
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -17,12 +17,14 @@ const PKG = [
   [/\bfranka_[a-z_]+\b/, "franka"], [/\bkortex_[a-z_]+\b/, "kortex"], [/\bxarm_[a-z_]+\b/, "xarm"],
   [/\binterbotix_[a-z_]+\b/, "interbotix"], [/\bdobot_[a-z_]+\b/, "dobot"], [/\bcrazyflie\b/, "crazyswarm2"], [/\bscout_[a-z_]+\b/, "scout"],
 ];
-// names that point at a robot family without saying which model / id (never mapped to an id here)
+// names that point at a robot family without saying which model / id; each carries the owner's decision
+// (2026-10-24, Night 2): the scanner never maps them itself
 const AMBIGUOUS = [
-  [/\bUR5\b(?!e)/, "UR5 (UR5 or UR5e?)"], [/\bPanda\b|panda_moveit/i, "Panda (moveit_resources Panda demo; not a site robot id, the site has fr3)"],
-  [/TurtleBot3(?! (Burger|Waffle))/, "TurtleBot3 without a model"],
+  [/\bUR5\b(?!e)/, "UR5 (UR5 or UR5e?)", "ur5e: lesson UR7 uses ur_type:=ur5e"],
+  [/\bPanda\b|panda_moveit/i, "Panda (moveit_resources Panda demo; not a site robot id, the site has fr3)", "mention only, no robot id, no change"],
+  [/TurtleBot3(?! (Burger|Waffle))/, "TurtleBot3 without a model", "no robot id: the real missing-TURTLEBOT3_MODEL error (KeyError: 'TURTLEBOT3_MODEL') when no model is exported"],
 ];
-const refs = [], unresolved = [];
+const refs = [], unresolved = [], resolved = [];
 function scanLines(file, lines, ctxOf) {
   lines.forEach((text, i) => {
     const line = i + 1, ctx = ctxOf ? ctxOf(i) : {};
@@ -42,7 +44,7 @@ function scanLines(file, lines, ctxOf) {
     for (const [re, w] of PKG) { const m = text.match(re); if (m) refs.push({ id: `ws:${w}`, file, line, kind: key === "cmd" || key === "sol" || /ros2 (launch|run)/.test(text) ? "SIM" : "MENTION", lesson: ctx.lesson, text: text.trim().slice(0, 220), match: m[0] }); }
     // 5. a robot id as a whole word in prose / code (MENTION), except the "robot" keys already counted
     if (!rb && !fp) for (const id of ids) { const re = new RegExp(`(^|[^A-Za-z0-9_])${id}([^A-Za-z0-9_]|$)`); if (re.test(text) && !/TURTLEBOT3_MODEL/.test(text)) refs.push({ id, file, line, kind: "MENTION", lesson: ctx.lesson, text: text.trim().slice(0, 220) }); }
-    for (const [re, why] of AMBIGUOUS) if (re.test(text)) unresolved.push({ name: why, file, line, lesson: ctx.lesson, text: text.trim().slice(0, 220) });
+    for (const [re, why, owner] of AMBIGUOUS) if (re.test(text)) (owner ? resolved : unresolved).push({ name: why, owner, file, line, lesson: ctx.lesson, text: text.trim().slice(0, 220) });
   });
 }
 // the course content: track which lesson and whether the current block is a gallery rviz block
@@ -66,5 +68,5 @@ for (const file of ["public/js/index.js", "public/js/lab.js", "public/index.html
     lines.forEach((t, i) => { for (const m of t.matchAll(/\["([a-z0-9_]+)",\s*"[^"]+"\]/g)) if (ids.includes(m[1]) && /gz-robots|robot=/.test(lines.slice(Math.max(0, i - 3), i + 3).join("\n"))) refs.push({ id: m[1], file, line: i + 1, kind: "LINK", lesson: "(home page)", text: `home strip: ${m[0]}` }); }); }
   catch { /* file absent */ }
 }
-const out = { robots: ids, workspaces: Object.fromEntries(Object.entries(ws).map(([k, v]) => [k, v.robots])), refs, unresolved };
+const out = { robots: ids, workspaces: Object.fromEntries(Object.entries(ws).map(([k, v]) => [k, v.robots])), refs, unresolved, resolved };
 process.stdout.write(JSON.stringify(out, null, 1));
