@@ -916,7 +916,19 @@ class SimpleServer extends NavNode {
   endpoints() {
     // costmap subscribers as captured (tb3_burger/nav_robotis/qos): smoother_server and route_server the global costmap, docking_server the local one
     if (this.role === "smoother") return { pubs: [["plan_smoothed", "nav_msgs/msg/Path"]], subs: costmapSubs(this.P.costmap_topic || "global_costmap/costmap_raw", this.P.footprint_topic || "global_costmap/published_footprint"), acts: [["smooth_path", "nav2_msgs/action/SmoothPath"]] };
-    if (this.role === "docking") return { acts: [["dock_robot", "nav2_msgs/action/DockRobot"], ["undock_robot", "nav2_msgs/action/UndockRobot"]], pubs: [["dock_pose", "geometry_msgs/msg/PoseStamped"], ["filtered_dock_pose", "geometry_msgs/msg/PoseStamped"]], subs: [["detected_dock_pose", "geometry_msgs/msg/PoseStamped"], ...costmapSubs("local_costmap/costmap_raw", "local_costmap/published_footprint")] };
+    if (this.role === "docking") {
+      // opennav_docking::DockingServer: cmd_vel (TwistStamped with enable_stamped_cmd_vel) and docking_trajectory; each
+      // SimpleChargingDock plugin: dock_pose, filtered_dock_pose, staging_pose, battery_state (use_battery_status, default
+      // true), detected_dock_pose only with use_external_detection_pose (default false) (tb3_burger/nav_robotis/qos)
+      const pubs = [["cmd_vel", bool(this.P.enable_stamped_cmd_vel, false) ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist"], ["docking_trajectory", "nav_msgs/msg/Path"]], subs = costmapSubs("local_costmap/costmap_raw", "local_costmap/published_footprint");
+      for (const id of [].concat(this.P.dock_plugins || [])) {
+        const dp = this.P[id] || {}; if (!/SimpleChargingDock/.test(String(dp.plugin || ""))) continue;   // the only dock plugin captured
+        pubs.push(["dock_pose", "geometry_msgs/msg/PoseStamped"], ["filtered_dock_pose", "geometry_msgs/msg/PoseStamped"], ["staging_pose", "geometry_msgs/msg/PoseStamped"]);
+        if (bool(dp.use_battery_status, true)) subs.push(["battery_state", "sensor_msgs/msg/BatteryState"]);
+        if (bool(dp.use_external_detection_pose, false)) subs.push(["detected_dock_pose", "geometry_msgs/msg/PoseStamped"]);
+      }
+      return { acts: [["dock_robot", "nav2_msgs/action/DockRobot"], ["undock_robot", "nav2_msgs/action/UndockRobot"]], pubs, subs };
+    }
     if (this.role === "route") return { acts: [["compute_route", "nav2_msgs/action/ComputeRoute"], ["compute_and_track_route", "nav2_msgs/action/ComputeAndTrackRoute"]], srvs: [["~/set_route_graph", "nav2_msgs/srv/SetRouteGraph"]], subs: costmapSubs("global_costmap/costmap_raw") };
     return {};
   }
