@@ -32,8 +32,14 @@ master. Night 1: `docs/tb3/NIGHT1_REPORT.md`. Night 2 report: `docs/tb3/NIGHT2_R
   error_msg / recovery sequence / log lines; durations differ (recorded).
 - **Part 5** captures 1d0fe5f, ca26ffb (RViz config fidelity), 1ae83fe spec tb3-rviz-configs: 3 configs match real rviz2.
 
-## In progress
-- **Part 7** `bash parity/scripts/tb3_v3/run_suites.sh night2_after`, then docs/tb3/NIGHT2_REPORT.md.
+- **Part 7** regression gate `night2_after` (git 741dfc9): lessons 66/66, turtlesim lessons 282/282, UI suites and
+  security pass, parity 135 passed / 3 failed (was 126 / 6). No test that passed before fails now; 10 new passes
+  (nav_robotis x3, tb3-drive, tb3-cmdvel-chain, nav-errors, tb3-rviz-configs x3). The 3 left (nav2_bringup graph,
+  matrix, matrix_dwb_burger) fail with the same 33 check lines as before. Report: `docs/tb3/NIGHT2_REPORT.md`.
+
+## Night 2 finished
+Next: Night 3 list at the end of `docs/tb3/NIGHT2_REPORT.md` (Nav2 timing, AMCL / costmap, SLAM growth, then MPPI, RPP,
+Smac, collision monitor, waypoints).
 
 ## Resume commands
 ```bash
