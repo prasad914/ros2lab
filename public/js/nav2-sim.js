@@ -139,6 +139,10 @@ class Nav2System {
 }
 export function nav2System(G) { if (!G.nav2) G.nav2 = new Nav2System(G); return G.nav2; }
 
+// servers whose tf2 TransformListener runs on the node itself (no transform_listener_impl node): they subscribe /tf and
+// /tf_static (transient local) under their own name (tb3_burger/nav_robotis/qos tf.txt, tf_static.txt)
+const TF_ON_NODE = new Set(["amcl", "behavior", "bt", "collision", "docking", "route", "smoother"]);
+
 // ---------------------------------------------------------------- base node model
 class NavNode {
   constructor(sys, role, desc, opts = {}) {
@@ -170,6 +174,7 @@ class NavNode {
     if (!this.n) return;
     const e = this.endpoints(), I = this.n.info;
     I.pubs = e.pubs || []; I.subs = e.subs || []; I.srvs = e.srvs || []; I.cli = e.cli || []; I.acts = e.acts || []; I.actc = e.actc || [];
+    if (TF_ON_NODE.has(this.role)) I.subs.push(["/tf", "tf2_msgs/msg/TFMessage"], ["/tf_static", "tf2_msgs/msg/TFMessage", TL]);
     if (this.lifecycleNode) {
       I.srvs.push(["~/change_state", "lifecycle_msgs/srv/ChangeState"], ["~/get_state", "lifecycle_msgs/srv/GetState"], ["~/get_available_states", "lifecycle_msgs/srv/GetAvailableStates"], ["~/get_available_transitions", "lifecycle_msgs/srv/GetAvailableTransitions"], ["~/get_transition_graph", "lifecycle_msgs/srv/GetAvailableTransitions"]);
       I.pubs.push(["~/transition_event", "lifecycle_msgs/msg/TransitionEvent"]);
