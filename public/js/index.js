@@ -57,9 +57,10 @@ if (Date.now() > OFFER_END) document.querySelectorAll("[data-offer]").forEach((n
   btn.addEventListener("click", start);
   const light = (navigator.connection && navigator.connection.saveData) || matchMedia("(max-width: 700px)").matches || matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (!light) new IntersectionObserver((e, obs) => { if (!e[0].isIntersecting) return; obs.disconnect(); start(); }, { rootMargin: "120px" }).observe(box);
-  // a few of the simulator's robots, each opening in its own window there
+  // the simulator's validated course robots (status "active"; owner decision 2026-10-24: no links to under-test robots),
+  // each opening in its own window there
   const strip = document.getElementById("gz-robots");
-  if (strip) strip.replaceChildren(...[["ur5e", "UR5e"], ["fr3", "Franka FR3"], ["go2", "Unitree Go2"], ["spot", "Spot"], ["g1", "Unitree G1"], ["crazyflie", "Crazyflie"], ["kr6", "KUKA KR 6"], ["tb3_waffle", "TurtleBot3"]].map(([id, name]) =>
+  if (strip) strip.replaceChildren(...[["tb3_burger", "TurtleBot3 Burger"], ["tb3_waffle_pi", "TurtleBot3 Waffle Pi"], ["ur5e", "UR5e"]].map(([id, name]) =>
     el("li", {}, el("a", { href: `rviz.html?robot=${id}`, title: `${name}: open it in the simulator` }, el("img", { src: `img/robots/${id}.webp`, alt: "", width: "120", height: "90", loading: "lazy" }), el("span", { text: name })))));
 })();
 

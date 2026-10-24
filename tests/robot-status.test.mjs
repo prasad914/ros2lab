@@ -49,5 +49,9 @@ for (const r of uses) {
   const st = r.id.startsWith("ws:") ? wsIndex[r.id.slice(3)]?.status : robots.find((g) => g.id === r.id)?.status;
   check(st === "active", `${r.lesson} (${r.file}:${r.line}) uses ${r.id} (${r.kind}), which is ${st || "missing"}`);
 }
+// 4. the home page robot strip links active robots only (owner decision 2026-10-24: tb3_burger, tb3_waffle_pi, ur5e)
+const strip = scan.refs.filter((r) => r.kind === "LINK" && r.lesson === "(home page)" && r.file === "public/js/index.js");
+check(strip.length >= 3, `the home strip has links (${strip.length})`);
+for (const r of strip) check(robots.find((g) => g.id === r.id)?.status === "active", `home strip (${r.file}:${r.line}) links ${r.id}, which is not active`);
 console.log(`robot-status: ${oks} ok, ${fails} FAIL`);
 process.exit(fails ? 1 : 0);
