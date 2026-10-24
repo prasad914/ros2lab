@@ -783,7 +783,7 @@ function readBt(xml) {   // the parameters of the real behavior tree file (Recov
 }
 class BtNavigator extends NavNode {
   constructor(sys, desc) { super(sys, "bt", desc); this.announce(); this.rr = 0; }
-  endpoints() { return { subs: [["goal_pose", "geometry_msgs/msg/PoseStamped", BE], [String(this.P.odom_topic || "odom"), "nav_msgs/msg/Odometry", BE]], pubs: [["behavior_tree_log", "nav2_msgs/msg/BehaviorTreeLog"]], acts: [["navigate_to_pose", "nav2_msgs/action/NavigateToPose"], ["navigate_through_poses", "nav2_msgs/action/NavigateThroughPoses"]], actc: [["compute_path_to_pose", "nav2_msgs/action/ComputePathToPose"], ["compute_path_through_poses", "nav2_msgs/action/ComputePathThroughPoses"], ["follow_path", "nav2_msgs/action/FollowPath"], ["spin", "nav2_msgs/action/Spin"], ["backup", "nav2_msgs/action/BackUp"], ["wait", "nav2_msgs/action/Wait"], ["drive_on_heading", "nav2_msgs/action/DriveOnHeading"], ["smooth_path", "nav2_msgs/action/SmoothPath"]] }; }
+  endpoints() { return { subs: [["goal_pose", "geometry_msgs/msg/PoseStamped", BE], [String(this.P.odom_topic || "odom"), "nav_msgs/msg/Odometry", BE]], acts: [["navigate_to_pose", "nav2_msgs/action/NavigateToPose"], ["navigate_through_poses", "nav2_msgs/action/NavigateThroughPoses"]], actc: [["compute_path_to_pose", "nav2_msgs/action/ComputePathToPose"], ["compute_path_through_poses", "nav2_msgs/action/ComputePathThroughPoses"], ["follow_path", "nav2_msgs/action/FollowPath"], ["spin", "nav2_msgs/action/Spin"], ["backup", "nav2_msgs/action/BackUp"], ["wait", "nav2_msgs/action/Wait"], ["drive_on_heading", "nav2_msgs/action/DriveOnHeading"], ["smooth_path", "nav2_msgs/action/SmoothPath"]] }; }
   onConfigure() {
     const navs = [].concat(this.P.navigators || ["navigate_to_pose", "navigate_through_poses"]);
     for (const id of navs) {
@@ -795,8 +795,23 @@ class BtNavigator extends NavNode {
     let xml = null; try { xml = this.fs ? this.fs.read(xmlPath) : null; if (xml && typeof xml !== "string") xml = new TextDecoder().decode(xml); } catch { xml = null; }
     this.bt = readBt(xml); this.btPath = xmlPath;
     this.errorNames = [].concat(this.P.error_code_names || ["follow_path_error_code", "compute_path_error_code"]);
+    this.addClientNodes(navs);
     return true;
   }
+  // each navigator's BtActionServer makes its own rclcpp node, <bt_navigator>_<action>_rclcpp_node, on configure: it
+  // publishes behavior_tree_log and its BT nodes subscribe the selectors (tb3_burger/nav_robotis/qos, node_list.txt)
+  addClientNodes(navs) {
+    this.removeClientNodes();
+    this.clientNodes = navs.map((id) => {
+      const k = this.G.add("bt_client", `${this.name}_${id}_rclcpp_node`, this.ns.replace(/^\//, ""), {}, []);
+      k.domain = this.n.domain; k.rmw = this.n.rmw; k.params = { use_sim_time: this.n.params.use_sim_time };
+      k.info = { pubs: [["/behavior_tree_log", "nav2_msgs/msg/BehaviorTreeLog"]], subs: [["/controller_selector", "std_msgs/msg/String", TL], ["/planner_selector", "std_msgs/msg/String", TL]], srvs: [], cli: [], acts: [], actc: [] };
+      return k;
+    });
+    this.extraNodes = this.clientNodes;
+  }
+  removeClientNodes() { for (const k of this.clientNodes || []) this.G.nodes = this.G.nodes.filter((x) => x !== k); this.clientNodes = []; this.extraNodes = []; }
+  onCleanup() { this.removeClientNodes(); }
   // NavigateToPose / NavigateThroughPoses goal; cb: { feedback(fb), done(status, result) }
   navigate(goals, cb, kind = "pose") {
     if (this.state !== "active") return { rejected: "Action server is inactive. Rejecting the goal." };
