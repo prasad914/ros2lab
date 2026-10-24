@@ -929,7 +929,8 @@ class SimpleServer extends NavNode {
       }
       return { acts: [["dock_robot", "nav2_msgs/action/DockRobot"], ["undock_robot", "nav2_msgs/action/UndockRobot"]], pubs, subs };
     }
-    if (this.role === "route") return { acts: [["compute_route", "nav2_msgs/action/ComputeRoute"], ["compute_and_track_route", "nav2_msgs/action/ComputeAndTrackRoute"]], srvs: [["~/set_route_graph", "nav2_msgs/srv/SetRouteGraph"]], subs: costmapSubs("global_costmap/costmap_raw") };
+    // nav2_route::RouteServer: plan, route_graph (transient local), speed_limit (tb3_burger/nav_robotis/qos)
+    if (this.role === "route") return { acts: [["compute_route", "nav2_msgs/action/ComputeRoute"], ["compute_and_track_route", "nav2_msgs/action/ComputeAndTrackRoute"]], srvs: [["~/set_route_graph", "nav2_msgs/srv/SetRouteGraph"]], pubs: [["plan", "nav_msgs/msg/Path"], ["route_graph", "visualization_msgs/msg/MarkerArray", TL], ["speed_limit", "nav2_msgs/msg/SpeedLimit"]], subs: costmapSubs("global_costmap/costmap_raw") };
     return {};
   }
   onConfigure() {
