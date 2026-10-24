@@ -46,6 +46,34 @@ Where a new capture disagrees with an existing fixture, the triage (`parity/repo
 names the version difference as a possible cause instead of picking a side. The commands to bring this PC to the
 same versions are in `parity/scripts/robots_sudo.sh` territory (instructor: `sudo apt update && sudo apt upgrade`).
 
+## Night 2 (2026-10-24): versions after the owner's `sudo apt upgrade`
+
+Owner decision: the reference is the latest Jazzy apt packages. The owner upgraded this PC before Night 2.
+`versions.txt` was re-recorded (`capture_versions.sh`, 2026-10-24T06:32:58+05:30); the Night 1 list is in git history
+(commit 819de3b). Full diffs: `version_diff_night1_vs_night2.txt` (556 `ros-jazzy-*` packages changed on this PC) and
+`version_diff_vs_old_fixtures_night2.txt` (same join as `version_diff_vs_old_fixtures.txt`, re-run).
+
+| What | Night 1 (this PC) | Night 2 (this PC) | old fixtures |
+|---|---|---|---|
+| Ubuntu (`lsb_release -ds`) | 24.04.3 LTS | 24.04.5 LTS | |
+| `gz sim --versions` | 8.10.0 | **8.15.0** (gz-sim-vendor 0.0.13) | 8.15.0 |
+| gz-physics / gz-transport / gz-msgs vendor | 0.0.7 / 0.0.7 / 0.0.6 | 0.0.9 / 0.0.9 / 0.0.8 | same as Night 2 |
+| nav2_* (amcl, bt_navigator, controller, costmap_2d, behaviors, msgs, lifecycle_manager, collision_monitor, velocity_smoother, rviz_plugins, ...) | 1.3.10 | **1.3.13** | 1.3.13 |
+| opennav_docking_bt / _core | 1.3.10 | 1.3.13 | 1.3.13 |
+| nav2_bringup, nav2_route, opennav_docking, navigation2 | 1.3.13 | 1.3.13 (unchanged) | 1.3.13 |
+| ros_gz_bridge / ros_gz_sim / ros_gz_image | 1.0.18 / 1.0.16 / 1.0.16 | **1.0.24** | 1.0.24 |
+| rclcpp / rcl | 28.1.13 / 9.2.8 | 28.1.22 / 9.2.11 | 28.1.22 / 9.2.11 |
+| ros2cli / ros2topic | 0.32.6 | 0.32.13 | 0.32.13 |
+| launch / ros2launch | 3.4.9 / 0.26.10 | 3.4.12 / 0.26.13 | 3.4.12 / 0.26.13 |
+| ros2controlcli | 4.39.2 | 4.48.1 | 4.48.1 |
+| turtlebot3 / turtlebot3_gazebo / turtlebot3_navigation2, slam_toolbox, cartographer | unchanged | unchanged | |
+
+Against the old fixtures: every `ros-jazzy-*` package installed on **both** machines now has the **same** version. The 94
+remaining rows of `version_diff_vs_old_fixtures_night2.txt` are packages installed on only one of the two machines (e.g.
+rtabmap, apriltag, moveit_resources extras there; clearpath, plotjuggler, rmw_zenoh here); none is a TurtleBot3, Nav2,
+SLAM, Gazebo or ros_gz package. So this PC and the old fixtures are now the same reference, and every Night 1 capture made
+with 1.3.10 / 8.10 is **superseded** by the Night 2 re-capture (Part 1) in the same folders.
+
 ## Ground-truth data on this PC (Part 0.3)
 
 Tracked in git and present here: `parity/fixtures/{tb3_burger,tb3_waffle,tb3_waffle_pi}/` (install_check, sensors,

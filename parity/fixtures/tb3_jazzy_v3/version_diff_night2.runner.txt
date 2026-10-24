@@ -1,0 +1,4 @@
+Night 2 (2026-10-24). Inputs: dpkg -l 'ros-jazzy-*' | awk '/^ii/{print $2, $3}' | sort  (this PC, after the apt upgrade);
+parity/fixtures/_installed/dpkg_versions.txt (old fixture machine); version_diff_vs_old_fixtures.txt column 3 (this PC on Night 1;
+packages absent from that file had the old-fixture version on Night 1).
+Outputs: version_diff_vs_old_fixtures_night2.txt (old fixtures vs Night 2), version_diff_night1_vs_night2.txt (Night 1 vs Night 2).
