@@ -1,36 +1,44 @@
-# TurtleBot3 focus: progress (Night 1, 2026-10-23)
+# TurtleBot3 focus: progress (Night 2, 2026-10-24)
 
-Branch `tb3-focus` (from master `213baa2`). Never pushed, never merged into master. Report: `docs/tb3/NIGHT1_REPORT.md`.
+Branch `tb3-night2` (from master `13f61f2`, which already contained all of tb3-focus). Never pushed, never merged into
+master. Night 1: `docs/tb3/NIGHT1_REPORT.md`. Night 2 report: `docs/tb3/NIGHT2_REPORT.md` (written in Part 7).
 
 ## Done
-- **Part 0** fix-v2 check (not merged by git; content in master except 3 files where master is newer), versions
-  (`parity/fixtures/tb3_jazzy_v3/README.md`, this PC has Nav2 1.3.10 / gz-sim 8.10, older than the old fixtures), data
-  inventory. Commit 819de3b.
-- **Part 1** `parity/reports/COURSE_ROBOT_REFERENCES.md` (84487d6); schema c749c14, UI bb82a8a, tests d8d1722.
-- **Part 2** captures a12e680 (Nav2), af3cbb2 (world, SUMMARY.md); triage c2f4f77 (`parity/reports/TB3_GRAPH_TRIAGE.md`).
-- **Part 3** captures 93c574d, comparison tooling 6b75d80, model d342d64 (`public/js/tb3-motion.js`), report bf16837
-  (`parity/reports/TB3_MOTION_NIGHT1.md`: after 24 MATCH / 6 APPROXIMATED).
-- **Part 4** baseline 72afae8, after-run `docs/tb3/tests/after.txt` (one new failure, fixed in 9eb95b7).
-- **Part 5** `docs/tb3/NIGHT1_REPORT.md`.
+- **Part 0** versions after the owner's `sudo apt upgrade` (Nav2 1.3.13, gz-sim 8.15.0, ros_gz 1.0.24: now the same as
+  the old fixtures; `parity/fixtures/tb3_jazzy_v3/README.md`), commit 10e1739. Baseline `night2_before` (4d4cbf3):
+  lessons 66/66, turtlesim lessons 282/282, UI suites and security pass, parity 126 passed / 6 known fails
+  (nav_robotis x3, nav2_bringup graph, matrix, matrix_dwb_burger); Night 1's fix 9eb95b7 holds in the full run.
+- **Finding (Part 1):** this PC's `~/.bashrc` exports `RMW_IMPLEMENTATION=rmw_cyclonedds_cpp`. The old fixtures were
+  Fast DDS (GIDs `01.0f...`), Night 1's captures Cyclone (`01.10...`). Under Cyclone, `ros2 topic info -v` reports other
+  QoS for some endpoints; that, not the Nav2 version, made the 84 "stale fixture / version" items. `parity/scripts/env.sh`
+  (and `run_physics.sh`) now pin `RMW_IMPLEMENTATION=rmw_fastrtps_cpp` (Jazzy's default, the site's default; `REF_RMW`
+  overrides); `start_reference.sh` records `rmw=` in run_info.txt. With Fast DDS the new burger Nav2 capture is identical
+  to the old fixture (every topic, every endpoint QoS). Cyclone evidence kept in
+  `parity/fixtures/tb3_jazzy_v3/rmw_cyclonedds_evidence/`.
+- **Part 6** home strip (9502794), COURSE_ROBOT_REFERENCES with the owner decisions, 0 UNRESOLVED (bee0b84);
+  robot-status 376 ok, ui-home all ok.
 
-## Next (Night 2)
-See "Night 2 should start with" in `docs/tb3/NIGHT1_REPORT.md`: Nav2 reference version decision, the Nav2 graph per
-the triage, the /cmd_vel chain, Nav2 error codes, then RViz (tb3_navigation2.rviz, tb3_cartographer.rviz, model.rviz).
+- **Part 1** re-captures with Fast DDS (26602b1), physics (399c5f6), SUMMARY + triage before (bb6581a): stale fixture
+  84 -> 42 (burger 0; the 42 are gaps of the old waffle snapshots), TB3_MOTION_NIGHT2 (84b264c): 0 of 30 real quantities
+  moved from gz-sim 8.10 to 8.15.0, site 23 MATCH / 7 APPROXIMATED.
+- **Part 2** eight family commits f809c99 .. c7ba542 (burger FAIL 56 -> 27 -> 23 -> 20 -> 19 -> 17 -> 7 -> 5 -> 0);
+  2cbcb7f spec: waffle / waffle_pi graph against the complete Night 2 capture -> nav_robotis FAIL 0 / 0 / 0.
+- **Part 3** turtlebot3_drive model (0366042), velocity chain (f44d837); captures 0a8ac8c.
 
-## Worktree
-A worktree `/home/prasad/ros2lab-tb3wt` (branch `tb3-focus-p1`, dev server :8001) kept half-done code away from the
-baseline run on :8000. Its commits are all on tb3-focus; the worktree and branch were removed at the end of Night 1.
+## In progress
+- **Part 4** error codes (captured 0a8ac8c; spec parity/e2e/nav-errors.spec.ts). **Part 5** RViz (captured 1d0fe5f; spec
+  parity/e2e/tb3-rviz-configs.spec.ts). Then Part 7.
 
 ## Resume commands
 ```bash
-cd ~/ros2lab-course && git checkout tb3-focus
+cd ~/ros2lab-course && git checkout tb3-night2
 npm run dev                                                   # :8000 if not up
-bash parity/scripts/tb3_v3/run_suites.sh after                # the regression gate (about 1 h 45 min)
-node tests/robot-status.test.mjs && node tests/tb3-motion.test.mjs
-# real captures (one at a time; stop with: bash parity/scripts/stop_reference.sh 61 / 50)
-bash parity/scripts/tb3_v3/capture_queue.sh "tb3_burger:nav:pose tb3_burger:nav:nopose tb3_burger:world:-"
-bash parity/scripts/tb3_v3/run_physics.sh tb3_lin tb3_ang          # domain 50, ros_case.py
-python3 parity/scripts/tb3_v3/summarize_captures.py
-python3 parity/compare/tb3_graph_triage.py                         # needs parity/browser_out/fixture_parity/ from a parity run
+bash parity/scripts/tb3_v3/capture_queue.sh "tb3_burger:nav:pose tb3_burger:nav:nopose tb3_waffle_pi:nav:pose tb3_waffle_pi:nav:nopose tb3_waffle:nav:pose tb3_burger:world:- tb3_waffle_pi:world:-"
+bash parity/scripts/tb3_v3/run_physics.sh                      # domain 50
+bash parity/scripts/tb3_v3/capture_cmdvel.sh tb3_burger 61     # Part 3 (chain values during a goal)
+bash parity/scripts/tb3_v3/capture_errors.sh tb3_burger 61     # Part 4 (error codes)
+python3 parity/compare/nav_fail_rows.py                        # nav_robotis FAIL rows after a spec run
+npx playwright test -c parity/playwright.config.ts parity/e2e/fixtures/nav_robotis.spec.ts -g tb3_burger
+bash parity/scripts/tb3_v3/run_suites.sh night2_after          # the regression gate (about 1 h 15 min)
 ```
-Use `pgrep -f "[p]attern"` (bracket trick) when killing captures: a plain `pkill -f pattern` matches the calling shell.
+Stop real simulations with `bash parity/scripts/stop_reference.sh <domain>`; kill with `pgrep -f "[p]attern"`.
