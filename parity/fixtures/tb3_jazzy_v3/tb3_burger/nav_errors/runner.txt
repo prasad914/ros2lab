@@ -1,0 +1,5 @@
+# 2026-10-24T08:17:22+05:30 capture_errors.sh tb3_burger 61  (git bb6581a)
+bash parity/scripts/tb3_v3/capture_errors.sh tb3_burger 61
+world: ros2 launch parity/scripts/launch/tb3_world_headless.launch.py   (REF_RENDER=egl, TURTLEBOT3_MODEL=burger)
+nav2 (15 s later): xvfb-run -a ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True
+goals: ros2 action send_goal /navigate_to_pose nav2_msgs/action/NavigateToPose "{pose: {header: {frame_id: map}, pose: {position: {x: X, y: Y}, orientation: {w: 1.0}}}}"

@@ -1,0 +1,5 @@
+[component_container_isolated-1] [INFO] [1792810084.493934132] [bt_navigator]: Begin navigating from current location (-1.95, -0.51) to (12.00, 12.00)
+[component_container_isolated-1] [WARN] [1792810084.495187218] [planner_server]: GridBased plugin failed to plan from (-1.95, -0.51) to (12.00, 12.00): "Goal Coordinates of(12.000000, 12.000000) was outside bounds"
+[component_container_isolated-1] [WARN] [1792810084.495238726] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+[component_container_isolated-1] [WARN] [1792810084.504181244] [bt_navigator]: [navigate_to_pose] [ActionServer] Aborting handle.
+[component_container_isolated-1] [ERROR] [1792810084.504384339] [bt_navigator]: Goal failed

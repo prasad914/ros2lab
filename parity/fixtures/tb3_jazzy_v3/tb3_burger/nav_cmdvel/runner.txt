@@ -1,0 +1,4 @@
+# 2026-10-24T08:14:57+05:30 capture_cmdvel.sh tb3_burger 61  (git bb6581a, rmw_fastrtps_cpp)
+bash parity/scripts/tb3_v3/capture_cmdvel.sh tb3_burger 61
+world: ros2 launch parity/scripts/launch/tb3_world_headless.launch.py; nav2 (15 s later): xvfb-run -a ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=True
+goal (0.5, 1.45, yaw 0) in map: nav_probe.py goal; recorder: cmdvel_probe.py

@@ -1,0 +1,91 @@
+[component_container_isolated-1] [INFO] [1792810156.625387820] [bt_navigator]: Begin navigating from current location (-2.01, -0.48) to (3.50, 0.00)
+[component_container_isolated-1] [WARN] [1792810156.627308615] [planner_server]: GridBased plugin failed to plan from (-2.01, -0.48) to (3.50, 0.00): "Failed to create plan with tolerance of: 0.500000"
+[component_container_isolated-1] [WARN] [1792810156.627359638] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+[component_container_isolated-1] [INFO] [1792810156.647991701] [global_costmap.global_costmap]: Received request to clear entirely the global_costmap
+[component_container_isolated-1] [WARN] [1792810157.096091631] [planner_server]: GridBased plugin failed to plan from (-2.01, -0.48) to (3.50, 0.00): "Failed to create plan with tolerance of: 0.500000"
+[component_container_isolated-1] [WARN] [1792810157.096164473] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+[component_container_isolated-1] [INFO] [1792810157.116040207] [local_costmap.local_costmap]: Received request to clear entirely the local_costmap
+[component_container_isolated-1] [INFO] [1792810157.117443875] [global_costmap.global_costmap]: Received request to clear entirely the global_costmap
+[component_container_isolated-1] [WARN] [1792810158.091003526] [planner_server]: GridBased plugin failed to plan from (-2.01, -0.48) to (3.50, 0.00): "Failed to create plan with tolerance of: 0.500000"
+[component_container_isolated-1] [WARN] [1792810158.091066697] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+[component_container_isolated-1] [INFO] [1792810158.105873672] [global_costmap.global_costmap]: Received request to clear entirely the global_costmap
+[component_container_isolated-1] [WARN] [1792810159.087970226] [planner_server]: GridBased plugin failed to plan from (-2.01, -0.48) to (3.50, 0.00): "Failed to create plan with tolerance of: 0.500000"
+[component_container_isolated-1] [WARN] [1792810159.088023709] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+[component_container_isolated-1] [INFO] [1792810159.106106364] [behavior_server]: Running spin
+[component_container_isolated-1] [INFO] [1792810159.106205961] [behavior_server]: Turning 1.57 for spin behavior.
+[component_container_isolated-1] [WARN] [1792810159.669961301] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.201000 seconds. Ignoring the source.
+[component_container_isolated-1] [WARN] [1792810159.670018722] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+[component_container_isolated-1] [INFO] [1792810159.742311751] [collision_monitor]: Robot to continue normal operation
+[component_container_isolated-1] [WARN] [1792810160.819922297] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.202000 seconds. Ignoring the source.
+[component_container_isolated-1] [WARN] [1792810160.819966935] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+[component_container_isolated-1] [INFO] [1792810160.891063500] [collision_monitor]: Robot to continue normal operation
+[component_container_isolated-1] [INFO] [1792810161.306356454] [behavior_server]: spin completed successfully
+[component_container_isolated-1] [WARN] [1792810161.327465930] [planner_server]: GridBased plugin failed to plan from (-2.00, -0.51) to (3.50, 0.00): "Failed to create plan with tolerance of: 0.500000"
+[component_container_isolated-1] [WARN] [1792810161.327523776] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+[component_container_isolated-1] [INFO] [1792810161.328007228] [global_costmap.global_costmap]: Received request to clear entirely the global_costmap
+[component_container_isolated-1] [WARN] [1792810161.519908559] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.209000 seconds. Ignoring the source.
+[component_container_isolated-1] [WARN] [1792810161.519949934] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+[component_container_isolated-1] [INFO] [1792810161.581571811] [collision_monitor]: Robot to continue normal operation
+[component_container_isolated-1] [WARN] [1792810161.770658111] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.222000 seconds. Ignoring the source.
+[component_container_isolated-1] [WARN] [1792810161.770716388] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+[component_container_isolated-1] [INFO] [1792810161.841249874] [collision_monitor]: Robot to continue normal operation
+[component_container_isolated-1] [WARN] [1792810162.090079687] [planner_server]: GridBased plugin failed to plan from (-2.01, -0.53) to (3.50, 0.00): "Failed to create plan with tolerance of: 0.500000"
+[component_container_isolated-1] [WARN] [1792810162.091669508] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+[component_container_isolated-1] [INFO] [1792810162.106015049] [behavior_server]: Running wait
+[component_container_isolated-1] [INFO] [1792810168.006340081] [behavior_server]: wait completed successfully
+[component_container_isolated-1] [WARN] [1792810168.027428613] [planner_server]: GridBased plugin failed to plan from (-2.01, -0.53) to (3.50, 0.00): "Failed to create plan with tolerance of: 0.500000"
+[component_container_isolated-1] [WARN] [1792810168.027502768] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+[component_container_isolated-1] [INFO] [1792810168.028519073] [global_costmap.global_costmap]: Received request to clear entirely the global_costmap
+[component_container_isolated-1] [WARN] [1792810168.090950638] [planner_server]: GridBased plugin failed to plan from (-2.01, -0.53) to (3.50, 0.00): "Failed to create plan with tolerance of: 0.500000"
+[component_container_isolated-1] [WARN] [1792810168.091007360] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+[component_container_isolated-1] [INFO] [1792810168.106024831] [behavior_server]: Running backup
+[component_container_isolated-1] [WARN] [1792810170.170019428] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.208000 seconds. Ignoring the source.
+[component_container_isolated-1] [WARN] [1792810170.170067049] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+[component_container_isolated-1] [INFO] [1792810170.230743028] [collision_monitor]: Robot to continue normal operation
+[component_container_isolated-1] [WARN] [1792810170.420701328] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.207000 seconds. Ignoring the source.
+[component_container_isolated-1] [WARN] [1792810170.420761268] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+[component_container_isolated-1] [INFO] [1792810170.491023184] [collision_monitor]: Robot to continue normal operation
+[component_container_isolated-1] [INFO] [1792810170.606265637] [behavior_server]: backup completed successfully
+[component_container_isolated-1] [WARN] [1792810170.632375847] [planner_server]: GridBased plugin failed to plan from (-2.04, -0.83) to (3.50, 0.00): "Failed to create plan with tolerance of: 0.500000"
+[component_container_isolated-1] [WARN] [1792810170.632440627] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+[component_container_isolated-1] [INFO] [1792810170.645818591] [global_costmap.global_costmap]: Received request to clear entirely the global_costmap
+[component_container_isolated-1] [WARN] [1792810171.088050981] [planner_server]: GridBased plugin failed to plan from (-2.04, -0.83) to (3.50, 0.00): "Failed to create plan with tolerance of: 0.500000"
+[component_container_isolated-1] [WARN] [1792810171.088108986] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+[component_container_isolated-1] [INFO] [1792810171.108734756] [local_costmap.local_costmap]: Received request to clear entirely the local_costmap
+[component_container_isolated-1] [INFO] [1792810171.109675909] [global_costmap.global_costmap]: Received request to clear entirely the global_costmap
+[component_container_isolated-1] [WARN] [1792810171.122249467] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.206000 seconds. Ignoring the source.
+[component_container_isolated-1] [WARN] [1792810171.122301038] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+[component_container_isolated-1] [INFO] [1792810171.181523564] [collision_monitor]: Robot to continue normal operation
+[component_container_isolated-1] [WARN] [1792810172.091781523] [planner_server]: GridBased plugin failed to plan from (-2.04, -0.83) to (3.50, 0.00): "Failed to create plan with tolerance of: 0.500000"
+[component_container_isolated-1] [WARN] [1792810172.091838904] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+[component_container_isolated-1] [INFO] [1792810172.105922125] [global_costmap.global_costmap]: Received request to clear entirely the global_costmap
+[component_container_isolated-1] [WARN] [1792810173.088806128] [planner_server]: GridBased plugin failed to plan from (-2.04, -0.83) to (3.50, 0.00): "Failed to create plan with tolerance of: 0.500000"
+[component_container_isolated-1] [WARN] [1792810173.088871309] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+[component_container_isolated-1] [INFO] [1792810173.106224359] [behavior_server]: Running spin
+[component_container_isolated-1] [INFO] [1792810173.106328589] [behavior_server]: Turning 1.57 for spin behavior.
+[component_container_isolated-1] [WARN] [1792810174.169934617] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.208000 seconds. Ignoring the source.
+[component_container_isolated-1] [WARN] [1792810174.169982176] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+[component_container_isolated-1] [INFO] [1792810174.241199869] [collision_monitor]: Robot to continue normal operation
+[component_container_isolated-1] [WARN] [1792810174.619933774] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.204000 seconds. Ignoring the source.
+[component_container_isolated-1] [WARN] [1792810174.619982616] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+[component_container_isolated-1] [INFO] [1792810174.701437906] [collision_monitor]: Robot to continue normal operation
+[component_container_isolated-1] [WARN] [1792810175.069903386] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.208000 seconds. Ignoring the source.
+[component_container_isolated-1] [WARN] [1792810175.069947692] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+[component_container_isolated-1] [INFO] [1792810175.144854810] [collision_monitor]: Robot to continue normal operation
+[component_container_isolated-1] [WARN] [1792810175.320017050] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.215000 seconds. Ignoring the source.
+[component_container_isolated-1] [WARN] [1792810175.320068886] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+[component_container_isolated-1] [INFO] [1792810175.381820660] [collision_monitor]: Robot to continue normal operation
+[component_container_isolated-1] [INFO] [1792810175.406523523] [behavior_server]: spin completed successfully
+[component_container_isolated-1] [WARN] [1792810175.434959279] [planner_server]: GridBased plugin failed to plan from (-2.04, -0.84) to (3.50, 0.00): "Failed to create plan with tolerance of: 0.500000"
+[component_container_isolated-1] [WARN] [1792810175.435021306] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+[component_container_isolated-1] [INFO] [1792810175.446060507] [global_costmap.global_costmap]: Received request to clear entirely the global_costmap
+[component_container_isolated-1] [WARN] [1792810176.019930974] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.209000 seconds. Ignoring the source.
+[component_container_isolated-1] [WARN] [1792810176.019979455] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+[component_container_isolated-1] [INFO] [1792810176.080761945] [collision_monitor]: Robot to continue normal operation
+[component_container_isolated-1] [WARN] [1792810176.088323326] [planner_server]: GridBased plugin failed to plan from (-2.05, -0.83) to (3.50, 0.00): "Failed to create plan with tolerance of: 0.500000"
+[component_container_isolated-1] [WARN] [1792810176.088377710] [planner_server]: [compute_path_to_pose] [ActionServer] Aborting handle.
+[component_container_isolated-1] [WARN] [1792810176.115614062] [bt_navigator]: [navigate_to_pose] [ActionServer] Aborting handle.
+[component_container_isolated-1] [ERROR] [1792810176.116321335] [bt_navigator]: Goal failed
+[component_container_isolated-1] [WARN] [1792810176.519932542] [collision_monitor]: [scan]: Latest source and current collision monitor node timestamps differ on 0.214000 seconds. Ignoring the source.
+[component_container_isolated-1] [WARN] [1792810176.519992526] [collision_monitor]: Robot to stop due to invalid source. Either due to data not published yet, or to lack of new data received within the sensor timeout, or if impossible to transform data to base frame
+[component_container_isolated-1] [INFO] [1792810176.591105524] [collision_monitor]: Robot to continue normal operation
