@@ -9,10 +9,10 @@ Node namespace: /local_costmap
 Topic type: geometry_msgs/msg/Polygon
 Topic type hash: RIHS01_3782f9f0bf044964d692d6c017d705e37611afb1f0bf6a9dee248a7dda0f784a
 Endpoint type: SUBSCRIPTION
-GID: 01.10.0d.5b.be.0d.da.58.cd.bd.75.e6.00.02.29.04
+GID: 01.0f.f5.91.02.18.df.0e.00.00.00.00.00.02.26.04
 QoS profile:
-  Reliability: RELIABLE
-  History (Depth): KEEP_LAST (1)
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
   Durability: VOLATILE
   Lifespan: Infinite
   Deadline: Infinite

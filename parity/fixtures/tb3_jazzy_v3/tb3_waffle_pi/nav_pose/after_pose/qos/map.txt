@@ -7,10 +7,10 @@ Node namespace: /
 Topic type: nav_msgs/msg/OccupancyGrid
 Topic type hash: RIHS01_8d348150c12913a31ee0ec170fbf25089e4745d17035792a1ba94d6f0bc0cfc7
 Endpoint type: PUBLISHER
-GID: 01.10.94.43.5a.6e.dc.50.97.75.1c.78.00.00.6b.03
+GID: 01.0f.f5.91.be.cd.72.f8.00.00.00.00.00.00.68.03
 QoS profile:
   Reliability: RELIABLE
-  History (Depth): KEEP_LAST (1)
+  History (Depth): UNKNOWN
   Durability: TRANSIENT_LOCAL
   Lifespan: Infinite
   Deadline: Infinite
@@ -19,30 +19,15 @@ QoS profile:
 
 Subscription count: 3
 
-Node name: rviz2
-Node namespace: /
-Topic type: nav_msgs/msg/OccupancyGrid
-Topic type hash: RIHS01_8d348150c12913a31ee0ec170fbf25089e4745d17035792a1ba94d6f0bc0cfc7
-Endpoint type: SUBSCRIPTION
-GID: 01.10.80.c7.7e.6c.48.ed.0a.fa.c5.1b.00.00.56.04
-QoS profile:
-  Reliability: RELIABLE
-  History (Depth): KEEP_LAST (1)
-  Durability: TRANSIENT_LOCAL
-  Lifespan: Infinite
-  Deadline: Infinite
-  Liveliness: AUTOMATIC
-  Liveliness lease duration: Infinite
-
 Node name: amcl
 Node namespace: /
 Topic type: nav_msgs/msg/OccupancyGrid
 Topic type hash: RIHS01_8d348150c12913a31ee0ec170fbf25089e4745d17035792a1ba94d6f0bc0cfc7
 Endpoint type: SUBSCRIPTION
-GID: 01.10.94.43.5a.6e.dc.50.97.75.1c.78.00.00.92.04
+GID: 01.0f.f5.91.be.cd.72.f8.00.00.00.00.00.00.72.04
 QoS profile:
   Reliability: RELIABLE
-  History (Depth): KEEP_LAST (1)
+  History (Depth): UNKNOWN
   Durability: TRANSIENT_LOCAL
   Lifespan: Infinite
   Deadline: Infinite
@@ -54,10 +39,25 @@ Node namespace: /global_costmap
 Topic type: nav_msgs/msg/OccupancyGrid
 Topic type hash: RIHS01_8d348150c12913a31ee0ec170fbf25089e4745d17035792a1ba94d6f0bc0cfc7
 Endpoint type: SUBSCRIPTION
-GID: 01.10.94.43.5a.6e.dc.50.97.75.1c.78.00.02.6c.04
+GID: 01.0f.f5.91.be.cd.72.f8.00.00.00.00.00.02.69.04
 QoS profile:
   Reliability: RELIABLE
-  History (Depth): KEEP_LAST (1)
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: rviz2
+Node namespace: /
+Topic type: nav_msgs/msg/OccupancyGrid
+Topic type hash: RIHS01_8d348150c12913a31ee0ec170fbf25089e4745d17035792a1ba94d6f0bc0cfc7
+Endpoint type: SUBSCRIPTION
+GID: 01.0f.f5.91.bf.cd.33.09.00.00.00.00.00.00.54.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): UNKNOWN
   Durability: TRANSIENT_LOCAL
   Lifespan: Infinite
   Deadline: Infinite

@@ -7,10 +7,10 @@ Node namespace: /
 Topic type: sensor_msgs/msg/JointState
 Topic type hash: RIHS01_a13ee3a330e346c9d87b5aa18d24e11690752bd33a0350f11c5882bc9179260e
 Endpoint type: PUBLISHER
-GID: 01.10.c6.1e.73.a8.45.43.82.b4.95.f4.00.00.18.03
+GID: 01.0f.f5.91.a0.16.b2.0c.00.00.00.00.00.00.15.03
 QoS profile:
   Reliability: RELIABLE
-  History (Depth): KEEP_LAST (10)
+  History (Depth): UNKNOWN
   Durability: VOLATILE
   Lifespan: Infinite
   Deadline: Infinite
@@ -24,10 +24,10 @@ Node namespace: /
 Topic type: sensor_msgs/msg/JointState
 Topic type hash: RIHS01_a13ee3a330e346c9d87b5aa18d24e11690752bd33a0350f11c5882bc9179260e
 Endpoint type: SUBSCRIPTION
-GID: 01.10.cb.76.22.d0.da.73.f1.08.9e.97.00.00.1b.04
+GID: 01.0f.f5.91.a2.16.93.80.00.00.00.00.00.00.18.04
 QoS profile:
   Reliability: BEST_EFFORT
-  History (Depth): KEEP_LAST (5)
+  History (Depth): UNKNOWN
   Durability: VOLATILE
   Lifespan: Infinite
   Deadline: Infinite

@@ -1,4 +1,4 @@
-# 2026-10-23T22:48:50+05:30 capture_world.sh tb3_burger 61  (git c2f4f77)
+# 2026-10-24T08:01:33+05:30 capture_world.sh tb3_burger 61  (git 4d4cbf3)
 bash parity/scripts/tb3_v3/capture_world.sh tb3_burger 61
 world: ros2 launch parity/scripts/launch/tb3_world_headless.launch.py   (REF_RENDER=egl, TURTLEBOT3_MODEL=burger)
 per topic: ros2 topic info -v; timeout -s INT 12 ros2 topic hz; ros2 topic echo --once --full-length (samples/; image_raw: --no-arr)

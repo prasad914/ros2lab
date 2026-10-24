@@ -7,10 +7,10 @@ Node namespace: /global_costmap
 Topic type: nav_msgs/msg/OccupancyGrid
 Topic type hash: RIHS01_8d348150c12913a31ee0ec170fbf25089e4745d17035792a1ba94d6f0bc0cfc7
 Endpoint type: PUBLISHER
-GID: 01.10.0d.5b.be.0d.da.58.cd.bd.75.e6.00.02.73.03
+GID: 01.0f.f5.91.02.18.df.0e.00.00.00.00.00.02.70.03
 QoS profile:
   Reliability: RELIABLE
-  History (Depth): KEEP_LAST (1)
+  History (Depth): UNKNOWN
   Durability: TRANSIENT_LOCAL
   Lifespan: Infinite
   Deadline: Infinite
@@ -24,10 +24,10 @@ Node namespace: /
 Topic type: nav_msgs/msg/OccupancyGrid
 Topic type hash: RIHS01_8d348150c12913a31ee0ec170fbf25089e4745d17035792a1ba94d6f0bc0cfc7
 Endpoint type: SUBSCRIPTION
-GID: 01.10.36.a4.08.44.45.3b.f9.ba.03.27.00.00.60.04
+GID: 01.0f.f5.91.03.18.88.1d.00.00.00.00.00.00.5a.04
 QoS profile:
   Reliability: RELIABLE
-  History (Depth): KEEP_LAST (1)
+  History (Depth): UNKNOWN
   Durability: TRANSIENT_LOCAL
   Lifespan: Infinite
   Deadline: Infinite

@@ -7,11 +7,11 @@ Node namespace: /
 Topic type: geometry_msgs/msg/PolygonStamped
 Topic type hash: RIHS01_b7cf07932f1523d4b4088075945c1a0141f7cd21da87cc940fc61652e9138b46
 Endpoint type: PUBLISHER
-GID: 01.10.94.43.5a.6e.dc.50.97.75.1c.78.00.02.fd.03
+GID: 01.0f.f5.91.be.cd.72.f8.00.00.00.00.00.02.fa.03
 QoS profile:
   Reliability: RELIABLE
-  History (Depth): KEEP_LAST (1)
-  Durability: VOLATILE
+  History (Depth): UNKNOWN
+  Durability: TRANSIENT_LOCAL
   Lifespan: Infinite
   Deadline: Infinite
   Liveliness: AUTOMATIC

@@ -1,12 +1,12 @@
-lm_nav_first_configuring: wall_epoch=1792772603.503 sim=11.608
-    [component_container_isolated-1] [INFO] [1792772603.503032200] [lifecycle_manager_navigation]: [34m[1mConfiguring controller_server[0m[0m
-global_costmap_checking_transform: wall_epoch=1792772604.126 sim=12.208
-    [component_container_isolated-1] [INFO] [1792772604.125508667] [global_costmap.global_costmap]: Checking transform
-first_timed_out_waiting_for_transform: wall_epoch=1792772604.126 sim=12.208
-    [component_container_isolated-1] [INFO] [1792772604.125523149] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
-failed_to_activate: wall_epoch=1792772666.126 sim=72.533
-    [component_container_isolated-1] [ERROR] [1792772666.125650706] [global_costmap.global_costmap]: Failed to activate global_costmap because transform from base_link to map did not become available before timeout
-aborting_bringup: wall_epoch=1792772666.126 sim=72.533
-    [component_container_isolated-1] [ERROR] [1792772666.125969629] [lifecycle_manager_navigation]: Failed to bring up all requested nodes. Aborting bringup.
+lm_nav_first_configuring: wall_epoch=1792808579.210 sim=12.522
+    [component_container_isolated-1] [INFO] [1792808579.209738483] [lifecycle_manager_navigation]: [34m[1mConfiguring controller_server[0m[0m
+global_costmap_checking_transform: wall_epoch=1792808579.889 sim=13.192
+    [component_container_isolated-1] [INFO] [1792808579.888875442] [global_costmap.global_costmap]: Checking transform
+first_timed_out_waiting_for_transform: wall_epoch=1792808579.889 sim=13.192
+    [component_container_isolated-1] [INFO] [1792808579.888885152] [global_costmap.global_costmap]: Timed out waiting for transform from base_link to map to become available, tf error: Invalid frame ID "map" passed to canTransform argument target_frame - frame does not exist
+failed_to_activate: wall_epoch=1792808640.889 sim=73.197
+    [component_container_isolated-1] [ERROR] [1792808640.888980477] [global_costmap.global_costmap]: Failed to activate global_costmap because transform from base_link to map did not become available before timeout
+aborting_bringup: wall_epoch=1792808640.989 sim=73.296
+    [component_container_isolated-1] [ERROR] [1792808640.989310249] [lifecycle_manager_navigation]: Failed to bring up all requested nodes. Aborting bringup.
 lm_nav_active: not in log
-WAIT checking transform -> aborting bringup: wall 62.000 s, sim 60.325 s
+WAIT checking transform -> aborting bringup: wall 61.100 s, sim 60.105 s

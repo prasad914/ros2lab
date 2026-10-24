@@ -1,0 +1,81 @@
+Type: geometry_msgs/msg/PolygonStamped
+
+Publisher count: 1
+
+Node name: local_costmap
+Node namespace: /local_costmap
+Topic type: geometry_msgs/msg/PolygonStamped
+Topic type hash: RIHS01_b7cf07932f1523d4b4088075945c1a0141f7cd21da87cc940fc61652e9138b46
+Endpoint type: PUBLISHER
+GID: 01.10.74.75.de.97.73.62.c1.8e.68.43.00.02.26.03
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): KEEP_LAST (1)
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Subscription count: 4
+
+Node name: behavior_server
+Node namespace: /
+Topic type: geometry_msgs/msg/PolygonStamped
+Topic type hash: RIHS01_b7cf07932f1523d4b4088075945c1a0141f7cd21da87cc940fc61652e9138b46
+Endpoint type: SUBSCRIPTION
+GID: 01.10.74.75.de.97.73.62.c1.8e.68.43.00.02.c7.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): KEEP_LAST (1)
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: collision_monitor
+Node namespace: /
+Topic type: geometry_msgs/msg/PolygonStamped
+Topic type hash: RIHS01_b7cf07932f1523d4b4088075945c1a0141f7cd21da87cc940fc61652e9138b46
+Endpoint type: SUBSCRIPTION
+GID: 01.10.74.75.de.97.73.62.c1.8e.68.43.00.02.fe.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): KEEP_LAST (1)
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: docking_server
+Node namespace: /
+Topic type: geometry_msgs/msg/PolygonStamped
+Topic type hash: RIHS01_b7cf07932f1523d4b4088075945c1a0141f7cd21da87cc940fc61652e9138b46
+Endpoint type: SUBSCRIPTION
+GID: 01.10.74.75.de.97.73.62.c1.8e.68.43.00.03.72.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): KEEP_LAST (1)
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+
+Node name: rviz2
+Node namespace: /
+Topic type: geometry_msgs/msg/PolygonStamped
+Topic type hash: RIHS01_b7cf07932f1523d4b4088075945c1a0141f7cd21da87cc940fc61652e9138b46
+Endpoint type: SUBSCRIPTION
+GID: 01.10.f1.ff.63.00.e1.43.b4.80.cd.41.00.00.63.04
+QoS profile:
+  Reliability: RELIABLE
+  History (Depth): KEEP_LAST (5)
+  Durability: VOLATILE
+  Lifespan: Infinite
+  Deadline: Infinite
+  Liveliness: AUTOMATIC
+  Liveliness lease duration: Infinite
+

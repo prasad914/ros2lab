@@ -1,4 +1,4 @@
-# 2026-10-23T22:50:45+05:30 capture_world.sh tb3_waffle_pi 61  (git 93c574d)
+# 2026-10-24T08:03:30+05:30 capture_world.sh tb3_waffle_pi 61  (git bee0b84)
 bash parity/scripts/tb3_v3/capture_world.sh tb3_waffle_pi 61
 world: ros2 launch parity/scripts/launch/tb3_world_headless.launch.py   (REF_RENDER=egl, TURTLEBOT3_MODEL=waffle_pi)
 per topic: ros2 topic info -v; timeout -s INT 12 ros2 topic hz; ros2 topic echo --once --full-length (samples/; image_raw: --no-arr)

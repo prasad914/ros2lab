@@ -2,12 +2,12 @@
 /behavior_server: inactive [2] 
 /bt_navigator: inactive [2] 
 /collision_monitor: inactive [2] 
-/controller_server: active [3] 
+/controller_server: 
 /docking_server: inactive [2] 
 /global_costmap/global_costmap: activating [13] 
-/local_costmap/local_costmap: active [3] 
+/local_costmap/local_costmap: 
 /map_server: active [3] 
-/planner_server: inactive [2] 
+/planner_server: 
 /route_server: inactive [2] 
 /smoother_server: active [3] 
 /velocity_smoother: inactive [2] 

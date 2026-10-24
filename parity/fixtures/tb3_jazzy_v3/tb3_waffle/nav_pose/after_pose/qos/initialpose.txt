@@ -7,10 +7,10 @@ Node namespace: /
 Topic type: geometry_msgs/msg/PoseWithCovarianceStamped
 Topic type hash: RIHS01_26432f9803e43727d3c8f668d1fdb3c630f548af631e2f4e31382371bfea3b6e
 Endpoint type: PUBLISHER
-GID: 01.10.36.a4.08.44.45.3b.f9.ba.03.27.00.00.4b.03
+GID: 01.0f.f5.91.03.18.88.1d.00.00.00.00.00.00.48.03
 QoS profile:
   Reliability: RELIABLE
-  History (Depth): KEEP_LAST (5)
+  History (Depth): UNKNOWN
   Durability: VOLATILE
   Lifespan: Infinite
   Deadline: Infinite
@@ -24,10 +24,10 @@ Node namespace: /
 Topic type: geometry_msgs/msg/PoseWithCovarianceStamped
 Topic type hash: RIHS01_26432f9803e43727d3c8f668d1fdb3c630f548af631e2f4e31382371bfea3b6e
 Endpoint type: SUBSCRIPTION
-GID: 01.10.0d.5b.be.0d.da.58.cd.bd.75.e6.00.00.74.04
+GID: 01.0f.f5.91.02.18.df.0e.00.00.00.00.00.00.71.04
 QoS profile:
-  Reliability: RELIABLE
-  History (Depth): KEEP_LAST (1)
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
   Durability: VOLATILE
   Lifespan: Infinite
   Deadline: Infinite

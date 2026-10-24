@@ -7,10 +7,10 @@ Node namespace: /
 Topic type: nav_msgs/msg/Odometry
 Topic type hash: RIHS01_3cc97dc7fb7502f8714462c526d369e35b603cfc34d946e3f2eda2766dfec6e0
 Endpoint type: PUBLISHER
-GID: 01.10.c6.1e.73.a8.45.43.82.b4.95.f4.00.00.19.03
+GID: 01.0f.f5.91.a0.16.b2.0c.00.00.00.00.00.00.16.03
 QoS profile:
   Reliability: RELIABLE
-  History (Depth): KEEP_LAST (10)
+  History (Depth): UNKNOWN
   Durability: VOLATILE
   Lifespan: Infinite
   Deadline: Infinite
@@ -24,10 +24,10 @@ Node namespace: /
 Topic type: nav_msgs/msg/Odometry
 Topic type hash: RIHS01_3cc97dc7fb7502f8714462c526d369e35b603cfc34d946e3f2eda2766dfec6e0
 Endpoint type: SUBSCRIPTION
-GID: 01.10.0d.5b.be.0d.da.58.cd.bd.75.e6.00.02.4d.04
+GID: 01.0f.f5.91.02.18.df.0e.00.00.00.00.00.02.4a.04
 QoS profile:
-  Reliability: RELIABLE
-  History (Depth): KEEP_LAST (1)
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
   Durability: VOLATILE
   Lifespan: Infinite
   Deadline: Infinite
@@ -39,10 +39,10 @@ Node namespace: /
 Topic type: nav_msgs/msg/Odometry
 Topic type hash: RIHS01_3cc97dc7fb7502f8714462c526d369e35b603cfc34d946e3f2eda2766dfec6e0
 Endpoint type: SUBSCRIPTION
-GID: 01.10.0d.5b.be.0d.da.58.cd.bd.75.e6.00.03.07.04
+GID: 01.0f.f5.91.02.18.df.0e.00.00.00.00.00.03.04.04
 QoS profile:
-  Reliability: RELIABLE
-  History (Depth): KEEP_LAST (1)
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
   Durability: VOLATILE
   Lifespan: Infinite
   Deadline: Infinite

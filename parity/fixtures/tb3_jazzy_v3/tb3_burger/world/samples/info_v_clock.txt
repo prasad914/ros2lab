@@ -7,10 +7,10 @@ Node namespace: /
 Topic type: rosgraph_msgs/msg/Clock
 Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
 Endpoint type: PUBLISHER
-GID: 01.10.a0.9b.05.db.14.07.39.d7.2d.09.00.00.17.03
+GID: 01.0f.f5.91.86.40.ff.06.00.00.00.00.00.00.14.03
 QoS profile:
   Reliability: RELIABLE
-  History (Depth): KEEP_LAST (10)
+  History (Depth): UNKNOWN
   Durability: VOLATILE
   Lifespan: Infinite
   Deadline: Infinite
@@ -24,10 +24,10 @@ Node namespace: /
 Topic type: rosgraph_msgs/msg/Clock
 Topic type hash: RIHS01_692f7a66e93a3c83e71765d033b60349ba68023a8c689a79e48078bcb5c58564
 Endpoint type: SUBSCRIPTION
-GID: 01.10.ef.a9.36.c3.a8.8c.3e.0c.62.63.00.00.14.04
+GID: 01.0f.f5.91.87.40.c9.66.00.00.00.00.00.00.11.04
 QoS profile:
   Reliability: BEST_EFFORT
-  History (Depth): KEEP_LAST (1)
+  History (Depth): UNKNOWN
   Durability: VOLATILE
   Lifespan: Infinite
   Deadline: Infinite

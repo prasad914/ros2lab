@@ -9,10 +9,10 @@ Node namespace: /
 Topic type: std_msgs/msg/Empty
 Topic type hash: RIHS01_20b625256f32d5dbc0d04fee44f43c41e51c70d3502f84b4a08e7a9c26a96312
 Endpoint type: SUBSCRIPTION
-GID: 01.10.94.43.5a.6e.dc.50.97.75.1c.78.00.02.f6.04
+GID: 01.0f.f5.91.be.cd.72.f8.00.00.00.00.00.02.f3.04
 QoS profile:
-  Reliability: RELIABLE
-  History (Depth): KEEP_LAST (1)
+  Reliability: BEST_EFFORT
+  History (Depth): UNKNOWN
   Durability: VOLATILE
   Lifespan: Infinite
   Deadline: Infinite
