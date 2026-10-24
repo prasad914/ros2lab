@@ -970,7 +970,13 @@ class LifecycleManager extends NavNode {
     this.info("Creating and initializing lifecycle service clients");
     if (bool(this.P.autostart, false)) this.startup();
   }
-  endpoints() { return { srvs: [["~/manage_nodes", "nav2_msgs/srv/ManageLifecycleNodes"], ["~/is_active", "std_srvs/srv/Trigger"]], cli: (this.names || []).flatMap((n) => [[`/${n}/change_state`, "lifecycle_msgs/srv/ChangeState"], [`/${n}/get_state`, "lifecycle_msgs/srv/GetState"]]) }; }
+  // /diagnostics (its diagnostic_updater) from the start; /bond published and subscribed while it holds a bond to a
+  // managed node (tb3_burger/nav_robotis/qos bond.txt, diagnostics.txt; topic lists before and after the initial pose)
+  endpoints() {
+    const bonds = (this.names || []).some((n) => { const m = this.target(n); return m && m.bonded; });
+    return { pubs: [["/diagnostics", "diagnostic_msgs/msg/DiagnosticArray"], ...(bonds ? [["/bond", "bond/msg/Status"]] : [])], subs: bonds ? [["/bond", "bond/msg/Status"]] : [],
+      srvs: [["~/manage_nodes", "nav2_msgs/srv/ManageLifecycleNodes"], ["~/is_active", "std_srvs/srv/Trigger"]], cli: (this.names || []).flatMap((n) => [[`/${n}/change_state`, "lifecycle_msgs/srv/ChangeState"], [`/${n}/get_state`, "lifecycle_msgs/srv/GetState"]]) };
+  }
   msg(t) { this.info(`\u001b[34m\u001b[1m${t}\u001b[0m\u001b[0m`); }   // LifecycleManager::message: bold blue
   target(name) { const full = name.startsWith("/") ? name : `${this.ns}/${name}`; return this.sys.byName(full) || this.sys.byName(`/${name}`); }
   startup() { this.msg("Starting managed nodes bringup..."); this.plan(["configure", "activate"], "Managed nodes are active", "Failed to bring up all requested nodes. Aborting bringup.", () => { this.active = true; this.status = "active"; this.msg("Creating bond timer..."); }); }
@@ -995,6 +1001,7 @@ class LifecycleManager extends NavNode {
         if (r === false) { this.error(`Failed to change state for node: ${step.n}`); this.error(this.failMsg); this.queue = []; this.status = "failed"; return; }
         if (step.t === "activate") this.info(`Server ${step.n} connected with bond.`);
         this.queue.shift();
+        if (step.t === "activate" || step.t === "deactivate") this.refreshEndpoints();
       }
       this.msg(this.okMsg); if (this.onOk) this.onOk();
     } finally { this.busy = false; }
