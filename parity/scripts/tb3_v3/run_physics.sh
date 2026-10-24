@@ -6,6 +6,7 @@
 # python3-gz-transport13 is not installed here); analysis: parity/compare/tb3_motion_fit.py
 set -u
 cd "$(git rev-parse --show-toplevel)" || exit 1
+export RMW_IMPLEMENTATION=${REF_RMW:-rmw_fastrtps_cpp}   # the Jazzy default, as in parity/scripts/env.sh
 P=parity/scripts/physics
 export PHYS_OUT=parity/fixtures/tb3_jazzy_v3/physics
 python3 $P/gen_worlds.py > /dev/null
@@ -16,5 +17,5 @@ for c in $CASES; do
   python3 parity/scripts/tb3_v3/ros_case.py "$c" --runs 3 --out "$PHYS_OUT" 2>&1 | tail -3
 done
 bash parity/scripts/stop_reference.sh 50 > /dev/null 2>&1; bash parity/scripts/stop_reference.sh 50 | tail -1
-{ echo "# $(date -Iseconds) on $(hostname), git $(git rev-parse --short HEAD), gz sim $(gz sim --versions)"; echo "bash parity/scripts/tb3_v3/run_physics.sh $CASES"; } > $PHYS_OUT/runner.txt
+{ echo "# $(date -Iseconds) on $(hostname), git $(git rev-parse --short HEAD), gz sim $(gz sim --versions), $RMW_IMPLEMENTATION"; echo "bash parity/scripts/tb3_v3/run_physics.sh $CASES"; } > $PHYS_OUT/runner.txt
 echo "=== physics done"
