@@ -424,6 +424,15 @@ class Costmap extends NavNode {
     this.grid = g; this.ver = (this.ver || 0) + 1;
   }
   cost(x, y) { return this.grid ? this.grid.at(x, y) : C.NO_INFO; }
+  // nav2_costmap_2d::FootprintCollisionChecker::footprintCostAtPose: the highest cost along the footprint's edges (the
+  // behaviors' collision check; nav_errors/blocked: backup "Collision Ahead" 0.3 m from a wall the centre never reaches)
+  footprintCost(pose) {
+    const g = this.grid; if (!g) return C.NO_INFO;
+    const P = this.footprintAt(pose).map(([x, y]) => g.toMap(x, y)); if (P.some((m) => !m)) return C.LETHAL;
+    let worst = 0;
+    for (let i = 0; i < P.length; i++) { const a = P[i], b = P[(i + 1) % P.length]; for (const [cx, cy] of C.line(a[0], a[1], b[0], b[1])) { const c = g.data[cy * g.w + cx]; if (c === C.LETHAL) return c; if (c !== C.NO_INFO) worst = Math.max(worst, c); } }
+    return worst;
+  }
   footprintAt(pose) { return this.footprint.pts.map(([x, y]) => [pose.x + Math.cos(pose.yaw) * x - Math.sin(pose.yaw) * y, pose.y + Math.sin(pose.yaw) * x + Math.cos(pose.yaw) * y]); }
 }
 
@@ -672,7 +681,8 @@ class BehaviorServer extends NavNode {
     const J = this.job; if (!J) return;
     if (t - (J.lastCyc || -1e9) < 1 / num(this.P.cycle_frequency, 10) - 1e-9) return; J.lastCyc = t;
     const o = this.sys.odom(), pub = (vx, wz) => this.sys.publishTwist(this.resolve("cmd_vel"), { vx, wz }, this.stamped(), this.full);
-    const done = (code, msg) => { this.job = null; pub(0, 0); if (msg) this.warn(msg); if (code === 0) this.info(`${J.id} completed successfully`); else this.warn(`${J.id} failed`); J.onDone(code); };
+    // a failed behavior also aborts its action goal (nav_errors/blocked: "backup failed", "[backup] [ActionServer] Aborting handle.")
+    const done = (code, msg) => { this.job = null; pub(0, 0); if (msg) this.warn(msg); if (code === 0) this.info(`${J.id} completed successfully`); else { this.warn(`${J.id} failed`); this.warn(`[${J.id}] [ActionServer] Aborting handle.`); } J.onDone(code); };
     const allow = num(J.args.time_allowance, 10);
     if (J.kind === "Wait") { if (t - J.t0 >= num(J.args.time, 5)) done(0); return; }
     if (t - J.t0 > allow) { done(J.kind === "Spin" ? 701 : 711, J.kind === "Spin" ? "Exceeded time allowance before reaching the Spin goal - Exiting Spin" : `Exceeded time allowance before reaching the ${J.kind === "BackUp" ? "DriveOnHeading" : J.kind} goal - Exiting ${J.kind === "BackUp" ? "DriveOnHeading" : J.kind}`); return; }
@@ -693,7 +703,7 @@ class BehaviorServer extends NavNode {
     if (local && local.grid) {
       const lp = this.sys.basePose(local.frame), ahead = num(this.P.simulate_ahead_time, 2.0), sgn = Math.sign(speed || dist);
       const remain = Math.abs(dist) - moved;
-      for (let k = 1; k <= 10; k++) { const s = Math.min(Math.abs(speed) * ahead, remain) * k / 10; const px = lp.x + sgn * s * Math.cos(lp.yaw), py = lp.y + sgn * s * Math.sin(lp.yaw); if (local.cost(px, py) === C.LETHAL) { done(J.kind === "Spin" ? 703 : 714, "Collision Ahead - Exiting DriveOnHeading"); return; } }
+      for (let k = 1; k <= 10; k++) { const s = Math.min(Math.abs(speed) * ahead, remain) * k / 10; const px = lp.x + sgn * s * Math.cos(lp.yaw), py = lp.y + sgn * s * Math.sin(lp.yaw); if (local.footprintCost({ x: px, y: py, yaw: lp.yaw }) >= C.LETHAL) { done(J.kind === "Spin" ? 703 : 714, "Collision Ahead - Exiting DriveOnHeading"); return; } }
     }
     pub(Math.sign(speed || dist) * Math.abs(speed), 0);
   }
@@ -838,6 +848,7 @@ class BtNavigator extends NavNode {
     if (kind === "pose") this.info(`Begin navigating from current location (${start.x.toFixed(2)}, ${start.y.toFixed(2)}) to (${g.x.toFixed(2)}, ${g.y.toFixed(2)})`);
     else this.info(`Begin navigating from current location through ${goals.length} poses to (${g.x.toFixed(2)}, ${g.y.toFixed(2)})`);
     this.job = { goals, idx: 0, cb, kind, t0: this.sys.now(), phase: "pipeline", lastPlan: -1e9, recoveries: 0, retries: 0, cpErr: 0, fpErr: 0, cpRetried: false, fpRetried: false, following: false, lastFb: -1e9 };
+    this.rr = 0;   // the RoundRobin of recoveries starts again at its first child for every goal (nav_errors/: both failing goals begin with the costmap clear)
     this.status = "navigating";
     return { id: hex32() };
   }

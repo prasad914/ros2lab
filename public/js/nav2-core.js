@@ -317,10 +317,12 @@ export function planPath(g, start, goal, opts = {}) {
     if (kind === "smac" || kind === "theta") return 1 + (c === NO_INFO ? 252 : c) / 252 * costPenalty;
     return (50 + 0.8 * (c === NO_INFO ? 253 : c)) / 50;
   };
-  // goals: the goal cell, else any passable cell within tolerance (NavFn's search around the goal)
+  // goals: the goal cell, and any passable cell within tolerance: NavFn takes the goal when it is reachable, else the
+  // reachable point within tolerance closest to it (a goal in the unknown inside a cylinder:
+  // tb3_jazzy_v3/tb3_burger/nav_errors/in_obstacle, SUCCEEDED, no planner warning)
   const goalSet = new Set(); const tc = Math.round(tolerance / g.res);
   if (passable(g.data[gm[1] * W + gm[0]])) goalSet.add(gm[1] * W + gm[0]);
-  else for (let dy = -tc; dy <= tc; dy++) for (let dx = -tc; dx <= tc; dx++) { const x = gm[0] + dx, y = gm[1] + dy; if (x < 0 || y < 0 || x >= W || y >= H || Math.hypot(dx, dy) > tc) continue; if (passable(g.data[y * W + x])) goalSet.add(y * W + x); }
+  if (tc > 0) for (let dy = -tc; dy <= tc; dy++) for (let dx = -tc; dx <= tc; dx++) { const x = gm[0] + dx, y = gm[1] + dy; if (x < 0 || y < 0 || x >= W || y >= H || Math.hypot(dx, dy) > tc) continue; if (passable(g.data[y * W + x])) goalSet.add(y * W + x); }
   if (!goalSet.size) return { code: 208, message: `Failed to create plan with tolerance of: ${tolerance.toFixed(6)}` };
   const useH = astar || kind === "smac" || kind === "theta";
   const hfun = (i) => (useH ? Math.hypot((i % W) - gm[0], ((i / W) | 0) - gm[1]) : 0);
