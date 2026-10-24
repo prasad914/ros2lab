@@ -1,0 +1,14 @@
+# night2_before  started 2026-10-24T06:33:48+05:30  git 10e1739  BASE=http://localhost:8000
+security | exit 0: Security check: all static checks passed. | 0 s
+lessons66 | exit 0: 66 of 66 tasks ticked, 11 blocks | 286 s
+lessons45 | exit 0: 282 of 282 tasks ticked, 52 blocks | 1099 s
+ui-chrome | exit 0: 0 FAIL-lines; last: ui-chrome: all checks passed | 82 s
+ui-home | exit 0: 0 FAIL-lines; last: all ok | 99 s
+ui-sim | exit 0: 0 FAIL-lines; last: ALL OK | 7 s
+ui-portal | exit 0: 1 FAIL-lines; last: all ok | 17 s
+ui-student | exit 0: 0 FAIL-lines; last: all ok | 33 s
+ui-member | exit 0: 0 FAIL-lines; last: all passed | 32 s
+ui-review | exit 0: 0 FAIL-lines; last: all passed | 168 s
+ui-widths | exit 0: 0 FAIL-lines; last: all passed | 514 s
+parity | exit 1:  6 failed; 126 passed (33.1m); | 1983 s
+# night2_before  finished 2026-10-24T07:45:48+05:30
