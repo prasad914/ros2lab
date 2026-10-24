@@ -360,7 +360,8 @@ export class RosGraph {
       const e = this.endpoints(n);
       // print(*[], sep='\n') prints an empty line for an empty section (ros2node/verb/info.py print_names_and_types,
       // https://github.com/ros2/ros2cli/blob/jazzy/ros2node/ros2node/verb/info.py)
-      const sec = (title, list) => [this.out(`  ${title}:`), ...(list.length ? list.map(([x, t]) => this.out(`    ${x}: ${t}`)) : [this.out("")])];
+      // names come from get_*_names_and_types_by_node: one line per topic even when a node has several publishers on it
+      const sec = (title, all) => { const list = all.filter(([x], i) => all.findIndex(([y]) => y === x) === i); return [this.out(`  ${title}:`), ...(list.length ? list.map(([x, t]) => this.out(`    ${x}: ${t}`)) : [this.out("")])]; };
       return [this.out(n.full), ...sec("Subscribers", e.subs), ...sec("Publishers", e.pubs), ...sec("Service Servers", e.srvs), ...sec("Service Clients", e.cli), ...sec("Action Servers", e.acts), ...sec("Action Clients", e.actc)];
     }
     return [this.err("usage: ros2 node list | ros2 node info <node_name>")];

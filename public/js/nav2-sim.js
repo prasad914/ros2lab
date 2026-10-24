@@ -652,7 +652,9 @@ class BehaviorServer extends NavNode {
   endpoints() {
     const T = this.stamped() ? "geometry_msgs/msg/TwistStamped" : "geometry_msgs/msg/Twist", subs = costmapSubs(this.P.local_costmap_topic || "local_costmap/costmap_raw", this.P.local_footprint_topic || "local_costmap/published_footprint");
     if (this.ids.some((id) => this.actionType(id) === "nav2_msgs/action/AssistedTeleop")) subs.push(["cmd_vel_teleop", T, BE], ["preempt_teleop", "std_msgs/msg/Empty", BE]);
-    return { pubs: [["cmd_vel", T]], subs, acts: this.ids.map((id) => [id, this.actionType(id)]) };
+    // every behavior plugin owns its own cmd_vel publisher: `ros2 topic info -v /cmd_vel_nav` lists behavior_server five
+    // times with the five TurtleBot3 plugins (tb3_jazzy_v3/tb3_burger/nav_cmdvel/topic_info_v_cmd_vel_nav.txt)
+    return { pubs: this.ids.map(() => ["cmd_vel", T]), subs, acts: this.ids.map((id) => [id, this.actionType(id)]) };
   }
   onConfigure() { for (const id of this.ids) this.info(`Creating behavior plugin ${id} of type ${(this.P[id] || {}).plugin || id}`); for (const id of this.ids) this.info(`Configuring ${id}`); return true; }
   onActivate() { this.info("Activating"); for (const id of this.ids) this.info(`Activating ${id}`); return true; }
@@ -707,8 +709,15 @@ class VelocitySmoother extends NavNode {
   onTwist(v) { this.target = { ...v }; this.lastIn = this.sys.now(); }
   tick(t) {
     if (this.state !== "active" || !this.target) return;
-    const f = num(this.P.smoothing_frequency, 20); if (t - (this.lastOut || -1e9) < 1 / f - 1e-9) return;
-    const dt = Math.min(0.5, t - (this.lastOut ?? t - 1 / f)); this.lastOut = t;
+    // a fixed-rate timer (smoothing_frequency, 20 Hz on TurtleBot3: nav_cmdvel/chain.csv 20.00 Hz): every period that
+    // elapsed inside this simulation step publishes, so a 0.1 s page step still gives two messages
+    const f = num(this.P.smoothing_frequency, 20), period = 1 / f;
+    if (this.lastOut === undefined || t - this.lastOut > 0.5) this.lastOut = t - period;
+    let n = 0; while (t - this.lastOut >= period - 1e-9 && n < 5) { this.lastOut += period; n++; this.smoothOnce(period); }
+  }
+  smoothOnce(dt) {
+    if (!this.target) return;
+    const t = this.sys.now();
     const mx = [].concat(this.P.max_velocity || [0.5, 0, 2.5]).map(Number), mn = [].concat(this.P.min_velocity || [-0.5, 0, -2.5]).map(Number), acc = [].concat(this.P.max_accel || [2.5, 0, 3.2]).map(Number), dec = [].concat(this.P.max_decel || [-2.5, 0, -3.2]).map(Number);
     let target = this.target;
     if (t - this.lastIn > num(this.P.velocity_timeout, 1.0)) { if (this.out.vx === 0 && this.out.wz === 0) { this.target = null; return; } target = { vx: 0, wz: 0 }; }
