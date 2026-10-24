@@ -5,11 +5,7 @@ Reads tb3_motion_fit.py JSON for REAL (parity/fixtures/tb3_jazzy_v3/physics), SI
 Usage: tb3_motion_report.py <real.json> <before.json> <after.json> [<before_strip.json> <after_strip.json>]"""
 import json, sys
 
-real, before, after = (json.load(open(f)) for f in sys.argv[1:4])
-strip = [json.load(open(f)) for f in sys.argv[4:6]] if len(sys.argv) > 5 else [[], []]
 S = lambda L: {r['case']: r['summary'] for r in L}
-R, B, A = S(real), S(before), S(after)
-SB, SA = S(strip[0]), S(strip[1])
 # (case, key, what, abs tol, rel tol) -- the same limits as tests/tb3-motion.test.mjs; times: one page frame (0.05 s)
 ROWS = [
     ('tb3_lin', 'gt_v_t50', 'ground truth 50 % of 0.2 m/s (s after the command)', 0.05, 0), ('tb3_lin', 'gt_v_t90', 'ground truth 90 % (s)', 0.1, 0),
@@ -48,30 +44,39 @@ def verdict(r, s, ab, rl):
     return 'MATCH' if abs(d) <= ab + rl * abs(r) else f'DIFFERS ({d:+.4f})'
 
 
-L = ['# TurtleBot3 motion: real Gazebo vs the site, before and after the dynamic model (Night 1, Part 3)', '',
-     'REAL: `parity/fixtures/tb3_jazzy_v3/physics/<case>/` (this PC, gz-sim 8.10, installed turtlebot3_gazebo 2.3.7 models, 3 runs',
-     'each, bit-identical; mean shown). SITE: `parity/compare/site_tb3_motion.mjs` runs the site\'s own Gazebo model on the same',
-     'world files with the TurtleBot3 files the site ships, stepped like the page (50 ms frames) - BEFORE = branch tb3-focus',
-     'before the change, AFTER = with `public/js/tb3-motion.js`. Both sides are measured by `parity/compare/tb3_motion_fit.py`',
-     '(real at 1 kHz with central differences, the site at its 50 ms frames with the speed over the last frame).',
-     'Tolerances (same as `tests/tb3-motion.test.mjs`): times one page frame (0.05 s) or more where noted, distances as listed.',
-     'Rows outside the tolerance after the change are **APPROXIMATED** with the measured difference.', '',
-     '| Case | Quantity | REAL | SITE before | SITE after | tolerance | before | after |', '|---|---|---|---|---|---|---|---|']
-cnt = {'before': {}, 'after': {}}
-for c, k, what, ab, rl in ROWS:
-    Bm, Am = (SB, SA) if c == 'tb3_push' else (B, A)
-    r, b, a = val(R, c, k), val(Bm, c, k), val(Am, c, k)
-    rr = R.get(c, {}).get(k)
-    rs = 'n/a' if rr is None else (fmt(rr['mean']) + (f" [{rr['min']:.4f}..{rr['max']:.4f}]" if rr['min'] != rr['max'] else ''))
-    vb, va = verdict(r, b, ab, rl), verdict(r, a, ab, rl)
-    va = va if not va.startswith('DIFFERS') else va.replace('DIFFERS', 'APPROXIMATED')
-    for tag, v in (('before', vb), ('after', va)): key = v.split(' ')[0]; cnt[tag][key] = cnt[tag].get(key, 0) + 1
-    tol = f'±{ab}' + (f' + {int(rl * 100)} %' if rl else '') if ab else f'±{int(rl * 100)} %'
-    L.append(f'| {c} | {what} | {rs} | {fmt(b)} | {fmt(a)} | {tol} | {vb} | {va} |')
-L += ['', 'Totals: before ' + ', '.join(f'{k} {v}' for k, v in sorted(cnt['before'].items())) + '; after ' + ', '.join(f'{k} {v}' for k, v in sorted(cnt['after'].items())) + '.', '',
-      'tb3_push rows use the world\'s box without its PosePublisher plugin on the site side (`STRIP_POSEPUB=1`), i.e. a plain',
-      'rigid box like one a student spawns: the site turns any model with a plugin into a kinematic robot (gz-sdformat.js',
-      'addModel; physics_parity.md cause 1, not changed on Night 1), so with the recorder\'s PosePublisher the box cannot move',
-      'on the site at all (page mode: displacement ' + fmt(val(A, 'tb3_push', 'box_disp')) + ' m after, ' + fmt(val(B, 'tb3_push', 'box_disp')) + ' m before).']
-open('parity/reports/TB3_MOTION_NIGHT1.md', 'w').write('\n'.join(L) + '\n')
-print('wrote parity/reports/TB3_MOTION_NIGHT1.md', cnt)
+def main():
+    real, before, after = (json.load(open(f)) for f in sys.argv[1:4])
+    strip = [json.load(open(f)) for f in sys.argv[4:6]] if len(sys.argv) > 5 else [[], []]
+    R, B, A = S(real), S(before), S(after)
+    SB, SA = S(strip[0]), S(strip[1])
+    L = ['# TurtleBot3 motion: real Gazebo vs the site, before and after the dynamic model (Night 1, Part 3)', '',
+         'REAL: `parity/fixtures/tb3_jazzy_v3/physics/<case>/` (this PC, gz-sim 8.10, installed turtlebot3_gazebo 2.3.7 models, 3 runs',
+         'each, bit-identical; mean shown). SITE: `parity/compare/site_tb3_motion.mjs` runs the site\'s own Gazebo model on the same',
+         'world files with the TurtleBot3 files the site ships, stepped like the page (50 ms frames) - BEFORE = branch tb3-focus',
+         'before the change, AFTER = with `public/js/tb3-motion.js`. Both sides are measured by `parity/compare/tb3_motion_fit.py`',
+         '(real at 1 kHz with central differences, the site at its 50 ms frames with the speed over the last frame).',
+         'Tolerances (same as `tests/tb3-motion.test.mjs`): times one page frame (0.05 s) or more where noted, distances as listed.',
+         'Rows outside the tolerance after the change are **APPROXIMATED** with the measured difference.', '',
+         '| Case | Quantity | REAL | SITE before | SITE after | tolerance | before | after |', '|---|---|---|---|---|---|---|---|']
+    cnt = {'before': {}, 'after': {}}
+    for c, k, what, ab, rl in ROWS:
+        Bm, Am = (SB, SA) if c == 'tb3_push' else (B, A)
+        r, b, a = val(R, c, k), val(Bm, c, k), val(Am, c, k)
+        rr = R.get(c, {}).get(k)
+        rs = 'n/a' if rr is None else (fmt(rr['mean']) + (f" [{rr['min']:.4f}..{rr['max']:.4f}]" if rr['min'] != rr['max'] else ''))
+        vb, va = verdict(r, b, ab, rl), verdict(r, a, ab, rl)
+        va = va if not va.startswith('DIFFERS') else va.replace('DIFFERS', 'APPROXIMATED')
+        for tag, v in (('before', vb), ('after', va)): key = v.split(' ')[0]; cnt[tag][key] = cnt[tag].get(key, 0) + 1
+        tol = f'±{ab}' + (f' + {int(rl * 100)} %' if rl else '') if ab else f'±{int(rl * 100)} %'
+        L.append(f'| {c} | {what} | {rs} | {fmt(b)} | {fmt(a)} | {tol} | {vb} | {va} |')
+    L += ['', 'Totals: before ' + ', '.join(f'{k} {v}' for k, v in sorted(cnt['before'].items())) + '; after ' + ', '.join(f'{k} {v}' for k, v in sorted(cnt['after'].items())) + '.', '',
+          'tb3_push rows use the world\'s box without its PosePublisher plugin on the site side (`STRIP_POSEPUB=1`), i.e. a plain',
+          'rigid box like one a student spawns: the site turns any model with a plugin into a kinematic robot (gz-sdformat.js',
+          'addModel; physics_parity.md cause 1, not changed on Night 1), so with the recorder\'s PosePublisher the box cannot move',
+          'on the site at all (page mode: displacement ' + fmt(val(A, 'tb3_push', 'box_disp')) + ' m after, ' + fmt(val(B, 'tb3_push', 'box_disp')) + ' m before).']
+    open('parity/reports/TB3_MOTION_NIGHT1.md', 'w').write('\n'.join(L) + '\n')
+    print('wrote parity/reports/TB3_MOTION_NIGHT1.md', cnt)
+
+
+if __name__ == '__main__':
+    main()
