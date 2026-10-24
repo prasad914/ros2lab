@@ -53,7 +53,13 @@ for (const robot of ROBOTS) {
 
       // graph, TF, lifecycle, params, /cmd_vel
       const site = await siteState(page);
-      compareGraph(rec, site, snap);
+      // the graph: tb3_waffle / tb3_waffle_pi's old session_goal1 snapshot is incomplete (25 / 26 "Unknown topic" files);
+      // the Night 2 capture of the same moment (same Nav2 / ros_gz / gz-sim versions, Fast DDS) is a superset of it
+      // (parity/reports/TB3_GRAPH_TRIAGE_AFTER.md), so those two compare against it; tb3_burger keeps its snapshot,
+      // which the Night 2 capture equals endpoint for endpoint
+      const n2 = path.join(FIX, "tb3_jazzy_v3", robot, "nav_pose", "after_pose");
+      if (robot !== "tb3_burger" && exists(path.join(n2, "qos"))) compareGraph(rec, site, n2, { topicFile: path.join(n2, "topic_list_t.txt") });
+      else compareGraph(rec, site, snap);
       const gv = framesFile(snap);
       if (gv) rec.exact("TF edges", gvEdges(gv), site.edges, gv); else rec.pending("TF edges", "no frames_*.gv", snap);
       const lc = path.join(snap, "lifecycle.txt");

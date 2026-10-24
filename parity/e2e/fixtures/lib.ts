@@ -47,7 +47,7 @@ export function topicInfo(p: string): { type: string; endpoints: Endpoint[]; unk
   return { type, endpoints, unknown: false };
 }
 /** Tool nodes of the capture (ros2cli daemon, ros2 topic info/echo, rosbag2) are not part of the robot's graph. */
-export const isToolNode = (n: string) => /^_ros2cli|^ros2cli|^_NODE_NAME_UNKNOWN_|^rosbag2_recorder/.test(n.replace(/^\//, ""));
+export const isToolNode = (n: string) => /^_ros2cli|^ros2cli|^_NODE_NAME_UNKNOWN_|^rosbag2_recorder|^ros2lab_night\d_\w*probe/.test(n.replace(/^\//, ""));
 
 /** Node names with a per-process suffix (launch_ros_<pid>, transform_listener_impl_<address>) compared by role. */
 export const roleName = (n: string) => n.replace(/^launch_ros_\d+$/, "launch_ros_<pid>").replace(/^transform_listener_impl_[0-9a-f]+$/, "transform_listener_impl_<id>");
